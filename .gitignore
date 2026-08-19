@@ -15,8 +15,9 @@ build/
 dist/
 *.whl
 
-# Runtime workspace artifacts
-workspace/runs/
+# Runtime workspace artifacts (run outputs stay out of git, keep the skeleton)
+workspace/runs/*
+!workspace/runs/.gitkeep
 *.tmp
 
 # Editor / OS noise
