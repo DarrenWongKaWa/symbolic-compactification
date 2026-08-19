@@ -1,0 +1,1 @@
+-2*re(a*conjugate(b))

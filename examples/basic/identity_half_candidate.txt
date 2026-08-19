@@ -1,0 +1,1 @@
+(a*conjugate(b) + conjugate(a)*b)/2

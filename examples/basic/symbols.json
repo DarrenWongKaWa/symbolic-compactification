@@ -1,0 +1,9 @@
+{
+  "symbols": [
+    {"name": "a", "real": false, "nonzero": false},
+    {"name": "b", "real": false, "nonzero": false},
+    {"name": "t", "real": true, "nonzero": true},
+    {"name": "x", "real": true, "nonzero": false},
+    {"name": "y", "real": true, "nonzero": false}
+  ]
+}
