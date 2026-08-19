@@ -33,8 +33,10 @@ from .session import (init_session, load_session, promote, record_step,
 from .adapters import (TranslationResult, translate_wolfram_text,
                        extract_expression_text)
 from .structure import expand_finite, structure_summary
-from .budgets import (BudgetExceeded, get_budget_policy, run_with_budget,
-                      set_budget_policy, shutdown_budget_pool)
+from .budgets import (BudgetExceeded, ProcessLifecycle, get_budget_policy,
+                      owned_children_snapshot, run_with_budget,
+                      set_budget_policy, shutdown_budget_pool,
+                      sweep_owned_children)
 from .transforms import (TransformResult, get_transform_policy,
                          set_transform_policy, combine_identical_sums,
                          factor_common_kernel, collect_common_factor,
@@ -70,6 +72,7 @@ __all__ = [
     # budgets
     "BudgetExceeded", "get_budget_policy", "set_budget_policy",
     "run_with_budget", "shutdown_budget_pool",
+    "ProcessLifecycle", "owned_children_snapshot", "sweep_owned_children",
     # transforms
     "TransformResult", "get_transform_policy", "set_transform_policy",
     "combine_identical_sums", "factor_common_kernel", "collect_common_factor",

@@ -13,6 +13,38 @@ Fail-closed contract
   ``{"kind": "TIME_BUDGET_EXCEEDED", "operation": ...}``.
 * Worker exceptions propagate unchanged (they are not budget events).
 
+Owned child-process lifecycle (process mode)
+--------------------------------------------
+Every worker this module spawns is ENGINE-OWNED and tracked in a module-level
+registry (PID + process group). The lifecycle is strictly:
+
+    spawn -> track -> operation finishes OR timeout/cancel
+          -> SIGTERM to the owned process group
+          -> bounded grace period (``kill_grace_seconds`` policy, default 2s)
+          -> SIGKILL if still alive
+          -> reap (waitpid via ``Process.join``/exitcode poll)
+
+Workers lead their OWN process group: the worker target calls ``os.setsid()``
+as its first action (the spawn-context equivalent of ``start_new_session``),
+so pgid == pid and termination targets exactly that group.
+Cleanup is guaranteed on ALL exit paths — success, timeout
+(``BudgetExceeded``), exception, and (where interceptable) KeyboardInterrupt —
+by the ``ProcessLifecycle`` context manager's try/finally semantics, plus an
+``atexit`` hook (``sweep_owned_children``) that sweeps any still-owned
+children when the CLI/interpreter exits. ``owned_children_snapshot()``
+exposes the registry for tests/telemetry.
+
+SAFETY RULE (absolute): this module NEVER uses ``pkill``/``killall`` and
+NEVER signals anything that is not in the owned registry. Signals are sent
+exclusively to the process groups of registry-tracked workers that this very
+engine spawned.
+
+Spawn safety: the worker target is a module-level function of this importable
+package (NOT of the caller's ``__main__``), so process mode works from
+scripts, pytest and stdin-invoked python alike. The payload (fn/args/kwargs)
+must still be picklable; unpicklable callables fail closed with a clear
+error rather than hanging.
+
 Modes (``BUDGET_POLICY["mode"]``)
 ---------------------------------
 * ``thread`` (default): the call runs in a worker thread; at the deadline an
@@ -21,24 +53,30 @@ Modes (``BUDGET_POLICY["mode"]``)
   and the caller raises ``BudgetExceeded`` either way. No re-import of the
   caller's ``__main__`` is required, so this mode works from scripts, REPLs,
   stdin and pytest alike.
-* ``process``: a persistent single-worker spawn pool; on timeout the worker
-  process is terminated outright (kills C-level loops too). Requires the
-  calling program to be re-importable by the child (not true for
-  ``python -`` / stdin), and picklable callables/arguments.
+* ``process``: one owned worker per budgeted call (see lifecycle above); on
+  timeout the worker's owned process group is terminated outright (kills
+  C-level loops too).
 * ``inline``: budgets disabled (the call runs directly). Useful in debuggers
   or nested contexts.
 """
 from __future__ import annotations
 
+import atexit
 import ctypes
 import multiprocessing
+import os
+import pickle
+import signal
 import threading
+import time
 from typing import Any, Callable, Optional
 
 from .models import AdapterError
 
 __all__ = ["BudgetExceeded", "BUDGET_POLICY", "get_budget_policy",
-           "set_budget_policy", "run_with_budget", "shutdown_budget_pool"]
+           "set_budget_policy", "run_with_budget", "shutdown_budget_pool",
+           "ProcessLifecycle", "owned_children_snapshot",
+           "sweep_owned_children"]
 
 
 class BudgetExceeded(AdapterError):
@@ -61,6 +99,8 @@ _DEFAULT_BUDGET_POLICY: dict = {
     "equals_seconds": 10.0,        # value.equals(0) adjudication per probe
     "expand_complex_seconds": 10.0,  # complex-normalization branch
     "transform_seconds": 15.0,     # targeted structural primitives
+    # bounded grace between SIGTERM and SIGKILL of an owned worker group
+    "kill_grace_seconds": 2.0,
 }
 
 BUDGET_POLICY: dict = dict(_DEFAULT_BUDGET_POLICY)
@@ -83,47 +123,219 @@ def set_budget_policy(**overrides) -> dict:
 
 
 # --------------------------------------------------------------------------- #
-# process-mode worker pool (persistent; rebuilt after a timeout kill)
+# engine-owned process registry (PID + process group; NEVER kill unowned)
 # --------------------------------------------------------------------------- #
 
-_pool = None
-_pool_lock = threading.Lock()
+_OWNED: dict = {}
+_REGISTRY_LOCK = threading.Lock()
 
 
-def _worker_run(payload):
-    """Module-level worker target (must be picklable)."""
-    fn, args, kwargs = payload
-    return fn(*args, **(kwargs or {}))
+def _track(proc, operation: str) -> None:
+    """Register a freshly spawned worker as engine-owned."""
+    with _REGISTRY_LOCK:
+        _OWNED[proc.pid] = {
+            "pid": proc.pid,
+            # start_new_session=True makes the worker its own group leader
+            "pgid": proc.pid,
+            "operation": operation,
+            "spawned_at": time.time(),
+            "proc": proc,
+        }
 
 
-def _ensure_pool():
-    global _pool
-    if _pool is None:
-        ctx = multiprocessing.get_context("spawn")
-        _pool = ctx.Pool(1)
-    return _pool
+def _untrack(pid: int) -> Optional[dict]:
+    with _REGISTRY_LOCK:
+        return _OWNED.pop(pid, None)
 
 
-def _kill_pool():
-    global _pool
-    if _pool is not None:
+def owned_children_snapshot() -> list:
+    """Introspection helper (tests/telemetry): snapshot of the owned registry.
+
+    Returns a list of ``{"pid", "pgid", "operation", "alive"}`` dicts, one
+    per currently tracked worker. An empty list means no engine-owned
+    children are outstanding.
+    """
+    with _REGISTRY_LOCK:
+        entries = list(_OWNED.values())
+    out = []
+    for e in entries:
         try:
-            _pool.terminate()
-            _pool.join()
+            alive = e["proc"].is_alive()
+        except Exception:
+            alive = False
+        out.append({"pid": e["pid"], "pgid": e["pgid"],
+                    "operation": e["operation"], "alive": alive})
+    return out
+
+
+def _signal_group(pgid: int, sig: int) -> bool:
+    """Signal an OWNED process group only. False when nothing is left."""
+    try:
+        os.killpg(pgid, sig)
+        return True
+    except (ProcessLookupError, PermissionError, OSError):
+        return False
+
+
+def _terminate_entry(entry: dict) -> None:
+    """SIGTERM (owned group) -> bounded grace -> SIGKILL -> reap."""
+    proc = entry.get("proc")
+    pgid = entry.get("pgid")
+    try:
+        grace = float(BUDGET_POLICY.get("kill_grace_seconds", 2.0))
+    except (TypeError, ValueError):
+        grace = 2.0
+    if pgid is not None:
+        _signal_group(pgid, signal.SIGTERM)
+    if proc is None:
+        return
+    deadline = time.monotonic() + max(grace, 0.0)
+    while time.monotonic() < deadline:
+        try:
+            if proc.exitcode is not None:  # exitcode poll reaps (waitpid)
+                return
+        except Exception:
+            return
+        time.sleep(0.01)
+    if pgid is not None:
+        _signal_group(pgid, signal.SIGKILL)
+    try:
+        proc.join(timeout=10.0)
+    except Exception:
+        pass
+
+
+def sweep_owned_children() -> list:
+    """Terminate + reap every still-owned child. Returns swept PIDs.
+
+    Registered with ``atexit`` so CLI/interpreter shutdown never leaks a
+    worker; also safe to call explicitly (idempotent per PID).
+    """
+    with _REGISTRY_LOCK:
+        pids = list(_OWNED)
+    swept = []
+    for pid in pids:
+        entry = _untrack(pid)
+        if entry is None:
+            continue
+        _terminate_entry(entry)
+        swept.append(pid)
+    return swept
+
+
+atexit.register(sweep_owned_children)
+
+
+class ProcessLifecycle:
+    """Owned child-process lifecycle with try/finally guarantees.
+
+    Usage::
+
+        with ProcessLifecycle(proc, operation):
+            proc.start()
+            _track(proc, operation)
+            ... wait for the result / enforce the budget ...
+        # on ANY exit path the worker's owned process group is terminated
+        # (SIGTERM -> grace -> SIGKILL) and reaped
+
+    ``__exit__`` never suppresses exceptions.
+    """
+
+    def __init__(self, proc, operation: str):
+        self.proc = proc
+        self.operation = operation
+
+    def __enter__(self) -> "ProcessLifecycle":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> bool:
+        proc = self.proc
+        pid = getattr(proc, "pid", None)
+        if pid is not None:
+            # untrack first so the atexit sweep cannot double-terminate
+            entry = _untrack(pid)
+            if entry is None:
+                entry = {"pid": pid, "pgid": pid,
+                         "operation": self.operation, "proc": proc}
+            _terminate_entry(entry)
+        try:
+            if proc is not None:
+                proc.close()
         except Exception:
             pass
-        _pool = None
+        return False
+
+
+# --------------------------------------------------------------------------- #
+# process-mode worker (one owned child per budgeted call)
+# --------------------------------------------------------------------------- #
+
+def _budget_worker(conn, payload):
+    """Owned-child worker target. Module-level on purpose: it lives in this
+    importable package (never in the caller's ``__main__``), so spawn works
+    from scripts, pytest and stdin-invoked python alike."""
+    # Own session/process group: makes pgid == pid, so the registry's group
+    # kill targets exactly this worker and nothing else. setsid fails only if
+    # already a group leader (never true for a freshly forked/spawned child),
+    # so a failure is tolerated without losing the worker.
+    try:
+        os.setsid()
+    except OSError:
+        pass
+    try:
+        fn, args, kwargs = payload
+        try:
+            result = ("ok", fn(*args, **(kwargs or {})))
+        except BaseException as exc:  # worker exceptions propagate unchanged
+            result = ("error", exc)
+        conn.send_bytes(pickle.dumps(result))
+    except BaseException as exc:
+        # payload/result could not round-trip pickle: fail loud, never hang
+        try:
+            conn.send_bytes(pickle.dumps(
+                ("error", RuntimeError(
+                    f"BUDGET_WORKER_TRANSFER_FAILED: {exc!r}"))))
+        except BaseException:
+            pass
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
 
 
 def _run_process(fn, args, kwargs, seconds: float, operation: str):
-    with _pool_lock:
-        pool = _ensure_pool()
-        async_res = pool.apply_async(_worker_run, ((fn, args, kwargs),))
+    """Run one budgeted call in a freshly spawned OWNED worker process."""
+    ctx = multiprocessing.get_context("spawn")
+    parent_conn, child_conn = ctx.Pipe(duplex=False)
+    proc = ctx.Process(target=_budget_worker,
+                       args=(child_conn, (fn, args, kwargs)),
+                       name=f"symbolic-budget-{operation}",
+                       daemon=False)
+    try:
+        with ProcessLifecycle(proc, operation):
+            proc.start()  # worker calls os.setsid(): own session, pgid == pid
+            child_conn.close()  # the child owns its end now
+            _track(proc, operation)
+            deadline = time.monotonic() + max(float(seconds), 0.0)
+            while True:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    # BudgetExceeded escapes the with-block: __exit__ then
+                    # terminates the owned worker group outright.
+                    raise BudgetExceeded(operation, seconds)
+                if parent_conn.poll(min(remaining, 0.05)):
+                    tag, payload = pickle.loads(parent_conn.recv_bytes())
+                    if tag == "ok":
+                        return payload
+                    raise payload
+                if not proc.is_alive() and not parent_conn.poll(0):
+                    raise RuntimeError("BUDGET_WORKER_DIED")
+    finally:
         try:
-            return async_res.get(timeout=seconds)
-        except multiprocessing.TimeoutError:
-            _kill_pool()  # terminate the runaway worker outright
-            raise BudgetExceeded(operation, seconds) from None
+            parent_conn.close()
+        except Exception:
+            pass
 
 
 # --------------------------------------------------------------------------- #
@@ -180,7 +392,9 @@ def run_with_budget(fn: Callable, args: tuple = (), seconds: float = 30.0, *,
 
     ``mode`` overrides ``BUDGET_POLICY['mode']`` for this single call.
     Non-positive budgets still execute the call once (budgets bound long work;
-    they do not forbid the attempt).
+    they do not forbid the attempt). Process mode requires a picklable
+    ``fn``/``args``/``kwargs``; every spawned worker is engine-owned and
+    cleaned up per the module docstring's lifecycle.
     """
     effective_mode = mode or BUDGET_POLICY["mode"]
     if effective_mode == "inline":
@@ -194,6 +408,9 @@ def run_with_budget(fn: Callable, args: tuple = (), seconds: float = 30.0, *,
 
 
 def shutdown_budget_pool() -> None:
-    """Tear down the persistent worker pool (test/exit hygiene)."""
-    with _pool_lock:
-        _kill_pool()
+    """Exit hygiene: terminate + reap any still-owned budget workers.
+
+    Retained for API compatibility. The persistent worker pool is gone; the
+    owned-child registry sweep is the modern equivalent (also run at exit).
+    """
+    sweep_owned_children()

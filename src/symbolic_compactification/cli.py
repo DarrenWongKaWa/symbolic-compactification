@@ -331,13 +331,20 @@ def main(argv: Optional[list[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        return args.func(args)
-    except AdapterError as exc:
-        _eprint(f"error: {exc.code}")
-        return EXIT_ERROR
-    except (OSError, UnicodeDecodeError):
-        _eprint("error: EXPRESSION_SOURCE_UNREADABLE")
-        return EXIT_ERROR
+        try:
+            return args.func(args)
+        except AdapterError as exc:
+            _eprint(f"error: {exc.code}")
+            return EXIT_ERROR
+        except (OSError, UnicodeDecodeError):
+            _eprint("error: EXPRESSION_SOURCE_UNREADABLE")
+            return EXIT_ERROR
+    finally:
+        # Owned child-process hygiene: sweep any engine-owned budget workers
+        # on EVERY CLI exit path (success, verdict, error, interrupt). The
+        # budgets module also registers an atexit sweep as a backstop.
+        from .budgets import sweep_owned_children
+        sweep_owned_children()
 
 
 if __name__ == "__main__":
