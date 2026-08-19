@@ -23,6 +23,7 @@ from .session import (init_session, load_session, promote, record_step,
                       set_current)
 from .adapters import (TranslationResult, translate_wolfram_text,
                        extract_expression_text)
+from .structure import expand_finite, structure_summary
 
 __all__ = [
     "__version__",
@@ -40,4 +41,6 @@ __all__ = [
     "init_session", "load_session", "record_step", "promote", "set_current",
     # adapters
     "TranslationResult", "translate_wolfram_text", "extract_expression_text",
+    # structure (structure-first preservation + diagnostics)
+    "expand_finite", "structure_summary",
 ]

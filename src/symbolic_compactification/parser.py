@@ -82,14 +82,43 @@ def _effective_policy(policy: Optional[dict]) -> dict:
 
 
 # --------------------------------------------------------------------------- #
+# structural builtins (v0.2): Sum / Piecewise / relations / logic
+# --------------------------------------------------------------------------- #
+# These names round-trip the structure-preserving representations produced by
+# the adapters (symbolic ``Sum``, ``Piecewise``, relational/logical
+# conditions). They are admitted as CALLABLES only — never as declared symbol
+# names — so the whitelist stays closed while structure survives parsing.
+_STRUCTURAL_BUILTINS: dict = {
+    "Sum": sympy.Sum,
+    "Product": sympy.Product,
+    "Piecewise": sympy.Piecewise,
+    "Eq": sympy.Eq,
+    "Ne": sympy.Ne,
+    "Lt": sympy.Lt,
+    "Le": sympy.Le,
+    "Gt": sympy.Gt,
+    "Ge": sympy.Ge,
+    "And": sympy.And,
+    "Or": sympy.Or,
+    "Not": sympy.Not,
+    "True": sympy.S.true,
+    "False": sympy.S.false,
+}
+
+
+# --------------------------------------------------------------------------- #
 # symbol object helpers
 # --------------------------------------------------------------------------- #
 
-def _symbol_locals(symbols: list[dict], policy: dict) -> dict:
+def _symbol_locals(symbols: list[dict], policy: dict,
+                   functions: Optional[list] = None) -> dict:
     """Restricted locals map: declared symbols + whitelisted functions + consts.
 
     NOTHING else is reachable from sympify, so arbitrary attribute access /
     code execution through the expression string is impossible.
+
+    ``functions`` are declared undefined-function names (indexed calls such as
+    ``f(n)``); each is bound to ``sympy.Function(name)`` so structure survives.
     """
     local: dict = {}
     for s in symbols:
@@ -100,6 +129,11 @@ def _symbol_locals(symbols: list[dict], policy: dict) -> dict:
     for f in policy["allowed_functions"]:
         local[f] = getattr(sympy, f, None)
     local.update({"pi": sympy.pi, "E": sympy.E, "I": sympy.I, "oo": sympy.oo})
+    # structure-preserving builtins (callables + relational/logical helpers)
+    local.update(_STRUCTURAL_BUILTINS)
+    # declared undefined functions for indexed calls
+    for fname in (functions or []):
+        local[fname] = sympy.Function(fname)
     return local
 
 
@@ -119,17 +153,38 @@ def syms_like(expr, names: list[str]) -> list:
 # --------------------------------------------------------------------------- #
 
 def parse_expression(expr_str: Any, symbols: Any, *,
+                     functions: Any = None,
                      policy: Optional[dict] = None) -> sympy.Expr:
     """Reject before parsing; parse only with a restricted whitelist locals map.
 
     ``symbols`` may be raw (["x"]) or normalized ([{"name": "x", ...}]); it is
     normalized here, so reserved-name / shape violations surface as AdapterError.
-    Raises AdapterError on any violation. There is no eval/exec path.
+    ``functions`` is an optional list of declared undefined-function names
+    (indexed calls such as ``f(n)``); they are bound to ``sympy.Function`` so
+    structure-preserving representations round-trip. Raises AdapterError on any
+    violation. There is no eval/exec path.
     """
     pol = _effective_policy(policy)
     declared = normalize_symbols(symbols)
     if len(declared) > pol["max_symbols"]:
         raise AdapterError("CLAIM_SYMBOLS_TOO_MANY")
+
+    # Declared function names must be valid identifiers and not collide with
+    # declared symbols or reserved names.
+    func_names: list[str] = []
+    if functions is not None:
+        if not isinstance(functions, (list, tuple)):
+            raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+        for fname in functions:
+            if not isinstance(fname, str) or not fname.strip():
+                raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+            if not _IDENTIFIER_RE.fullmatch(fname):
+                raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+            func_names.append(fname)
+        if len(func_names) != len(set(func_names)):
+            raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+        if set(func_names) & {s["name"] for s in declared}:
+            raise AdapterError("FUNCTION_NAME_COLLIDES_WITH_SYMBOL")
 
     if not isinstance(expr_str, str) or not expr_str.strip():
         raise AdapterError("EMPTY_EXPRESSION")
@@ -141,12 +196,15 @@ def parse_expression(expr_str: Any, symbols: Any, *,
     identifiers = set(_IDENTIFIER_RE.findall(expr_str))
     allowed = ({s["name"] for s in declared}
                | set(pol["allowed_functions"])
+               | set(_STRUCTURAL_BUILTINS)
+               | set(func_names)
                | {"pi", "E", "I", "oo"})
     if identifiers - allowed:
         raise AdapterError("UNDECLARED_OR_DISALLOWED_NAME")
 
     try:
-        expr = sympy.sympify(expr_str, locals=_symbol_locals(declared, pol),
+        expr = sympy.sympify(expr_str,
+                             locals=_symbol_locals(declared, pol, func_names),
                              evaluate=True, convert_xor=True)
     except (sympy.SympifyError, SyntaxError, TypeError, AttributeError, ValueError):
         raise AdapterError("SYMBOLIC_PARSE_FAILED") from None

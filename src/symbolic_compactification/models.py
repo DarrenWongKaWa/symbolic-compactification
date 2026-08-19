@@ -34,6 +34,9 @@ RESERVED_NAMES = frozenset({
     # must mirror the parser's allowed-functions policy: admitting a function
     # (e.g. the polygamma family, v0.2) reserves its name as a symbol too
     "polygamma",
+    # structural builtins (v0.2) are callables only; never declared symbols
+    "Sum", "Product", "Piecewise",
+    "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
 })
 
 
