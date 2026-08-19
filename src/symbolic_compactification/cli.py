@@ -38,7 +38,8 @@ from typing import Optional
 
 import sympy
 
-from .models import (NONZERO, UNKNOWN, ZERO, AdapterError, StepRecord)
+from .models import (ENGINE_VERSION, NONZERO, UNKNOWN, ZERO, AdapterError,
+                     StepRecord)
 from .parser import get_parse_policy, load_expression
 from .session import init_session, load_session, promote, record_step, set_current
 from .verifier import verify_equivalent
@@ -124,6 +125,37 @@ def _print_result(result) -> None:
         print(f"counterexample:      {json.dumps(result.counterexample, ensure_ascii=False)}")
     print(f"probes_tried:        {result.probes_tried}")
     print(f"verifier:            {result.verifier} ({result.seconds}s)")
+
+
+def _step_telemetry(current, candidate, result) -> dict:
+    """Cheap JSON-native step telemetry (v0.2).
+
+    Deliberately minimal — no observability framework. ``primitive`` is null
+    for CLI-driven steps (no structural primitive was applied); the timeout
+    status mirrors the verifier's fail-closed budget evidence.
+    """
+    timed_out = any(e.get("kind") == "TIME_BUDGET_EXCEEDED"
+                    for e in result.evidence)
+
+    def _ops(rec):
+        if rec is None or rec.parsed_expr is None:
+            return None
+        try:
+            return sympy.count_ops(rec.parsed_expr, visual=False)
+        except Exception:
+            return None
+
+    return {
+        "input_chars": len(current.text),
+        "output_chars": len(candidate.text),
+        "count_ops_before": _ops(current),
+        "count_ops_after": _ops(candidate),
+        "primitive": None,
+        "wall_time_seconds": result.seconds,
+        "verdict": result.verdict,
+        "timeout_status": "TIME_BUDGET_EXCEEDED" if timed_out else "ok",
+        "engine_version": ENGINE_VERSION,
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -236,6 +268,10 @@ def cmd_step(args) -> int:
         residual=result.simplified_residual or result.residual,
         verdict=result.verdict,
         evidence=result.evidence,
+        # conjecture layer distinct from certification: a ZERO verdict
+        # CERTIFIES the step; anything else leaves it UNVERIFIED
+        status="CERTIFIED" if result.verdict == ZERO else "UNVERIFIED",
+        telemetry=_step_telemetry(current, candidate, result),
     )
     step_path = record_step(session, step, meta={"cli": "step"})
     print(f"run:       {session.run_id}")

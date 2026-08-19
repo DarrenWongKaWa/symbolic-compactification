@@ -7,11 +7,38 @@ Every record type is JSON-serializable through its ``to_dict()`` method.
 from __future__ import annotations
 
 import hashlib
+import subprocess
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Optional
 
 import sympy
+
+# --------------------------------------------------------------------------- #
+# engine identity (versioning + provenance)
+# --------------------------------------------------------------------------- #
+
+ENGINE_VERSION = "0.2.0"
+
+
+def engine_git_sha() -> str:
+    """Best-effort git HEAD sha of the engine checkout; ``"unknown"`` fallback.
+
+    Provenance metadata only: a failure to read git NEVER fails a session
+    write.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=str(Path(__file__).resolve().parent),
+            capture_output=True, text=True, timeout=5)
+        sha = out.stdout.strip()
+        if out.returncode == 0 and sha:
+            return sha
+    except Exception:
+        pass
+    return "unknown"
 
 # --------------------------------------------------------------------------- #
 # verdict constants
@@ -22,6 +49,12 @@ NONZERO = "NONZERO"    # refuted by an exact counterexample
 UNKNOWN = "UNKNOWN"    # fail-closed: simplification undecided, no counterexample
 
 VERIFIER_NAME = "python_sympy_exact_v1"
+
+# Step-status lifecycle (v0.2). The CONJECTURE layer is distinct from
+# certification: HYPOTHESIS marks a proposed step, UNVERIFIED one that ran
+# without a ZERO verdict, CERTIFIED one certified by an exact ZERO verdict.
+# The status field is OPTIONAL metadata; default behavior is unchanged.
+STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED")
 
 MAX_SYMBOLS = 40
 
@@ -192,7 +225,20 @@ class VerificationResult:
 
 @dataclass
 class StepRecord:
-    """One compactification step: candidate vs. current, residual + verdict."""
+    """One compactification step: candidate vs. current, residual + verdict.
+
+    v0.2 additions (all optional; default behavior unchanged):
+      * ``status``          - lifecycle marker, one of ``STEP_STATUSES``
+                              (HYPOTHESIS / UNVERIFIED / CERTIFIED) or None;
+                              the conjecture layer is DISTINCT from
+                              certification.
+      * ``telemetry``       - cheap JSON-native step telemetry: input_chars,
+                              output_chars, count_ops_before, count_ops_after,
+                              primitive (name or None), wall_time_seconds,
+                              verdict, timeout_status, engine_version.
+      * ``engine_version``  - engine version that produced the record.
+      * ``engine_git_sha``  - engine git HEAD sha (provenance; "unknown" ok).
+    """
 
     step: int
     current_hash: str
@@ -202,6 +248,14 @@ class StepRecord:
     verdict: str
     evidence: list[dict] = field(default_factory=list)
     timestamp: str = field(default_factory=_now_iso)
+    status: Optional[str] = None
+    telemetry: dict = field(default_factory=dict)
+    engine_version: str = ENGINE_VERSION
+    engine_git_sha: str = field(default_factory=engine_git_sha)
+
+    def __post_init__(self):
+        if self.status is not None and self.status not in STEP_STATUSES:
+            raise AdapterError("STEP_STATUS_INVALID")
 
     def to_dict(self) -> dict:
         return {
@@ -213,6 +267,10 @@ class StepRecord:
             "verdict": self.verdict,
             "evidence": list(self.evidence),
             "timestamp": self.timestamp,
+            "status": self.status,
+            "telemetry": dict(self.telemetry),
+            "engine_version": self.engine_version,
+            "engine_git_sha": self.engine_git_sha,
         }
 
 

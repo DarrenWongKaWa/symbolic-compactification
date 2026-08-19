@@ -20,8 +20,9 @@ import time
 from pathlib import Path
 from typing import Optional
 
-from .models import (ZERO, AdapterError, ExpressionRecord, SessionState,
-                     StepRecord, sha256_text)
+from .models import (ENGINE_VERSION, STEP_STATUSES, ZERO, AdapterError,
+                     ExpressionRecord, SessionState, StepRecord,
+                     engine_git_sha, sha256_text)
 
 # --------------------------------------------------------------------------- #
 # helpers
@@ -51,6 +52,8 @@ def _manifest_payload(session: SessionState, meta: Optional[dict]) -> dict:
     return {
         "run_id": session.run_id,
         "created_at": session.created_at,
+        "engine_version": ENGINE_VERSION,
+        "engine_git_sha": engine_git_sha(),
         "meta": meta or {},
         "current": None if session.current is None else session.current.to_dict(),
         "steps": [s.to_dict() for s in session.steps],
@@ -103,12 +106,17 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
                            created_at=manifest["created_at"],
                            current=current)
     for st in manifest.get("steps", []):
+        status = st.get("status")
         session.steps.append(StepRecord(
             step=st["step"], current_hash=st["current_hash"],
             candidate_hash=st["candidate_hash"],
             candidate_text=st["candidate_text"], residual=st.get("residual"),
             verdict=st["verdict"], evidence=list(st.get("evidence", [])),
             timestamp=st.get("timestamp", ""),
+            status=status if status in STEP_STATUSES else None,
+            telemetry=dict(st.get("telemetry", {})),
+            engine_version=st.get("engine_version", ENGINE_VERSION),
+            engine_git_sha=st.get("engine_git_sha", "unknown"),
         ))
     session.run_root = str(run_root)
     return session

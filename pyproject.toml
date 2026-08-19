@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "symbolic-compactification"
-version = "0.1.0"
+version = "0.2.0"
 description = "Standalone symbolic compactification engine: strict SymPy parser, exact verifier kernel, and residual bookkeeping."
 requires-python = ">=3.10"
 dependencies = [

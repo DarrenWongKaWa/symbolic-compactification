@@ -13,12 +13,13 @@ Kernel modules:
   budgets   - wall-clock budgets for expensive symbolic operations
 """
 
-__version__ = "0.1.0"
+from .models import (ENGINE_VERSION, ZERO, NONZERO, UNKNOWN, VERIFIER_NAME,
+                     AdapterError, ExpressionRecord, HARD_RESERVED_NAMES,
+                     RESERVED_NAMES, STEP_STATUSES, SessionState, StepRecord,
+                     VerificationResult, engine_git_sha, normalize_symbols,
+                     sha256_text)
 
-from .models import (ZERO, NONZERO, UNKNOWN, VERIFIER_NAME, AdapterError,
-                     ExpressionRecord, HARD_RESERVED_NAMES, RESERVED_NAMES,
-                     SessionState, StepRecord, VerificationResult,
-                     normalize_symbols, sha256_text)
+__version__ = ENGINE_VERSION
 from .parser import (PARSE_POLICY, get_parse_policy, load_expression,
                      parse_expression, set_parse_policy, syms_like)
 from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
@@ -46,6 +47,7 @@ __all__ = [
     "AdapterError", "ExpressionRecord", "VerificationResult",
     "StepRecord", "SessionState", "normalize_symbols", "sha256_text",
     "RESERVED_NAMES", "HARD_RESERVED_NAMES",
+    "ENGINE_VERSION", "engine_git_sha", "STEP_STATUSES",
     # parser
     "PARSE_POLICY", "get_parse_policy", "set_parse_policy",
     "parse_expression", "load_expression", "syms_like",
