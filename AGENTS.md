@@ -32,6 +32,28 @@ graph TB
     I --> E
 ```
 
+### After reaching a CERTIFIED state (agent protocol v0.2.1)
+
+Once a candidate is CERTIFIED and promoted, the recommended order for the
+next move is:
+
+1. **Inspect the semantic structure** of the new current expression
+   (`inspect --format wolfram` / `structure_summary`) — rules 18/21.
+2. **Ask the STRUCTURAL_PROPOSER** for the next candidate: assemble the
+   conjecture packet (`build_conjecture_packet`) and hand it, with the role
+   contract `roles/STRUCTURAL_PROPOSER.md`, to ONE harness-native subagent
+   (Qoder / Codex / Claude Code native subagent facility — this repo
+   contains no agent runtime of its own). Record the returned proposal via
+   `record_proposal` (status `HYPOTHESIS`).
+3. **Targeted deterministic verification** of the candidate (`verify` /
+   `step`) — the verifier remains the sole judge.
+4. **Update state**: promote only on ZERO (main agent only); on NONZERO feed
+   the residual + counterexample back; on UNKNOWN refine per rule 20.
+
+Global `simplify()` remains a bounded fallback for small expressions only —
+never the primary discovery path. The A/B comparison protocol for this
+workflow is documented in `docs/AB_EXPERIMENT_PROTOCOL.md`.
+
 ---
 
 ## Rules
