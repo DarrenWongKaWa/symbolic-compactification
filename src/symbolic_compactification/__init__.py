@@ -36,6 +36,8 @@ from .transforms import (TransformResult, get_transform_policy,
                          factor_common_kernel, collect_common_factor,
                          canonicalize_equivalent_arguments, factor_terms,
                          together, cancel, residual_of)
+from .rules import (BUILTIN_RULES, RewriteRule, RuleApplication, apply_rule,
+                    apply_rules)
 
 __all__ = [
     "__version__",
@@ -64,4 +66,7 @@ __all__ = [
     "combine_identical_sums", "factor_common_kernel", "collect_common_factor",
     "canonicalize_equivalent_arguments", "factor_terms", "together", "cancel",
     "residual_of",
+    # rules (assumption-aware rewrites)
+    "BUILTIN_RULES", "RewriteRule", "RuleApplication", "apply_rule",
+    "apply_rules",
 ]
