@@ -21,6 +21,12 @@ import sympy
 
 ENGINE_VERSION = "0.2.0"
 
+# Agent-protocol version (v0.2.1 increment): the deterministic engine is
+# unchanged from v0.2.0; this constant tracks the agent-layer protocol
+# (conjecture packet + STRUCTURAL_PROPOSER role contract) recorded in run
+# manifests alongside ``engine_version``.
+AGENT_PROTOCOL_VERSION = "0.2.1"
+
 
 def engine_git_sha() -> str:
     """Best-effort git HEAD sha of the engine checkout; ``"unknown"`` fallback.
@@ -55,6 +61,11 @@ VERIFIER_NAME = "python_sympy_exact_v1"
 # without a ZERO verdict, CERTIFIED one certified by an exact ZERO verdict.
 # The status field is OPTIONAL metadata; default behavior is unchanged.
 STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED")
+
+# Evidence kind marking a step as a STRUCTURAL_PROPOSER hypothesis (v0.2.1
+# agent protocol): no verifier ran on such a step; ``run_summary`` uses this
+# marker to separate proposal steps from real verification steps.
+PROPOSAL_EVIDENCE_KIND = "proposer_candidate"
 
 MAX_SYMBOLS = 40
 

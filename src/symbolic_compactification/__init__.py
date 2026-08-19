@@ -11,10 +11,13 @@ Kernel modules:
   structure - structure-first preservation + finite-N diagnostic replay
   transforms- bounded structural transformation primitives
   budgets   - wall-clock budgets for expensive symbolic operations
+  conjecture- agent protocol v0.2.1: conjecture packets + proposer candidates
+              (harness-native proposer; NO agent runtime in this repo)
 """
 
-from .models import (ENGINE_VERSION, ZERO, NONZERO, UNKNOWN, VERIFIER_NAME,
-                     AdapterError, ExpressionRecord, HARD_RESERVED_NAMES,
+from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, ZERO, NONZERO,
+                     UNKNOWN, VERIFIER_NAME, AdapterError, ExpressionRecord,
+                     HARD_RESERVED_NAMES, PROPOSAL_EVIDENCE_KIND,
                      RESERVED_NAMES, STEP_STATUSES, SessionState, StepRecord,
                      VerificationResult, engine_git_sha, normalize_symbols,
                      sha256_text)
@@ -26,7 +29,7 @@ from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
                         verify_equivalent)
 from .residual import make_residual, residual_record
 from .session import (init_session, load_session, promote, record_step,
-                      set_current)
+                      run_summary, set_current)
 from .adapters import (TranslationResult, translate_wolfram_text,
                        extract_expression_text)
 from .structure import expand_finite, structure_summary
@@ -39,6 +42,8 @@ from .transforms import (TransformResult, get_transform_policy,
                          together, cancel, residual_of)
 from .rules import (BUILTIN_RULES, RewriteRule, RuleApplication, apply_rule,
                     apply_rules)
+from .conjecture import (build_conjecture_packet, record_proposal,
+                         validate_candidate)
 
 __all__ = [
     "__version__",
@@ -47,7 +52,8 @@ __all__ = [
     "AdapterError", "ExpressionRecord", "VerificationResult",
     "StepRecord", "SessionState", "normalize_symbols", "sha256_text",
     "RESERVED_NAMES", "HARD_RESERVED_NAMES",
-    "ENGINE_VERSION", "engine_git_sha", "STEP_STATUSES",
+    "ENGINE_VERSION", "AGENT_PROTOCOL_VERSION", "PROPOSAL_EVIDENCE_KIND",
+    "engine_git_sha", "STEP_STATUSES",
     # parser
     "PARSE_POLICY", "get_parse_policy", "set_parse_policy",
     "parse_expression", "load_expression", "syms_like",
@@ -56,6 +62,7 @@ __all__ = [
     "verify_equivalent", "make_residual", "residual_record",
     # session persistence
     "init_session", "load_session", "record_step", "promote", "set_current",
+    "run_summary",
     # adapters
     "TranslationResult", "translate_wolfram_text", "extract_expression_text",
     # structure (structure-first preservation + diagnostics)
@@ -71,4 +78,6 @@ __all__ = [
     # rules (assumption-aware rewrites)
     "BUILTIN_RULES", "RewriteRule", "RuleApplication", "apply_rule",
     "apply_rules",
+    # conjecture (agent protocol v0.2.1; harness-native proposer, no runtime)
+    "build_conjecture_packet", "validate_candidate", "record_proposal",
 ]

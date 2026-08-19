@@ -20,8 +20,9 @@ import time
 from pathlib import Path
 from typing import Optional
 
-from .models import (ENGINE_VERSION, STEP_STATUSES, ZERO, AdapterError,
-                     ExpressionRecord, SessionState, StepRecord,
+from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
+                     PROPOSAL_EVIDENCE_KIND, STEP_STATUSES, UNKNOWN, ZERO,
+                     AdapterError, ExpressionRecord, SessionState, StepRecord,
                      engine_git_sha, sha256_text)
 
 # --------------------------------------------------------------------------- #
@@ -53,6 +54,9 @@ def _manifest_payload(session: SessionState, meta: Optional[dict]) -> dict:
         "run_id": session.run_id,
         "created_at": session.created_at,
         "engine_version": ENGINE_VERSION,
+        # agent-protocol version (v0.2.1): the proposer/conjecture protocol
+        # in force for this run; the deterministic engine stays v0.2.0
+        "agent_protocol_version": AGENT_PROTOCOL_VERSION,
         "engine_git_sha": engine_git_sha(),
         "meta": meta or {},
         "current": None if session.current is None else session.current.to_dict(),
@@ -171,3 +175,77 @@ def promote(session: SessionState, candidate_record: ExpressionRecord,
     _write_json(final_path, final_payload)
     _write_json(run_root / "manifest.json", _manifest_payload(session, meta))
     return final_path
+
+
+# --------------------------------------------------------------------------- #
+# A/B telemetry helper (v0.2.1): cheap run summary from existing records
+# --------------------------------------------------------------------------- #
+
+def run_summary(run_dir) -> dict:
+    """Cheap A/B run summary computed from EXISTING step records.
+
+    Reads ``<run_dir>/manifest.json`` and aggregates the step telemetry
+    already recorded there — no new framework, no reconstruction from
+    mtimes. Proposal steps (evidence kind ``proposer_candidate``) are kept
+    separate from real verification steps.
+
+    Returns a JSON-serializable dict:
+      * ``run_id`` / ``engine_version`` / ``agent_protocol_version``
+      * ``candidates_proposed``  number of recorded proposer HYPOTHESIS steps
+      * ``zero_promotions``      verification steps adjudicated ZERO
+      * ``nonzero_count``        verification steps adjudicated NONZERO
+      * ``unknown_count``        verification steps adjudicated UNKNOWN
+      * ``verifier_calls``       real verification steps (proposals excluded)
+      * ``wall_time_seconds``    total recorded verifier wall time
+      * ``count_ops_first``      count_ops before the FIRST verified step
+      * ``count_ops_current``    count_ops after the LATEST verified step
+
+    Raises:
+        AdapterError("RUN_MANIFEST_UNREADABLE") if the manifest is absent
+        or malformed.
+    """
+    manifest = _read_json(Path(run_dir) / "manifest.json")
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("steps"), list):
+        raise AdapterError("RUN_MANIFEST_UNREADABLE")
+    steps = manifest["steps"]
+
+    def _is_proposal(st: dict) -> bool:
+        return any(e.get("kind") == PROPOSAL_EVIDENCE_KIND
+                   for e in st.get("evidence", [])
+                   if isinstance(e, dict))
+
+    verified = [st for st in steps if not _is_proposal(st)]
+    proposals = [st for st in steps if _is_proposal(st)]
+
+    wall = 0.0
+    for st in steps:
+        t = (st.get("telemetry") or {}).get("wall_time_seconds")
+        if isinstance(t, (int, float)) and not isinstance(t, bool):
+            wall += float(t)
+
+    def _ops(st: dict, key: str):
+        v = (st.get("telemetry") or {}).get(key)
+        return v if isinstance(v, int) and not isinstance(v, bool) else None
+
+    ops_first = next((_ops(st, "count_ops_before") for st in verified
+                      if _ops(st, "count_ops_before") is not None), None)
+    ops_current = next((_ops(st, "count_ops_after")
+                        for st in reversed(verified)
+                        if _ops(st, "count_ops_after") is not None), None)
+
+    return {
+        "run_id": manifest.get("run_id"),
+        "engine_version": manifest.get("engine_version"),
+        "agent_protocol_version": manifest.get("agent_protocol_version"),
+        "candidates_proposed": len(proposals),
+        "zero_promotions": sum(1 for st in verified
+                               if st.get("verdict") == ZERO),
+        "nonzero_count": sum(1 for st in verified
+                             if st.get("verdict") == NONZERO),
+        "unknown_count": sum(1 for st in verified
+                             if st.get("verdict") == UNKNOWN),
+        "verifier_calls": len(verified),
+        "wall_time_seconds": wall,
+        "count_ops_first": ops_first,
+        "count_ops_current": ops_current,
+    }
