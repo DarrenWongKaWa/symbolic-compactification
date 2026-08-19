@@ -4,6 +4,7 @@ On-disk layout under ``<workspace_root>/runs/<run-id>/``::
 
     manifest.json      run metadata + current expression record + step index
     steps/step_NNN.json   one file per recorded step (zero-padded index)
+    packets/packet_NNN.json  conjecture-packet provenance records (v0.2.2)
     final/current.json    promoted current expression (text + sha256)
 
 All payloads are produced via the kernel dataclasses' ``to_dict()`` methods,
@@ -21,8 +22,10 @@ from pathlib import Path
 from typing import Optional
 
 from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
-                     PROPOSAL_EVIDENCE_KIND, STEP_STATUSES, UNKNOWN, ZERO,
-                     AdapterError, ExpressionRecord, SessionState, StepRecord,
+                     PROPOSAL_EVIDENCE_KIND, PROPOSER_HARNESS_SUBAGENT,
+                     PROPOSER_MAIN_AGENT, PROPOSER_MODE_UNKNOWN,
+                     STEP_STATUSES, UNKNOWN, ZERO, AdapterError,
+                     ExpressionRecord, SessionState, StepRecord,
                      engine_git_sha, sha256_text)
 
 # --------------------------------------------------------------------------- #
@@ -177,6 +180,28 @@ def promote(session: SessionState, candidate_record: ExpressionRecord,
     return final_path
 
 
+def record_packet_provenance(session: SessionState, record: dict) -> Path:
+    """Persist one minimal conjecture-packet provenance record (v0.2.2).
+
+    Writes ``packets/packet_<NNN>.json`` (zero-padded, monotonically
+    numbered) carrying the NEUTRAL provenance fields only: the certified-state
+    and structural-representation hashes, the goal, the declared assumptions,
+    whether verifier feedback was included, and the withheld-attention list.
+    NO chain-of-thought and NO reasoning text beyond those structured fields
+    are ever written. Returns the record file path.
+
+    Raises:
+        AdapterError("SESSION_NOT_PERSISTED") if the session has no run_root.
+    """
+    run_root = _run_root(session)
+    packets = run_root / "packets"
+    packets.mkdir(parents=True, exist_ok=True)
+    index = len(session.steps) + 1
+    path = packets / f"packet_{index:03d}.json"
+    _write_json(path, record)
+    return path
+
+
 # --------------------------------------------------------------------------- #
 # A/B telemetry helper (v0.2.1): cheap run summary from existing records
 # --------------------------------------------------------------------------- #
@@ -199,12 +224,19 @@ def run_summary(run_dir) -> dict:
       * ``wall_time_seconds``    total recorded verifier wall time
       * ``count_ops_first``      count_ops before the FIRST verified step
       * ``count_ops_current``    count_ops after the LATEST verified step
+      * ``proposer_mode``        MAIN_AGENT_ONLY | HARNESS_SUBAGENT | UNKNOWN,
+                                 derived STRICTLY from recorded invocation
+                                 evidence (never inferred from the role
+                                 contract merely existing/being read)
+      * ``packets_recorded``     number of conjecture-packet provenance
+                                 records present under ``packets/``
 
     Raises:
         AdapterError("RUN_MANIFEST_UNREADABLE") if the manifest is absent
         or malformed.
     """
-    manifest = _read_json(Path(run_dir) / "manifest.json")
+    run_dir = Path(run_dir)
+    manifest = _read_json(run_dir / "manifest.json")
     if not isinstance(manifest, dict) or not isinstance(manifest.get("steps"), list):
         raise AdapterError("RUN_MANIFEST_UNREADABLE")
     steps = manifest["steps"]
@@ -233,6 +265,11 @@ def run_summary(run_dir) -> dict:
                         for st in reversed(verified)
                         if _ops(st, "count_ops_after") is not None), None)
 
+    packets_dir = run_dir / "packets"
+    packets_recorded = (
+        len([p for p in packets_dir.glob("packet_*.json")])
+        if packets_dir.is_dir() else 0)
+
     return {
         "run_id": manifest.get("run_id"),
         "engine_version": manifest.get("engine_version"),
@@ -248,4 +285,55 @@ def run_summary(run_dir) -> dict:
         "wall_time_seconds": wall,
         "count_ops_first": ops_first,
         "count_ops_current": ops_current,
+        "proposer_mode": _derive_proposer_mode(proposals),
+        "packets_recorded": packets_recorded,
     }
+
+
+def _proposal_invocation_evidence(st: dict) -> Optional[dict]:
+    """Return the ``proposer_candidate`` evidence dict of a proposal step."""
+    for e in st.get("evidence", []):
+        if isinstance(e, dict) and e.get("kind") == PROPOSAL_EVIDENCE_KIND:
+            return e
+    return None
+
+
+def _derive_proposer_mode(proposals: list) -> str:
+    """Derive ``proposer_mode`` STRICTLY from recorded invocation evidence.
+
+    * any proposal step carrying a recorded ``subagent_id`` -> HARNESS_SUBAGENT;
+    * proposals recorded with explicit ``invocation_mode == "main_agent"``
+      (the default for ``record_proposal`` without a subagent id) ->
+      MAIN_AGENT_ONLY;
+    * ambiguous or absent evidence -> UNKNOWN.
+
+    Never infers subagent use from the role contract merely existing or being
+    read: a recorded subagent id is the ONLY evidence that selects
+    HARNESS_SUBAGENT. Runs with no proposal steps report UNKNOWN (no evidence
+    either way).
+    """
+    if not proposals:
+        return PROPOSER_MODE_UNKNOWN
+
+    saw_subagent = False
+    saw_main_agent = False
+    for st in proposals:
+        ev = _proposal_invocation_evidence(st)
+        if ev is None:
+            # a proposal marker without invocation evidence is ambiguous
+            return PROPOSER_MODE_UNKNOWN
+        subagent_id = ev.get("subagent_id")
+        if subagent_id is not None and str(subagent_id).strip():
+            saw_subagent = True
+        elif ev.get("invocation_mode") == "main_agent":
+            saw_main_agent = True
+        else:
+            # evidence present but neither a subagent id nor an explicit
+            # main_agent mode marker: ambiguous
+            return PROPOSER_MODE_UNKNOWN
+
+    if saw_subagent:
+        return PROPOSER_HARNESS_SUBAGENT
+    if saw_main_agent:
+        return PROPOSER_MAIN_AGENT
+    return PROPOSER_MODE_UNKNOWN

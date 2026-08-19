@@ -33,9 +33,10 @@ from typing import Any, Optional, Union
 
 import sympy
 
-from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
-                     PROPOSAL_EVIDENCE_KIND, UNKNOWN, ZERO, AdapterError,
-                     ExpressionRecord, SessionState, StepRecord, sha256_text)
+from .models import (AGENT_PROTOCOL_VERSION, DEFAULT_PROPOSER_ROLE,
+                     ENGINE_VERSION, NONZERO, PROPOSAL_EVIDENCE_KIND, UNKNOWN,
+                     ZERO, AdapterError, ExpressionRecord, SessionState,
+                     StepRecord, _now_iso, canonical_json, sha256_text)
 from .parser import parse_expression
 from .structure import structure_summary
 
@@ -47,6 +48,13 @@ __all__ = [
 # Assumption status of a candidate: every required assumption is either
 # already DECLARED on record, or a NEW assumption requiring human
 # authorization (HUMAN_REQUIRED); NONE when no assumptions are needed.
+#
+# Taxonomy note (v0.2.2): ``PROOF_REQUIRED`` is a STEP status (models.py),
+# not an assumption status — it marks "assumptions already sufficient, but the
+# verifier cannot prove the claim". It must NOT be conflated with
+# ``HUMAN_REQUIRED``: the inability to prove a limit/special-function identity
+# is a proof gap (PROOF_REQUIRED), not a request for new human-authorized
+# assumptions (HUMAN_REQUIRED). HUMAN_REQUIRED remains a certification gate.
 ASSUMPTION_STATUSES = ("DECLARED", "HUMAN_REQUIRED", "NONE")
 
 CONFIDENCE_LEVELS = ("low", "medium", "high")
@@ -199,12 +207,21 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
         for s in declared_symbols
     ]
 
+    # Provenance hashes (v0.2.2): the certified state is the record's own
+    # content hash; the structural representation is the structural_form text.
+    certified_state_sha256 = record.sha256
+    structural_representation_sha256 = (
+        sha256_text(structural_form) if structural_form is not None else None)
+
     packet: dict = {
         "packet_type": "conjecture_packet",
         "agent_protocol_version": AGENT_PROTOCOL_VERSION,
         "engine_version": ENGINE_VERSION,
         "current_expression": record.text,
         "current_sha256": record.sha256,
+        "certified_state_sha256": certified_state_sha256,
+        "structural_representation_sha256":
+            structural_representation_sha256,
         "structural_form": structural_form,
         "structure_summary": summary,
         "declared_symbols": declared_symbols,
@@ -214,7 +231,8 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
         "verifier_feedback": _normalize_feedback(feedback),
         # self-describing attention isolation (see roles/STRUCTURAL_PROPOSER.md)
         "included": [
-            "current_expression", "current_sha256", "structural_form",
+            "current_expression", "current_sha256", "certified_state_sha256",
+            "structural_representation_sha256", "structural_form",
             "structure_summary", "declared_symbols", "declared_functions",
             "declared_assumptions", "goal", "verifier_feedback",
         ],
@@ -225,7 +243,45 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
         packet["structural_form_note"] = (
             f"structural form unavailable (strict re-parse failed: "
             f"{parse_gap}); text is primary")
+
+    # Deterministic packet digest (v0.2.2): canonical JSON of every field
+    # except the digest itself, so rebuilds are byte-stable.
+    packet["packet_sha256"] = sha256_text(canonical_json(packet))
+
+    # Persist a minimal NEUTRAL provenance record when a persisted session is
+    # available. No chain-of-thought, no reasoning text — structured fields
+    # only. Best-effort: a bare ExpressionRecord (no run dir) skips this.
+    if isinstance(source, SessionState) and getattr(source, "run_root", None):
+        _persist_packet_provenance(source, packet, goal, declared_assumptions,
+                                   feedback, certified_state_sha256,
+                                   structural_representation_sha256)
     return packet
+
+
+def _persist_packet_provenance(session, packet, goal, declared_assumptions,
+                               feedback, certified_state_sha256,
+                               structural_representation_sha256) -> None:
+    """Write the neutral conjecture-packet provenance record to the run dir."""
+    from .session import record_packet_provenance  # local: avoid import cycle
+    record = {
+        "record_type": "conjecture_packet_provenance",
+        "agent_protocol_version": AGENT_PROTOCOL_VERSION,
+        "engine_version": ENGINE_VERSION,
+        "packet_sha256": packet.get("packet_sha256"),
+        "certified_state_sha256": certified_state_sha256,
+        "structural_representation_sha256":
+            structural_representation_sha256,
+        "goal": goal,
+        "declared_assumptions": declared_assumptions,
+        "verifier_feedback_included": bool(_normalize_feedback(feedback)),
+        "withheld": list(_WITHHELD_ATTENTION),
+    }
+    try:
+        record_packet_provenance(session, record)
+    except AdapterError:
+        # A missing/unwritable run dir must never break packet assembly; the
+        # packet itself remains fully usable in-memory.
+        pass
 
 
 # --------------------------------------------------------------------------- #
@@ -295,7 +351,11 @@ def validate_candidate(candidate: Any) -> dict:
 # proposal recording (HYPOTHESIS step; promotion impossible from this path)
 # --------------------------------------------------------------------------- #
 
-def record_proposal(session: SessionState, candidate: Any) -> StepRecord:
+def record_proposal(session: SessionState, candidate: Any, *,
+                    role: str = DEFAULT_PROPOSER_ROLE,
+                    harness_task_or_subagent_id: Optional[str] = None,
+                    invocation_timestamp: Optional[str] = None,
+                    parent_step_index: Optional[int] = None) -> StepRecord:
     """Record a validated proposer candidate as a HYPOTHESIS step.
 
     Uses the existing ``StepRecord`` status machinery: the step is written
@@ -303,6 +363,22 @@ def record_proposal(session: SessionState, candidate: Any) -> StepRecord:
     it — it is a proposal, not an adjudication). Promotion remains
     hard-gated on a real verification step's ZERO verdict, so nothing here
     can advance the current expression.
+
+    Invocation provenance (v0.2.2) is recorded in the step's evidence and
+    telemetry — structured fields only, no reasoning text:
+      * ``role``                     proposer role (default STRUCTURAL_PROPOSER)
+      * ``harness_task_or_subagent_id`` the harness subagent/task id when the
+                                     proposal came from a harness-native
+                                     subagent; ``None`` for main-agent proposals
+      * ``invocation_timestamp``     when the proposer was invoked (caller-
+                                     supplied ISO-8601 UTC, or now if omitted)
+      * ``candidate_id``             the candidate's own id
+      * ``proposal_timestamp``       when this record was written
+      * ``proposal_sha256``          canonical-JSON hash of the validated
+                                     candidate (content-addressed)
+      * ``parent_step_index``        the main-agent step index this proposal
+                                     derives from (defaults to the current
+                                     state's step count)
 
     The validated candidate is stored in the step's telemetry
     (``primitive="proposal"``) and the step's evidence carries the
@@ -317,6 +393,16 @@ def record_proposal(session: SessionState, candidate: Any) -> StepRecord:
     if session.current is None:
         raise AdapterError("NO_CURRENT_EXPRESSION")
 
+    subagent_id = (str(harness_task_or_subagent_id).strip()
+                   if harness_task_or_subagent_id is not None else None) or None
+    invocation_mode = "subagent" if subagent_id else "main_agent"
+    if invocation_timestamp is None:
+        invocation_timestamp = _now_iso()
+    if parent_step_index is None:
+        parent_step_index = len(session.steps)
+    proposal_sha256 = sha256_text(canonical_json(validated))
+    proposal_timestamp = _now_iso()
+
     step = StepRecord(
         step=len(session.steps) + 1,
         current_hash=session.current.sha256,
@@ -330,6 +416,14 @@ def record_proposal(session: SessionState, candidate: Any) -> StepRecord:
             "candidate_id": validated["candidate_id"],
             "assumptions_status": validated["assumptions_status"],
             "confidence": validated["confidence"],
+            # invocation provenance (v0.2.2) — structured fields only
+            "role": role,
+            "invocation_mode": invocation_mode,
+            "subagent_id": subagent_id,
+            "invocation_timestamp": invocation_timestamp,
+            "proposal_timestamp": proposal_timestamp,
+            "proposal_sha256": proposal_sha256,
+            "parent_step_index": parent_step_index,
         }],
         status="HYPOTHESIS",
         telemetry={

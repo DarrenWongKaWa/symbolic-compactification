@@ -7,6 +7,7 @@ Every record type is JSON-serializable through its ``to_dict()`` method.
 from __future__ import annotations
 
 import hashlib
+import json
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -21,11 +22,12 @@ import sympy
 
 ENGINE_VERSION = "0.2.0"
 
-# Agent-protocol version (v0.2.1 increment): the deterministic engine is
+# Agent-protocol version (v0.2.2 increment): the deterministic engine is
 # unchanged from v0.2.0; this constant tracks the agent-layer protocol
-# (conjecture packet + STRUCTURAL_PROPOSER role contract) recorded in run
+# (conjecture packet + STRUCTURAL_PROPOSER role contract, packet/proposal
+# provenance and the PROOF_REQUIRED status taxonomy) recorded in run
 # manifests alongside ``engine_version``.
-AGENT_PROTOCOL_VERSION = "0.2.1"
+AGENT_PROTOCOL_VERSION = "0.2.2"
 
 
 def engine_git_sha() -> str:
@@ -60,12 +62,41 @@ VERIFIER_NAME = "python_sympy_exact_v1"
 # certification: HYPOTHESIS marks a proposed step, UNVERIFIED one that ran
 # without a ZERO verdict, CERTIFIED one certified by an exact ZERO verdict.
 # The status field is OPTIONAL metadata; default behavior is unchanged.
-STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED")
+#
+# Status taxonomy (v0.2.2) — precise semantics:
+# * HYPOTHESIS     - conjecture layer only: a proposed step no verifier has
+#                    adjudicated yet.
+# * UNVERIFIED     - a verification step ran without a ZERO verdict.
+# * CERTIFIED      - certified by an exact ZERO verdict.
+# * PROOF_REQUIRED - the declared assumptions are already SUFFICIENT for the
+#                    claim, but the current verifier cannot prove it within
+#                    its deterministic machinery/budgets. This is a
+#                    proof-gap status, NOT a human-decision gate. In
+#                    particular, the inability to prove a limit or
+#                    special-function identity must NOT be labeled
+#                    HUMAN_REQUIRED: ``HUMAN_REQUIRED`` (an
+#                    ``assumptions_status`` on proposals, and a
+#                    certification gate) is reserved for genuinely NEW
+#                    assumptions or physical choices that require human
+#                    authorization. UNKNOWN remains the verifier-level
+#                    "adjudication unresolved" verdict.
+STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED", "PROOF_REQUIRED")
 
 # Evidence kind marking a step as a STRUCTURAL_PROPOSER hypothesis (v0.2.1
 # agent protocol): no verifier ran on such a step; ``run_summary`` uses this
 # marker to separate proposal steps from real verification steps.
 PROPOSAL_EVIDENCE_KIND = "proposer_candidate"
+
+# Proposer-invocation modes (v0.2.2). ``run_summary`` derives ``proposer_mode``
+# STRICTLY from recorded evidence — never by inferring subagent use from the
+# role contract merely existing/being read. A proposal step carrying a
+# recorded subagent id is HARNESS_SUBAGENT; one recorded with explicit
+# ``main_agent`` mode evidence is MAIN_AGENT_ONLY; ambiguous/absent evidence
+# is UNKNOWN.
+PROPOSER_MAIN_AGENT = "MAIN_AGENT_ONLY"
+PROPOSER_HARNESS_SUBAGENT = "HARNESS_SUBAGENT"
+PROPOSER_MODE_UNKNOWN = "UNKNOWN"
+DEFAULT_PROPOSER_ROLE = "STRUCTURAL_PROPOSER"
 
 MAX_SYMBOLS = 40
 
@@ -126,6 +157,17 @@ class AdapterError(Exception):
 def sha256_text(s: str) -> str:
     """SHA-256 hex digest of a string (utf-8 encoded)."""
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
+
+def canonical_json(payload: Any) -> str:
+    """Canonical JSON encoding for deterministic hashing.
+
+    Sorted keys, compact separators, non-ASCII preserved. Two JSON-native
+    payloads that are equal as data always encode to the identical string,
+    so ``sha256_text(canonical_json(p))`` is a stable content hash.
+    """
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False)
 
 
 # --------------------------------------------------------------------------- #

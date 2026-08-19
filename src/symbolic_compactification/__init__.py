@@ -19,8 +19,8 @@ from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, ZERO, NONZERO,
                      UNKNOWN, VERIFIER_NAME, AdapterError, ExpressionRecord,
                      HARD_RESERVED_NAMES, PROPOSAL_EVIDENCE_KIND,
                      RESERVED_NAMES, STEP_STATUSES, SessionState, StepRecord,
-                     VerificationResult, engine_git_sha, normalize_symbols,
-                     sha256_text)
+                     VerificationResult, canonical_json, engine_git_sha,
+                     normalize_symbols, sha256_text)
 
 __version__ = ENGINE_VERSION
 from .parser import (PARSE_POLICY, get_parse_policy, load_expression,

@@ -1,9 +1,9 @@
-# STRUCTURAL_PROPOSER — Role Contract (agent protocol v0.2.1)
+# STRUCTURAL_PROPOSER — Role Contract (agent protocol v0.2.2)
 
 Authoritative role contract for the **STRUCTURAL_PROPOSER**. The main agent
 hands this file, together with one **conjecture packet**, to exactly one
 harness-native subagent. The deterministic engine (v0.2.0) is untouched by
-this protocol; the agent protocol version is `0.2.1`.
+this protocol; the agent protocol version is `0.2.2`.
 
 ---
 
@@ -45,6 +45,8 @@ The packet **includes**:
 |--------------------------|----------------------------------------------------------------|
 | `current_expression`     | the current CERTIFIED expression text                          |
 | `current_sha256`         | content hash of that expression                                |
+| `certified_state_sha256` | hash of the certified state the packet was built from          |
+| `structural_representation_sha256` | hash of the structural representation (structural_form) |
 | `structural_form`        | highest-level structural representation (Sum/Product/Piecewise/indexed calls kept intact) |
 | `structure_summary`      | cheap structural inventory: sums, products, Piecewise branches, indexed calls/names, free symbols, op count |
 | `declared_symbols`       | declared symbols with their declared assumptions               |
@@ -140,6 +142,23 @@ the fields above are the entire output.
   the candidate is **never auto-certified** — a deterministic ZERO under an
   undeclared assumption certifies nothing.
 
+### PROOF_REQUIRED vs HUMAN_REQUIRED (v0.2.2 taxonomy)
+
+These two are **not** interchangeable and must never be conflated:
+
+- **HUMAN_REQUIRED** — the candidate needs a genuinely NEW assumption or a
+  physical choice that is not on record, so a human must authorize it. This
+  is a certification gate.
+- **PROOF_REQUIRED** — the declared assumptions are already SUFFICIENT, but
+  the current deterministic verifier cannot prove the claim within its
+  machinery/budgets. This is a *proof gap*, not a human-decision gate.
+
+In particular, the **inability to prove a limit or special-function identity
+must be labeled PROOF_REQUIRED, never HUMAN_REQUIRED**: nothing new is being
+asked of the human, only a proof the verifier cannot currently supply.
+`UNKNOWN` remains the verifier-level "adjudication unresolved" verdict, and
+`HYPOTHESIS` marks the conjecture layer.
+
 ## 8. Feedback loop (verdict semantics)
 
 The main agent verifies the candidate with the deterministic verifier and
@@ -166,14 +185,22 @@ Code), each of which ships a **native subagent/task mechanism**. To use this
 role contract:
 
 1. The main agent assembles the conjecture packet
-   (`build_conjecture_packet`).
+   (`build_conjecture_packet`). The engine records a minimal neutral
+   provenance record for the packet (certified-state hash,
+   structural-representation hash, goal, declared assumptions, whether
+   verifier feedback was included, withheld list) — no chain-of-thought.
 2. The main agent spawns **one harness-native subagent** using the
    harness's own subagent facility, giving it this contract file plus the
    packet.
 3. The subagent returns candidate JSON conforming to section 6.
 4. The main agent validates (`validate_candidate`), records
    (`record_proposal`), verifies (the deterministic verifier), and — only on
-   ZERO — promotes.
+   ZERO — promotes. `record_proposal` captures invocation provenance: the
+   proposer role, the harness task/subagent id (when a subagent was used),
+   invocation and proposal timestamps, the candidate id, a content hash of
+   the validated candidate, and the parent/main-agent step index. This is
+   what lets `run_summary` report `proposer_mode` (MAIN_AGENT_ONLY /
+   HARNESS_SUBAGENT / UNKNOWN) strictly from recorded evidence.
 
 This repo deliberately contains **no agent runtime, no LLM API integration,
 no orchestration server, no message broker, and no planner framework**: it
