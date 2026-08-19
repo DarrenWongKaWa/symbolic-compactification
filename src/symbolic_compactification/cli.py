@@ -9,6 +9,10 @@ verify         --current A.txt --candidate B.txt --symbols symbols.json
 init-session   [--workspace W] [--current A.txt --symbols symbols.json]
 step           --run RUN_ID [--workspace W] --candidate B.txt --symbols symbols.json
                [--current A.txt]
+finalize       --run RUN_ID [--workspace W]
+               render the FINAL CERTIFIED FORM deliverable (human-readable
+               certified expression + definitions + provenance header) and
+               write final/FINAL_CERTIFIED_FORM.md
 
 Exit codes: 0 = ZERO, 2 = NONZERO, 3 = UNKNOWN, 4 = parse/load/usage error.
 
@@ -286,6 +290,36 @@ def cmd_step(args) -> int:
     return _VERDICT_EXIT[result.verdict]
 
 
+def cmd_finalize(args) -> int:
+    """Render the FINAL CERTIFIED FORM deliverable for a run.
+
+    Prints the explicit certified top-level expression (plus every
+    abbreviation definition) and the artifact path, and writes
+    ``final/FINAL_CERTIFIED_FORM.md`` with the provenance header. The
+    internal ``final/current.json`` is provenance, NOT the deliverable.
+    """
+    from .reporting import render_final_report
+    session = load_session(args.workspace, args.run)
+    report = render_final_report(session)
+    print("FINAL CERTIFIED FORM")
+    print("=" * 20)
+    print(f"run_id:     {report['run_id']}")
+    print(f"certified:  {report['certified_state_sha256']}")
+    print()
+    print("certified expression (top-level, human form):")
+    print(f"  {report['human_form']}")
+    if report["definitions"]:
+        print()
+        print("definitions:")
+        for name in sorted(report["definitions"]):
+            print(f"  {name} := {report['definitions'][name]}")
+    print()
+    print(f"expansion_check: {report['expansion_check']}")
+    print(f"artifact:        {report['artifact_path']}")
+    print("note: internal final/current.json is provenance, not the deliverable")
+    return EXIT_ZERO
+
+
 # --------------------------------------------------------------------------- #
 # entry point
 # --------------------------------------------------------------------------- #
@@ -323,6 +357,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_step.add_argument("--candidate", required=True)
     p_step.add_argument("--symbols", required=True)
     p_step.set_defaults(func=cmd_step)
+
+    p_finalize = sub.add_parser(
+        "finalize", help="render the FINAL CERTIFIED FORM deliverable")
+    p_finalize.add_argument("--run", required=True,
+                            help="run-id of an existing run")
+    p_finalize.add_argument("--workspace", default="workspace")
+    p_finalize.set_defaults(func=cmd_finalize)
 
     return parser
 

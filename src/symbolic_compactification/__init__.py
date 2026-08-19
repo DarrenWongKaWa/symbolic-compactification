@@ -13,6 +13,8 @@ Kernel modules:
   budgets   - wall-clock budgets for expensive symbolic operations
   conjecture- agent protocol v0.2.1: conjecture packets + proposer candidates
               (harness-native proposer; NO agent runtime in this repo)
+  reporting - agent protocol v0.2.2: FINAL CERTIFIED FORM deliverable
+              contract (human-readable certified result + provenance artifact)
 """
 
 from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, ZERO, NONZERO,
@@ -46,6 +48,7 @@ from .rules import (BUILTIN_RULES, RewriteRule, RuleApplication, apply_rule,
                     apply_rules)
 from .conjecture import (build_conjecture_packet, record_proposal,
                          validate_candidate)
+from .reporting import FINAL_ARTIFACT_NAME, render_final_report
 
 __all__ = [
     "__version__",
@@ -83,4 +86,6 @@ __all__ = [
     "apply_rules",
     # conjecture (agent protocol v0.2.1; harness-native proposer, no runtime)
     "build_conjecture_packet", "validate_candidate", "record_proposal",
+    # reporting (agent protocol v0.2.2 final certified-form contract)
+    "render_final_report", "FINAL_ARTIFACT_NAME",
 ]

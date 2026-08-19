@@ -178,6 +178,38 @@ workflow is documented in `docs/AB_EXPERIMENT_PROTOCOL.md`.
   verdict sets `CERTIFIED`. Hypotheses may guide exploration; only CERTIFIED
   steps enter the promotion chain. Budget expiry (`TIME_BUDGET_EXCEEDED`) is
   an UNKNOWN path — never ZERO or NONZERO.
+- Status taxonomy note (agent protocol v0.2.2): `PROOF_REQUIRED` marks a
+  claim whose declared assumptions are already SUFFICIENT but which the
+  current verifier cannot prove — a proof gap, not a human-decision gate.
+  The inability to prove a limit/special-function identity must be labeled
+  `PROOF_REQUIRED`, **never** `HUMAN_REQUIRED`. `HUMAN_REQUIRED` (a proposal
+  `assumptions_status`, and a certification gate) is reserved for genuinely
+  NEW assumptions or physical choices requiring human authorization.
+
+## Final reporting contract (agent protocol v0.2.2)
+
+The human-facing deliverable of a run is the **FINAL CERTIFIED FORM**, built
+by `render_final_report()` (Python) or `finalize` (CLI):
+
+- The response must show a **readable top-level exact formula** — the
+  current CERTIFIED expression — AND reference the complete artifact
+  `final/FINAL_CERTIFIED_FORM.md`. Never answer "see `final/current.json`":
+  internal JSON is provenance, not the scientific deliverable.
+- If the human form uses abbreviations / named kernels, **every one must be
+  explicitly defined** (name -> exact expression). Undefined aliases,
+  `{...}` placeholders, `TODO`, or "same kernel" hand-waving raise
+  `REPORT_INCOMPLETE` (with the offenders listed).
+- Machine vs human representations are mathematically identical; the human
+  form may only differ in presentation (named subexpressions). Where
+  practical, substituting the definitions back into the human form is
+  checked against the certified machine expression with the exact verifier;
+  when infeasible for size the report records `"expansion_check":
+  "skipped"` honestly rather than claiming verification.
+- Large results: the response carries the readable top-level formula while
+  the artifact contains EVERY kernel/branch/definition, plus the provenance
+  header — `run_id`, `engine_version`, `agent_protocol_version`, final
+  certified state sha256, ZERO promotions, NONZERO attempts, UNKNOWN
+  attempts. No hidden reasoning text enters the artifact.
 
 ## CLI quick reference
 
@@ -203,6 +235,10 @@ symbolic-compactification init-session \
 # One verified step inside a run; promotes the candidate only on ZERO.
 symbolic-compactification step --run <run-id> \
     --candidate candidate.txt --symbols symbols.json
+
+# Render the FINAL CERTIFIED FORM deliverable for a run: prints the explicit
+# certified top-level expression and writes final/FINAL_CERTIFIED_FORM.md.
+symbolic-compactification finalize --run <run-id>
 ```
 
 Notes:
@@ -235,7 +271,9 @@ workspace/
 └── runs/<run-id>/
     ├── manifest.json # run metadata, current expression, step index
     ├── steps/        # step_NNN.json — every recorded step (all verdicts)
+    ├── packets/      # packet_NNN.json — conjecture-packet provenance (v0.2.2)
     └── final/        # current.json — promoted expression (text + sha256)
+                      # FINAL_CERTIFIED_FORM.md — human deliverable (v0.2.2)
 ```
 
 ## Python API (same guarantees)
