@@ -401,9 +401,9 @@ def test_manifest_records_agent_protocol_and_engine_versions(tmp_path):
     session = init_session(workspace_root=str(tmp_path))
     set_current(session, _record("x"))
     manifest = _read_manifest(tmp_path, session)
-    assert manifest["agent_protocol_version"] == "0.2.1"
+    assert manifest["agent_protocol_version"] == "0.2.2"
     assert manifest["engine_version"] == "0.2.0"
-    assert AGENT_PROTOCOL_VERSION == "0.2.1"
+    assert AGENT_PROTOCOL_VERSION == "0.2.2"
     assert ENGINE_VERSION == "0.2.0"
 
 
@@ -434,7 +434,7 @@ def test_run_summary_counters_exclude_proposal_steps(tmp_path):
         session, bad_rec, result_nonzero, status="UNVERIFIED"))
 
     summary = run_summary(_run_root(tmp_path, session))
-    assert summary["agent_protocol_version"] == "0.2.1"
+    assert summary["agent_protocol_version"] == "0.2.2"
     assert summary["engine_version"] == "0.2.0"
     assert summary["candidates_proposed"] == 1
     assert summary["zero_promotions"] == 1
