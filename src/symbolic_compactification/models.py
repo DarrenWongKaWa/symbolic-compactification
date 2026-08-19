@@ -31,6 +31,9 @@ RESERVED_NAMES = frozenset({
     "pi", "E", "I", "oo",
     "sin", "cos", "tan", "exp", "log", "sqrt", "Abs", "conjugate", "re", "im",
     "sinh", "cosh", "tanh", "asin", "acos", "atan", "atan2", "Rational",
+    # must mirror the parser's allowed-functions policy: admitting a function
+    # (e.g. the polygamma family, v0.2) reserves its name as a symbol too
+    "polygamma",
 })
 
 

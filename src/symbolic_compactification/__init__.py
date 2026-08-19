@@ -16,7 +16,8 @@ from .models import (ZERO, NONZERO, UNKNOWN, VERIFIER_NAME, AdapterError,
                      VerificationResult, normalize_symbols, sha256_text)
 from .parser import (PARSE_POLICY, get_parse_policy, load_expression,
                      parse_expression, set_parse_policy, syms_like)
-from .verifier import verify_equivalent
+from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
+                        verify_equivalent)
 from .residual import make_residual, residual_record
 from .session import (init_session, load_session, promote, record_step,
                       set_current)
@@ -31,6 +32,7 @@ __all__ = [
     "PARSE_POLICY", "get_parse_policy", "set_parse_policy",
     "parse_expression", "load_expression", "syms_like",
     # verifier / residual
+    "VERIFY_POLICY", "get_verify_policy", "set_verify_policy",
     "verify_equivalent", "make_residual", "residual_record",
     # session persistence
     "init_session", "load_session", "record_step", "promote", "set_current",

@@ -32,7 +32,47 @@ from .parser import parse_expression
 REAL_PROBES = (-2, -1, -sympy.Rational(1, 2), sympy.Rational(1, 2), 1, 2)
 COMPLEX_PROBES = (1, -1, sympy.I, -sympy.I, 1 + sympy.I, 1 - sympy.I)
 MAX_PROBES = 128
-SIMPLIFY_OPS_CAP = 4000
+
+# --------------------------------------------------------------------------- #
+# verify policy (limits are POLICY, never silently edited constants)
+# --------------------------------------------------------------------------- #
+# Every bound that trades cost against adjudication power lives here so it can
+# be reviewed, tuned per call, and recorded in evidence — instead of drifting
+# as an anonymous literal in the pipeline.
+
+_DEFAULT_VERIFY_POLICY: dict = {
+    # pathological-growth safety net: if a simplified residual exceeds this
+    # op count, adjudicate the expanded form instead
+    "simplify_ops_cap": 8000,
+}
+
+# module-level view exposed for inspection/tests; mutate via set_verify_policy()
+VERIFY_POLICY: dict = dict(_DEFAULT_VERIFY_POLICY)
+
+
+def get_verify_policy() -> dict:
+    """Return a fresh copy of the current default verify policy."""
+    return dict(VERIFY_POLICY)
+
+
+def set_verify_policy(**overrides) -> dict:
+    """Update module-level verify policy defaults. Unknown keys are rejected."""
+    unknown = set(overrides) - set(_DEFAULT_VERIFY_POLICY)
+    if unknown:
+        raise AdapterError("VERIFY_POLICY_KEY_UNKNOWN")
+    VERIFY_POLICY.update(overrides)
+    return get_verify_policy()
+
+
+def _effective_verify_policy(policy: Optional[dict]) -> dict:
+    merged = get_verify_policy()
+    if policy:
+        unknown = set(policy) - set(_DEFAULT_VERIFY_POLICY)
+        if unknown:
+            raise AdapterError("VERIFY_POLICY_KEY_UNKNOWN")
+        merged.update(policy)
+    return merged
+
 
 _SKIPPED_PROBE_VALUES = (
     sympy.nan, sympy.oo, -sympy.oo, sympy.zoo,
@@ -66,16 +106,19 @@ def _probe_sets_for(symbols: list[dict]) -> list[list]:
 
 def verify_equivalent(current_expression: Any, candidate_expression: Any,
                       symbols: Any, assumptions: Optional[dict] = None, *,
-                      max_probes: int = MAX_PROBES) -> VerificationResult:
+                      max_probes: int = MAX_PROBES,
+                      policy: Optional[dict] = None) -> VerificationResult:
     """Adjudicate whether ``current`` and ``candidate`` are symbolically equal.
 
     Both sides are raw strings parsed through the strict whitelist parser.
     ``assumptions`` is accepted for interface stability and recorded in the
     evidence metadata; per-symbol assumptions come from the ``symbols``
-    declarations. Never raises: any failure path returns an UNKNOWN
+    declarations. ``policy`` optionally overrides verify-policy limits for
+    this single call. Never raises: any failure path returns an UNKNOWN
     VerificationResult (fail-closed).
     """
     t0 = time.time()
+    pol = _effective_verify_policy(policy)
 
     def _seconds() -> float:
         return time.time() - t0
@@ -101,7 +144,7 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
         residual_str = str(diff)
 
         simp = sympy.simplify(diff)
-        if sympy.count_ops(simp, visual=False) > SIMPLIFY_OPS_CAP:
+        if sympy.count_ops(simp, visual=False) > pol["simplify_ops_cap"]:
             simp = diff  # pathological growth: adjudicate the expanded form
 
         result = VerificationResult(
@@ -129,7 +172,7 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
         # 4) complex normalization branch (re/im/conjugate canonicalization)
         try:
             complex_normalized = sympy.expand_complex(simp)
-            if sympy.count_ops(complex_normalized, visual=False) <= SIMPLIFY_OPS_CAP:
+            if sympy.count_ops(complex_normalized, visual=False) <= pol["simplify_ops_cap"]:
                 simp2 = sympy.simplify(complex_normalized)
                 if simp2 == 0:
                     result.verdict = ZERO

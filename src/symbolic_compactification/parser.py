@@ -31,13 +31,19 @@ from .models import AdapterError, ExpressionRecord, normalize_symbols
 _ALLOWED_FUNCTIONS = sorted([
     "sin", "cos", "tan", "exp", "log", "sqrt", "Abs", "conjugate", "re", "im",
     "sinh", "cosh", "tanh", "asin", "acos", "atan", "atan2", "Rational",
+    # polygamma family: admitted deliberately as part of the explicit
+    # allowed-functions policy (v0.2); admission is a policy decision, never
+    # an implicit side effect of ingestion.
+    "polygamma",
 ])
 
 _DEFAULT_POLICY: dict = {
     # raised from the historical 4000-char limit so ~20-30KB expressions can
     # be ingested; still bounded, and the node cap below bounds parsed size
     "max_expr_chars": 65536,
-    "max_nodes": 4000,          # enforced via count_ops cap after parsing
+    # raised from 4000 together with max_expr_chars; limits are POLICY —
+    # reviewed, named and tunable here, never silently edited constants
+    "max_nodes": 8000,          # enforced via count_ops cap after parsing
     "max_symbols": 40,
     "allowed_functions": list(_ALLOWED_FUNCTIONS),
 }
