@@ -7,6 +7,10 @@ Kernel modules:
   residual  - residual construction and session recording helpers
   session   - JSON-based run/session persistence (workspace/runs/<run-id>/)
   cli       - command-line interface (inspect / verify / init-session / step)
+  adapters  - neutral ingestion adapters (Wolfram text -> SymPy)
+  structure - structure-first preservation + finite-N diagnostic replay
+  transforms- bounded structural transformation primitives
+  budgets   - wall-clock budgets for expensive symbolic operations
 """
 
 __version__ = "0.1.0"
@@ -24,6 +28,13 @@ from .session import (init_session, load_session, promote, record_step,
 from .adapters import (TranslationResult, translate_wolfram_text,
                        extract_expression_text)
 from .structure import expand_finite, structure_summary
+from .budgets import (BudgetExceeded, get_budget_policy, run_with_budget,
+                      set_budget_policy, shutdown_budget_pool)
+from .transforms import (TransformResult, get_transform_policy,
+                         set_transform_policy, combine_identical_sums,
+                         factor_common_kernel, collect_common_factor,
+                         canonicalize_equivalent_arguments, factor_terms,
+                         together, cancel, residual_of)
 
 __all__ = [
     "__version__",
@@ -43,4 +54,12 @@ __all__ = [
     "TranslationResult", "translate_wolfram_text", "extract_expression_text",
     # structure (structure-first preservation + diagnostics)
     "expand_finite", "structure_summary",
+    # budgets
+    "BudgetExceeded", "get_budget_policy", "set_budget_policy",
+    "run_with_budget", "shutdown_budget_pool",
+    # transforms
+    "TransformResult", "get_transform_policy", "set_transform_policy",
+    "combine_identical_sums", "factor_common_kernel", "collect_common_factor",
+    "canonicalize_equivalent_arguments", "factor_terms", "together", "cancel",
+    "residual_of",
 ]
