@@ -208,6 +208,7 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
     print(f"sha256:      {digest}")
     print(f"symbols:     {json.dumps(result.symbols, ensure_ascii=False)}  (DISCOVERED)")
     print(f"functions:   {json.dumps(result.functions)}")
+    print(f"bound:       {json.dumps(result.bound_symbols)}  (Sum/Product dummy indices; declare them for re-parsing)")
     print(f"count_ops:   {sympy.count_ops(result.expr, visual=False)}")
     preview = result.text if len(result.text) <= 200 else result.text[:200] + " ..."
     print(f"translated:  {preview}")
