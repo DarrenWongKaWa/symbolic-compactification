@@ -130,6 +130,7 @@ def _simplify_substituted(diff: Any, point: dict) -> Any:
 def verify_equivalent(current_expression: Any, candidate_expression: Any,
                       symbols: Any, assumptions: Optional[dict] = None, *,
                       functions: Any = None,
+                      allow_reserved: bool = False,
                       max_probes: int = MAX_PROBES,
                       policy: Optional[dict] = None) -> VerificationResult:
     """Adjudicate whether ``current`` and ``candidate`` are symbolically equal.
@@ -138,10 +139,12 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
     ``assumptions`` is accepted for interface stability and recorded in the
     evidence metadata; per-symbol assumptions come from the ``symbols``
     declarations. ``functions`` optionally declares undefined-function names
-    (indexed calls) so structure-preserving forms round-trip. ``policy``
-    optionally overrides verify-policy limits for this single call. Never
-    raises: any failure path returns an UNKNOWN VerificationResult
-    (fail-closed).
+    (indexed calls) so structure-preserving forms round-trip.
+    ``allow_reserved`` is the namespace-policy opt-in letting declared
+    symbols shadow function builtins (see the parser module docstring).
+    ``policy`` optionally overrides verify-policy limits for this single
+    call. Never raises: any failure path returns an UNKNOWN
+    VerificationResult (fail-closed).
     """
     t0 = time.time()
     pol = _effective_verify_policy(policy)
@@ -151,11 +154,13 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
 
     # -- construction / parse phase (fail closed on AdapterError) ----------- #
     try:
-        declared = normalize_symbols(symbols)
+        declared = normalize_symbols(symbols, allow_reserved=allow_reserved)
         current = parse_expression(current_expression, declared,
-                                   functions=functions)
+                                   functions=functions,
+                                   allow_reserved=allow_reserved)
         candidate = parse_expression(candidate_expression, declared,
-                                     functions=functions)
+                                     functions=functions,
+                                     allow_reserved=allow_reserved)
     except AdapterError as exc:
         return _unknown_result(
             "construction_or_parse_failed",

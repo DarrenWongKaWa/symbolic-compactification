@@ -16,8 +16,9 @@ Kernel modules:
 __version__ = "0.1.0"
 
 from .models import (ZERO, NONZERO, UNKNOWN, VERIFIER_NAME, AdapterError,
-                     ExpressionRecord, SessionState, StepRecord,
-                     VerificationResult, normalize_symbols, sha256_text)
+                     ExpressionRecord, HARD_RESERVED_NAMES, RESERVED_NAMES,
+                     SessionState, StepRecord, VerificationResult,
+                     normalize_symbols, sha256_text)
 from .parser import (PARSE_POLICY, get_parse_policy, load_expression,
                      parse_expression, set_parse_policy, syms_like)
 from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
@@ -42,6 +43,7 @@ __all__ = [
     "ZERO", "NONZERO", "UNKNOWN", "VERIFIER_NAME",
     "AdapterError", "ExpressionRecord", "VerificationResult",
     "StepRecord", "SessionState", "normalize_symbols", "sha256_text",
+    "RESERVED_NAMES", "HARD_RESERVED_NAMES",
     # parser
     "PARSE_POLICY", "get_parse_policy", "set_parse_policy",
     "parse_expression", "load_expression", "syms_like",

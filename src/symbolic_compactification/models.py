@@ -39,6 +39,24 @@ RESERVED_NAMES = frozenset({
     "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
 })
 
+# Symbol namespace policy (v0.2): explicit declaration beats built-in, but
+# only along the function-builtin axis and only when EXPLICITLY opted in.
+#
+# * HARD-RESERVED names (constants, Rational, structural builtins) can NEVER
+#   be declared, in any namespace: they carry fixed SymPy semantics and an
+#   explicit declaration could not safely shadow them.
+# * FUNCTION builtins (sin, cos, ..., polygamma) are reserved for the DEFAULT
+#   symbol declaration path (``SYMBOL_NAME_RESERVED``). With the explicit
+#   opt-in ``normalize_symbols(..., allow_reserved=True)`` a declared symbol
+#   named like a function builtin is treated as a SYMBOL — the reserved-name
+#   rejection applies only to UNDECLARED collisions.
+HARD_RESERVED_NAMES = frozenset({
+    "pi", "E", "I", "oo", "Rational",
+    "Sum", "Product", "Piecewise",
+    "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
+})
+FUNCTION_RESERVED_NAMES = RESERVED_NAMES - HARD_RESERVED_NAMES
+
 
 def _now_iso() -> str:
     """UTC timestamp string used across session records."""
@@ -70,11 +88,20 @@ def sha256_text(s: str) -> str:
 # symbol normalization
 # --------------------------------------------------------------------------- #
 
-def normalize_symbols(symbols: Any) -> list[dict]:
+def normalize_symbols(symbols: Any, *, allow_reserved: bool = False) -> list[dict]:
     """Normalize a symbol declaration list to canonical dict form.
 
     Accepts ``["x", "y"]`` or ``[{"name": "x", "real": true, "nonzero": false}, ...]``.
     The string shorthand defaults to ``real=True, nonzero=False``.
+
+    Namespace policy: by default ANY collision with a reserved builtin name
+    is rejected (``SYMBOL_NAME_RESERVED``). With the EXPLICIT opt-in
+    ``allow_reserved=True`` the precedence "explicit declaration beats
+    built-in" applies along the function axis: a declared symbol named like
+    a function builtin (sin, cos, ...) is treated as a SYMBOL, while
+    hard-reserved names (constants, Rational, structural builtins) are
+    ALWAYS rejected. The reserved-name rejection thus applies only to
+    undeclared collisions once declarations are explicit.
 
     Raises:
       AdapterError("CLAIM_SYMBOLS_MALFORMED")  - bad shape, empty list, or duplicates
@@ -104,7 +131,8 @@ def normalize_symbols(symbols: Any) -> list[dict]:
         raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
     if any(not n or not n.strip() for n in names):
         raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
-    if RESERVED_NAMES & set(names):
+    forbidden = HARD_RESERVED_NAMES if allow_reserved else RESERVED_NAMES
+    if forbidden & set(names):
         raise AdapterError("SYMBOL_NAME_RESERVED")
     if len(names) > MAX_SYMBOLS:
         raise AdapterError("CLAIM_SYMBOLS_TOO_MANY")

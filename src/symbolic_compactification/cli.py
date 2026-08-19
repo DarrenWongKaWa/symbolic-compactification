@@ -14,7 +14,12 @@ Exit codes: 0 = ZERO, 2 = NONZERO, 3 = UNKNOWN, 4 = parse/load/usage error.
 
 symbols.json accepts either ``{"symbols": [...]}`` or a bare JSON list. Each
 entry is a name string (defaults real=True, nonzero=False) or a dict
-``{"name": "a", "real": false, "nonzero": true}``.
+``{"name": "a", "real": false, "nonzero": true}``. Optionally a
+``"functions": [...]`` key declares the undefined-function namespace
+(indexed calls such as ``f(n)``); it is backward-compatible and defaults to
+empty. Namespace precedence: explicit declaration beats built-in (see the
+parser module docstring); reserved-name rejection applies to undeclared
+collisions.
 
 Symbol inference (``inspect`` without --symbols) is INSPECTION ONLY: declared
 symbols are guessed as every identifier in the text minus the whitelisted
@@ -58,15 +63,40 @@ def _eprint(msg: str) -> None:
 # --------------------------------------------------------------------------- #
 
 def load_symbols_file(path: str) -> list:
-    """Parse symbols.json: ``{"symbols": [...]}`` or a bare JSON list."""
+    """Parse symbols.json: ``{"symbols": [...]}`` or a bare JSON list.
+
+    Returns the symbol declaration list only. For the optional v0.2
+    declared-function namespace use ``load_namespace_file``.
+    """
+    return load_namespace_file(path)[0]
+
+
+def load_namespace_file(path: str) -> tuple[list, list]:
+    """Parse symbols.json into ``(symbols, functions)``.
+
+    Accepted forms (all backward compatible):
+      * bare JSON list                    -> (list, [])
+      * ``{"symbols": [...]}``            -> (symbols, [])
+      * ``{"symbols": [...], "functions": [...]}`` -> both namespaces
+
+    ``functions`` is the v0.2 declared-function namespace (indexed calls
+    such as ``f(n)``); it is optional and defaults to empty.
+    """
     try:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         raise AdapterError("SYMBOLS_FILE_UNREADABLE") from None
-    if isinstance(data, dict) and isinstance(data.get("symbols"), list):
-        return data["symbols"]
+    functions: list = []
+    if isinstance(data, dict):
+        if "functions" in data:
+            if not isinstance(data["functions"], list):
+                raise AdapterError("SYMBOLS_FILE_MALFORMED")
+            functions = data["functions"]
+        if isinstance(data.get("symbols"), list):
+            return data["symbols"], functions
+        raise AdapterError("SYMBOLS_FILE_MALFORMED")
     if isinstance(data, list):
-        return data
+        return data, []
     raise AdapterError("SYMBOLS_FILE_MALFORMED")
 
 
@@ -109,12 +139,12 @@ def cmd_inspect(args) -> int:
 
     inferred = False
     if args.symbols:
-        declared = load_symbols_file(args.symbols)
+        declared, functions = load_namespace_file(args.symbols)
     else:
-        declared = infer_symbols(text)
+        declared, functions = infer_symbols(text), []
         inferred = True
     parse_declared = declared if declared else ["_inspect_placeholder"]
-    rec = load_expression(args.expr, parse_declared)
+    rec = load_expression(args.expr, parse_declared, functions=functions or None)
     print(f"file:        {args.expr}")
     print(f"sha256:      {rec.sha256}")
     if inferred:
@@ -122,6 +152,8 @@ def cmd_inspect(args) -> int:
               "identifiers minus allowed functions/constants)")
     else:
         print(f"symbols:     {json.dumps(rec.symbols, ensure_ascii=False)}")
+    if functions:
+        print(f"functions:   {json.dumps(functions)}")
     print(f"count_ops:   {sympy.count_ops(rec.parsed_expr, visual=False)}")
     preview = rec.text if len(rec.text) <= 200 else rec.text[:200] + " ..."
     print(f"preview:     {preview}")
@@ -151,10 +183,12 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
 
 
 def cmd_verify(args) -> int:
-    declared = load_symbols_file(args.symbols)
-    current = load_expression(args.current, declared)
-    candidate = load_expression(args.candidate, declared)
-    result = verify_equivalent(current.text, candidate.text, declared)
+    declared, functions = load_namespace_file(args.symbols)
+    fns = functions or None
+    current = load_expression(args.current, declared, functions=fns)
+    candidate = load_expression(args.candidate, declared, functions=fns)
+    result = verify_equivalent(current.text, candidate.text, declared,
+                               functions=fns)
     print(f"current:   {args.current}  sha256={current.sha256}")
     print(f"candidate: {args.candidate}  sha256={candidate.sha256}")
     _print_result(result)
@@ -169,8 +203,9 @@ def cmd_init_session(args) -> int:
     if args.current:
         if not args.symbols:
             raise AdapterError("SYMBOLS_REQUIRED_WITH_CURRENT")
-        declared = load_symbols_file(args.symbols)
-        rec = load_expression(args.current, declared)
+        declared, functions = load_namespace_file(args.symbols)
+        rec = load_expression(args.current, declared,
+                              functions=functions or None)
         set_current(session, rec, meta=meta)
         print(f"current:  {args.current}  sha256={rec.sha256}")
     else:
@@ -179,18 +214,20 @@ def cmd_init_session(args) -> int:
 
 
 def cmd_step(args) -> int:
-    declared = load_symbols_file(args.symbols)
+    declared, functions = load_namespace_file(args.symbols)
+    fns = functions or None
     session = load_session(args.workspace, args.run)
 
     if args.current:
-        current = load_expression(args.current, declared)
+        current = load_expression(args.current, declared, functions=fns)
     elif session.current is not None:
         current = session.current
     else:
         raise AdapterError("NO_CURRENT_EXPRESSION")
-    candidate = load_expression(args.candidate, declared)
+    candidate = load_expression(args.candidate, declared, functions=fns)
 
-    result = verify_equivalent(current.text, candidate.text, declared)
+    result = verify_equivalent(current.text, candidate.text, declared,
+                               functions=fns)
     step = StepRecord(
         step=len(session.steps) + 1,
         current_hash=current.sha256,

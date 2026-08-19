@@ -12,6 +12,26 @@ Validation ladder (first failure wins):
 The restricted locals map contains ONLY the declared Symbol objects (with
 their declared assumptions), the whitelisted functions and the constants
 pi/E/I/oo.  ``^`` is handled by sympify(convert_xor=True).
+
+Symbol namespace policy (v0.2)
+------------------------------
+Three DISTINCT namespaces exist and are never merged implicitly:
+
+  1. DECLARED SYMBOLS   - the ``symbols`` declaration list
+  2. DECLARED FUNCTIONS - the optional ``functions`` declaration (a
+     symbols.json ``"functions"`` key, or ``parse_expression(functions=...)``)
+  3. BUILT-INS          - the allowed-functions whitelist, the structural
+     builtins (Sum/Piecewise/relations/logic) and the constants pi/E/I/oo
+
+Documented precedence: EXPLICIT DECLARATION BEATS BUILT-IN. A declared
+function name is bound to ``sympy.Function(name)`` AFTER the built-ins, so
+an explicit declaration shadows a built-in of the same name (the engine
+never silently prefers a built-in over an explicit declaration). The
+reserved-name rejection is the guard for the UNDECLARED direction: names
+that collide with built-ins may never be declared as SYMBOLS
+(``SYMBOL_NAME_RESERVED``), and function names may never collide with
+declared symbols (``FUNCTION_NAME_COLLIDES_WITH_SYMBOL``) or with reserved
+constants/structural builtins (``FUNCTION_NAME_RESERVED``).
 """
 from __future__ import annotations
 
@@ -22,7 +42,8 @@ from typing import Any, Optional
 
 import sympy
 
-from .models import AdapterError, ExpressionRecord, normalize_symbols
+from .models import (AdapterError, ExpressionRecord, HARD_RESERVED_NAMES,
+                     normalize_symbols)
 
 # --------------------------------------------------------------------------- #
 # parse policy (module-level defaults, overridable per-call or via setter)
@@ -121,17 +142,25 @@ def _symbol_locals(symbols: list[dict], policy: dict,
     ``f(n)``); each is bound to ``sympy.Function(name)`` so structure survives.
     """
     local: dict = {}
-    for s in symbols:
-        kwargs: dict = {"real": s["real"]}
-        if s.get("nonzero"):
-            kwargs["nonzero"] = True
-        local[s["name"]] = sympy.Symbol(s["name"], **kwargs)
     for f in policy["allowed_functions"]:
         local[f] = getattr(sympy, f, None)
     local.update({"pi": sympy.pi, "E": sympy.E, "I": sympy.I, "oo": sympy.oo})
     # structure-preserving builtins (callables + relational/logical helpers)
     local.update(_STRUCTURAL_BUILTINS)
-    # declared undefined functions for indexed calls
+    # DECLARED SYMBOLS are bound AFTER the built-ins on purpose: with the
+    # explicit ``allow_reserved`` opt-in, a declared symbol named like a
+    # function builtin is treated as a SYMBOL (explicit declaration beats
+    # built-in). Without the opt-in no declared name can ever collide, so
+    # this ordering changes nothing on the default path.
+    for s in symbols:
+        kwargs: dict = {"real": s["real"]}
+        if s.get("nonzero"):
+            kwargs["nonzero"] = True
+        local[s["name"]] = sympy.Symbol(s["name"], **kwargs)
+    # declared undefined functions for indexed calls — bound LAST on purpose:
+    # explicit declaration beats built-in, so a declared function name may
+    # shadow a function builtin (never a hard-reserved constant/structural
+    # builtin; those are rejected up front).
     for fname in (functions or []):
         local[fname] = sympy.Function(fname)
     return local
@@ -154,6 +183,7 @@ def syms_like(expr, names: list[str]) -> list:
 
 def parse_expression(expr_str: Any, symbols: Any, *,
                      functions: Any = None,
+                     allow_reserved: bool = False,
                      policy: Optional[dict] = None) -> sympy.Expr:
     """Reject before parsing; parse only with a restricted whitelist locals map.
 
@@ -161,16 +191,20 @@ def parse_expression(expr_str: Any, symbols: Any, *,
     normalized here, so reserved-name / shape violations surface as AdapterError.
     ``functions`` is an optional list of declared undefined-function names
     (indexed calls such as ``f(n)``); they are bound to ``sympy.Function`` so
-    structure-preserving representations round-trip. Raises AdapterError on any
+    structure-preserving representations round-trip. ``allow_reserved`` is the
+    explicit namespace-policy opt-in letting declared symbols shadow function
+    builtins (see the module docstring). Raises AdapterError on any
     violation. There is no eval/exec path.
     """
     pol = _effective_policy(policy)
-    declared = normalize_symbols(symbols)
+    declared = normalize_symbols(symbols, allow_reserved=allow_reserved)
     if len(declared) > pol["max_symbols"]:
         raise AdapterError("CLAIM_SYMBOLS_TOO_MANY")
 
     # Declared function names must be valid identifiers and not collide with
-    # declared symbols or reserved names.
+    # declared symbols or hard-reserved names (constants / Rational /
+    # structural builtins). A declared function MAY shadow a function
+    # builtin: explicit declaration beats built-in.
     func_names: list[str] = []
     if functions is not None:
         if not isinstance(functions, (list, tuple)):
@@ -185,6 +219,8 @@ def parse_expression(expr_str: Any, symbols: Any, *,
             raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
         if set(func_names) & {s["name"] for s in declared}:
             raise AdapterError("FUNCTION_NAME_COLLIDES_WITH_SYMBOL")
+        if HARD_RESERVED_NAMES & set(func_names):
+            raise AdapterError("FUNCTION_NAME_RESERVED")
 
     if not isinstance(expr_str, str) or not expr_str.strip():
         raise AdapterError("EMPTY_EXPRESSION")
@@ -219,11 +255,14 @@ def parse_expression(expr_str: Any, symbols: Any, *,
 # --------------------------------------------------------------------------- #
 
 def load_expression(path, symbols: Any, *,
+                    functions: Any = None,
+                    allow_reserved: bool = False,
                     policy: Optional[dict] = None) -> ExpressionRecord:
     """Read a .txt expression file (utf-8), hash raw bytes, parse strictly.
 
     The file is opened read-only and never written back. The sha256 is taken
     over the RAW file bytes (before stripping) so ingestion is auditable.
+    ``functions`` / ``allow_reserved`` follow ``parse_expression`` semantics.
     """
     p = Path(path)
     try:
@@ -236,8 +275,9 @@ def load_expression(path, symbols: Any, *,
         raise AdapterError("EXPRESSION_SOURCE_UNREADABLE") from None
 
     digest = hashlib.sha256(raw).hexdigest()
-    declared = normalize_symbols(symbols)
-    expr = parse_expression(text.strip(), declared, policy=policy)
+    declared = normalize_symbols(symbols, allow_reserved=allow_reserved)
+    expr = parse_expression(text.strip(), declared, functions=functions,
+                            allow_reserved=allow_reserved, policy=policy)
     return ExpressionRecord(
         text=text.strip(),
         sha256=digest,

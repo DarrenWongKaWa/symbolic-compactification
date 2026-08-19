@@ -327,12 +327,16 @@ class TranslationResult:
                   engine's ``{"name","real","nonzero"}`` form
     ``functions`` sorted names used as generic/indexed function calls
                   (candidates for the parser's declared-functions namespace)
+    ``bound_symbols`` sorted names bound as Sum/Product iterators (dummy
+                  indices). They are NOT free symbols, but must still be
+                  declared when the text is re-parsed by the strict parser.
     """
 
     expr: sympy.Expr
     text: str
     symbols: list[dict] = field(default_factory=list)
     functions: list[str] = field(default_factory=list)
+    bound_symbols: list[str] = field(default_factory=list)
     source_chars: int = 0
     finite_expansion: bool = False
 
@@ -341,6 +345,7 @@ class TranslationResult:
             "expr": self.text,
             "symbols": list(self.symbols),
             "functions": list(self.functions),
+            "bound_symbols": list(self.bound_symbols),
             "source_chars": self.source_chars,
             "finite_expansion": self.finite_expansion,
         }
@@ -367,6 +372,7 @@ class _Translator:
         self.indexed_handlers = dict(indexed_handlers)
         self._symbol_cache: dict[str, sympy.Symbol] = {}
         self.functions_used: set[str] = set()
+        self.bound_names: set[str] = set()
 
     # -- symbol construction with declared assumptions ---- #
 
@@ -499,6 +505,7 @@ class _Translator:
             if var_ast[0] != "id":
                 raise WolframStructureError("Sum iterator variable must be an identifier")
             var = self.symbol_for(var_ast[1], bound=True)
+            self.bound_names.add(var_ast[1])
             limits.append((var, self.convert(lo_ast), self.convert(hi_ast)))
         return sympy.Sum(body, *limits)
 
@@ -619,6 +626,7 @@ def translate_wolfram_text(text: Any, *,
         text=str(expr),
         symbols=symbols,
         functions=sorted(translator.functions_used),
+        bound_symbols=sorted(translator.bound_names),
         source_chars=len(stripped),
     )
 
