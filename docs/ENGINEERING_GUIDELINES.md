@@ -189,6 +189,60 @@ verdicts and evidence are insufficient.
   `src/symbolic_compactification/models.py`, populated by the session and CLI
   paths. Every future audit then costs minutes, not a reconstruction effort.
 
+## 13. Structure-first conjecture policy: the conjecture layer is separate from certification
+
+The v0.2 engine is structure-first at every layer, and agent workflow must be
+too. The structural representation (`Sum` with symbolic bounds, `Piecewise`
+with symbolic conditions, indexed function applications) is primary; lowered
+or expanded views are opt-in diagnostics, never substitutes for symbolic
+proof. The v0.2 mechanisms that embody this:
+
+- `structure.py` — `structure_summary` gives a cheap JSON structural
+  inventory before any decision to lower or expand; `expand_finite` is
+  explicitly labeled a diagnostic finite-N replay, never proof for symbolic
+  bounds.
+- `verifier.py` — structure-first adjudication: residuals above
+  `structure_first_threshold` receive no global `simplify()`; only budgeted
+  `TARGETED_PRIMITIVES` are attempted, and the skip is recorded in evidence
+  (`structure_first_skip_global_simplify`).
+- `budgets.py` — every expensive symbolic operation is wall-clock budgeted;
+  expiry fails closed as UNKNOWN with evidence kind `TIME_BUDGET_EXCEEDED`.
+- `models.py` — `STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED")`
+  separates the conjecture layer from certification on every `StepRecord`.
+
+Normative agent behavior:
+
+1. **Inspect before expanding.** Before expanding sums, flattening indexed
+   objects, or invoking global CAS simplification, inspect the highest-level
+   available representation (`inspect --format wolfram` /
+   `structure_summary`) and identify repeated kernels, repeated argument
+   families, common tensor/index structures, permutation relations,
+   Piecewise strata, and possible reusable subexpressions. The structural
+   representation stays visible to the reasoning agent even when a
+   lower-level verifier representation is also constructed.
+2. **Conjecture boldly, certify deterministically.** Bold structural
+   hypotheses are explicitly encouraged and are recorded as `HYPOTHESIS` /
+   `UNVERIFIED`. They never become certified science without a deterministic
+   ZERO.
+3. **UNKNOWN is do-not-promote, not stop-exploring.** After UNKNOWN the
+   agent may reformulate the conjecture, seek a smaller/local identity,
+   change representation, decompose the proof, or seek a more
+   verifier-friendly candidate. It may never silently accept the claim.
+4. **Never destroy structure to feed the CAS.** Finite-index expansion is
+   diagnostic only. The admissible order is: structured representation →
+   conjecture/transformation → local lowering if required → deterministic
+   verification. The failing order is: eager full expansion → attempt to
+   rediscover lost structure over thousands of scalar terms. The
+   CAS-friendly representation must never become the only representation
+   exposed to the agent.
+5. **LLM/CAS division of labor.** The LLM/coding agent discovers structure,
+   proposes abstractions, and proposes transformations. The deterministic
+   engine parses, normalizes, verifies, and rejects or certifies.
+   Unrestricted `simplify()` is not the discovery mechanism.
+6. **Policy, not machinery.** This guideline introduces no hypothesis
+   database, planner, ontology, or orchestration system — the policy is
+   recorded via existing step records and guidance documents only.
+
 ---
 
 ## Standing principles
@@ -205,3 +259,6 @@ verdicts and evidence are insufficient.
    record; scientific provenance never straddles engine changes.
 6. **Records are self-describing.** Telemetry lives in the step record, so
    audits are reads, not reconstructions.
+7. **Conjecture ≠ certification.** Bold structural hypotheses are encouraged
+   and recorded as `HYPOTHESIS` / `UNVERIFIED`; only a deterministic ZERO
+   certifies. UNKNOWN blocks promotion, never exploration.

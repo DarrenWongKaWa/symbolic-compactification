@@ -95,6 +95,47 @@ graph TB
     session records (`init-session` + `step`). A failure with its residual is
     evidence; an unrecorded attempt is a lie by omission.
 
+### E. Structure-first conjecture policy
+
+18. **Inspect structure before expanding.** Before expanding sums, flattening
+    indexed objects, or invoking global CAS simplification, inspect the
+    highest-level available representation: `inspect --format wolfram` (CLI)
+    shows the translated structural form with its Sum/Product bound symbols
+    and indexed function calls; `structure_summary` (Python) reports a cheap
+    structural inventory — sums, products, Piecewise blocks and branches,
+    indexed calls, free symbols, and op counts. Identify repeated kernels,
+    repeated argument families, common tensor/index structures, permutation
+    relations, Piecewise strata, and possible reusable subexpressions. The
+    structural representation must remain visible to your reasoning even when
+    a lower-level verifier representation is also constructed.
+19. **Conjecture ≠ certification.** Bold structural hypotheses are explicitly
+    encouraged: "these two sums may share one kernel", "these Piecewise
+    branches may be confluent limits of one analytic object", "these
+    arguments may belong to two canonical families". Record them with step
+    status `HYPOTHESIS` / `UNVERIFIED`, and never promote them to certified
+    science without a deterministic ZERO verdict.
+20. **UNKNOWN does not prohibit reasoning.** UNKNOWN means do-not-promote,
+    not stop-exploring. After UNKNOWN you may: reformulate the conjecture;
+    look for a smaller or local identity; change representation; decompose
+    the proof; or seek a more verifier-friendly candidate. You may NOT
+    silently accept the claim (see also rule 10).
+21. **Do not destroy structure to feed the CAS.** Concrete finite-index
+    expansion is diagnostic only — `expand_finite` is explicitly labeled a
+    finite-N replay, never a proof for symbolic bounds. Preferred order:
+    structured representation → conjecture/transformation → local lowering
+    if required → deterministic verification. Never: structured
+    representation → eager full expansion → attempt to rediscover lost
+    structure over thousands of scalar terms. The CAS-friendly representation
+    must never become the only representation exposed to you.
+22. **Respect the division of labor.** The LLM/coding agent discovers
+    structure, proposes abstractions, and proposes transformations. The
+    deterministic engine parses, normalizes, verifies, and rejects or
+    certifies. Unrestricted `simplify()` is not the discovery mechanism.
+23. **No new machinery.** This policy introduces no hypothesis database,
+    planner, ontology, or orchestration system. It is recorded via the
+    existing step records (`status`: `HYPOTHESIS` / `UNVERIFIED` /
+    `CERTIFIED`) and this guidance document.
+
 ---
 
 ## Verdict semantics
@@ -110,6 +151,11 @@ graph TB
 - NONZERO is produced **only** when SymPy can *prove* a probe value nonzero
   (`value.equals(0) is False`). Approximate evidence never counts.
 - Every undecided or exceptional path returns UNKNOWN.
+- Step **status** is orthogonal to verdict: `HYPOTHESIS` marks a proposed
+  step, `UNVERIFIED` a step that ran without ZERO, and only an exact ZERO
+  verdict sets `CERTIFIED`. Hypotheses may guide exploration; only CERTIFIED
+  steps enter the promotion chain. Budget expiry (`TIME_BUDGET_EXCEEDED`) is
+  an UNKNOWN path — never ZERO or NONZERO.
 
 ## CLI quick reference
 
@@ -118,6 +164,10 @@ graph TB
 # symbols are INFERRED — inspection only, never usable for verification.
 symbolic-compactification inspect expr.txt
 symbolic-compactification inspect expr.txt --symbols symbols.json
+
+# Structure-first inspection (rule 18): --format wolfram keeps the
+# structural representation (Sum / Piecewise / indexed calls) visible.
+symbolic-compactification inspect expr.txt --format wolfram
 
 # Verify candidate == current. Exit: 0=ZERO 2=NONZERO 3=UNKNOWN 4=error
 symbolic-compactification verify \
