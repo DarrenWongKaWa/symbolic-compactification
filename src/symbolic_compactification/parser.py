@@ -73,7 +73,11 @@ _DEFAULT_POLICY: dict = {
 PARSE_POLICY: dict = dict(_DEFAULT_POLICY)
 
 _IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
-_ALLOWED_CHARS_RE = re.compile(r"^[A-Za-z0-9_+\-*/().,\s^]*$")
+# Character gate. ``<`` and ``>`` are admitted (v0.2) so relational
+# conditions of preserved structure (``n > 1``) round-trip; assignment-like
+# ``=`` stays OUT (relational Ge/Le render with ``=`` and therefore must be
+# expressed via the functional forms Ge(...) / Le(...) or rewritten).
+_ALLOWED_CHARS_RE = re.compile(r"^[A-Za-z0-9_+\-*/().,\s^<>]*$")
 
 
 def get_parse_policy() -> dict:
