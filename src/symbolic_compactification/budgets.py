@@ -39,6 +39,20 @@ NEVER signals anything that is not in the owned registry. Signals are sent
 exclusively to the process groups of registry-tracked workers that this very
 engine spawned.
 
+Process telemetry (v0.2.2)
+--------------------------
+Every PROCESS-MODE budgeted operation records one telemetry record (thread /
+inline modes spawn no owned process and record nothing): ``operation``,
+``worker_pid``, ``started_at``, ``finished_at``, ``wall_time_seconds``,
+``termination_reason`` (COMPLETED / TIMEOUT / EXCEPTION / CANCELLED),
+``cleanup_status`` (CLEAN / FAILED), ``force_kill_required`` and
+``owned_processes_remaining`` (empty when clean). The record of the most
+recent process-mode operation is available via ``last_process_telemetry()``.
+A cleanup failure (worker surviving the SIGKILL window) is NEVER hidden:
+``cleanup_status`` becomes FAILED with the still-owned registry entries
+listed, and the worker is re-tracked so the exit sweep retries. Only
+engine-owned processes are ever listed — never unrelated processes.
+
 Spawn safety: the worker target is a module-level function of this importable
 package (NOT of the caller's ``__main__``), so process mode works from
 scripts, pytest and stdin-invoked python alike. The payload (fn/args/kwargs)
@@ -76,7 +90,22 @@ from .models import AdapterError
 __all__ = ["BudgetExceeded", "BUDGET_POLICY", "get_budget_policy",
            "set_budget_policy", "run_with_budget", "shutdown_budget_pool",
            "ProcessLifecycle", "owned_children_snapshot",
-           "sweep_owned_children"]
+           "sweep_owned_children", "last_process_telemetry",
+           "PROCESS_TELEMETRY_FIELDS"]
+
+# Telemetry field inventory (v0.2.2): the exact keys every process-mode
+# operation's telemetry record carries. Exposed for tests/contracts.
+PROCESS_TELEMETRY_FIELDS = (
+    "operation", "worker_pid", "started_at", "finished_at",
+    "wall_time_seconds", "termination_reason", "cleanup_status",
+    "force_kill_required", "owned_processes_remaining",
+)
+
+# termination_reason vocabulary (never a free-form string)
+_TELEMETRY_COMPLETED = "COMPLETED"
+_TELEMETRY_TIMEOUT = "TIMEOUT"
+_TELEMETRY_EXCEPTION = "EXCEPTION"
+_TELEMETRY_CANCELLED = "CANCELLED"
 
 
 class BudgetExceeded(AdapterError):
@@ -177,8 +206,14 @@ def _signal_group(pgid: int, sig: int) -> bool:
         return False
 
 
-def _terminate_entry(entry: dict) -> None:
-    """SIGTERM (owned group) -> bounded grace -> SIGKILL -> reap."""
+def _terminate_entry(entry: dict) -> dict:
+    """SIGTERM (owned group) -> bounded grace -> SIGKILL -> reap.
+
+    Returns a cleanup result dict: ``{"force_kill_required": bool,
+    "cleanup_ok": bool}``. ``cleanup_ok`` is False ONLY when the worker
+    still cannot be reaped after the SIGKILL window — callers must surface
+    that honestly (telemetry ``cleanup_status=FAILED``), never hide it.
+    """
     proc = entry.get("proc")
     pgid = entry.get("pgid")
     try:
@@ -188,14 +223,14 @@ def _terminate_entry(entry: dict) -> None:
     if pgid is not None:
         _signal_group(pgid, signal.SIGTERM)
     if proc is None:
-        return
+        return {"force_kill_required": False, "cleanup_ok": True}
     deadline = time.monotonic() + max(grace, 0.0)
     while time.monotonic() < deadline:
         try:
             if proc.exitcode is not None:  # exitcode poll reaps (waitpid)
-                return
+                return {"force_kill_required": False, "cleanup_ok": True}
         except Exception:
-            return
+            return {"force_kill_required": False, "cleanup_ok": True}
         time.sleep(0.01)
     if pgid is not None:
         _signal_group(pgid, signal.SIGKILL)
@@ -203,6 +238,11 @@ def _terminate_entry(entry: dict) -> None:
         proc.join(timeout=10.0)
     except Exception:
         pass
+    try:
+        reaped = proc.exitcode is not None
+    except Exception:
+        reaped = True
+    return {"force_kill_required": True, "cleanup_ok": reaped}
 
 
 def sweep_owned_children() -> list:
@@ -226,6 +266,74 @@ def sweep_owned_children() -> list:
 atexit.register(sweep_owned_children)
 
 
+# --------------------------------------------------------------------------- #
+# process-mode telemetry (v0.2.2): one record per process-backed operation
+# --------------------------------------------------------------------------- #
+
+_TELEMETRY_LOCK = threading.Lock()
+_LAST_PROCESS_TELEMETRY: Optional[dict] = None
+
+
+def _iso_utc(epoch_seconds: float) -> str:
+    """UTC ISO-8601 timestamp (same format as the session records)."""
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(epoch_seconds))
+
+
+def _record_process_telemetry(operation: str, proc, started_at: float,
+                              finished_at: float, termination_reason: str,
+                              lifecycle: Optional["ProcessLifecycle"]) -> dict:
+    """Assemble + store the telemetry record of one process-mode operation.
+
+    Called on EVERY exit path of a process-backed budgeted call (success,
+    timeout, worker exception, cancellation). Never lists unrelated
+    processes: ``owned_processes_remaining`` is drawn exclusively from the
+    engine's owned registry, and is empty whenever cleanup was clean.
+    """
+    global _LAST_PROCESS_TELEMETRY
+    # the lifecycle captures the worker pid BEFORE proc.close(); fall back to
+    # a guarded direct read when no lifecycle was constructed (spawn failure)
+    pid = getattr(lifecycle, "pid", None)
+    if pid is None:
+        try:
+            pid = proc.pid if proc is not None else None
+        except Exception:
+            pid = None
+    force_kill = bool(getattr(lifecycle, "force_kill_required", False))
+    cleanup_ok = bool(getattr(lifecycle, "cleanup_ok", True))
+    remaining = [] if cleanup_ok else owned_children_snapshot()
+    record = {
+        "operation": operation,
+        "worker_pid": pid,
+        "started_at": _iso_utc(started_at),
+        "finished_at": _iso_utc(finished_at),
+        "wall_time_seconds": round(max(finished_at - started_at, 0.0), 6),
+        "termination_reason": termination_reason,
+        "cleanup_status": "CLEAN" if cleanup_ok else "FAILED",
+        "force_kill_required": force_kill,
+        "owned_processes_remaining": remaining,
+    }
+    with _TELEMETRY_LOCK:
+        _LAST_PROCESS_TELEMETRY = record
+    return record
+
+
+def last_process_telemetry() -> Optional[dict]:
+    """Telemetry record of the most recent PROCESS-MODE budgeted operation.
+
+    Returns a copy (or ``None`` when no process-mode operation has run in
+    this process). Thread/inline mode operations spawn no owned process and
+    therefore never produce a record. See ``PROCESS_TELEMETRY_FIELDS`` for
+    the exact field inventory.
+    """
+    with _TELEMETRY_LOCK:
+        record = _LAST_PROCESS_TELEMETRY
+    if record is None:
+        return None
+    out = dict(record)
+    out["owned_processes_remaining"] = list(record["owned_processes_remaining"])
+    return out
+
+
 class ProcessLifecycle:
     """Owned child-process lifecycle with try/finally guarantees.
 
@@ -244,6 +352,12 @@ class ProcessLifecycle:
     def __init__(self, proc, operation: str):
         self.proc = proc
         self.operation = operation
+        # cleanup outcome (populated by __exit__; read by telemetry)
+        self.force_kill_required = False
+        self.cleanup_ok = True
+        # captured in __exit__ BEFORE close() — a closed process object
+        # refuses .pid access, so telemetry reads the worker pid from here
+        self.pid = None
 
     def __enter__(self) -> "ProcessLifecycle":
         return self
@@ -251,13 +365,23 @@ class ProcessLifecycle:
     def __exit__(self, exc_type, exc, tb) -> bool:
         proc = self.proc
         pid = getattr(proc, "pid", None)
+        self.pid = pid
         if pid is not None:
             # untrack first so the atexit sweep cannot double-terminate
             entry = _untrack(pid)
             if entry is None:
                 entry = {"pid": pid, "pgid": pid,
                          "operation": self.operation, "proc": proc}
-            _terminate_entry(entry)
+            info = _terminate_entry(entry)
+            self.force_kill_required = info["force_kill_required"]
+            self.cleanup_ok = info["cleanup_ok"]
+            if not self.cleanup_ok:
+                # NEVER hide a surviving owned worker: re-track it so the
+                # exit sweep retries, and let telemetry report FAILED with
+                # the still-owned registry entries listed.
+                with _REGISTRY_LOCK:
+                    if pid not in _OWNED:
+                        _OWNED[pid] = entry
         try:
             if proc is not None:
                 proc.close()
@@ -305,15 +429,26 @@ def _budget_worker(conn, payload):
 
 
 def _run_process(fn, args, kwargs, seconds: float, operation: str):
-    """Run one budgeted call in a freshly spawned OWNED worker process."""
-    ctx = multiprocessing.get_context("spawn")
-    parent_conn, child_conn = ctx.Pipe(duplex=False)
-    proc = ctx.Process(target=_budget_worker,
-                       args=(child_conn, (fn, args, kwargs)),
-                       name=f"symbolic-budget-{operation}",
-                       daemon=False)
+    """Run one budgeted call in a freshly spawned OWNED worker process.
+
+    Every exit path (success, budget timeout, worker exception, cancellation
+    via KeyboardInterrupt) records one process telemetry record — see
+    ``last_process_telemetry()`` / ``PROCESS_TELEMETRY_FIELDS``.
+    """
+    started_at = time.time()
+    termination_reason = _TELEMETRY_EXCEPTION
+    lifecycle: Optional[ProcessLifecycle] = None
+    proc = None
+    parent_conn = None
     try:
-        with ProcessLifecycle(proc, operation):
+        ctx = multiprocessing.get_context("spawn")
+        parent_conn, child_conn = ctx.Pipe(duplex=False)
+        proc = ctx.Process(target=_budget_worker,
+                           args=(child_conn, (fn, args, kwargs)),
+                           name=f"symbolic-budget-{operation}",
+                           daemon=False)
+        lifecycle = ProcessLifecycle(proc, operation)
+        with lifecycle:
             proc.start()  # worker calls os.setsid(): own session, pgid == pid
             child_conn.close()  # the child owns its end now
             _track(proc, operation)
@@ -327,15 +462,28 @@ def _run_process(fn, args, kwargs, seconds: float, operation: str):
                 if parent_conn.poll(min(remaining, 0.05)):
                     tag, payload = pickle.loads(parent_conn.recv_bytes())
                     if tag == "ok":
+                        termination_reason = _TELEMETRY_COMPLETED
                         return payload
                     raise payload
                 if not proc.is_alive() and not parent_conn.poll(0):
                     raise RuntimeError("BUDGET_WORKER_DIED")
+    except BudgetExceeded:
+        termination_reason = _TELEMETRY_TIMEOUT
+        raise
+    except KeyboardInterrupt:
+        # cancellation path (where interceptable): cleanup still happens in
+        # ProcessLifecycle.__exit__, and telemetry records it as CANCELLED
+        termination_reason = _TELEMETRY_CANCELLED
+        raise
     finally:
         try:
-            parent_conn.close()
+            if parent_conn is not None:
+                parent_conn.close()
         except Exception:
             pass
+        # telemetry on EVERY exit path; never hides a cleanup failure
+        _record_process_telemetry(operation, proc, started_at, time.time(),
+                                  termination_reason, lifecycle)
 
 
 # --------------------------------------------------------------------------- #
