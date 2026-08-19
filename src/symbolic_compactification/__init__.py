@@ -21,6 +21,8 @@ from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
 from .residual import make_residual, residual_record
 from .session import (init_session, load_session, promote, record_step,
                       set_current)
+from .adapters import (TranslationResult, translate_wolfram_text,
+                       extract_expression_text)
 
 __all__ = [
     "__version__",
@@ -36,4 +38,6 @@ __all__ = [
     "verify_equivalent", "make_residual", "residual_record",
     # session persistence
     "init_session", "load_session", "record_step", "promote", "set_current",
+    # adapters
+    "TranslationResult", "translate_wolfram_text", "extract_expression_text",
 ]

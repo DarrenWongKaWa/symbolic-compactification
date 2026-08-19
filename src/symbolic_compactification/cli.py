@@ -2,7 +2,9 @@
 
 Subcommands
 -----------
-inspect        EXPR.txt [--symbols symbols.json]   hash + symbols + ops + preview
+inspect        EXPR.txt [--symbols symbols.json] [--format native|wolfram]
+               hash + symbols + ops + preview; ``--format wolfram`` translates
+               Wolfram text (inspection only, no Wolfram runtime)
 verify         --current A.txt --candidate B.txt --symbols symbols.json
 init-session   [--workspace W] [--current A.txt --symbols symbols.json]
 step           --run RUN_ID [--workspace W] --candidate B.txt --symbols symbols.json
@@ -22,6 +24,7 @@ steps, where an explicit declaration is mandatory.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -100,6 +103,10 @@ def _print_result(result) -> None:
 def cmd_inspect(args) -> int:
     raw = Path(args.expr).read_bytes()  # raises OSError -> EXIT_ERROR upstream
     text = raw.decode("utf-8").strip()
+
+    if args.format == "wolfram":
+        return _inspect_wolfram(args, raw, text)
+
     inferred = False
     if args.symbols:
         declared = load_symbols_file(args.symbols)
@@ -118,6 +125,28 @@ def cmd_inspect(args) -> int:
     print(f"count_ops:   {sympy.count_ops(rec.parsed_expr, visual=False)}")
     preview = rec.text if len(rec.text) <= 200 else rec.text[:200] + " ..."
     print(f"preview:     {preview}")
+    return EXIT_ZERO
+
+
+def _inspect_wolfram(args, raw: bytes, text: str) -> int:
+    """Translate Wolfram text then report. INSPECTION ONLY: the translated
+    expression earns no verdict here; certification still requires the
+    strict parser + exact verifier with explicit declarations."""
+    from .adapters.wolfram_text import (extract_expression_text,
+                                        translate_wolfram_text)
+    if args.symbols:
+        raise AdapterError("WOLFRAM_FORMAT_SYMBOLS_UNSUPPORTED")
+    digest = hashlib.sha256(raw).hexdigest()
+    source = extract_expression_text(text)
+    result = translate_wolfram_text(source)
+    print(f"file:        {args.expr}")
+    print(f"format:      wolfram (translation only, no Wolfram runtime)")
+    print(f"sha256:      {digest}")
+    print(f"symbols:     {json.dumps(result.symbols, ensure_ascii=False)}  (DISCOVERED)")
+    print(f"functions:   {json.dumps(result.functions)}")
+    print(f"count_ops:   {sympy.count_ops(result.expr, visual=False)}")
+    preview = result.text if len(result.text) <= 200 else result.text[:200] + " ..."
+    print(f"translated:  {preview}")
     return EXIT_ZERO
 
 
@@ -196,6 +225,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_inspect = sub.add_parser("inspect", help="hash/parse a .txt expression file")
     p_inspect.add_argument("expr", help="expression .txt file (read-only)")
     p_inspect.add_argument("--symbols", help="symbols.json; omit to infer (inspect only)")
+    p_inspect.add_argument("--format", choices=["native", "wolfram"], default="native",
+                           help="input format; 'wolfram' translates Wolfram text "
+                                "(inspection only, no Wolfram runtime)")
     p_inspect.set_defaults(func=cmd_inspect)
 
     p_verify = sub.add_parser("verify", help="verify current == candidate (residual)")
