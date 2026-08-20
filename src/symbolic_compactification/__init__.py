@@ -34,7 +34,8 @@ from .session import (init_session, load_session, promote, record_step,
                       run_summary, set_current, set_requested_arm)
 from .adapters import (TranslationResult, translate_wolfram_text,
                        extract_expression_text)
-from .structure import expand_finite, structure_summary
+from .structure import (canonical_structure_items, expand_finite,
+                        ordered_atoms, structure_summary)
 from .budgets import (BudgetExceeded, ProcessLifecycle, get_budget_policy,
                       last_process_telemetry, owned_children_snapshot,
                       run_with_budget, set_budget_policy,

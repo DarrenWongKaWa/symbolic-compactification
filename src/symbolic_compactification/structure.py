@@ -27,7 +27,60 @@ import sympy
 
 from .models import AdapterError
 
-__all__ = ["expand_finite", "structure_summary"]
+__all__ = ["expand_finite", "structure_summary", "ordered_atoms",
+           "canonical_structure_items"]
+
+
+# --------------------------------------------------------------------------- #
+# deterministic structural ordering (PYTHONHASHSEED-independent)
+# --------------------------------------------------------------------------- #
+
+def ordered_atoms(expr: sympy.Expr, kind=None) -> list:
+    """Return ``expr``'s atoms in a DETERMINISTIC canonical order.
+
+    ``Expr.atoms`` returns a ``set``; set iteration order depends on
+    ``PYTHONHASHSEED`` and is therefore NOT reproducible across processes.
+    Any construction, pairing, hash, structural comparison or audit output
+    that iterates atoms must go through this helper instead, which sorts by
+    canonical ``srepr`` (an explicit sort, independent of hash seeding).
+
+    Args:
+        expr: a SymPy expression.
+        kind: optional SymPy type (or tuple of types) to filter atoms
+              (e.g. ``sympy.Sum``); ``None`` returns every atom.
+
+    Returns:
+        A list of atoms sorted by their canonical ``srepr`` string.
+    """
+    items = expr.atoms() if kind is None else expr.atoms(kind)
+    return sorted(items, key=lambda e: sympy.srepr(e))
+
+
+def canonical_structure_items(expr: sympy.Expr) -> dict:
+    """Deterministic, JSON-serializable ordered structural inventory.
+
+    A canonical ordered extraction of the expression's structural content,
+    suitable for hashing / structural comparison / audit output: each atom
+    category is sorted by canonical ``srepr`` (PYTHONHASHSEED-independent),
+    and symbol/function name lists are sorted by name.
+
+    Returns a dict with keys ``sums``, ``products``, ``piecewise`` (each a
+    list of canonical ``srepr`` strings), ``free_symbols`` (sorted names) and
+    ``indexed_names`` (sorted distinct undefined-function names).
+    """
+    indexed_names: set[str] = set()
+    for sub in sympy.preorder_traversal(expr):
+        if isinstance(sub, sympy.core.function.AppliedUndef):
+            indexed_names.add(type(sub).__name__)
+    return {
+        "sums": [sympy.srepr(s) for s in ordered_atoms(expr, sympy.Sum)],
+        "products": [sympy.srepr(p)
+                     for p in ordered_atoms(expr, sympy.Product)],
+        "piecewise": [sympy.srepr(p)
+                      for p in ordered_atoms(expr, sympy.Piecewise)],
+        "free_symbols": sorted(s.name for s in expr.free_symbols),
+        "indexed_names": sorted(indexed_names),
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -89,9 +142,9 @@ def structure_summary(expr: sympy.Expr) -> dict:
     * ``free_symbols``     sorted free-symbol names
     * ``count_ops``        ``sympy.count_ops`` of the expression
     """
-    sums = list(expr.atoms(sympy.Sum))
-    products = list(expr.atoms(sympy.Product))
-    piecewise = list(expr.atoms(sympy.Piecewise))
+    sums = ordered_atoms(expr, sympy.Sum)
+    products = ordered_atoms(expr, sympy.Product)
+    piecewise = ordered_atoms(expr, sympy.Piecewise)
     branches = sum(len(p.args) for p in piecewise)
 
     indexed_names: set[str] = set()
