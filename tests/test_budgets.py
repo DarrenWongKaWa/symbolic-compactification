@@ -22,6 +22,10 @@ def _restore_policy(saved):
     set_budget_policy(**saved)
 
 
+def _boom():
+    raise ValueError("worker failure")
+
+
 # --------------------------------------------------------------------------- #
 # run_with_budget mechanics
 # --------------------------------------------------------------------------- #
@@ -40,9 +44,6 @@ def test_timeout_raises_budget_exceeded_with_stable_code():
 
 
 def test_worker_exception_propagates_unchanged():
-    def _boom():
-        raise ValueError("worker failure")
-
     with pytest.raises(ValueError, match="worker failure"):
         run_with_budget(_boom, (), seconds=5.0, operation="boom")
 
@@ -66,9 +67,13 @@ def test_set_budget_policy_rejects_invalid_mode():
 
 def test_default_policy_shape():
     pol = get_budget_policy()
-    for key in ("mode", "simplify_seconds", "probe_simplify_seconds",
+    assert pol["mode"] == "process"
+    for key in ("mode", "residual_seconds", "expand_seconds",
+                "simplify_seconds", "probe_simplify_seconds",
                 "equals_seconds", "expand_complex_seconds",
-                "transform_seconds"):
+                "factor_seconds", "factor_terms_seconds",
+                "together_seconds", "cancel_seconds",
+                "finite_expand_seconds"):
         assert key in pol
 
 
@@ -96,7 +101,7 @@ def test_tiny_simplify_budget_yields_unknown_time_budget_exceeded(monkeypatch):
     _install_slow_simplify(monkeypatch)
     saved = get_budget_policy()
     try:
-        set_budget_policy(simplify_seconds=0.0005)
+        set_budget_policy(mode="thread", simplify_seconds=0.0005)
         result = verify_equivalent(
             "(x**2 - 1)/(x - 1)", "x + 1",
             [{"name": "x", "real": True, "nonzero": True}])
@@ -119,7 +124,7 @@ def test_timeout_never_yields_a_definite_verdict_on_hard_residuals(monkeypatch):
     _install_slow_simplify(monkeypatch)
     saved = get_budget_policy()
     try:
-        set_budget_policy(simplify_seconds=0.0005)
+        set_budget_policy(mode="thread", simplify_seconds=0.0005)
         result = verify_equivalent(
             "1/x + 1/y", "(x + y)/(x*y)",
             [{"name": "x", "real": True, "nonzero": True},

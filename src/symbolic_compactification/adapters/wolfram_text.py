@@ -131,13 +131,18 @@ def strip_wolfram_comments(text: str) -> str:
             depth += 1
             i += 2
         elif text[i:i + 2] == "*)":
-            depth = max(0, depth - 1)
+            if depth == 0:
+                raise WolframSyntaxError(
+                    f"unmatched comment terminator at offset {i}")
+            depth -= 1
             i += 2
         elif depth == 0:
             result.append(text[i])
             i += 1
         else:
             i += 1
+    if depth:
+        raise WolframSyntaxError("unterminated comment")
     return "".join(result)
 
 
@@ -461,7 +466,9 @@ class _Translator:
     def _convert_call(self, node) -> sympy.Expr:
         name, args = node[1], node[2]
         if name == "Sum":
-            return self._convert_sum(args)
+            return self._convert_iterated(args, sympy.Sum, "Sum")
+        if name == "Product":
+            return self._convert_iterated(args, sympy.Product, "Product")
         if name == "Piecewise":
             return self._convert_piecewise(args)
         if name in self.indexed_handlers:
@@ -479,20 +486,21 @@ class _Translator:
         self.functions_used.add(name)
         return sympy.Function(name)(*[self.convert(a) for a in args])
 
-    def _convert_sum(self, args) -> sympy.Expr:
-        """``Sum[body, {var, lo, hi}, ...]`` -> symbolic ``sympy.Sum``.
+    def _convert_iterated(self, args, constructor, label: str) -> sympy.Expr:
+        """Translate a structural Sum/Product without finite expansion.
 
         Bounds stay SYMBOLIC; no finite expansion ever happens silently.
         Two-element iterators ``{var, hi}`` use lower bound 1 (Wolfram
         convention). Infinite bounds are allowed via ``Infinity``.
         """
         if len(args) < 2:
-            raise WolframStructureError("Sum needs a body and at least one iterator")
-        body = self.convert(args[0])
+            raise WolframStructureError(
+                f"{label} needs a body and at least one iterator")
         limits = []
         for it in args[1:]:
             if it[0] != "list":
-                raise WolframStructureError("Sum iterators must be brace lists")
+                raise WolframStructureError(
+                    f"{label} iterators must be brace lists")
             elems = it[1]
             if len(elems) == 3:
                 var_ast, lo_ast, hi_ast = elems
@@ -501,13 +509,17 @@ class _Translator:
                 lo_ast = ("num", "1")
             else:
                 raise WolframStructureError(
-                    "Sum iterator must be {var, lo, hi} or {var, hi}")
+                    f"{label} iterator must be {{var, lo, hi}} or {{var, hi}}")
             if var_ast[0] != "id":
-                raise WolframStructureError("Sum iterator variable must be an identifier")
+                raise WolframStructureError(
+                    f"{label} iterator variable must be an identifier")
             var = self.symbol_for(var_ast[1], bound=True)
             self.bound_names.add(var_ast[1])
             limits.append((var, self.convert(lo_ast), self.convert(hi_ast)))
-        return sympy.Sum(body, *limits)
+        # Iterator symbols are installed before the body is converted, so the
+        # body and limits share the exact same bound Symbol objects.
+        body = self.convert(args[0])
+        return constructor(body, *limits)
 
     def _convert_piecewise(self, args) -> sympy.Expr:
         """``Piecewise[{{e1, c1}, ...}]`` -> symbolic ``sympy.Piecewise``.
@@ -532,7 +544,9 @@ class _Translator:
             raise WolframStructureError("Piecewise accepts at most one default value")
         if not branches:
             raise WolframStructureError("Piecewise needs at least one branch")
-        return sympy.Piecewise(*branches)
+        # Branch order is semantically meaningful and must not be normalized
+        # away during ingestion.
+        return sympy.Piecewise(*branches, evaluate=False)
 
 
 def _flat_indexed_symbol(name: str, arg_asts, translator: _Translator) -> sympy.Symbol:
@@ -579,6 +593,8 @@ def translate_wolfram_text(text: Any, *,
     if not isinstance(text, str) or not text.strip():
         raise AdapterError("EMPTY_EXPRESSION")
     pol = _effective_policy(policy)
+    if len(text) > pol["max_expr_chars"]:
+        raise AdapterError("EXPRESSION_TOO_LARGE")
     stripped = strip_wolfram_comments(text).strip()
     if not stripped:
         raise AdapterError("EMPTY_EXPRESSION")
@@ -586,6 +602,36 @@ def translate_wolfram_text(text: Any, *,
         raise AdapterError("EXPRESSION_TOO_LARGE")
 
     tokens = tokenize(stripped)
+    if len(tokens) > pol["max_tokens"]:
+        raise AdapterError("EXPRESSION_TOO_LARGE")
+    depth = 0
+    for token in tokens:
+        if token in (("OP", "("), ("OP", "["), ("OP", "{")):
+            depth += 1
+            if depth > pol["max_nesting_depth"]:
+                raise AdapterError("EXPRESSION_TOO_LARGE")
+        elif token in (("OP", ")"), ("OP", "]"), ("OP", "}")):
+            depth -= 1
+            if depth < 0:
+                raise WolframSyntaxError("unbalanced closing delimiter")
+    if depth != 0:
+        raise WolframSyntaxError("unbalanced delimiter")
+    for kind, value in tokens:
+        if (kind == "NUM" and "." not in value
+                and len(value) > pol["max_integer_digits"]):
+            raise AdapterError("EXPRESSION_TOO_LARGE")
+    for index, token in enumerate(tokens):
+        if token != ("OP", "^") or index + 1 >= len(tokens):
+            continue
+        exponent_index = index + 1
+        if tokens[exponent_index] in (("OP", "+"), ("OP", "-")):
+            exponent_index += 1
+        if (exponent_index < len(tokens)
+                and tokens[exponent_index][0] == "NUM"
+                and "." not in tokens[exponent_index][1]
+                and int(tokens[exponent_index][1])
+                    > pol["max_numeric_exponent"]):
+            raise AdapterError("EXPRESSION_TOO_LARGE")
     parser = _WolframParser(tokens)
     try:
         ast = parser.parse_expr()
@@ -604,7 +650,11 @@ def translate_wolfram_text(text: Any, *,
         flat_indexed_names=frozenset(flat_indexed_names),
         indexed_handlers=indexed_handlers or {},
     )
-    expr = translator.convert(ast)
+    try:
+        expr = translator.convert(ast)
+    except (RecursionError, MemoryError, OverflowError, ValueError):
+        raise WolframStructureError("expression construction exceeded limits") \
+            from None
 
     if sympy.count_ops(expr, visual=False) > pol["max_nodes"]:
         raise AdapterError("EXPRESSION_TOO_LARGE")
@@ -634,21 +684,20 @@ def translate_wolfram_text(text: Any, *,
 def extract_expression_text(raw: str) -> str:
     """Generic file-level cleanup before translation.
 
-    Strips comments, keeps the last non-empty line, removes a LEADING
+    Strips comments, preserves the complete multi-line expression, removes a LEADING
     ``lhs =`` assignment (a single ``=`` that is not part of ``==``,
     ``<=``, ``>=`` or ``!=``) and a trailing ``;``. Pure text handling —
     no parsing happens here.
     """
     text = strip_wolfram_comments(raw).strip()
-    lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
-    if not lines:
+    if not text:
         raise AdapterError("EMPTY_EXPRESSION")
-    expr_line = lines[-1]
-    m = _ASSIGNMENT_PREFIX_RE.match(expr_line)
+    expr_text = text
+    m = _ASSIGNMENT_PREFIX_RE.match(expr_text)
     if m:
-        expr_line = expr_line[m.end():].strip()
-    if expr_line.endswith(";"):
-        expr_line = expr_line[:-1].strip()
-    if not expr_line:
+        expr_text = expr_text[m.end():].strip()
+    if expr_text.endswith(";"):
+        expr_text = expr_text[:-1].strip()
+    if not expr_text:
         raise AdapterError("EMPTY_EXPRESSION")
-    return expr_line
+    return expr_text

@@ -1,19 +1,20 @@
-"""Strict whitelist SymPy parser. Fail-closed. No eval/exec anywhere.
+"""Strict whitelist SymPy parser with an isolated construction namespace.
 
 Validation ladder (first failure wins):
   1. non-string / blank                          -> EMPTY_EXPRESSION
   2. length over policy max_expr_chars           -> EXPRESSION_TOO_LARGE
-  3. character outside the global char gate      -> DISALLOWED_CHARACTERS
-  4. identifier not in declared_symbols ∪
+  3. token/depth/literal source bound exceeded   -> EXPRESSION_TOO_LARGE
+  4. character outside the token grammar         -> DISALLOWED_CHARACTERS
+  5. identifier not in declared_symbols ∪
      allowed_functions ∪ constants               -> UNDECLARED_OR_DISALLOWED_NAME
-  5. sympify under a restricted locals map fails -> SYMBOLIC_PARSE_FAILED
-  6. count_ops(expr) over policy max_nodes       -> EXPRESSION_TOO_LARGE
+  6. construction under isolated locals/globals  -> SYMBOLIC_PARSE_FAILED
+  7. count_ops(expr) over policy max_nodes       -> EXPRESSION_TOO_LARGE
 
-The restricted locals map contains ONLY the declared Symbol objects (with
-their declared assumptions), the whitelisted functions and the constants
-pi/E/I/oo.  ``^`` is handled by sympify(convert_xor=True).
+The construction namespace contains only safe SymPy constructors, declared
+Symbol/Function objects, whitelisted functions, structural builtins, and
+constants. Python builtins are empty. ``^`` is converted to power.
 
-Symbol namespace policy (v0.2)
+Symbol namespace policy
 ------------------------------
 Three DISTINCT namespaces exist and are never merged implicitly:
 
@@ -41,6 +42,11 @@ from pathlib import Path
 from typing import Any, Optional
 
 import sympy
+from sympy.parsing.sympy_parser import (
+    convert_xor,
+    parse_expr,
+    standard_transformations,
+)
 
 from .models import (AdapterError, ExpressionRecord, HARD_RESERVED_NAMES,
                      normalize_symbols)
@@ -53,7 +59,7 @@ _ALLOWED_FUNCTIONS = sorted([
     "sin", "cos", "tan", "exp", "log", "sqrt", "Abs", "conjugate", "re", "im",
     "sinh", "cosh", "tanh", "asin", "acos", "atan", "atan2", "Rational",
     # polygamma family: admitted deliberately as part of the explicit
-    # allowed-functions policy (v0.2); admission is a policy decision, never
+    # allowed-functions policy; admission is a policy decision, never
     # an implicit side effect of ingestion.
     "polygamma",
 ])
@@ -65,6 +71,13 @@ _DEFAULT_POLICY: dict = {
     # raised from 4000 together with max_expr_chars; limits are POLICY —
     # reviewed, named and tunable here, never silently edited constants
     "max_nodes": 8000,          # enforced via count_ops cap after parsing
+    # source-shape caps are enforced BEFORE SymPy construction.  They stop
+    # deeply nested or auto-collapsing input from doing unbounded parser work
+    # before the post-parse count_ops limit can see it.
+    "max_tokens": 16000,
+    "max_nesting_depth": 256,
+    "max_integer_digits": 256,
+    "max_numeric_exponent": 10000,
     "max_symbols": 40,
     "allowed_functions": list(_ALLOWED_FUNCTIONS),
 }
@@ -73,11 +86,27 @@ _DEFAULT_POLICY: dict = {
 PARSE_POLICY: dict = dict(_DEFAULT_POLICY)
 
 _IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
-# Character gate. ``<`` and ``>`` are admitted (v0.2) so relational
+# ``<`` and ``>`` are admitted so relational
 # conditions of preserved structure (``n > 1``) round-trip; assignment-like
 # ``=`` stays OUT (relational Ge/Le render with ``=`` and therefore must be
 # expressed via the functional forms Ge(...) / Le(...) or rewritten).
-_ALLOWED_CHARS_RE = re.compile(r"^[A-Za-z0-9_+\-*/().,\s^<>]*$")
+_TOKEN_RE = re.compile(
+    r"\s+|(?:\d+(?:\.\d*)?|\.\d+)|[A-Za-z_][A-Za-z0-9_]*|"
+    r"\*\*|[+\-*/^(),<>]")
+
+_SAFE_GLOBALS = {
+    "__builtins__": {},
+    # parse_expr(evaluate=False) emits these constructors.  They are not
+    # reachable by source identifiers unless separately whitelisted.
+    "Symbol": sympy.Symbol,
+    "Integer": sympy.Integer,
+    "Float": sympy.Float,
+    "Rational": sympy.Rational,
+    "Add": sympy.Add,
+    "Mul": sympy.Mul,
+    "Pow": sympy.Pow,
+}
+_TRANSFORMATIONS = standard_transformations + (convert_xor,)
 
 
 def get_parse_policy() -> dict:
@@ -92,7 +121,14 @@ def set_parse_policy(**overrides) -> dict:
     unknown = set(overrides) - set(_DEFAULT_POLICY)
     if unknown:
         raise AdapterError("PARSE_POLICY_KEY_UNKNOWN")
+    previous = get_parse_policy()
     PARSE_POLICY.update(overrides)
+    try:
+        _effective_policy(None)
+    except AdapterError:
+        PARSE_POLICY.clear()
+        PARSE_POLICY.update(previous)
+        raise
     return get_parse_policy()
 
 
@@ -103,20 +139,37 @@ def _effective_policy(policy: Optional[dict]) -> dict:
         if unknown:
             raise AdapterError("PARSE_POLICY_KEY_UNKNOWN")
         merged.update(policy)
+    for key in ("max_expr_chars", "max_nodes", "max_tokens",
+                "max_nesting_depth", "max_integer_digits",
+                "max_numeric_exponent", "max_symbols"):
+        if (not isinstance(merged[key], int) or isinstance(merged[key], bool)
+                or merged[key] <= 0):
+            raise AdapterError("PARSE_POLICY_VALUE_INVALID")
+    allowed = merged["allowed_functions"]
+    if not isinstance(allowed, (list, tuple)) or not all(
+            isinstance(name, str) and _IDENTIFIER_RE.fullmatch(name)
+            and callable(getattr(sympy, name, None)) for name in allowed):
+        raise AdapterError("PARSE_POLICY_VALUE_INVALID")
+    merged["allowed_functions"] = sorted(set(allowed))
     return merged
 
 
 # --------------------------------------------------------------------------- #
-# structural builtins (v0.2): Sum / Piecewise / relations / logic
+# structural builtins: Sum / Product / Piecewise / relations / logic
 # --------------------------------------------------------------------------- #
 # These names round-trip the structure-preserving representations produced by
 # the adapters (symbolic ``Sum``, ``Piecewise``, relational/logical
 # conditions). They are admitted as CALLABLES only — never as declared symbol
 # names — so the whitelist stays closed while structure survives parsing.
+def _piecewise_preserved(*branches):
+    """Construct Piecewise without discarding or merging ordered branches."""
+    return sympy.Piecewise(*branches, evaluate=False)
+
+
 _STRUCTURAL_BUILTINS: dict = {
     "Sum": sympy.Sum,
     "Product": sympy.Product,
-    "Piecewise": sympy.Piecewise,
+    "Piecewise": _piecewise_preserved,
     "Eq": sympy.Eq,
     "Ne": sympy.Ne,
     "Lt": sympy.Lt,
@@ -170,6 +223,91 @@ def _symbol_locals(symbols: list[dict], policy: dict,
     return local
 
 
+def normalize_functions(functions: Any,
+                        declared_symbol_names=()) -> list[str]:
+    """Validate and canonicalize the declared undefined-function namespace."""
+    if functions is None:
+        return []
+    if not isinstance(functions, (list, tuple)):
+        raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+    out: list[str] = []
+    for fname in functions:
+        if (not isinstance(fname, str) or not fname.strip()
+                or not _IDENTIFIER_RE.fullmatch(fname)):
+            raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+        out.append(fname)
+    if len(out) != len(set(out)):
+        raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
+    if set(out) & set(declared_symbol_names):
+        raise AdapterError("FUNCTION_NAME_COLLIDES_WITH_SYMBOL")
+    if HARD_RESERVED_NAMES & set(out):
+        raise AdapterError("FUNCTION_NAME_RESERVED")
+    return sorted(out)
+
+
+def infer_namespace(text: str) -> tuple[list[str], list[str]]:
+    """Infer symbols/functions for INSPECTION ONLY, never verification.
+
+    Unknown identifiers immediately followed by ``(`` are treated as
+    undefined functions; structural builtins, allowed SymPy functions and
+    constants are excluded. The result is canonical and deterministic.
+    """
+    if not isinstance(text, str):
+        raise AdapterError("EMPTY_EXPRESSION")
+    identifiers = set(_IDENTIFIER_RE.findall(text))
+    builtins = (set(get_parse_policy()["allowed_functions"])
+                | set(_STRUCTURAL_BUILTINS) | {"pi", "E", "I", "oo"})
+    called = set(re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\(", text))
+    functions = sorted(called - builtins)
+    symbols = sorted(identifiers - builtins - set(functions))
+    return symbols, functions
+
+
+def _validate_source_shape(expr_str: str, policy: dict) -> None:
+    """Tokenize the small expression grammar and enforce pre-parse bounds."""
+    tokens: list[str] = []
+    pos = 0
+    depth = 0
+    for match in _TOKEN_RE.finditer(expr_str):
+        if match.start() != pos:
+            raise AdapterError("DISALLOWED_CHARACTERS")
+        token = match.group(0)
+        pos = match.end()
+        if token.isspace():
+            continue
+        tokens.append(token)
+        if len(tokens) > policy["max_tokens"]:
+            raise AdapterError("EXPRESSION_TOO_LARGE")
+        if token == "(":
+            depth += 1
+            if depth > policy["max_nesting_depth"]:
+                raise AdapterError("EXPRESSION_TOO_LARGE")
+        elif token == ")":
+            depth -= 1
+            if depth < 0:
+                raise AdapterError("SYMBOLIC_PARSE_FAILED")
+    if pos != len(expr_str):
+        raise AdapterError("DISALLOWED_CHARACTERS")
+    if depth != 0:
+        raise AdapterError("SYMBOLIC_PARSE_FAILED")
+    for token in tokens:
+        if token[0].isdigit() and "." not in token \
+                and len(token) > policy["max_integer_digits"]:
+            raise AdapterError("EXPRESSION_TOO_LARGE")
+    for index, token in enumerate(tokens):
+        if token != "**" or index + 1 >= len(tokens):
+            continue
+        sign = 1
+        exponent_index = index + 1
+        if tokens[exponent_index] in ("+", "-"):
+            sign = -1 if tokens[exponent_index] == "-" else 1
+            exponent_index += 1
+        if exponent_index < len(tokens) and tokens[exponent_index].isdigit():
+            exponent = sign * int(tokens[exponent_index])
+            if abs(exponent) > policy["max_numeric_exponent"]:
+                raise AdapterError("EXPRESSION_TOO_LARGE")
+
+
 def syms_like(expr, names: list[str]) -> list:
     """Return the expression's OWN symbol objects for ``names``.
 
@@ -198,40 +336,23 @@ def parse_expression(expr_str: Any, symbols: Any, *,
     structure-preserving representations round-trip. ``allow_reserved`` is the
     explicit namespace-policy opt-in letting declared symbols shadow function
     builtins (see the module docstring). Raises AdapterError on any
-    violation. There is no eval/exec path.
+    violation. No unrestricted Python namespace is reachable.
     """
     pol = _effective_policy(policy)
     declared = normalize_symbols(symbols, allow_reserved=allow_reserved)
     if len(declared) > pol["max_symbols"]:
         raise AdapterError("CLAIM_SYMBOLS_TOO_MANY")
 
-    # Declared function names must be valid identifiers and not collide with
-    # declared symbols or hard-reserved names (constants / Rational /
-    # structural builtins). A declared function MAY shadow a function
-    # builtin: explicit declaration beats built-in.
-    func_names: list[str] = []
-    if functions is not None:
-        if not isinstance(functions, (list, tuple)):
-            raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
-        for fname in functions:
-            if not isinstance(fname, str) or not fname.strip():
-                raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
-            if not _IDENTIFIER_RE.fullmatch(fname):
-                raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
-            func_names.append(fname)
-        if len(func_names) != len(set(func_names)):
-            raise AdapterError("CLAIM_FUNCTIONS_MALFORMED")
-        if set(func_names) & {s["name"] for s in declared}:
-            raise AdapterError("FUNCTION_NAME_COLLIDES_WITH_SYMBOL")
-        if HARD_RESERVED_NAMES & set(func_names):
-            raise AdapterError("FUNCTION_NAME_RESERVED")
+    # A declared function MAY shadow a function builtin: explicit declaration
+    # beats built-in. Constants and structural builtins remain hard-reserved.
+    func_names = normalize_functions(
+        functions, declared_symbol_names={s["name"] for s in declared})
 
     if not isinstance(expr_str, str) or not expr_str.strip():
         raise AdapterError("EMPTY_EXPRESSION")
     if len(expr_str) > pol["max_expr_chars"]:
         raise AdapterError("EXPRESSION_TOO_LARGE")
-    if not _ALLOWED_CHARS_RE.match(expr_str):
-        raise AdapterError("DISALLOWED_CHARACTERS")
+    _validate_source_shape(expr_str, pol)
 
     identifiers = set(_IDENTIFIER_RE.findall(expr_str))
     allowed = ({s["name"] for s in declared}
@@ -243,10 +364,19 @@ def parse_expression(expr_str: Any, symbols: Any, *,
         raise AdapterError("UNDECLARED_OR_DISALLOWED_NAME")
 
     try:
-        expr = sympy.sympify(expr_str,
-                             locals=_symbol_locals(declared, pol, func_names),
-                             evaluate=True, convert_xor=True)
-    except (sympy.SympifyError, SyntaxError, TypeError, AttributeError, ValueError):
+        expr = parse_expr(
+            expr_str,
+            local_dict=_symbol_locals(declared, pol, func_names),
+            global_dict=dict(_SAFE_GLOBALS),
+            transformations=_TRANSFORMATIONS,
+            # SymPy canonicalizes ordinary commutative arithmetic here, while
+            # semantic containers (Sum/Product and the guarded Piecewise
+            # constructor) remain structural. Source-shape limits above stop
+            # evaluation from becoming an unbounded front-door operation.
+            evaluate=True,
+        )
+    except (sympy.SympifyError, SyntaxError, TypeError, AttributeError,
+            ValueError, RecursionError, MemoryError, OverflowError):
         raise AdapterError("SYMBOLIC_PARSE_FAILED") from None
 
     if sympy.count_ops(expr, visual=False) > pol["max_nodes"]:
@@ -280,6 +410,8 @@ def load_expression(path, symbols: Any, *,
 
     digest = hashlib.sha256(raw).hexdigest()
     declared = normalize_symbols(symbols, allow_reserved=allow_reserved)
+    func_names = normalize_functions(
+        functions, declared_symbol_names={s["name"] for s in declared})
     expr = parse_expression(text.strip(), declared, functions=functions,
                             allow_reserved=allow_reserved, policy=policy)
     return ExpressionRecord(
@@ -288,4 +420,5 @@ def load_expression(path, symbols: Any, *,
         source_path=str(p),
         parsed_expr=expr,
         symbols=declared,
+        functions=func_names,
     )

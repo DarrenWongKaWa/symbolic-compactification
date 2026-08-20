@@ -21,6 +21,7 @@ from typing import Optional
 
 import sympy
 
+from .budgets import BudgetExceeded, run_symbolic_operation
 from .models import AdapterError
 
 __all__ = [
@@ -53,6 +54,11 @@ def set_transform_policy(**overrides) -> dict:
     unknown = set(overrides) - set(_DEFAULT_TRANSFORM_POLICY)
     if unknown:
         raise AdapterError("TRANSFORM_POLICY_KEY_UNKNOWN")
+    candidate = dict(TRANSFORM_POLICY)
+    candidate.update(overrides)
+    cap = candidate["ops_cap"]
+    if not isinstance(cap, int) or isinstance(cap, bool) or cap <= 0:
+        raise AdapterError("TRANSFORM_POLICY_VALUE_INVALID")
     TRANSFORM_POLICY.update(overrides)
     return get_transform_policy()
 
@@ -87,12 +93,14 @@ class TransformResult:
 
 
 def residual_of(result: TransformResult) -> sympy.Expr:
-    """Local checkability: the residual ``before - after`` (expanded).
+    """Local checkability: a bounded expansion of ``before - after``.
 
-    A correct structure-preserving primitive yields an expanded residual of 0
-    WITHOUT lowering the structural representation.
+    The before/after views remain stored on the result; only this explicit
+    local proof diagnostic is lowered, under the central expansion budget.
     """
-    return sympy.expand(result.before - result.after)
+    return run_symbolic_operation(
+        "expand", sympy.expand, (result.before - result.after,),
+        budget_key="expand_seconds")
 
 
 # --------------------------------------------------------------------------- #
@@ -108,12 +116,50 @@ def _capped(name: str, expr: sympy.Expr, candidate: sympy.Expr,
             ops_cap: Optional[int] = None) -> TransformResult:
     """Accept ``candidate`` iff it changed the expression and fits the cap."""
     cap = ops_cap if ops_cap is not None else TRANSFORM_POLICY["ops_cap"]
+    if not isinstance(cap, int) or isinstance(cap, bool) or cap <= 0:
+        raise AdapterError("TRANSFORM_POLICY_VALUE_INVALID")
     if sympy.count_ops(candidate, visual=False) > cap:
         return _no_op(name, expr, "ops_cap_exceeded")
     if candidate == expr:
         return _no_op(name, expr, "no_change")
     return TransformResult(primitive=name, applied=True,
                            before=expr, after=candidate)
+
+
+def _factor_text(expr):
+    return str(sympy.factor(expr))
+
+
+def _factor_terms_text(expr):
+    return str(sympy.factor_terms(expr))
+
+
+def _together_text(expr):
+    return str(sympy.together(expr))
+
+
+def _cancel_text(expr):
+    return str(sympy.cancel(expr))
+
+
+def _budgeted_candidate(name: str, expr: sympy.Expr, text_fn,
+                        budget_key: str, *, preserve_factoring: bool = False
+                        ) -> sympy.Expr:
+    """Execute a transform in a worker and reconstruct its structural text.
+
+    SymPy's default pickle reducer may evaluate intentionally factored nodes
+    while crossing a process boundary. Returning trusted engine-generated
+    text and rebuilding it with ``evaluate=False`` preserves that structure
+    without introducing a custom symbolic IR.
+    """
+    text = run_symbolic_operation(
+        name, text_fn, (expr,), budget_key=budget_key)
+    local = {symbol.name: symbol for symbol in expr.atoms(sympy.Symbol)}
+    for sub in sympy.preorder_traversal(expr):
+        if isinstance(sub, sympy.core.function.AppliedUndef):
+            local[type(sub).__name__] = sympy.Function(type(sub).__name__)
+    return sympy.sympify(
+        text, locals=local, evaluate=not preserve_factoring)
 
 
 # --------------------------------------------------------------------------- #
@@ -157,7 +203,11 @@ def factor_common_kernel(expr: sympy.Expr,
     """``sympy.factor``-based common-kernel extraction (bounded)."""
     name = "factor_common_kernel"
     try:
-        candidate = sympy.factor(expr)
+        candidate = _budgeted_candidate(
+            name, expr, _factor_text, "factor_seconds",
+            preserve_factoring=True)
+    except BudgetExceeded:
+        raise
     except Exception:
         return _no_op(name, expr, "factor_failed")
     return _capped(name, expr, candidate, ops_cap)
@@ -168,7 +218,11 @@ def collect_common_factor(expr: sympy.Expr,
     """``sympy.factor_terms``-based common-factor collection (bounded)."""
     name = "collect_common_factor"
     try:
-        candidate = sympy.factor_terms(expr)
+        candidate = _budgeted_candidate(
+            name, expr, _factor_terms_text, "factor_terms_seconds",
+            preserve_factoring=True)
+    except BudgetExceeded:
+        raise
     except Exception:
         return _no_op(name, expr, "factor_terms_failed")
     return _capped(name, expr, candidate, ops_cap)
@@ -210,7 +264,11 @@ def factor_terms(expr: sympy.Expr,
     """Thin bounded wrapper over ``sympy.factor_terms``."""
     name = "factor_terms"
     try:
-        candidate = sympy.factor_terms(expr)
+        candidate = _budgeted_candidate(
+            name, expr, _factor_terms_text, "factor_terms_seconds",
+            preserve_factoring=True)
+    except BudgetExceeded:
+        raise
     except Exception:
         return _no_op(name, expr, "factor_terms_failed")
     return _capped(name, expr, candidate, ops_cap)
@@ -220,7 +278,10 @@ def together(expr: sympy.Expr, ops_cap: Optional[int] = None) -> TransformResult
     """Thin bounded wrapper over ``sympy.together`` (common denominator)."""
     name = "together"
     try:
-        candidate = sympy.together(expr)
+        candidate = _budgeted_candidate(
+            name, expr, _together_text, "together_seconds")
+    except BudgetExceeded:
+        raise
     except Exception:
         return _no_op(name, expr, "together_failed")
     return _capped(name, expr, candidate, ops_cap)
@@ -230,7 +291,10 @@ def cancel(expr: sympy.Expr, ops_cap: Optional[int] = None) -> TransformResult:
     """Thin bounded wrapper over ``sympy.cancel`` (cancel common factors)."""
     name = "cancel"
     try:
-        candidate = sympy.cancel(expr)
+        candidate = _budgeted_candidate(
+            name, expr, _cancel_text, "cancel_seconds")
+    except BudgetExceeded:
+        raise
     except Exception:
         return _no_op(name, expr, "cancel_failed")
     return _capped(name, expr, candidate, ops_cap)

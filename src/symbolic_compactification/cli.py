@@ -35,18 +35,17 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import sys
 from pathlib import Path
 from typing import Optional
 
 import sympy
 
-from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
-                     UNKNOWN, ZERO, AdapterError, StepRecord,
-                     derive_status_axes)
-from .parser import get_parse_policy, load_expression
-from .session import init_session, load_session, promote, record_step, set_current
+from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, PACKAGE_VERSION,
+                     NONZERO, UNKNOWN, ZERO, AdapterError)
+from .parser import infer_namespace, load_expression
+from .pipeline import adjudicate_candidate
+from .session import init_session, load_session, set_current
 from .verifier import verify_equivalent
 
 EXIT_ZERO = 0
@@ -55,10 +54,6 @@ EXIT_UNKNOWN = 3
 EXIT_ERROR = 4
 
 _VERDICT_EXIT = {ZERO: EXIT_ZERO, NONZERO: EXIT_NONZERO, UNKNOWN: EXIT_UNKNOWN}
-
-_CONSTANTS = {"pi", "E", "I", "oo"}
-_IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
-
 
 def _eprint(msg: str) -> None:
     print(msg, file=sys.stderr)
@@ -71,7 +66,7 @@ def _eprint(msg: str) -> None:
 def load_symbols_file(path: str) -> list:
     """Parse symbols.json: ``{"symbols": [...]}`` or a bare JSON list.
 
-    Returns the symbol declaration list only. For the optional v0.2
+    Returns the symbol declaration list only. For the optional
     declared-function namespace use ``load_namespace_file``.
     """
     return load_namespace_file(path)[0]
@@ -85,7 +80,7 @@ def load_namespace_file(path: str) -> tuple[list, list]:
       * ``{"symbols": [...]}``            -> (symbols, [])
       * ``{"symbols": [...], "functions": [...]}`` -> both namespaces
 
-    ``functions`` is the v0.2 declared-function namespace (indexed calls
+    ``functions`` is the declared-function namespace (indexed calls
     such as ``f(n)``); it is optional and defaults to empty.
     """
     try:
@@ -106,17 +101,6 @@ def load_namespace_file(path: str) -> tuple[list, list]:
     raise AdapterError("SYMBOLS_FILE_MALFORMED")
 
 
-def infer_symbols(text: str) -> list[str]:
-    """Inspection-only inference: identifiers minus whitelisted functions/consts."""
-    allowed_fns = set(get_parse_policy()["allowed_functions"])
-    names = _IDENTIFIER_RE.findall(text)
-    seen: list[str] = []
-    for n in names:
-        if n not in allowed_fns and n not in _CONSTANTS and n not in seen:
-            seen.append(n)
-    return seen
-
-
 # --------------------------------------------------------------------------- #
 # output helpers
 # --------------------------------------------------------------------------- #
@@ -132,53 +116,8 @@ def _print_result(result) -> None:
     print(f"verifier:            {result.verifier} ({result.seconds}s)")
 
 
-def _step_telemetry(current, candidate, result) -> dict:
-    """Complete JSON-native step telemetry (v0.2.2).
-
-    Every normal verification step populates each telemetry field when it is
-    computable; when a field is not computable the record carries an explicit
-    ``<field>_reason`` code instead of a silent null. ``primitive`` is
-    reason-only for CLI-driven steps (no structural primitive is applied).
-    The timeout status mirrors the verifier's fail-closed budget evidence.
-    """
-    timed_out = any(e.get("kind") == "TIME_BUDGET_EXCEEDED"
-                    for e in result.evidence)
-
-    def _ops(rec):
-        if rec is None or rec.parsed_expr is None:
-            return None
-        try:
-            return sympy.count_ops(rec.parsed_expr, visual=False)
-        except Exception:
-            return None
-
-    telemetry = {
-        "input_chars": len(current.text),
-        "output_chars": len(candidate.text),
-        "wall_time_seconds": result.seconds,
-        "verdict": result.verdict,
-        "timeout_status": "TIME_BUDGET_EXCEEDED" if timed_out else "ok",
-        "engine_version": ENGINE_VERSION,
-        "agent_protocol_version": AGENT_PROTOCOL_VERSION,
-    }
-
-    # count_ops_*: populate when computable, else an explicit *_reason
-    # (never a silent null).
-    ops_before = _ops(current)
-    if ops_before is not None:
-        telemetry["count_ops_before"] = ops_before
-    else:
-        telemetry["count_ops_before_reason"] = "PARSE_UNAVAILABLE"
-    ops_after = _ops(candidate)
-    if ops_after is not None:
-        telemetry["count_ops_after"] = ops_after
-    else:
-        telemetry["count_ops_after_reason"] = "PARSE_UNAVAILABLE"
-
-    # primitive: a CLI-driven step applies no structural primitive, so the
-    # field is reason-only rather than a silent null.
-    telemetry["primitive_reason"] = "CLI_STEP_NO_STRUCTURAL_PRIMITIVE"
-    return telemetry
+def _print_json(payload: dict) -> None:
+    print(json.dumps(payload, sort_keys=True, ensure_ascii=False))
 
 
 # --------------------------------------------------------------------------- #
@@ -196,10 +135,23 @@ def cmd_inspect(args) -> int:
     if args.symbols:
         declared, functions = load_namespace_file(args.symbols)
     else:
-        declared, functions = infer_symbols(text), []
+        declared, functions = infer_namespace(text)
         inferred = True
     parse_declared = declared if declared else ["_inspect_placeholder"]
     rec = load_expression(args.expr, parse_declared, functions=functions or None)
+    preview = rec.text if len(rec.text) <= 200 else rec.text[:200] + " ..."
+    if args.json:
+        _print_json({
+            "file": args.expr,
+            "format": "native",
+            "sha256": rec.sha256,
+            "symbols": rec.symbols if not inferred else declared,
+            "functions": functions,
+            "inferred": inferred,
+            "count_ops": int(sympy.count_ops(rec.parsed_expr, visual=False)),
+            "preview": preview,
+        })
+        return EXIT_ZERO
     print(f"file:        {args.expr}")
     print(f"sha256:      {rec.sha256}")
     if inferred:
@@ -210,7 +162,6 @@ def cmd_inspect(args) -> int:
     if functions:
         print(f"functions:   {json.dumps(functions)}")
     print(f"count_ops:   {sympy.count_ops(rec.parsed_expr, visual=False)}")
-    preview = rec.text if len(rec.text) <= 200 else rec.text[:200] + " ..."
     print(f"preview:     {preview}")
     return EXIT_ZERO
 
@@ -226,6 +177,19 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
     digest = hashlib.sha256(raw).hexdigest()
     source = extract_expression_text(text)
     result = translate_wolfram_text(source)
+    preview = result.text if len(result.text) <= 200 else result.text[:200] + " ..."
+    if args.json:
+        _print_json({
+            "file": args.expr,
+            "format": "wolfram",
+            "sha256": digest,
+            "symbols": result.symbols,
+            "functions": result.functions,
+            "bound_symbols": result.bound_symbols,
+            "count_ops": int(sympy.count_ops(result.expr, visual=False)),
+            "translated": preview,
+        })
+        return EXIT_ZERO
     print(f"file:        {args.expr}")
     print(f"format:      wolfram (translation only, no Wolfram runtime)")
     print(f"sha256:      {digest}")
@@ -233,7 +197,6 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
     print(f"functions:   {json.dumps(result.functions)}")
     print(f"bound:       {json.dumps(result.bound_symbols)}  (Sum/Product dummy indices; declare them for re-parsing)")
     print(f"count_ops:   {sympy.count_ops(result.expr, visual=False)}")
-    preview = result.text if len(result.text) <= 200 else result.text[:200] + " ..."
     print(f"translated:  {preview}")
     return EXIT_ZERO
 
@@ -245,6 +208,14 @@ def cmd_verify(args) -> int:
     candidate = load_expression(args.candidate, declared, functions=fns)
     result = verify_equivalent(current.text, candidate.text, declared,
                                functions=fns)
+    if args.json:
+        _print_json({
+            "current": {"path": args.current, "sha256": current.sha256},
+            "candidate": {"path": args.candidate,
+                          "sha256": candidate.sha256},
+            "result": result.to_dict(),
+        })
+        return _VERDICT_EXIT[result.verdict]
     print(f"current:   {args.current}  sha256={current.sha256}")
     print(f"candidate: {args.candidate}  sha256={candidate.sha256}")
     _print_result(result)
@@ -255,10 +226,8 @@ def cmd_init_session(args) -> int:
     meta = {"cli": "init-session"}
     session = init_session(workspace_root=args.workspace, meta=meta,
                            requested_arm=args.requested_arm)
-    print(f"run_id:   {session.run_id}")
-    print(f"run_root: {session.run_root}")
     arm = getattr(session, "requested_arm", None)
-    print(f"arm:      {arm if arm is not None else '(undeclared)'}")
+    current_payload = None
     if args.current:
         if not args.symbols:
             raise AdapterError("SYMBOLS_REQUIRED_WITH_CURRENT")
@@ -266,6 +235,15 @@ def cmd_init_session(args) -> int:
         rec = load_expression(args.current, declared,
                               functions=functions or None)
         set_current(session, rec, meta=meta)
+        current_payload = {"path": args.current, "sha256": rec.sha256}
+    if args.json:
+        _print_json({"run_id": session.run_id, "run_root": session.run_root,
+                     "requested_arm": arm, "current": current_payload})
+        return EXIT_ZERO
+    print(f"run_id:   {session.run_id}")
+    print(f"run_root: {session.run_root}")
+    print(f"arm:      {arm if arm is not None else '(undeclared)'}")
+    if current_payload:
         print(f"current:  {args.current}  sha256={rec.sha256}")
     else:
         print("current:  (none)")
@@ -279,42 +257,40 @@ def cmd_step(args) -> int:
 
     if args.current:
         current = load_expression(args.current, declared, functions=fns)
+        if session.current is None:
+            set_current(session, current, meta={"cli": "step-initial-current"})
+        elif (current.sha256 != session.current.sha256
+              or current.text != session.current.text
+              or current.symbols != session.current.symbols
+              or current.functions != session.current.functions):
+            raise AdapterError("CURRENT_STATE_MISMATCH")
+        else:
+            # Same persisted bytes/namespace, now with a hydrated AST for
+            # structural telemetry. This is not a state transition.
+            session.current = current
     elif session.current is not None:
         current = session.current
     else:
         raise AdapterError("NO_CURRENT_EXPRESSION")
     candidate = load_expression(args.candidate, declared, functions=fns)
 
-    result = verify_equivalent(current.text, candidate.text, declared,
-                               functions=fns)
-    # v0.2.2 split status axes: a CLI verification step is adjudicated; its
-    # assumption axis reflects the declared symbols (DECLARED when present).
-    assumption_status, proof_status = derive_status_axes(
-        result.verdict,
-        assumptions_status="DECLARED" if declared else "NONE",
-        adjudicated=True)
-    step = StepRecord(
-        step=len(session.steps) + 1,
-        current_hash=current.sha256,
-        candidate_hash=candidate.sha256,
-        candidate_text=candidate.text,
-        residual=result.simplified_residual or result.residual,
-        verdict=result.verdict,
-        evidence=result.evidence,
-        # conjecture layer distinct from certification: a ZERO verdict
-        # CERTIFIES the step; anything else leaves it UNVERIFIED
-        status="CERTIFIED" if result.verdict == ZERO else "UNVERIFIED",
-        telemetry=_step_telemetry(current, candidate, result),
-        assumption_status=assumption_status,
-        proof_status=proof_status,
-    )
-    step_path = record_step(session, step, meta={"cli": "step"})
+    outcome = adjudicate_candidate(session, candidate, meta={"cli": "step"})
+    result = outcome.result
+    if args.json:
+        _print_json({
+            "run_id": session.run_id,
+            "step_file": str(outcome.step_path),
+            "promoted": outcome.promoted,
+            "promoted_path": (str(outcome.promoted_path)
+                              if outcome.promoted_path else None),
+            "result": result.to_dict(),
+        })
+        return _VERDICT_EXIT[result.verdict]
     print(f"run:       {session.run_id}")
-    print(f"step_file: {step_path}")
+    print(f"step_file: {outcome.step_path}")
     _print_result(result)
-    if result.verdict == ZERO:
-        final_path = promote(session, candidate, meta={"cli": "step"})
-        print(f"promoted:  {final_path}")
+    if outcome.promoted:
+        print(f"promoted:  {outcome.promoted_path}")
     else:
         print("promoted:  (no promotion; verdict != ZERO)")
     return _VERDICT_EXIT[result.verdict]
@@ -331,6 +307,9 @@ def cmd_finalize(args) -> int:
     from .reporting import render_final_report
     session = load_session(args.workspace, args.run)
     report = render_final_report(session)
+    if args.json:
+        _print_json(report)
+        return EXIT_ZERO
     print("FINAL CERTIFIED FORM")
     print("=" * 20)
     print(f"run_id:     {report['run_id']}")
@@ -358,6 +337,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="symbolic-compactification",
         description="Strict symbolic ingestion, verification and session records.")
+    parser.add_argument(
+        "--version", action="version",
+        version=(f"%(prog)s {PACKAGE_VERSION} "
+                 f"(engine {ENGINE_VERSION}, protocol {AGENT_PROTOCOL_VERSION})"))
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_inspect = sub.add_parser("inspect", help="hash/parse a .txt expression file")
@@ -366,12 +349,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_inspect.add_argument("--format", choices=["native", "wolfram"], default="native",
                            help="input format; 'wolfram' translates Wolfram text "
                                 "(inspection only, no Wolfram runtime)")
+    p_inspect.add_argument("--json", action="store_true",
+                           help="emit one machine-readable JSON object")
     p_inspect.set_defaults(func=cmd_inspect)
 
     p_verify = sub.add_parser("verify", help="verify current == candidate (residual)")
     p_verify.add_argument("--current", required=True)
     p_verify.add_argument("--candidate", required=True)
     p_verify.add_argument("--symbols", required=True)
+    p_verify.add_argument("--json", action="store_true",
+                          help="emit one machine-readable JSON object")
     p_verify.set_defaults(func=cmd_verify)
 
     p_init = sub.add_parser("init-session", help="create a new run directory")
@@ -381,6 +368,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_init.add_argument("--requested-arm", default=None, dest="requested_arm",
                         choices=[None, "A", "a", "B", "b"],
                         help="optional declared A/B experiment arm (A or B)")
+    p_init.add_argument("--json", action="store_true",
+                        help="emit one machine-readable JSON object")
     p_init.set_defaults(func=cmd_init_session)
 
     p_step = sub.add_parser("step", help="one verify step recorded into a run")
@@ -389,6 +378,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_step.add_argument("--current", help="override the session's current expression")
     p_step.add_argument("--candidate", required=True)
     p_step.add_argument("--symbols", required=True)
+    p_step.add_argument("--json", action="store_true",
+                        help="emit one machine-readable JSON object")
     p_step.set_defaults(func=cmd_step)
 
     p_finalize = sub.add_parser(
@@ -396,6 +387,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_finalize.add_argument("--run", required=True,
                             help="run-id of an existing run")
     p_finalize.add_argument("--workspace", default="workspace")
+    p_finalize.add_argument("--json", action="store_true",
+                            help="emit one machine-readable JSON object")
     p_finalize.set_defaults(func=cmd_finalize)
 
     return parser

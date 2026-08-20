@@ -51,6 +51,7 @@ def _record(text: str, symbols=("x",), functions=None) -> ExpressionRecord:
         source_path=None,
         parsed_expr=parsed,
         symbols=declared,
+        functions=list(functions or []),
     )
 
 
@@ -81,8 +82,8 @@ def test_packet_contains_all_required_fields_and_versions():
         record, goal="factor the expanded polynomial")
 
     assert packet["packet_type"] == "conjecture_packet"
-    assert packet["agent_protocol_version"] == AGENT_PROTOCOL_VERSION == "0.2.2"
-    assert packet["engine_version"] == ENGINE_VERSION == "0.2.0"
+    assert packet["agent_protocol_version"] == AGENT_PROTOCOL_VERSION == "0.3.0"
+    assert packet["engine_version"] == ENGINE_VERSION == "0.3.0"
     assert packet["current_expression"] == "(x+1)**2"
     assert packet["current_sha256"] == sha256_text("(x+1)**2")
     # structural form + cheap structural inventory are present
@@ -222,7 +223,8 @@ def test_validate_enforces_assumptions_status_enum():
     assert excinfo.value.code == "PROPOSAL_INVALID"
     # case-insensitive acceptance, normalized to uppercase
     assert validate_candidate(
-        _candidate("x", assumptions_status="declared"))[
+        _candidate("x", assumptions_status="declared",
+                   required_assumptions=["x is real"]))[
         "assumptions_status"] == "DECLARED"
 
 

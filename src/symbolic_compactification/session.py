@@ -4,7 +4,7 @@ On-disk layout under ``<workspace_root>/runs/<run-id>/``::
 
     manifest.json      run metadata + current expression record + step index
     steps/step_NNN.json   one file per recorded step (zero-padded index)
-    packets/packet_NNN.json  conjecture-packet provenance records (v0.2.2)
+    packets/packet_NNN.json  conjecture-packet provenance records
     final/current.json    promoted current expression (text + sha256)
 
 All payloads are produced via the kernel dataclasses' ``to_dict()`` methods,
@@ -16,13 +16,16 @@ set by ``init_session`` / ``load_session``. It is never serialized.
 from __future__ import annotations
 
 import json
+import os
+import re
 import secrets
+import tempfile
 import time
 from pathlib import Path
 from typing import Optional
 
 from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
-                     ENGINE_VERSION, NONZERO,
+                     ENGINE_VERSION, PACKAGE_VERSION, NONZERO,
                      PROPOSAL_EVIDENCE_KIND, PROPOSER_HARNESS_SUBAGENT,
                      PROPOSER_MAIN_AGENT, PROPOSER_MODE_UNKNOWN,
                      PROPOSER_SUBAGENT_UNAVAILABLE, PROOF_STATUS_VALUES,
@@ -44,29 +47,53 @@ def _run_id() -> str:
 
 def _write_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
-                    encoding="utf-8")
+    fd, temporary = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            json.dump(payload, stream, indent=2, ensure_ascii=False)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except OSError:
+            pass
+        raise
 
 
 def _read_json(path: Path) -> dict:
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         raise AdapterError("RUN_MANIFEST_UNREADABLE") from None
+    if not isinstance(payload, dict):
+        raise AdapterError("RUN_MANIFEST_UNREADABLE")
+    return payload
 
 
 def _manifest_payload(session: SessionState, meta: Optional[dict]) -> dict:
+    existing_meta = dict(getattr(session, "meta", {}))
+    if meta:
+        existing_meta.update(meta)
+    session.meta = existing_meta
     return {
         "run_id": session.run_id,
         "created_at": session.created_at,
-        "engine_version": ENGINE_VERSION,
-        # agent-protocol version (v0.2.1): the proposer/conjecture protocol
-        # in force for this run; the deterministic engine stays v0.2.0
-        "agent_protocol_version": AGENT_PROTOCOL_VERSION,
-        "engine_git_sha": engine_git_sha(),
-        # declared A/B experiment arm (v0.2.2); None when undeclared
+        "repository_version": getattr(
+            session, "repository_version", PACKAGE_VERSION),
+        "engine_version": getattr(session, "engine_version", ENGINE_VERSION),
+        # proposer/state/reporting protocol in force for this run
+        "agent_protocol_version": getattr(
+            session, "agent_protocol_version", AGENT_PROTOCOL_VERSION),
+        "engine_git_sha": (getattr(session, "engine_git_sha", None)
+                           or engine_git_sha()),
+        # declared A/B experiment arm; None when undeclared
         "requested_arm": getattr(session, "requested_arm", None),
-        "meta": meta or {},
+        "policies": dict(getattr(session, "policies", {})),
+        "meta": existing_meta,
         "current": None if session.current is None else session.current.to_dict(),
         "steps": [s.to_dict() for s in session.steps],
     }
@@ -86,6 +113,29 @@ def _normalize_requested_arm(arm) -> Optional[str]:
     raise AdapterError("REQUESTED_ARM_INVALID")
 
 
+_RUN_ID_RE = re.compile(r"\d{8}T\d{6}Z-[0-9a-f]{6}\Z")
+
+
+def _normalize_run_id(run_id: str) -> str:
+    if not isinstance(run_id, str) or not _RUN_ID_RE.fullmatch(run_id):
+        raise AdapterError("RUN_ID_INVALID")
+    return run_id
+
+
+def _policy_snapshot() -> dict:
+    """Capture all effective policy defaults once at run initialization."""
+    from .budgets import get_budget_policy
+    from .parser import get_parse_policy
+    from .transforms import get_transform_policy
+    from .verifier import get_verify_policy
+    return {
+        "parse": get_parse_policy(),
+        "verify": get_verify_policy(),
+        "transform": get_transform_policy(),
+        "budget": get_budget_policy(),
+    }
+
+
 def _run_root(session: SessionState) -> Path:
     root = getattr(session, "run_root", None)
     if not root:
@@ -102,7 +152,7 @@ def init_session(workspace_root: str = "workspace",
                  requested_arm: Optional[str] = None) -> SessionState:
     """Create ``<workspace_root>/runs/<run-id>/`` with manifest, steps/, final/.
 
-    ``requested_arm`` (v0.2.2) optionally declares the A/B experiment arm
+    ``requested_arm`` optionally declares the A/B experiment arm
     this run is meant to execute (``"A"`` main-agent-only / ``"B"``
     harness-subagent proposer; case-insensitive; default None = undeclared).
     It is a DECLARATION of intent: whether the arm was actually honored is
@@ -115,12 +165,18 @@ def init_session(workspace_root: str = "workspace",
     """
     run_id = _run_id()
     run_root = Path(workspace_root) / "runs" / run_id
-    (run_root / "steps").mkdir(parents=True, exist_ok=True)
+    (run_root / "steps").mkdir(parents=True, exist_ok=False)
     (run_root / "final").mkdir(parents=True, exist_ok=True)
 
     session = SessionState(run_id=run_id)
     session.run_root = str(run_root)  # runtime-only, never serialized
     session.requested_arm = _normalize_requested_arm(requested_arm)
+    session.repository_version = PACKAGE_VERSION
+    session.engine_version = ENGINE_VERSION
+    session.agent_protocol_version = AGENT_PROTOCOL_VERSION
+    session.engine_git_sha = engine_git_sha()
+    session.policies = _policy_snapshot()
+    session.meta = dict(meta or {})
     _write_json(run_root / "manifest.json", _manifest_payload(session, meta))
     return session
 
@@ -140,8 +196,13 @@ def set_requested_arm(session: SessionState, arm: Optional[str],
 
 def load_session(workspace_root: str, run_id: str) -> SessionState:
     """Re-hydrate a ``SessionState`` from an existing run's manifest.json."""
+    run_id = _normalize_run_id(run_id)
     run_root = Path(workspace_root) / "runs" / run_id
     manifest = _read_json(run_root / "manifest.json")
+    if (manifest.get("run_id") != run_id
+            or not isinstance(manifest.get("created_at"), str)
+            or not isinstance(manifest.get("steps", []), list)):
+        raise AdapterError("RUN_MANIFEST_UNREADABLE")
 
     current = None
     cur = manifest.get("current")
@@ -150,13 +211,22 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
             text=cur["text"], sha256=cur["sha256"],
             source_path=cur.get("source_path"), parsed_expr=None,
             symbols=list(cur.get("symbols", [])),
+            functions=list(cur.get("functions", [])),
         )
     session = SessionState(run_id=manifest["run_id"],
                            created_at=manifest["created_at"],
                            current=current)
-    # v0.2.2: restore the declared A/B arm (None for pre-v0.2.2 manifests)
+    # Restore the declared A/B arm (None for older manifests).
     session.requested_arm = _normalize_requested_arm(
         manifest.get("requested_arm"))
+    session.repository_version = manifest.get(
+        "repository_version", manifest.get("engine_version", ENGINE_VERSION))
+    session.engine_version = manifest.get("engine_version", ENGINE_VERSION)
+    session.agent_protocol_version = manifest.get(
+        "agent_protocol_version", AGENT_PROTOCOL_VERSION)
+    session.engine_git_sha = manifest.get("engine_git_sha", "unknown")
+    session.policies = dict(manifest.get("policies", {}))
+    session.meta = dict(manifest.get("meta", {}))
     for st in manifest.get("steps", []):
         status = st.get("status")
         assumption_status = st.get("assumption_status")
@@ -184,6 +254,8 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
 def set_current(session: SessionState, record: ExpressionRecord,
                 meta: Optional[dict] = None) -> None:
     """Install an initial current expression on a fresh session (ingestion)."""
+    if session.current is not None or session.steps:
+        raise AdapterError("CURRENT_ALREADY_SET")
     session.current = record
     _write_json(_run_root(session) / "manifest.json",
                 _manifest_payload(session, meta))
@@ -197,11 +269,45 @@ def record_step(session: SessionState, step: StepRecord,
     is also appended to the in-memory session. Returns the step file path.
     """
     run_root = _run_root(session)
+    expected = len(session.steps) + 1
+    if step.step != expected:
+        raise AdapterError("STEP_SEQUENCE_INVALID")
+    if session.current is not None and step.current_hash != session.current.sha256:
+        raise AdapterError("CURRENT_STATE_MISMATCH")
     step_path = run_root / "steps" / f"step_{step.step:03d}.json"
+    if step_path.exists():
+        raise AdapterError("STEP_ALREADY_EXISTS")
+    # Fill the orthogonal proof axis when a caller used the older low-level
+    # StepRecord API.  Contradictory explicit values were rejected by the
+    # model; these defaults make the persisted transition mechanically clear.
+    if step.proof_status is None:
+        if step.status == "HYPOTHESIS":
+            step.proof_status = "HYPOTHESIS"
+        elif step.verdict == ZERO:
+            step.proof_status = "PROVEN"
+        elif step.verdict == NONZERO:
+            step.proof_status = "REFUTED"
+        elif step.verdict == UNKNOWN:
+            step.proof_status = "PROOF_REQUIRED"
     _write_json(step_path, step.to_dict())
     session.steps.append(step)
     _write_json(run_root / "manifest.json", _manifest_payload(session, meta))
     return step_path
+
+
+def proposal_assumption_status(session: SessionState,
+                               candidate_text: str) -> Optional[str]:
+    """Return the nearest recorded proposal's assumption gate for a candidate."""
+    for step in reversed(session.steps):
+        if step.candidate_text != candidate_text:
+            continue
+        for evidence in step.evidence:
+            if (isinstance(evidence, dict)
+                    and evidence.get("kind") == PROPOSAL_EVIDENCE_KIND):
+                status = evidence.get("assumptions_status")
+                return (status if status in ASSUMPTION_STATUS_VALUES
+                        else None)
+    return None
 
 
 def promote(session: SessionState, candidate_record: ExpressionRecord,
@@ -214,8 +320,28 @@ def promote(session: SessionState, candidate_record: ExpressionRecord,
     the expression text and its sha256, updates the session and manifest.
     Returns the final file path.
     """
-    if not session.steps or session.steps[-1].verdict != ZERO:
+    if not session.steps:
         raise AdapterError("VERDICT_NOT_ZERO")
+    last = session.steps[-1]
+    zero_evidence = any(
+        isinstance(item, dict) and item.get("kind") in {
+            "exact_symbolic_zero",
+            "exact_symbolic_zero_after_complex_normalization",
+        }
+        for item in last.evidence)
+    if (last.verdict != ZERO or last.status != "CERTIFIED"
+            or last.proof_status != "PROVEN" or not zero_evidence):
+        raise AdapterError("VERDICT_NOT_ZERO")
+    if session.current is None or last.current_hash != session.current.sha256:
+        raise AdapterError("CURRENT_STATE_MISMATCH")
+    if (last.candidate_hash != candidate_record.sha256
+            or last.candidate_text != candidate_record.text):
+        raise AdapterError("CANDIDATE_STATE_MISMATCH")
+    if last.assumption_status == "HUMAN_REQUIRED":
+        raise AdapterError("HUMAN_AUTHORIZATION_REQUIRED")
+    if proposal_assumption_status(
+            session, candidate_record.text) == "HUMAN_REQUIRED":
+        raise AdapterError("HUMAN_AUTHORIZATION_REQUIRED")
 
     run_root = _run_root(session)
     session.current = candidate_record
@@ -225,6 +351,7 @@ def promote(session: SessionState, candidate_record: ExpressionRecord,
         "sha256_of_text": sha256_text(candidate_record.text),
         "promoted_at_step": session.steps[-1].step,
         "symbols": [dict(s) for s in candidate_record.symbols],
+        "functions": list(candidate_record.functions),
     }
     final_path = run_root / "final" / "current.json"
     _write_json(final_path, final_payload)
@@ -233,7 +360,7 @@ def promote(session: SessionState, candidate_record: ExpressionRecord,
 
 
 def record_packet_provenance(session: SessionState, record: dict) -> Path:
-    """Persist one minimal conjecture-packet provenance record (v0.2.2).
+    """Persist one minimal conjecture-packet provenance record.
 
     Writes ``packets/packet_<NNN>.json`` (zero-padded, monotonically
     numbered) carrying the NEUTRAL provenance fields only: the certified-state
@@ -248,14 +375,22 @@ def record_packet_provenance(session: SessionState, record: dict) -> Path:
     run_root = _run_root(session)
     packets = run_root / "packets"
     packets.mkdir(parents=True, exist_ok=True)
-    index = len(session.steps) + 1
+    existing = []
+    for candidate in packets.glob("packet_*.json"):
+        try:
+            existing.append(int(candidate.stem.split("_")[-1]))
+        except ValueError:
+            continue
+    index = max(existing, default=0) + 1
     path = packets / f"packet_{index:03d}.json"
+    if path.exists():
+        raise AdapterError("PACKET_ALREADY_EXISTS")
     _write_json(path, record)
     return path
 
 
 # --------------------------------------------------------------------------- #
-# A/B telemetry helper (v0.2.1): cheap run summary from existing records
+# A/B telemetry helper: cheap run summary from existing records
 # --------------------------------------------------------------------------- #
 
 def run_summary(run_dir) -> dict:
@@ -421,7 +556,7 @@ def _derive_arm_valid(requested_arm: Optional[str], proposer_mode: str
                       ) -> tuple:
     """Derive ``(ab_arm_valid, invalid_reason)`` from recorded evidence.
 
-    Rules (v0.2.2), judged STRICTLY from ``proposer_mode`` (itself derived
+    Rules, judged STRICTLY from ``proposer_mode`` (itself derived
     only from recorded invocation evidence — never from the role contract
     existing/being read, never from an internal in-process callback):
 

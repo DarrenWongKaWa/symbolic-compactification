@@ -108,6 +108,7 @@ def _record(text: str, symbols=("x",), functions=None) -> ExpressionRecord:
         source_path=None,
         parsed_expr=parsed,
         symbols=declared,
+        functions=list(functions or []),
     )
 
 
@@ -380,13 +381,23 @@ def test_human_required_candidate_never_auto_certified(tmp_path):
         promote(session, _record("x**2 + 2*x + 1"))
     assert excinfo.value.code == "VERDICT_NOT_ZERO"
 
-    # ... it still requires a NORMAL ZERO verification step; only that
-    # deterministic adjudication (with the declared assumptions on record)
-    # unlocks the main agent's promotion path.
+    # A ZERO alone does not erase the human gate.
     candidate_rec = _record("x**2 + 2*x + 1")
     result = verify_equivalent(session.current.text, candidate_rec.text,
                                ["x"])
     assert result.verdict == ZERO
+    record_step(session, _verification_step(
+        session, candidate_rec, result, status="CERTIFIED"))
+    with pytest.raises(AdapterError) as excinfo:
+        promote(session, candidate_rec)
+    assert excinfo.value.code == "HUMAN_AUTHORIZATION_REQUIRED"
+
+    # Human authorization is represented by a new matching proposal whose
+    # needed assumption is now explicitly DECLARED, followed by adjudication.
+    record_proposal(session, _candidate(
+        "x**2 + 2*x + 1", candidate_id="human-authorized",
+        required_assumptions=["x is an integer"],
+        assumptions_status="DECLARED"))
     record_step(session, _verification_step(
         session, candidate_rec, result, status="CERTIFIED"))
     promote(session, candidate_rec)
@@ -401,10 +412,10 @@ def test_manifest_records_agent_protocol_and_engine_versions(tmp_path):
     session = init_session(workspace_root=str(tmp_path))
     set_current(session, _record("x"))
     manifest = _read_manifest(tmp_path, session)
-    assert manifest["agent_protocol_version"] == "0.2.2"
-    assert manifest["engine_version"] == "0.2.0"
-    assert AGENT_PROTOCOL_VERSION == "0.2.2"
-    assert ENGINE_VERSION == "0.2.0"
+    assert manifest["agent_protocol_version"] == "0.3.0"
+    assert manifest["engine_version"] == "0.3.0"
+    assert AGENT_PROTOCOL_VERSION == "0.3.0"
+    assert ENGINE_VERSION == "0.3.0"
 
 
 # --------------------------------------------------------------------------- #
@@ -434,8 +445,8 @@ def test_run_summary_counters_exclude_proposal_steps(tmp_path):
         session, bad_rec, result_nonzero, status="UNVERIFIED"))
 
     summary = run_summary(_run_root(tmp_path, session))
-    assert summary["agent_protocol_version"] == "0.2.2"
-    assert summary["engine_version"] == "0.2.0"
+    assert summary["agent_protocol_version"] == "0.3.0"
+    assert summary["engine_version"] == "0.3.0"
     assert summary["candidates_proposed"] == 1
     assert summary["zero_promotions"] == 1
     assert summary["nonzero_count"] == 1

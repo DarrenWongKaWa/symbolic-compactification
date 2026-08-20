@@ -1,8 +1,6 @@
-"""Agent-protocol layer (v0.2.1): conjecture packets and proposer candidates.
+"""Agent-protocol layer: conjecture packets and proposer candidates.
 
-This module is the ONLY new machinery of the v0.2.1 agent-protocol increment.
-The deterministic engine (parser, verifier, budgets, transforms, rules) is
-unchanged from v0.2.0; nothing here can verify, certify or promote anything.
+Nothing here can verify, certify or promote anything.
 
 There is deliberately NO agent runtime, NO LLM API integration, and NO
 orchestration system in this repository. The "proposer" is a harness-native
@@ -49,7 +47,7 @@ __all__ = [
 # already DECLARED on record, or a NEW assumption requiring human
 # authorization (HUMAN_REQUIRED); NONE when no assumptions are needed.
 #
-# Taxonomy note (v0.2.2): ``PROOF_REQUIRED`` is a STEP status (models.py),
+# Taxonomy note: ``PROOF_REQUIRED`` is a STEP status (models.py),
 # not an assumption status — it marks "assumptions already sufficient, but the
 # verifier cannot prove the claim". It must NOT be conflated with
 # ``HUMAN_REQUIRED``: the inability to prove a limit/special-function identity
@@ -120,7 +118,9 @@ def _structural_view(record: ExpressionRecord
     if record.parsed_expr is not None:
         return record.parsed_expr, None
     try:
-        return parse_expression(record.text, record.symbols), None
+        return parse_expression(
+            record.text, record.symbols,
+            functions=record.functions or None), None
     except AdapterError as exc:
         return None, exc.code
 
@@ -190,7 +190,7 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
         # The record does not persist a separately declared function
         # namespace; report the undefined-function names observed in the
         # structural form (sorted, deterministic).
-        functions = sorted({
+        functions = sorted(set(record.functions) | {
             type(sub).__name__
             for sub in sympy.preorder_traversal(expr)
             if isinstance(sub, sympy.core.function.AppliedUndef)
@@ -207,7 +207,7 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
         for s in declared_symbols
     ]
 
-    # Provenance hashes (v0.2.2): the certified state is the record's own
+    # Provenance hashes: the certified state is the record's own
     # content hash; the structural representation is the structural_form text.
     certified_state_sha256 = record.sha256
     structural_representation_sha256 = (
@@ -244,7 +244,7 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
             f"structural form unavailable (strict re-parse failed: "
             f"{parse_gap}); text is primary")
 
-    # Deterministic packet digest (v0.2.2): canonical JSON of every field
+    # Deterministic packet digest: canonical JSON of every field
     # except the digest itself, so rebuilds are byte-stable.
     packet["packet_sha256"] = sha256_text(canonical_json(packet))
 
@@ -276,12 +276,9 @@ def _persist_packet_provenance(session, packet, goal, declared_assumptions,
         "verifier_feedback_included": bool(_normalize_feedback(feedback)),
         "withheld": list(_WITHHELD_ATTENTION),
     }
-    try:
-        record_packet_provenance(session, record)
-    except AdapterError:
-        # A missing/unwritable run dir must never break packet assembly; the
-        # packet itself remains fully usable in-memory.
-        pass
+    # A persisted run promises reconstructable packet provenance.  Failure to
+    # write it is therefore explicit and fail-closed, never silently ignored.
+    record_packet_provenance(session, record)
 
 
 # --------------------------------------------------------------------------- #
@@ -337,6 +334,10 @@ def validate_candidate(candidate: Any) -> dict:
             assumptions_status.upper() not in ASSUMPTION_STATUSES:
         raise AdapterError("PROPOSAL_INVALID")
     out["assumptions_status"] = assumptions_status.upper()
+    if ((out["assumptions_status"] == "NONE" and required_assumptions)
+            or (out["assumptions_status"] != "NONE"
+                and not required_assumptions)):
+        raise AdapterError("PROPOSAL_INVALID")
 
     confidence = candidate.get("confidence")
     if not isinstance(confidence, str) or \
@@ -370,7 +371,7 @@ def record_proposal(session: SessionState, candidate: Any, *,
     hard-gated on a real verification step's ZERO verdict, so nothing here
     can advance the current expression.
 
-    Invocation provenance (v0.2.2) is recorded in the step's evidence —
+    Invocation provenance is recorded in the step's evidence —
     structured fields only, no reasoning text. The CONTRACT field names and
     their backward-compatible aliases (both are written; existing consumers
     keep working):
@@ -457,7 +458,7 @@ def record_proposal(session: SessionState, candidate: Any, *,
             "candidate_id": validated["candidate_id"],
             "assumptions_status": validated["assumptions_status"],
             "confidence": validated["confidence"],
-            # invocation provenance (v0.2.2) — structured fields only.
+            # invocation provenance — structured fields only.
             # Contract field names first, legacy aliases after; both are
             # written so existing consumers keep working (see docstring
             # mapping table).

@@ -11,14 +11,14 @@ Kernel modules:
   structure - structure-first preservation + finite-N diagnostic replay
   transforms- bounded structural transformation primitives
   budgets   - wall-clock budgets for expensive symbolic operations
-  conjecture- agent protocol v0.2.1: conjecture packets + proposer candidates
+  conjecture- conjecture packets + harness-native proposer candidates
               (harness-native proposer; NO agent runtime in this repo)
-  reporting - agent protocol v0.2.2: FINAL CERTIFIED FORM deliverable
+  reporting - FINAL CERTIFIED FORM deliverable contract
               contract (human-readable certified result + provenance artifact)
 """
 
 from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
-                     ENGINE_VERSION, ZERO, NONZERO,
+                     ENGINE_VERSION, PACKAGE_VERSION, ZERO, NONZERO,
                      UNKNOWN, VERIFIER_NAME, AdapterError, ExpressionRecord,
                      HARD_RESERVED_NAMES, PROOF_STATUS_VALUES,
                      PROPOSAL_EVIDENCE_KIND,
@@ -27,9 +27,10 @@ from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
                      engine_git_sha,
                      normalize_symbols, sha256_text)
 
-__version__ = ENGINE_VERSION
-from .parser import (PARSE_POLICY, get_parse_policy, load_expression,
-                     parse_expression, set_parse_policy, syms_like)
+__version__ = PACKAGE_VERSION
+from .parser import (PARSE_POLICY, get_parse_policy, infer_namespace,
+                     load_expression, normalize_functions, parse_expression,
+                     set_parse_policy, syms_like)
 from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
                         verify_equivalent)
 from .residual import make_residual, residual_record
@@ -41,7 +42,7 @@ from .structure import (canonical_structure_items, expand_finite,
                         ordered_atoms, structure_summary)
 from .budgets import (BudgetExceeded, ProcessLifecycle, get_budget_policy,
                       last_process_telemetry, owned_children_snapshot,
-                      run_with_budget, set_budget_policy,
+                      run_symbolic_operation, run_with_budget, set_budget_policy,
                       shutdown_budget_pool, sweep_owned_children)
 from .transforms import (TransformResult, get_transform_policy,
                          set_transform_policy, combine_identical_sums,
@@ -55,6 +56,7 @@ from .conjecture import (build_conjecture_packet, record_proposal,
 from .reporting import (CERTIFIED_EXPRESSION_NAME, FINAL_ARTIFACT_NAME,
                         render_final_report)
 from .fidelity import (FIDELITY_CLASSES, translation_fidelity)
+from .pipeline import StepOutcome, adjudicate_candidate
 
 __all__ = [
     "__version__",
@@ -63,12 +65,14 @@ __all__ = [
     "AdapterError", "ExpressionRecord", "VerificationResult",
     "StepRecord", "SessionState", "normalize_symbols", "sha256_text",
     "RESERVED_NAMES", "HARD_RESERVED_NAMES",
-    "ENGINE_VERSION", "AGENT_PROTOCOL_VERSION", "PROPOSAL_EVIDENCE_KIND",
+    "PACKAGE_VERSION", "ENGINE_VERSION", "AGENT_PROTOCOL_VERSION",
+    "PROPOSAL_EVIDENCE_KIND",
     "engine_git_sha", "STEP_STATUSES",
     "ASSUMPTION_STATUS_VALUES", "PROOF_STATUS_VALUES", "derive_status_axes",
     # parser
     "PARSE_POLICY", "get_parse_policy", "set_parse_policy",
-    "parse_expression", "load_expression", "syms_like",
+    "parse_expression", "load_expression", "normalize_functions",
+    "infer_namespace", "syms_like",
     # verifier / residual
     "VERIFY_POLICY", "get_verify_policy", "set_verify_policy",
     "verify_equivalent", "make_residual", "residual_record",
@@ -82,7 +86,7 @@ __all__ = [
     "expand_finite", "structure_summary",
     # budgets
     "BudgetExceeded", "get_budget_policy", "set_budget_policy",
-    "run_with_budget", "shutdown_budget_pool",
+    "run_with_budget", "run_symbolic_operation", "shutdown_budget_pool",
     "ProcessLifecycle", "owned_children_snapshot", "sweep_owned_children",
     "last_process_telemetry",
     # transforms
@@ -93,9 +97,11 @@ __all__ = [
     # rules (assumption-aware rewrites)
     "BUILTIN_RULES", "RewriteRule", "RuleApplication", "apply_rule",
     "apply_rules",
-    # conjecture (agent protocol v0.2.1; harness-native proposer, no runtime)
+    # conjecture (harness-native proposer, no runtime)
     "build_conjecture_packet", "validate_candidate", "record_proposal",
-    # reporting (agent protocol v0.2.2 final certified-form contract)
+    # reporting (final certified-form contract)
     "render_final_report", "FINAL_ARTIFACT_NAME", "CERTIFIED_EXPRESSION_NAME",
     "translation_fidelity", "FIDELITY_CLASSES",
+    # stable source-to-state pipeline
+    "StepOutcome", "adjudicate_candidate",
 ]

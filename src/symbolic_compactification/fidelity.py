@@ -1,4 +1,4 @@
-"""Translation fidelity checking (agent protocol v0.2.2, additive).
+"""Translation fidelity checking for adapter and representation audits.
 
 A GENERIC helper that judges how faithfully one textual representation of an
 expression corresponds to another — e.g. an adapter translation versus the
@@ -174,22 +174,19 @@ def translation_fidelity(source_text: str, target_text: str, *,
                           + ", ".join(differing),
                 "structure": result_structure}
 
-    # Structural content matches: judge the semantic residual.
-    try:
-        residual = sympy.simplify(source_expr - target_expr)
-    except Exception:
-        return {"fidelity": FIDELITY_UNKNOWN,
-                "reason": "semantic residual could not be simplified",
-                "structure": result_structure}
-    if residual == 0:
+    # Structural content matches: use the same bounded exact verifier as every
+    # certification path. Fidelity never owns an unbounded simplify bypass.
+    from .verifier import verify_equivalent
+    verification = verify_equivalent(
+        source_text, target_text, declared, functions=functions)
+    if verification.verdict == "ZERO":
         return {"fidelity": FIDELITY_SEMANTICALLY_EQUIVALENT,
                 "reason": "matching structure and a zero semantic residual",
                 "structure": result_structure}
-    # A concrete nonzero constant is a provable difference; anything symbolic
-    # and inconclusive stays UNKNOWN (fail-closed).
-    if not getattr(residual, "free_symbols", None):
+    if verification.verdict == "NONZERO":
         return {"fidelity": FIDELITY_MISMATCH,
-                "reason": f"nonzero semantic residual: {residual}",
+                "reason": "nonzero semantic residual proven by an exact "
+                          "verifier counterexample",
                 "structure": result_structure}
     return {"fidelity": FIDELITY_UNKNOWN,
             "reason": "inconclusive semantic residual (fail-closed)",

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -20,14 +21,16 @@ import sympy
 # engine identity (versioning + provenance)
 # --------------------------------------------------------------------------- #
 
-ENGINE_VERSION = "0.2.0"
+PACKAGE_VERSION = "0.3.0"
 
-# Agent-protocol version (v0.2.2 increment): the deterministic engine is
-# unchanged from v0.2.0; this constant tracks the agent-layer protocol
-# (conjecture packet + STRUCTURAL_PROPOSER role contract, packet/proposal
-# provenance and the PROOF_REQUIRED status taxonomy) recorded in run
-# manifests alongside ``engine_version``.
-AGENT_PROTOCOL_VERSION = "0.2.2"
+# v0.3 keeps the v0.2 ZERO/NONZERO/UNKNOWN meanings but changes parser,
+# resource-lifecycle and certification APIs materially enough to identify a
+# new deterministic-engine generation.
+ENGINE_VERSION = "0.3.0"
+
+# Agent-protocol version tracks the proposer, state, provenance and reporting
+# contract independently from the package and deterministic engine versions.
+AGENT_PROTOCOL_VERSION = "0.3.0"
 
 
 def engine_git_sha() -> str:
@@ -43,6 +46,12 @@ def engine_git_sha() -> str:
             capture_output=True, text=True, timeout=5)
         sha = out.stdout.strip()
         if out.returncode == 0 and sha:
+            dirty = subprocess.run(
+                ["git", "status", "--porcelain", "--untracked-files=no"],
+                cwd=str(Path(__file__).resolve().parent),
+                capture_output=True, text=True, timeout=5)
+            if dirty.returncode == 0 and dirty.stdout.strip():
+                return f"{sha}-dirty"
             return sha
     except Exception:
         pass
@@ -58,12 +67,12 @@ UNKNOWN = "UNKNOWN"    # fail-closed: simplification undecided, no counterexampl
 
 VERIFIER_NAME = "python_sympy_exact_v1"
 
-# Step-status lifecycle (v0.2). The CONJECTURE layer is distinct from
+# Step-status lifecycle. The CONJECTURE layer is distinct from
 # certification: HYPOTHESIS marks a proposed step, UNVERIFIED one that ran
 # without a ZERO verdict, CERTIFIED one certified by an exact ZERO verdict.
 # The status field is OPTIONAL metadata; default behavior is unchanged.
 #
-# Status taxonomy (v0.2.2) — precise semantics:
+# Status taxonomy (v0.3) — precise semantics:
 # * HYPOTHESIS     - conjecture layer only: a proposed step no verifier has
 #                    adjudicated yet.
 # * UNVERIFIED     - a verification step ran without a ZERO verdict.
@@ -82,12 +91,12 @@ VERIFIER_NAME = "python_sympy_exact_v1"
 #                    "adjudication unresolved" verdict.
 STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED", "PROOF_REQUIRED")
 
-# Evidence kind marking a step as a STRUCTURAL_PROPOSER hypothesis (v0.2.1
+# Evidence kind marking a step as a STRUCTURAL_PROPOSER hypothesis
 # agent protocol): no verifier ran on such a step; ``run_summary`` uses this
 # marker to separate proposal steps from real verification steps.
 PROPOSAL_EVIDENCE_KIND = "proposer_candidate"
 
-# Proposer-invocation modes (v0.2.2). ``run_summary`` derives ``proposer_mode``
+# Proposer-invocation modes. ``run_summary`` derives ``proposer_mode``
 # STRICTLY from recorded evidence — never by inferring subagent use from the
 # role contract merely existing/being read. A proposal step carrying a
 # recorded subagent id is HARNESS_SUBAGENT; one recorded with explicit
@@ -104,13 +113,13 @@ PROPOSER_MODES = (PROPOSER_MAIN_AGENT, PROPOSER_HARNESS_SUBAGENT,
                   PROPOSER_SUBAGENT_UNAVAILABLE, PROPOSER_MODE_UNKNOWN)
 DEFAULT_PROPOSER_ROLE = "STRUCTURAL_PROPOSER"
 
-# A/B arm vocabulary (v0.2.2): a run may DECLARE which experiment arm it is
+# A/B arm vocabulary: a run may DECLARE which experiment arm it is
 # at ``init_session`` time (or later via ``set_requested_arm``). Arm validity
 # is derived strictly from recorded proposer evidence in ``run_summary``:
 # arm B requires a recorded harness subagent; arm A requires none.
 REQUESTED_ARMS = ("A", "B")
 
-# Split status axes (v0.2.2, additive). Two ORTHOGONAL axes, both distinct
+# Split status axes (v0.3). Two ORTHOGONAL axes, both distinct
 # from the lifecycle ``status`` field, recorded on each verification step:
 #
 # * ``assumption_status`` — what the step depends on by way of assumptions:
@@ -130,13 +139,14 @@ REQUESTED_ARMS = ("A", "B")
 # PROOF_REQUIRED and NEVER to HUMAN_REQUIRED — a proof gap is not a
 # human-decision gate.
 ASSUMPTION_STATUS_VALUES = ("NONE", "DECLARED", "HUMAN_REQUIRED")
-PROOF_STATUS_VALUES = ("NONE", "HYPOTHESIS", "PROOF_REQUIRED", "PROVEN")
+PROOF_STATUS_VALUES = (
+    "NONE", "HYPOTHESIS", "PROOF_REQUIRED", "REFUTED", "PROVEN")
 
 
 def derive_status_axes(verdict: str,
                        assumptions_status: Optional[str] = None,
                        adjudicated: bool = True) -> tuple:
-    """Derive ``(assumption_status, proof_status)`` for a step (v0.2.2).
+    """Derive ``(assumption_status, proof_status)`` for a step (v0.3).
 
     Purely additive taxonomy helper; it never changes ``status`` or verdicts.
 
@@ -145,7 +155,8 @@ def derive_status_axes(verdict: str,
     * ``proof_status``:
         - not adjudicated (a proposal)            -> ``HYPOTHESIS``;
         - ZERO verdict                            -> ``PROVEN``;
-        - UNKNOWN / NONZERO / anything else       -> ``PROOF_REQUIRED``
+        - NONZERO                                 -> ``REFUTED``;
+        - UNKNOWN / anything else                 -> ``PROOF_REQUIRED``
           (a proof gap). The engine being unable to prove a claim NEVER
           yields HUMAN_REQUIRED — that belongs to the assumption axis only.
 
@@ -162,11 +173,14 @@ def derive_status_axes(verdict: str,
         proof = "HYPOTHESIS"
     elif verdict == ZERO:
         proof = "PROVEN"
+    elif verdict == NONZERO:
+        proof = "REFUTED"
     else:
         proof = "PROOF_REQUIRED"
     return assumption, proof
 
 MAX_SYMBOLS = 40
+_IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\Z")
 
 # Names that may never be used as declared symbol names: they collide with the
 # parser's allowed functions/constants whitelist.
@@ -271,10 +285,14 @@ def normalize_symbols(symbols: Any, *, allow_reserved: bool = False) -> list[dic
             name = entry
             out.append({"name": name, "real": True, "nonzero": False})
         elif isinstance(entry, dict) and isinstance(entry.get("name"), str):
+            if ("real" in entry and not isinstance(entry["real"], bool)) \
+                    or ("nonzero" in entry
+                        and not isinstance(entry["nonzero"], bool)):
+                raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
             out.append({
                 "name": entry["name"],
-                "real": bool(entry.get("real", True)),
-                "nonzero": bool(entry.get("nonzero", False)),
+                "real": entry.get("real", True),
+                "nonzero": entry.get("nonzero", False),
             })
         else:
             raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
@@ -283,14 +301,18 @@ def normalize_symbols(symbols: Any, *, allow_reserved: bool = False) -> list[dic
         raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
     if len(names) != len(set(names)):
         raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
-    if any(not n or not n.strip() for n in names):
+    if any(not n or not n.strip() or not _IDENTIFIER_RE.fullmatch(n)
+           for n in names):
         raise AdapterError("CLAIM_SYMBOLS_MALFORMED")
     forbidden = HARD_RESERVED_NAMES if allow_reserved else RESERVED_NAMES
     if forbidden & set(names):
         raise AdapterError("SYMBOL_NAME_RESERVED")
     if len(names) > MAX_SYMBOLS:
         raise AdapterError("CLAIM_SYMBOLS_TOO_MANY")
-    return out
+    # Symbol declaration order has no mathematical meaning. Canonicalizing it
+    # prevents probe order and serialized provenance from changing when an
+    # equivalent symbols.json happens to list names in a different order.
+    return sorted(out, key=lambda item: item["name"])
 
 
 # --------------------------------------------------------------------------- #
@@ -306,6 +328,7 @@ class ExpressionRecord:
     source_path: Optional[str] = None
     parsed_expr: Optional[sympy.Expr] = None
     symbols: list[dict] = field(default_factory=list)
+    functions: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
@@ -315,6 +338,7 @@ class ExpressionRecord:
             # sympy expressions are not JSON-native; store the canonical string
             "parsed_expr": None if self.parsed_expr is None else str(self.parsed_expr),
             "symbols": [dict(s) for s in self.symbols],
+            "functions": list(self.functions),
         }
 
 
@@ -348,7 +372,7 @@ class VerificationResult:
 class StepRecord:
     """One compactification step: candidate vs. current, residual + verdict.
 
-    v0.2 additions (all optional; default behavior unchanged):
+    Optional state/provenance fields:
       * ``status``          - lifecycle marker, one of ``STEP_STATUSES``
                               (HYPOTHESIS / UNVERIFIED / CERTIFIED) or None;
                               the conjecture layer is DISTINCT from
@@ -373,7 +397,7 @@ class StepRecord:
     telemetry: dict = field(default_factory=dict)
     engine_version: str = ENGINE_VERSION
     engine_git_sha: str = field(default_factory=engine_git_sha)
-    # v0.2.2 split status axes (additive; None when not recorded)
+    # Split status axes (None only for legacy/low-level records).
     assumption_status: Optional[str] = None
     proof_status: Optional[str] = None
 
@@ -386,6 +410,17 @@ class StepRecord:
         if (self.proof_status is not None
                 and self.proof_status not in PROOF_STATUS_VALUES):
             raise AdapterError("PROOF_STATUS_INVALID")
+        if self.status == "CERTIFIED" and self.verdict != ZERO:
+            raise AdapterError("STEP_STATE_INVALID")
+        if self.status == "HYPOTHESIS" and self.verdict != UNKNOWN:
+            raise AdapterError("STEP_STATE_INVALID")
+        if self.proof_status == "PROVEN" and self.verdict != ZERO:
+            raise AdapterError("STEP_STATE_INVALID")
+        if self.proof_status == "REFUTED" and self.verdict != NONZERO:
+            raise AdapterError("STEP_STATE_INVALID")
+        if (self.assumption_status == "HUMAN_REQUIRED"
+                and self.status == "CERTIFIED"):
+            raise AdapterError("HUMAN_AUTHORIZATION_REQUIRED")
 
     def to_dict(self) -> dict:
         return {

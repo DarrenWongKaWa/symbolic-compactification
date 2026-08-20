@@ -1,11 +1,11 @@
 """Exact residual verifier (Python/SymPy only). Fail-closed verdict semantics.
 
 Pipeline for R := current - candidate:
-  1. diff = expand(R); the residual string field is str(diff).
+  1. construct the structural residual under a wall-clock budget.
   2. Structure-first adjudication: if count_ops(diff) is within
-     ``structure_first_threshold``, simp = simplify(diff) under a wall-clock
-     budget; otherwise NO global simplify is attempted — only targeted
-     structural primitives (budgeted, each recorded in evidence).
+     ``structure_first_threshold``, perform a targeted bounded expansion then
+     simplify; otherwise NO global expansion/simplify is attempted — only
+     targeted structural primitives (budgeted, each recorded in evidence).
   3. if count_ops(simp) exceeds the ops cap, adjudicate the expanded form
      instead (pathological-growth safety net).
   4. simp == 0                     -> ZERO  (exact_symbolic_zero)
@@ -33,7 +33,7 @@ from typing import Any, Optional
 
 import sympy
 
-from .budgets import BudgetExceeded, get_budget_policy, run_with_budget
+from .budgets import BudgetExceeded, run_symbolic_operation
 from .models import (AdapterError, NONZERO, UNKNOWN, VERIFIER_NAME, ZERO,
                      VerificationResult, normalize_symbols)
 from .parser import parse_expression
@@ -78,6 +78,15 @@ def set_verify_policy(**overrides) -> dict:
     unknown = set(overrides) - set(_DEFAULT_VERIFY_POLICY)
     if unknown:
         raise AdapterError("VERIFY_POLICY_KEY_UNKNOWN")
+    candidate = dict(VERIFY_POLICY)
+    candidate.update(overrides)
+    if (not isinstance(candidate["simplify_ops_cap"], int)
+            or isinstance(candidate["simplify_ops_cap"], bool)
+            or candidate["simplify_ops_cap"] <= 0
+            or not isinstance(candidate["structure_first_threshold"], int)
+            or isinstance(candidate["structure_first_threshold"], bool)
+            or candidate["structure_first_threshold"] < 0):
+        raise AdapterError("VERIFY_POLICY_VALUE_INVALID")
     VERIFY_POLICY.update(overrides)
     return get_verify_policy()
 
@@ -89,6 +98,13 @@ def _effective_verify_policy(policy: Optional[dict]) -> dict:
         if unknown:
             raise AdapterError("VERIFY_POLICY_KEY_UNKNOWN")
         merged.update(policy)
+    if (not isinstance(merged["simplify_ops_cap"], int)
+            or isinstance(merged["simplify_ops_cap"], bool)
+            or merged["simplify_ops_cap"] <= 0
+            or not isinstance(merged["structure_first_threshold"], int)
+            or isinstance(merged["structure_first_threshold"], bool)
+            or merged["structure_first_threshold"] < 0):
+        raise AdapterError("VERIFY_POLICY_VALUE_INVALID")
     return merged
 
 
@@ -123,6 +139,11 @@ def _simplify_substituted(diff: Any, point: dict) -> Any:
     return sympy.simplify(diff.subs(point))
 
 
+def _construct_residual(current: Any, candidate: Any) -> Any:
+    """Construct the structural residual without eager scalar expansion."""
+    return current - candidate
+
+
 # --------------------------------------------------------------------------- #
 # main API
 # --------------------------------------------------------------------------- #
@@ -147,7 +168,15 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
     VerificationResult (fail-closed).
     """
     t0 = time.time()
-    pol = _effective_verify_policy(policy)
+    try:
+        pol = _effective_verify_policy(policy)
+        if (not isinstance(max_probes, int) or isinstance(max_probes, bool)
+                or max_probes < 0):
+            raise AdapterError("VERIFY_POLICY_VALUE_INVALID")
+    except AdapterError as exc:
+        return _unknown_result(
+            "construction_or_parse_failed", {"code": exc.code},
+            time.time() - t0)
 
     def _seconds() -> float:
         return time.time() - t0
@@ -172,9 +201,13 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
                                _seconds())
 
     # -- verification pipeline (any unexpected exception -> UNKNOWN) -------- #
-    budget_pol = get_budget_policy()
     try:
-        diff = sympy.expand(current - candidate)
+        # Residual construction itself can trigger canonical combination in
+        # SymPy, so it is budgeted.  The first-class residual stays structural;
+        # expansion is a targeted, bounded lowering only for small residuals.
+        diff = run_symbolic_operation(
+            "residual", _construct_residual, (current, candidate),
+            budget_key="residual_seconds")
         residual_str = str(diff)
 
         # -- structure-first adjudication ----------------------------------- #
@@ -186,15 +219,19 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
         pre_evidence: list = []
         if pre_ops <= pol["structure_first_threshold"]:
             try:
-                simp = run_with_budget(sympy.simplify, (diff,),
-                                       seconds=budget_pol["simplify_seconds"],
-                                       operation="simplify")
-            except BudgetExceeded:
+                lowered = run_symbolic_operation(
+                    "expand", sympy.expand, (diff,),
+                    budget_key="expand_seconds")
+                residual_str = str(lowered)
+                simp = run_symbolic_operation(
+                    "simplify", sympy.simplify, (lowered,),
+                    budget_key="simplify_seconds")
+            except BudgetExceeded as exc:
                 return _unknown_result("TIME_BUDGET_EXCEEDED",
-                                       {"operation": "simplify"},
+                                       {"operation": exc.operation},
                                        _seconds(), residual_str)
             if sympy.count_ops(simp, visual=False) > pol["simplify_ops_cap"]:
-                simp = diff  # pathological growth: adjudicate the expanded form
+                simp = diff  # pathological growth: return to structural form
         else:
             simp = diff
             pre_evidence.append(
@@ -203,9 +240,7 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
                  "threshold": pol["structure_first_threshold"]})
             for prim in TARGETED_PRIMITIVES:
                 try:
-                    tres = run_with_budget(prim, (diff,),
-                                           seconds=budget_pol["transform_seconds"],
-                                           operation=f"transform:{prim.__name__}")
+                    tres = prim(diff)
                 except BudgetExceeded:
                     pre_evidence.append(
                         {"kind": "targeted_primitive_attempted",
@@ -251,15 +286,13 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
 
         # complex normalization branch (re/im/conjugate canonicalization)
         try:
-            complex_normalized = run_with_budget(
-                sympy.expand_complex, (simp,),
-                seconds=budget_pol["expand_complex_seconds"],
-                operation="expand_complex")
+            complex_normalized = run_symbolic_operation(
+                "expand_complex", sympy.expand_complex, (simp,),
+                budget_key="expand_complex_seconds")
             if sympy.count_ops(complex_normalized, visual=False) <= pol["simplify_ops_cap"]:
-                simp2 = run_with_budget(
-                    sympy.simplify, (complex_normalized,),
-                    seconds=budget_pol["simplify_seconds"],
-                    operation="simplify_complex_normalized")
+                simp2 = run_symbolic_operation(
+                    "simplify_complex_normalized", sympy.simplify,
+                    (complex_normalized,), budget_key="simplify_seconds")
                 if simp2 == 0:
                     result.verdict = ZERO
                     result.simplified_residual = str(simp2)
@@ -293,10 +326,9 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
                      for j, s in enumerate(declared)
                      if s["name"] in expr_symbols}
             try:
-                value = run_with_budget(
-                    _simplify_substituted, (diff, point),
-                    seconds=budget_pol["probe_simplify_seconds"],
-                    operation="probe_simplify")
+                value = run_symbolic_operation(
+                    "probe_simplify", _simplify_substituted, (diff, point),
+                    budget_key="probe_simplify_seconds")
             except BudgetExceeded:
                 continue  # undecided within budget: never a counterexample
             except Exception:
@@ -309,9 +341,9 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
             # equals(0) adjudication itself is budgeted: a timeout is
             # undecided, never a counterexample.
             try:
-                equals_zero = run_with_budget(value.equals, (0,),
-                                              seconds=budget_pol["equals_seconds"],
-                                              operation="equals_zero")
+                equals_zero = run_symbolic_operation(
+                    "equals_zero", value.equals, (0,),
+                    budget_key="equals_seconds")
             except BudgetExceeded:
                 continue
             if value != 0 and equals_zero is False:

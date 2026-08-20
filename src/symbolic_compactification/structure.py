@@ -25,6 +25,7 @@ from typing import Mapping
 
 import sympy
 
+from .budgets import run_symbolic_operation
 from .models import AdapterError
 
 __all__ = ["expand_finite", "structure_summary", "ordered_atoms",
@@ -87,6 +88,10 @@ def canonical_structure_items(expr: sympy.Expr) -> dict:
 # diagnostic finite-N replay (NEVER a proof for symbolic bounds)
 # --------------------------------------------------------------------------- #
 
+def _lower_finite(expr: sympy.Expr) -> sympy.Expr:
+    return sympy.expand(expr.doit())
+
+
 def expand_finite(expr: sympy.Expr,
                   bounds: Mapping[str, int]) -> sympy.Expr:
     """DIAGNOSTIC / finite-N replay — substitute concrete bounds and expand.
@@ -118,9 +123,10 @@ def expand_finite(expr: sympy.Expr,
         targets = {s for s in out.free_symbols if s.name == name}
         for sym in targets:
             out = out.subs(sym, sympy.Integer(value))
-    # Evaluate any remaining concrete Sum/Product nodes.
-    out = out.doit()
-    return sympy.expand(out)
+    # Evaluate and expand only inside the central finite-diagnostic budget.
+    return run_symbolic_operation(
+        "finite_expand", _lower_finite, (out,),
+        budget_key="finite_expand_seconds")
 
 
 # --------------------------------------------------------------------------- #

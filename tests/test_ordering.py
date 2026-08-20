@@ -109,6 +109,17 @@ print(json.dumps({"sha256": sha256_text(canonical_json(payload)),
                   "payload": payload}))
 '''
 
+_VERDICT_CHILD_SOURCE = '''
+import json
+from symbolic_compactification import verify_equivalent
+
+result = verify_equivalent(
+    "x**2 + y**2", "x**2 + y**2 + 1", ["y", "x"])
+payload = result.to_dict()
+payload.pop("seconds", None)
+print(json.dumps(payload, sort_keys=True))
+'''
+
 
 def _run_child(seed: str) -> dict:
     env = dict(os.environ)
@@ -121,11 +132,27 @@ def _run_child(seed: str) -> dict:
     return json.loads(proc.stdout.strip().splitlines()[-1])
 
 
+def _run_verdict_child(seed: str) -> dict:
+    env = dict(os.environ)
+    env["PYTHONHASHSEED"] = seed
+    env["PYTHONPATH"] = _SRC + os.pathsep + env.get("PYTHONPATH", "")
+    proc = subprocess.run(
+        [sys.executable, "-c", _VERDICT_CHILD_SOURCE],
+        capture_output=True, text=True, timeout=60, env=env)
+    assert proc.returncode == 0, f"seed={seed}: {proc.stderr}"
+    return json.loads(proc.stdout.strip().splitlines()[-1])
+
+
 @pytest.fixture(scope="module")
 def child_results() -> dict:
     """One fresh subprocess per hash seed, shared by every cross-process
     test in this module (keeps the total subprocess runtime modest)."""
     return {seed: _run_child(seed) for seed in _HASH_SEEDS}
+
+
+@pytest.fixture(scope="module")
+def verdict_child_results() -> dict:
+    return {seed: _run_verdict_child(seed) for seed in _HASH_SEEDS}
 
 
 # --------------------------------------------------------------------------- #
@@ -197,6 +224,14 @@ def test_structural_hash_stable_across_processes(child_results):
             "atoms": child["payload"]["atoms"],
         }))
         assert child_hash == structural_hash, f"seed={seed}"
+
+
+def test_verdict_residual_and_counterexample_stable_across_hash_seeds(
+        verdict_child_results):
+    payloads = list(verdict_child_results.values())
+    assert all(payload == payloads[0] for payload in payloads[1:])
+    assert payloads[0]["verdict"] == "NONZERO"
+    assert payloads[0]["counterexample"] is not None
 
 
 # --------------------------------------------------------------------------- #

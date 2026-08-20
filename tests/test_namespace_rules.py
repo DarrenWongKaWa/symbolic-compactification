@@ -121,12 +121,21 @@ def test_re_rule_applies_only_for_declared_real():
     assert applied.after == x
 
 
-def test_sqrt_square_abs_rule_is_generic():
+def test_sqrt_square_abs_rule_requires_real_argument():
     rule = _rule_by_name("sqrt_square_abs")
     x = sympy.Symbol("x")
-    applied = apply_rule(rule, sympy.sqrt(x**2), ["y"])
+    source = sympy.Pow(x**2, sympy.Rational(1, 2), evaluate=False)
+    applied = apply_rule(
+        rule, source, [{"name": "x", "real": True}])
     assert applied.applied
     assert applied.after == sympy.Abs(x)
+
+    z = sympy.Symbol("z", real=False)
+    complex_source = sympy.Pow(
+        z**2, sympy.Rational(1, 2), evaluate=False)
+    skipped = apply_rule(
+        rule, complex_source, [{"name": "z", "real": False}])
+    assert not skipped.applied
 
 
 def test_fixed_requirement_gap_is_never_bridged():
@@ -194,8 +203,8 @@ def test_step_records_carry_engine_version_and_telemetry(tmp_path):
     loaded = load_session(str(tmp_path), session.run_id)
     assert len(loaded.steps) == 1
     got = loaded.steps[0]
-    assert got.engine_version == "0.2.0"
-    assert ENGINE_VERSION == "0.2.0"
+    assert got.engine_version == "0.3.0"
+    assert ENGINE_VERSION == "0.3.0"
     assert got.status == "CERTIFIED"
     assert got.telemetry == telemetry
     for key in ("input_chars", "output_chars", "count_ops_before",

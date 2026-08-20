@@ -68,6 +68,7 @@ def _step(number: int, current_rec: ExpressionRecord,
         residual=result.residual,
         verdict=result.verdict,
         evidence=list(result.evidence),
+        status="CERTIFIED" if result.verdict == ZERO else "UNVERIFIED",
     )
 
 
@@ -190,6 +191,7 @@ def test_promote_after_zero_writes_final(tmp_path):
     payload = json.loads(final_path.read_text("utf-8"))
     assert payload["text"] == "(x+1)**2"
     assert payload["sha256"] == candidate_rec.sha256
+    assert payload["functions"] == []
     assert session.current.text == "(x+1)**2"
 
     manifest = json.loads((run_root / "manifest.json").read_text("utf-8"))

@@ -39,7 +39,7 @@ NEVER signals anything that is not in the owned registry. Signals are sent
 exclusively to the process groups of registry-tracked workers that this very
 engine spawned.
 
-Process telemetry (v0.2.2)
+Process telemetry
 --------------------------
 Every PROCESS-MODE budgeted operation records one telemetry record (thread /
 inline modes spawn no owned process and record nothing): ``operation``,
@@ -53,29 +53,30 @@ A cleanup failure (worker surviving the SIGKILL window) is NEVER hidden:
 listed, and the worker is re-tracked so the exit sweep retries. Only
 engine-owned processes are ever listed — never unrelated processes.
 
-Spawn safety: the worker target is a module-level function of this importable
-package (NOT of the caller's ``__main__``), so process mode works from
-scripts, pytest and stdin-invoked python alike. The payload (fn/args/kwargs)
-must still be picklable; unpicklable callables fail closed with a clear
-error rather than hanging.
+Spawn safety: normal CLI/pytest/guarded-script entrypoints use ``spawn``;
+interactive, stdin and ``python -c`` entrypoints use POSIX ``fork`` when
+available because they have no importable main file. Spawn payloads must be
+picklable; invalid payloads fail explicitly before a worker starts.
 
 Modes (``BUDGET_POLICY["mode"]``)
 ---------------------------------
-* ``thread`` (default): the call runs in a worker thread; at the deadline an
+* ``process`` (default): one owned worker per budgeted call (see lifecycle
+  above); on timeout its owned process group is terminated outright, including
+  C-level loops. Nested process calls use a thread inside the outer owned
+  worker so no detached grandchild group can leak.
+* ``thread``: the call runs in a worker thread; at the deadline an
   asynchronous exception is injected into the worker (CPython
   ``PyThreadState_SetAsyncExc``) so pure-Python runaways terminate promptly,
   and the caller raises ``BudgetExceeded`` either way. No re-import of the
   caller's ``__main__`` is required, so this mode works from scripts, REPLs,
   stdin and pytest alike.
-* ``process``: one owned worker per budgeted call (see lifecycle above); on
-  timeout the worker's owned process group is terminated outright (kills
-  C-level loops too).
 * ``inline``: budgets disabled (the call runs directly). Useful in debuggers
-  or nested contexts.
+  only.
 """
 from __future__ import annotations
 
 import atexit
+import __main__
 import ctypes
 import multiprocessing
 import os
@@ -88,12 +89,13 @@ from typing import Any, Callable, Optional
 from .models import AdapterError
 
 __all__ = ["BudgetExceeded", "BUDGET_POLICY", "get_budget_policy",
-           "set_budget_policy", "run_with_budget", "shutdown_budget_pool",
+           "set_budget_policy", "run_with_budget", "run_symbolic_operation",
+           "shutdown_budget_pool",
            "ProcessLifecycle", "owned_children_snapshot",
            "sweep_owned_children", "last_process_telemetry",
            "PROCESS_TELEMETRY_FIELDS"]
 
-# Telemetry field inventory (v0.2.2): the exact keys every process-mode
+# Telemetry field inventory: the exact keys every process-mode
 # operation's telemetry record carries. Exposed for tests/contracts.
 PROCESS_TELEMETRY_FIELDS = (
     "operation", "worker_pid", "started_at", "finished_at",
@@ -122,12 +124,21 @@ class BudgetExceeded(AdapterError):
 # --------------------------------------------------------------------------- #
 
 _DEFAULT_BUDGET_POLICY: dict = {
-    "mode": "thread",              # thread | process | inline
+    # SymPy may spend long periods in C-backed code where an injected thread
+    # exception cannot be observed. Process mode is therefore the safe
+    # production default; thread/inline remain explicit debugging choices.
+    "mode": "process",             # process | thread | inline
+    "residual_seconds": 15.0,      # construct current - candidate
+    "expand_seconds": 15.0,        # targeted residual lowering
     "simplify_seconds": 30.0,      # global simplify of a residual
     "probe_simplify_seconds": 10.0,  # per-probe simplify in the NONZERO branch
     "equals_seconds": 10.0,        # value.equals(0) adjudication per probe
     "expand_complex_seconds": 10.0,  # complex-normalization branch
-    "transform_seconds": 15.0,     # targeted structural primitives
+    "factor_seconds": 15.0,
+    "factor_terms_seconds": 15.0,
+    "together_seconds": 15.0,
+    "cancel_seconds": 15.0,
+    "finite_expand_seconds": 15.0,
     # bounded grace between SIGTERM and SIGKILL of an owned worker group
     "kill_grace_seconds": 2.0,
 }
@@ -147,6 +158,13 @@ def set_budget_policy(**overrides) -> dict:
         raise AdapterError("BUDGET_POLICY_KEY_UNKNOWN")
     if "mode" in overrides and overrides["mode"] not in ("process", "thread", "inline"):
         raise AdapterError("BUDGET_POLICY_KEY_UNKNOWN")
+    for key, value in overrides.items():
+        if key == "mode":
+            continue
+        if (not isinstance(value, (int, float)) or isinstance(value, bool)
+                or value < 0
+                or (key != "kill_grace_seconds" and value == 0)):
+            raise AdapterError("BUDGET_POLICY_VALUE_INVALID")
     BUDGET_POLICY.update(overrides)
     return get_budget_policy()
 
@@ -159,17 +177,28 @@ _OWNED: dict = {}
 _REGISTRY_LOCK = threading.Lock()
 
 
-def _track(proc, operation: str) -> None:
+def _track(proc, operation: str) -> dict:
     """Register a freshly spawned worker as engine-owned."""
     with _REGISTRY_LOCK:
-        _OWNED[proc.pid] = {
+        entry = {
             "pid": proc.pid,
             # start_new_session=True makes the worker its own group leader
             "pgid": proc.pid,
             "operation": operation,
             "spawned_at": time.time(),
             "proc": proc,
+            # False until the child confirms os.setsid() completed.  Before
+            # that handshake there may be no process group with pgid == pid.
+            "group_ready": False,
         }
+        _OWNED[proc.pid] = entry
+    return entry
+
+
+def _mark_group_ready(pid: int, ready: bool) -> None:
+    with _REGISTRY_LOCK:
+        if pid in _OWNED:
+            _OWNED[pid]["group_ready"] = bool(ready)
 
 
 def _untrack(pid: int) -> Optional[dict]:
@@ -220,8 +249,14 @@ def _terminate_entry(entry: dict) -> dict:
         grace = float(BUDGET_POLICY.get("kill_grace_seconds", 2.0))
     except (TypeError, ValueError):
         grace = 2.0
-    if pgid is not None:
+    group_ready = bool(entry.get("group_ready", False))
+    if pgid is not None and group_ready:
         _signal_group(pgid, signal.SIGTERM)
+    elif proc is not None:
+        try:
+            proc.terminate()
+        except Exception:
+            pass
     if proc is None:
         return {"force_kill_required": False, "cleanup_ok": True}
     deadline = time.monotonic() + max(grace, 0.0)
@@ -232,8 +267,13 @@ def _terminate_entry(entry: dict) -> dict:
         except Exception:
             return {"force_kill_required": False, "cleanup_ok": True}
         time.sleep(0.01)
-    if pgid is not None:
+    if pgid is not None and group_ready:
         _signal_group(pgid, signal.SIGKILL)
+    else:
+        try:
+            proc.kill()
+        except Exception:
+            pass
     try:
         proc.join(timeout=10.0)
     except Exception:
@@ -258,7 +298,10 @@ def sweep_owned_children() -> list:
         entry = _untrack(pid)
         if entry is None:
             continue
-        _terminate_entry(entry)
+        info = _terminate_entry(entry)
+        if not info["cleanup_ok"]:
+            with _REGISTRY_LOCK:
+                _OWNED[pid] = entry
         swept.append(pid)
     return swept
 
@@ -267,7 +310,7 @@ atexit.register(sweep_owned_children)
 
 
 # --------------------------------------------------------------------------- #
-# process-mode telemetry (v0.2.2): one record per process-backed operation
+# process-mode telemetry: one record per process-backed operation
 # --------------------------------------------------------------------------- #
 
 _TELEMETRY_LOCK = threading.Lock()
@@ -402,11 +445,22 @@ def _budget_worker(conn, payload):
     # kill targets exactly this worker and nothing else. setsid fails only if
     # already a group leader (never true for a freshly forked/spawned child),
     # so a failure is tolerated without losing the worker.
+    global _IN_BUDGET_WORKER
+    _IN_BUDGET_WORKER = True
+    group_ready = False
     try:
         os.setsid()
+        group_ready = True
     except OSError:
         pass
     try:
+        conn.send_bytes(pickle.dumps(("ready", group_ready)))
+        # Do not execute user/SymPy code until the parent has observed the
+        # process-group readiness record. This closes the startup race where
+        # a timeout could otherwise arrive after a grandchild was spawned but
+        # before the parent knew which group to terminate.
+        if pickle.loads(conn.recv_bytes()) != ("start", None):
+            raise RuntimeError("BUDGET_WORKER_HANDSHAKE_FAILED")
         fn, args, kwargs = payload
         try:
             result = ("ok", fn(*args, **(kwargs or {})))
@@ -428,6 +482,23 @@ def _budget_worker(conn, payload):
             pass
 
 
+def _process_context():
+    """Choose a safe POSIX multiprocessing context for the current entrypoint.
+
+    Normal files (CLI, pytest, guarded scripts) use ``spawn``. Interactive,
+    stdin and ``python -c`` entrypoints have no importable main file, so they
+    use ``fork`` on supported macOS/Linux hosts instead of failing while
+    trying to import ``<stdin>``. Windows is intentionally not promised.
+    """
+    main_file = getattr(__main__, "__file__", None)
+    if (isinstance(main_file, str) and not main_file.startswith("<")
+            and os.path.exists(main_file)):
+        return multiprocessing.get_context("spawn")
+    if "fork" in multiprocessing.get_all_start_methods():
+        return multiprocessing.get_context("fork")
+    return multiprocessing.get_context("spawn")
+
+
 def _run_process(fn, args, kwargs, seconds: float, operation: str):
     """Run one budgeted call in a freshly spawned OWNED worker process.
 
@@ -436,13 +507,22 @@ def _run_process(fn, args, kwargs, seconds: float, operation: str):
     ``last_process_telemetry()`` / ``PROCESS_TELEMETRY_FIELDS``.
     """
     started_at = time.time()
+    deadline = time.monotonic() + max(float(seconds), 0.0)
     termination_reason = _TELEMETRY_EXCEPTION
     lifecycle: Optional[ProcessLifecycle] = None
     proc = None
     parent_conn = None
+    child_conn = None
+    completed_payload = None
     try:
-        ctx = multiprocessing.get_context("spawn")
-        parent_conn, child_conn = ctx.Pipe(duplex=False)
+        ctx = _process_context()
+        if ctx.get_start_method() == "spawn":
+            try:
+                pickle.dumps((fn, args, kwargs))
+            except Exception:
+                raise RuntimeError("BUDGET_WORKER_PAYLOAD_UNPICKLABLE") \
+                    from None
+        parent_conn, child_conn = ctx.Pipe(duplex=True)
         proc = ctx.Process(target=_budget_worker,
                            args=(child_conn, (fn, args, kwargs)),
                            name=f"symbolic-budget-{operation}",
@@ -452,7 +532,6 @@ def _run_process(fn, args, kwargs, seconds: float, operation: str):
             proc.start()  # worker calls os.setsid(): own session, pgid == pid
             child_conn.close()  # the child owns its end now
             _track(proc, operation)
-            deadline = time.monotonic() + max(float(seconds), 0.0)
             while True:
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
@@ -461,12 +540,21 @@ def _run_process(fn, args, kwargs, seconds: float, operation: str):
                     raise BudgetExceeded(operation, seconds)
                 if parent_conn.poll(min(remaining, 0.05)):
                     tag, payload = pickle.loads(parent_conn.recv_bytes())
+                    if tag == "ready":
+                        _mark_group_ready(proc.pid, bool(payload))
+                        parent_conn.send_bytes(pickle.dumps(("start", None)))
+                        continue
                     if tag == "ok":
                         termination_reason = _TELEMETRY_COMPLETED
-                        return payload
+                        completed_payload = payload
+                        break
                     raise payload
                 if not proc.is_alive() and not parent_conn.poll(0):
                     raise RuntimeError("BUDGET_WORKER_DIED")
+        if termination_reason == _TELEMETRY_COMPLETED:
+            if lifecycle is not None and not lifecycle.cleanup_ok:
+                raise AdapterError("PROCESS_CLEANUP_FAILURE")
+            return completed_payload
     except BudgetExceeded:
         termination_reason = _TELEMETRY_TIMEOUT
         raise
@@ -481,13 +569,18 @@ def _run_process(fn, args, kwargs, seconds: float, operation: str):
                 parent_conn.close()
         except Exception:
             pass
+        try:
+            if child_conn is not None:
+                child_conn.close()
+        except Exception:
+            pass
         # telemetry on EVERY exit path; never hides a cleanup failure
         _record_process_telemetry(operation, proc, started_at, time.time(),
                                   termination_reason, lifecycle)
 
 
 # --------------------------------------------------------------------------- #
-# thread-mode fallback (cooperative: the runaway thread is abandoned)
+# thread-mode fallback (best effort; production symbolic work uses processes)
 # --------------------------------------------------------------------------- #
 
 def _run_thread(fn, args, kwargs, seconds: float, operation: str):
@@ -527,6 +620,9 @@ def _run_thread(fn, args, kwargs, seconds: float, operation: str):
 # public API
 # --------------------------------------------------------------------------- #
 
+_IN_BUDGET_WORKER = False
+
+
 def run_with_budget(fn: Callable, args: tuple = (), seconds: float = 30.0, *,
                     kwargs: Optional[dict] = None,
                     operation: str = "call",
@@ -548,11 +644,32 @@ def run_with_budget(fn: Callable, args: tuple = (), seconds: float = 30.0, *,
     if effective_mode == "inline":
         return fn(*args, **(kwargs or {}))
     seconds = float(seconds)
+    if seconds <= 0:
+        raise BudgetExceeded(operation, seconds)
     if effective_mode == "thread":
         return _run_thread(fn, args, kwargs, seconds, operation)
     if effective_mode == "process":
+        # A process-backed operation invoked from inside one of our workers
+        # uses a thread for its inner deadline. If that inner thread is stuck,
+        # the outer owned process exits and takes it with it; no detached
+        # grandchild/process group can leak from nested budgets.
+        if _IN_BUDGET_WORKER:
+            return _run_thread(fn, args, kwargs, seconds, operation)
         return _run_process(fn, args, kwargs, seconds, operation)
     raise AdapterError("BUDGET_POLICY_KEY_UNKNOWN")
+
+
+def run_symbolic_operation(operation: str, fn: Callable, args: tuple = (), *,
+                           kwargs: Optional[dict] = None,
+                           budget_key: Optional[str] = None,
+                           mode: Optional[str] = None) -> Any:
+    """Run a named symbolic primitive under its centralized policy budget."""
+    key = budget_key or f"{operation}_seconds"
+    if key not in BUDGET_POLICY:
+        raise AdapterError("BUDGET_OPERATION_UNKNOWN")
+    return run_with_budget(
+        fn, args, seconds=BUDGET_POLICY[key], kwargs=kwargs,
+        operation=operation, mode=mode)
 
 
 def shutdown_budget_pool() -> None:

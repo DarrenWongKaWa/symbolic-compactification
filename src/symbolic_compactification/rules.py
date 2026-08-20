@@ -181,14 +181,21 @@ def _re_real_transform(expr, symbols_by_name):
 
 
 def _sqrt_square_abs_transform(expr, symbols_by_name):
-    """sqrt(x**2) -> Abs(x): holds over the COMPLEX plane, no assumptions
-    required (generic)."""
+    """sqrt(x**2) -> Abs(x) only when x is known real."""
+
+    real_names = {name for name, declaration in symbols_by_name.items()
+                  if declaration.get("real")}
 
     def _rewrite(sub):
         if isinstance(sub, sympy.Pow) and sub.args[1] == sympy.Rational(1, 2):
             base = sub.args[0]
             if (isinstance(base, sympy.Pow) and base.args[1] == 2):
-                return sympy.Abs(base.args[0])
+                arg = base.args[0]
+                declared_real = (bool(arg.free_symbols)
+                                 and all(symbol.name in real_names
+                                         for symbol in arg.free_symbols))
+                if arg.is_real is True or declared_real:
+                    return sympy.Abs(arg)
         return sub
 
     return expr.replace(
@@ -215,8 +222,8 @@ BUILTIN_RULES = (
         name="sqrt_square_abs",
         transform=_sqrt_square_abs_transform,
         required_assumptions={},
-        description="sqrt(x**2) = Abs(x) for arbitrary x (generic; no "
-                    "assumptions required)",
+        description="sqrt(x**2) = Abs(x) when x is provably real under the "
+                    "declared assumptions",
     ),
 )
 

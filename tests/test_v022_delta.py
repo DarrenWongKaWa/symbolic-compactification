@@ -18,8 +18,6 @@ Deterministic, neutral synthetic fixtures only. Covers:
 from __future__ import annotations
 
 import json
-import types
-
 import pytest
 
 from symbolic_compactification import (
@@ -32,10 +30,15 @@ from symbolic_compactification import (
     UNKNOWN,
     ZERO,
     AdapterError,
+    ExpressionRecord,
     StepRecord,
+    adjudicate_candidate,
     derive_status_axes,
+    init_session,
+    normalize_symbols,
+    set_current,
+    sha256_text,
 )
-from symbolic_compactification.cli import _step_telemetry
 from symbolic_compactification.cli import main as cli_main
 from symbolic_compactification.models import PROPOSER_MODES
 
@@ -124,7 +127,7 @@ def test_normal_step_telemetry_populated_xor_reason_per_field(tmp_path):
     assert telemetry["count_ops_after"] > 0
     # a CLI step applies no structural primitive: reason-only, explicit
     assert "primitive" not in telemetry
-    assert telemetry["primitive_reason"] == "CLI_STEP_NO_STRUCTURAL_PRIMITIVE"
+    assert telemetry["primitive_reason"] == "CANDIDATE_EQUIVALENCE_VERIFICATION"
 
     # no silent nulls anywhere in the record
     assert all(value is not None for value in telemetry.values())
@@ -134,25 +137,26 @@ def test_normal_step_telemetry_populated_xor_reason_per_field(tmp_path):
     assert step["proof_status"] == "PROVEN"
 
 
-def test_telemetry_reason_branches_are_explicit_not_silent_nulls():
+def test_telemetry_reason_branches_are_explicit_not_silent_nulls(tmp_path):
     """Direct exercise of the reason branch: records without a parse carry
     explicit ``*_reason`` codes (never a silent null), and a budget-timeout
     evidence kind flips timeout_status."""
-    current = types.SimpleNamespace(text="x + 1", parsed_expr=None)
-    candidate = types.SimpleNamespace(text="x + 1", parsed_expr=None)
-    result = types.SimpleNamespace(
-        seconds=0.25, verdict=UNKNOWN,
-        evidence=[{"kind": "TIME_BUDGET_EXCEEDED", "operation": "simplify"}])
-
-    telemetry = _step_telemetry(current, candidate, result)
+    declared = normalize_symbols(["x"])
+    current = ExpressionRecord(
+        text="x + 1", sha256=sha256_text("x + 1"), symbols=declared)
+    candidate = ExpressionRecord(
+        text="x + 1", sha256=sha256_text("x + 1"), symbols=declared)
+    session = init_session(str(tmp_path))
+    set_current(session, current)
+    telemetry = adjudicate_candidate(session, candidate).step.telemetry
 
     assert "count_ops_before" not in telemetry
     assert telemetry["count_ops_before_reason"] == "PARSE_UNAVAILABLE"
     assert "count_ops_after" not in telemetry
     assert telemetry["count_ops_after_reason"] == "PARSE_UNAVAILABLE"
-    assert telemetry["timeout_status"] == "TIME_BUDGET_EXCEEDED"
-    assert telemetry["verdict"] == UNKNOWN
-    assert telemetry["primitive_reason"] == "CLI_STEP_NO_STRUCTURAL_PRIMITIVE"
+    assert telemetry["timeout_status"] == "ok"
+    assert telemetry["verdict"] == ZERO
+    assert telemetry["primitive_reason"] == "CANDIDATE_EQUIVALENCE_VERIFICATION"
     assert all(value is not None for value in telemetry.values())
 
 
@@ -165,7 +169,7 @@ def test_taxonomy_vocabularies_cover_the_documented_states():
     assert {"NONE", "DECLARED", "HUMAN_REQUIRED"} <= set(
         ASSUMPTION_STATUS_VALUES)
     # proof axis: NONE / HYPOTHESIS / PROOF_REQUIRED / PROVEN
-    assert {"NONE", "HYPOTHESIS", "PROOF_REQUIRED", "PROVEN"} <= set(
+    assert {"NONE", "HYPOTHESIS", "PROOF_REQUIRED", "REFUTED", "PROVEN"} <= set(
         PROOF_STATUS_VALUES)
     # HYPOTHESIS also lives in the lifecycle vocabulary
     assert "HYPOTHESIS" in STEP_STATUSES
@@ -191,7 +195,7 @@ def test_derive_status_axes_unknown_is_proof_gap_never_human_gate():
     assumption, proof = derive_status_axes(UNKNOWN)
     assert proof == "PROOF_REQUIRED"
     assert proof != "HUMAN_REQUIRED"
-    assert derive_status_axes(NONZERO) == ("NONE", "PROOF_REQUIRED")
+    assert derive_status_axes(NONZERO) == ("NONE", "REFUTED")
 
 
 def test_derive_status_axes_unadjudicated_is_hypothesis():

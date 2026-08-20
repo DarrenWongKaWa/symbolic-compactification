@@ -134,7 +134,7 @@ def test_render_final_report_shows_explicit_expression_and_header(tmp_path):
     assert f"run_id: {session.run_id}" in md
     assert f"engine_version: {ENGINE_VERSION}" in md
     assert f"agent_protocol_version: {AGENT_PROTOCOL_VERSION}" in md
-    assert AGENT_PROTOCOL_VERSION == "0.2.2"
+    assert AGENT_PROTOCOL_VERSION == "0.3.0"
     assert f"certified_state_sha256: {candidate.sha256}" in md
     assert "zero_promotions: 1" in md
     assert "nonzero_attempts: 0" in md

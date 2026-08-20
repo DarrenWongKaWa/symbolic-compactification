@@ -376,10 +376,23 @@ def test_human_required_candidate_cannot_promote_without_zero_step(tmp_path):
         promote(session, _record("(x+1)**2"))
     assert excinfo.value.code == "VERDICT_NOT_ZERO"
 
-    # only a REAL ZERO verification step unlocks promotion
+    # A ZERO does not erase the human gate: the nearest matching proposal
+    # still requires explicit authorization.
     candidate = _record("(x+1)**2")
     result = verify_equivalent(current.text, candidate.text, ["x"])
     assert result.verdict == ZERO
+    record_step(session, _verification_step(
+        session, candidate, result, status="CERTIFIED"))
+    with pytest.raises(AdapterError) as excinfo:
+        promote(session, candidate)
+    assert excinfo.value.code == "HUMAN_AUTHORIZATION_REQUIRED"
+
+    # Record the human-authorized assumption as DECLARED, then re-adjudicate.
+    record_proposal(
+        session,
+        _candidate("(x+1)**2", candidate_id="cand-authorized",
+                   assumptions_status="DECLARED",
+                   required_assumptions=["x is real"]))
     record_step(session, _verification_step(
         session, candidate, result, status="CERTIFIED"))
     final_path = promote(session, candidate)
