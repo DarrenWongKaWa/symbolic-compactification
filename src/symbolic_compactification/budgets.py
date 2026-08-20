@@ -635,10 +635,10 @@ def run_with_budget(fn: Callable, args: tuple = (), seconds: float = 30.0, *,
       * whatever exception ``fn`` itself raises (propagated unchanged).
 
     ``mode`` overrides ``BUDGET_POLICY['mode']`` for this single call.
-    Non-positive budgets still execute the call once (budgets bound long work;
-    they do not forbid the attempt). Process mode requires a picklable
-    ``fn``/``args``/``kwargs``; every spawned worker is engine-owned and
-    cleaned up per the module docstring's lifecycle.
+    Non-positive thread/process budgets raise ``BudgetExceeded`` immediately.
+    Process mode requires a picklable ``fn``/``args``/``kwargs``; every
+    spawned worker is engine-owned and cleaned up per the module docstring's
+    lifecycle.
     """
     effective_mode = mode or BUDGET_POLICY["mode"]
     if effective_mode == "inline":
