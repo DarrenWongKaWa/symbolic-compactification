@@ -54,6 +54,17 @@ Global `simplify()` remains a bounded fallback for small expressions only —
 never the primary discovery path. The A/B comparison protocol for this
 workflow is documented in `docs/AB_EXPERIMENT_PROTOCOL.md`.
 
+`run_summary` reports `proposer_mode` strictly from recorded evidence:
+`MAIN_AGENT_ONLY` (proposals recorded without a subagent id),
+`HARNESS_SUBAGENT` (a harness subagent id was recorded),
+`SUBAGENT_UNAVAILABLE` (an explicit record that the harness cannot expose
+native subagent invocation for this run), or `UNKNOWN` (ambiguous/absent
+evidence). Reading `roles/STRUCTURAL_PROPOSER.md` is never evidence of any
+mode. An experiment may declare its A/B arm (`requested_arm` at init or via
+`set_requested_arm`); `run_summary` then derives `ab_arm_valid`:
+arm B is valid iff a subagent id was recorded (`SUBAGENT_NOT_INVOKED`
+otherwise), arm A is valid iff there is no subagent evidence.
+
 ---
 
 ## Rules

@@ -31,7 +31,7 @@ from .verifier import (VERIFY_POLICY, get_verify_policy, set_verify_policy,
                         verify_equivalent)
 from .residual import make_residual, residual_record
 from .session import (init_session, load_session, promote, record_step,
-                      run_summary, set_current)
+                      run_summary, set_current, set_requested_arm)
 from .adapters import (TranslationResult, translate_wolfram_text,
                        extract_expression_text)
 from .structure import expand_finite, structure_summary
@@ -67,6 +67,7 @@ __all__ = [
     "verify_equivalent", "make_residual", "residual_record",
     # session persistence
     "init_session", "load_session", "record_step", "promote", "set_current",
+    "set_requested_arm",
     "run_summary",
     # adapters
     "TranslationResult", "translate_wolfram_text", "extract_expression_text",

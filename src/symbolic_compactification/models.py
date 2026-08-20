@@ -91,12 +91,24 @@ PROPOSAL_EVIDENCE_KIND = "proposer_candidate"
 # STRICTLY from recorded evidence — never by inferring subagent use from the
 # role contract merely existing/being read. A proposal step carrying a
 # recorded subagent id is HARNESS_SUBAGENT; one recorded with explicit
-# ``main_agent`` mode evidence is MAIN_AGENT_ONLY; ambiguous/absent evidence
-# is UNKNOWN.
+# ``main_agent`` mode evidence is MAIN_AGENT_ONLY; an explicit
+# ``subagent_unavailable`` record (the harness cannot expose native subagent
+# invocation for this run) is SUBAGENT_UNAVAILABLE — DISTINCT from UNKNOWN,
+# which means the evidence is ambiguous or absent. Reading
+# ``roles/STRUCTURAL_PROPOSER.md`` is never evidence of any mode.
 PROPOSER_MAIN_AGENT = "MAIN_AGENT_ONLY"
 PROPOSER_HARNESS_SUBAGENT = "HARNESS_SUBAGENT"
+PROPOSER_SUBAGENT_UNAVAILABLE = "SUBAGENT_UNAVAILABLE"
 PROPOSER_MODE_UNKNOWN = "UNKNOWN"
+PROPOSER_MODES = (PROPOSER_MAIN_AGENT, PROPOSER_HARNESS_SUBAGENT,
+                  PROPOSER_SUBAGENT_UNAVAILABLE, PROPOSER_MODE_UNKNOWN)
 DEFAULT_PROPOSER_ROLE = "STRUCTURAL_PROPOSER"
+
+# A/B arm vocabulary (v0.2.2): a run may DECLARE which experiment arm it is
+# at ``init_session`` time (or later via ``set_requested_arm``). Arm validity
+# is derived strictly from recorded proposer evidence in ``run_summary``:
+# arm B requires a recorded harness subagent; arm A requires none.
+REQUESTED_ARMS = ("A", "B")
 
 MAX_SYMBOLS = 40
 

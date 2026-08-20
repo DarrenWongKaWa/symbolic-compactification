@@ -196,11 +196,19 @@ role contract:
 4. The main agent validates (`validate_candidate`), records
    (`record_proposal`), verifies (the deterministic verifier), and — only on
    ZERO — promotes. `record_proposal` captures invocation provenance: the
-   proposer role, the harness task/subagent id (when a subagent was used),
-   invocation and proposal timestamps, the candidate id, a content hash of
-   the validated candidate, and the parent/main-agent step index. This is
-   what lets `run_summary` report `proposer_mode` (MAIN_AGENT_ONLY /
-   HARNESS_SUBAGENT / UNKNOWN) strictly from recorded evidence.
+   proposer role, the harness task/subagent id (`harness_task_or_subagent_id`
+   when a subagent was used), invocation and return timestamps
+   (`invoked_at` / `returned_at`), the candidate id, a content hash of the
+   validated candidate (`proposal_sha256`), and the parent/main-agent step
+   index (`parent_agent_step`). This is what lets `run_summary` report
+   `proposer_mode` (MAIN_AGENT_ONLY / HARNESS_SUBAGENT /
+   SUBAGENT_UNAVAILABLE / UNKNOWN) strictly from recorded evidence.
+   `SUBAGENT_UNAVAILABLE` is an EXPLICIT record that the harness cannot
+   expose native subagent invocation for this run — distinct from UNKNOWN
+   (ambiguous/absent evidence). An A/B experiment may declare its arm
+   (`requested_arm`); `run_summary` derives `ab_arm_valid` strictly from
+   the recorded evidence (arm B requires a recorded subagent id; arm A
+   requires none).
 
 This repo deliberately contains **no agent runtime, no LLM API integration,
 no orchestration server, no message broker, and no planner framework**: it

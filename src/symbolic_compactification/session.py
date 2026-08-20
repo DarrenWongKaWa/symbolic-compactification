@@ -24,6 +24,7 @@ from typing import Optional
 from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
                      PROPOSAL_EVIDENCE_KIND, PROPOSER_HARNESS_SUBAGENT,
                      PROPOSER_MAIN_AGENT, PROPOSER_MODE_UNKNOWN,
+                     PROPOSER_SUBAGENT_UNAVAILABLE, REQUESTED_ARMS,
                      STEP_STATUSES, UNKNOWN, ZERO, AdapterError,
                      ExpressionRecord, SessionState, StepRecord,
                      engine_git_sha, sha256_text)
@@ -61,10 +62,26 @@ def _manifest_payload(session: SessionState, meta: Optional[dict]) -> dict:
         # in force for this run; the deterministic engine stays v0.2.0
         "agent_protocol_version": AGENT_PROTOCOL_VERSION,
         "engine_git_sha": engine_git_sha(),
+        # declared A/B experiment arm (v0.2.2); None when undeclared
+        "requested_arm": getattr(session, "requested_arm", None),
         "meta": meta or {},
         "current": None if session.current is None else session.current.to_dict(),
         "steps": [s.to_dict() for s in session.steps],
     }
+
+
+def _normalize_requested_arm(arm) -> Optional[str]:
+    """Normalize a requested-arm declaration to ``None`` / ``"A"`` / ``"B"``.
+
+    Fail-closed: anything else raises ``REQUESTED_ARM_INVALID``. The arm is
+    a DECLARATION of intent only; whether it was actually honored is derived
+    strictly from recorded proposer evidence (see ``run_summary``).
+    """
+    if arm is None:
+        return None
+    if isinstance(arm, str) and arm.strip().upper() in REQUESTED_ARMS:
+        return arm.strip().upper()
+    raise AdapterError("REQUESTED_ARM_INVALID")
 
 
 def _run_root(session: SessionState) -> Path:
@@ -79,8 +96,17 @@ def _run_root(session: SessionState) -> Path:
 # --------------------------------------------------------------------------- #
 
 def init_session(workspace_root: str = "workspace",
-                 meta: Optional[dict] = None) -> SessionState:
+                 meta: Optional[dict] = None,
+                 requested_arm: Optional[str] = None) -> SessionState:
     """Create ``<workspace_root>/runs/<run-id>/`` with manifest, steps/, final/.
+
+    ``requested_arm`` (v0.2.2) optionally declares the A/B experiment arm
+    this run is meant to execute (``"A"`` main-agent-only / ``"B"``
+    harness-subagent proposer; case-insensitive; default None = undeclared).
+    It is a DECLARATION of intent: whether the arm was actually honored is
+    derived strictly from recorded proposer evidence by ``run_summary``
+    (``ab_arm_valid`` / ``invalid_reason``). Unknown arm values fail closed
+    with ``REQUESTED_ARM_INVALID``.
 
     Returns a ``SessionState`` carrying the runtime ``run_root`` attribute so
     subsequent ``record_step`` / ``promote`` calls know where to write.
@@ -92,8 +118,22 @@ def init_session(workspace_root: str = "workspace",
 
     session = SessionState(run_id=run_id)
     session.run_root = str(run_root)  # runtime-only, never serialized
+    session.requested_arm = _normalize_requested_arm(requested_arm)
     _write_json(run_root / "manifest.json", _manifest_payload(session, meta))
     return session
+
+
+def set_requested_arm(session: SessionState, arm: Optional[str],
+                      meta: Optional[dict] = None) -> None:
+    """Declare (or clear, with ``arm=None``) the run's requested A/B arm.
+
+    Persists the declaration into the run manifest; ``run_summary`` then
+    derives ``ab_arm_valid`` / ``invalid_reason`` from recorded proposer
+    evidence. Unknown arm values fail closed with ``REQUESTED_ARM_INVALID``.
+    """
+    session.requested_arm = _normalize_requested_arm(arm)
+    _write_json(_run_root(session) / "manifest.json",
+                _manifest_payload(session, meta))
 
 
 def load_session(workspace_root: str, run_id: str) -> SessionState:
@@ -112,6 +152,9 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
     session = SessionState(run_id=manifest["run_id"],
                            created_at=manifest["created_at"],
                            current=current)
+    # v0.2.2: restore the declared A/B arm (None for pre-v0.2.2 manifests)
+    session.requested_arm = _normalize_requested_arm(
+        manifest.get("requested_arm"))
     for st in manifest.get("steps", []):
         status = st.get("status")
         session.steps.append(StepRecord(
@@ -224,12 +267,20 @@ def run_summary(run_dir) -> dict:
       * ``wall_time_seconds``    total recorded verifier wall time
       * ``count_ops_first``      count_ops before the FIRST verified step
       * ``count_ops_current``    count_ops after the LATEST verified step
-      * ``proposer_mode``        MAIN_AGENT_ONLY | HARNESS_SUBAGENT | UNKNOWN,
-                                 derived STRICTLY from recorded invocation
-                                 evidence (never inferred from the role
-                                 contract merely existing/being read)
+      * ``proposer_mode``        MAIN_AGENT_ONLY | HARNESS_SUBAGENT |
+                                 SUBAGENT_UNAVAILABLE | UNKNOWN, derived
+                                 STRICTLY from recorded invocation evidence
+                                 (never inferred from the role contract
+                                 merely existing/being read)
       * ``packets_recorded``     number of conjecture-packet provenance
                                  records present under ``packets/``
+      * ``requested_arm``        the declared A/B arm ("A"/"B") or None
+      * ``ab_arm_valid``         bool: was the declared arm actually honored,
+                                 judged STRICTLY from recorded proposer
+                                 evidence (True when no arm was declared)
+      * ``invalid_reason``       None when valid; otherwise a short code
+                                 (e.g. ``SUBAGENT_NOT_INVOKED`` for arm B
+                                 without any recorded subagent id)
 
     Raises:
         AdapterError("RUN_MANIFEST_UNREADABLE") if the manifest is absent
@@ -270,6 +321,11 @@ def run_summary(run_dir) -> dict:
         len([p for p in packets_dir.glob("packet_*.json")])
         if packets_dir.is_dir() else 0)
 
+    proposer_mode = _derive_proposer_mode(proposals)
+    requested_arm = _normalize_requested_arm(manifest.get("requested_arm"))
+    ab_arm_valid, invalid_reason = _derive_arm_valid(requested_arm,
+                                                     proposer_mode)
+
     return {
         "run_id": manifest.get("run_id"),
         "engine_version": manifest.get("engine_version"),
@@ -285,8 +341,11 @@ def run_summary(run_dir) -> dict:
         "wall_time_seconds": wall,
         "count_ops_first": ops_first,
         "count_ops_current": ops_current,
-        "proposer_mode": _derive_proposer_mode(proposals),
+        "proposer_mode": proposer_mode,
         "packets_recorded": packets_recorded,
+        "requested_arm": requested_arm,
+        "ab_arm_valid": ab_arm_valid,
+        "invalid_reason": invalid_reason,
     }
 
 
@@ -302,6 +361,8 @@ def _derive_proposer_mode(proposals: list) -> str:
     """Derive ``proposer_mode`` STRICTLY from recorded invocation evidence.
 
     * any proposal step carrying a recorded ``subagent_id`` -> HARNESS_SUBAGENT;
+    * any explicit ``subagent_unavailable`` record (the harness cannot expose
+      native subagent invocation for this run) -> SUBAGENT_UNAVAILABLE;
     * proposals recorded with explicit ``invocation_mode == "main_agent"``
       (the default for ``record_proposal`` without a subagent id) ->
       MAIN_AGENT_ONLY;
@@ -309,14 +370,17 @@ def _derive_proposer_mode(proposals: list) -> str:
 
     Never infers subagent use from the role contract merely existing or being
     read: a recorded subagent id is the ONLY evidence that selects
-    HARNESS_SUBAGENT. Runs with no proposal steps report UNKNOWN (no evidence
-    either way).
+    HARNESS_SUBAGENT. SUBAGENT_UNAVAILABLE is an EXPLICIT record, distinct
+    from UNKNOWN (ambiguous/absent evidence). Runs with no proposal steps
+    report UNKNOWN (no evidence either way). Precedence when evidence mixes:
+    HARNESS_SUBAGENT > SUBAGENT_UNAVAILABLE > MAIN_AGENT_ONLY.
     """
     if not proposals:
         return PROPOSER_MODE_UNKNOWN
 
     saw_subagent = False
     saw_main_agent = False
+    saw_unavailable = False
     for st in proposals:
         ev = _proposal_invocation_evidence(st)
         if ev is None:
@@ -325,15 +389,57 @@ def _derive_proposer_mode(proposals: list) -> str:
         subagent_id = ev.get("subagent_id")
         if subagent_id is not None and str(subagent_id).strip():
             saw_subagent = True
+        elif ev.get("invocation_mode") == "subagent_unavailable" \
+                or ev.get("unavailable") is True:
+            saw_unavailable = True
         elif ev.get("invocation_mode") == "main_agent":
             saw_main_agent = True
         else:
             # evidence present but neither a subagent id nor an explicit
-            # main_agent mode marker: ambiguous
+            # mode marker: ambiguous
             return PROPOSER_MODE_UNKNOWN
 
     if saw_subagent:
         return PROPOSER_HARNESS_SUBAGENT
+    if saw_unavailable:
+        return PROPOSER_SUBAGENT_UNAVAILABLE
     if saw_main_agent:
         return PROPOSER_MAIN_AGENT
     return PROPOSER_MODE_UNKNOWN
+
+
+def _derive_arm_valid(requested_arm: Optional[str], proposer_mode: str
+                      ) -> tuple:
+    """Derive ``(ab_arm_valid, invalid_reason)`` from recorded evidence.
+
+    Rules (v0.2.2), judged STRICTLY from ``proposer_mode`` (itself derived
+    only from recorded invocation evidence — never from the role contract
+    existing/being read, never from an internal in-process callback):
+
+    * no arm declared            -> valid, no reason;
+    * arm "B" (subagent proposer) valid IFF proposer_mode == HARNESS_SUBAGENT
+      (i.e. a harness subagent id was RECORDED); otherwise invalid with
+      ``SUBAGENT_NOT_INVOKED``;
+    * arm "A" (main-agent only) valid IFF there is no subagent evidence
+      (MAIN_AGENT_ONLY or an explicit SUBAGENT_UNAVAILABLE — in both cases
+      the main agent did the proposing); HARNESS_SUBAGENT is invalid with
+      ``SUBAGENT_INVOKED``, and UNKNOWN evidence is invalid with
+      ``PROPOSER_MODE_UNKNOWN`` (fail closed: absence of evidence is not
+      evidence of arm A).
+    """
+    if requested_arm is None:
+        return True, None
+    if requested_arm == "B":
+        if proposer_mode == PROPOSER_HARNESS_SUBAGENT:
+            return True, None
+        return False, "SUBAGENT_NOT_INVOKED"
+    if requested_arm == "A":
+        if proposer_mode in (PROPOSER_MAIN_AGENT,
+                             PROPOSER_SUBAGENT_UNAVAILABLE):
+            return True, None
+        if proposer_mode == PROPOSER_HARNESS_SUBAGENT:
+            return False, "SUBAGENT_INVOKED"
+        return False, "PROPOSER_MODE_UNKNOWN"
+    # a non-A/B arm cannot enter the manifest via the validated setters,
+    # but a hand-edited manifest must still fail closed, not crash
+    return False, "REQUESTED_ARM_UNKNOWN"

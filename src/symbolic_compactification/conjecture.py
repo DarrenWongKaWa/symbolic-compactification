@@ -355,7 +355,13 @@ def record_proposal(session: SessionState, candidate: Any, *,
                     role: str = DEFAULT_PROPOSER_ROLE,
                     harness_task_or_subagent_id: Optional[str] = None,
                     invocation_timestamp: Optional[str] = None,
-                    parent_step_index: Optional[int] = None) -> StepRecord:
+                    parent_step_index: Optional[int] = None,
+                    unavailable: bool = False,
+                    subagent_id: Optional[str] = None,
+                    invoked_at: Optional[str] = None,
+                    parent_agent_step: Optional[int] = None,
+                    conjecture_packet_sha256: Optional[str] = None,
+                    returned_at: Optional[str] = None) -> StepRecord:
     """Record a validated proposer candidate as a HYPOTHESIS step.
 
     Uses the existing ``StepRecord`` status machinery: the step is written
@@ -364,28 +370,44 @@ def record_proposal(session: SessionState, candidate: Any, *,
     hard-gated on a real verification step's ZERO verdict, so nothing here
     can advance the current expression.
 
-    Invocation provenance (v0.2.2) is recorded in the step's evidence and
-    telemetry — structured fields only, no reasoning text:
-      * ``role``                     proposer role (default STRUCTURAL_PROPOSER)
-      * ``harness_task_or_subagent_id`` the harness subagent/task id when the
-                                     proposal came from a harness-native
-                                     subagent; ``None`` for main-agent proposals
-      * ``invocation_timestamp``     when the proposer was invoked (caller-
-                                     supplied ISO-8601 UTC, or now if omitted)
-      * ``candidate_id``             the candidate's own id
-      * ``proposal_timestamp``       when this record was written
-      * ``proposal_sha256``          canonical-JSON hash of the validated
-                                     candidate (content-addressed)
-      * ``parent_step_index``        the main-agent step index this proposal
-                                     derives from (defaults to the current
-                                     state's step count)
+    Invocation provenance (v0.2.2) is recorded in the step's evidence —
+    structured fields only, no reasoning text. The CONTRACT field names and
+    their backward-compatible aliases (both are written; existing consumers
+    keep working):
 
-    The validated candidate is stored in the step's telemetry
-    (``primitive="proposal"``) and the step's evidence carries the
-    ``proposer_candidate`` marker used by ``run_summary``.
+      ============================  ==============================
+      contract field                legacy alias (still written)
+      ============================  ==============================
+      ``role``                      ``role``
+      ``harness_task_or_subagent_id``  ``subagent_id``
+      ``invoked_at``                ``invocation_timestamp``
+      ``returned_at``               (new; may be None)
+      ``parent_agent_step``         ``parent_step_index``
+      ``candidate_id``              ``candidate_id``
+      ``proposal_sha256``           ``proposal_sha256``
+      ``conjecture_packet_sha256``  (new; may be None)
+      ============================  ==============================
+
+    plus ``invocation_mode`` (``main_agent`` | ``subagent`` |
+    ``subagent_unavailable``), ``unavailable`` (bool), ``assumptions_status``,
+    ``confidence`` and ``proposal_timestamp`` (when this record was written).
+
+    ``unavailable=True`` records the SUBAGENT_UNAVAILABLE mode explicitly:
+    the harness cannot expose native subagent invocation for this run. It is
+    DISTINCT from UNKNOWN (ambiguous/absent evidence) and must not carry a
+    subagent id (fail closed: ``PROPOSAL_INVALID``). Keyword aliases resolve
+    as: ``subagent_id`` unless ``harness_task_or_subagent_id`` is given,
+    ``invoked_at`` unless ``invocation_timestamp`` is given, and
+    ``parent_agent_step`` unless ``parent_step_index`` is given.
+
+    HARNESS_SUBAGENT is NEVER faked: it requires a RECORDED harness
+    task/subagent id. An internal in-process callback is not a subagent, and
+    reading ``roles/STRUCTURAL_PROPOSER.md`` is never evidence of any mode.
 
     Raises:
-        AdapterError("PROPOSAL_INVALID")     - candidate fails validation
+        AdapterError("PROPOSAL_INVALID")     - candidate fails validation,
+                                               or ``unavailable`` is combined
+                                               with a subagent id
         AdapterError("NO_CURRENT_EXPRESSION") - session has no current
         AdapterError("SESSION_NOT_PERSISTED") - session has no run_root
     """
@@ -393,15 +415,34 @@ def record_proposal(session: SessionState, candidate: Any, *,
     if session.current is None:
         raise AdapterError("NO_CURRENT_EXPRESSION")
 
-    subagent_id = (str(harness_task_or_subagent_id).strip()
-                   if harness_task_or_subagent_id is not None else None) or None
-    invocation_mode = "subagent" if subagent_id else "main_agent"
+    # resolve keyword aliases: contract names win over legacy names
+    if harness_task_or_subagent_id is None and subagent_id is not None:
+        harness_task_or_subagent_id = subagent_id
+    if invocation_timestamp is None and invoked_at is not None:
+        invocation_timestamp = invoked_at
+    if parent_step_index is None and parent_agent_step is not None:
+        parent_step_index = parent_agent_step
+
+    raw_subagent_id = (str(harness_task_or_subagent_id).strip()
+                       if harness_task_or_subagent_id is not None else None) or None
+    if unavailable:
+        if raw_subagent_id is not None:
+            # fail closed: an unavailable harness cannot have invoked a
+            # subagent; the contradiction must never be recorded silently
+            raise AdapterError("PROPOSAL_INVALID")
+        invocation_mode = "subagent_unavailable"
+    else:
+        invocation_mode = "subagent" if raw_subagent_id else "main_agent"
     if invocation_timestamp is None:
         invocation_timestamp = _now_iso()
     if parent_step_index is None:
         parent_step_index = len(session.steps)
     proposal_sha256 = sha256_text(canonical_json(validated))
     proposal_timestamp = _now_iso()
+    if conjecture_packet_sha256 is not None:
+        conjecture_packet_sha256 = str(conjecture_packet_sha256)
+    if returned_at is not None:
+        returned_at = str(returned_at)
 
     step = StepRecord(
         step=len(session.steps) + 1,
@@ -416,13 +457,23 @@ def record_proposal(session: SessionState, candidate: Any, *,
             "candidate_id": validated["candidate_id"],
             "assumptions_status": validated["assumptions_status"],
             "confidence": validated["confidence"],
-            # invocation provenance (v0.2.2) — structured fields only
+            # invocation provenance (v0.2.2) — structured fields only.
+            # Contract field names first, legacy aliases after; both are
+            # written so existing consumers keep working (see docstring
+            # mapping table).
             "role": role,
+            "harness_task_or_subagent_id": raw_subagent_id,
+            "invoked_at": invocation_timestamp,
+            "returned_at": returned_at,
+            "parent_agent_step": parent_step_index,
+            "proposal_sha256": proposal_sha256,
+            "conjecture_packet_sha256": conjecture_packet_sha256,
             "invocation_mode": invocation_mode,
-            "subagent_id": subagent_id,
+            "unavailable": bool(unavailable),
+            # legacy aliases (pre-v0.2.2 consumers)
+            "subagent_id": raw_subagent_id,
             "invocation_timestamp": invocation_timestamp,
             "proposal_timestamp": proposal_timestamp,
-            "proposal_sha256": proposal_sha256,
             "parent_step_index": parent_step_index,
         }],
         status="HYPOTHESIS",

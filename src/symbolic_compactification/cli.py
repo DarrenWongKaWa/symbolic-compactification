@@ -234,9 +234,12 @@ def cmd_verify(args) -> int:
 
 def cmd_init_session(args) -> int:
     meta = {"cli": "init-session"}
-    session = init_session(workspace_root=args.workspace, meta=meta)
+    session = init_session(workspace_root=args.workspace, meta=meta,
+                           requested_arm=args.requested_arm)
     print(f"run_id:   {session.run_id}")
     print(f"run_root: {session.run_root}")
+    arm = getattr(session, "requested_arm", None)
+    print(f"arm:      {arm if arm is not None else '(undeclared)'}")
     if args.current:
         if not args.symbols:
             raise AdapterError("SYMBOLS_REQUIRED_WITH_CURRENT")
@@ -348,6 +351,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_init.add_argument("--workspace", default="workspace")
     p_init.add_argument("--current", help="optional initial expression .txt")
     p_init.add_argument("--symbols", help="required together with --current")
+    p_init.add_argument("--requested-arm", default=None, dest="requested_arm",
+                        choices=[None, "A", "a", "B", "b"],
+                        help="optional declared A/B experiment arm (A or B)")
     p_init.set_defaults(func=cmd_init_session)
 
     p_step = sub.add_parser("step", help="one verify step recorded into a run")
