@@ -17,11 +17,14 @@ Kernel modules:
               contract (human-readable certified result + provenance artifact)
 """
 
-from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, ZERO, NONZERO,
+from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
+                     ENGINE_VERSION, ZERO, NONZERO,
                      UNKNOWN, VERIFIER_NAME, AdapterError, ExpressionRecord,
-                     HARD_RESERVED_NAMES, PROPOSAL_EVIDENCE_KIND,
+                     HARD_RESERVED_NAMES, PROOF_STATUS_VALUES,
+                     PROPOSAL_EVIDENCE_KIND,
                      RESERVED_NAMES, STEP_STATUSES, SessionState, StepRecord,
-                     VerificationResult, canonical_json, engine_git_sha,
+                     VerificationResult, canonical_json, derive_status_axes,
+                     engine_git_sha,
                      normalize_symbols, sha256_text)
 
 __version__ = ENGINE_VERSION
@@ -60,6 +63,7 @@ __all__ = [
     "RESERVED_NAMES", "HARD_RESERVED_NAMES",
     "ENGINE_VERSION", "AGENT_PROTOCOL_VERSION", "PROPOSAL_EVIDENCE_KIND",
     "engine_git_sha", "STEP_STATUSES",
+    "ASSUMPTION_STATUS_VALUES", "PROOF_STATUS_VALUES", "derive_status_axes",
     # parser
     "PARSE_POLICY", "get_parse_policy", "set_parse_policy",
     "parse_expression", "load_expression", "syms_like",

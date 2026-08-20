@@ -21,10 +21,12 @@ import time
 from pathlib import Path
 from typing import Optional
 
-from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
+from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
+                     ENGINE_VERSION, NONZERO,
                      PROPOSAL_EVIDENCE_KIND, PROPOSER_HARNESS_SUBAGENT,
                      PROPOSER_MAIN_AGENT, PROPOSER_MODE_UNKNOWN,
-                     PROPOSER_SUBAGENT_UNAVAILABLE, REQUESTED_ARMS,
+                     PROPOSER_SUBAGENT_UNAVAILABLE, PROOF_STATUS_VALUES,
+                     REQUESTED_ARMS,
                      STEP_STATUSES, UNKNOWN, ZERO, AdapterError,
                      ExpressionRecord, SessionState, StepRecord,
                      engine_git_sha, sha256_text)
@@ -157,6 +159,8 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
         manifest.get("requested_arm"))
     for st in manifest.get("steps", []):
         status = st.get("status")
+        assumption_status = st.get("assumption_status")
+        proof_status = st.get("proof_status")
         session.steps.append(StepRecord(
             step=st["step"], current_hash=st["current_hash"],
             candidate_hash=st["candidate_hash"],
@@ -167,6 +171,11 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
             telemetry=dict(st.get("telemetry", {})),
             engine_version=st.get("engine_version", ENGINE_VERSION),
             engine_git_sha=st.get("engine_git_sha", "unknown"),
+            assumption_status=(assumption_status
+                               if assumption_status in ASSUMPTION_STATUS_VALUES
+                               else None),
+            proof_status=(proof_status
+                          if proof_status in PROOF_STATUS_VALUES else None),
         ))
     session.run_root = str(run_root)
     return session

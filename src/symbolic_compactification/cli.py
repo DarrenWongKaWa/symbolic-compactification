@@ -42,8 +42,9 @@ from typing import Optional
 
 import sympy
 
-from .models import (ENGINE_VERSION, NONZERO, UNKNOWN, ZERO, AdapterError,
-                     StepRecord)
+from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, NONZERO,
+                     UNKNOWN, ZERO, AdapterError, StepRecord,
+                     derive_status_axes)
 from .parser import get_parse_policy, load_expression
 from .session import init_session, load_session, promote, record_step, set_current
 from .verifier import verify_equivalent
@@ -132,11 +133,13 @@ def _print_result(result) -> None:
 
 
 def _step_telemetry(current, candidate, result) -> dict:
-    """Cheap JSON-native step telemetry (v0.2).
+    """Complete JSON-native step telemetry (v0.2.2).
 
-    Deliberately minimal — no observability framework. ``primitive`` is null
-    for CLI-driven steps (no structural primitive was applied); the timeout
-    status mirrors the verifier's fail-closed budget evidence.
+    Every normal verification step populates each telemetry field when it is
+    computable; when a field is not computable the record carries an explicit
+    ``<field>_reason`` code instead of a silent null. ``primitive`` is
+    reason-only for CLI-driven steps (no structural primitive is applied).
+    The timeout status mirrors the verifier's fail-closed budget evidence.
     """
     timed_out = any(e.get("kind") == "TIME_BUDGET_EXCEEDED"
                     for e in result.evidence)
@@ -149,17 +152,33 @@ def _step_telemetry(current, candidate, result) -> dict:
         except Exception:
             return None
 
-    return {
+    telemetry = {
         "input_chars": len(current.text),
         "output_chars": len(candidate.text),
-        "count_ops_before": _ops(current),
-        "count_ops_after": _ops(candidate),
-        "primitive": None,
         "wall_time_seconds": result.seconds,
         "verdict": result.verdict,
         "timeout_status": "TIME_BUDGET_EXCEEDED" if timed_out else "ok",
         "engine_version": ENGINE_VERSION,
+        "agent_protocol_version": AGENT_PROTOCOL_VERSION,
     }
+
+    # count_ops_*: populate when computable, else an explicit *_reason
+    # (never a silent null).
+    ops_before = _ops(current)
+    if ops_before is not None:
+        telemetry["count_ops_before"] = ops_before
+    else:
+        telemetry["count_ops_before_reason"] = "PARSE_UNAVAILABLE"
+    ops_after = _ops(candidate)
+    if ops_after is not None:
+        telemetry["count_ops_after"] = ops_after
+    else:
+        telemetry["count_ops_after_reason"] = "PARSE_UNAVAILABLE"
+
+    # primitive: a CLI-driven step applies no structural primitive, so the
+    # field is reason-only rather than a silent null.
+    telemetry["primitive_reason"] = "CLI_STEP_NO_STRUCTURAL_PRIMITIVE"
+    return telemetry
 
 
 # --------------------------------------------------------------------------- #
@@ -268,6 +287,12 @@ def cmd_step(args) -> int:
 
     result = verify_equivalent(current.text, candidate.text, declared,
                                functions=fns)
+    # v0.2.2 split status axes: a CLI verification step is adjudicated; its
+    # assumption axis reflects the declared symbols (DECLARED when present).
+    assumption_status, proof_status = derive_status_axes(
+        result.verdict,
+        assumptions_status="DECLARED" if declared else "NONE",
+        adjudicated=True)
     step = StepRecord(
         step=len(session.steps) + 1,
         current_hash=current.sha256,
@@ -280,6 +305,8 @@ def cmd_step(args) -> int:
         # CERTIFIES the step; anything else leaves it UNVERIFIED
         status="CERTIFIED" if result.verdict == ZERO else "UNVERIFIED",
         telemetry=_step_telemetry(current, candidate, result),
+        assumption_status=assumption_status,
+        proof_status=proof_status,
     )
     step_path = record_step(session, step, meta={"cli": "step"})
     print(f"run:       {session.run_id}")

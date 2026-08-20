@@ -196,6 +196,14 @@ otherwise), arm A is valid iff there is no subagent evidence.
   `PROOF_REQUIRED`, **never** `HUMAN_REQUIRED`. `HUMAN_REQUIRED` (a proposal
   `assumptions_status`, and a certification gate) is reserved for genuinely
   NEW assumptions or physical choices requiring human authorization.
+- Split status axes (agent protocol v0.2.2): each verification step records
+  two orthogonal axes in addition to the lifecycle `status`. The
+  `assumption_status` axis (`NONE` / `DECLARED` / `HUMAN_REQUIRED`) says what
+  assumptions the claim depends on; the `proof_status` axis
+  (`NONE` / `HYPOTHESIS` / `PROOF_REQUIRED` / `PROVEN`) says whether the
+  equivalence is actually proven (ZERO → `PROVEN`, anything else →
+  `PROOF_REQUIRED`, a proposal → `HYPOTHESIS`). Engine-cannot-prove never
+  implies `HUMAN_REQUIRED` — that value lives on the assumption axis only.
 
 ## Final reporting contract (agent protocol v0.2.2)
 

@@ -110,6 +110,62 @@ DEFAULT_PROPOSER_ROLE = "STRUCTURAL_PROPOSER"
 # arm B requires a recorded harness subagent; arm A requires none.
 REQUESTED_ARMS = ("A", "B")
 
+# Split status axes (v0.2.2, additive). Two ORTHOGONAL axes, both distinct
+# from the lifecycle ``status`` field, recorded on each verification step:
+#
+# * ``assumption_status`` — what the step depends on by way of assumptions:
+#     NONE           no assumptions are needed for the claim;
+#     DECLARED       declared assumptions suffice for the claim;
+#     HUMAN_REQUIRED genuinely NEW assumptions / physical choices that only a
+#                    human can authorize (a certification gate).
+# * ``proof_status`` — whether the equivalence is actually proven:
+#     NONE           not applicable (e.g. a proposal, no verifier ran);
+#     HYPOTHESIS     not yet adjudicated by a verifier;
+#     PROOF_REQUIRED declared assumptions suffice, but the deterministic
+#                    verifier cannot prove the claim within its machinery /
+#                    budgets — a proof GAP;
+#     PROVEN         certified by an exact ZERO verdict.
+#
+# The critical semantic: engine-cannot-prove (an UNKNOWN verdict) maps to
+# PROOF_REQUIRED and NEVER to HUMAN_REQUIRED — a proof gap is not a
+# human-decision gate.
+ASSUMPTION_STATUS_VALUES = ("NONE", "DECLARED", "HUMAN_REQUIRED")
+PROOF_STATUS_VALUES = ("NONE", "HYPOTHESIS", "PROOF_REQUIRED", "PROVEN")
+
+
+def derive_status_axes(verdict: str,
+                       assumptions_status: Optional[str] = None,
+                       adjudicated: bool = True) -> tuple:
+    """Derive ``(assumption_status, proof_status)`` for a step (v0.2.2).
+
+    Purely additive taxonomy helper; it never changes ``status`` or verdicts.
+
+    * ``assumption_status`` normalizes ``assumptions_status`` onto
+      ``ASSUMPTION_STATUS_VALUES`` (None/unknown -> ``NONE``).
+    * ``proof_status``:
+        - not adjudicated (a proposal)            -> ``HYPOTHESIS``;
+        - ZERO verdict                            -> ``PROVEN``;
+        - UNKNOWN / NONZERO / anything else       -> ``PROOF_REQUIRED``
+          (a proof gap). The engine being unable to prove a claim NEVER
+          yields HUMAN_REQUIRED — that belongs to the assumption axis only.
+
+    Returns:
+        ``(assumption_status, proof_status)`` both in their vocabularies.
+    """
+    if assumptions_status is None:
+        assumption = "NONE"
+    else:
+        norm = str(assumptions_status).strip().upper()
+        assumption = norm if norm in ASSUMPTION_STATUS_VALUES else "NONE"
+
+    if not adjudicated:
+        proof = "HYPOTHESIS"
+    elif verdict == ZERO:
+        proof = "PROVEN"
+    else:
+        proof = "PROOF_REQUIRED"
+    return assumption, proof
+
 MAX_SYMBOLS = 40
 
 # Names that may never be used as declared symbol names: they collide with the
@@ -317,10 +373,19 @@ class StepRecord:
     telemetry: dict = field(default_factory=dict)
     engine_version: str = ENGINE_VERSION
     engine_git_sha: str = field(default_factory=engine_git_sha)
+    # v0.2.2 split status axes (additive; None when not recorded)
+    assumption_status: Optional[str] = None
+    proof_status: Optional[str] = None
 
     def __post_init__(self):
         if self.status is not None and self.status not in STEP_STATUSES:
             raise AdapterError("STEP_STATUS_INVALID")
+        if (self.assumption_status is not None
+                and self.assumption_status not in ASSUMPTION_STATUS_VALUES):
+            raise AdapterError("ASSUMPTION_STATUS_INVALID")
+        if (self.proof_status is not None
+                and self.proof_status not in PROOF_STATUS_VALUES):
+            raise AdapterError("PROOF_STATUS_INVALID")
 
     def to_dict(self) -> dict:
         return {
@@ -336,6 +401,8 @@ class StepRecord:
             "telemetry": dict(self.telemetry),
             "engine_version": self.engine_version,
             "engine_git_sha": self.engine_git_sha,
+            "assumption_status": self.assumption_status,
+            "proof_status": self.proof_status,
         }
 
 
