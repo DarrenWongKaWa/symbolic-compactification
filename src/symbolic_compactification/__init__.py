@@ -52,7 +52,9 @@ from .rules import (BUILTIN_RULES, RewriteRule, RuleApplication, apply_rule,
                     apply_rules)
 from .conjecture import (build_conjecture_packet, record_proposal,
                          validate_candidate)
-from .reporting import FINAL_ARTIFACT_NAME, render_final_report
+from .reporting import (CERTIFIED_EXPRESSION_NAME, FINAL_ARTIFACT_NAME,
+                        render_final_report)
+from .fidelity import (FIDELITY_CLASSES, translation_fidelity)
 
 __all__ = [
     "__version__",
@@ -94,5 +96,6 @@ __all__ = [
     # conjecture (agent protocol v0.2.1; harness-native proposer, no runtime)
     "build_conjecture_packet", "validate_candidate", "record_proposal",
     # reporting (agent protocol v0.2.2 final certified-form contract)
-    "render_final_report", "FINAL_ARTIFACT_NAME",
+    "render_final_report", "FINAL_ARTIFACT_NAME", "CERTIFIED_EXPRESSION_NAME",
+    "translation_fidelity", "FIDELITY_CLASSES",
 ]

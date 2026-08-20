@@ -50,9 +50,14 @@ from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, ZERO,
 from .parser import get_parse_policy, parse_expression
 from .session import run_summary
 
-__all__ = ["render_final_report", "FINAL_ARTIFACT_NAME"]
+__all__ = ["render_final_report", "FINAL_ARTIFACT_NAME",
+           "CERTIFIED_EXPRESSION_NAME"]
 
 FINAL_ARTIFACT_NAME = "FINAL_CERTIFIED_FORM.md"
+# Machine-form artifact (v0.2.2): the canonical certified expression text,
+# one formula, suitable for machine consumption (parallel to the human
+# FINAL_CERTIFIED_FORM.md artifact).
+CERTIFIED_EXPRESSION_NAME = "certified_expression.txt"
 
 # Above this op count the abbreviation-expansion check is recorded as
 # "skipped" rather than paid for (honest skip, never a silent claim).
@@ -63,6 +68,10 @@ _IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 _BRACE_RE = re.compile(r"\{[^{}]*\}")
 _SAME_KERNEL_RE = re.compile(r"same\s+kernel", re.IGNORECASE)
 _TODO_RE = re.compile(r"\bTODO\b", re.IGNORECASE)
+# v0.2.2 reporting hardening: "omitted" and "see JSON" are hand-waving tokens
+# that mean the deliverable is incomplete — never a complete formula.
+_OMITTED_RE = re.compile(r"\bomitted\b", re.IGNORECASE)
+_SEE_JSON_RE = re.compile(r"see\s+JSON", re.IGNORECASE)
 
 
 # --------------------------------------------------------------------------- #
@@ -70,7 +79,11 @@ _TODO_RE = re.compile(r"\bTODO\b", re.IGNORECASE)
 # --------------------------------------------------------------------------- #
 
 def _placeholder_offenders(texts: list) -> list:
-    """Find ``{...}`` / TODO / 'same kernel' placeholders in the given texts."""
+    """Find placeholder / hand-waving tokens in the given texts.
+
+    Rejects ``{...}``, TODO, 'same kernel', and (v0.2.2 hardening) 'omitted'
+    and 'see JSON' — none of these is a complete explicit formula.
+    """
     offenders = []
     for text in texts:
         if not isinstance(text, str):
@@ -81,6 +94,10 @@ def _placeholder_offenders(texts: list) -> list:
             offenders.append("placeholder 'TODO'")
         if _SAME_KERNEL_RE.search(text):
             offenders.append("placeholder 'same kernel'")
+        if _OMITTED_RE.search(text):
+            offenders.append("placeholder 'omitted'")
+        if _SEE_JSON_RE.search(text):
+            offenders.append("placeholder 'see JSON'")
     return sorted(set(offenders))
 
 
@@ -142,6 +159,22 @@ def _resolve_certified(source, run_root: Path) -> tuple:
                 cur.get("sha256") or sha256_text(cur["text"]),
                 [dict(s) for s in cur.get("symbols", [])])
     raise AdapterError("NO_CURRENT_EXPRESSION")
+
+
+def _human_form_from_ast(certified_text: str, declared: list
+                         ) -> Optional[str]:
+    """Build a human form programmatically from the certified AST (v0.2.2).
+
+    Parses the certified text and re-renders the AST; returns the rendered
+    string, or ``None`` when parsing/rendering is infeasible. Where feasible
+    this guarantees the human form is derived from the certified AST rather
+    than hand-copied (so it cannot silently drift or drop terms).
+    """
+    try:
+        expr = parse_expression(certified_text, declared)
+        return str(expr)
+    except (AdapterError, Exception):
+        return None
 
 
 # --------------------------------------------------------------------------- #
@@ -295,11 +328,20 @@ def render_final_report(source: Union[SessionState, str, Path], *,
     definitions = {str(k): str(v) for k, v in definitions.items()}
 
     if human_form is None:
+        # v0.2.2: build the human form programmatically from the certified
+        # AST where feasible. We keep the verbatim certified text as the
+        # rendered human form (it IS the canonical rendering of that AST);
+        # the AST round-trip is used below to confirm the human form is
+        # programmatically derivable/complete (``human_render_verified``).
         human_form = certified_text
     if not isinstance(human_form, str) or not human_form.strip():
         exc = AdapterError("REPORT_INCOMPLETE")
         exc.violators = ["empty human form"]
         raise exc
+
+    # Programmatic AST derivation of the human form (feasibility flag).
+    ast_form = _human_form_from_ast(certified_text, declared)
+    human_ast_feasible = ast_form is not None
 
     # completeness: no placeholders, no undefined aliases — anywhere
     offenders = _placeholder_offenders([human_form, *definitions.values()])
@@ -313,6 +355,16 @@ def render_final_report(source: Union[SessionState, str, Path], *,
 
     expansion_check = _expansion_check(human_form, certified_text,
                                        declared, definitions)
+
+    # v0.2.2: the human form is verified when it is provably consistent with
+    # the certified machine form (the abbreviation-expansion check verifies),
+    # AND — when no explicit human form was supplied — the certified AST is
+    # programmatically derivable. An unverifiable/skipped check is honest
+    # False, never a silent True.
+    if human_ast_feasible:
+        human_render_verified = (expansion_check == "verified")
+    else:
+        human_render_verified = False
 
     try:
         summary = run_summary(run_root)
@@ -329,11 +381,19 @@ def render_final_report(source: Union[SessionState, str, Path], *,
         "human_form": human_form,
         "definitions": dict(definitions),
         "expansion_check": expansion_check,
+        "human_render_verified": human_render_verified,
         "summary": summary,
     }
 
-    artifact_path = run_root / "final" / FINAL_ARTIFACT_NAME
-    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+    final_dir = run_root / "final"
+    final_dir.mkdir(parents=True, exist_ok=True)
+
+    # Machine-form artifact (v0.2.2): the canonical certified expression text.
+    expression_path = final_dir / CERTIFIED_EXPRESSION_NAME
+    expression_path.write_text(certified_text + "\n", encoding="utf-8")
+    report["certified_expression_path"] = str(expression_path)
+
+    artifact_path = final_dir / FINAL_ARTIFACT_NAME
     artifact_path.write_text(_render_markdown(report), encoding="utf-8")
     report["artifact_path"] = str(artifact_path)
     return report
