@@ -1,18 +1,23 @@
-# A/B Experiment Protocol (agent protocol v0.2.1)
+# A/B Experiment Protocol (agent protocol v0.3.0)
 
-Short protocol for comparing the v0.2 agent workflow against the v0.2.1
-agent workflow on identical workloads. The **deterministic engine is
-identical** in both arms (engine v0.2.0: parser, verifier, budgets,
-transforms, rules — zero semantic difference); only the agent layer differs.
+Short protocol for comparing a main-agent-only workflow with a
+STRUCTURAL_PROPOSER workflow on identical workloads. Both arms in one
+experiment must use the same engine v0.3 commit, policies, inputs, and
+assumptions; only the proposer path differs.
+
+The original controlled v0.2/v0.2.1 instrument remains the frozen commit
+`46fed1d641fd3a67119409f1a5de950f203fa836`. Use that commit/bundle to replay
+the historical protocol. This v0.3 engineering branch is a next-generation
+instrument and must not be substituted silently into an old experiment.
 The agent-protocol version in force is recorded in every run manifest
 (`agent_protocol_version` alongside `engine_version`).
 
 ## Arms
 
-- **Arm A (v0.2, main-agent only).** The main agent performs structure
+- **Arm A (main-agent only).** The main agent performs structure
   inspection, candidate discovery, verification, and promotion itself, per
   AGENTS.md rules. No proposer role.
-- **Arm B (v0.2.1, main agent + STRUCTURAL_PROPOSER).** After each
+- **Arm B (main agent + STRUCTURAL_PROPOSER).** After each
   CERTIFIED state the main agent assembles a conjecture packet
   (`build_conjecture_packet`) and hands it, with the role contract
   `roles/STRUCTURAL_PROPOSER.md`, to one harness-native subagent

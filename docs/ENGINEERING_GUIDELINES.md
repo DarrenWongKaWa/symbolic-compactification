@@ -1,264 +1,98 @@
-# Engineering Guidelines
+# Engineering guidelines
 
-Permanent, workload-independent engineering guidance for the symbolic
-compactification engine, distilled from the first real-workload experience and
-codified in the v0.2 engine. Scientific content is deliberately excluded: this
-document is about the engine and the workflow, referenced by component only.
+These rules govern changes to the engine. The operating protocol is
+[AGENTS.md](../AGENTS.md); module responsibilities and invariants are in
+[ARCHITECTURE.md](ARCHITECTURE.md).
 
-Guidance here is normative for future engine work and future runs. Where a
-guideline names a module, that module is the v0.2 implementation of the
-principle.
+## Preserve the trust boundaries
 
----
+1. Humans authorize scientific meaning, assumptions, boundary conditions,
+   branches, gauges, limits, and other physical choices.
+2. Agents discover structure and propose candidates. They do not certify.
+3. Deterministic code ingests, transforms within policy, verifies, records,
+   and reports. It fails closed.
 
-## 1. Ingestion is multi-frontend: CAS-native sources need an adapter layer
+Any change that weakens one of these boundaries is a correctness change, not
+an ergonomic refactor.
 
-Real theoretical-physics expressions arrive in CAS-native syntax (e.g. Wolfram
-Language text: `Sum[...]`, `Piecewise[...]`, special functions, indexed
-functions, comments), not in the engine's own dialect. A frozen engine that
-only accepts its own dialect will reject essentially all real sources at the
-character/whitelist gates.
+## Preserve representation
 
-- Design ingestion as multi-frontend. The canonical internal representation is
-  engine-owned; each source language is an adapter.
-- Translation is a first-class, tested, versioned engine capability — never
-  something improvised in the workspace at run time.
-- Translation is *ingestion only*. Verification remains engine-internal and
-  exact; an adapter never becomes a verification backend.
-- v0.2 implementation: `src/symbolic_compactification/adapters/wolfram_text.py`
-  (tokenizer, recursive-descent parser, translator with its own error
-  taxonomy), with the deterministic SymPy verifier as the sole judge.
+- Keep semantic structures such as `Sum`, `Product`, `Piecewise`, and indexed
+  functions through ingestion and proposal.
+- Lower only for a named, bounded verification or diagnostic operation.
+- Never make an expanded CAS form the only representation available to an
+  agent or human.
+- Add a custom symbolic IR only after a demonstrated SymPy limitation; no such
+  limitation currently justifies one.
 
-## 2. Budget for ingestion and representation cost
+## Bound symbolic work
 
-File ingestion and representation can be harder than the mathematical
-reasoning itself. In the first real workload, building the translation path
-and getting the source into the engine consumed more effort than all verified
-transformation steps combined; sources in the tens of kilobytes (thousands of
-parsed operations) are realistic and must be expected.
+All potentially expensive SymPy work must enter through `budgets.py` with a
+named operation-specific budget. Public helpers do not get an unbounded
+shortcut. Timeout is an UNKNOWN proof outcome, not evidence for equality or
+inequality.
 
-- An expression engine whose front door only accepts its own dialect will
-  spend most of a real workload outside the loop.
-- Treat ingestion failures as engine gaps to close in releases, not as user
-  errors to work around ad hoc.
+Process mode is the production default. Lifecycle changes must retain owned
+PID/process-group tracking, readiness handshake, exact-target termination,
+reaping, cleanup telemetry, nested-operation safety, and unrelated-process
+protection.
 
-## 3. Concrete-bound flattening is a diagnostic workaround, not a strategy
+## Treat text and artifacts as untrusted
 
-Expanding symbolic sums and piecewise branches at one concrete bound value is
-sometimes necessary to make a problem tractable, but it:
+- Reject before construction using character/token, nesting, literal-size,
+  symbol/function, and AST-operation bounds.
+- Never use Python `eval`/`exec` or an unrestricted SymPy namespace.
+- Unsupported adapter syntax fails explicitly; adapters never guess or run an
+  external CAS.
+- Persist JSON and final artifacts atomically. Never reuse a step or packet
+  index.
+- Validate run IDs before joining filesystem paths.
 
-- silently restricts every later result to that bound value (a scientific
-  content change hidden inside an "engineering" step);
-- destroys generality;
-- grows symbol counts combinatorially when indexed objects are flattened into
-  plain names, exhausting symbol slots at modest bound values.
+## Keep state transitions mechanical
 
-Preserve `Sum` / `Piecewise` and indexed objects symbolically as long as
-possible. Evaluating at a concrete bound is a labeled, recorded scientific
-decision requiring escalation under the AGENTS.md rules — never an implicit
-translation default.
+`pipeline.adjudicate_candidate()` is the normal stateful API. CLI code may
+load files and render output but may not recreate certification policy.
 
-## 4. Global `simplify()` is the wrong default for large special-function expressions
+Promotion must stay bound to the exact current hash, candidate raw hash and
+text, ZERO verdict, PROVEN/CERTIFIED states, exact symbolic evidence, and
+assumption gate. New proposal or report fields must not become an alternate
+promotion path.
 
-Evidence from real exploration: `simplify()` difficulty does not correlate
-with expression size. Structured sub-sums of hundreds of operations can
-simplify in seconds, while much smaller terms laden with nested rational
-functions and special functions can run for many minutes without finishing.
-Unbounded `simplify()`-driven exploration was the single largest cost center
-in the first real workload — almost entirely wasted time.
+## Determinism and provenance
 
-- Expose targeted, named, bounded primitives and make them the default path:
-  `collect`, `factor_terms`, `together`, `cancel`, structural grouping.
-- Unrestricted `simplify()` requires an explicit, budgeted opt-in — never a
-  default.
-- v0.2 implementation: `src/symbolic_compactification/transforms.py` — a fixed
-  set of bounded primitives, each op-count capped via `TRANSFORM_POLICY`
-  (`get_transform_policy` / `set_transform_policy`); an over-cap result is
-  discarded rather than silently accepted, and each primitive records its name
-  for telemetry.
+- Sort semantically unordered collections before construction, hashing, or
+  serialization; do not reorder `Piecewise` branches or other meaningful
+  sequences.
+- Use canonical JSON for hashes.
+- Record package, engine, protocol, Git (including dirty state), policies,
+  expression hashes, verdict evidence, and timing.
+- Store externally meaningful rationale only, never private model reasoning.
 
-## 5. Structural factorization before expansion
+## Change discipline
 
-Successful compaction moves are *structural*: merging identical terms,
-grouping by shared structure (e.g. special-function order), factoring common
-prefactors — executed on the still-factored form. The failing strategy is
-letting the CAS globally expand and then trying to re-derive structure from
-the flattened residue.
+Classify proposed work:
 
-- Transformation planning should operate on the expression's block structure
-  (sums, shared subexpressions, common prefactors) before it operates on the
-  flattened polynomial-like residue.
-- v0.2 primitives embody this: `combine_identical_sums`,
-  `factor_common_kernel`, `collect_common_factor` in `transforms.py`.
+- P0: correctness, security, reproducibility, or invariant failure;
+- P1: demonstrated maintainability or user-path improvement;
+- P2: speculative convenience.
 
-## 6. Every symbolic operation needs a per-operation wall-clock budget
+Implement every justified P0 and only high-value P1. Avoid P2 unless it is
+trivial. Do not add services, databases, custom model runtimes, schedulers,
+ontologies, or broad frameworks.
 
-Improvised external timeouts and manually killed processes waste large amounts
-of machine time, and an engine operation with no internal timeout can run
-indefinitely.
+Use neutral synthetic tests. Every defect fix needs a contract regression at
+the boundary where it failed. Do not couple tests to CLI-private helpers when
+the behavior belongs to the library pipeline.
 
-- Every symbolic operation (simplification primitives, probing, the verifier
-  itself) must have a per-call wall-clock budget.
-- On expiry, the operation fails closed and returns UNKNOWN with an explicit
-  evidence kind: `TIME_BUDGET_EXCEEDED`.
-- v0.2 implementation: `src/symbolic_compactification/budgets.py`
-  (`run_with_budget`, `BudgetExceeded` raising code `TIME_BUDGET_EXCEEDED`,
-  `get_budget_policy` / `set_budget_policy`, process-pool enforcement).
-  Fail-closed semantics already cover the meaning of a budget expiry; the
-  budget makes it affordable.
+## Release gate
 
-## 7. UNKNOWN is a well-served fail-closed outcome
+Before release:
 
-UNKNOWN correctly blocks promotion; its cost is time, not integrity. No
-incorrect advance is possible while fail-closed semantics hold.
-
-- Do not "fix" UNKNOWN by loosening the verifier. Fix it upstream: better
-  rewrite rules (Guideline 8), better structural planning (Guideline 5),
-  budgets (Guideline 6).
-- UNKNOWN is the engine's honest state. Workflow design should make it cheap
-  to reach and informative to read — the residual and the evidence list
-  already support this.
-
-## 8. Special-function identities must be explicit and assumption-aware
-
-Generic CAS machinery does not reliably apply assumption-conditional
-identities (conjugation/real-part identities, argument canonicalization) under
-declared symbol assumptions inside a verification pipeline. Such identities
-are mathematically exact under their declared assumptions but otherwise
-undecidable for the verifier, costing compactions to UNKNOWN or timeout.
-
-- Maintain an explicit rewrite table for special functions (conjugation,
-  reflection, argument normalization), gated on declared symbol assumptions.
-- Apply such rewrites as *recorded transformation steps* subject to
-  verification — never as hidden hopes inside `simplify()`.
-- v0.2 implementation: `src/symbolic_compactification/rules.py`
-  (`RewriteRule`, `apply_rule` / `apply_rules`, assumption-gap detection, and
-  assumption-conditioned transforms).
-
-## 9. Parser limits are policy, not code to edit mid-run
-
-Hardcoded parse/ops caps edited in source during a scientific run leave no
-record of which limits applied to which step, breaking reproducibility and
-provenance.
-
-- Limits belong in a per-call / per-run policy object with defaults set at run
-  init and echoed into the run manifest. Changing defaults is an engine
-  release, not a run-time act.
-- v0.2 implementation: policy accessors (`set_parse_policy` in the parser,
-  `set_transform_policy` in `transforms.py`, `set_budget_policy` in
-  `budgets.py`) — configure, never edit constants mid-run.
-
-## 10. Separate engine changes from scientific steps — version everything
-
-Scientific provenance must never straddle an engine change. A run produced by
-an unversioned, uncommitted engine state is not reproducible.
-
-- Every run manifest and every step record carries `engine_version` plus
-  `engine_git_sha` (dirty tree recorded as such).
-- Infrastructure work done during a scientific run closes the current run,
-  bumps the engine version, and starts a new run.
-- Agent-made engine edits are committed (or explicitly stashed with a record)
-  before the next scientific step.
-- v0.2 implementation: `engine_version` and `engine_git_sha` fields on the
-  session/step records in `src/symbolic_compactification/models.py`, populated
-  automatically at record creation.
-
-## 11. Symbol namespaces need a collision policy
-
-CAS reserved function names routinely collide with conventional domain symbol
-names (a special function name can shadow a physical parameter, or vice
-versa). Resolving collisions by silent whitelist edits is fragile: any future
-workload needing the shadowed function breaks the symbol, or the reverse.
-
-- Define a durable policy: reserved CAS names vs. user symbols, with either
-  namespaced function syntax or an explicit collision error at declaration
-  time.
-- Never resolve collisions by silent whitelist edits.
-
-## 12. Telemetry must be in the record — reconstructed after the fact is lossy
-
-Audits that must reconstruct wall-clock from file mtimes and machine timings
-from shell transcripts are archaeology sessions. Step records that store only
-verdicts and evidence are insufficient.
-
-- Every step record carries cheap JSON-native telemetry: `input_chars`,
-  `output_chars`, `count_ops_before`, `count_ops_after`, `primitive`
-  (transformation used or None), `wall_time_seconds`, `verdict`,
-  `timeout_status`, `engine_version`.
-- v0.2 implementation: the `telemetry` field on `StepRecord` in
-  `src/symbolic_compactification/models.py`, populated by the session and CLI
-  paths. Every future audit then costs minutes, not a reconstruction effort.
-
-## 13. Structure-first conjecture policy: the conjecture layer is separate from certification
-
-The v0.2 engine is structure-first at every layer, and agent workflow must be
-too. The structural representation (`Sum` with symbolic bounds, `Piecewise`
-with symbolic conditions, indexed function applications) is primary; lowered
-or expanded views are opt-in diagnostics, never substitutes for symbolic
-proof. The v0.2 mechanisms that embody this:
-
-- `structure.py` — `structure_summary` gives a cheap JSON structural
-  inventory before any decision to lower or expand; `expand_finite` is
-  explicitly labeled a diagnostic finite-N replay, never proof for symbolic
-  bounds.
-- `verifier.py` — structure-first adjudication: residuals above
-  `structure_first_threshold` receive no global `simplify()`; only budgeted
-  `TARGETED_PRIMITIVES` are attempted, and the skip is recorded in evidence
-  (`structure_first_skip_global_simplify`).
-- `budgets.py` — every expensive symbolic operation is wall-clock budgeted;
-  expiry fails closed as UNKNOWN with evidence kind `TIME_BUDGET_EXCEEDED`.
-- `models.py` — `STEP_STATUSES = ("HYPOTHESIS", "UNVERIFIED", "CERTIFIED")`
-  separates the conjecture layer from certification on every `StepRecord`.
-
-Normative agent behavior:
-
-1. **Inspect before expanding.** Before expanding sums, flattening indexed
-   objects, or invoking global CAS simplification, inspect the highest-level
-   available representation (`inspect --format wolfram` /
-   `structure_summary`) and identify repeated kernels, repeated argument
-   families, common tensor/index structures, permutation relations,
-   Piecewise strata, and possible reusable subexpressions. The structural
-   representation stays visible to the reasoning agent even when a
-   lower-level verifier representation is also constructed.
-2. **Conjecture boldly, certify deterministically.** Bold structural
-   hypotheses are explicitly encouraged and are recorded as `HYPOTHESIS` /
-   `UNVERIFIED`. They never become certified science without a deterministic
-   ZERO.
-3. **UNKNOWN is do-not-promote, not stop-exploring.** After UNKNOWN the
-   agent may reformulate the conjecture, seek a smaller/local identity,
-   change representation, decompose the proof, or seek a more
-   verifier-friendly candidate. It may never silently accept the claim.
-4. **Never destroy structure to feed the CAS.** Finite-index expansion is
-   diagnostic only. The admissible order is: structured representation →
-   conjecture/transformation → local lowering if required → deterministic
-   verification. The failing order is: eager full expansion → attempt to
-   rediscover lost structure over thousands of scalar terms. The
-   CAS-friendly representation must never become the only representation
-   exposed to the agent.
-5. **LLM/CAS division of labor.** The LLM/coding agent discovers structure,
-   proposes abstractions, and proposes transformations. The deterministic
-   engine parses, normalizes, verifies, and rejects or certifies.
-   Unrestricted `simplify()` is not the discovery mechanism.
-6. **Policy, not machinery.** This guideline introduces no hypothesis
-   database, planner, ontology, or orchestration system — the policy is
-   recorded via existing step records and guidance documents only.
-
----
-
-## Standing principles
-
-1. **Fail closed.** Any undecided, exceptional, or unproven path returns
-   UNKNOWN and blocks promotion. Approximate evidence never promotes.
-2. **Verification is engine-internal and exact.** Adapters translate in; the
-   deterministic verifier is the sole judge.
-3. **Structure first.** Transformation planning works on block structure
-   before flattened residue; primitives are bounded and named.
-4. **Limits are policy.** Configured per run, echoed into manifests, changed
-   only by engine releases.
-5. **Everything is versioned.** Engine version + git SHA accompany every
-   record; scientific provenance never straddles engine changes.
-6. **Records are self-describing.** Telemetry lives in the step record, so
-   audits are reads, not reconstructions.
-7. **Conjecture ≠ certification.** Bold structural hypotheses are encouraged
-   and recorded as `HYPOTHESIS` / `UNVERIFIED`; only a deterministic ZERO
-   certifies. UNKNOWN blocks promotion, never exploration.
+1. run the complete suite;
+2. run cross-process/hash-seed determinism coverage;
+3. run process timeout, cancellation, and unrelated-process tests;
+4. run the clean-room firewall;
+5. verify editable and normal installs plus CLI smoke;
+6. complete a temporary fresh-clone replay with an explicit final form;
+7. inspect the baseline-to-head diff and ensure Git is clean;
+8. confirm no scientific workload or historical answer entered the repo.

@@ -1,122 +1,140 @@
 # symbolic-compactification
 
-A standalone symbolic compactification engine: strict whitelist SymPy parser,
-exact residual verifier with fail-closed verdicts, and JSON session records.
+An agent-native symbolic compactification and certification engine. A coding
+agent may inspect structure and propose a clearer expression; deterministic
+Python/SymPy code alone decides whether the proposal is exactly equivalent.
 
-**Requirements:** Python ≥ 3.10 and SymPy. Nothing else.
+This repository is not a CAS replacement, an LLM runtime, or a scientific
+answer store. It contains a small, harness-neutral method: ingest, preserve
+semantic structure, propose, verify, record, and render explicit certified
+mathematics.
 
-Agents operating this repo should read [`AGENTS.md`](AGENTS.md) first.
+Agents must read [AGENTS.md](AGENTS.md) before operating a scientific run. New
+engineers should then read [the architecture map](docs/ARCHITECTURE.md).
 
----
+## Install and test
 
-## 5-minute quickstart
-
-### 1. Install
+Python 3.10 or newer is required. Check the interpreter explicitly because
+some systems still map `python3` to an older release.
 
 ```bash
+python3 --version
 python3 -m venv .venv
-.venv/bin/pip install -e ".[dev]"
-```
-
-This installs the package and the `symbolic-compactification` CLI.
-
-### 2. Run the tests
-
-```bash
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/pip install -e '.[dev]'
 .venv/bin/pytest tests/ -q
 ```
 
-### 3. CLI walkthrough
+The runtime dependency is only SymPy. The `dev` extra adds pytest.
 
-Create two expression files and a symbol declaration:
+## Five-minute workflow
 
-```bash
-printf 'x**2 + 2*x*y + y**2' > current.txt
-printf '(x+y)**2'            > candidate.txt
-printf '{"symbols": ["x", "y"]}' > symbols.json
-```
-
-Inspect the input (hash, symbols, size):
+The committed workspace is a skeleton. Runtime inputs and outputs below it are
+ignored by Git, so the quickstart does not pollute the repository.
 
 ```bash
-symbolic-compactification inspect current.txt --symbols symbols.json
-```
+printf 'x**2 + 2*x*y + y**2' > workspace/input/expressions/current.txt
+printf '(x+y)**2' > workspace/input/expressions/candidate.txt
+printf '{"symbols": ["x", "y"]}' > workspace/input/expressions/symbols.json
 
-Verify the candidate against the current expression:
+symbolic-compactification inspect \
+  workspace/input/expressions/current.txt \
+  --symbols workspace/input/expressions/symbols.json
 
-```bash
 symbolic-compactification verify \
-    --current current.txt --candidate candidate.txt --symbols symbols.json
-# verdict: ZERO — exit code 0
+  --current workspace/input/expressions/current.txt \
+  --candidate workspace/input/expressions/candidate.txt \
+  --symbols workspace/input/expressions/symbols.json
 ```
 
-Run the same transformation inside a recorded session:
+`verify` is stateless. For a reproducible run, use the stateful pipeline:
 
 ```bash
 symbolic-compactification init-session \
-    --current current.txt --symbols symbols.json
-# run_id: 20260819T000000Z-a1b2c3
+  --current workspace/input/expressions/current.txt \
+  --symbols workspace/input/expressions/symbols.json
 
-symbolic-compactification step --run 20260819T000000Z-a1b2c3 \
-    --candidate candidate.txt --symbols symbols.json
-# verdict: ZERO → promoted: workspace/runs/<run-id>/final/current.json
+symbolic-compactification step --run RUN_ID \
+  --candidate workspace/input/expressions/candidate.txt \
+  --symbols workspace/input/expressions/symbols.json
+
+symbolic-compactification finalize --run RUN_ID
 ```
 
-Every step (whatever its verdict) is recorded under
-`workspace/runs/<run-id>/steps/`. A candidate is promoted only on a ZERO
-verdict.
+`step` goes through one library pipeline: verify, persist the verdict, and
+promote only when exact ZERO evidence is bound to that exact current/candidate
+pair. `finalize` prints the explicit `FINAL CERTIFIED FORM` and writes both
+`final/certified_expression.txt` and
+`final/FINAL_CERTIFIED_FORM.md`.
 
-### 4. Python API
+Every command supports `--help`; every subcommand also accepts `--json` for a
+single machine-readable result object.
+
+## Verdicts and state
+
+| Verdict | Meaning | CLI exit |
+|---|---|---:|
+| `ZERO` | Exact symbolic proof that current − candidate is zero | 0 |
+| `NONZERO` | Exact counterexample proves the difference nonzero | 2 |
+| `UNKNOWN` | Proof is unresolved or a resource/policy boundary was reached | 3 |
+
+Parse, policy, persistence, and usage errors exit with 4. Approximate numeric
+agreement never produces ZERO or NONZERO. UNKNOWN always blocks promotion.
+
+The lifecycle (`HYPOTHESIS`, `UNVERIFIED`, `CERTIFIED`) is independent of the
+verdict. Assumption state and proof state are separate as well; in particular,
+`HUMAN_REQUIRED` is not the same as `PROOF_REQUIRED`.
+
+## Representations
+
+Reasoning representation and execution representation are deliberately
+different. Ingestion retains `Sum`, `Product`, `Piecewise`, undefined/indexed
+function calls, and common structure. The verifier may perform a targeted,
+budgeted lowering for one proof attempt, but it never replaces the recorded
+semantic source with a flattened diagnostic form.
+
+The Wolfram adapter translates text only; it does not execute Mathematica or
+use a Wolfram kernel.
+
+## Python API
+
+The stateful entry point is intentionally small:
 
 ```python
-from symbolic_compactification import verify_equivalent
+from symbolic_compactification import (
+    adjudicate_candidate, init_session, load_expression, set_current,
+)
 
-result = verify_equivalent("x**2 + 2*x*y + y**2", "(x+y)**2", ["x", "y"])
-print(result.verdict)               # "ZERO"
-print(result.residual)              # "0"
-print(result.evidence)              # [{"kind": "exact_symbolic_zero", ...}]
+current = load_expression("current.txt", ["x", "y"])
+candidate = load_expression("candidate.txt", ["x", "y"])
+session = init_session("workspace")
+set_current(session, current)
+outcome = adjudicate_candidate(session, candidate)
+print(outcome.result.verdict, outcome.promoted)
 ```
 
-`verify_equivalent(current, candidate, symbols)` parses both sides through
-the strict whitelist parser, computes `expand(current - candidate)`, and
-returns a `VerificationResult` with `verdict`, `residual`,
-`simplified_residual`, `evidence`, and (on NONZERO) `counterexample`. It
-never raises — every failure path returns UNKNOWN.
+`verify_equivalent()` remains available for stateless exact adjudication.
+Direct `record_step()` and `promote()` are low-level persistence APIs and still
+enforce sequence, state-hash, proof-status, assumption-gate, candidate-text,
+and exact-evidence checks.
 
-For file-based ingestion use `load_expression(path, symbols)`, which hashes
-the raw bytes (SHA-256) and parses strictly; the file + hash owns the
-canonical expression.
+## Versions
 
-## Verdict semantics
+Version 0.3.0 distinguishes three identities:
 
-| Verdict   | Meaning                                               | Exit code |
-|-----------|-------------------------------------------------------|-----------|
-| `ZERO`    | Difference simplified to exact symbolic zero          | `0`       |
-| `NONZERO` | Difference proven nonzero at an exact rational probe  | `2`       |
-| `UNKNOWN` | Undecided — no proof either way (fail closed)         | `3`       |
+- repository/package version: release and installable API generation;
+- engine version: deterministic parser/verifier/resource-policy generation;
+- agent protocol version: proposer, state, provenance, and reporting contract.
 
-(Parse, load, or usage errors exit with `4`.)
+All three are recorded in run artifacts. The meanings of
+ZERO/NONZERO/UNKNOWN remain unchanged from engine v0.2.
 
-- ZERO requires exact symbolic proof (directly or after complex
-  normalization). No numeric tolerance.
-- NONZERO requires SymPy to *prove* a probe value nonzero. Approximate or
-  "looks nonzero" evidence never counts.
-- Everything else is UNKNOWN: promotion is blocked, and the decision goes
-  back to the caller (or the human).
+## More detail
 
-## Design principles
-
-- **Deterministic verification.** Every transformation is adjudicated by the
-  same exact pipeline: `expand(current - candidate) → simplify → complex
-  normalization → exact rational probes`. Same inputs, same verdict.
-- **Fail closed.** Only an exact symbolic zero yields ZERO; only a proven
-  exact counterexample yields NONZERO; every undecided or exceptional path
-  returns UNKNOWN, and UNKNOWN never promotes.
-- **Exact Rational probes.** The probe lattice uses exact rationals and
-  Gaussian integers — never floats — so counterexamples are proofs, not
-  measurements.
-- **No LLM decides math.** Language models propose candidates and read
-  residuals; they never certify equivalence. Proof belongs to the verifier.
-- **Provenance by construction.** Expressions are ingested from files with
-  SHA-256 hashes, and every step — success or failure — lands in the run
-  record.
+- [AGENTS.md](AGENTS.md) — authoritative harness-neutral operating contract
+- [Architecture](docs/ARCHITECTURE.md) — module map, invariants, state machine,
+  budgets, process guarantees, provenance, and errors
+- [Engineering guidelines](docs/ENGINEERING_GUIDELINES.md) — change discipline
+- [A/B experiment protocol](docs/AB_EXPERIMENT_PROTOCOL.md) — proposer-arm rules
+- [STRUCTURAL_PROPOSER](roles/STRUCTURAL_PROPOSER.md) — optional native
+  subagent role contract; the repository provides no agent runtime

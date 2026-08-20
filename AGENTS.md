@@ -32,7 +32,7 @@ graph TB
     I --> E
 ```
 
-### After reaching a CERTIFIED state (agent protocol v0.2.1)
+### After reaching a CERTIFIED state (agent protocol v0.3.0)
 
 Once a candidate is CERTIFIED and promoted, the recommended order for the
 next move is:
@@ -80,11 +80,11 @@ otherwise), arm A is valid iff there is no subagent evidence.
    are evidence. Work only on copies you create yourself
    (e.g. under `workspace/input/expressions/`).
 4. **Identify machine-parsable symbolic expressions.** An expression must be a
-   plain-text formula within the parser whitelist (allowed functions:
-   `sin cos tan exp log sqrt Abs conjugate re im sinh cosh tanh asin acos atan
-   atan2 Rational`; constants `pi E I oo`; characters limited to
-   `[A-Za-z0-9_+\-*/()., ^ ]` and whitespace). Anything else is context, not
-   input to the verifier.
+   plain-text formula within the parser whitelist: declared symbols/functions,
+   the named SymPy functions in `PARSE_POLICY`, constants `pi E I oo`, and
+   structural `Sum Product Piecewise` plus relational/logical constructors.
+   Token, depth, literal-size, character, and AST-operation limits all apply.
+   Anything else is context, not verifier input.
 5. **Never transcribe long expressions by hand.** Use `load_expression`
    (Python) or `inspect` (CLI) to read the file directly. The `.txt` file plus
    its recorded SHA-256 **owns** the canonical expression — your typed copy
@@ -98,8 +98,10 @@ otherwise), arm A is valid iff there is no subagent evidence.
 7. **Call the deterministic verifier for EVERY transformation.** Use the
    `verify` CLI or `verify_equivalent()` — no exceptions, however "obvious"
    the step looks.
-8. **Advance only on ZERO.** Promotion happens via `step` (or `promote()` in
-   Python), which is hard-gated on the last step's verdict being ZERO.
+8. **Advance only on ZERO.** Use `step` or Python
+   `adjudicate_candidate()`. Promotion is bound to the exact current and
+   candidate hashes/text, CERTIFIED/PROVEN state, exact-zero evidence, and no
+   HUMAN_REQUIRED gate.
 9. **On NONZERO, inspect the exact residual and counterexample.** The output
    gives you `residual`, `simplified_residual` and an exact rational probe
    point where the two sides differ. Fix the proposal and verify again.
@@ -189,23 +191,24 @@ otherwise), arm A is valid iff there is no subagent evidence.
   verdict sets `CERTIFIED`. Hypotheses may guide exploration; only CERTIFIED
   steps enter the promotion chain. Budget expiry (`TIME_BUDGET_EXCEEDED`) is
   an UNKNOWN path — never ZERO or NONZERO.
-- Status taxonomy note (agent protocol v0.2.2): `PROOF_REQUIRED` marks a
+- Status taxonomy note (agent protocol v0.3.0): `PROOF_REQUIRED` marks a
   claim whose declared assumptions are already SUFFICIENT but which the
   current verifier cannot prove — a proof gap, not a human-decision gate.
   The inability to prove a limit/special-function identity must be labeled
   `PROOF_REQUIRED`, **never** `HUMAN_REQUIRED`. `HUMAN_REQUIRED` (a proposal
   `assumptions_status`, and a certification gate) is reserved for genuinely
   NEW assumptions or physical choices requiring human authorization.
-- Split status axes (agent protocol v0.2.2): each verification step records
+- Split status axes (agent protocol v0.3.0): each verification step records
   two orthogonal axes in addition to the lifecycle `status`. The
   `assumption_status` axis (`NONE` / `DECLARED` / `HUMAN_REQUIRED`) says what
   assumptions the claim depends on; the `proof_status` axis
-  (`NONE` / `HYPOTHESIS` / `PROOF_REQUIRED` / `PROVEN`) says whether the
-  equivalence is actually proven (ZERO → `PROVEN`, anything else →
-  `PROOF_REQUIRED`, a proposal → `HYPOTHESIS`). Engine-cannot-prove never
+  (`NONE` / `HYPOTHESIS` / `PROOF_REQUIRED` / `REFUTED` / `PROVEN`) says
+  whether the equivalence is actually proven (ZERO → `PROVEN`, NONZERO →
+  `REFUTED`, UNKNOWN → `PROOF_REQUIRED`, a proposal → `HYPOTHESIS`).
+  Engine-cannot-prove never
   implies `HUMAN_REQUIRED` — that value lives on the assumption axis only.
 
-## Final reporting contract (agent protocol v0.2.2)
+## Final reporting contract (agent protocol v0.3.0)
 
 The human-facing deliverable of a run is the **FINAL CERTIFIED FORM**, built
 by `render_final_report()` (Python) or `finalize` (CLI):
@@ -219,11 +222,10 @@ by `render_final_report()` (Python) or `finalize` (CLI):
   `{...}` placeholders, `TODO`, or "same kernel" hand-waving raise
   `REPORT_INCOMPLETE` (with the offenders listed).
 - Machine vs human representations are mathematically identical; the human
-  form may only differ in presentation (named subexpressions). Where
-  practical, substituting the definitions back into the human form is
-  checked against the certified machine expression with the exact verifier;
-  when infeasible for size the report records `"expansion_check":
-  "skipped"` honestly rather than claiming verification.
+  form may only differ in presentation (named subexpressions). Substituting
+  definitions back into the human form must verify exactly against the
+  certified machine expression. NONZERO or UNKNOWN raises
+  `REPORT_INCOMPLETE`; byte-identical text is already exact.
 - Large results: the response carries the readable top-level formula while
   the artifact contains EVERY kernel/branch/definition, plus the provenance
   header — `run_id`, `engine_version`, `agent_protocol_version`, final
@@ -264,7 +266,10 @@ Notes:
 
 - `--workspace W` is accepted by `init-session` and `step` (default
   `workspace`).
-- `step --current file.txt` overrides the session's current expression.
+- `step --current file.txt` installs an initial current when none exists, or
+  hydrates an exact byte-and-namespace match. It cannot override established
+  state.
+- Every subcommand accepts `--json` for one machine-readable output object.
 - Exit codes: `0` ZERO, `2` NONZERO, `3` UNKNOWN, `4` parse/load/usage error.
 
 ## symbols.json
@@ -290,9 +295,9 @@ workspace/
 └── runs/<run-id>/
     ├── manifest.json # run metadata, current expression, step index
     ├── steps/        # step_NNN.json — every recorded step (all verdicts)
-    ├── packets/      # packet_NNN.json — conjecture-packet provenance (v0.2.2)
+    ├── packets/      # packet_NNN.json — conjecture-packet provenance (v0.3)
     └── final/        # current.json — promoted expression (text + sha256)
-                      # FINAL_CERTIFIED_FORM.md — human deliverable (v0.2.2)
+                      # FINAL_CERTIFIED_FORM.md — human deliverable (v0.3)
 ```
 
 ## Python API (same guarantees)
@@ -307,5 +312,6 @@ res = verify_equivalent(rec.text, "(x+y)**2", ["x", "y"])
 ```
 
 `verify_equivalent` never raises: every failure path returns an UNKNOWN
-result. When the code and this file disagree, the code is right — and
-"fail closed" is right above both.
+result. For a stateful run use `adjudicate_candidate(session, record)`, the
+single verify-record-promote pipeline. When the code and this file disagree,
+fail closed and report the contract defect; do not silently choose either.

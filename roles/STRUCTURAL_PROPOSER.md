@@ -1,9 +1,9 @@
-# STRUCTURAL_PROPOSER — Role Contract (agent protocol v0.2.2)
+# STRUCTURAL_PROPOSER — Role Contract (agent protocol v0.3.0)
 
 Authoritative role contract for the **STRUCTURAL_PROPOSER**. The main agent
 hands this file, together with one **conjecture packet**, to exactly one
-harness-native subagent. The deterministic engine (v0.2.0) is untouched by
-this protocol; the agent protocol version is `0.2.2`.
+harness-native subagent. The deterministic engine and agent protocol versions
+are `0.3.0`; ZERO/NONZERO/UNKNOWN retain their v0.2 meanings.
 
 ---
 
@@ -141,8 +141,11 @@ the fields above are the entire output.
   `HUMAN_REQUIRED`, the missing assumption is escalated to the human, and
   the candidate is **never auto-certified** — a deterministic ZERO under an
   undeclared assumption certifies nothing.
+- After human authorization, record a new matching proposal whose assumption
+  status is `DECLARED`, then adjudicate it again. A prior HUMAN_REQUIRED gate
+  is not erased by an unrelated ZERO.
 
-### PROOF_REQUIRED vs HUMAN_REQUIRED (v0.2.2 taxonomy)
+### PROOF_REQUIRED vs HUMAN_REQUIRED (v0.3 taxonomy)
 
 These two are **not** interchangeable and must never be conflated:
 
@@ -194,8 +197,8 @@ role contract:
    packet.
 3. The subagent returns candidate JSON conforming to section 6.
 4. The main agent validates (`validate_candidate`), records
-   (`record_proposal`), verifies (the deterministic verifier), and — only on
-   ZERO — promotes. `record_proposal` captures invocation provenance: the
+   (`record_proposal`), verifies through `adjudicate_candidate`, and — only on
+   a bound ZERO — promotes. `record_proposal` captures invocation provenance: the
    proposer role, the harness task/subagent id (`harness_task_or_subagent_id`
    when a subagent was used), invocation and return timestamps
    (`invoked_at` / `returned_at`), the candidate id, a content hash of the

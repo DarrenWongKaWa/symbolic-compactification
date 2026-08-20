@@ -18,9 +18,18 @@ dist/
 # Runtime workspace artifacts (run outputs stay out of git, keep the skeleton)
 workspace/runs/*
 !workspace/runs/.gitkeep
+workspace/input/raw/*
+!workspace/input/raw/.gitkeep
+workspace/input/context/*
+!workspace/input/context/.gitkeep
+workspace/input/expressions/*
+!workspace/input/expressions/.gitkeep
 *.tmp
 
 # Editor / OS noise
 .idea/
 .vscode/
+.codex/
+.claude/
+.qoder/
 .DS_Store
