@@ -52,3 +52,8 @@ ZERO. The blank path opens a CAS, writes named kernels, and treats
 `Simplify` / numerics / coefficient cancellation as proof. Bold structure
 (two kernels, removable limits) appeared only on the blank arm; the engine
 did not certify it.
+
+Where each agent stopped versus the PRB Form I / Form II closed form is
+tabulated in
+[2026-08-21-progress-vs-prb-closed-form.md](2026-08-21-progress-vs-prb-closed-form.md).
+None of the six agents reproduced that closed form.

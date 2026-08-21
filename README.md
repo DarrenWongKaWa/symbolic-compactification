@@ -180,3 +180,7 @@ ZERO/NONZERO/UNKNOWN remain unchanged from engine v0.2.
   operating skill; default proposer `main`, optional `subagent` / `auto`
 - [A/B experiment protocol](docs/AB_EXPERIMENT_PROTOCOL.md) — experiment
   appendix, not the default user path
+- [Skill vs blank (σ_abc)](docs/experiments/2026-08-21-skill-vs-blank.md) —
+  live isolated-agent probe
+- [Progress vs PRB closed form](docs/experiments/2026-08-21-progress-vs-prb-closed-form.md) —
+  how far each agent got, and what is still missing
