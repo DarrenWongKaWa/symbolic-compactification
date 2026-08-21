@@ -86,13 +86,14 @@ _DEFAULT_POLICY: dict = {
 PARSE_POLICY: dict = dict(_DEFAULT_POLICY)
 
 _IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
-# ``<`` and ``>`` are admitted so relational
-# conditions of preserved structure (``n > 1``) round-trip; assignment-like
+# ``<`` and ``>`` are admitted so relational conditions of preserved
+# structure (``n > 1``) round-trip. ``&`` / ``|`` round-trip SymPy's infix
+# And/Or on relational conditions (``Eq(n, m) & Eq(m, ell)``). Assignment-like
 # ``=`` stays OUT (relational Ge/Le render with ``=`` and therefore must be
 # expressed via the functional forms Ge(...) / Le(...) or rewritten).
 _TOKEN_RE = re.compile(
     r"\s+|(?:\d+(?:\.\d*)?|\.\d+)|[A-Za-z_][A-Za-z0-9_]*|"
-    r"\*\*|[+\-*/^(),<>]")
+    r"\*\*|[+\-*/^(),<>&|]")
 
 _SAFE_GLOBALS = {
     "__builtins__": {},
@@ -166,6 +167,29 @@ def _piecewise_preserved(*branches):
     return sympy.Piecewise(*branches, evaluate=False)
 
 
+def _is_boolean_expr(expr) -> bool:
+    """True when ``expr`` is a relational/boolean, not an integer bitmask."""
+    if expr in (sympy.S.true, sympy.S.false, True, False):
+        return True
+    return isinstance(expr, (
+        sympy.core.relational.Relational,
+        sympy.logic.boolalg.BooleanAtom,
+        sympy.logic.boolalg.BooleanFunction,
+    ))
+
+
+def _strict_and(*args):
+    if not args or not all(_is_boolean_expr(a) for a in args):
+        raise TypeError("non-boolean And")
+    return sympy.And(*args)
+
+
+def _strict_or(*args):
+    if not args or not all(_is_boolean_expr(a) for a in args):
+        raise TypeError("non-boolean Or")
+    return sympy.Or(*args)
+
+
 _STRUCTURAL_BUILTINS: dict = {
     "Sum": sympy.Sum,
     "Product": sympy.Product,
@@ -176,8 +200,8 @@ _STRUCTURAL_BUILTINS: dict = {
     "Le": sympy.Le,
     "Gt": sympy.Gt,
     "Ge": sympy.Ge,
-    "And": sympy.And,
-    "Or": sympy.Or,
+    "And": _strict_and,
+    "Or": _strict_or,
     "Not": sympy.Not,
     "True": sympy.S.true,
     "False": sympy.S.false,
@@ -261,6 +285,112 @@ def infer_namespace(text: str) -> tuple[list[str], list[str]]:
     functions = sorted(called - builtins)
     symbols = sorted(identifiers - builtins - set(functions))
     return symbols, functions
+
+
+def _tokenize_expr(expr_str: str) -> list[str]:
+    """Split ``expr_str`` with the character-gate token regex (no spaces)."""
+    tokens: list[str] = []
+    pos = 0
+    for match in _TOKEN_RE.finditer(expr_str):
+        if match.start() != pos:
+            raise AdapterError("DISALLOWED_CHARACTERS")
+        token = match.group(0)
+        pos = match.end()
+        if token.isspace():
+            continue
+        tokens.append(token)
+    if pos != len(expr_str):
+        raise AdapterError("DISALLOWED_CHARACTERS")
+    return tokens
+
+
+def _matching_paren(tokens: list[str], start: int) -> int:
+    depth = 0
+    for index in range(start, len(tokens)):
+        if tokens[index] == "(":
+            depth += 1
+        elif tokens[index] == ")":
+            depth -= 1
+            if depth == 0:
+                return index
+    raise AdapterError("SYMBOLIC_PARSE_FAILED")
+
+
+def _rewrite_groups(tokens: list[str]) -> list[str]:
+    """Rewrite parenthesized interiors, then fold top-level ``&`` / ``|``."""
+    grouped: list[str] = []
+    index = 0
+    while index < len(tokens):
+        if tokens[index] == "(":
+            end = _matching_paren(tokens, index)
+            grouped.extend(
+                ["("] + _rewrite_groups(tokens[index + 1:end]) + [")"])
+            index = end + 1
+        else:
+            grouped.append(tokens[index])
+            index += 1
+    return _fold_logic(grouped)
+
+
+def _split_top(tokens: list[str], separator: str) -> list[list[str]]:
+    parts: list[list[str]] = []
+    current: list[str] = []
+    depth = 0
+    for token in tokens:
+        if token == "(":
+            depth += 1
+            current.append(token)
+        elif token == ")":
+            depth -= 1
+            current.append(token)
+        elif token == separator and depth == 0:
+            parts.append(current)
+            current = []
+        else:
+            current.append(token)
+    parts.append(current)
+    return parts
+
+
+def _call_tokens(name: str, arguments: list[list[str]]) -> list[str]:
+    out: list[str] = [name, "("]
+    for offset, argument in enumerate(arguments):
+        if not argument:
+            raise AdapterError("SYMBOLIC_PARSE_FAILED")
+        if offset:
+            out.append(",")
+        out.extend(argument)
+    out.append(")")
+    return out
+
+
+def _fold_logic(tokens: list[str]) -> list[str]:
+    comma_parts = _split_top(tokens, ",")
+    if len(comma_parts) > 1:
+        folded = [_fold_logic(part) for part in comma_parts]
+        out: list[str] = []
+        for offset, part in enumerate(folded):
+            if offset:
+                out.append(",")
+            out.extend(part)
+        return out
+    or_parts = _split_top(tokens, "|")
+    if len(or_parts) > 1:
+        return _call_tokens("Or", [_fold_logic(part) for part in or_parts])
+    and_parts = _split_top(tokens, "&")
+    if len(and_parts) > 1:
+        return _call_tokens("And", [_fold_logic(part) for part in and_parts])
+    return tokens
+
+
+def _rewrite_infix_logic(expr_str: str) -> str:
+    """Turn infix ``&`` / ``|`` into ``And(...)`` / ``Or(...)`` calls.
+
+    Prevents ``1|2`` from evaluating as integer bitwise OR during
+    ``parse_expr(evaluate=True)``. Combined with strict And/Or constructors
+    that reject non-boolean operands.
+    """
+    return "".join(_rewrite_groups(_tokenize_expr(expr_str)))
 
 
 def _validate_source_shape(expr_str: str, policy: dict) -> None:
@@ -353,6 +483,8 @@ def parse_expression(expr_str: Any, symbols: Any, *,
     if len(expr_str) > pol["max_expr_chars"]:
         raise AdapterError("EXPRESSION_TOO_LARGE")
     _validate_source_shape(expr_str, pol)
+    if "&" in expr_str or "|" in expr_str:
+        expr_str = _rewrite_infix_logic(expr_str)
 
     identifiers = set(_IDENTIFIER_RE.findall(expr_str))
     allowed = ({s["name"] for s in declared}

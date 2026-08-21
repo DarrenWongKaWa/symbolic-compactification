@@ -17,8 +17,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import random
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -37,7 +39,6 @@ from symbolic_compactification import (
 # --------------------------------------------------------------------------- #
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CLI = REPO_ROOT / ".venv" / "bin" / "symbolic-compactification"
 
 # One generic real symbol keeps probing fast and the construction purely neutral.
 LONG_SYMBOLS = [{"name": "x", "real": True, "nonzero": False}]
@@ -183,16 +184,18 @@ def run_cli_verify(tmp_path: Path, current_text: str, candidate_text: str) -> su
     symbols_path = write_symbols(tmp_path)
     current = write_fixture(tmp_path, "current.txt", current_text)
     candidate = write_fixture(tmp_path, "candidate.txt", candidate_text)
+    env = os.environ.copy()
+    src = str(REPO_ROOT / "src")
+    env["PYTHONPATH"] = src + os.pathsep + env.get("PYTHONPATH", "")
     return subprocess.run(
-        [str(CLI), "verify",
+        [sys.executable, "-m", "symbolic_compactification.cli", "verify",
          "--current", str(current),
          "--candidate", str(candidate),
          "--symbols", str(symbols_path)],
-        capture_output=True, text=True, timeout=300,
+        capture_output=True, text=True, timeout=300, env=env,
     )
 
 
-@pytest.mark.skipif(not CLI.exists(), reason="CLI entry point not installed")
 def test_cli_verify_zero_exit(tmp_path, long_expression):
     proc = run_cli_verify(tmp_path, long_expression["text"],
                           long_expression["reordered"])
@@ -200,7 +203,6 @@ def test_cli_verify_zero_exit(tmp_path, long_expression):
     assert "verdict:" in proc.stdout and ZERO in proc.stdout
 
 
-@pytest.mark.skipif(not CLI.exists(), reason="CLI entry point not installed")
 def test_cli_verify_nonzero_exit(tmp_path, long_expression):
     proc = run_cli_verify(tmp_path, long_expression["text"],
                           long_expression["mutated"])

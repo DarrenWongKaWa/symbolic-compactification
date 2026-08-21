@@ -12,12 +12,14 @@ import pytest
 import sympy
 
 from symbolic_compactification import (
+    UNKNOWN,
     AdapterError,
     get_parse_policy,
     load_expression,
     normalize_symbols,
     parse_expression,
     set_parse_policy,
+    verify_equivalent,
 )
 
 # --------------------------------------------------------------------------- #
@@ -137,10 +139,30 @@ def test_attribute_access_rejected():
                                   "SYMBOLIC_PARSE_FAILED"}
 
 
-@pytest.mark.parametrize("text", ["x @ y", "x = 1", "x[0]", "x & y"])
+@pytest.mark.parametrize("text", ["x @ y", "x = 1", "x[0]", "x; y"])
 def test_disallowed_characters_rejected(text):
     expect_error("DISALLOWED_CHARACTERS",
                  lambda: parse_expression(text, ["x"]))
+
+
+def test_piecewise_conjunctive_eq_conditions_round_trip():
+    expr = parse_expression(
+        "Piecewise((1, Eq(n, m) & Eq(m, ell)), (0, True))",
+        ["n", "m", "ell"])
+    assert expr.atoms(sympy.Piecewise)
+    assert expr.atoms(sympy.Eq)
+    assert expr.atoms(sympy.And)
+
+
+@pytest.mark.parametrize("text", ["1|2", "5&3", "x & 1", "1 | x"])
+def test_bitwise_infix_does_not_parse_as_integer(text):
+    expect_error("SYMBOLIC_PARSE_FAILED",
+                 lambda: parse_expression(text, ["x"]))
+
+
+def test_bitwise_or_is_not_exact_zero_against_integer():
+    result = verify_equivalent("3", "1|2", ["x"])
+    assert result.verdict == UNKNOWN
 
 
 @pytest.mark.parametrize("text", ["", "   ", "\n"])

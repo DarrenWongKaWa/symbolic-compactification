@@ -7,8 +7,10 @@ inspect        EXPR.txt [--symbols symbols.json] [--format native|wolfram]
                Wolfram text (inspection only, no Wolfram runtime)
 verify         --current A.txt --candidate B.txt --symbols symbols.json
 init-session   [--workspace W] [--current A.txt --symbols symbols.json]
+               [--proposer-mode main|subagent|auto]
 step           --run RUN_ID [--workspace W] --candidate B.txt --symbols symbols.json
                [--current A.txt]
+summary        --run RUN_ID [--workspace W]
 finalize       --run RUN_ID [--workspace W]
                render the FINAL CERTIFIED FORM deliverable (human-readable
                certified expression + definitions + provenance header) and
@@ -45,7 +47,8 @@ from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, PACKAGE_VERSION,
                      NONZERO, UNKNOWN, ZERO, AdapterError)
 from .parser import infer_namespace, load_expression
 from .pipeline import adjudicate_candidate
-from .session import init_session, load_session, set_current
+from .session import init_session, load_session, run_summary, set_current
+from .structure import structure_summary
 from .verifier import verify_equivalent
 
 EXIT_ZERO = 0
@@ -140,6 +143,7 @@ def cmd_inspect(args) -> int:
     parse_declared = declared if declared else ["_inspect_placeholder"]
     rec = load_expression(args.expr, parse_declared, functions=functions or None)
     preview = rec.text if len(rec.text) <= 200 else rec.text[:200] + " ..."
+    summary = structure_summary(rec.parsed_expr)
     if args.json:
         _print_json({
             "file": args.expr,
@@ -149,6 +153,8 @@ def cmd_inspect(args) -> int:
             "functions": functions,
             "inferred": inferred,
             "count_ops": int(sympy.count_ops(rec.parsed_expr, visual=False)),
+            "structure_summary": summary,
+            "text": rec.text,
             "preview": preview,
         })
         return EXIT_ZERO
@@ -162,6 +168,7 @@ def cmd_inspect(args) -> int:
     if functions:
         print(f"functions:   {json.dumps(functions)}")
     print(f"count_ops:   {sympy.count_ops(rec.parsed_expr, visual=False)}")
+    print(f"structure:   {json.dumps(summary, ensure_ascii=False)}")
     print(f"preview:     {preview}")
     return EXIT_ZERO
 
@@ -178,6 +185,7 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
     source = extract_expression_text(text)
     result = translate_wolfram_text(source)
     preview = result.text if len(result.text) <= 200 else result.text[:200] + " ..."
+    summary = structure_summary(result.expr)
     if args.json:
         _print_json({
             "file": args.expr,
@@ -187,7 +195,10 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
             "functions": result.functions,
             "bound_symbols": result.bound_symbols,
             "count_ops": int(sympy.count_ops(result.expr, visual=False)),
-            "translated": preview,
+            "structure_summary": summary,
+            "text": result.text,
+            "translated": result.text,
+            "preview": preview,
         })
         return EXIT_ZERO
     print(f"file:        {args.expr}")
@@ -197,6 +208,7 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
     print(f"functions:   {json.dumps(result.functions)}")
     print(f"bound:       {json.dumps(result.bound_symbols)}  (Sum/Product dummy indices; declare them for re-parsing)")
     print(f"count_ops:   {sympy.count_ops(result.expr, visual=False)}")
+    print(f"structure:   {json.dumps(summary, ensure_ascii=False)}")
     print(f"translated:  {preview}")
     return EXIT_ZERO
 
@@ -224,9 +236,12 @@ def cmd_verify(args) -> int:
 
 def cmd_init_session(args) -> int:
     meta = {"cli": "init-session"}
-    session = init_session(workspace_root=args.workspace, meta=meta,
-                           requested_arm=args.requested_arm)
+    session = init_session(
+        workspace_root=args.workspace, meta=meta,
+        requested_arm=args.requested_arm,
+        requested_proposer_mode=getattr(args, "proposer_mode", None))
     arm = getattr(session, "requested_arm", None)
+    proposer_mode = getattr(session, "requested_proposer_mode", None)
     current_payload = None
     if args.current:
         if not args.symbols:
@@ -238,15 +253,34 @@ def cmd_init_session(args) -> int:
         current_payload = {"path": args.current, "sha256": rec.sha256}
     if args.json:
         _print_json({"run_id": session.run_id, "run_root": session.run_root,
-                     "requested_arm": arm, "current": current_payload})
+                     "requested_arm": arm,
+                     "requested_proposer_mode": proposer_mode,
+                     "current": current_payload})
         return EXIT_ZERO
     print(f"run_id:   {session.run_id}")
     print(f"run_root: {session.run_root}")
     print(f"arm:      {arm if arm is not None else '(undeclared)'}")
+    print(f"proposer: {proposer_mode if proposer_mode is not None else '(undeclared)'}")
     if current_payload:
         print(f"current:  {args.current}  sha256={rec.sha256}")
     else:
         print("current:  (none)")
+    return EXIT_ZERO
+
+
+def cmd_summary(args) -> int:
+    session = load_session(args.workspace, args.run)
+    payload = run_summary(session.run_root)
+    if args.json:
+        _print_json(payload)
+        return EXIT_ZERO
+    print(f"run_id:                    {payload['run_id']}")
+    print(f"requested_proposer_mode:   {payload['requested_proposer_mode']}")
+    print(f"proposer_mode (evidence):  {payload['proposer_mode']}")
+    print(f"zero_promotions:           {payload['zero_promotions']}")
+    print(f"nonzero_count:             {payload['nonzero_count']}")
+    print(f"unknown_count:             {payload['unknown_count']}")
+    print(f"verifier_calls:            {payload['verifier_calls']}")
     return EXIT_ZERO
 
 
@@ -368,9 +402,21 @@ def build_parser() -> argparse.ArgumentParser:
     p_init.add_argument("--requested-arm", default=None, dest="requested_arm",
                         choices=[None, "A", "a", "B", "b"],
                         help="optional declared A/B experiment arm (A or B)")
+    p_init.add_argument(
+        "--proposer-mode", default=None, dest="proposer_mode",
+        choices=["main", "subagent", "auto"],
+        help="skill proposer intent (default undeclared = main)")
     p_init.add_argument("--json", action="store_true",
                         help="emit one machine-readable JSON object")
     p_init.set_defaults(func=cmd_init_session)
+
+    p_summary = sub.add_parser(
+        "summary", help="print run_summary counters for an existing run")
+    p_summary.add_argument("--run", required=True)
+    p_summary.add_argument("--workspace", default="workspace")
+    p_summary.add_argument("--json", action="store_true",
+                           help="emit one machine-readable JSON object")
+    p_summary.set_defaults(func=cmd_summary)
 
     p_step = sub.add_parser("step", help="one verify step recorded into a run")
     p_step.add_argument("--run", required=True, help="run-id of an existing run")

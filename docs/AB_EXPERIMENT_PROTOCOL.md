@@ -14,14 +14,19 @@ The agent-protocol version in force is recorded in every run manifest
 
 ## Arms
 
+Arm A matches the default skill path (`proposer=main`). Arm B is the
+optional isolated STRUCTURAL_PROPOSER path (`proposer=subagent`).
+Subagent is never the unique operating path.
+
 - **Arm A (main-agent only).** The main agent performs structure
   inspection, candidate discovery, verification, and promotion itself, per
   AGENTS.md rules. No proposer role.
 - **Arm B (main agent + STRUCTURAL_PROPOSER).** After each
   CERTIFIED state the main agent assembles a conjecture packet
-  (`build_conjecture_packet`) and hands it, with the role contract
-  `roles/STRUCTURAL_PROPOSER.md`, to one harness-native subagent
-  (Qoder / Codex / Claude Code native subagent facility). Proposals come
+  (`build_conjecture_packet`) for provenance and hands
+  `roles/STRUCTURAL_PROPOSER.md` plus the current expression and
+  `structure_summary` to one harness-native subagent
+  (Qoder / Codex / Claude Code / Grok native subagent facility). Proposals come
   back as validated candidates (`validate_candidate`), are recorded with
   `record_proposal` (status `HYPOTHESIS`), verified deterministically, and
   promoted by the main agent only on ZERO.

@@ -1,4 +1,9 @@
-"""Fail when tracked runtime/scientific input artifacts cross the firewall."""
+"""Fail when tracked runtime/scientific input artifacts cross the firewall.
+
+Allowed scientific *input* (not answers): files under ``examples/long/``
+are the Skill's long-workload originals. Forbidden: ``reference/``,
+runtime ``workspace/runs/*`` and ``workspace/input/*`` (except gitkeep).
+"""
 from __future__ import annotations
 
 import subprocess

@@ -1,0 +1,15 @@
+{
+  "symbols": [
+    {"name": "Nb", "real": true, "nonzero": false},
+    {"name": "a", "real": true, "nonzero": false},
+    {"name": "b", "real": true, "nonzero": false},
+    {"name": "c", "real": true, "nonzero": false},
+    {"name": "beta", "real": true, "nonzero": false},
+    {"name": "gamma", "real": true, "nonzero": false},
+    {"name": "mu", "real": true, "nonzero": false},
+    {"name": "n", "real": true, "nonzero": false},
+    {"name": "m", "real": true, "nonzero": false},
+    {"name": "ell", "real": true, "nonzero": false}
+  ],
+  "functions": ["h1", "h2", "epsilon"]
+}

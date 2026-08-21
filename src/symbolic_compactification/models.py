@@ -119,6 +119,12 @@ DEFAULT_PROPOSER_ROLE = "STRUCTURAL_PROPOSER"
 # arm B requires a recorded harness subagent; arm A requires none.
 REQUESTED_ARMS = ("A", "B")
 
+# Skill-level proposer *intent* (who should write the next candidate).
+# Distinct from evidence-derived ``run_summary['proposer_mode']``.
+# Undeclared (None) is treated as main by the skill; it is not a fourth
+# recorded invocation mode.
+REQUESTED_PROPOSER_MODES = ("main", "subagent", "auto")
+
 # Split status axes (v0.3). Two ORTHOGONAL axes, both distinct
 # from the lifecycle ``status`` field, recorded on each verification step:
 #

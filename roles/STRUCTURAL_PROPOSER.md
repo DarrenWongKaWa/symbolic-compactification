@@ -1,9 +1,15 @@
 # STRUCTURAL_PROPOSER — Role Contract (agent protocol v0.3.0)
 
-Authoritative role contract for the **STRUCTURAL_PROPOSER**. The main agent
-hands this file, together with one **conjecture packet**, to exactly one
-harness-native subagent. The deterministic engine and agent protocol versions
-are `0.3.0`; ZERO/NONZERO/UNKNOWN retain their v0.2 meanings.
+Authoritative role contract for the **STRUCTURAL_PROPOSER**. This role is the
+**optional** isolated proposer (`proposer=subagent`). The default skill path
+is `proposer=main` (the main agent proposes). Optional `auto` is a Skill
+heuristic only. Subagent is never the unique path.
+
+When that optional path is selected, the main agent hands this file, together
+with a **conjecture packet** (provenance) whose child prompt carries only the
+current expression and `structure_summary`, to exactly one harness-native
+subagent. The deterministic engine and agent protocol versions are `0.3.0`;
+ZERO/NONZERO/UNKNOWN retain their v0.2 meanings.
 
 ---
 
@@ -31,9 +37,9 @@ access**. Concretely it may not:
 - treat any of its own output as proven — every candidate it emits carries
   status `HYPOTHESIS` until the deterministic verifier returns ZERO.
 
-The proposer may write a candidate artifact file **only if the harness
-workflow requires it**; otherwise it returns the proposal to the main agent,
-which owns recording, verification, and any promotion.
+Return candidate JSON to the main agent. Do not write candidate files, and
+do not call `verify` / `step` / `promote`. The main agent owns recording,
+verification, and any promotion.
 
 ## 3. Input — the conjecture packet
 
@@ -55,10 +61,28 @@ The packet **includes**:
 | `goal`                   | the user-supplied scientific goal (may be null)                |
 | `verifier_feedback`      | optional: most relevant previous verifier feedback (verdict, residual, counterexample) |
 
+### Child context (skill `proposer=subagent`)
+
+The isolated subagent's prompt carries only:
+
+- this role contract
+- the current expression
+- `structure_summary`
+
+On a NONZERO retry the main agent may also pass **this step's** residual and
+counterexample. That is verifier feedback, not a working-tree dump.
+
+The full conjecture packet (`structural_form`, hashes, declared assumptions,
+goal) is **provenance recorded by the main agent**. Do not paste the packet,
+the working tree, git history, tests, or engine source into the child.
+Declared assumptions stay with the main agent; the child must not invent
+new ones (`assumptions_status: HUMAN_REQUIRED` if a new assumption is needed).
+
 ### Attention isolation — intentionally WITHHELD from the proposer
 
 The main agent deliberately does **not** give the proposer:
 
+- the working tree or working directory dump;
 - git logs and repository history;
 - test-suite output;
 - parser / CLI implementation details;
@@ -184,17 +208,18 @@ feeds the verdict back:
 ## 9. How to run — harness-native, no custom runtime
 
 This repository is opened by coding-agent harnesses (Qoder, Codex, Claude
-Code), each of which ships a **native subagent/task mechanism**. To use this
-role contract:
+Code, Grok), each of which ships a **native subagent/task mechanism**. To
+use this role contract (optional `proposer=subagent` only):
 
 1. The main agent assembles the conjecture packet
-   (`build_conjecture_packet`). The engine records a minimal neutral
-   provenance record for the packet (certified-state hash,
+   (`build_conjecture_packet`) for provenance. The engine records a minimal
+   neutral provenance record for the packet (certified-state hash,
    structural-representation hash, goal, declared assumptions, whether
    verifier feedback was included, withheld list) — no chain-of-thought.
 2. The main agent spawns **one harness-native subagent** using the
    harness's own subagent facility, giving it this contract file plus the
-   packet.
+   current expression and `structure_summary` — not the working tree, and
+   not the rest of the packet.
 3. The subagent returns candidate JSON conforming to section 6.
 4. The main agent validates (`validate_candidate`), records
    (`record_proposal`), verifies through `adjudicate_candidate`, and — only on

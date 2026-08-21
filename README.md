@@ -1,16 +1,40 @@
 # symbolic-compactification
 
-An agent-native symbolic compactification and certification engine. A coding
-agent may inspect structure and propose a clearer expression; deterministic
-Python/SymPy code alone decides whether the proposal is exactly equivalent.
+**Propose a more compact expression, then prove `current − candidate` is
+exactly zero.** Only a ZERO residual is promoted. The result is an auditable
+certified compact form.
 
-This repository is not a CAS replacement, an LLM runtime, or a scientific
-answer store. It contains a small, harness-neutral method: ingest, preserve
-semantic structure, propose, verify, record, and render explicit certified
-mathematics.
+A coding agent inspects structure and proposes candidates. Deterministic
+Python/SymPy code is the only judge.
 
-Agents must read [AGENTS.md](AGENTS.md) before operating a scientific run. New
-engineers should then read [the architecture map](docs/ARCHITECTURE.md).
+This repository is not a CAS replacement, not an automatic theorem prover,
+not an LLM runtime, and not a machine that discovers new physics. Approximate
+numeric agreement never counts. UNKNOWN is not a pass.
+
+The Grok skill is
+[`.grok/skills/symbolic-compactification/`](.grok/skills/symbolic-compactification/SKILL.md).
+Agents operating a run must also read [AGENTS.md](AGENTS.md).
+
+## Proposer modes
+
+Default is `main`: the main agent writes candidates. No sub-agent
+infrastructure is required. Subagent is never the unique path.
+
+| Mode | When |
+|---|---|
+| `main` (default) | Everyday use; stays main unless you ask otherwise |
+| `subagent` | Optional isolation you request when the working directory is noisy or the expression is extremely long |
+| `auto` | Only if you ask: Skill then picks `subagent` for large expressions |
+
+Record intent: `init-session --proposer-mode main|subagent|auto`.
+The verifier path is identical in every mode. Promote only on ZERO.
+
+## Examples
+
+- [`examples/basic/`](examples/basic/) — 5-minute identities
+- [`examples/medium/`](examples/medium/) — `Sum` compactification
+- [`examples/long/`](examples/long/) — real Guo σ_abc DC source (input only;
+  not a certified compact form)
 
 ## Install and test
 
@@ -29,36 +53,51 @@ The runtime dependency is only SymPy. The `dev` extra adds pytest.
 
 ## Five-minute workflow
 
-The committed workspace is a skeleton. Runtime inputs and outputs below it are
-ignored by Git, so the quickstart does not pollute the repository.
+Committed fixtures do not need a workspace copy:
 
 ```bash
-printf 'x**2 + 2*x*y + y**2' > workspace/input/expressions/current.txt
-printf '(x+y)**2' > workspace/input/expressions/candidate.txt
-printf '{"symbols": ["x", "y"]}' > workspace/input/expressions/symbols.json
-
-symbolic-compactification inspect \
-  workspace/input/expressions/current.txt \
-  --symbols workspace/input/expressions/symbols.json
-
 symbolic-compactification verify \
-  --current workspace/input/expressions/current.txt \
-  --candidate workspace/input/expressions/candidate.txt \
-  --symbols workspace/input/expressions/symbols.json
+  --current examples/medium/current.txt \
+  --candidate examples/medium/candidate.txt \
+  --symbols examples/medium/symbols.json
 ```
 
-`verify` is stateless. For a reproducible run, use the stateful pipeline:
+Exit 0 is ZERO. A wrong candidate exits 2 (NONZERO):
 
 ```bash
+symbolic-compactification verify \
+  --current examples/medium/current.txt \
+  --candidate examples/medium/mutation.txt \
+  --symbols examples/medium/symbols.json
+```
+
+`verify` is stateless. For a reproducible run, copy inputs under
+`workspace/input/` (runtime files stay untracked) and use the session
+pipeline. Default proposer is `main`:
+
+```bash
+symbolic-compactification inspect \
+  examples/medium/current.txt \
+  --symbols examples/medium/symbols.json --json
+
 symbolic-compactification init-session \
-  --current workspace/input/expressions/current.txt \
-  --symbols workspace/input/expressions/symbols.json
+  --workspace workspace \
+  --current examples/medium/current.txt \
+  --symbols examples/medium/symbols.json \
+  --proposer-mode main --json
 
-symbolic-compactification step --run RUN_ID \
-  --candidate workspace/input/expressions/candidate.txt \
-  --symbols workspace/input/expressions/symbols.json
+symbolic-compactification step --run RUN_ID --workspace workspace \
+  --candidate examples/medium/candidate.txt \
+  --symbols examples/medium/symbols.json
 
-symbolic-compactification finalize --run RUN_ID
+symbolic-compactification finalize --run RUN_ID --workspace workspace
+```
+
+Long Wolfram input (inspect only; JSON `text` is the full native translation):
+
+```bash
+symbolic-compactification inspect \
+  examples/long/Guo_Sigma_abc_dc_exact.txt --format wolfram --json
 ```
 
 `step` goes through one library pipeline: verify, persist the verdict, and
@@ -135,6 +174,9 @@ ZERO/NONZERO/UNKNOWN remain unchanged from engine v0.2.
 - [Architecture](docs/ARCHITECTURE.md) — module map, invariants, state machine,
   budgets, process guarantees, provenance, and errors
 - [Engineering guidelines](docs/ENGINEERING_GUIDELINES.md) — change discipline
-- [A/B experiment protocol](docs/AB_EXPERIMENT_PROTOCOL.md) — proposer-arm rules
 - [STRUCTURAL_PROPOSER](roles/STRUCTURAL_PROPOSER.md) — optional native
   subagent role contract; the repository provides no agent runtime
+- [Project skill](.grok/skills/symbolic-compactification/SKILL.md) —
+  operating skill; default proposer `main`, optional `subagent` / `auto`
+- [A/B experiment protocol](docs/AB_EXPERIMENT_PROTOCOL.md) — experiment
+  appendix, not the default user path

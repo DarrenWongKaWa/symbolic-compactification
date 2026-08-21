@@ -29,7 +29,7 @@ from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
                      PROPOSAL_EVIDENCE_KIND, PROPOSER_HARNESS_SUBAGENT,
                      PROPOSER_MAIN_AGENT, PROPOSER_MODE_UNKNOWN,
                      PROPOSER_SUBAGENT_UNAVAILABLE, PROOF_STATUS_VALUES,
-                     REQUESTED_ARMS,
+                     REQUESTED_ARMS, REQUESTED_PROPOSER_MODES,
                      STEP_STATUSES, UNKNOWN, ZERO, AdapterError,
                      ExpressionRecord, SessionState, StepRecord,
                      engine_git_sha, sha256_text)
@@ -92,6 +92,9 @@ def _manifest_payload(session: SessionState, meta: Optional[dict]) -> dict:
                            or engine_git_sha()),
         # declared A/B experiment arm; None when undeclared
         "requested_arm": getattr(session, "requested_arm", None),
+        # skill proposer intent; None when undeclared (skill default: main)
+        "requested_proposer_mode": getattr(
+            session, "requested_proposer_mode", None),
         "policies": dict(getattr(session, "policies", {})),
         "meta": existing_meta,
         "current": None if session.current is None else session.current.to_dict(),
@@ -111,6 +114,19 @@ def _normalize_requested_arm(arm) -> Optional[str]:
     if isinstance(arm, str) and arm.strip().upper() in REQUESTED_ARMS:
         return arm.strip().upper()
     raise AdapterError("REQUESTED_ARM_INVALID")
+
+
+def _normalize_requested_proposer_mode(mode) -> Optional[str]:
+    """Normalize skill proposer intent to ``None`` / main / subagent / auto.
+
+    Fail-closed: anything else raises ``PROPOSER_MODE_INVALID``. This is a
+    DECLARATION of who should propose; it never certifies or promotes.
+    """
+    if mode is None:
+        return None
+    if isinstance(mode, str) and mode.strip().lower() in REQUESTED_PROPOSER_MODES:
+        return mode.strip().lower()
+    raise AdapterError("PROPOSER_MODE_INVALID")
 
 
 _RUN_ID_RE = re.compile(r"\d{8}T\d{6}Z-[0-9a-f]{6}\Z")
@@ -149,7 +165,8 @@ def _run_root(session: SessionState) -> Path:
 
 def init_session(workspace_root: str = "workspace",
                  meta: Optional[dict] = None,
-                 requested_arm: Optional[str] = None) -> SessionState:
+                 requested_arm: Optional[str] = None,
+                 requested_proposer_mode: Optional[str] = None) -> SessionState:
     """Create ``<workspace_root>/runs/<run-id>/`` with manifest, steps/, final/.
 
     ``requested_arm`` optionally declares the A/B experiment arm
@@ -159,6 +176,11 @@ def init_session(workspace_root: str = "workspace",
     derived strictly from recorded proposer evidence by ``run_summary``
     (``ab_arm_valid`` / ``invalid_reason``). Unknown arm values fail closed
     with ``REQUESTED_ARM_INVALID``.
+
+    ``requested_proposer_mode`` optionally records the skill setting
+    (``main`` / ``subagent`` / ``auto``; case-insensitive; default None =
+    undeclared). It does not certify, promote, or replace evidence-derived
+    ``proposer_mode``. Unknown values fail closed with ``PROPOSER_MODE_INVALID``.
 
     Returns a ``SessionState`` carrying the runtime ``run_root`` attribute so
     subsequent ``record_step`` / ``promote`` calls know where to write.
@@ -171,6 +193,8 @@ def init_session(workspace_root: str = "workspace",
     session = SessionState(run_id=run_id)
     session.run_root = str(run_root)  # runtime-only, never serialized
     session.requested_arm = _normalize_requested_arm(requested_arm)
+    session.requested_proposer_mode = _normalize_requested_proposer_mode(
+        requested_proposer_mode)
     session.repository_version = PACKAGE_VERSION
     session.engine_version = ENGINE_VERSION
     session.agent_protocol_version = AGENT_PROTOCOL_VERSION
@@ -190,6 +214,14 @@ def set_requested_arm(session: SessionState, arm: Optional[str],
     evidence. Unknown arm values fail closed with ``REQUESTED_ARM_INVALID``.
     """
     session.requested_arm = _normalize_requested_arm(arm)
+    _write_json(_run_root(session) / "manifest.json",
+                _manifest_payload(session, meta))
+
+
+def set_requested_proposer_mode(session: SessionState, mode: Optional[str],
+                                meta: Optional[dict] = None) -> None:
+    """Declare (or clear, with ``mode=None``) the skill proposer intent."""
+    session.requested_proposer_mode = _normalize_requested_proposer_mode(mode)
     _write_json(_run_root(session) / "manifest.json",
                 _manifest_payload(session, meta))
 
@@ -219,6 +251,8 @@ def load_session(workspace_root: str, run_id: str) -> SessionState:
     # Restore the declared A/B arm (None for older manifests).
     session.requested_arm = _normalize_requested_arm(
         manifest.get("requested_arm"))
+    session.requested_proposer_mode = _normalize_requested_proposer_mode(
+        manifest.get("requested_proposer_mode"))
     session.repository_version = manifest.get(
         "repository_version", manifest.get("engine_version", ENGINE_VERSION))
     session.engine_version = manifest.get("engine_version", ENGINE_VERSION)
@@ -419,6 +453,7 @@ def run_summary(run_dir) -> dict:
       * ``packets_recorded``     number of conjecture-packet provenance
                                  records present under ``packets/``
       * ``requested_arm``        the declared A/B arm ("A"/"B") or None
+      * ``requested_proposer_mode``  skill intent (main/subagent/auto) or None
       * ``ab_arm_valid``         bool: was the declared arm actually honored,
                                  judged STRICTLY from recorded proposer
                                  evidence (True when no arm was declared)
@@ -488,6 +523,8 @@ def run_summary(run_dir) -> dict:
         "proposer_mode": proposer_mode,
         "packets_recorded": packets_recorded,
         "requested_arm": requested_arm,
+        "requested_proposer_mode": _normalize_requested_proposer_mode(
+            manifest.get("requested_proposer_mode")),
         "ab_arm_valid": ab_arm_valid,
         "invalid_reason": invalid_reason,
     }

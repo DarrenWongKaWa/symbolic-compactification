@@ -34,25 +34,45 @@ graph TB
 
 ### After reaching a CERTIFIED state (agent protocol v0.3.0)
 
-Once a candidate is CERTIFIED and promoted, the recommended order for the
-next move is:
+The proposer path is configurable. Default is **main**.
+Subagent is never the unique path.
+
+Once a candidate is CERTIFIED and promoted, the next move is:
 
 1. **Inspect the semantic structure** of the new current expression
-   (`inspect --format wolfram` / `structure_summary`) — rules 18/21.
-2. **Ask the STRUCTURAL_PROPOSER** for the next candidate: assemble the
-   conjecture packet (`build_conjecture_packet`) and hand it, with the role
-   contract `roles/STRUCTURAL_PROPOSER.md`, to ONE harness-native subagent
-   (Qoder / Codex / Claude Code native subagent facility — this repo
-   contains no agent runtime of its own). Record the returned proposal via
-   `record_proposal` (status `HYPOTHESIS`).
+   (`inspect --json` includes `structure_summary`; Wolfram sources use
+   `--format wolfram`) — rules 18/21.
+2. **Propose the next candidate** according to the configured proposer
+   (`init-session --proposer-mode main|subagent|auto`; undeclared = main):
+   - **Default (`main`).** The main agent writes the candidate `.txt` itself
+     and records it (`record_proposal`, status `HYPOTHESIS`) when using the
+     session pipeline.
+   - **Optional (`subagent`).** Assemble a conjecture packet
+     (`build_conjecture_packet`) for provenance. Hand
+     `roles/STRUCTURAL_PROPOSER.md` plus **only** the current expression and
+     `structure_summary` to ONE harness-native subagent (Qoder / Codex /
+     Claude Code / Grok native subagent facility — this repo contains no
+     agent runtime of its own). Do not pass the working tree. Record the
+     returned proposal via `record_proposal` with the harness subagent id.
+   - **Optional (`auto`).** Skill-layer heuristic only: use `subagent` when
+     the expression is ≥ 8 KiB or `count_ops` ≥ 400, otherwise `main`.
+     `auto` is not a fourth evidence-derived `run_summary.proposer_mode`.
 3. **Targeted deterministic verification** of the candidate (`verify` /
-   `step`) — the verifier remains the sole judge.
+   `step`) — the verifier is mandatory and remains the sole judge.
+   Promote only on ZERO.
 4. **Update state**: promote only on ZERO (main agent only); on NONZERO feed
    the residual + counterexample back; on UNKNOWN refine per rule 20.
+
+Default remains **main**. You may recommend `--proposer-mode subagent`
+when the working directory is noisy or the current expression is extremely long
+— isolation keeps discovery on structure instead of workspace residue.
+Honor an explicit user request. Use `auto` only when the user asked. Do
+not switch unless the user asked for `subagent` or `auto`.
 
 Global `simplify()` remains a bounded fallback for small expressions only —
 never the primary discovery path. The A/B comparison protocol for this
 workflow is documented in `docs/AB_EXPERIMENT_PROTOCOL.md`.
+The project skill is `.grok/skills/symbolic-compactification/SKILL.md`.
 
 `run_summary` reports `proposer_mode` strictly from recorded evidence:
 `MAIN_AGENT_ONLY` (proposals recorded without a subagent id),
@@ -238,11 +258,12 @@ by `render_final_report()` (Python) or `finalize` (CLI):
 # Inspect an expression file (hash, symbols, size). Without --symbols,
 # symbols are INFERRED — inspection only, never usable for verification.
 symbolic-compactification inspect expr.txt
-symbolic-compactification inspect expr.txt --symbols symbols.json
+symbolic-compactification inspect expr.txt --symbols symbols.json --json
 
 # Structure-first inspection (rule 18): --format wolfram keeps the
 # structural representation (Sum / Piecewise / indexed calls) visible.
-symbolic-compactification inspect expr.txt --format wolfram
+# JSON always includes structure_summary.
+symbolic-compactification inspect expr.txt --format wolfram --json
 
 # Verify candidate == current. Exit: 0=ZERO 2=NONZERO 3=UNKNOWN 4=error
 symbolic-compactification verify \
@@ -251,11 +272,15 @@ symbolic-compactification verify \
 # Start a run (creates workspace/runs/<run-id>/); optionally set the initial
 # current expression (--current requires --symbols).
 symbolic-compactification init-session \
-    --current current.txt --symbols symbols.json
+    --current current.txt --symbols symbols.json \
+    --proposer-mode main
 
 # One verified step inside a run; promotes the candidate only on ZERO.
 symbolic-compactification step --run <run-id> \
     --candidate candidate.txt --symbols symbols.json
+
+# Evidence counters for an existing run (does not certify).
+symbolic-compactification summary --run <run-id> --json
 
 # Render the FINAL CERTIFIED FORM deliverable for a run: prints the explicit
 # certified top-level expression and writes final/FINAL_CERTIFIED_FORM.md.

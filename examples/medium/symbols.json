@@ -1,0 +1,7 @@
+{
+  "symbols": [
+    {"name": "N", "real": true, "nonzero": false},
+    {"name": "n", "real": true, "nonzero": false}
+  ],
+  "functions": ["f"]
+}
