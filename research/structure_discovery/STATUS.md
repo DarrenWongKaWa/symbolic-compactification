@@ -54,4 +54,4 @@ on a larger S3 set, new version id.
 
 ## commit SHA
 
-*(filled after commit)*
+Method/evidence freeze commit: `4237f6b048d4646535197b43d4ceb1befb6ead1f`
