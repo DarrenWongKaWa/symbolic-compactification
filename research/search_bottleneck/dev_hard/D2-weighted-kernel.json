@@ -1,0 +1,20 @@
+{
+  "id": "D2-weighted-kernel",
+  "split": "dev_hard",
+  "d_floor": "D2",
+  "task": "compactify",
+  "current": "Sum(K(n)*p(n), (n, 1, N)) + Sum(K(n)*q(n), (n, 1, N))",
+  "symbols": [
+    {"name": "n", "real": true, "nonzero": false},
+    {"name": "N", "real": true, "nonzero": false}
+  ],
+  "functions": ["K", "p", "q"],
+  "scientific_context": [
+    "Two sums over the same dummy index.",
+    "A shared factor in the summands may be a repeated kernel, not just a numeric coefficient."
+  ],
+  "hidden_from_proposer": true,
+  "target_compact": "Sum(K(n)*(p(n) + q(n)), (n, 1, N))",
+  "eval_d_if_gold": "D2",
+  "notes": "Gold is hidden. D1 would be 2*Sum(...) which is WRONG here."
+}

@@ -1,0 +1,22 @@
+{
+  "arm": "R1",
+  "id": "D2-shared-denominator",
+  "seed": 0,
+  "candidates": [
+    {
+      "candidate_text": "Sum((v(n)*v(m)+w(n)*w(m))/(e(n)-e(m)+I*g),(n,1,N),(m,1,N))",
+      "hypothesis_definitions": {},
+      "abstraction_level": "D2",
+      "hypothesis_family": "kernel",
+      "claimed_proven": false
+    },
+    {
+      "candidate_text": "-I*g*Sum((v(n)*v(m)+w(n)*w(m))/((e(n)-e(m))**2+g**2),(n,1,N),(m,1,N))",
+      "hypothesis_definitions": {},
+      "abstraction_level": "D3",
+      "hypothesis_family": "symmetry",
+      "rationale": "Symmetric C annihilates antisymmetric PV part; Lorentzian only. Needs extra assumptions.",
+      "claimed_proven": false
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"arm":"R3","id":"D2-weighted-kernel","seed":0,"candidates":[{"candidate_text":"Sum(K(n)*(p(n) + q(n)), (n, 1, N))","hypothesis_definitions":{},"abstraction_level":"D2","hypothesis_family":"kernel","claimed_proven":false}]}

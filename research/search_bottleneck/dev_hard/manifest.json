@@ -1,0 +1,22 @@
+{
+  "set": "search-bottleneck-hard-dev-v1",
+  "not_frozen_test": true,
+  "items": [
+    "D2-weighted-kernel",
+    "D2-shared-denominator",
+    "D3-thermal-pair",
+    "D4-piecewise-generic-kernel",
+    "D5-index-pair",
+    "C-fermi-poly-piecewise",
+    "C-guo-sigma-abc"
+  ],
+  "flagship_repeat_items": ["D2-weighted-kernel"],
+  "guo_case_study": "C-guo-sigma-abc",
+  "scientific_context_default": [
+    "This is a theoretical-physics style symbolic object (response, spectral, or indexed).",
+    "Dummy indices label bands or summation sites.",
+    "Repeated summands or denominators may encode a shared kernel.",
+    "Physically useful forms often expose kernels, master analytic functions, symmetries, or geometric combinations.",
+    "Piecewise strata might be coincident limits of one analytic object; that is a hypothesis, not a license to delete branches."
+  ]
+}

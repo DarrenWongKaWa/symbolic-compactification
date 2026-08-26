@@ -1,0 +1,20 @@
+{
+  "id": "D5-index-pair",
+  "split": "dev_hard",
+  "d_floor": "D5",
+  "task": "compactify",
+  "current": "h1(n, m)*V(n, m) + h1(m, n)*V(m, n)",
+  "symbols": [
+    {"name": "n", "real": true, "nonzero": false},
+    {"name": "m", "real": true, "nonzero": false}
+  ],
+  "functions": ["h1", "V"],
+  "scientific_context": [
+    "Indexed vertex-like factors with a swapped-index partner.",
+    "A symmetry-adapted generator is often written as an object plus its permute, without claiming extra symmetry of V or h1."
+  ],
+  "hidden_from_proposer": true,
+  "target_compact": "h1(n, m)*V(n, m) + h1(m, n)*V(m, n)",
+  "eval_d_if_named_aux": "D5",
+  "notes": "Identity with itself is D0. D5 if a named generator is introduced and expands to ZERO."
+}

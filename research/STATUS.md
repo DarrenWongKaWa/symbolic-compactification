@@ -63,6 +63,16 @@ C2 is **not supported**. C1 vs LLM/CAS is **untested** in batch. C3
 - Compactify test set too easy; only one held-out scientific compactify
   item (`C-green-spectral`).
 
+## SEARCH BOTTLENECK (2026-08-26)
+
+See `research/search_bottleneck/`. B1 vs B7-det was **not** an agent test.
+Hard DEV R1–R5 (seed 0): D2 kernel merge is ZERO for every arm including
+named transforms; D3–D5 are mostly names/prose/UNKNOWN; blank drop-Piecewise
+is UNKNOWN but claimed proven; Fermi recurrence is not ZERO. Isolated
+scientific proposer improves hypothesis *type*, not certified D-level.
+Single next change: multi-step isolated scientific proposer with mandatory
+definition expansion; do not add unsound special-function ZEROs.
+
 ## OPEN QUESTIONS
 
 1. Does C1 hold against B4/B5 on a **hard** set with 5 seeds?
@@ -73,10 +83,12 @@ C2 is **not supported**. C1 vs LLM/CAS is **untested** in batch. C3
 
 ## NEXT STEP
 
-Do not draft a paper. Either (a) drop C2 and run B4 vs B7 for a
-workshop-shaped reliability study, or (b) build ssc-bench-v0.2 with
-harder compactify / more Tier C **as a new version**, freeze, then
-re-run. Do not retune v0.1 test after this analysis.
+Search-bottleneck phase (`research/search_bottleneck/DECISION.md`):
+attack **stop-after-shallow-ZERO + unexpanded names** with an isolated
+scientific proposer that must emit closed candidates. Do not weaken
+the verifier and do not retune frozen test.
+
+Paper gate remains C. Do not draft.
 
 ## Decision gate
 

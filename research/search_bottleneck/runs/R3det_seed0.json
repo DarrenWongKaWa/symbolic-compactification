@@ -1,0 +1,43 @@
+{
+  "arm": "R3-det-named-transforms",
+  "note": "Deterministic combine_identical_sums then collect_common_factor. Not an LLM. Recorded because production R3 skill-1 used exactly these primitives first.",
+  "seed": 0,
+  "records": [
+    {
+      "id": "D2-weighted-kernel",
+      "after_combine": "Sum(K(n)*p(n) + K(n)*q(n), (n, 1, N))",
+      "after_collect": "Sum((p(n) + q(n))*K(n), (n, 1, N))",
+      "candidate_text": "Sum((p(n) + q(n))*K(n), (n, 1, N))",
+      "abstraction_level_attempted": "D2",
+      "hypothesis_family": "kernel"
+    },
+    {
+      "id": "D2-shared-denominator",
+      "candidate_text": "Sum((v(m)*v(n) + w(m)*w(n))/(I*g - e(m) + e(n)), (n, 1, N), (m, 1, N))",
+      "abstraction_level_attempted": "D2",
+      "hypothesis_family": "kernel",
+      "note": "engine also reordered e(n)-e(m)+I*g to I*g - e(m) + e(n)"
+    },
+    {
+      "id": "D3-thermal-pair",
+      "candidate_text": "A*(polygamma(0, zM) + polygamma(0, zP))",
+      "abstraction_level_attempted": "D1",
+      "hypothesis_family": "algebra",
+      "note": "common factor only; no named master"
+    },
+    {
+      "id": "D4-piecewise-generic-kernel",
+      "candidate_text": "Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))",
+      "abstraction_level_attempted": "D0",
+      "hypothesis_family": "algebra",
+      "note": "transforms no-op"
+    },
+    {
+      "id": "D5-index-pair",
+      "candidate_text": "h1(n, m)*V(n, m) + h1(m, n)*V(m, n)",
+      "abstraction_level_attempted": "D0",
+      "hypothesis_family": "algebra",
+      "note": "transforms no-op"
+    }
+  ]
+}
