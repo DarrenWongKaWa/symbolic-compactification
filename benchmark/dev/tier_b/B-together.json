@@ -1,0 +1,41 @@
+{
+  "candidate": null,
+  "current": "1/(x+1) + 1/(x-1)",
+  "difficulty": 2,
+  "expected_verdict": null,
+  "family": "rational",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": "(2*x)/((x+1)*(x-1))",
+  "id": "B-together",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "curated equivalent pair; gold hidden from proposer",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 5,
+    "free_symbols": [
+      "x"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "(2*x)/((x+1)*(x-1))",
+  "task": "compactify",
+  "tier": "B",
+  "version": "ssc-bench-v0.1"
+}

@@ -1,0 +1,41 @@
+{
+  "candidate": "cos(x)**2 - sin(x)**2",
+  "current": "cos(2*x)",
+  "difficulty": 2,
+  "expected_verdict": "ZERO",
+  "family": "trigonometric",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-trig-cos2",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "generated exact identity; engine-confirmed ZERO",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 2,
+    "free_symbols": [
+      "x"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}

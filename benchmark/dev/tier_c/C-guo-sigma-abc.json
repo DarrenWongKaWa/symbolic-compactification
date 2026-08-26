@@ -1,0 +1,81 @@
+{
+  "candidate": null,
+  "current": "WOLFRAM_SOURCE_FILE:examples/long/Guo_Sigma_abc_dc_exact.txt",
+  "difficulty": 5,
+  "expected_verdict": null,
+  "family": "kubo_response",
+  "functions": [
+    "h1",
+    "h2",
+    "epsilon"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "C-guo-sigma-abc",
+  "ladder_id": "guo_sigma_abc_L0_L7",
+  "mutation_type": null,
+  "notes": "CONTAMINATED flagship: used in 2026-08-21 skill-vs-blank. Case study only, not an unseen test item. Hidden PRB form is NOT stored in this repository.",
+  "provenance": "examples/long/SOURCE.md SHA-256 63742cc4e6bf401dd48e258ecb86676b0d7570cc075cae38b91dc188652afc44",
+  "source_file": "examples/long/Guo_Sigma_abc_dc_exact.txt",
+  "source_format": "wolfram",
+  "split": "dev",
+  "structural_descriptors": {
+    "error": "DISALLOWED_CHARACTERS"
+  },
+  "symbols": [
+    {
+      "name": "Nb",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "a",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "b",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "c",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "beta",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "gamma",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "mu",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "m",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "ell",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.1"
+}

@@ -1,0 +1,47 @@
+{
+  "candidate": "(exp(x + y)) + 1",
+  "current": "exp(x)*exp(y)",
+  "difficulty": 1,
+  "expected_verdict": "NONZERO",
+  "family": "exponential",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-exp-add-missing-term",
+  "ladder_id": null,
+  "mutation_type": "missing_term",
+  "notes": "actual_verdict=NONZERO",
+  "provenance": "controlled corruption of an engine-confirmed identity",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 3,
+    "free_symbols": [
+      "x",
+      "y"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "y",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}

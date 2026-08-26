@@ -1,0 +1,53 @@
+{
+  "candidate": null,
+  "current": "Piecewise((polygamma(0, z), Eq(n, m)), (polygamma(0, z) - polygamma(0, z + 1), True))",
+  "difficulty": 4,
+  "expected_verdict": null,
+  "family": "thermal_kernels",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "C-fermi-poly-piecewise",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "compact target not provided; compactness-only scoring",
+  "provenance": "author-constructed polygamma/Piecewise thermal skeleton",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 6,
+    "free_symbols": [
+      "m",
+      "n",
+      "z"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 1,
+    "piecewise_branches": 2,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "z",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "m",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.1"
+}

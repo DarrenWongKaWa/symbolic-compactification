@@ -1,0 +1,47 @@
+{
+  "candidate": null,
+  "current": "x**2 - 2*x*y + y**2",
+  "difficulty": 1,
+  "expected_verdict": null,
+  "family": "factoring",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": "(x - y)**2",
+  "id": "B-factor-diffsq",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "curated equivalent pair; gold hidden from proposer",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 6,
+    "free_symbols": [
+      "x",
+      "y"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "y",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "(x - y)**2",
+  "task": "compactify",
+  "tier": "B",
+  "version": "ssc-bench-v0.1"
+}

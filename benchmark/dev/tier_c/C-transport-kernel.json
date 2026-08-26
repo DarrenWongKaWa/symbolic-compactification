@@ -1,0 +1,52 @@
+{
+  "candidate": null,
+  "current": "Sum(v(n)*v(n)*(-polygamma(1, z(n))), (n, 1, Nb)) + Sum(v(n)*v(n)*(-polygamma(1, z(n))), (n, 1, Nb))",
+  "difficulty": 3,
+  "expected_verdict": null,
+  "family": "transport",
+  "functions": [
+    "v",
+    "z"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": "Sum(-2*v(n)**2*polygamma(1, z(n)), (n, 1, Nb))",
+  "id": "C-transport-kernel",
+  "ladder_id": "generic_sum_fold",
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "author-constructed transport spectral kernel",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 8,
+    "free_symbols": [
+      "Nb"
+    ],
+    "indexed_calls": 2,
+    "indexed_names": [
+      "v",
+      "z"
+    ],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 1
+  },
+  "symbols": [
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "Nb",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "Sum(-2*v(n)**2*polygamma(1, z(n)), (n, 1, Nb))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.1"
+}

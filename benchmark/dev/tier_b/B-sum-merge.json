@@ -1,0 +1,50 @@
+{
+  "candidate": null,
+  "current": "Sum(f(n), (n, 1, N)) + Sum(f(n), (n, 1, N))",
+  "difficulty": 2,
+  "expected_verdict": null,
+  "family": "nested_sum",
+  "functions": [
+    "f"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": "2*Sum(f(n), (n, 1, N))",
+  "id": "B-sum-merge",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "curated equivalent pair; gold hidden from proposer",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 3,
+    "free_symbols": [
+      "N"
+    ],
+    "indexed_calls": 1,
+    "indexed_names": [
+      "f"
+    ],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 1
+  },
+  "symbols": [
+    {
+      "name": "N",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "2*Sum(f(n), (n, 1, N))",
+  "task": "compactify",
+  "tier": "B",
+  "version": "ssc-bench-v0.1"
+}

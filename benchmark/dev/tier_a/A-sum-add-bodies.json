@@ -1,0 +1,52 @@
+{
+  "candidate": "Sum(f(n) + g(n), (n, 1, N))",
+  "current": "Sum(f(n), (n, 1, N)) + Sum(g(n), (n, 1, N))",
+  "difficulty": 2,
+  "expected_verdict": "ZERO",
+  "family": "nested_sum",
+  "functions": [
+    "f",
+    "g"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-sum-add-bodies",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "generated exact identity; engine-confirmed ZERO",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 5,
+    "free_symbols": [
+      "N"
+    ],
+    "indexed_calls": 2,
+    "indexed_names": [
+      "f",
+      "g"
+    ],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 2
+  },
+  "symbols": [
+    {
+      "name": "N",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}

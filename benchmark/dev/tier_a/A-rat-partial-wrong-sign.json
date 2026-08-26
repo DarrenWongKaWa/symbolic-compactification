@@ -1,0 +1,47 @@
+{
+  "candidate": "-((x + y)/(x*y))",
+  "current": "1/x + 1/y",
+  "difficulty": 2,
+  "expected_verdict": "NONZERO",
+  "family": "rational",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-rat-partial-wrong-sign",
+  "ladder_id": null,
+  "mutation_type": "wrong_sign",
+  "notes": "actual_verdict=NONZERO",
+  "provenance": "controlled corruption of an engine-confirmed identity",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 3,
+    "free_symbols": [
+      "x",
+      "y"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": true,
+      "real": true
+    },
+    {
+      "name": "y",
+      "nonzero": true,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}

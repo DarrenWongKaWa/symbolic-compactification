@@ -1,0 +1,47 @@
+{
+  "candidate": "a**3 + 3*a**2*b + 3*a*b**2 + b**3",
+  "current": "(a + b)**3",
+  "difficulty": 2,
+  "expected_verdict": "ZERO",
+  "family": "polynomial",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-poly-cubic-exp",
+  "ladder_id": null,
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "generated exact identity; engine-confirmed ZERO",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 2,
+    "free_symbols": [
+      "a",
+      "b"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "a",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "b",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}

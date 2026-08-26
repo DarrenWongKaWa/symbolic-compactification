@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ssc-bench-v0.1",
+  "title": "Scientific Symbolic Compactification Benchmark item",
+  "type": "object",
+  "required": [
+    "id", "version", "tier", "split", "family", "task",
+    "current", "symbols", "hidden_from_proposer"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "version": { "type": "string", "const": "ssc-bench-v0.1" },
+    "tier": { "enum": ["A", "B", "C"] },
+    "split": { "enum": ["dev", "test"] },
+    "family": { "type": "string" },
+    "task": { "enum": ["adjudicate", "compactify"] },
+    "current": { "type": "string" },
+    "candidate": { "type": ["string", "null"] },
+    "symbols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "real": { "type": "boolean" },
+          "nonzero": { "type": "boolean" }
+        }
+      }
+    },
+    "functions": { "type": "array", "items": { "type": "string" } },
+    "source_format": { "enum": ["sympy", "wolfram"] },
+    "source_file": { "type": ["string", "null"] },
+    "expected_verdict": { "enum": ["ZERO", "NONZERO", "UNKNOWN", null] },
+    "mutation_type": { "type": ["string", "null"] },
+    "difficulty": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "provenance": { "type": "string" },
+    "structural_descriptors": { "type": "object" },
+    "ladder_id": { "type": ["string", "null"] },
+    "hidden_from_proposer": { "type": "boolean" },
+    "human_reference": { "type": ["string", "null"] },
+    "target_compact": { "type": ["string", "null"] },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

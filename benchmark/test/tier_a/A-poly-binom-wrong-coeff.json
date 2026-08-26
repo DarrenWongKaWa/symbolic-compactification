@@ -1,0 +1,41 @@
+{
+  "candidate": "2*(x**2 + 2*x + 1)",
+  "current": "(x + 1)**2",
+  "difficulty": 1,
+  "expected_verdict": "NONZERO",
+  "family": "polynomial",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-poly-binom-wrong-coeff",
+  "ladder_id": null,
+  "mutation_type": "wrong_coefficient",
+  "notes": "actual_verdict=NONZERO",
+  "provenance": "controlled corruption of an engine-confirmed identity",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "test",
+  "structural_descriptors": {
+    "count_ops": 2,
+    "free_symbols": [
+      "x"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}

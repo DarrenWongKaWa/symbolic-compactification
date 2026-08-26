@@ -1,0 +1,63 @@
+{
+  "candidate": null,
+  "current": "Sum(v(n, m)*v(m, n)/(epsilon(n) - epsilon(m) + I*gamma), (n, 1, Nb), (m, 1, Nb)) + Sum(v(n, m)*v(m, n)/(epsilon(n) - epsilon(m) + I*gamma), (n, 1, Nb), (m, 1, Nb))",
+  "difficulty": 3,
+  "expected_verdict": null,
+  "family": "kubo_response",
+  "functions": [
+    "v",
+    "epsilon"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": "2*Sum(v(n, m)*v(m, n)/(epsilon(n) - epsilon(m) + I*gamma), (n, 1, Nb), (m, 1, Nb))",
+  "id": "C-kubo-double-sum",
+  "ladder_id": "generic_sum_fold",
+  "mutation_type": null,
+  "notes": "",
+  "provenance": "author-constructed linear-response skeleton (not a paper dump)",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 11,
+    "free_symbols": [
+      "Nb",
+      "gamma"
+    ],
+    "indexed_calls": 4,
+    "indexed_names": [
+      "epsilon",
+      "v"
+    ],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 0,
+    "sums": 1
+  },
+  "symbols": [
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "m",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "Nb",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "gamma",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "2*Sum(v(n, m)*v(m, n)/(epsilon(n) - epsilon(m) + I*gamma), (n, 1, Nb), (m, 1, Nb))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.1"
+}

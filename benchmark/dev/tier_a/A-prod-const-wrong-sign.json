@@ -1,0 +1,52 @@
+{
+  "candidate": "-(a**N)",
+  "current": "Product(a, (n, 1, N))",
+  "difficulty": 2,
+  "expected_verdict": "NONZERO",
+  "family": "product",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": null,
+  "id": "A-prod-const-wrong-sign",
+  "ladder_id": null,
+  "mutation_type": "wrong_sign",
+  "notes": "actual_verdict=NONZERO",
+  "provenance": "controlled corruption of an engine-confirmed identity",
+  "source_file": null,
+  "source_format": "sympy",
+  "split": "dev",
+  "structural_descriptors": {
+    "count_ops": 0,
+    "free_symbols": [
+      "N",
+      "a"
+    ],
+    "indexed_calls": 0,
+    "indexed_names": [],
+    "piecewise": 0,
+    "piecewise_branches": 0,
+    "products": 1,
+    "sums": 0
+  },
+  "symbols": [
+    {
+      "name": "a",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "N",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "adjudicate",
+  "tier": "A",
+  "version": "ssc-bench-v0.1"
+}
