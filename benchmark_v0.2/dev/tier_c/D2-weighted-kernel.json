@@ -1,0 +1,34 @@
+{
+  "current": "Sum(K(n)*p(n), (n, 1, N)) + Sum(K(n)*q(n), (n, 1, N))",
+  "d_floor": "D2",
+  "eval_d_if_gold": "D2",
+  "functions": [
+    "K",
+    "p",
+    "q"
+  ],
+  "hidden_from_proposer": true,
+  "id": "D2-weighted-kernel",
+  "notes": "Gold is hidden. D1 would be 2*Sum(...) which is WRONG here.",
+  "scientific_context": [
+    "Two sums over the same dummy index.",
+    "A shared factor in the summands may be a repeated kernel, not just a numeric coefficient."
+  ],
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "N",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "Sum(K(n)*(p(n) + q(n)), (n, 1, N))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}

@@ -1,0 +1,31 @@
+{
+  "current": "Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))",
+  "d_floor": "D4",
+  "eval_note": "K(x,y) as a drop-Piecewise candidate is engine UNKNOWN (H4 diagnostic). Do not treat UNKNOWN as success.",
+  "functions": [
+    "K"
+  ],
+  "hidden_from_proposer": true,
+  "id": "D4-piecewise-generic-kernel",
+  "scientific_context": [
+    "A piecewise with a generic off-diagonal kernel and a coincident-argument branch.",
+    "Coincidence may be a limit of the generic kernel; that is a hypothesis requiring proof, not deletion of a branch."
+  ],
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "y",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": null,
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}

@@ -1,0 +1,11 @@
+id,split,d_floor,family,M0_zero,M1_zero,M1_named,M1_extra,M0_fp,M1_fp,B4_verdict,B4_would_false_promote,M1_changed
+C-fermi-poly-piecewise,dev,D3,,1,1,0,0,0,0,ZERO,0,1
+D2-shared-denominator,dev,D2,,1,2,1,1,0,0,ZERO,0,1
+D2-weighted-kernel,dev,D2,,1,2,1,1,0,0,ZERO,0,1
+D4-piecewise-generic-kernel,dev,D4,,0,0,0,0,0,0,ZERO,0,0
+D5-index-pair,dev,D5,,1,2,1,1,0,0,ZERO,0,1
+H-D2-green-two,dev,D2,greens_functions,1,2,1,1,0,0,ZERO,0,1
+H-D3-factor-pair,dev,D3,thermal,1,2,1,1,0,0,ZERO,0,1
+D3-thermal-pair,test,D3,,1,2,1,1,0,0,ZERO,0,1
+H-D2-triple-channel,test,D2,response,1,2,1,1,0,0,ZERO,0,1
+H-D5-swap-pair,test,D5,tensor,1,2,1,1,0,0,ZERO,0,1

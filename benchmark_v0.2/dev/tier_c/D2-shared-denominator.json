@@ -1,0 +1,43 @@
+{
+  "current": "Sum(v(n)*v(m)/(e(n)-e(m)+I*g), (n, 1, N), (m, 1, N)) + Sum(w(n)*w(m)/(e(n)-e(m)+I*g), (n, 1, N), (m, 1, N))",
+  "d_floor": "D2",
+  "eval_d_if_gold": "D2",
+  "functions": [
+    "v",
+    "w",
+    "e"
+  ],
+  "hidden_from_proposer": true,
+  "id": "D2-shared-denominator",
+  "scientific_context": [
+    "Kubo-like double sum with a shared energy-denominator structure.",
+    "Two channels (v and w) may sit on one spectral kernel."
+  ],
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "m",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "N",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "g",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "Sum((v(n)*v(m) + w(n)*w(m))/(e(n)-e(m)+I*g), (n, 1, N), (m, 1, N))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}

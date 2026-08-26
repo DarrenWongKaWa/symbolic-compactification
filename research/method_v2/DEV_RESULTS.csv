@@ -1,0 +1,7 @@
+id,d_floor,m0_changed,m1_changed,m0_n_zero,m1_n_zero,m0_named_aux_zero,m1_named_aux_zero,m1_extra_after_zero,m0_false_promotion,m1_false_promotion,m0_certified,m1_certified
+C-fermi-poly-piecewise,D3,True,True,1,1,0,0,0,False,False,"Piecewise((polygamma(0, z), Eq(m, n)), (polygamma(0, z) - polygamma(0, z + 1), True))","Piecewise((polygamma(0, z), Eq(m, n)), (polygamma(0, z) - polygamma(0, z + 1), True))"
+D2-shared-denominator,D2,True,True,1,2,0,1,1,False,False,"Sum((v(m)*v(n) + w(m)*w(n))/(I*g - e(m) + e(n)), (n, 1, N), (m, 1, N))","Sum(((v(m)*v(n) + w(m)*w(n))/(I*g - e(m) + e(n))), (n, 1, N), (m, 1, N))"
+D2-weighted-kernel,D2,True,True,1,2,0,1,1,False,False,"Sum((p(n) + q(n))*K(n), (n, 1, N))","Sum(((p(n) + q(n))*K(n)), (n, 1, N))"
+D3-thermal-pair,D3,True,True,1,2,0,1,1,False,False,"A*(polygamma(0, zM) + polygamma(0, zP))","(A)*(polygamma(0, zM) + polygamma(0, zP))"
+D4-piecewise-generic-kernel,D4,False,False,0,0,0,0,0,False,False,"Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))","Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))"
+D5-index-pair,D5,True,True,1,2,0,1,1,False,False,"V(m, n)*h1(m, n) + V(n, m)*h1(n, m)","(V(m, n)*h1(m, n)) + (V(n, m)*h1(n, m))"

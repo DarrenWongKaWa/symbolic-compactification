@@ -11,6 +11,12 @@ This repository is not a CAS replacement, not an automatic theorem prover,
 not an LLM runtime, and not a machine that discovers new physics. Approximate
 numeric agreement never counts. UNKNOWN is not a pass.
 
+**Current evidence** (`research/PUBLICATION_DECISION.md`): fail-closed
+ZERO/NONZERO/UNKNOWN works; Method v2 can name closed auxiliaries after a
+shallow ZERO; it does **not** currently beat CAS at discovery or certify
+the Guo PRB closed form. Publication decision: **E** (more evidence
+needed). No paper snapshot is frozen.
+
 The Grok skill is
 [`.grok/skills/symbolic-compactification/`](.grok/skills/symbolic-compactification/SKILL.md).
 Agents operating a run must also read [AGENTS.md](AGENTS.md).

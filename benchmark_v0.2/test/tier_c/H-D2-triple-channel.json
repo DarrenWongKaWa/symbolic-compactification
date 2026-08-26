@@ -1,0 +1,35 @@
+{
+  "current": "Sum(K(n)*a(n),(n,1,N))+Sum(K(n)*b(n),(n,1,N))+Sum(K(n)*c(n),(n,1,N))",
+  "d_floor": "D2",
+  "family": "response",
+  "functions": [
+    "K",
+    "a",
+    "b",
+    "c"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": "Sum(K(n)*(a(n)+b(n)+c(n)),(n,1,N))",
+  "id": "H-D2-triple-channel",
+  "scientific_context": [
+    "Theoretical-physics style indexed or thermal object.",
+    "Shared kernels or named masters may be useful."
+  ],
+  "split": "test",
+  "symbols": [
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "N",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "Sum(K(n)*(a(n)+b(n)+c(n)),(n,1,N))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}

@@ -1,0 +1,33 @@
+{
+  "current": "T(n,m)*Q(n,m)+T(m,n)*Q(m,n)",
+  "d_floor": "D5",
+  "family": "tensor",
+  "functions": [
+    "T",
+    "Q"
+  ],
+  "hidden_from_proposer": true,
+  "human_reference": "T(n,m)*Q(n,m)+T(m,n)*Q(m,n)",
+  "id": "H-D5-swap-pair",
+  "scientific_context": [
+    "Theoretical-physics style indexed or thermal object.",
+    "Shared kernels or named masters may be useful."
+  ],
+  "split": "test",
+  "symbols": [
+    {
+      "name": "n",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "m",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "T(n,m)*Q(n,m)+T(m,n)*Q(m,n)",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}

@@ -4,8 +4,10 @@ Protocol freeze date: 2026-08-26
 Engine commit at freeze: `73c127814af9b38db0cbeb48c4ca38b2e52c38a4`
 Package / engine / agent protocol: 0.3.0 / 0.3.0 / 0.3.0
 Benchmark version at freeze: `ssc-bench-v0.1`
-Paper decision: **C — PROMISING BUT INSUFFICIENT**
+Paper decision (protocol v0): **C — PROMISING BUT INSUFFICIENT**
   (`research/DECISION.md`)
+Publication decision after Method v2 / v0.2-hard: **E — MORE EVIDENCE NEEDED**
+  (`research/PUBLICATION_DECISION.md`). No `paper/` package.
 
 This file is the running governance log. Claims, metrics, splits, budgets, and
 baselines may not be silently edited after seeing results. A protocol change
@@ -83,12 +85,9 @@ definition expansion; do not add unsound special-function ZEROs.
 
 ## NEXT STEP
 
-Search-bottleneck phase (`research/search_bottleneck/DECISION.md`):
-attack **stop-after-shallow-ZERO + unexpanded names** with an isolated
-scientific proposer that must emit closed candidates. Do not weaken
-the verifier and do not retune frozen test.
-
-Paper gate remains C. Do not draft.
+Publication **E**. To reopen a workshop (Story A): 5-seed B3/B4 vs
+Method v2 on a larger hard Tier C, ≥2 model families. Do not claim D3–D5
+discovery. Do not retune v0.1 test. Do not add unsound ZERO rules.
 
 ## Decision gate
 

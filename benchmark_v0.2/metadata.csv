@@ -1,0 +1,12 @@
+id,split,tier,d_floor,sha256,path
+D2-weighted-kernel,dev,C,D2,2bca952f18d97c5e0ab474c2eefaac6fc6c48866ab70d5c55cb7be8815ae9ccc,benchmark_v0.2/dev/tier_c/D2-weighted-kernel.json
+D4-piecewise-generic-kernel,dev,C,D4,a3018740cf02c5b20dbbf96dbdde7c153ca74c0baec70e534cb3e9a54b522db4,benchmark_v0.2/dev/tier_c/D4-piecewise-generic-kernel.json
+D5-index-pair,dev,C,D5,8cc016c89a15b485a20861d45cd8250324d1caf1d521cbaa64175964b350cbe3,benchmark_v0.2/dev/tier_c/D5-index-pair.json
+D2-shared-denominator,dev,C,D2,426d6d18dc60c5d8d48bb9647c4501f3a72c07ef1e93f124274c9913b0a07b7b,benchmark_v0.2/dev/tier_c/D2-shared-denominator.json
+C-guo-sigma-abc,dev,C,D2,6ea569f6c26b937cfda47feab97caff35c038d7a6e2ff9f161d11f1005b67975,benchmark_v0.2/dev/tier_c/C-guo-sigma-abc.json
+C-fermi-poly-piecewise,dev,C,D3,f677a1732337deeef6122caa95538ac3b21aa0f7e2c9a923d72330b1a56aad83,benchmark_v0.2/dev/tier_c/C-fermi-poly-piecewise.json
+D3-thermal-pair,test,C,D3,0878f083c36aaa0320ed438b56080f4be691c7d1ff6f949d729fadf41f00c4e7,benchmark_v0.2/test/tier_c/D3-thermal-pair.json
+H-D2-triple-channel,test,C,D2,4034831bcd9b3089075b15d5319057a408ba00d820ccff1018b48b775bf505dd,benchmark_v0.2/test/tier_c/H-D2-triple-channel.json
+H-D2-green-two,dev,C,D2,8298b1ed31011dd5a8b0dccc0c10ea318c65b6db170f6eb0a08cdc1b28d9b179,benchmark_v0.2/dev/tier_c/H-D2-green-two.json
+H-D3-factor-pair,dev,C,D3,489de4d062665b8d3d4b3808b8c224625497665566b2510abddd9881e180f09f,benchmark_v0.2/dev/tier_c/H-D3-factor-pair.json
+H-D5-swap-pair,test,C,D5,ab96d18fd820a019503f05f494f34c4954d940a05ee0377ea3452384fccd5174,benchmark_v0.2/test/tier_c/H-D5-swap-pair.json

@@ -1,0 +1,7 @@
+method,scientific_progress,reliability_no_fp,note
+B0_raw,0,1,identity
+B1_CAS,1,1,unstructured ops; no named masters
+B4_CAS_simplify,1,1,v0.2-hard test n=3 FP=0
+B3_blank_LLM,3,0,D4 claimed proven UNKNOWN; Fermi not ZERO
+M0_stop_first_zero,2,1,D2 certified then stop
+M1_method_v2,2.5,1,D2 plus named-aux ZERO; D4 not promoted

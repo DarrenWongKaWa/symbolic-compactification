@@ -1,0 +1,36 @@
+{
+  "current": "A*polygamma(0, zP) + A*polygamma(0, zM)",
+  "d_floor": "D3",
+  "eval_d_if_gold": "D1",
+  "eval_d_if_named_aux": "D3",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "id": "D3-thermal-pair",
+  "notes": "Algebraic gold is D1 factoring. D3 if proposer introduces a named auxiliary and reconstructs equivalently.",
+  "scientific_context": [
+    "Thermal/digamma-like pair with two related arguments.",
+    "A named master thermal object is sometimes more useful than a pile of polygamma terms, even if the algebra is only a common factor."
+  ],
+  "split": "test",
+  "symbols": [
+    {
+      "name": "A",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "zP",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "zM",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "A*(polygamma(0, zP) + polygamma(0, zM))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}

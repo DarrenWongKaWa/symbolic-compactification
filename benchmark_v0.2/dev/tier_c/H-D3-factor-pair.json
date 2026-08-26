@@ -1,0 +1,35 @@
+{
+  "current": "beta*polygamma(1, zP)+beta*polygamma(1, zM)",
+  "d_floor": "D3",
+  "family": "thermal",
+  "functions": [],
+  "hidden_from_proposer": true,
+  "human_reference": "beta*(polygamma(1, zP)+polygamma(1, zM))",
+  "id": "H-D3-factor-pair",
+  "scientific_context": [
+    "Theoretical-physics style indexed or thermal object.",
+    "Shared kernels or named masters may be useful."
+  ],
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "beta",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "zP",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "zM",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "target_compact": "beta*(polygamma(1, zP)+polygamma(1, zM))",
+  "task": "compactify",
+  "tier": "C",
+  "version": "ssc-bench-v0.2-hard"
+}
