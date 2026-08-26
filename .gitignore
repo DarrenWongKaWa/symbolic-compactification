@@ -15,6 +15,10 @@ build/
 dist/
 *.whl
 
+# Research runtime (keep summaries under research/runs/protocol_v0 if small)
+research/literature/_drafts/
+research/_drafts/
+
 # Runtime workspace artifacts (run outputs stay out of git, keep the skeleton)
 workspace/runs/*
 !workspace/runs/.gitkeep
