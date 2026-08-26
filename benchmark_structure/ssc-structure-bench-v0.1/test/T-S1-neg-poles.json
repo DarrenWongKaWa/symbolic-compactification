@@ -1,0 +1,46 @@
+{
+  "abstraction_level": "D2",
+  "assumptions": [],
+  "current": "1/(t - b) + 1/(t - b - c)",
+  "domain": "synthetic",
+  "family": "algebra",
+  "forbidden_reconstructions": [
+    "2/(t - b)",
+    "2*(1/(t - b))"
+  ],
+  "functions": [],
+  "gold_auxiliaries": [],
+  "gold_types": [],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [],
+    "kind": "distinct_poles"
+  },
+  "id": "T-S1-neg-poles",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "negative",
+  "provenance": "held-out distinct poles",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false."
+  ],
+  "source_format": "sympy",
+  "split": "test",
+  "symbols": [
+    {
+      "name": "t",
+      "real": true
+    },
+    {
+      "name": "b",
+      "real": true
+    },
+    {
+      "name": "c",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}

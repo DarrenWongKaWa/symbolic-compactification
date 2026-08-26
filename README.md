@@ -17,6 +17,17 @@ shallow ZERO; it does **not** currently beat CAS at discovery or certify
 the Guo PRB closed form. Publication decision: **E** (more evidence
 needed). No paper snapshot is frozen.
 
+A **separate** structure-discovery line lives in
+`research/structure_discovery/` (branch
+`research/verified-scientific-structure-discovery`). It does not overwrite
+the compactification benches. On a frozen 12-item typed-structure test, a
+deterministic observe→hypothesis→construct→verify pipeline matches gold
+D2–D5 *types* more often than SymPy or Method v2 packaging, with zero
+unsafe merges. It is **not** an LLM scientific-imagination result; Guo
+still yields only D2 CSE kernels. Decision: **E**
+(`research/structure_discovery/PUBLICATION_DECISION.md`). No
+`paper_structure_discovery/`.
+
 The Grok skill is
 [`.grok/skills/symbolic-compactification/`](.grok/skills/symbolic-compactification/SKILL.md).
 Agents operating a run must also read [AGENTS.md](AGENTS.md).

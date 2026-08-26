@@ -1,0 +1,21 @@
+work_id,citation,year,invents_abstractions,reusable,human_interpretable,changes_representation,exact_verification,scientific_expressions_given,downstream_reasoning_eval,benchmark_scale,covers_triple,main_limitation
+dreamcoder,"Ellis K et al. DreamCoder. PLDI 2021. doi:10.1145/3453483.3454080",2021,yes,yes_corpus,lambda_dsl,yes,program_eq,no,indirect,8_domains,no,Programs/I-O not physics CAS expressions
+stitch,"Bowers M et al. Top-Down Synthesis for Library Learning. POPL 2023. doi:10.1145/3571234",2023,yes,yes_corpus,dsl,yes,rewrite_compression,no,no,DreamCoder_corpora,no,Compression of program corpora
+babble,"Cao D et al. babble. POPL 2023. doi:10.1145/3571207",2023,yes,yes_corpus,lambda_plus_theory,yes,eq_modulo_theory,no,qualitative,DreamCoder_plus_CogSci,no,Library learning modulo theory; not physics residuals
+szalinski,"Ellis/Nandi et al. Szalinski. PLDI 2020",2020,yes,yes,CAD_programs,yes,rewrite,no,no,CAD_case_studies,no,CAD CSG not scientific algebra
+ai_feynman,"Udrescu SM Tegmark M. AI Feynman. Sci Adv 2020",2020,heuristics_not_named_objects,no,formula,yes_from_data,numeric_fit,no,no,Feynman_100,no,Discovers formulas from data
+sindy,"Brunton Proctor Kutz. SINDy. PNAS 2016",2016,library_selection,weak,sparse_ode,yes_from_data,dynamic_residual,no,no,canonical_odes,no,Sparse regression on measurements
+ai_poincare,"Liu Tegmark. AI Poincare. PRL 2021",2021,yes_invariants,yes,sometimes_numeric,yes_from_traj,numeric,no,no,5_hamiltonians,no,Conservation from trajectories
+ai_poincare2,"Liu Madhavan Tegmark. PRE 2022",2022,yes_invariants,yes,symbolic_optional,yes_from_ODE,symbolic_conserved,no,no,KdV_NLS_3body,no,Conserved quantities not expression structure
+liegan,"Yang et al. LieGAN. ICML 2023",2023,yes_lie_algebra,yes,lie_basis,yes_from_data,no,no,yes_as_equivariant_prior,traj_tagging,no,Symmetry of datasets
+lguess,"Peng Ji Xiong. arXiv:2511.00403 EGRAPHS 2025",2025,weak_checkpoints,no,factor_forms,yes,egraph_rewrite,polynomials_only,no,320_polys,no,Closest LLM+exact structure; not physics
+egg,"Willsey et al. egg. POPL 2021",2021,no_eclasses,n_a,no,extraction,rewrite_soundness,no,no,Herbie_users,no,Trusted rules; no typed scientific H
+funsearch,"Romera-Paredes et al. Nature 2024",2024,yes_programs,yes,code,yes,score,no,no,cap_set_binpack,no,Scored programs not residual identity
+alphageometry,"Trinh et al. Nature 2024",2024,lemmas,yes,geometry_dsl,yes,engine_proof,no,no,IMO_AG,no,Olympiad geometry
+form_cse,"FORM compactification / Cadabra / xAct",ongoing,no_typed_H,cse_only,index_notation,yes,cas_algebra,yes,downstream_in_papers,user_physics,no,Exact scientific CAS without hypothesis layer
+shih2026,"Shih D. Learning to Unscramble. arXiv:2603.11164",2026,no,no,amplitude_ast,yes,oracle_simplicity,yes_HEP,no,dilogs_gluons,no,Supervised rewrite policy
+cds2025,"Cheung Dersy Schwartz. SciPost Phys 2025",2025,no,no,spinor_helicity,yes,known_simple_form,yes_HEP,no,amplitudes,no,Learned amplitude grouping
+oforge,"Khaitan Ganesh. O-Forge. arXiv:2510.12350",2025,domain_split,no,subdomains,yes,Resolve,inequalities,no,author_examples,no,Asymptotic inequalities
+moxia,"Bruno. Moxia/AXIOM. arXiv:2606.00671",2026,no,no,cas_schema,no,abstain_plus_cas,contest_math,no,MATH,no,Answers not compact scientific forms
+method_v2,"this repo Method v2 (2026)",2026,tautological_names,weak,named_aux,packaging,fail_closed_residual,yes,no,ssc_v02_n3,partial,Reliable but scientifically shallow
+this_line,"structure-discovery line (this namespace)",2026,typed_H,intended,intended,yes,fail_closed_residual,yes,deterministic_proxy,ssc_structure_v01,under_test,Must not claim the triple until D3-D5 evidence exists

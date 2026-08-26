@@ -1,7 +1,7 @@
 PYTHON ?= .venv/bin/python
 RUNS := research/runs/protocol_v0
 
-.PHONY: venv test benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval
+.PHONY: venv test benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval sd-test sd-bench sd-dev sd-final sd-cases
 
 venv:
 	uv venv .venv --python python3.12
@@ -42,3 +42,20 @@ hashes:
 	"import json; print('v0.1', json.load(open('benchmark/validation/freeze_manifest.json'))['n_items'])"
 	@test -f benchmark_v0.2/validation/freeze_manifest.json && $(PYTHON) -c \
 	"import json; print('v0.2', json.load(open('benchmark_v0.2/validation/freeze_manifest.json'))['n'])"
+	@test -f research/structure_discovery/final/FREEZE_MANIFEST.json && $(PYTHON) -c \
+	"import json; print('sd', json.load(open('research/structure_discovery/final/FREEZE_MANIFEST.json'))['n_test'])"
+
+sd-test:
+	$(PYTHON) -m pytest tests/test_structure_discovery.py -q
+
+sd-bench:
+	$(PYTHON) -m research.structure_discovery.prototype.build_benchmark
+
+sd-dev:
+	$(PYTHON) -m research.structure_discovery.prototype.run_dev
+
+sd-final:
+	$(PYTHON) -m research.structure_discovery.prototype.run_final
+
+sd-cases:
+	$(PYTHON) -m research.structure_discovery.prototype.run_case_studies

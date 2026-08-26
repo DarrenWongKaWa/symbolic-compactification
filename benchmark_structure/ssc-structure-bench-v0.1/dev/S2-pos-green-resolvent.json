@@ -1,0 +1,61 @@
+{
+  "abstraction_level": "D3",
+  "assumptions": [],
+  "current": "1/(w - eps(n) + I*eta) + 1/(w - eps(m) + I*eta)",
+  "domain": "many_body",
+  "family": "green",
+  "functions": [
+    "eps"
+  ],
+  "gold_auxiliaries": [
+    "Gret"
+  ],
+  "gold_hypothesis_type": "spectral_family",
+  "gold_target_subexpressions": [
+    "1/(w - eps(n) + I*eta)",
+    "1/(w - eps(m) + I*eta)"
+  ],
+  "gold_types": [
+    "spectral_family",
+    "master_function"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Gret"
+    ],
+    "kind": "spectral_family"
+  },
+  "id": "S2-pos-green-resolvent",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed retarded resolvent pair",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Green-function / spectral object. Resolvent structure may repeat."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "w",
+      "real": true
+    },
+    {
+      "name": "eta",
+      "real": true
+    },
+    {
+      "name": "n",
+      "real": true
+    },
+    {
+      "name": "m",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S2",
+  "version": "ssc-structure-bench-v0.1"
+}

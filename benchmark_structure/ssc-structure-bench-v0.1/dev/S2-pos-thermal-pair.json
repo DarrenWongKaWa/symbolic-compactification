@@ -1,0 +1,56 @@
+{
+  "abstraction_level": "D3",
+  "assumptions": [],
+  "current": "A*polygamma(0, zP) + A*polygamma(0, zM)",
+  "domain": "thermal",
+  "family": "thermal",
+  "functions": [],
+  "gold_auxiliaries": [
+    "PhiTh"
+  ],
+  "gold_hypothesis_type": "repeated_kernel",
+  "gold_reconstruction": "A*(polygamma(0, zP) + polygamma(0, zM))",
+  "gold_target_subexpressions": [
+    "A"
+  ],
+  "gold_types": [
+    "repeated_kernel",
+    "master_function",
+    "derivative_family"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "PhiTh"
+    ],
+    "kind": "repeated_kernel"
+  },
+  "id": "S2-pos-thermal-pair",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed thermal polygamma pair (not a Fermi closed form)",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Thermal / Matsubara-style object. Shared analytic masters may exist."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "A",
+      "real": true
+    },
+    {
+      "name": "zP",
+      "real": true
+    },
+    {
+      "name": "zM",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S2",
+  "version": "ssc-structure-bench-v0.1"
+}

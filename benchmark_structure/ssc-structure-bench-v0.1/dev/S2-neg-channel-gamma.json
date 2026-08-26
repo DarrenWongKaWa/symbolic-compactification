@@ -1,0 +1,53 @@
+{
+  "abstraction_level": "D2",
+  "assumptions": [],
+  "current": "1/(eps(n) - eps(m) + I*eta) + 1/(eps(n) - eps(m) + I*Gamma)",
+  "domain": "response",
+  "family": "kubo_response",
+  "forbidden_reconstructions": [
+    "2/(eps(n) - eps(m) + I*eta)",
+    "2*(1/(eps(n) - eps(m) + I*eta))"
+  ],
+  "functions": [
+    "eps"
+  ],
+  "gold_auxiliaries": [],
+  "gold_types": [],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [],
+    "kind": "distinct_broadening"
+  },
+  "id": "S2-neg-channel-gamma",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "negative",
+  "provenance": "two physically distinct broadening parameters",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Linear-response style object. Repeated denominators may be response kernels."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "n",
+      "real": true
+    },
+    {
+      "name": "m",
+      "real": true
+    },
+    {
+      "name": "eta",
+      "real": true
+    },
+    {
+      "name": "Gamma",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S2",
+  "version": "ssc-structure-bench-v0.1"
+}

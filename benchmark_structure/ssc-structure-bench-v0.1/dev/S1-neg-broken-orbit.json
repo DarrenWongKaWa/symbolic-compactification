@@ -1,0 +1,53 @@
+{
+  "abstraction_level": "D5",
+  "assumptions": [],
+  "current": "F(n, m) + 2*F(m, n)",
+  "domain": "synthetic",
+  "downstream": {
+    "gold_answer": "changes",
+    "pair": [
+      "n",
+      "m"
+    ],
+    "task": "index_swap"
+  },
+  "family": "symmetry",
+  "forbidden_reconstructions": [
+    "F(n, m) + F(m, n)"
+  ],
+  "functions": [
+    "F"
+  ],
+  "gold_auxiliaries": [],
+  "gold_hypothesis_type": null,
+  "gold_types": [],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [],
+    "kind": "broken_orbit"
+  },
+  "id": "S1-neg-broken-orbit",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "negative",
+  "provenance": "coefficients break the equal-weight orbit",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Indexed tensor expression. Permutation of indices may expose a generator."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "n",
+      "real": true
+    },
+    {
+      "name": "m",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}

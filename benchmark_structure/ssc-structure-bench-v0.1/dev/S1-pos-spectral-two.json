@@ -1,0 +1,50 @@
+{
+  "abstraction_level": "D3",
+  "assumptions": [],
+  "current": "1/(z - e(1)) + 1/(z - e(2))",
+  "domain": "synthetic",
+  "family": "green",
+  "functions": [
+    "e"
+  ],
+  "gold_auxiliaries": [
+    "Resz"
+  ],
+  "gold_hypothesis_type": "spectral_family",
+  "gold_target_subexpressions": [
+    "1/(z - e(1))",
+    "1/(z - e(2))"
+  ],
+  "gold_types": [
+    "master_function",
+    "spectral_family",
+    "repeated_kernel"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Resz"
+    ],
+    "kind": "spectral_family"
+  },
+  "id": "S1-pos-spectral-two",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed two-pole resolvent",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Green-function / spectral object. Resolvent structure may repeat."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "z",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}

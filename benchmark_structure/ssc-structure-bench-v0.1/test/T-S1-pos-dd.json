@@ -1,0 +1,50 @@
+{
+  "abstraction_level": "D4",
+  "assumptions": [],
+  "current": "(s(p) - s(q))/(p - q)",
+  "domain": "synthetic",
+  "family": "analytic",
+  "functions": [
+    "s"
+  ],
+  "gold_auxiliaries": [
+    "DDs"
+  ],
+  "gold_hypothesis_type": "divided_difference",
+  "gold_target_subexpressions": [
+    "(s(p) - s(q))/(p - q)"
+  ],
+  "gold_types": [
+    "divided_difference"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "DDs"
+    ],
+    "kind": "divided_difference"
+  },
+  "id": "T-S1-pos-dd",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "held-out difference quotient",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false."
+  ],
+  "source_format": "sympy",
+  "split": "test",
+  "symbols": [
+    {
+      "name": "p",
+      "real": true
+    },
+    {
+      "name": "q",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}

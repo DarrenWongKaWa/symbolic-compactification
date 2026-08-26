@@ -1,0 +1,51 @@
+{
+  "abstraction_level": "D2",
+  "assumptions": [],
+  "current": "1/(I*wn - xi) + 1/(-I*wn - xi)",
+  "domain": "thermal",
+  "family": "thermal",
+  "functions": [],
+  "gold_auxiliaries": [
+    "Gmat"
+  ],
+  "gold_hypothesis_type": "master_function",
+  "gold_target_subexpressions": [
+    "1/(I*wn - xi)",
+    "1/(-I*wn - xi)"
+  ],
+  "gold_types": [
+    "repeated_kernel",
+    "master_function"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Gmat"
+    ],
+    "kind": "master_function"
+  },
+  "id": "S3-pos-matsubara-pair",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed Matsubara pair (not a summation identity)",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Thermal / Matsubara-style object. Shared analytic masters may exist."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "wn",
+      "real": true
+    },
+    {
+      "name": "xi",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S3",
+  "version": "ssc-structure-bench-v0.1"
+}

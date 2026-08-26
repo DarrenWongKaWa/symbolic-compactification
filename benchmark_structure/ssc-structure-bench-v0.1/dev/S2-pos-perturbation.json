@@ -1,0 +1,53 @@
+{
+  "abstraction_level": "D2",
+  "assumptions": [],
+  "current": "V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)",
+  "domain": "many_body",
+  "family": "perturbation",
+  "functions": [
+    "V",
+    "G0"
+  ],
+  "gold_auxiliaries": [
+    "SigmaBorn"
+  ],
+  "gold_hypothesis_type": "master_function",
+  "gold_target_subexpressions": [
+    "V(p)*G0(p)*V(p)",
+    "V(q)*G0(q)*V(q)"
+  ],
+  "gold_types": [
+    "master_function",
+    "repeated_kernel"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "SigmaBorn"
+    ],
+    "kind": "master_function"
+  },
+  "id": "S2-pos-perturbation",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed Born-like self-energy skeleton",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "p",
+      "real": true
+    },
+    {
+      "name": "q",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S2",
+  "version": "ssc-structure-bench-v0.1"
+}

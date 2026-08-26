@@ -1,0 +1,54 @@
+{
+  "abstraction_level": "D3",
+  "assumptions": [],
+  "current": "1/(nu - xi(1) + I*eta) + 1/(nu - xi(2) + I*eta) + 1/(nu - xi(3) + I*eta)",
+  "domain": "many_body",
+  "family": "green",
+  "functions": [
+    "xi"
+  ],
+  "gold_auxiliaries": [
+    "G3"
+  ],
+  "gold_hypothesis_type": "spectral_family",
+  "gold_target_subexpressions": [
+    "1/(nu - xi(1) + I*eta)",
+    "1/(nu - xi(2) + I*eta)",
+    "1/(nu - xi(3) + I*eta)"
+  ],
+  "gold_types": [
+    "spectral_family",
+    "master_function"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "G3"
+    ],
+    "kind": "spectral_family"
+  },
+  "id": "T-S2-pos-green-two",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "held-out three-pole resolvent",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false.",
+    "Green-function / spectral object. Resolvent structure may repeat."
+  ],
+  "source_format": "sympy",
+  "split": "test",
+  "symbols": [
+    {
+      "name": "nu",
+      "real": true
+    },
+    {
+      "name": "eta",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S2",
+  "version": "ssc-structure-bench-v0.1"
+}

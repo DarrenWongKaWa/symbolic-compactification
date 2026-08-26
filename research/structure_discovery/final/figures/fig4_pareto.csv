@@ -1,0 +1,6 @@
+method,type_hit,unsafe_merge,false_promotion,reliability
+B0,0.0,0,0,1.0
+B1,0.0,0,0,1.0
+B6_direct,0.0,0,0,1.0
+B9_full,1.0,0,0,1.0
+B9_no_obs,0.0,0,0,1.0

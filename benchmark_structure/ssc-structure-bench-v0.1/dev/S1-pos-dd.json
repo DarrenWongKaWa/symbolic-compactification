@@ -1,0 +1,51 @@
+{
+  "abstraction_level": "D4",
+  "assumptions": [],
+  "current": "(f(x) - f(y))/(x - y)",
+  "domain": "synthetic",
+  "family": "analytic",
+  "functions": [
+    "f"
+  ],
+  "gold_auxiliaries": [
+    "DDf"
+  ],
+  "gold_hypothesis_type": "divided_difference",
+  "gold_reconstruction": "(f(x) - f(y))/(x - y)",
+  "gold_target_subexpressions": [
+    "(f(x) - f(y))/(x - y)"
+  ],
+  "gold_types": [
+    "divided_difference"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "DDf"
+    ],
+    "kind": "divided_difference"
+  },
+  "id": "S1-pos-dd",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed difference quotient",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "x",
+      "real": true
+    },
+    {
+      "name": "y",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}

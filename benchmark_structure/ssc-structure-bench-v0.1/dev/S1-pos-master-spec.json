@@ -1,0 +1,57 @@
+{
+  "abstraction_level": "D3",
+  "assumptions": [],
+  "current": "G(a) + G(b) + G(c)",
+  "domain": "synthetic",
+  "family": "analytic",
+  "functions": [
+    "G"
+  ],
+  "gold_auxiliaries": [
+    "Gmaster"
+  ],
+  "gold_hypothesis_type": "master_function",
+  "gold_reconstruction": "G(a) + G(b) + G(c)",
+  "gold_target_subexpressions": [
+    "G(a)",
+    "G(b)",
+    "G(c)"
+  ],
+  "gold_types": [
+    "master_function"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Gmaster"
+    ],
+    "kind": "master_function"
+  },
+  "id": "S1-pos-master-spec",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "positive",
+  "provenance": "author-constructed master specializations",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "a",
+      "real": true
+    },
+    {
+      "name": "b",
+      "real": true
+    },
+    {
+      "name": "c",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}

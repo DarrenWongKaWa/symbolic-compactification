@@ -1,0 +1,101 @@
+{
+  "B0": {
+    "n": 12,
+    "pos_type_hit": 0.0,
+    "pos_gold_certified": 0.0,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 0.0,
+    "mean_n_nonzero": 0.0,
+    "d3plus_attempted": 0,
+    "d3plus_certified": 0
+  },
+  "B1": {
+    "n": 12,
+    "pos_type_hit": 0.0,
+    "pos_gold_certified": 0.0,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 0.5,
+    "mean_n_nonzero": 0.0,
+    "d3plus_attempted": 0,
+    "d3plus_certified": 0
+  },
+  "B6_direct": {
+    "n": 12,
+    "pos_type_hit": 0.0,
+    "pos_gold_certified": 0.0,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 1.1666666666666667,
+    "mean_n_nonzero": 0.0,
+    "d3plus_attempted": 7,
+    "d3plus_certified": 7
+  },
+  "B9_full": {
+    "n": 12,
+    "pos_type_hit": 1.0,
+    "pos_gold_certified": 1.0,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 2.0833333333333335,
+    "mean_n_nonzero": 0.3333333333333333,
+    "d3plus_attempted": 8,
+    "d3plus_certified": 6
+  },
+  "B9_conservative": {
+    "n": 12,
+    "pos_type_hit": 1.0,
+    "pos_gold_certified": 1.0,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 2.0833333333333335,
+    "mean_n_nonzero": 0.16666666666666666,
+    "d3plus_attempted": 8,
+    "d3plus_certified": 6
+  },
+  "B9_no_obs": {
+    "n": 12,
+    "pos_type_hit": 0.0,
+    "pos_gold_certified": 0.0,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 0.0,
+    "mean_n_nonzero": 0.0,
+    "d3plus_attempted": 0,
+    "d3plus_certified": 0
+  },
+  "B9_no_perm": {
+    "n": 12,
+    "pos_type_hit": 0.75,
+    "pos_gold_certified": 0.75,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 1.75,
+    "mean_n_nonzero": 0.16666666666666666,
+    "d3plus_attempted": 5,
+    "d3plus_certified": 4
+  },
+  "B9_no_repeated": {
+    "n": 12,
+    "pos_type_hit": 0.625,
+    "pos_gold_certified": 0.625,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 0.75,
+    "mean_n_nonzero": 0.3333333333333333,
+    "d3plus_attempted": 8,
+    "d3plus_certified": 6
+  },
+  "B9_no_denoms": {
+    "n": 12,
+    "pos_type_hit": 1.0,
+    "pos_gold_certified": 0.875,
+    "neg_unsafe_merge": 0,
+    "false_promotion": 0,
+    "mean_n_zero": 1.9166666666666667,
+    "mean_n_nonzero": 0.16666666666666666,
+    "d3plus_attempted": 7,
+    "d3plus_certified": 4
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "abstraction_level": "D3",
+  "assumptions": [],
+  "current": "F(x) + G(x) + H(x)",
+  "domain": "synthetic",
+  "family": "analytic",
+  "forbidden_reconstructions": [
+    "3*F(x)"
+  ],
+  "forbidden_types": [
+    "master_function"
+  ],
+  "functions": [
+    "F",
+    "G",
+    "H"
+  ],
+  "gold_auxiliaries": [],
+  "gold_types": [],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [],
+    "kind": "independent_functions"
+  },
+  "id": "S1-neg-fake-master",
+  "license": "author-constructed CC-BY-4.0 for this benchmark",
+  "polarity": "negative",
+  "provenance": "three distinct functions; no shared master",
+  "scientific_context": [
+    "Exact scientific expression. Repeated subexpressions may be reusable kernels.",
+    "Index permutations may form orbits. Several specializations of one function may share a master object. Apparent merges can be false."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "x",
+      "real": true
+    }
+  ],
+  "task": "structure_discovery",
+  "tier": "S1",
+  "version": "ssc-structure-bench-v0.1"
+}
