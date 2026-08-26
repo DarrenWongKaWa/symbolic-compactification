@@ -1,0 +1,1999 @@
+{
+  "n": 35,
+  "records": [
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 1,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 2,
+        "char_len": 10,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "4",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-assume-sqrt-not-id",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9982,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 41,
+        "count_ops": 8,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 7,
+        "char_len": 29,
+        "count_ops": 7,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "a": "1",
+          "b": "1"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-cx-polar-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.318,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 39,
+        "count_ops": 7,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 7,
+        "char_len": 29,
+        "count_ops": 7,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-4",
+        "point": {
+          "a": "1",
+          "b": "1"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-cx-polar-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.3149,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": true,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 31,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 5,
+        "char_len": 20,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "exact_symbolic_zero_after_complex_normalization"
+      ],
+      "expected_verdict": "ZERO",
+      "failure_codes": [],
+      "false_promotion": false,
+      "id": "A-cx-re",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 0,
+      "seconds": 0.7147,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "ZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 3,
+        "char_len": 9,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 17,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "2*exp(-2)",
+        "point": {
+          "x": "-2",
+          "y": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-exp-cancel-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.0577,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": true,
+      "compactness_candidate": {
+        "ast_depth": 2,
+        "char_len": 6,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 17,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "exact_symbolic_zero"
+      ],
+      "expected_verdict": "ZERO",
+      "failure_codes": [],
+      "false_promotion": false,
+      "id": "A-exp-cancel",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 0,
+      "seconds": 0.4057,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "ZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 18,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 10,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-binom-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.0012,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 17,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 10,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "2",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-binom-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9963,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 22,
+        "count_ops": 7,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 10,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "32",
+        "point": {
+          "x": "-2",
+          "y": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-cube-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.0058,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 39,
+        "count_ops": 12,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 10,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "a": "-2",
+          "b": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-cubic-exp-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9362,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 2,
+        "char_len": 14,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 15,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-diffsq-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9323,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 12,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 15,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-3",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-diffsq-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9971,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 26,
+        "count_ops": 6,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 8,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "9",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-poly-factor-cubic-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9979,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 3,
+        "char_len": 8,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 21,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 1,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1/4",
+        "point": {
+          "N": "-2",
+          "a": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-prod-const-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.0356,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 20,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 2,
+        "char_len": 24,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-4",
+        "point": {
+          "x": "-2",
+          "y": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-pw-same-branch",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9893,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 3,
+        "char_len": 9,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 2,
+        "char_len": 24,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "4",
+        "point": {
+          "x": "-2",
+          "y": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-pw-same-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9899,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": true,
+      "compactness_candidate": {
+        "ast_depth": 2,
+        "char_len": 5,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 2,
+        "char_len": 24,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "exact_symbolic_zero"
+      ],
+      "expected_verdict": "ZERO",
+      "failure_codes": [],
+      "false_promotion": false,
+      "id": "A-pw-same",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 0,
+      "seconds": 0.4049,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "ZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 13,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 24,
+        "count_ops": 6,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "1/6",
+        "point": {
+          "x": "-1/2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-rat-cancel-den-power",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 3,
+      "seconds": 1.2739,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 3,
+        "char_len": 8,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 24,
+        "count_ops": 6,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-2",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-rat-cancel-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9883,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": true,
+      "compactness_candidate": {
+        "ast_depth": 2,
+        "char_len": 5,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 24,
+        "count_ops": 6,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "exact_symbolic_zero"
+      ],
+      "expected_verdict": "ZERO",
+      "failure_codes": [],
+      "false_promotion": false,
+      "id": "A-rat-cancel",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 0,
+      "seconds": 0.4353,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "ZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 19,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 9,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "x": "-2",
+          "y": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-rat-partial-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9379,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 23,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 19,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-pi**2/2",
+        "point": {
+          "z": "-1/2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-sf-poly-id-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 3,
+      "seconds": 1.3305,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 7,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 1,
+        "char_len": 33,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {}
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-sf-poly-zero-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9343,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 5,
+        "char_len": 33,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 2,
+        "n_indexed_names": 2,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 43,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 2,
+        "n_indexed_names": 2,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 2,
+        "ok": true,
+        "repeated_subexpression_count": 1
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "N": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-sum-add-bodies-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9762,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 26,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 43,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "2*f(0)",
+        "point": {
+          "N": "-1"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-sum-double-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 7,
+      "seconds": 3.0938,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 25,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 43,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-4*f(0)",
+        "point": {
+          "N": "-1"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-sum-double-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 7,
+      "seconds": 3.1099,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 26,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 22,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-2*f(0)",
+        "point": {
+          "N": "-1",
+          "a": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-sum-linear-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 37,
+      "seconds": 13.2221,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": true,
+      "compactness_candidate": {
+        "ast_depth": 4,
+        "char_len": 22,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 22,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 1,
+        "n_indexed_names": 1,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 1,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "exact_symbolic_zero"
+      ],
+      "expected_verdict": "ZERO",
+      "failure_codes": [],
+      "false_promotion": false,
+      "id": "A-sum-linear",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 0,
+      "seconds": 0.4305,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "ZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 5,
+        "char_len": 24,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 8,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "2*cos(4)",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-trig-cos2-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.0877,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 3,
+        "char_len": 19,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 8,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "sin(4)",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-trig-double-wrong-coeff",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.0426,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 7,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 21,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-trig-pythag-missing-term",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.001,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 4,
+        "count_ops": 1,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 21,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "2",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-trig-pythag-wrong-sign",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 0.9995,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": true,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 1,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 4,
+        "char_len": 21,
+        "count_ops": 5,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "exact_symbolic_zero"
+      ],
+      "expected_verdict": "ZERO",
+      "failure_codes": [],
+      "false_promotion": false,
+      "id": "A-trig-pythag",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 0,
+      "seconds": 0.4345,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "ZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 1,
+        "char_len": 1,
+        "count_ops": 0,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 3,
+        "char_len": 8,
+        "count_ops": 2,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": {
+        "exact_value": "-1 + sin(2)/2",
+        "point": {
+          "x": "-2"
+        }
+      },
+      "evidence_kinds": [
+        "exact_counterexample"
+      ],
+      "expected_verdict": "NONZERO",
+      "failure_codes": [
+        "F_INTUITION"
+      ],
+      "false_promotion": false,
+      "id": "A-unk-gamma-not-whitelisted",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": true,
+      "probes_tried": 1,
+      "seconds": 1.085,
+      "task": "adjudicate",
+      "unknown": false,
+      "unknown_as_success": false,
+      "verdict": "NONZERO"
+    },
+    {
+      "certified_success": false,
+      "compactness_candidate": {
+        "ast_depth": 5,
+        "char_len": 14,
+        "count_ops": 3,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "compactness_current": {
+        "ast_depth": 6,
+        "char_len": 37,
+        "count_ops": 4,
+        "error": null,
+        "n_distinct_repeated_kernels": 0,
+        "n_indexed_calls": 0,
+        "n_indexed_names": 0,
+        "n_piecewise": 0,
+        "n_piecewise_branches": 0,
+        "n_products": 0,
+        "n_sums": 0,
+        "ok": true,
+        "repeated_subexpression_count": 0
+      },
+      "counterexample": null,
+      "evidence_kinds": [
+        "simplification_undecided_no_exact_counterexample"
+      ],
+      "expected_verdict": "UNKNOWN",
+      "failure_codes": [
+        "F_UNKNOWN"
+      ],
+      "false_promotion": false,
+      "id": "A-unk-polygamma-reflection",
+      "match": true,
+      "missed_nonzero": false,
+      "nonzero_detection": false,
+      "probes_tried": 6,
+      "seconds": 2.0124,
+      "task": "adjudicate",
+      "unknown": true,
+      "unknown_as_success": false,
+      "verdict": "UNKNOWN"
+    }
+  ],
+  "split": "test",
+  "summary": {
+    "certified_success": {
+      "count": 6,
+      "mean": 0.17142857142857143,
+      "n": 35,
+      "sd": 0.3823852604310971
+    },
+    "false_promotion": {
+      "count": 0,
+      "mean": 0.0,
+      "n": 35,
+      "sd": 0.0
+    },
+    "match": {
+      "count": 35,
+      "mean": 1.0,
+      "n": 35,
+      "sd": 0.0
+    },
+    "n": 35,
+    "nonzero_detection": {
+      "count": 28,
+      "mean": 0.8,
+      "n": 35,
+      "sd": 0.40583972495671394
+    },
+    "seconds": {
+      "mean": 1.442602857142857,
+      "sd": 2.1321031483001933
+    },
+    "unknown": {
+      "count": 1,
+      "mean": 0.02857142857142857,
+      "n": 35,
+      "sd": 0.1690308509457033
+    }
+  }
+}
