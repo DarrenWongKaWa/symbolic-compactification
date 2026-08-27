@@ -34,21 +34,23 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
-    "construction_ok": false,
-    "certified": false,
-    "false_abstraction": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
+    "highest_certified": "D3",
     "quality": "incorrect",
     "success": false,
     "types": [
@@ -57,30 +59,31 @@
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "T[(V),(G0),(p)] = (V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "T[(W),(H0),(q)] = (W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T[F,K,x] = F(x)*K(x)*F(x)"
+      "latent_object": "T[F,K,x] = F(x)*K(x)*F(x)",
+      "core": "F(x)*K(x)*F(x)"
     }
   ],
   "hypotheses": [
@@ -142,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"T[F,K,x] = F(x)*K(x)*F(x)\",\n      \"parameters\": [\n        \"F\",\n        \"K\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"F\": \"V\",\n            \"K\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"F\": \"W\",\n            \"K\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template T[F,K,x] by substituting the listed function symbols and variable into F(x)*K(x)*F(x). The first member uses F=V, K=G0, x=p; the second uses F=W, K=H0, x=q.\",\n      \"required_assumptions\": [\n        \"V, W, G0, H0 are unary functions of a single variable.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T[V,G0,p] = 0\",\n        \"W(q)*H0(q)*W(q) - T[W,H0,q] = 0\"\n      ],\n      \"rationale\": \"Both terms share the same sandwich-product structure A(x)*K(x)*A(x), with identical outer function on both sides and a middle kernel. They differ only in the choice of outer function, kernel, and variable.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

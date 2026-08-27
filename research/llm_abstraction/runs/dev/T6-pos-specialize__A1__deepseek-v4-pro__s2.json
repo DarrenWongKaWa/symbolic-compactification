@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     },
     {
       "constructable": false,
@@ -95,22 +96,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "A two-i(n)dex ker(n)el with a disti(n)guished diago(n)al value, represe(n)ted as a co(n)flue(n)t pair {K_ge(n)eric((n),(m)) for (n) != (m), K_diag((n),(n)) for (n) = (m)}",
+          "instantiated": "A two-index kernel with a distinguished diagonal value",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "A two-i(n)dex ker(n)el with a disti(n)guished diago(n)al value, represe(n)ted as a co(n)flue(n)t pair {K_ge(n)eric((n),m) for (n) != m, K_diag((n),(n)) for (n) = m}",
+          "instantiated": "A two-index kernel with a distinguished diagonal value",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "A two-index kernel with a distinguished diagonal value, represented as a confluent pair {K_generic(n,m) for n != m, K_diag(n,n) for n = m}"
+      "latent_object": "A two-index kernel with a distinguished diagonal value, represented as a confluent pair {K_generic(n,m) for n != m, K_diag(n,n) for n = m}",
+      "core": "A two-index kernel with a distinguished diagonal value"
     }
   ],
   "hypotheses": [
@@ -221,5 +223,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}}\n      ],\n      \"construction_plan\": \"Instantiate the binary kernel K(a,b) at (a,b)=(n,m) for the generic branch and at (a,b)=(n,n) for the diagonal branch. The piecewise selects the diagonal instance when m=n.\",\n      \"required_assumptions\": [\"K is a binary indexed function of its two arguments\"],\n      \"proof_obligations\": [\n        \"K(n,m) = K(a,b) evaluated at a=n,b=m\",\n        \"K(n,n) = K(a,b) evaluated at a=n,b=n\"\n      ],\n      \"rationale\": \"Both branches are evaluations of the same binary kernel K at different argument pairs; the second branch is obtained by the specialization m=n. The piecewise only separates the diagonal case from the generic case.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"A two-index kernel with a distinguished diagonal value, represented as a confluent pair {K_generic(n,m) for n != m, K_diag(n,n) for n = m}\",\n      \"parameters\": [\"n\", \"m\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"n\": \"n\", \"m\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"n\": \"n\"}}\n      ],\n      \"construction_plan\": \"The generic branch K(n,m) is used when the indices are distinct, while the True branch supplies K(n,n) as the coincident-index value. This is the form of a confluent representation after specializing the second index to the first.\",\n      \"required_assumptions\": [\"The diagonal value K(n,n) is available when the two indices coincide\"],\n      \"proof_obligations\": [\n        \"K(n,m) is the generic evaluation for n != m\",\n        \"K(n,n) is the diagonal evaluation for n = m\",\n        \"The piecewise branches cover all index cases through Ne(n,m) and True\"\n      ],\n      \"rationale\": \"The expression has a case split between generic and coincident indices, which is the signature of a confluent representation: a two-index family evaluated away from the diagonal, with a separate diagonal value at the coincidence point.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

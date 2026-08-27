@@ -68,19 +68,20 @@
           "instantiated": "G0(theta)*V(theta)**2",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "G0(q)*V(q)**2",
           "instantiated": "G0(theta)*V(theta)**2",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(theta) = G0(theta)*V(theta)**2"
+      "latent_object": "T(theta) = G0(theta)*V(theta)**2",
+      "core": "G0(theta)*V(theta)**2"
     }
   ],
   "hypotheses": [
@@ -132,5 +133,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"G0(p)*V(p)**2\", \"G0(q)*V(q)**2\"],\n      \"latent_object\": \"T(theta) = G0(theta)*V(theta)**2\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": \"p\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": \"q\"}\n      ],\n      \"construction_plan\": \"Define the template T(theta)=G0(theta)*V(theta)**2. Substitute theta=p to obtain the first member and theta=q to obtain the second member. The original expression is the sum of these two instances.\",\n      \"required_assumptions\": [\"Multiplication of scalar factors is commutative so V*G0*V can be written as G0*V**2.\"],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - T(theta) with theta=p = 0\",\n        \"G0(q)*V(q)**2 - T(theta) with theta=q = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms share an identical algebraic skeleton with only the variable p/q changing. The LGG observation directly yields this template, and the instance maps are the two substitutions. This explains the AC equivalence and pattern-match relations.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

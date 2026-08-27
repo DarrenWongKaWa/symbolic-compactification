@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "F(x)*K(x)*F(x)"
+      "latent_object": "F(x)*K(x)*F(x)",
+      "core": "F(x)*K(x)*F(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"F(x)*K(x)*F(x)\",\n      \"parameters\": [\"x\", \"F\", \"K\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\"x\": \"p\", \"F\": \"V\", \"K\": \"G0\"}\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\"x\": \"q\", \"F\": \"W\", \"K\": \"H0\"}\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template F(x)*K(x)*F(x) by substituting the variable x and the function symbols F and K with the member-specific assignments.\",\n      \"required_assumptions\": [\n        \"V, G0, W, and H0 are unary functions of their respective arguments.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (F(x)*K(x)*F(x) with x=p, F=V, K=G0) = 0\",\n        \"W(q)*H0(q)*W(q) - (F(x)*K(x)*F(x) with x=q, F=W, K=H0) = 0\"\n      ],\n      \"rationale\": \"Both summands share the same structural pattern: an outer unary function, a middle kernel function, and the same outer function again. They differ only in the variable and function names.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

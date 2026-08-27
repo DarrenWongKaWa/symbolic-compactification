@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma((0), z)",
+          "instantiated": "polygamma(0, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma((1), z)",
+          "instantiated": "polygamma(1, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "polygamma(theta, z)"
+      "latent_object": "polygamma(theta, z)",
+      "core": "polygamma(theta, z)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(theta, z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": 0}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": 1}}\n      ],\n      \"construction_plan\": \"Instantiate the latent template polygamma(theta, z) by specializing the order parameter theta to 0 for polygamma(0, z) and to 1 for polygamma(1, z).\",\n      \"required_assumptions\": [\n        \"polygamma(theta, z) is a two-argument symbolic family defined for nonnegative integer orders, including theta = 0 and theta = 1.\",\n        \"The expressions polygamma(0, z) and polygamma(1, z) are instances of this family rather than unrelated functions.\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(theta, z) with theta -> 0 equals polygamma(0, z)\",\n        \"polygamma(theta, z) with theta -> 1 equals polygamma(1, z)\"\n      ],\n      \"rationale\": \"The two members are the same named polygamma function differing only in the first argument. The reported LGG candidate template polygamma(theta0, z) has instance maps theta0 in {0, 1}, and the exact derivative relation diff(polygamma(0, z), z) = polygamma(1, z) is consistent with consecutive orders of a single parameterized polygamma family.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -35,54 +35,53 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": true,
-    "certified": true,
+    "construction_ok": false,
+    "certified": false,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 2,
+    "n_zero": 0,
     "n_nonzero": 0,
-    "n_unknown": 0,
+    "n_unknown": 2,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [
-      "D3"
-    ],
+    "d_certified": [],
     "highest_attempted": "D3",
-    "highest_certified": "D3",
-    "quality": "useful",
-    "success": true,
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
     "types": [
       "parameterized_family"
     ]
   },
   "constructions": [
     {
-      "constructable": true,
-      "certified": true,
-      "n_zero": 2,
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
       "n_nonzero": 0,
-      "n_unknown": 0,
+      "n_unknown": 2,
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "V(\u03b8)*G0(\u03b8)*V(\u03b8)",
           "operator": "specialize",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "V(\u03b8)*G0(\u03b8)*V(\u03b8)",
           "operator": "specialize",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(\u03b8) = V(\u03b8)*G0(\u03b8)*V(\u03b8)"
+      "latent_object": "K(\u03b8) = V(\u03b8)*G0(\u03b8)*V(\u03b8)",
+      "core": "V(\u03b8)*G0(\u03b8)*V(\u03b8)"
     }
   ],
   "hypotheses": [
@@ -138,5 +137,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"K(\u03b8) = V(\u03b8)*G0(\u03b8)*V(\u03b8)\",\n      \"parameters\": [\"\u03b8\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"\u03b8\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"\u03b8\": \"q\"}}\n      ],\n      \"construction_plan\": \"Define a parameterized kernel K(\u03b8):=V(\u03b8)*G0(\u03b8)*V(\u03b8). Each target member is obtained from this single template by substituting \u03b8=p or \u03b8=q.\",\n      \"required_assumptions\": [\n        \"p and q are valid arguments for the unary functions V and G0.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (V(\u03b8)*G0(\u03b8)*V(\u03b8))_{\u03b8=p} = 0\",\n        \"V(q)*G0(q)*V(q) - (V(\u03b8)*G0(\u03b8)*V(\u03b8))_{\u03b8=q} = 0\"\n      ],\n      \"rationale\": \"The two terms have the same operator-product structure V(\u00b7)G0(\u00b7)V(\u00b7), differing only by the parameter label p or q. This makes them instances of one parameterized kernel rather than unrelated expressions.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

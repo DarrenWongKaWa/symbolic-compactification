@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(i, j)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((j), (i))",
+          "instantiated": "T(j, i)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(a, b)"
+      "latent_object": "T(a, b)",
+      "core": "T(a, b)"
     }
   ],
   "hypotheses": [
@@ -142,5 +143,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"specialize\"},\n        {\"member\": \"T(j, i)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"j\", \"b\": \"i\"}}\n      ],\n      \"construction_plan\": \"Define a template T(a,b) with two ordered argument slots. For each member, instantiate the template by replacing a and b with the corresponding elements from the ordered pair (i,j) or (j,i). The two instances are the two permutations of the argument assignment.\",\n      \"required_assumptions\": [\"T is an uninterpreted binary function symbol.\", \"i and j are placeholder symbols that can be assigned to either slot.\"],\n      \"proof_obligations\": [\n        \"T(i, j) - T(a, b)[a=i, b=j] = 0\",\n        \"T(j, i) - T(a, b)[a=j, b=i] = 0\"\n      ],\n      \"rationale\": \"The two subexpressions are structurally identical up to an exchange of the two arguments of T. The shared latent object is the binary function template T(a,b); the two members are its two specializations corresponding to the two permutations of the parameter pair. This directly matches the observed PERMUTATION_RELATED and SUBSTITUTION_INSTANCE relations.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

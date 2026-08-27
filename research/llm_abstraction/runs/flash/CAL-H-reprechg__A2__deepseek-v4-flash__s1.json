@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(theta0, theta0)"
+      "latent_object": "M(theta0, theta0)",
+      "core": "M(theta0, theta0)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(theta0, theta0)\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"theta0\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"theta0\": \"2\"}}\n      ],\n      \"construction_plan\": \"Instantiate the latent template M(theta0, theta0) by substituting theta0 with 1 and 2 respectively, yielding the two subexpressions; the full expression is their sum.\",\n      \"required_assumptions\": [\n        \"M is a binary function symbol applied to equal arguments in both cases\",\n        \"Substitution instances of a common parameterized template are considered structurally related\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - specialize(M(theta0, theta0), theta0 -> 1) = 0\",\n        \"M(2, 2) - specialize(M(theta0, theta0), theta0 -> 2) = 0\"\n      ],\n      \"rationale\": \"The structural observation packet F01 identifies a frozen LGG template M(theta0, theta0) with witness theta0=1,2 and relation SUBSTITUTION_INSTANCE; both subexpressions are identical up to substitution of the equal-argument parameter.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

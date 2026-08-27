@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(theta, theta)"
+      "latent_object": "M(theta, theta)",
+      "core": "M(theta, theta)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(theta, theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"theta\": 1}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"theta\": 2}}\n      ],\n      \"construction_plan\": \"Define the diagonal template L(theta) = M(theta, theta). Obtain each member by replacing theta with the corresponding scalar argument: theta=1 gives M(1,1); theta=2 gives M(2,2).\",\n      \"required_assumptions\": [\n        \"M is a binary applied function symbol\",\n        \"Substitution of scalar arguments into the template is well-defined\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - M(theta, theta)[theta -> 1] = 0\",\n        \"M(2, 2) - M(theta, theta)[theta -> 2] = 0\"\n      ],\n      \"rationale\": \"Both observed members apply the same binary function M to two identical scalar arguments, so the shared structure is the diagonal restriction of M; this is a one-parameter substitution family.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

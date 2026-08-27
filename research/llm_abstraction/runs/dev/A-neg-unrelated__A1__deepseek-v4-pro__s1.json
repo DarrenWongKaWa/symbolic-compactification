@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "u(x)*v(x)*u(x)"
+      "latent_object": "u(x)*v(x)*u(x)",
+      "core": "u(x)*v(x)*u(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"u(x)*v(x)*u(x)\",\n      \"parameters\": [\n        \"u\",\n        \"v\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"u\": \"V\",\n            \"v\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"u\": \"W\",\n            \"v\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template u(x)*v(x)*u(x) by substituting the function symbol u, the function symbol v, and the variable symbol x from each instance map.\",\n      \"required_assumptions\": [\n        \"Multiplication is the standard symbolic product in the expression; V, G0, W, H0 are unary functions of the indicated variable.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (u(x)*v(x)*u(x) with u=V, v=G0, x=p) = 0\",\n        \"W(q)*H0(q)*W(q) - (u(x)*v(x)*u(x) with u=W, v=H0, x=q) = 0\"\n      ],\n      \"rationale\": \"Both summands share the same sandwich/monomial form u(x)*v(x)*u(x), differing only by the outer function, inner function, and variable name. No physical interpretation is assumed.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

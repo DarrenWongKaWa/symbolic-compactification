@@ -136,6 +136,121 @@ def test_required_fields_frozen():
     assert "proof_obligations" in REQUIRED_FIELDS
 
 
+def test_constructor_derivative_polygamma():
+    from research.llm_abstraction.constructor import construct_and_verify
+    from research.llm_abstraction.schema import LLMStructureHypothesis
+    hyp = LLMStructureHypothesis(
+        hypothesis_type="derivative_family",
+        target_members=["polygamma(0, z)", "polygamma(1, z)"],
+        latent_object="F(theta)=polygamma(0,theta)",
+        parameters=["theta"],
+        operators=[
+            {"member": "polygamma(0, z)", "O": "identity"},
+            {"member": "polygamma(1, z)", "O": "d/dtheta"},
+        ],
+        instance_maps=[
+            {"member": "polygamma(0, z)", "theta": {"theta": "z"}},
+            {"member": "polygamma(1, z)", "theta": {"theta": "z"}},
+        ],
+        construction_plan="diff",
+        required_assumptions=[],
+        proof_obligations=[],
+        rationale="polygamma recurrence",
+        confidence=0.8,
+    )
+    out = construct_and_verify(hyp, [{"name": "z", "real": True}], [])
+    assert out["certified"] is True, out
+    assert out["n_zero"] == 2, out
+
+
+def test_constructor_permute_does_not_string_replace_i():
+    from research.llm_abstraction.constructor import construct_and_verify, symbolic_core
+    from research.llm_abstraction.schema import LLMStructureHypothesis
+    core = symbolic_core("K(a,b) = T(a,b), a binary kernel template with an S2 action")
+    assert core == "T(a,b)" or core.startswith("T("), core
+    hyp = LLMStructureHypothesis(
+        hypothesis_type="symmetry_invariant",
+        target_members=["T(i, j)", "T(j, i)"],
+        latent_object="K(a,b) = T(a,b), a binary kernel template with an S2 argument-permutation action",
+        parameters=["a", "b"],
+        operators=[
+            {"member": "T(i, j)", "O": "identity"},
+            {"member": "T(j, i)", "O": "permute"},
+        ],
+        instance_maps=[
+            {"member": "T(i, j)", "theta": {"a": "i", "b": "j"}},
+            {"member": "T(j, i)", "theta": {"a": "i", "b": "j"}},
+        ],
+        construction_plan="permute args",
+        required_assumptions=[],
+        proof_obligations=[],
+        rationale="swap",
+        confidence=0.7,
+    )
+    out = construct_and_verify(
+        hyp,
+        [{"name": "i", "real": True}, {"name": "j", "real": True}],
+        ["T"],
+    )
+    assert out["certified"] is True, out
+    assert "swa(" not in (out["obligations"][1]["instantiated"] or "")
+
+
+def test_constructor_cse_function_hole():
+    from research.llm_abstraction.constructor import construct_and_verify
+    from research.llm_abstraction.schema import LLMStructureHypothesis
+    hyp = LLMStructureHypothesis(
+        hypothesis_type="repeated_kernel",
+        target_members=["K(n)*a(n)", "K(n)*b(n)"],
+        latent_object="K(n)*u(n)",
+        parameters=["u"],
+        operators=[
+            {"member": "K(n)*a(n)", "O": "specialize"},
+            {"member": "K(n)*b(n)", "O": "specialize"},
+        ],
+        instance_maps=[
+            {"member": "K(n)*a(n)", "u": "a(n)"},
+            {"member": "K(n)*b(n)", "u": "b(n)"},
+        ],
+        construction_plan="fill hole",
+        required_assumptions=[],
+        proof_obligations=[],
+        rationale="cse",
+        confidence=0.8,
+    )
+    out = construct_and_verify(
+        hyp, [{"name": "n", "real": True}], ["K", "a", "b", "u"],
+    )
+    assert out["certified"] is True, out
+
+
+def test_constructor_loggamma_order():
+    from research.llm_abstraction.constructor import construct_and_verify
+    from research.llm_abstraction.schema import LLMStructureHypothesis
+    hyp = LLMStructureHypothesis(
+        hypothesis_type="derivative_family",
+        target_members=["polygamma(0, z)", "polygamma(1, z)"],
+        latent_object="log_gamma(theta)",
+        parameters=["theta"],
+        operators=[
+            {"member": "polygamma(0, z)", "O": "d/dtheta"},
+            {"member": "polygamma(1, z)", "O": "d/dtheta"},
+        ],
+        instance_maps=[
+            {"member": "polygamma(0, z)", "theta": {"theta": "z", "order": "1"}},
+            {"member": "polygamma(1, z)", "theta": {"theta": "z", "order": "2"}},
+        ],
+        construction_plan="repeated diff",
+        required_assumptions=[],
+        proof_obligations=[],
+        rationale="loggamma",
+        confidence=0.6,
+    )
+    out = construct_and_verify(hyp, [{"name": "z", "real": True}], [])
+    assert out["n_unknown"] == 0, out
+    assert out["certified"] is True or out["n_zero"] >= 1, out
+
+
 def test_frozen_b9_still_importable():
     item = {
         "id": "toy",

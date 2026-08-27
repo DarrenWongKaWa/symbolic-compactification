@@ -36,22 +36,24 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 2,
-    "n_nonzero": 1,
-    "n_unknown": 2,
+    "n_zero": 3,
+    "n_nonzero": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D2",
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D2"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D2",
+    "quality": "useful",
+    "success": true,
     "types": [
       "repeated_kernel",
       "symmetry_invariant"
@@ -60,62 +62,64 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((j), (i))",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "T(a, b)"
+      "latent_object": "T(a, b)",
+      "core": "T(a, b)"
     },
     {
       "constructable": true,
       "certified": false,
       "n_zero": 1,
-      "n_nonzero": 1,
-      "n_unknown": 1,
+      "n_nonzero": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i),(j)) + T((j),(i))",
+          "instantiated": "T(i, j) + T(j, i)",
           "operator": "identity",
           "verdict": "NONZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((j),(i)) + T((i),(j))",
+          "instantiated": "T(i, j) + T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "NONZERO",
+          "note": "permute_tmpl_syms"
         },
         {
           "member": "T(i, j) + T(j, i)",
-          "instantiated": "T((i),(j)) + T((j),(i))",
+          "instantiated": "T(i, j) + T(j, i)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "T(a,b) + T(b,a)"
+      "latent_object": "T(a,b) + T(b,a)",
+      "core": "T(a,b) + T(b,a)"
     }
   ],
   "hypotheses": [
@@ -239,5 +243,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"j\", \"b\": \"i\"}}\n      ],\n      \"construction_plan\": \"Define a two-argument kernel T(a,b). The members are obtained by substituting the ordered pair (i,j) into the kernel, and by substituting the permuted ordered pair (j,i) into the same kernel.\",\n      \"required_assumptions\": [\"T is defined on ordered pairs; no symmetry of T is assumed.\"],\n      \"proof_obligations\": [\n        \"T(i,j) - T(a,b)[a->i,b->j] = 0\",\n        \"T(j,i) - T(a,b)[a->j,b->i] = 0\"\n      ],\n      \"rationale\": \"Both subexpressions use the same function symbol T with the same two declared symbols in reversed argument positions, indicating a common two-place kernel under a permutation of arguments.\",\n      \"confidence\": 0.4\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\", \"T(i, j) + T(j, i)\"],\n      \"latent_object\": \"T(a,b) + T(b,a)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"},\n        {\"member\": \"T(i, j) + T(j, i)\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"j\", \"b\": \"i\"}},\n        {\"member\": \"T(i, j) + T(j, i)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}}\n      ],\n      \"construction_plan\": \"Start from a two-variable template T(a,b)+T(b,a). Substitute (a,b)=(i,j) to obtain the full expression; the individual summands are the two evaluations of T under the identity and the transposition of arguments.\",\n      \"required_assumptions\": [\"Addition is commutative so the full expression is invariant under swapping i and j.\"],\n      \"proof_obligations\": [\n        \"T(i,j) - T(a,b)[a->i,b->j] = 0\",\n        \"T(j,i) - T(a,b)[a->j,b->i] = 0\",\n        \"(T(i,j)+T(j,i)) - (T(a,b)+T(b,a))[a->i,b->j] = 0\"\n      ],\n      \"rationale\": \"The raw expression is exactly a sum of the two swapped evaluations of a common two-variable function, which is the canonical symmetrization template under the transposition of the two declared symbols.\",\n      \"confidence\": 0.3\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

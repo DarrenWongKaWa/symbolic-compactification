@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "f(x)*K(x)*f(x)"
+      "latent_object": "f(x)*K(x)*f(x)",
+      "core": "f(x)*K(x)*f(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"f(x)*K(x)*f(x)\",\n      \"parameters\": [\n        \"f\",\n        \"K\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"f\": \"V\",\n            \"K\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"f\": \"W\",\n            \"K\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the shared symbolic template f(x)*K(x)*f(x) by replacing the function parameter f with V or W, the kernel parameter K with G0 or H0, and the variable parameter x with p or q. This yields each three-factor product exactly.\",\n      \"required_assumptions\": [\n        \"The symbols V, W, G0, H0 are uninterpreted functions applied to the respective variables p and q.\"\n      ],\n      \"proof_obligations\": [\n        \"Verify V(p)*G0(p)*V(p) equals f(x)*K(x)*f(x) under f=V, K=G0, x=p\",\n        \"Verify W(q)*H0(q)*W(q) equals f(x)*K(x)*f(x) under f=W, K=H0, x=q\"\n      ],\n      \"rationale\": \"Both non-identical terms have the same three-factor product structure: an outer function applied twice around a central kernel function, differing only by the function names and variable names.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

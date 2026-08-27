@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(theta) = V(theta)*G0(theta)*V(theta)"
+      "latent_object": "F(theta) = V(theta)*G0(theta)*V(theta)",
+      "core": "V(theta)*G0(theta)*V(theta)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"V(q)*G0(q)*V(q)\"],\n      \"latent_object\": \"F(theta) = V(theta)*G0(theta)*V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Define F(theta) as the product of V(theta), G0(theta), and V(theta). For each parameter value x in {p,q}, specialize theta to x to obtain the corresponding term. The given expression is the sum of these two specializations.\",\n      \"required_assumptions\": [\"V and G0 are defined for arguments p and q\", \"multiplication is associative, with the order of products as written\"],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - F(p) = 0\",\n        \"V(q)*G0(q)*V(q) - F(q) = 0\"\n      ],\n      \"rationale\": \"The two summands have identical algebraic form V(x)*G0(x)*V(x) with only the argument x replaced by p or q, indicating a single parameterized template with two specializations.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

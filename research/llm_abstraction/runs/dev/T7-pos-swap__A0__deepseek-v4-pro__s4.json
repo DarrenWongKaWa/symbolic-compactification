@@ -36,21 +36,23 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 1,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D5"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D5",
+    "quality": "useful",
+    "success": true,
     "types": [
       "symmetry_invariant"
     ]
@@ -58,29 +60,30 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i,j)",
-          "instantiated": "T((i),(j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j,i)",
-          "instantiated": "T((j),(i))",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "T(u,v)"
+      "latent_object": "T(u,v)",
+      "core": "T(u,v)"
     }
   ],
   "hypotheses": [
@@ -140,5 +143,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i,j)\", \"T(j,i)\"],\n      \"latent_object\": \"T(u,v)\",\n      \"parameters\": [\"u\", \"v\"],\n      \"operators\": [\n        {\"member\": \"T(i,j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j,i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i,j)\", \"theta\": {\"u\": \"i\", \"v\": \"j\"}},\n        {\"member\": \"T(j,i)\", \"theta\": {\"u\": \"j\", \"v\": \"i\"}}\n      ],\n      \"construction_plan\": \"Instantiate the two-slot latent object T(u,v) with (u,v)=(i,j). The first summand is obtained by the identity operator. The second summand is obtained by the permutation operator that swaps the two slots. The full expression is the sum of these two images, i.e. the symmetrization of T over its two arguments.\",\n      \"required_assumptions\": [\n        \"T is a binary function or expression depending on two ordered arguments.\",\n        \"i and j are the two argument symbols; the two summands are non-identical in general when i and j are not identified.\"\n      ],\n      \"proof_obligations\": [\n        \"T(i,j) - identity(T(u,v))[u=i,v=j] = 0\",\n        \"T(j,i) - permute(T(u,v))[u=i,v=j] = 0\"\n      ],\n      \"rationale\": \"The raw expression is exactly the sum of a two-slot expression and the same expression with its slots swapped. This is a permutation symmetrization, so the shared latent object is the ordered two-slot template T(u,v) with an S2 permutation operator.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

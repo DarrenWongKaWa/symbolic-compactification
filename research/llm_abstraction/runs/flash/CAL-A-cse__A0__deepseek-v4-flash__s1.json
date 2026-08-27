@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*h(n)"
+      "latent_object": "K(n)*h(n)",
+      "core": "K(n)*h(n)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*h(n)\",\n      \"parameters\": [\"h\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"h\": \"a\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"h\": \"b\"}}\n      ],\n      \"construction_plan\": \"Start with the template K(n)*h(n) where h is a placeholder function. Substituting h = a gives K(n)*a(n); substituting h = b gives K(n)*b(n).\",\n      \"required_assumptions\": [\"a and b are defined functions on the same domain as K\"],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - specialize_{h=a}(K(n)*h(n)) = 0\",\n        \"K(n)*b(n) - specialize_{h=b}(K(n)*h(n)) = 0\"\n      ],\n      \"rationale\": \"Both terms share the identical multiplicative kernel K(n) and differ only in the function that is multiplied by it; this fits a repeated-kernel template with a functional parameter.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

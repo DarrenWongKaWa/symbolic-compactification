@@ -36,22 +36,24 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 1,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 1,
     "d_attempted": [
       "D2",
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D2"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D2",
+    "quality": "useful",
+    "success": true,
     "types": [
       "symmetry_invariant",
       "repeated_kernel"
@@ -67,41 +69,43 @@
       "obligations": [
         {
           "member": "T(i,j)+T(j,i)",
-          "instantiated": "Sym_S2[K]((i),(j)) = K((i),(j))+K((j),(i))",
+          "instantiated": "K(a,b)+K(b,a)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "Sym_S2[K](a,b) = K(a,b)+K(b,a)"
+      "latent_object": "Sym_S2[K](a,b) = K(a,b)+K(b,a)",
+      "core": "K(a,b)+K(b,a)"
     },
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i,j)",
-          "instantiated": "T((i),(j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j,i)",
-          "instantiated": "T((i),(j))",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "permute_inst_args"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(a,b)=T(a,b)"
+      "latent_object": "K(a,b)=T(a,b)",
+      "core": "T(a,b)"
     }
   ],
   "hypotheses": [
@@ -200,5 +204,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i,j)+T(j,i)\"],\n      \"latent_object\": \"Sym_S2[K](a,b) = K(a,b)+K(b,a)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i,j)+T(j,i)\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i,j)+T(j,i)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}}\n      ],\n      \"construction_plan\": \"Define K(a,b)=T(a,b). Apply the S2 symmetrization operator to K to form Sym_S2[K](a,b)=K(a,b)+K(b,a). Specialize a to i and b to j to obtain the raw expression.\",\n      \"required_assumptions\": [\n        \"T is defined on the ordered pairs (i,j) and (j,i).\"\n      ],\n      \"proof_obligations\": [\n        \"T(i,j)+T(j,i) - Sym_S2[K](i,j) = 0 with K(a,b)=T(a,b)\"\n      ],\n      \"rationale\": \"The raw expression is exactly the sum over the two orderings of a two-slot kernel, so its visible structure is S2-symmetrization.\",\n      \"confidence\": 0.45\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"T(i,j)\", \"T(j,i)\"],\n      \"latent_object\": \"K(a,b)=T(a,b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i,j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j,i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i,j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j,i)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}}\n      ],\n      \"construction_plan\": \"Evaluate the master two-argument kernel K at (a,b)=(i,j). The identity evaluation gives T(i,j), while the slot permutation gives T(j,i). Summing the two instantiations reconstructs the raw expression.\",\n      \"required_assumptions\": [\n        \"The two terms are admissible evaluations of a common two-argument kernel under argument order reversal.\"\n      ],\n      \"proof_obligations\": [\n        \"T(i,j) - K(i,j) = 0\",\n        \"T(j,i) - K(j,i) = 0\",\n        \"T(i,j)+T(j,i) - [K(i,j)+K(j,i)] = 0\"\n      ],\n      \"rationale\": \"The two non-identical subexpressions are evaluations of a single ordered kernel with exchanged arguments, which directly explains the pair of terms in the raw expression.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

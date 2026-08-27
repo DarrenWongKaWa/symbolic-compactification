@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "G0((p))*V((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)*V(q)**2",
-          "instantiated": "G0((q))*V((q))**2",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(theta) = G0(theta)*V(theta)**2"
+      "latent_object": "K(theta) = G0(theta)*V(theta)**2",
+      "core": "G0(theta)*V(theta)**2"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"G0(q)*V(q)**2\"\n      ],\n      \"latent_object\": \"K(theta) = G0(theta)*V(theta)**2\",\n      \"parameters\": [\n        \"theta\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"G0(q)*V(q)**2\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"theta\": {\n            \"theta\": \"p\"\n          }\n        },\n        {\n          \"member\": \"G0(q)*V(q)**2\",\n          \"theta\": {\n            \"theta\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define the parameterized kernel K(theta)=G0(theta)*V(theta)**2. Each observed term is K(theta) specialized at theta=p or theta=q. The full expression is the sum of the two specializations, K(p)+K(q), after using commutativity/associativity to rewrite V(p)*G0(p)*V(p) as G0(p)*V(p)**2.\",\n      \"required_assumptions\": [\n        \"G0 and V are uninterpreted functions of one variable.\",\n        \"Multiplication is commutative and associative, so V(p)*G0(p)*V(p) = G0(p)*V(p)**2.\"\n      ],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - K(p) = 0\",\n        \"G0(q)*V(q)**2 - K(q) = 0\",\n        \"V(p)*G0(p)*V(p)+V(q)*G0(q)*V(q) - (K(p)+K(q)) = 0 under AC reordering\"\n      ],\n      \"rationale\": \"Both non-identical summands are instances of the same single-parameter product kernel G0(theta)*V(theta)**2, differing only by the substitution theta=p or theta=q.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

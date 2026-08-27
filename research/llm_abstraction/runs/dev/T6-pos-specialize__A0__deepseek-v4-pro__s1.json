@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     }
   ],
   "hypotheses": [
@@ -142,5 +143,6 @@
   ],
   "raw_content": "{\"abstain\":false,\"abstain_reason\":\"\",\"hypotheses\":[{\"hypothesis_type\":\"repeated_kernel\",\"target_members\":[\"K(n, m)\",\"K(n, n)\"],\"latent_object\":\"K(a, b)\",\"parameters\":[\"a\",\"b\"],\"operators\":[{\"member\":\"K(n, m)\",\"O\":\"specialize\"},{\"member\":\"K(n, n)\",\"O\":\"specialize\"}],\"instance_maps\":[{\"member\":\"K(n, m)\",\"theta\":{\"a\":\"n\",\"b\":\"m\"}},{\"member\":\"K(n, n)\",\"theta\":{\"a\":\"n\",\"b\":\"n\"}}],\"construction_plan\":\"Treat K(a,b) as the single latent binary kernel. The off-diagonal branch K(n,m) is the substitution a=n,b=m; the diagonal branch K(n,n) is the substitution a=n,b=n. The piecewise guard Ne(n,m) selects the first branch for n\u2260m and the second for n=m.\",\"required_assumptions\":[\"K is a binary symbolic template or function\",\"substitution is defined for the declared variables n and m\"],\"proof_obligations\":[\"K(n, m) - specialize(K(a,b), {a:n, b:m}) = 0\",\"K(n, n) - specialize(K(a,b), {a:n, b:n}) = 0\"],\"rationale\":\"Both branches are evaluations of the same binary kernel K; the diagonal branch is obtained from the same latent object by the specialization b=a, so the piecewise is a diagonal/off-diagonal case split of one kernel rather than two independent expressions.\",\"confidence\":0.95}]}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

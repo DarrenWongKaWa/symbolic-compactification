@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F(x*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(x*y + t*z)"
+      "latent_object": "F(x*y + t*z)",
+      "core": "F(x*y + t*z)"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(x*y + t*z)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"t\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"t\": \"w\"}}\n      ],\n      \"construction_plan\": \"Define the parameterized term M_t = F(x*y + t*z). Instantiating t := x gives F(x*y + x*z), which is equal to F(x*(y+z)) after expanding the argument. Instantiating t := w gives F(x*y + w*z) exactly. Thus the two summands are two specializations of the same parameterized F-term.\",\n      \"required_assumptions\": [\n        \"F is a unary function, so equality of arguments implies equality of F-values\",\n        \"Multiplication distributes over addition\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y+z) - (x*y + x*z) = 0\",\n        \"F(x*(y+z)) - F(x*y + x*z) = 0\",\n        \"F(x*y + w*z) - M_w = 0\"\n      ],\n      \"rationale\": \"Both arguments share the term x*y and differ only in the coefficient of z: the first coefficient is x after expansion, the second coefficient is w. A single parameter t in the z-coefficient captures both instances.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

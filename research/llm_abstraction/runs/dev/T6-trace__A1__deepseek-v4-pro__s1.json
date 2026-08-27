@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1,1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2,2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(a, a)"
+      "latent_object": "M(a, a)",
+      "core": "M(a, a)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1,1)\", \"M(2,2)\"],\n      \"latent_object\": \"M(a, a)\",\n      \"parameters\": [\"a\"],\n      \"operators\": [\n        {\"member\": \"M(1,1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2,2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1,1)\", \"theta\": {\"a\": \"1\"}},\n        {\"member\": \"M(2,2)\", \"theta\": {\"a\": \"2\"}}\n      ],\n      \"construction_plan\": \"Instantiate the symbolic template M(a,a) by substituting a=1 and a=2, respectively, producing M(1,1) and M(2,2). The full expression is the sum of these two instances.\",\n      \"required_assumptions\": [\n        \"M(1,1) and M(2,2) are evaluations of the same declared function M on diagonal integer arguments.\"\n      ],\n      \"proof_obligations\": [\n        \"M(1,1) - substitute(M(a,a), a=1) = 0\",\n        \"M(2,2) - substitute(M(a,a), a=2) = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms share the same function symbol M and the same diagonal argument structure M(a,a), differing only by the numeric value of a. No additional semantic structure is assumed.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

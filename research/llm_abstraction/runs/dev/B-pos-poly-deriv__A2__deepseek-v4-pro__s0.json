@@ -40,9 +40,9 @@
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": false,
-    "n_zero": 3,
+    "n_zero": 4,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
@@ -68,48 +68,50 @@
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma((0), z)",
+          "instantiated": "polygamma(0, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma((1), z)",
+          "instantiated": "polygamma(1, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "polygamma(k, z)"
+      "latent_object": "polygamma(k, z)",
+      "core": "polygamma(k, z)"
     },
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma(0, (z))",
+          "instantiated": "polygamma(0, z)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma(0, (z))",
+          "instantiated": "polygamma(1, z)",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "polygamma(0, t)"
+      "latent_object": "polygamma(0, t)",
+      "core": "polygamma(0, t)"
     }
   ],
   "hypotheses": [
@@ -214,5 +216,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(k, z)\",\n      \"parameters\": [\"k\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"k\": 0}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"k\": 1}}\n      ],\n      \"construction_plan\": \"Instantiate the template polygamma(k, z) with integer order parameter k=0 and k=1.\",\n      \"required_assumptions\": [\"k is restricted to the integer orders occurring in the two members.\"],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - polygamma(k, z)[k=0] = 0\",\n        \"polygamma(1, z) - polygamma(k, z)[k=1] = 0\"\n      ],\n      \"rationale\": \"The symbolic backend reports a frozen LGG template polygamma(theta0, z) with theta0 in {0,1}; this is a one-parameter specialization family.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(0, t)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"identity\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"t\": \"z\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"t\": \"z\"}}\n      ],\n      \"construction_plan\": \"Let F(t)=polygamma(0,t). The first member is F(z); the second member is d/dt F(t) evaluated at t=z.\",\n      \"required_assumptions\": [\"F(t)=polygamma(0,t) is differentiable and the derivative identity d/dt polygamma(0,t)=polygamma(1,t) holds.\"],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - F(t)[t=z] = 0\",\n        \"polygamma(1, z) - d/dt F(t)[t=z] = 0\"\n      ],\n      \"rationale\": \"The observation packet records an exact derivative witness diff(polygamma(0,z),z)=polygamma(1,z), so the two members are consecutive members of a derivative family with respect to z.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

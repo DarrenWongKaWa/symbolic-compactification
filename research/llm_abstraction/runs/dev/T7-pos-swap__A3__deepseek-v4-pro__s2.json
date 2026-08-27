@@ -65,22 +65,23 @@
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "K[(i), (j)] = T((i), (j)) as a two-slot kernel carrying an S2 slot-permutation action",
+          "instantiated": "T(\u03b81, \u03b82) as a two-slot kernel carrying an S2 slot-permutation action",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "K[(j), (i)] = T((j), (i)) as a two-slot kernel carrying an S2 slot-permutation action",
+          "instantiated": "T(\u03b81, \u03b82) as a two-slot kernel carrying an S2 slot-permutation action",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "K[\u03b81, \u03b82] = T(\u03b81, \u03b82) as a two-slot kernel carrying an S2 slot-permutation action"
+      "latent_object": "K[\u03b81, \u03b82] = T(\u03b81, \u03b82) as a two-slot kernel carrying an S2 slot-permutation action",
+      "core": "T(\u03b81, \u03b82) as a two-slot kernel carrying an S2 slot-permutation action"
     }
   ],
   "hypotheses": [
@@ -141,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"K[\u03b81, \u03b82] = T(\u03b81, \u03b82) as a two-slot kernel carrying an S2 slot-permutation action\",\n      \"parameters\": [\"\u03b81\", \"\u03b82\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"\u03b81\": \"i\", \"\u03b82\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"\u03b81\": \"j\", \"\u03b82\": \"i\"}}\n      ],\n      \"construction_plan\": \"Take the binary kernel K[\u03b81, \u03b82] = T(\u03b81, \u03b82). The two observed members are the two orbit representatives obtained by the slot permutation \u03c3: \u03c3\u00b7K[\u03b81, \u03b82] = K[\u03b82, \u03b81]. Thus the shared structure is the unordered orbit of the kernel under slot swap, with the two members recovered by choosing the two slot orders.\",\n      \"required_assumptions\": [\n        \"T is a binary function with two ordered slots\",\n        \"slot permutation \u03c3 is a well-defined involution on this family\"\n      ],\n      \"proof_obligations\": [\n        \"identity\u00b7K[i,j] = T(i,j)\",\n        \"\u03c3\u00b7K[i,j] = T(j,i)\",\n        \"\u03c3^2\u00b7K[i,j] = K[i,j]\"\n      ],\n      \"rationale\": \"The two non-identical members are related by reversing the order of arguments of the same binary T. This is structurally an S2 orbit of a binary slot kernel, so a single symmetry-invariant object with a permutation operator explains both members.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

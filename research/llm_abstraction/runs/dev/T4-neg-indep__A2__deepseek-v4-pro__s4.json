@@ -34,24 +34,26 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
-    "construction_ok": false,
-    "certified": false,
-    "false_abstraction": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 4,
+    "n_unknown": 2,
     "d_attempted": [
       "D3",
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
+    "highest_certified": "D3",
     "quality": "incorrect",
-    "success": true,
+    "success": false,
     "types": [
       "symmetry_invariant",
       "parameterized_family"
@@ -67,48 +69,50 @@
       "obligations": [
         {
           "member": "F(z) + G(z)",
-          "instantiated": "(F)dd({(F)((z)), (G)((z))})",
+          "instantiated": "Add({A(x), B(x)})",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "G(z) + F(z)",
-          "instantiated": "(F)dd({(F)((z)), (G)((z))})",
+          "instantiated": "Add({A(x), B(x)})",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "Add({A(x), B(x)})"
+      "latent_object": "Add({A(x), B(x)})",
+      "core": "Add({A(x), B(x)})"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "F(z) + G(z)",
-          "instantiated": "H((F), (G); (z)) = (F)((z)) + (G)((z))",
+          "instantiated": "F(z) + G(z)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "G(z) + F(z)",
-          "instantiated": "H((G), (F); (z)) = (G)((z)) + (F)((z))",
+          "instantiated": "F(z) + G(z)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "H(A, B; x) = A(x) + B(x)"
+      "latent_object": "H(A, B; x) = A(x) + B(x)",
+      "core": "A(x) + B(x)"
     }
   ],
   "hypotheses": [
@@ -227,5 +231,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"F(z) + G(z)\", \"G(z) + F(z)\"],\n      \"latent_object\": \"Add({A(x), B(x)})\",\n      \"parameters\": [\"A\", \"B\", \"x\"],\n      \"operators\": [\n        {\"member\": \"F(z) + G(z)\", \"O\": \"identity\"},\n        {\"member\": \"G(z) + F(z)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(z) + G(z)\", \"theta\": {\"A\": \"F\", \"B\": \"G\", \"x\": \"z\"}},\n        {\"member\": \"G(z) + F(z)\", \"theta\": {\"A\": \"F\", \"B\": \"G\", \"x\": \"z\"}}\n      ],\n      \"construction_plan\": \"Start with an unordered two-element multiset {A(x), B(x)} under commutative addition. The identity realization writes A(x)+B(x), giving F(z)+G(z) after A=F, B=G, x=z. The permute realization swaps the two multiset entries, giving B(x)+A(x), i.e. G(z)+F(z).\",\n      \"required_assumptions\": [\n        \"Addition of symbolic terms is commutative.\",\n        \"F and G are independent opaque unary function symbols.\"\n      ],\n      \"proof_obligations\": [\n        \"F(z) + G(z) - identity(Add({F(z), G(z)})) = 0\",\n        \"G(z) + F(z) - permute(Add({F(z), G(z)})) = 0\"\n      ],\n      \"rationale\": \"The observed structural relation is algebraic commutativity of addition, so the sum of two evaluated unary functions is invariant under S2 permutation of its two summands.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(z) + G(z)\", \"G(z) + F(z)\"],\n      \"latent_object\": \"H(A, B; x) = A(x) + B(x)\",\n      \"parameters\": [\"A\", \"B\", \"x\"],\n      \"operators\": [\n        {\"member\": \"F(z) + G(z)\", \"O\": \"specialize\"},\n        {\"member\": \"G(z) + F(z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(z) + G(z)\", \"theta\": {\"A\": \"F\", \"B\": \"G\", \"x\": \"z\"}},\n        {\"member\": \"G(z) + F(z)\", \"theta\": {\"A\": \"G\", \"B\": \"F\", \"x\": \"z\"}}\n      ],\n      \"construction_plan\": \"Define a two-function template H(A,B;x)=A(x)+B(x). Specialize the function parameters and argument to (F,G,z) for the given expression and to (G,F,z) for the commuted expression.\",\n      \"required_assumptions\": [\n        \"F and G may be treated as parameters of the template.\",\n        \"The template is symmetric in A and B only through commutation of addition.\"\n      ],\n      \"proof_obligations\": [\n        \"F(z) + G(z) - H(F,G;z) = 0\",\n        \"G(z) + F(z) - H(G,F;z) = 0\"\n      ],\n      \"rationale\": \"The expression is an instance of a general sum of two unary function calls sharing the same argument, with function heads as parameters.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

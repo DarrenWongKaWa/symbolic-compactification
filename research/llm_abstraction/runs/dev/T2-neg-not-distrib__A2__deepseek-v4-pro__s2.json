@@ -34,15 +34,15 @@
     "n_hypotheses": 4,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 7,
+    "n_zero": 8,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D2",
       "D3",
@@ -74,22 +74,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x*(y + z)))",
+          "instantiated": "F(x*(y + z))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F((x*y + w*z))",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "F(theta)"
+      "latent_object": "F(theta)",
+      "core": "F(theta)"
     },
     {
       "constructable": true,
@@ -100,48 +101,50 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F(x*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(c) = F(x*y + c*z)"
+      "latent_object": "T(c) = F(x*y + c*z)",
+      "core": "F(x*y + c*z)"
     },
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "(x)*((y) + (z))",
+          "instantiated": "x*(y + z)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "(x)*((y) + (z))",
+          "instantiated": "y + z",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "P(theta,y,z) = theta*(y + z)"
+      "latent_object": "P(theta,y,z) = theta*(y + z)",
+      "core": "theta*(y + z)"
     },
     {
       "constructable": true,
@@ -152,22 +155,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z)) + F(x*y + w*z)",
-          "instantiated": "F(x*y + (x)*z) + F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y) + F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + x*z) + F(x*y + w*z)",
-          "instantiated": "F(x*y + (x)*z) + F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y) + F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "S(a,b) = F(x*y + a*z) + F(x*y + b*z)"
+      "latent_object": "S(a,b) = F(x*y + a*z) + F(x*y + b*z)",
+      "core": "F(x*y + a*z) + F(x*y + b*z)"
     }
   ],
   "hypotheses": [
@@ -382,5 +386,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"theta\": \"x*(y + z)\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"theta\": \"x*y + w*z\"}}\n      ],\n      \"construction_plan\": \"Use the shared unary function symbol F as a repeated kernel. Instantiate F(theta) at the two different argument expressions.\",\n      \"required_assumptions\": [\"F is a unary function symbol.\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(theta)|theta=x*(y + z) = 0\",\n        \"F(x*y + w*z) - F(theta)|theta=x*y + w*z = 0\"\n      ],\n      \"rationale\": \"The descriptive/LGG observation groups both terms as applications of the same function F with one hole, so they are instances of one repeated kernel F(theta).\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"T(c) = F(x*y + c*z)\",\n      \"parameters\": [\"c\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"c\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"c\": \"w\"}}\n      ],\n      \"construction_plan\": \"Distribute the first argument x*(y+z) to x*y + x*z. Then both F arguments become instances of F(x*y + c*z): the first has c=x and the second has c=w.\",\n      \"required_assumptions\": [\"Distributivity: x*(y+z) = x*y + x*z.\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(x*y + x*z) = 0\",\n        \"F(x*y + x*z) - T(c)|c=x = 0\",\n        \"F(x*y + w*z) - T(c)|c=w = 0\"\n      ],\n      \"rationale\": \"After the algebraic expansion, both F arguments share the monomial x*y plus a z term whose coefficient is a single parameter: x in the first term and w in the second.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"x*(y + z)\", \"y + z\"],\n      \"latent_object\": \"P(theta,y,z) = theta*(y + z)\",\n      \"parameters\": [\"theta\", \"y\", \"z\"],\n      \"operators\": [\n        {\"member\": \"x*(y + z)\", \"O\": \"identity\"},\n        {\"member\": \"y + z\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"x*(y + z)\", \"theta\": {\"theta\": \"x\", \"y\": \"y\", \"z\": \"z\"}},\n        {\"member\": \"y + z\", \"theta\": {\"theta\": \"x\", \"y\": \"y\", \"z\": \"z\"}}\n      ],\n      \"construction_plan\": \"Let P be linear in theta. The subexpression x*(y+z) is P evaluated at theta=x. Differentiating P with respect to theta and evaluating at theta=x gives y+z.\",\n      \"required_assumptions\": [\"P is differentiable in theta.\"],\n      \"proof_obligations\": [\n        \"P(theta,y,z)|theta=x - x*(y + z) = 0\",\n        \"d/dtheta P(theta,y,z)|theta=x - (y + z) = 0\"\n      ],\n      \"rationale\": \"The observed F02 relation states that x*(y+z) and y+z are related by differentiation with respect to x, so they belong to a one-parameter derivative family.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\n        \"F(x*(y + z)) + F(x*y + w*z)\",\n        \"F(x*y + x*z) + F(x*y + w*z)\"\n      ],\n      \"latent_object\": \"S(a,b) = F(x*y + a*z) + F(x*y + b*z)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z)) + F(x*y + w*z)\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + x*z) + F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z)) + F(x*y + w*z)\", \"theta\": {\"a\": \"x\", \"b\": \"w\"}},\n        {\"member\": \"F(x*y + x*z) + F(x*y + w*z)\", \"theta\": {\"a\": \"x\", \"b\": \"w\"}}\n      ],\n      \"construction_plan\": \"After distributing the first summand, the whole expression is S(x,w). The template S(a,b) is invariant under the swap a<->b because the two F terms are added and addition commutes.\",\n      \"required_assumptions\": [\n        \"Distributivity: x*(y+z) = x*y + x*z\",\n        \"Addition is commutative\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) + F(x*y+w*z) - (F(x*y+x*z) + F(x*y+w*z)) = 0\",\n        \"S(a,b) - S(b,a) = 0\",\n        \"S(x,w) - (F(x*y+x*z) + F(x*y+w*z)) = 0\"\n      ],\n      \"rationale\": \"The full sum can be viewed as a symmetric two-parameter specialization in the coefficients of the shared z term, with parameters x and w.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

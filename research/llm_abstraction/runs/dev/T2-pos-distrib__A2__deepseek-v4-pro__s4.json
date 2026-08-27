@@ -40,9 +40,9 @@
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 2,
-    "n_nonzero": 0,
-    "n_unknown": 7,
+    "n_zero": 6,
+    "n_nonzero": 3,
+    "n_unknown": 0,
     "d_attempted": [
       "D1",
       "D3"
@@ -70,95 +70,98 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x*(y + z)))",
+          "instantiated": "F(x*(y + z))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + x*z)",
-          "instantiated": "F((x*y + x*z))",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(theta0)"
+      "latent_object": "F(theta0)",
+      "core": "F(theta0)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "(x)*((y) + (z)), treating (y) and (z) as parameters",
+          "instantiated": "x*(y + z)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "(x)*((y) + (z)), treating (y) and (z) as parameters",
+          "instantiated": "y + z",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "P(x) = x*(y + z), treating y and z as parameters"
+      "latent_object": "P(x) = x*(y + z), treating y and z as parameters",
+      "core": "x*(y + z)"
     },
     {
-      "constructable": false,
+      "constructable": true,
       "certified": false,
-      "n_zero": 0,
-      "n_nonzero": 0,
-      "n_unknown": 5,
+      "n_zero": 2,
+      "n_nonzero": 3,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "x*y + x*z, with equivalent factored representative x*(y + z)",
+          "instantiated": "x*y + x*z",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "NONZERO",
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + x*z)",
-          "instantiated": "x*y + x*z, with equivalent factored representative x*(y + z)",
+          "instantiated": "x*y + x*z",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "NONZERO",
+          "note": "instantiate"
         },
         {
           "member": "x*(y + z)",
-          "instantiated": "x*y + x*z, with equivalent factored representative x*(y + z)",
+          "instantiated": "x*y + x*z",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "x*y + x*z",
-          "instantiated": "x*y + x*z, with equivalent factored representative x*(y + z)",
+          "instantiated": "x*y + x*z",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "x*y + x*z, with equivalent factored representative x*(y + z)",
+          "instantiated": "x",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "NONZERO",
+          "note": "instantiate_then_diff"
         }
       ],
       "hypothesis_type": "other_structured",
       "d_level": "D1",
-      "latent_object": "q = x*y + x*z, with equivalent factored representative x*(y + z)"
+      "latent_object": "q = x*y + x*z, with equivalent factored representative x*(y + z)",
+      "core": "x*y + x*z"
     }
   ],
   "hypotheses": [
@@ -359,5 +362,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"F(x*y + x*z)\"\n      ],\n      \"latent_object\": \"F(theta0)\",\n      \"parameters\": [\n        \"theta0\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"F(x*y + x*z)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"theta\": {\n            \"theta0\": \"x*(y + z)\"\n          }\n        },\n        {\n          \"member\": \"F(x*y + x*z)\",\n          \"theta\": {\n            \"theta0\": \"x*y + x*z\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the unary template F(theta0) by substituting the two reported argument forms into theta0.\",\n      \"required_assumptions\": [\n        \"F is an uninterpreted unary function symbol\",\n        \"Substitution is syntactic and does not simplify the argument\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(theta0)[theta0 := x*(y + z)] = 0\",\n        \"F(x*y + x*z) - F(theta0)[theta0 := x*y + x*z] = 0\"\n      ],\n      \"rationale\": \"The LGG observation reports a single-hole template F(theta0); both members are instances of the same unary F call with different syntactic argument expressions.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"x*(y + z)\",\n        \"y + z\"\n      ],\n      \"latent_object\": \"P(x) = x*(y + z), treating y and z as parameters\",\n      \"parameters\": [\n        \"x\",\n        \"y\",\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"y + z\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"x\": \"x\",\n            \"y\": \"y\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"y + z\",\n          \"theta\": {\n            \"x\": \"x\",\n            \"y\": \"y\",\n            \"z\": \"z\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Form the linear-in-x expression P(x)=x*(y+z). Differentiation with respect to x leaves the coefficient y+z.\",\n      \"required_assumptions\": [\n        \"The derivative is taken with respect to x\",\n        \"y and z are independent of x\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y + z) - P(x) = 0\",\n        \"d/dx P(x) - (y + z) = 0\"\n      ],\n      \"rationale\": \"FAMILY F02 directly reports a derivative relation; P is linear in x, so its derivative is the coefficient y+z.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"F(x*y + x*z)\",\n        \"x*(y + z)\",\n        \"x*y + x*z\",\n        \"y + z\"\n      ],\n      \"latent_object\": \"q = x*y + x*z, with equivalent factored representative x*(y + z)\",\n      \"parameters\": [\n        \"x\",\n        \"y\",\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"F(x*y + x*z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"x*y + x*z\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"y + z\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"theta\": {\n            \"form\": \"factored\"\n          }\n        },\n        {\n          \"member\": \"F(x*y + x*z)\",\n          \"theta\": {\n            \"form\": \"expanded\"\n          }\n        },\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"form\": \"factored\"\n          }\n        },\n        {\n          \"member\": \"x*y + x*z\",\n          \"theta\": {\n            \"form\": \"expanded\"\n          }\n        },\n        {\n          \"member\": \"y + z\",\n          \"theta\": {\n            \"form\": \"derivative_x\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Represent q in expanded form x*y+x*z. Its factored representative is x*(y+z). Apply F to both representatives to obtain the two summands of the raw expression. Differentiate q with respect to x to obtain y+z.\",\n      \"required_assumptions\": [\n        \"Algebraic distributivity x*(y+z) = x*y+x*z\",\n        \"The derivative is with respect to x with y,z held constant\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(factored_representative(q)) = 0\",\n        \"F(x*y + x*z) - F(expanded_representative(q)) = 0\",\n        \"x*(y + z) - factored_representative(q) = 0\",\n        \"x*y + x*z - expanded_representative(q) = 0\",\n        \"d/dx q - (y + z) = 0\"\n      ],\n      \"rationale\": \"The two arguments of F are factored and expanded representations of the same linear form; the same latent q explains both the repeated F-call structure and the derivative relation in FAMILY F02.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

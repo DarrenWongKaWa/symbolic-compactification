@@ -34,7 +34,7 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -50,7 +50,7 @@
     "d_certified": [],
     "highest_attempted": "D5",
     "highest_certified": null,
-    "quality": "incorrect",
+    "quality": "gold-like-but-unsupported",
     "success": false,
     "types": [
       "divided_difference",
@@ -68,36 +68,37 @@
       "obligations": [
         {
           "member": "S1_True",
-          "instantiated": "D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at (['epsilon(m)', 'epsilon(n)']) z_j=epsilon(index_j)",
+          "instantiated": "epsilon(index_j)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S2_True",
-          "instantiated": "D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at (['epsilon(m)', 'epsilon(n)']) z_j=epsilon(index_j)",
+          "instantiated": "epsilon(index_j)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "no_candidate"
         },
         {
           "member": "S3_True",
-          "instantiated": "D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at (['epsilon(m)', 'epsilon(n)', 'epsilon(ell)']) z_j=epsilon(index_j)",
+          "instantiated": "epsilon(index_j)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S4_True",
-          "instantiated": "D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at (['epsilon(m)', 'epsilon(n)', 'epsilon(ell)']) z_j=epsilon(index_j)",
+          "instantiated": "epsilon(index_j)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "divided_difference",
       "d_level": "D4",
-      "latent_object": "D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at nodes z_j=epsilon(index_j)"
+      "latent_object": "D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at nodes z_j=epsilon(index_j)",
+      "core": "epsilon(index_j)"
     },
     {
       "constructable": false,
@@ -108,36 +109,37 @@
       "obligations": [
         {
           "member": "S1",
-          "instantiated": "K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel",
+          "instantiated": "the S3 piecewise kernel",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2",
-          "instantiated": "K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel",
+          "instantiated": "the S3 piecewise kernel",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3",
-          "instantiated": "K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel",
+          "instantiated": "the S3 piecewise kernel",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S4",
-          "instantiated": "K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel",
+          "instantiated": "the S3 piecewise kernel",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel"
+      "latent_object": "K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel",
+      "core": "the S3 piecewise kernel"
     },
     {
       "constructable": false,
@@ -148,50 +150,51 @@
       "obligations": [
         {
           "member": "S1_Eq_mn",
-          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2_Eq_mn",
-          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_Eq_mn",
-          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_Eq_elln",
-          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_Eq_ellm",
-          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_all_equal",
-          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+          "instantiated": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide"
+      "latent_object": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide",
+      "core": "Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-"
     }
   ],
   "hypotheses": [
@@ -485,5 +488,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"divided_difference\",\n      \"target_members\": [\"S1_True\", \"S2_True\", \"S3_True\", \"S4_True\"],\n      \"latent_object\": \"D_k[F_+,F_-](z_1,...,z_k) = divided differences of F_+(z)=polygamma(0,(beta*(gamma - I*mu + I*z)+pi)/(2*pi)) and F_-(z)=polygamma(0,(beta*(gamma + I*mu - I*z)+pi)/(2*pi)) at nodes z_j=epsilon(index_j)\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\"],\n      \"operators\": [\n        {\"member\": \"S1_True\", \"O\": \"identity\"},\n        {\"member\": \"S2_True\", \"O\": \"permute\"},\n        {\"member\": \"S3_True\", \"O\": \"identity\"},\n        {\"member\": \"S4_True\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S1_True\", \"theta\": {\"nodes\": [\"epsilon(m)\", \"epsilon(n)\"]}},\n        {\"member\": \"S2_True\", \"theta\": {\"nodes\": [\"epsilon(m)\", \"epsilon(n)\"]}},\n        {\"member\": \"S3_True\", \"theta\": {\"nodes\": [\"epsilon(m)\", \"epsilon(n)\", \"epsilon(ell)\"]}},\n        {\"member\": \"S4_True\", \"theta\": {\"nodes\": [\"epsilon(m)\", \"epsilon(n)\", \"epsilon(ell)\"]}}\n      ],\n      \"construction_plan\": \"Evaluate the divided differences of the two digamma branches at the given epsilon nodes and multiply by the rational prefactors and h1/h2 factors shown in each member.\",\n      \"required_assumptions\": [\"epsilon is injective on the relevant finite index set\", \"polygamma is analytic in the required domain\"],\n      \"proof_obligations\": [\n        \"S1_True - prefactor_S1 * D_2[F_+,F_-](epsilon(m),epsilon(n)) == 0\",\n        \"S2_True - permute_{b,c}(prefactor_S1 * D_2[F_+,F_-](epsilon(m),epsilon(n))) == 0\",\n        \"S3_True - prefactor_S3 * D_3[F_+,F_-](epsilon(m),epsilon(n),epsilon(ell)) == 0\",\n        \"S4_True - prefactor_S4 * D_3[F_+,F_-](epsilon(m),epsilon(n),epsilon(ell)) == 0\"\n      ],\n      \"rationale\": \"The off-diagonal branches are built from polygamma evaluations at the same epsilon points with denominator powers in epsilon differences, which is the signature of divided differences of the two shifted digamma functions.\",\n      \"confidence\": 0.65\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"S1\", \"S2\", \"S3\", \"S4\"],\n      \"latent_object\": \"K2_{mn}(beta,gamma,mu) = the S1 piecewise kernel; K3_{mnl}(beta,gamma,mu) = the S3 piecewise kernel\",\n      \"parameters\": [\"a\", \"b\", \"c\", \"m\", \"n\", \"ell\", \"beta\", \"gamma\", \"mu\", \"epsilon\", \"h1\", \"h2\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"identity\"},\n        {\"member\": \"S2\", \"O\": \"permute\"},\n        {\"member\": \"S3\", \"O\": \"identity\"},\n        {\"member\": \"S4\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S1\", \"theta\": {\"external_labels\": [\"b\", \"c\"], \"h_factor\": \"h1(b,n,m)*h2(a,c,m,n)\"}},\n        {\"member\": \"S2\", \"theta\": {\"external_labels\": [\"c\", \"b\"], \"h_factor\": \"h1(c,n,m)*h2(a,b,m,n)\"}},\n        {\"member\": \"S3\", \"theta\": {\"h_factor\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\"}},\n        {\"member\": \"S4\", \"theta\": {\"h_factor\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"}}\n      ],\n      \"construction_plan\": \"Use S1 and S3 as templates. Obtain S2 by swapping external labels b and c in S1. Obtain S4 by replacing the h1 index pairs (ell,m),(n,ell) in S3 with (n,ell),(ell,m) while keeping the same piecewise polygamma kernel.\",\n      \"required_assumptions\": [\"Summations over m,n,ell are invariant under renaming the external labels\", \"h1/h2 are ordinary symbolic functions under argument permutation\"],\n      \"proof_obligations\": [\n        \"S1 - swap_{b,c}(S2) == 0\",\n        \"S3_kernel - S4_kernel == 0\",\n        \"S4_h_factor - permute_index_pairs(S3_h_factor) == 0\"\n      ],\n      \"rationale\": \"The first two sums share the same polygamma piecewise kernel and differ only by b<->c in the h factors. The last two sums share an identical three-index piecewise kernel and differ only by a permutation of the h1 index-pair arguments.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\"S1_Eq_mn\", \"S1_True\", \"S2_Eq_mn\", \"S2_True\", \"S3_Eq_mn\", \"S3_Eq_elln\", \"S3_Eq_ellm\", \"S3_all_equal\", \"S3_True\"],\n      \"latent_object\": \"Continuous off-diagonal kernels K2(x,y) and K3(x,y,z) built from divided differences of F_+/-; diagonal pieces are confluent limits when two or three nodes collide\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\"],\n      \"operators\": [\n        {\"member\": \"S1_Eq_mn\", \"O\": \"specialize\"},\n        {\"member\": \"S2_Eq_mn\", \"O\": \"specialize\"},\n        {\"member\": \"S3_Eq_mn\", \"O\": \"specialize\"},\n        {\"member\": \"S3_Eq_elln\", \"O\": \"specialize\"},\n        {\"member\": \"S3_Eq_ellm\", \"O\": \"specialize\"},\n        {\"member\": \"S3_all_equal\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S1_Eq_mn\", \"theta\": {\"collision\": \"epsilon(m)=epsilon(n)\"}},\n        {\"member\": \"S2_Eq_mn\", \"theta\": {\"collision\": \"epsilon(m)=epsilon(n)\"}},\n        {\"member\": \"S3_Eq_mn\", \"theta\": {\"collision\": \"epsilon(m)=epsilon(n)\"}},\n        {\"member\": \"S3_Eq_elln\", \"theta\": {\"collision\": \"epsilon(ell)=epsilon(n)\"}},\n        {\"member\": \"S3_Eq_ellm\", \"theta\": {\"collision\": \"epsilon(ell)=epsilon(m)\"}},\n        {\"member\": \"S3_all_equal\", \"theta\": {\"collision\": \"epsilon(m)=epsilon(n)=epsilon(ell)\"}}\n      ],\n      \"construction_plan\": \"Start from the continuous off-diagonal divided-difference kernel and take the indicated collision limits to recover the diagonal branch expressions.\",\n      \"required_assumptions\": [\"The kernels have removable singularities at the collisions\", \"The Piecewise conditions are exactly the collision cases\"],\n      \"proof_obligations\": [\n        \"limit_{epsilon(m)->epsilon(n)} S1_True == S1_Eq_mn\",\n        \"limit_{epsilon(m)->epsilon(n)} S2_True == S2_Eq_mn\",\n        \"limit_{epsilon(m)->epsilon(n)} S3_True == S3_Eq_mn\",\n        \"limit_{epsilon(ell)->epsilon(n)} S3_True == S3_Eq_elln\",\n        \"limit_{epsilon(ell)->epsilon(m)} S3_True == S3_Eq_ellm\",\n        \"limit_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} S3_True == S3_all_equal\"\n      ],\n      \"rationale\": \"The diagonal branches contain higher polygamma orders and lower denominator powers, matching the derivative terms generated when nodes in a divided difference coalesce.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

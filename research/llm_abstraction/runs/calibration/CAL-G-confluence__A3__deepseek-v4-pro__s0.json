@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(x, y)"
+      "latent_object": "K(x, y)",
+      "core": "K(x, y)"
     },
     {
       "constructable": true,
@@ -96,15 +97,16 @@
       "obligations": [
         {
           "member": "Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))",
-          "instantiated": "Piecewise((K((n), (m)), Ne((n), (m))), (K((n), (n)), True))",
+          "instantiated": "Piecewise((K(n, m), Ne(m, n)), (K(n, n), True))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))"
+      "latent_object": "Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))",
+      "core": "Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))"
     }
   ],
   "hypotheses": [
@@ -204,5 +206,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"K(x, y)\",\n      \"parameters\": [\n        \"x\",\n        \"y\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"m\"\n          }\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"n\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Use K(x, y) as an uninterpreted binary function template. The member expressions are obtained by substituting x -> n, y -> m and x -> n, y -> n, respectively.\",\n      \"required_assumptions\": [\n        \"K is a declared binary function with arguments x and y\"\n      ],\n      \"proof_obligations\": [\n        \"K(n, m) - K(x, y)[x -> n, y -> m] = 0\",\n        \"K(n, n) - K(x, y)[x -> n, y -> n] = 0\"\n      ],\n      \"rationale\": \"Both members are applications of the same declared symbol K with two arguments; the difference is specialization of the second argument to m or n.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\"\n      ],\n      \"latent_object\": \"Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))\",\n      \"parameters\": [\n        \"x\",\n        \"y\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"m\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define a conditional template that selects K(x, y) off the diagonal and K(x, x) on the diagonal. Substituting x -> n and y -> m gives the observed Piecewise expression, with conditions reducing to Ne(n, m) and True.\",\n      \"required_assumptions\": [\n        \"The condition Ne(x, y) is evaluated after substitution\",\n        \"K(x, x) denotes the diagonal specialization of K\"\n      ],\n      \"proof_obligations\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True)) - Piecewise((K(x, y), Ne(x, y)), (K(x, x), True))[x -> n, y -> m] = 0\",\n        \"K(x, x)[x -> n] = K(n, n)\"\n      ],\n      \"rationale\": \"The observed Piecewise is a conditional specialization of the same binary K family, using the diagonal case K(x, x) in the otherwise branch.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

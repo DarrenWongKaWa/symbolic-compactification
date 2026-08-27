@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(n)*theta(n)"
+      "latent_object": "K(n)*theta(n)",
+      "core": "K(n)*theta(n)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\"\n      ],\n      \"latent_object\": \"K(n)*theta(n)\",\n      \"parameters\": [\n        \"theta\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"theta\": \"a\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"theta\": \"b\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the unary function parameter theta in the template K(n)*theta(n): theta -> a gives K(n)*a(n); theta -> b gives K(n)*b(n). The fixed factor K(n) is the CSE-shared subexpression reported in F02.\",\n      \"required_assumptions\": [\n        \"a and b are unary functions over the same index/domain as n\",\n        \"multiplication is at least AC, consistent with the reported AC Mul pattern\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*theta(n))[theta:=a] = 0\",\n        \"K(n)*b(n) - (K(n)*theta(n))[theta:=b] = 0\"\n      ],\n      \"rationale\": \"The two product expressions differ only by the cofactor paired with K(n), matching the observed LGG template theta0*K(n). A single parameterized factor family is the minimal structural explanation; it does not assert a final simplified expression.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

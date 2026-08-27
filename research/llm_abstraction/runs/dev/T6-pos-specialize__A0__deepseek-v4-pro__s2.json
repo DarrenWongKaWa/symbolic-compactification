@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "K(x, y)"
+      "latent_object": "K(x, y)",
+      "core": "K(x, y)"
     }
   ],
   "hypotheses": [
@@ -142,5 +143,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"K(x, y)\",\n      \"parameters\": [\n        \"x\",\n        \"y\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"m\"\n          }\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"n\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the latent binary kernel K(x, y). The first Piecewise branch is the identity evaluation of K at (x, y) = (n, m). The second branch is the diagonal specialization obtained by setting y = x and then evaluating at (x, y) = (n, n). The condition Ne(n, m) selects between these two evaluations of the same latent kernel.\",\n      \"required_assumptions\": [\n        \"K is a well-defined binary function of two arguments.\",\n        \"The specialization y = x is valid for the domain of interest.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n, m) - K(x, y)[x -> n, y -> m] = 0\",\n        \"K(n, n) - K(x, y)[x -> n, y -> n] = 0\"\n      ],\n      \"rationale\": \"The two branches share the same binary kernel K; they differ only by whether the second argument is the independent symbol m or is forced equal to n. Thus the Piecewise expression is a diagonal/off-diagonal restriction of K.\",\n      \"confidence\": 0.55\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

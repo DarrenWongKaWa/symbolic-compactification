@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma((0), z)",
+          "instantiated": "polygamma(0, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma((1), z)",
+          "instantiated": "polygamma(1, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "P(alpha, z) = polygamma(alpha, z)"
+      "latent_object": "P(alpha, z) = polygamma(alpha, z)",
+      "core": "polygamma(alpha, z)"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"P(alpha, z) = polygamma(alpha, z)\",\n      \"parameters\": [\"alpha\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"alpha\": \"0\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"alpha\": \"1\"}}\n      ],\n      \"construction_plan\": \"Define the two-argument polygamma order family P(alpha,z)=polygamma(alpha,z). The two observed summands are obtained by specializing alpha to 0 and 1, respectively. The raw expression is therefore the sum of two adjacent specializations, and the derivative relation d/dz P(alpha,z)=P(alpha+1,z) links the two specializations.\",\n      \"required_assumptions\": [\n        \"polygamma(alpha,z) is defined for alpha in {0,1} on the relevant domain\",\n        \"the derivative identity d/dz polygamma(alpha,z) = polygamma(alpha+1,z) holds for alpha=0\"\n      ],\n      \"proof_obligations\": [\n        \"P(0,z) - polygamma(0,z) = 0\",\n        \"P(1,z) - polygamma(1,z) = 0\",\n        \"d/dz P(0,z) - P(1,z) = 0\"\n      ],\n      \"rationale\": \"The raw expression is a sum of two successive polygamma orders. The reported LGG template polygamma(theta0,z) and the exact derivative relation are both captured by a single parameterized order family with parameter shift under z-differentiation.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

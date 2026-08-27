@@ -63,9 +63,10 @@ def _type_hit(htype: str, item: dict) -> bool:
 
 
 def _targeting_hit(hyp: LLMStructureHypothesis, item: dict) -> bool:
-    gold = [_canon(x, item) for x in (item.get("gold_members") or [])]
-    if not gold:
-        return False
+    raw_members = item.get("gold_members") or []
+    if not raw_members:
+        return True  # no member gold; type-only scoring
+    gold = [_canon(x, item) for x in raw_members]
     got = {_canon(x, item) for x in hyp.target_members}
     # also allow latent covering members
     if hyp.latent_object:

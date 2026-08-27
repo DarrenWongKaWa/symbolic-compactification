@@ -34,21 +34,23 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
-    "construction_ok": false,
-    "certified": false,
-    "false_abstraction": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
+    "highest_certified": "D3",
     "quality": "incorrect",
     "success": false,
     "types": [
@@ -57,30 +59,31 @@
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(G0)((p))*(V)((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(H0)((q))*(W)((q))**2",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "B(x)*A(x)**2"
+      "latent_object": "B(x)*A(x)**2",
+      "core": "B(x)*A(x)**2"
     }
   ],
   "hypotheses": [
@@ -143,5 +146,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"B(x)*A(x)**2\",\n      \"parameters\": [\n        \"A\",\n        \"B\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"permute\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"permute\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"A\": \"V\",\n            \"B\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"A\": \"W\",\n            \"B\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate B(x)*A(x)^2 with the given mapping. The raw terms become this template under AC permutation: V(p)*G0(p)*V(p) -> G0(p)*V(p)^2 and W(q)*H0(q)*W(q) -> H0(q)*W(q)^2.\",\n      \"required_assumptions\": [\n        \"Function values multiply commutatively and associatively\",\n        \"Each term is a scalar monomial in one variable\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - G0(p)*V(p)**2 = 0 under AC multiplication\",\n        \"W(q)*H0(q)*W(q) - H0(q)*W(q)**2 = 0 under AC multiplication\"\n      ],\n      \"rationale\": \"Both summands share the same two-function monomial structure: a central function times the square of a repeated flanking function, up to multiplicative commutativity.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

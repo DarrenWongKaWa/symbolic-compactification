@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "L(x)*K(x)*L(x)"
+      "latent_object": "L(x)*K(x)*L(x)",
+      "core": "L(x)*K(x)*L(x)"
     }
   ],
   "hypotheses": [
@@ -145,5 +146,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"L(x)*K(x)*L(x)\",\n      \"parameters\": [\n        \"L\",\n        \"K\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"L\": \"V\",\n            \"K\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"L\": \"W\",\n            \"K\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the repeated-kernel template L(x)*K(x)*L(x) by substituting the triple (L,K,x) for each member. For the first additive term use (V,G0,p); for the second additive term use (W,H0,q).\",\n      \"required_assumptions\": [\n        \"In each target term, the left and right factors are the same function evaluated at the same variable.\",\n        \"The middle factor is treated as a kernel in the variable of that term.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (L(x)*K(x)*L(x))[L=V,K=G0,x=p] = 0\",\n        \"W(q)*H0(q)*W(q) - (L(x)*K(x)*L(x))[L=W,K=H0,x=q] = 0\"\n      ],\n      \"rationale\": \"Both non-identical terms share the same repeated-factor sandwich structure, differing only by the endpoint functions and the independent variable.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

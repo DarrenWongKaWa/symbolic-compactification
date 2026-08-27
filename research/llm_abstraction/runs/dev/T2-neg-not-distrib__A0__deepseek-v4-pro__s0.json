@@ -34,7 +34,7 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x)*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F((x)*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(a*y + b*z)"
+      "latent_object": "F(a*y + b*z)",
+      "core": "F(a*y + b*z)"
     },
     {
       "constructable": false,
@@ -95,22 +96,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F(y*M_{(1),1} + z*M_{(1),2})",
+          "instantiated": "F(y*M_{i,1} + z*M_{i,2})",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F(y*M_{(2),1} + z*M_{(2),2})",
+          "instantiated": "F(y*M_{i,1} + z*M_{i,2})",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "F(y*M_{i,1} + z*M_{i,2})"
+      "latent_object": "F(y*M_{i,1} + z*M_{i,2})",
+      "core": "F(y*M_{i,1} + z*M_{i,2})"
     }
   ],
   "hypotheses": [
@@ -219,5 +221,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(a*y + b*z)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"a\": \"x\", \"b\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"a\": \"x\", \"b\": \"w\"}}\n      ],\n      \"construction_plan\": \"Instantiate the bilinear argument a*y+b*z with (a,b)=(x,x) to obtain F(x*y+x*z), then algebraically identify x*y+x*z with x*(y+z). Instantiate with (a,b)=(x,w) to obtain F(x*y+w*z) directly.\",\n      \"required_assumptions\": [\"F respects equality of its argument under algebraic expansion\", \"Distributivity x*(y+z)=x*y+x*z holds\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(x*y + x*z) = 0\",\n        \"F(x*y + w*z) - F(a*y + b*z)[a->x,b->w] = 0\"\n      ],\n      \"rationale\": \"Both F arguments are instances of the same bilinear form a*y+b*z; the first is the confluent specialization a=b=x, while the second separates the coefficient of z to w.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(y*M_{i,1} + z*M_{i,2})\",\n      \"parameters\": [\"i\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"i\": \"1\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"i\": \"2\"}}\n      ],\n      \"construction_plan\": \"Define a coefficient matrix M with rows r_1=[x,x] and r_2=[x,w]. For i=1,2, form the linear form L_i = y*M_{i,1}+z*M_{i,2} and apply F. The expression is the sum of the two kernel evaluations F(L_i).\",\n      \"required_assumptions\": [\"M_{1,1}=x, M_{1,2}=x, M_{2,1}=x, M_{2,2}=w\"],\n      \"proof_obligations\": [\n        \"F(y*M_{1,1}+z*M_{1,2})[M_{1,1}=x,M_{1,2}=x] - F(x*(y + z)) = 0\",\n        \"F(y*M_{2,1}+z*M_{2,2})[M_{2,1}=x,M_{2,2}=w] - F(x*y + w*z) = 0\"\n      ],\n      \"rationale\": \"The two summands are the same kernel F applied to the two linear forms encoded by the rows of a 2x2 coefficient matrix, making explicit the shared first coefficient x and the differing z coefficient.\",\n      \"confidence\": 0.55\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

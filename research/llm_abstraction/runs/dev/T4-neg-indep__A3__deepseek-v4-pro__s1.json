@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"No member expressions are provided in the observation packets; the only reported evidence is generic commutativity of addition for numeric constants and a rewrite rule a+b -> b+a. This is insufficient to identify a non-trivial latent object or representation change involving the declared symbols z, F, or G.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

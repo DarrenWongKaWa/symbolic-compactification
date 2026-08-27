@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     }
   ],
   "hypotheses": [
@@ -142,5 +143,6 @@
   ],
   "raw_content": "{\"abstain\":false,\"abstain_reason\":\"\",\"hypotheses\":[{\"hypothesis_type\":\"parameterized_family\",\"target_members\":[\"K(n, m)\",\"K(n, n)\"],\"latent_object\":\"K(a, b)\",\"parameters\":[\"a\",\"b\"],\"operators\":[{\"member\":\"K(n, m)\",\"O\":\"specialize\"},{\"member\":\"K(n, n)\",\"O\":\"specialize\"}],\"instance_maps\":[{\"member\":\"K(n, m)\",\"theta\":{\"a\":\"n\",\"b\":\"m\"}},{\"member\":\"K(n, n)\",\"theta\":{\"a\":\"n\",\"b\":\"n\"}}],\"construction_plan\":\"Take the two-parameter symbolic template K(a,b). Generate K(n,m) by substituting a=n,b=m; generate K(n,n) by substituting a=n,b=n. The piecewise condition Ne(n,m) selects the off-diagonal instance when n != m and the diagonal instance when n = m.\",\"required_assumptions\":[\"K is a binary function symbol accepting two arguments.\",\"n and m are symbols in the domain of K.\"],\"proof_obligations\":[\"K(n, m) - K(a,b)/{a->n,b->m} = 0\",\"K(n, n) - K(a,b)/{a->n,b->n} = 0\"],\"rationale\":\"The two branch expressions are non-identical argument vectors of the same applied function K; the diagonal branch is the specialization of the same binary template to equal arguments.\",\"confidence\":0.95}]}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -35,52 +35,55 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D2"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D2"
+    ],
     "highest_attempted": "D2",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D2",
+    "quality": "useful",
+    "success": true,
     "types": [
       "repeated_kernel"
     ]
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a(n))(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b(n))(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*X(n)"
+      "latent_object": "K(n)*X(n)",
+      "core": "K(n)*X(n)"
     }
   ],
   "hypotheses": [
@@ -136,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\"\n      ],\n      \"latent_object\": \"K(n)*X(n)\",\n      \"parameters\": [\n        \"X\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"X\": \"a(n)\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"X\": \"b(n)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template K(n)*X(n) by specializing the parameter X to a(n) or b(n); both resulting terms retain the shared kernel K(n).\",\n      \"required_assumptions\": [\n        \"K(n), a(n), and b(n) are defined for the index n.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - specialize_{X=a(n)}(K(n)*X(n)) = 0\",\n        \"K(n)*b(n) - specialize_{X=b(n)}(K(n)*X(n)) = 0\"\n      ],\n      \"rationale\": \"The two additive terms are structurally identical up to the function multiplied by K(n), so they are instances of one parameterized product with a repeated kernel K(n).\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

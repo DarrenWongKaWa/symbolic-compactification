@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "(G0)((p))*(V)((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "H0(q)*W(q)**2",
-          "instantiated": "(H0)((q))*(W)((q))**2",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(a,b,x) = a(x)*b(x)**2"
+      "latent_object": "F(a,b,x) = a(x)*b(x)**2",
+      "core": "a(x)*b(x)**2"
     }
   ],
   "hypotheses": [
@@ -142,5 +143,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"H0(q)*W(q)**2\"\n      ],\n      \"latent_object\": \"F(a,b,x) = a(x)*b(x)**2\",\n      \"parameters\": [\n        \"a\",\n        \"b\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"theta\": {\n            \"a\": \"G0\",\n            \"b\": \"V\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"theta\": {\n            \"a\": \"H0\",\n            \"b\": \"W\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template a(x)*b(x)**2 by substituting the function symbols for a and b and the variable symbol for x. For the listed members, the identity operator is sufficient after instantiation.\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - (G0(p)*V(p)**2) = 0\",\n        \"H0(q)*W(q)**2 - (H0(q)*W(q)**2) = 0\"\n      ],\n      \"rationale\": \"Both members are instances of the same binary product template a(x)*b(x)**2, differing only in the function and variable symbols. This matches the reported substitution-instance/LGG family without requiring additional structure.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

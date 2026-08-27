@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "H(x) = V(x)*G0(x)*V(x)"
+      "latent_object": "H(x) = V(x)*G0(x)*V(x)",
+      "core": "V(x)*G0(x)*V(x)"
     }
   ],
   "hypotheses": [
@@ -136,5 +137,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"H(x) = V(x)*G0(x)*V(x)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\"x\": \"p\"}\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"theta\": {\"x\": \"q\"}\n        }\n      ],\n      \"construction_plan\": \"Define H(x)=V(x)*G0(x)*V(x). Substitute x=p for the first term and x=q for the second term; the raw expression is the sum of these two instantiations.\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - H(p) = 0\",\n        \"V(q)*G0(q)*V(q) - H(q) = 0\"\n      ],\n      \"rationale\": \"The two additive terms have identical compositional structure V(_)*G0(_)*V(_) with only the declared symbol p or q changing, so they are evaluations of a single parameterized object H(x).\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

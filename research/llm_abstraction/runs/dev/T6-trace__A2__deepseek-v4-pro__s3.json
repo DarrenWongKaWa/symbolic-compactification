@@ -35,23 +35,21 @@
     "n_parse_failure_hyps": 0,
     "type_hit": false,
     "targeting_hit": true,
-    "construction_ok": true,
-    "certified": true,
+    "construction_ok": false,
+    "certified": false,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": false,
-    "n_zero": 2,
+    "n_zero": 0,
     "n_nonzero": 0,
-    "n_unknown": 0,
+    "n_unknown": 2,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [
-      "D3"
-    ],
+    "d_certified": [],
     "highest_attempted": "D3",
-    "highest_certified": "D3",
-    "quality": "incorrect",
+    "highest_certified": null,
+    "quality": "unverifiable",
     "success": false,
     "types": [
       "parameterized_family"
@@ -59,30 +57,31 @@
   },
   "constructions": [
     {
-      "constructable": true,
-      "certified": true,
-      "n_zero": 2,
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
       "n_nonzero": 0,
-      "n_unknown": 0,
+      "n_unknown": 2,
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(\u03b8, \u03b8)",
           "operator": "specialize",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(\u03b8, \u03b8)",
           "operator": "specialize",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(\u03b8, \u03b8)"
+      "latent_object": "M(\u03b8, \u03b8)",
+      "core": "M(\u03b8, \u03b8)"
     }
   ],
   "hypotheses": [
@@ -138,5 +137,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(\u03b8, \u03b8)\",\n      \"parameters\": [\"\u03b8\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"\u03b8\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"\u03b8\": \"2\"}}\n      ],\n      \"construction_plan\": \"Form the diagonal template M(\u03b8, \u03b8) with one parameter \u03b8. Instances are obtained by substituting \u03b8=1 and \u03b8=2.\",\n      \"required_assumptions\": [\n        \"M is a two-argument function whose diagonal entries M(\u03b8, \u03b8) form a meaningful one-parameter indexed family.\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - (M(\u03b8, \u03b8) evaluated at \u03b8=1) = 0\",\n        \"M(2, 2) - (M(\u03b8, \u03b8) evaluated at \u03b8=2) = 0\"\n      ],\n      \"rationale\": \"The two indexed calls have identical function name and equal arguments; the structural packet reports a common template M(theta0, theta0) with theta0 specialized to 1 and 2.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

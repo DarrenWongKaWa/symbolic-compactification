@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p)) * (G0)((p)) * (V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q)) * (H0)((q)) * (W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "L(x, F, A) = F(x) * A(x) * F(x)"
+      "latent_object": "L(x, F, A) = F(x) * A(x) * F(x)",
+      "core": "F(x) * A(x) * F(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"W(q)*H0(q)*W(q)\"],\n      \"latent_object\": \"L(x, F, A) = F(x) * A(x) * F(x)\",\n      \"parameters\": [\"x\", \"F\", \"A\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"x\": \"p\", \"F\": \"V\", \"A\": \"G0\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"x\": \"q\", \"F\": \"W\", \"A\": \"H0\"}}\n      ],\n      \"construction_plan\": \"Start with the abstract template L(x,F,A) = F(x)*A(x)*F(x). For each target member, replace the formal parameter x with the concrete symbol (p or q), F with the corresponding outer function (V or W), and A with the corresponding middle function (G0 or H0). This substitution produces exactly the displayed term.\",\n      \"required_assumptions\": [\"The ambient algebraic structure allows applying functions to symbols and multiplying the results; no commutativity or associativity rearrangement is needed to match the displayed order.\"],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - specialize(L, {x:p, F:V, A:G0}) = 0\",\n        \"W(q)*H0(q)*W(q) - specialize(L, {x:q, F:W, A:H0}) = 0\"\n      ],\n      \"rationale\": \"Both subexpressions are non-identical but share the exact multiplicative shape F(x)*A(x)*F(x). The only differences are the choice of variable and the two function names. The LGG family observation in family F01 confirms that these are substitution instances of a common abstract pattern, and the witness maps exactly to the parameters above.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

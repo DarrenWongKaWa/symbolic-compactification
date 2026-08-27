@@ -40,14 +40,15 @@
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 3,
+    "n_zero": 5,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D3",
       "D5"
     ],
     "d_certified": [
+      "D3",
       "D5"
     ],
     "highest_attempted": "D5",
@@ -61,30 +62,31 @@
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a(n))(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b(n))(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(n)*phi(n)"
+      "latent_object": "K(n)*phi(n)",
+      "core": "K(n)*phi(n)"
     },
     {
       "constructable": true,
@@ -95,29 +97,30 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*((1)*a(n)+(0)*b(n))",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*((0)*a(n)+(1)*b(n))",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*a(n)+K(n)*b(n)",
-          "instantiated": "K(n)*((1)*a(n)+(1)*b(n))",
+          "instantiated": "(a(n) + b(n))*K(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "basis_reduction",
       "d_level": "D5",
-      "latent_object": "K(n)*(c1*a(n)+c2*b(n))"
+      "latent_object": "K(n)*(c1*a(n)+c2*b(n))",
+      "core": "K(n)*(c1*a(n)+c2*b(n))"
     }
   ],
   "hypotheses": [
@@ -240,5 +243,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\"\n      ],\n      \"latent_object\": \"K(n)*phi(n)\",\n      \"parameters\": [\n        \"phi\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"phi\": \"a(n)\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"phi\": \"b(n)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Substitute phi(n) by a(n) or b(n) in the common product template K(n)*phi(n).\",\n      \"required_assumptions\": [\n        \"K, a, and b are unary functions of n\",\n        \"substitution is defined for the function placeholder phi\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*phi(n))[phi:=a(n)] = 0\",\n        \"K(n)*b(n) - (K(n)*phi(n))[phi:=b(n)] = 0\"\n      ],\n      \"rationale\": \"The two terms are AC-equivalent under the same multiplication pattern and differ only by the second factor; the observed LGG template theta0*K(n) supports a single parameterized product family.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"basis_reduction\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\",\n        \"K(n)*a(n)+K(n)*b(n)\"\n      ],\n      \"latent_object\": \"K(n)*(c1*a(n)+c2*b(n))\",\n      \"parameters\": [\n        \"c1\",\n        \"c2\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*a(n)+K(n)*b(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"c1\": \"1\",\n            \"c2\": \"0\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"c1\": \"0\",\n            \"c2\": \"1\"\n          }\n        },\n        {\n          \"member\": \"K(n)*a(n)+K(n)*b(n)\",\n          \"theta\": {\n            \"c1\": \"1\",\n            \"c2\": \"1\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the coefficient vector (c1,c2) in the weighted basis representation K(n)*(c1*a(n)+c2*b(n)); the individual products select one basis element and the sum selects both with coefficient one.\",\n      \"required_assumptions\": [\n        \"1*a(n)=a(n) and 0*b(n)=0 in the formal coefficient algebra\",\n        \"K(n) distributes over the formal sum c1*a(n)+c2*b(n)\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - K(n)*(1*a(n)+0*b(n)) = 0\",\n        \"K(n)*b(n) - K(n)*(0*a(n)+1*b(n)) = 0\",\n        \"K(n)*a(n)+K(n)*b(n) - K(n)*(1*a(n)+1*b(n)) = 0\"\n      ],\n      \"rationale\": \"The expression is a shared-coefficient linear combination of a(n) and b(n), so a basis-reduction representation with a coefficient vector explains both individual terms and the full sum.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

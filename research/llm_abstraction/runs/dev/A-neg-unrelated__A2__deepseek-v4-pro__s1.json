@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "(V)((p))^2 * (G0)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "H0(q)*W(q)**2",
-          "instantiated": "(W)((q))^2 * (H0)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "theta0(x)^2 * theta1(x)"
+      "latent_object": "theta0(x)^2 * theta1(x)",
+      "core": "theta0(x)^2 * theta1(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"H0(q)*W(q)**2\"\n      ],\n      \"latent_object\": \"theta0(x)^2 * theta1(x)\",\n      \"parameters\": [\n        \"theta0\",\n        \"theta1\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"theta\": {\n            \"theta0\": \"V\",\n            \"theta1\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"theta\": {\n            \"theta0\": \"W\",\n            \"theta1\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the symbolic template theta0(x)^2*theta1(x) with the two substitutions. Under associative/commutative multiplication, the first raw factor V(p)*G0(p)*V(p) is the same product; the second is W(q)*H0(q)*W(q) after the analogous substitution.\",\n      \"required_assumptions\": [\n        \"Multiplication is associative and commutative for the factor order used in the target members.\"\n      ],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - (theta0(x)^2*theta1(x))[theta0=V, theta1=G0, x=p] = 0\",\n        \"H0(q)*W(q)**2 - (theta0(x)^2*theta1(x))[theta0=W, theta1=H0, x=q] = 0\"\n      ],\n      \"rationale\": \"Both reported family members have the same product shape: a squared function times a second function, with only function names and variable symbol changed. This is naturally represented as one parameterized product template with two specializations.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

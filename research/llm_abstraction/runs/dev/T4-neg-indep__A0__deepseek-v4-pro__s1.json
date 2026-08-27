@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single expression F(z)+G(z) is provided, with no additional assumptions or non-identical structural families. The only latent structure is the generic additive combination of two unary functions evaluated at the same variable, which is already explicit and not a non-trivial shared structure.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

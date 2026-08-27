@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single expression is provided; no non-trivial shared structure exists beyond factoring a common monomial factor (I*mu), which is a shallow hole-product and explicitly excluded. There are no multiple structural families to explain.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

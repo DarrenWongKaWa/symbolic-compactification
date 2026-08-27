@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"The expression is a single two-term sum whose only shared structure is a trivial common multiplicative factor I*mu; it does not contain multiple non-identical structural families or a non-shallow latent object.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

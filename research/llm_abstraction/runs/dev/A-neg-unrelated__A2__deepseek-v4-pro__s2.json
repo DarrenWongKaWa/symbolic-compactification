@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "theta0(x)*theta1(x)*theta0(x)"
+      "latent_object": "theta0(x)*theta1(x)*theta0(x)",
+      "core": "theta0(x)*theta1(x)*theta0(x)"
     }
   ],
   "hypotheses": [
@@ -145,5 +146,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"theta0(x)*theta1(x)*theta0(x)\",\n      \"parameters\": [\n        \"x\",\n        \"theta0\",\n        \"theta1\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"x\": \"p\",\n            \"theta0\": \"V\",\n            \"theta1\": \"G0\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"x\": \"q\",\n            \"theta0\": \"W\",\n            \"theta1\": \"H0\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Substitute each instance map into the latent template theta0(x)*theta1(x)*theta0(x); no factor permutation is required for the raw ordering.\",\n      \"required_assumptions\": [\n        \"theta0 and theta1 are unary function symbols\",\n        \"multiplication is associative and preserves the displayed factor order\"\n      ],\n      \"proof_obligations\": [\n        \"Substituting x->p, theta0->V, theta1->G0 into theta0(x)*theta1(x)*theta0(x) gives V(p)*G0(p)*V(p); difference = 0\",\n        \"Substituting x->q, theta0->W, theta1->H0 into theta0(x)*theta1(x)*theta0(x) gives W(q)*H0(q)*W(q); difference = 0\"\n      ],\n      \"rationale\": \"Both addends are instances of the same three-factor monomial A(x)*B(x)*A(x), with a repeated outer factor and a middle factor, under separate variable/function substitutions.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

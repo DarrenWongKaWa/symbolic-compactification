@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "-I*mu",
-          "instantiated": "I*mu*(-1)",
+          "instantiated": "-I*mu",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "I*beta*mu",
-          "instantiated": "I*mu*(beta)",
+          "instantiated": "I*beta*mu",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "I*mu*theta0"
+      "latent_object": "I*mu*theta0",
+      "core": "I*mu*theta0"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"-I*mu\", \"I*beta*mu\"],\n      \"latent_object\": \"I*mu*theta0\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\n          \"member\": \"-I*mu\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"I*beta*mu\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"-I*mu\",\n          \"theta\": {\n            \"theta0\": \"-1\"\n          }\n        },\n        {\n          \"member\": \"I*beta*mu\",\n          \"theta\": {\n            \"theta0\": \"beta\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Take the template I*mu*theta0 and replace the placeholder theta0 with the value in the instance map. For theta0=-1, we get -I*mu. For theta0=beta, we get I*mu*beta which, under commutative multiplication, is AC-equivalent to I*beta*mu.\",\n      \"required_assumptions\": [\"Commutative multiplication (AC)\"],\n      \"proof_obligations\": [\n        \"-I*mu - specialize(I*mu*theta0, {theta0: -1}) = 0\",\n        \"I*beta*mu - specialize(I*mu*theta0, {theta0: beta}) = 0 (modulo AC)\"\n      ],\n      \"rationale\": \"The two terms are non-identical but share a common multiplicative skeleton I*mu times a scalar parameter. The LGG candidate relation explicitly proposes the frozen template I*mu*theta0 with a single hole, and the instance maps exactly assign the parameter values. This is a parameterized family rather than a shallow hole-product of unrelated constants because the shared factor I*mu is not just a constant; it contains the symbolic variable mu.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

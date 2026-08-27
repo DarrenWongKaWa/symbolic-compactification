@@ -34,26 +34,28 @@
     "n_hypotheses": 4,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
-    "construction_ok": false,
-    "certified": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 3,
     "n_nonzero": 0,
-    "n_unknown": 9,
+    "n_unknown": 6,
     "d_attempted": [
       "D2",
       "D3",
       "D4",
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D2"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "incorrect",
-    "success": false,
+    "highest_certified": "D2",
+    "quality": "useful",
+    "success": true,
     "types": [
       "parameterized_family",
       "tensor_generator",
@@ -71,22 +73,23 @@
       "obligations": [
         {
           "member": "Sum(Piecewise((D(n,m)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))",
-          "instantiated": "S_{(b),(c)}[D,O] = Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1((b),n,m)*h2(a,(c),m,n), E(c)(m,n), O(n,m)*h1((b),n,m)*h2(a,(c),m,n), True)",
+          "instantiated": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "Sum(Piecewise((D(n,m)*h1(c,n,m)*h2(a,b,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(c,n,m)*h2(a,b,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))",
-          "instantiated": "S_{(c),(b)}[D,O] = Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1((c),n,m)*h2(a,(b),m,n), E(b)(m,n), O(n,m)*h1((c),n,m)*h2(a,(b),m,n), True)",
+          "instantiated": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "S_{p,q}[D,O] = Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)"
+      "latent_object": "S_{p,q}[D,O] = Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)",
+      "core": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)"
     },
     {
       "constructable": false,
@@ -97,22 +100,23 @@
       "obligations": [
         {
           "member": "Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)",
-          "instantiated": "K(n,m,ell), the common (h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))iecewise coefficient tensor depending on epsilon(n), epsilon(m), epsilon(ell), beta, gamma, mu, and pi; and the contraction T[(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))] = Sum_{n,m,ell} K(n,m,ell)*(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))(a,b,c;n,m,ell)",
+          "instantiated": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)",
-          "instantiated": "K(n,m,ell), the common (h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))iecewise coefficient tensor depending on epsilon(n), epsilon(m), epsilon(ell), beta, gamma, mu, and pi; and the contraction T[(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))] = Sum_{n,m,ell} K(n,m,ell)*(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))(a,b,c;n,m,ell)",
+          "instantiated": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "tensor_generator",
       "d_level": "D5",
-      "latent_object": "K(n,m,ell), the common Piecewise coefficient tensor depending on epsilon(n), epsilon(m), epsilon(ell), beta, gamma, mu, and pi; and the contraction T[P] = Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)"
+      "latent_object": "K(n,m,ell), the common Piecewise coefficient tensor depending on epsilon(n), epsilon(m), epsilon(ell), beta, gamma, mu, and pi; and the contraction T[P] = Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)",
+      "core": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)"
     },
     {
       "constructable": false,
@@ -123,55 +127,57 @@
       "obligations": [
         {
           "member": "diagonal branch of first double sum",
-          "instantiated": "O(n,m), the off-diagonal coefficient with singular factors in epsilon(m)-epsilon(n); the diagonal branch is the confluent limit lim_{(epsilon_n) -> epsilon_n} F((epsilon_n), epsilon_n)",
+          "instantiated": "O(n,m)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "off-diagonal branch of first double sum",
-          "instantiated": "O(n,m), the off-diagonal coefficient with singular factors in epsilon(m)-epsilon(n); the diagonal branch is the confluent limit lim_{(epsilon_m) -> (epsilon_n)} F((epsilon_m), (epsilon_n))",
+          "instantiated": "O(n,m)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "F(epsilon_m, epsilon_n) = O(n,m), the off-diagonal coefficient with singular factors in epsilon(m)-epsilon(n); the diagonal branch is the confluent limit lim_{epsilon_m -> epsilon_n} F(epsilon_m, epsilon_n)"
+      "latent_object": "F(epsilon_m, epsilon_n) = O(n,m), the off-diagonal coefficient with singular factors in epsilon(m)-epsilon(n); the diagonal branch is the confluent limit lim_{epsilon_m -> epsilon_n} F(epsilon_m, epsilon_n)",
+      "core": "O(n,m)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 3,
       "n_nonzero": 0,
-      "n_unknown": 3,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))",
-          "instantiated": "K_{(4),(-1)}((n)) = polygamma((4), (beta*(gamma + (-1)*I*mu - (-1)*I*epsilon((n))) + pi)/(2*pi))",
+          "instantiated": "polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))",
-          "instantiated": "K_{(4),(1)}((n)) = polygamma((4), (beta*(gamma + (1)*I*mu - (1)*I*epsilon((n))) + pi)/(2*pi))",
+          "instantiated": "polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "polygamma(0, (beta*gamma - I*beta*mu + I*beta*epsilon(m) + pi)/(2*pi))",
-          "instantiated": "K_{(0),(-1)}((m)) = polygamma((0), (beta*(gamma + (-1)*I*mu - (-1)*I*epsilon((m))) + pi)/(2*pi))",
+          "instantiated": "polygamma(0, (beta*(gamma - I*mu + I*epsilon(m)) + pi)/(2*pi))",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K_{k,sigma}(x) = polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))"
+      "latent_object": "K_{k,sigma}(x) = polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))",
+      "core": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))"
     }
   ],
   "hypotheses": [
@@ -405,5 +411,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"Sum(Piecewise((D(n,m)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))\",\n        \"Sum(Piecewise((D(n,m)*h1(c,n,m)*h2(a,b,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(c,n,m)*h2(a,b,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))\"\n      ],\n      \"latent_object\": \"S_{p,q}[D,O] = Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)\",\n      \"parameters\": [\"p\", \"q\", \"D\", \"O\"],\n      \"operators\": [\n        { \"member\": \"Sum(Piecewise((D(n,m)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))\", \"O\": \"specialize\" },\n        { \"member\": \"Sum(Piecewise((D(n,m)*h1(c,n,m)*h2(a,b,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(c,n,m)*h2(a,b,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))\", \"O\": \"specialize\" }\n      ],\n      \"instance_maps\": [\n        { \"member\": \"Sum(Piecewise((D(n,m)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))\", \"theta\": { \"p\": \"b\", \"q\": \"c\" } },\n        { \"member\": \"Sum(Piecewise((D(n,m)*h1(c,n,m)*h2(a,b,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(c,n,m)*h2(a,b,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))\", \"theta\": { \"p\": \"c\", \"q\": \"b\" } }\n      ],\n      \"construction_plan\": \"Extract the diagonal and off-diagonal polygamma coefficient functions D and O from the common first two sums; form the two-parameter family S_{p,q}[D,O] by inserting h1(p,n,m)*h2(a,q,m,n) in place of the h-factors. The observed first sum is obtained for (p,q)=(b,c), the second for (p,q)=(c,b).\",\n      \"required_assumptions\": [\n        \"D and O are independent of the labels p,q and are identical across the two double sums.\"\n      ],\n      \"proof_obligations\": [\n        \"S_{p,q}[D,O] with p=b,q=c equals the first double sum exactly.\",\n        \"S_{p,q}[D,O] with p=c,q=b equals the second double sum exactly.\",\n        \"D and O extracted from the two double sums agree branch-by-branch.\"\n      ],\n      \"rationale\": \"The first two double sums have the same diagonal/off-diagonal coefficient structure but differ only by the permutation of the labels b and c in the h1/h2 prefactors. This is a parameter substitution of a common kernel family.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"hypothesis_type\": \"tensor_generator\",\n      \"target_members\": [\n        \"Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\",\n        \"Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"\n      ],\n      \"latent_object\": \"K(n,m,ell), the common Piecewise coefficient tensor depending on epsilon(n), epsilon(m), epsilon(ell), beta, gamma, mu, and pi; and the contraction T[P] = Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)\",\n      \"parameters\": [\"P\"],\n      \"operators\": [\n        { \"member\": \"Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\", \"O\": \"specialize\" },\n        { \"member\": \"Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\", \"O\": \"permute\" }\n      ],\n      \"instance_maps\": [\n        { \"member\": \"Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\", \"theta\": { \"P\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\" } },\n        { \"member\": \"Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\", \"theta\": { \"P\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\" } }\n      ],\n      \"construction_plan\": \"Extract the coefficient tensor K(n,m,ell) from the two triple sums. Both triple sums are contractions of the same K against two different products of three h1 factors. The second contraction is obtained from the first by a permutation of the index-pair attachments and associated function labels.\",\n      \"required_assumptions\": [\n        \"The Piecewise coefficient tensor K is identical in both triple sums.\",\n        \"The h1 products are the only structural difference between the two triple sums.\"\n      ],\n      \"proof_obligations\": [\n        \"Branch-by-branch equality of K in the first and second triple sums holds.\",\n        \"T[P1] equals the first triple sum for P1=h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell).\",\n        \"T[P2] equals the second triple sum for P2=h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m).\"\n      ],\n      \"rationale\": \"The two triple sums share an identical piecewise coefficient structure and differ only in the ordering of the h1 tensor factors, indicating a common coefficient tensor generating different contractions.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\n        \"diagonal branch of first double sum: Piecewise((D(n,n)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)))\",\n        \"off-diagonal branch of first double sum: Piecewise((O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True))\"\n      ],\n      \"latent_object\": \"F(epsilon_m, epsilon_n) = O(n,m), the off-diagonal coefficient with singular factors in epsilon(m)-epsilon(n); the diagonal branch is the confluent limit lim_{epsilon_m -> epsilon_n} F(epsilon_m, epsilon_n)\",\n      \"parameters\": [\"epsilon_m\", \"epsilon_n\"],\n      \"operators\": [\n        { \"member\": \"diagonal branch of first double sum\", \"O\": \"specialize\" },\n        { \"member\": \"off-diagonal branch of first double sum\", \"O\": \"identity\" }\n      ],\n      \"instance_maps\": [\n        { \"member\": \"diagonal branch of first double sum\", \"theta\": { \"epsilon_m\": \"epsilon_n\" } },\n        { \"member\": \"off-diagonal branch of first double sum\", \"theta\": { \"epsilon_m\": \"epsilon_m\", \"epsilon_n\": \"epsilon_n\" } }\n      ],\n      \"construction_plan\": \"Treat the off-diagonal branch as a bivariate function of epsilon_m and epsilon_n. Induce the diagonal branch by taking the confluent limit epsilon_m -> epsilon_n after accounting for the singular denominators. The same construction applies to the other double sum and to the equal-index branches of the triple sums.\",\n      \"required_assumptions\": [\n        \"epsilon(m) and epsilon(n) are independent variables in the off-diagonal branch.\",\n        \"The diagonal branch is the regular limit of the off-diagonal branch at epsilon(m)=epsilon(n).\"\n      ],\n      \"proof_obligations\": [\n        \"Compute lim_{epsilon_m -> epsilon_n} O(n,m) and compare with D(n,n) up to the prefactors.\",\n        \"Verify that the Eq(m,n) branch condition corresponds to the confluent point.\",\n        \"Repeat the limit comparison for the triple-sum equal-index branches.\"\n      ],\n      \"rationale\": \"The Piecewise branches distinguish Eq(m,n) from generic True, and the off-diagonal branch contains denominators in epsilon(m)-epsilon(n), while the diagonal branch has no such denominator. This is structurally a confluent/diagonal limit representation.\",\n      \"confidence\": 0.65\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))\",\n        \"polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))\",\n        \"polygamma(0, (beta*gamma - I*beta*mu + I*beta*epsilon(m) + pi)/(2*pi))\"\n      ],\n      \"latent_object\": \"K_{k,sigma}(x) = polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))\",\n      \"parameters\": [\"k\", \"sigma\", \"x\"],\n      \"operators\": [\n        { \"member\": \"polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))\", \"O\": \"specialize\" },\n        { \"member\": \"polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))\", \"O\": \"specialize\" },\n        { \"member\": \"polygamma(0, (beta*gamma - I*beta*mu + I*beta*epsilon(m) + pi)/(2*pi))\", \"O\": \"specialize\" }\n      ],\n      \"instance_maps\": [\n        { \"member\": \"polygamma(4, (beta*(gamma - I*mu + I*epsi",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -35,21 +35,23 @@
     "n_parse_failure_hyps": 0,
     "type_hit": false,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "unverifiable",
+    "highest_certified": "D3",
+    "quality": "incorrect",
     "success": false,
     "types": [
       "master_function"
@@ -57,30 +59,31 @@
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "K(n,m)",
-          "instantiated": "K((n),(m)), the single two-arg(n)ment kernel e(m)al(n)ated at arbitrary arg(n)ments (n) and (m)",
+          "instantiated": "K(n, m)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "K(n,n)",
-          "instantiated": "K((n),(n)), the single two-arg(n)ment kernel e(n)al(n)ated at arbitrary arg(n)ments (n) and (n)",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "F(u,v) = K(u,v), the single two-argument kernel evaluated at arbitrary arguments u and v"
+      "latent_object": "F(u,v) = K(u,v), the single two-argument kernel evaluated at arbitrary arguments u and v",
+      "core": "K(u,v)"
     }
   ],
   "hypotheses": [
@@ -139,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\"K(n,m)\", \"K(n,n)\"],\n      \"latent_object\": \"F(u,v) = K(u,v), the single two-argument kernel evaluated at arbitrary arguments u and v\",\n      \"parameters\": [\"u\", \"v\"],\n      \"operators\": [\n        {\"member\": \"K(n,m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n,n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n,m)\", \"theta\": {\"u\": \"n\", \"v\": \"m\"}},\n        {\"member\": \"K(n,n)\", \"theta\": {\"u\": \"n\", \"v\": \"n\"}}\n      ],\n      \"construction_plan\": \"Instantiate F(u,v)=K(u,v). The off-diagonal branch K(n,m) is the identity instance with (u,v)=(n,m). The diagonal branch K(n,n) is the specialization v=u=n. The piecewise selector chooses the identity instance when n!=m and the specialization otherwise.\",\n      \"required_assumptions\": [\"K is defined for both equal and unequal arguments\"],\n      \"proof_obligations\": [\n        \"K(n,m) - F(u=n,v=m) = 0\",\n        \"K(n,n) - F(u=n,v=n) = 0\"\n      ],\n      \"rationale\": \"The expression uses one binary kernel K; the only structural difference between the two branches is whether the two slots are independently instantiated or identified.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

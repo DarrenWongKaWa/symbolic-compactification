@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(x) = V(x)*G0(x)*V(x)"
+      "latent_object": "T(x) = V(x)*G0(x)*V(x)",
+      "core": "V(x)*G0(x)*V(x)"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"T(x) = V(x)*G0(x)*V(x)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"x\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate T(x) at x=p and x=q; the original expression is the sum of the two instantiations.\",\n      \"required_assumptions\": [\"V and G0 are single-argument functions\", \"p and q are free symbols over which substitution is well-defined\"],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T(x)[x->p] = 0\",\n        \"V(q)*G0(q)*V(q) - T(x)[x->q] = 0\",\n        \"V(p)*G0(p)*V(p)+V(q)*G0(q)*V(q) - (T(x)[x->p]+T(x)[x->q]) = 0\"\n      ],\n      \"rationale\": \"The two summands are structurally identical up to the free symbol p versus q, so a single univariate template T(x) specializes to both; no deeper object is required.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

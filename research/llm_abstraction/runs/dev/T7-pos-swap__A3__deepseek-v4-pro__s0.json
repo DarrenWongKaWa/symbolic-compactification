@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(i, j)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((j), (i))",
+          "instantiated": "T(j, i)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(x, y)"
+      "latent_object": "T(x, y)",
+      "core": "T(x, y)"
     }
   ],
   "hypotheses": [
@@ -142,5 +143,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"specialize\"},\n        {\"member\": \"T(j, i)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"x\": \"i\", \"y\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"x\": \"j\", \"y\": \"i\"}}\n      ],\n      \"construction_plan\": \"Instantiate the two-parameter template T(x, y) by substituting the ordered argument pair (x, y) with (i, j) for the first member and with (j, i) for the second member.\",\n      \"required_assumptions\": [\n        \"T is a two-argument function symbol\",\n        \"i and j are distinct atomic symbols\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - specialize(T(x, y), {x: i, y: j}) = 0\",\n        \"T(j, i) - specialize(T(x, y), {x: j, y: i}) = 0\"\n      ],\n      \"rationale\": \"Both members are applications of the same two-argument function T, differing only in the order of the supplied arguments. A parameterized template T(x, y) captures that shared structure without asserting equality or commutativity of the two members.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

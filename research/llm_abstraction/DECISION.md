@@ -1,56 +1,45 @@
 # Decision
 
-Protocol: `deepseek-abstraction-protocol-v1-dev`
-Config: `deepseek-v4-pro-thinking-high-v1`
+Protocol: `deepseek-abstraction-protocol-v1-dev` (prompts/model frozen).
+Constructor: `expr_xreplace_v2` (verifier-side; not a prompt retune).
 
 ## Case
 
-**CASE A overall** (RAW ≈ SOL on correct/certified aggregate rates)
-with three local qualifications that must not be flattened:
+**CASE A overall** — RAW ≈ SOL on success (0.54 vs 0.52) after constructor
+repair. Certified is slightly higher with SOL (0.83 vs 0.90) because
+packets make *some* substitution maps easier to emit in a parseable form,
+not because SOL invents new objects.
 
-1. **CASE D on T1 (substitution / LGG-shaped families):** SOL CSE packets
-   pull DeepSeek from `parameterized_family` (RAW 5/5 useful) to
-   `repeated_kernel` (SOL 1/5 useful). Better local structure, worse
-   abstraction type. This is the predicted anchoring failure.
+Local qualifications that must not be flattened:
 
-2. **CASE C locally on T5 (confluence toy) and modest T2/T7:** SOL raises
-   success 0.2→0.8 on the F5 specialize toy; T2 0→0.6; T7 cert 0→0.4.
-   These are small DEV toys, not held-out physics.
+1. **CASE D on T1.** SOL CSE packets pull `parameterized_family` →
+   `repeated_kernel` (success 1.00 → 0.20). Anchoring is real.
+2. **CASE C locally on T5 (and T2).** Confluence-toy success 0.20 → 0.80.
+   Distributivity 0 → 0.60. Small DEV toys only.
+3. **CASE E was real, then partly fixed.** T7 permutation and polygamma
+   `d/dθ` were untestable because the constructor string-replaced `i`
+   into English. After parsed xreplace, T7 is 1.00 on **both** arms.
+   Guo DD/master obligations remain UNKNOWN (CASE E residual).
+4. **CASE F on T6 / F6.** Neither arm invents a new certified head.
 
-3. **CASE F on T6 / F6 representation change, and CASE E on Guo:**
-   neither RAW nor SOL proposes a new certified head (`Trace` / generators).
-   Guo proposals include `divided_difference` / `confluent_representation`
-   / `derivative_family` **verbally**; constructor/verifier returns UNKNOWN
-   on all 12 Guo cells. Verbal DD is not certified structure.
+Flash A0 vs A2 reproduces anchoring (success 0.54 → 0.38).
 
-## Answers to the causal question
+## Answers
 
-1. Does SOL help DeepSeek? **Not in aggregate.** Matched-budget A0 vs A2
-   type+target 0.476 vs 0.476.
-2. On which levels? Helps F5-style specialize typing (T5) and some T2/T7.
-   Hurts T1 type. Null on F6.
-3. Does SOL cause anchoring? **Yes, on T1 and in Flash A2**
-   (repr_chg 0.50→0.33; success 0.38→0.21).
-4. Certified vs verbal? Certification often tracks constructable
-   substitution, not deeper invention. Guo is verbal-only (UNKNOWN).
-5. Guo: both arms propose derivative / confluence / DD language; none
-   certified; no Φ_Γ name in proposer payloads (leak tests passed).
-6. Strongest failure: F6 representation-change (T6-trace 0/10 useful)
-   plus T1 SOL anchoring plus negative-item false shallow templates.
-7. Next bottleneck: **abstraction search / representation-change mechanism**,
-   not more observation backends. Constructor language is the Guo bottleneck
-   (CASE E) once proposals exist.
-8. Justified claim: *under this frozen protocol, wrapping SOL packets around
-   DeepSeek-v4-pro does not materially raise certified abstraction discovery
-   on DEV toys, and can anchor the model to CSE on substitution families.*
-   Not justified: “AI discovers physics” or “we invented preprocessing.”
-9. Artifacts: `research/llm_abstraction/` ; runs under `runs/`; CSV
-   `RESULTS_DEV.csv`. Frozen research SHA unchanged.
+1. Does SOL help DeepSeek? **Not in aggregate success.**
+2. Levels: helps F5-style specialize typing (T5) and T2; hurts T1 type;
+   T7 is a constructor problem, not an observation problem; F6 null.
+3. Anchoring? **Yes (T1, Flash A2, Guo A3 local packets).**
+4. Certified vs verbal? Constructor v2 converts some verbal maps into
+   ZERO. Guo DD/confluence stay verbal.
+5. Guo: 2/12 shallow certified kernels; 0 certified masters/DDs.
+6. Strongest failure: F6 new-head (T6 0/10 useful) + T1 SOL anchoring +
+   negatives that still mint hole-product templates.
+7. Next bottleneck: **representation-change search**, and a Guo-scale
+   obligation language for DD/confluence (not more SOL backends).
+8. Claim: wrapping SOL packets around DeepSeek-v4-pro does not materially
+   raise certified abstraction invention on this DEV set and can anchor
+   substitution families to CSE. Not: AI discovers physics.
+9. Artifacts: `research/llm_abstraction/`; commit of this freeze follows.
 
-## Protocol freeze (DEV)
-
-Prompts, schema, model id, thinking/high, json_object, packet cap 10, and
-A0–A3 payload rules are frozen for this DEV line. **Do not open held-out
-TEST** to retune them. Flash used the same prompts.
-
-This is **not** a paper result.
+Do **not** open held-out TEST to retune prompts.

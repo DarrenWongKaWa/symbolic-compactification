@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(x) = V(x)*G0(x)*V(x)"
+      "latent_object": "F(x) = V(x)*G0(x)*V(x)",
+      "core": "V(x)*G0(x)*V(x)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"F(x) = V(x)*G0(x)*V(x)\",\n      \"parameters\": [\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"theta\": {\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define the single template F(x) = V(x)*G0(x)*V(x). Instantiate it by substituting x = p for the first term and x = q for the second term.\",\n      \"required_assumptions\": [\n        \"V and G0 are functions of a single argument and are defined at p and q.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - F(x)[x -> p] = 0\",\n        \"V(q)*G0(q)*V(q) - F(x)[x -> q] = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms have the same product structure V(argument)*G0(argument)*V(argument), differing only by the symbolic argument p versus q.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

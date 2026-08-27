@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "S(A,B,t) = A(t)*B(t)*A(t)"
+      "latent_object": "S(A,B,t) = A(t)*B(t)*A(t)",
+      "core": "A(t)*B(t)*A(t)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"S(A,B,t) = A(t)*B(t)*A(t)\",\n      \"parameters\": [\"A\", \"B\", \"t\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"A\": \"V\", \"B\": \"G0\", \"t\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"A\": \"W\", \"B\": \"H0\", \"t\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the master function S(A,B,t) = A(t)*B(t)*A(t) by substituting the function names and variable from each instance map; this yields each target term exactly.\",\n      \"required_assumptions\": [\n        \"A and B are unary functions over a common domain; multiplication denotes pointwise product.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - S(V,G0,p) = 0\",\n        \"W(q)*H0(q)*W(q) - S(W,H0,q) = 0\"\n      ],\n      \"rationale\": \"Both terms share the sandwich/quadratic-form pattern f(x)*g(x)*f(x); they differ only by the outer function f, the inner function g, and the variable name.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

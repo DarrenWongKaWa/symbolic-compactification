@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single Piecewise expression is present; the two branches are the same declared bivariate function K evaluated at (n,m) and at the diagonal specialization (n,n). No non-trivial shared structure across multiple non-identical structural families is warranted.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

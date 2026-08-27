@@ -35,24 +35,22 @@
     "n_parse_failure_hyps": 0,
     "type_hit": false,
     "targeting_hit": true,
-    "construction_ok": true,
-    "certified": true,
+    "construction_ok": false,
+    "certified": false,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 3,
+    "n_zero": 0,
     "n_nonzero": 0,
-    "n_unknown": 4,
+    "n_unknown": 7,
     "d_attempted": [
       "D2",
       "D3"
     ],
-    "d_certified": [
-      "D2"
-    ],
+    "d_certified": [],
     "highest_attempted": "D3",
-    "highest_certified": "D2",
-    "quality": "incorrect",
+    "highest_certified": null,
+    "quality": "unverifiable",
     "success": false,
     "types": [
       "repeated_kernel",
@@ -62,56 +60,58 @@
   },
   "constructions": [
     {
-      "constructable": true,
-      "certified": true,
-      "n_zero": 2,
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
       "n_nonzero": 0,
-      "n_unknown": 0,
+      "n_unknown": 2,
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x*(y + z)))",
+          "instantiated": "F(\u03b8)",
           "operator": "identity",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         },
         {
           "member": "F(x*y + x*z)",
-          "instantiated": "F((x*y + x*z))",
+          "instantiated": "F(\u03b8)",
           "operator": "identity",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "F(\u03b8)"
+      "latent_object": "F(\u03b8)",
+      "core": "F(\u03b8)"
     },
     {
-      "constructable": true,
+      "constructable": false,
       "certified": false,
-      "n_zero": 1,
+      "n_zero": 0,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 2,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "(x)*(y + z)",
+          "instantiated": "\u03b8*(y + z)",
           "operator": "identity",
-          "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "verdict": "UNKNOWN",
+          "note": "unparseable_latent"
         },
         {
           "member": "y + z",
-          "instantiated": "(x)*(y + z)",
+          "instantiated": "\u03b8*(y + z)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "L(\u03b8) = \u03b8*(y + z)"
+      "latent_object": "L(\u03b8) = \u03b8*(y + z)",
+      "core": "\u03b8*(y + z)"
     },
     {
       "constructable": false,
@@ -122,29 +122,30 @@
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "A two-component kernel {K((x))=(x)*(y+z), F(K((x)))}",
+          "instantiated": "A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "y + z",
-          "instantiated": "A two-component kernel {K((x))=(x)*(y+z), F(K((x)))}",
+          "instantiated": "A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "unparseable_latent"
         },
         {
           "member": "F(x*(y + z))",
-          "instantiated": "A two-component kernel {K((x))=(x)*(y+z), F(K((x)))}",
+          "instantiated": "A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}"
+      "latent_object": "A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}",
+      "core": "A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}"
     }
   ],
   "hypotheses": [
@@ -313,5 +314,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"F(x*y + x*z)\"\n      ],\n      \"latent_object\": \"F(\u03b8)\",\n      \"parameters\": [\n        \"\u03b8\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"F(x*y + x*z)\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"theta\": {\n            \"\u03b8\": \"x*(y + z)\"\n          }\n        },\n        {\n          \"member\": \"F(x*y + x*z)\",\n          \"theta\": {\n            \"\u03b8\": \"x*y + x*z\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the single-argument template F(\u03b8) with the two algebraically equivalent inner expressions x*(y+z) and x*y+x*z. This captures the F01 family as two specialization instances of the same undetermined function F.\",\n      \"required_assumptions\": [\n        \"F is an undetermined function with one argument\",\n        \"x*(y+z) and x*y+x*z are acceptable inner arguments related by distributivity\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(\u03b8)[\u03b8 := x*(y + z)] = 0\",\n        \"F(x*y + x*z) - F(\u03b8)[\u03b8 := x*y + x*z] = 0\"\n      ],\n      \"rationale\": \"Both F01 members share the same outer undetermined function F and differ only in the algebraic form of the single inner argument. The observed LGG already suggests the template F(\u03b8).\",\n      \"confidence\": 0.7\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"x*(y + z)\",\n        \"y + z\"\n      ],\n      \"latent_object\": \"L(\u03b8) = \u03b8*(y + z)\",\n      \"parameters\": [\n        \"\u03b8\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"y + z\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"\u03b8\": \"x\"\n          }\n        },\n        {\n          \"member\": \"y + z\",\n          \"theta\": {\n            \"\u03b8\": \"x\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Represent F02 by the linear-in-\u03b8 template L(\u03b8)=\u03b8*(y+z). The member x*(y+z) is L(x). The member y+z is generated by differentiating L(\u03b8) with respect to \u03b8, then evaluating at \u03b8=x, since \u2202/\u2202\u03b8[\u03b8*(y+z)] = y+z.\",\n      \"required_assumptions\": [\n        \"Differentiation with respect to \u03b8 is valid\",\n        \"y and z are treated as independent of \u03b8\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y + z) - L(\u03b8)[\u03b8 := x] = 0\",\n        \"y + z - (\u2202/\u2202\u03b8 L(\u03b8))[\u03b8 := x] = 0\"\n      ],\n      \"rationale\": \"F02 is reported as an exact derivative relation. Representing the two members as a linear monomial in \u03b8 and its \u03b8-derivative gives a minimal shared structural template.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"x*(y + z)\",\n        \"y + z\"\n      ],\n      \"latent_object\": \"A two-component kernel {K(\u03b8)=\u03b8*(y+z), F(K(\u03b8))}\",\n      \"parameters\": [\n        \"\u03b8\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"y + z\",\n          \"O\": \"d/dtheta\"\n        },\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"\u03b8\": \"x\"\n          }\n        },\n        {\n          \"member\": \"y + z\",\n          \"theta\": {\n            \"\u03b8\": \"x\"\n          }\n        },\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"theta\": {\n            \"\u03b8\": \"x\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Use K(\u03b8)=\u03b8*(y+z) as the shared algebraic kernel. Its identity specialization at \u03b8=x gives x*(y+z); its \u03b8-derivative at \u03b8=x gives y+z; and the same kernel appears inside the undetermined function F, giving F(K(x))=F(x*(y+z)). This connects one member of F01 with the F02 derivative family through the same inner polynomial factor.\",\n      \"required_assumptions\": [\n        \"F acts on the same kernel K(\u03b8)\",\n        \"The derivative relation of F02 applies to the kernel K(\u03b8)\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y + z) - K(\u03b8)[\u03b8 := x] = 0\",\n        \"y + z - (\u2202/\u2202\u03b8 K(\u03b8))[\u03b8 := x] = 0\",\n        \"F(x*(y + z)) - F(K(\u03b8)[\u03b8 := x]) = 0\"\n      ],\n      \"rationale\": \"The argument inside F in N0002 is exactly the algebraic object whose derivative relation generates F02. This suggests a shared kernel rather than an accidental overlap.\",\n      \"confidence\": 0.5\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

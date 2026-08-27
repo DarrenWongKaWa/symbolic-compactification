@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*f(n)"
+      "latent_object": "K(n)*f(n)",
+      "core": "K(n)*f(n)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*f(n)\",\n      \"parameters\": [\"f\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"f\": \"a\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"f\": \"b\"}}\n      ],\n      \"construction_plan\": \"Instantiate the generic second factor f in K(n)*f(n) as a or b, then sum the two instances to reconstruct the raw expression.\",\n      \"required_assumptions\": [\"K, a, and b are unary functions of n with compatible domains.\"],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - K(n)*f(n)|_{f=a} = 0\",\n        \"K(n)*b(n) - K(n)*f(n)|_{f=b} = 0\"\n      ],\n      \"rationale\": \"Both summands share the identical factor K(n), so they can be viewed as two specializations of a single product template with a generic second factor.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -34,7 +34,7 @@
     "n_hypotheses": 4,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -51,7 +51,7 @@
     "d_certified": [],
     "highest_attempted": "D4",
     "highest_certified": null,
-    "quality": "incorrect",
+    "quality": "gold-like-but-unsupported",
     "success": false,
     "types": [
       "repeated_kernel",
@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "Sum1(h1(b,n,m)*h2(a,c,m,n))",
-          "instantiated": "K2_{m,n} = Piecewise((K2_diag[n], Eq(m,n)), (K2_off[m,n], True)), where A_minus[x] = beta*(gamma - I*mu + I*epsilon(x)) + pi, A_plus[x] = beta*(gamma + I*mu - I*epsilon(x)) + pi, P_minus[k,x] = polygamma(k, A_minus[x]/(2*pi)), P_plus[k,x] = polygamma(k, A_plus[x]/(2*pi)), K2_diag[n] = beta*(beta*gamma*(beta*gamma*(P_minus[3,n]+P_plus[3,n]) - 3*pi*(P_minus[2,n]+P_plus[2,n])) + 6*pi**2*(P_minus[1,n]+P_plus[1,n]))/(96*pi**4*gamma**2), K2_off[m,n] = (beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
+          "instantiated": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "Sum2(h1(c,n,m)*h2(a,b,m,n))",
-          "instantiated": "K2_{m,n} = Piecewise((K2_diag[n], Eq(m,n)), (K2_off[m,n], True)), where A_minus[x] = beta*(gamma - I*mu + I*epsilon(x)) + pi, A_plus[x] = beta*(gamma + I*mu - I*epsilon(x)) + pi, P_minus[k,x] = polygamma(k, A_minus[x]/(2*pi)), P_plus[k,x] = polygamma(k, A_plus[x]/(2*pi)), K2_diag[n] = beta*(beta*gamma*(beta*gamma*(P_minus[3,n]+P_plus[3,n]) - 3*pi*(P_minus[2,n]+P_plus[2,n])) + 6*pi**2*(P_minus[1,n]+P_plus[1,n]))/(96*pi**4*gamma**2), K2_off[m,n] = (beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
+          "instantiated": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K2_{m,n} = Piecewise((K2_diag[n], Eq(m,n)), (K2_off[m,n], True)), where A_minus[x] = beta*(gamma - I*mu + I*epsilon(x)) + pi, A_plus[x] = beta*(gamma + I*mu - I*epsilon(x)) + pi, P_minus[k,x] = polygamma(k, A_minus[x]/(2*pi)), P_plus[k,x] = polygamma(k, A_plus[x]/(2*pi)), K2_diag[n] = beta*(beta*gamma*(beta*gamma*(P_minus[3,n]+P_plus[3,n]) - 3*pi*(P_minus[2,n]+P_plus[2,n])) + 6*pi**2*(P_minus[1,n]+P_plus[1,n]))/(96*pi**4*gamma**2), K2_off[m,n] = (beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)"
+      "latent_object": "K2_{m,n} = Piecewise((K2_diag[n], Eq(m,n)), (K2_off[m,n], True)), where A_minus[x] = beta*(gamma - I*mu + I*epsilon(x)) + pi, A_plus[x] = beta*(gamma + I*mu - I*epsilon(x)) + pi, P_minus[k,x] = polygamma(k, A_minus[x]/(2*pi)), P_plus[k,x] = polygamma(k, A_plus[x]/(2*pi)), K2_diag[n] = beta*(beta*gamma*(beta*gamma*(P_minus[3,n]+P_plus[3,n]) - 3*pi*(P_minus[2,n]+P_plus[2,n])) + 6*pi**2*(P_minus[1,n]+P_plus[1,n]))/(96*pi**4*gamma**2), K2_off[m,n] = (beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
+      "core": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)"
     },
     {
       "constructable": false,
@@ -96,22 +97,23 @@
       "obligations": [
         {
           "member": "Sum3(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))",
-          "instantiated": "K3_{m,n,ell} = Piecewise((B111[n], Eq(ell,m) & Eq(m,n)), (B_mn[ell,n], Eq(m,n)), (B_elln[m,n], Eq(ell,n)), (B_ellm[m,n], Eq(ell,m)), (B_off[m,n,ell], True)), where B111[n] = I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5), and B_mn, B_elln, B_ellm, B_off are the corresponding polygamma-rational branch coefficients shown in the third sum after removing the h1-factor product",
+          "instantiated": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "Sum4(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))",
-          "instantiated": "K3_{m,n,ell} = Piecewise((B111[n], Eq(ell,m) & Eq(m,n)), (B_mn[ell,n], Eq(m,n)), (B_elln[m,n], Eq(ell,n)), (B_ellm[m,n], Eq(ell,m)), (B_off[m,n,ell], True)), where B111[n] = I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5), and B_mn, B_elln, B_ellm, B_off are the corresponding polygamma-rational branch coefficients shown in the third sum after removing the h1-factor product",
+          "instantiated": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K3_{m,n,ell} = Piecewise((B111[n], Eq(ell,m) & Eq(m,n)), (B_mn[ell,n], Eq(m,n)), (B_elln[m,n], Eq(ell,n)), (B_ellm[m,n], Eq(ell,m)), (B_off[m,n,ell], True)), where B111[n] = I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5), and B_mn, B_elln, B_ellm, B_off are the corresponding polygamma-rational branch coefficients shown in the third sum after removing the h1-factor product"
+      "latent_object": "K3_{m,n,ell} = Piecewise((B111[n], Eq(ell,m) & Eq(m,n)), (B_mn[ell,n], Eq(m,n)), (B_elln[m,n], Eq(ell,n)), (B_ellm[m,n], Eq(ell,m)), (B_off[m,n,ell], True)), where B111[n] = I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5), and B_mn, B_elln, B_ellm, B_off are the corresponding polygamma-rational branch coefficients shown in the third sum after removing the h1-factor product",
+      "core": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)"
     },
     {
       "constructable": false,
@@ -122,15 +124,16 @@
       "obligations": [
         {
           "member": "polygamma(k, A_s(x)/(2*pi))",
-          "instantiated": "F(z) = logGamma(z), with A_(s)[(x)] = beta*(gamma + (s)*I*mu - (s)*I*ep(s)ilon((x))) + pi for (s) in {+,-}",
+          "instantiated": "beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "F(z) = logGamma(z), with A_s[x] = beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}"
+      "latent_object": "F(z) = logGamma(z), with A_s[x] = beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}",
+      "core": "beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}"
     },
     {
       "constructable": false,
@@ -141,22 +144,23 @@
       "obligations": [
         {
           "member": "two-index off-diagonal True branch",
-          "instantiated": "A divided-difference kernel D^{(r)}((epsilon(m)),(epsilon(n)); (pol(epsilon(n))gamma)) built from differences of pol(epsilon(n))gamma terms in the epsilon indices, with coincident-inde(epsilon(m)) limits giving the diagonal/collapsed branches",
+          "instantiated": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "two-index diagonal Eq(m,n) branch",
-          "instantiated": "A divided-difference kernel D^{(r)}((epsilon(m)),(epsilon(n)); (pol(epsilon(n))gamma)) built from differences of pol(epsilon(n))gamma terms in the epsilon indices, with coincident-inde(epsilon(m)) limits giving the diagonal/collapsed branches",
+          "instantiated": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "divided_difference",
       "d_level": "D4",
-      "latent_object": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices, with coincident-index limits giving the diagonal/collapsed branches"
+      "latent_object": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices, with coincident-index limits giving the diagonal/collapsed branches",
+      "core": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices"
     }
   ],
   "hypotheses": [
@@ -373,5 +377,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"Sum1(h1(b,n,m)*h2(a,c,m,n))\",\n        \"Sum2(h1(c,n,m)*h2(a,b,m,n))\"\n      ],\n      \"latent_object\": \"K2_{m,n} = Piecewise((K2_diag[n], Eq(m,n)), (K2_off[m,n], True)), where A_minus[x] = beta*(gamma - I*mu + I*epsilon(x)) + pi, A_plus[x] = beta*(gamma + I*mu - I*epsilon(x)) + pi, P_minus[k,x] = polygamma(k, A_minus[x]/(2*pi)), P_plus[k,x] = polygamma(k, A_plus[x]/(2*pi)), K2_diag[n] = beta*(beta*gamma*(beta*gamma*(P_minus[3,n]+P_plus[3,n]) - 3*pi*(P_minus[2,n]+P_plus[2,n])) + 6*pi**2*(P_minus[1,n]+P_plus[1,n]))/(96*pi**4*gamma**2), K2_off[m,n] = (beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)\",\n      \"parameters\": [\n        \"h1_factor\",\n        \"h2_factor\",\n        \"n\",\n        \"m\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"Sum1(h1(b,n,m)*h2(a,c,m,n))\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"Sum2(h1(c,n,m)*h2(a,b,m,n))\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"Sum1(h1(b,n,m)*h2(a,c,m,n))\",\n          \"theta\": {\n            \"h1_factor\": \"h1(b,n,m)\",\n            \"h2_factor\": \"h2(a,c,m,n)\"\n          }\n        },\n        {\n          \"member\": \"Sum2(h1(c,n,m)*h2(a,b,m,n))\",\n          \"theta\": {\n            \"h1_factor\": \"h1(c,n,m)\",\n            \"h2_factor\": \"h2(a,b,m,n)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Extract the polygamma-rational coefficient multiplying the h1_factor*h2_factor in each two-index sum. Define K2_{m,n} as that common coefficient. Then express each sum as Sum_{n,m} K2_{m,n} * h1_factor * h2_factor with the corresponding specialization.\",\n      \"required_assumptions\": [\n        \"The two two-index sums share the same branch conditions Eq(m,n) and True.\",\n        \"h1 and h2 factors are independent of the polygamma coefficient.\"\n      ],\n      \"proof_obligations\": [\n        \"Check coefficient(Sum1, h1(b,n,m)*h2(a,c,m,n)) - K2_{m,n} = 0\",\n        \"Check coefficient(Sum2, h1(c,n,m)*h2(a,b,m,n)) - K2_{m,n} = 0\",\n        \"Check K2_diag and K2_off are identical in both sums, not just structurally similar\"\n      ],\n      \"rationale\": \"The first two sums have identical polygamma branch expressions and differ only by the h1/h2 factors attached to the same kernel.\",\n      \"confidence\": 0.92\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"Sum3(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))\",\n        \"Sum4(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))\"\n      ],\n      \"latent_object\": \"K3_{m,n,ell} = Piecewise((B111[n], Eq(ell,m) & Eq(m,n)), (B_mn[ell,n], Eq(m,n)), (B_elln[m,n], Eq(ell,n)), (B_ellm[m,n], Eq(ell,m)), (B_off[m,n,ell], True)), where B111[n] = I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5), and B_mn, B_elln, B_ellm, B_off are the corresponding polygamma-rational branch coefficients shown in the third sum after removing the h1-factor product\",\n      \"parameters\": [\n        \"orientation_factor\",\n        \"n\",\n        \"m\",\n        \"ell\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"Sum3(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"Sum4(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"Sum3(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))\",\n          \"theta\": {\n            \"orientation_factor\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\"\n          }\n        },\n        {\n          \"member\": \"Sum4(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))\",\n          \"theta\": {\n            \"orientation_factor\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"From the third three-index sum, factor out the orientation product h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell). Identify the remaining coefficient as K3_{m,n,ell}. Then the fourth sum is the same K3_{m,n,ell} with the reverse orientation product h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m).\",\n      \"required_assumptions\": [\n        \"The third and fourth three-index sums have the same set of branch conditions and the same branch coefficients after orientation factorization.\",\n        \"epsilon, beta, gamma, mu are unchanged between the two sums.\"\n      ],\n      \"proof_obligations\": [\n        \"Check coefficient(Sum3, h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)) - K3_{m,n,ell} = 0\",\n        \"Check coefficient(Sum4, h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)) - K3_{m,n,ell} = 0\",\n        \"Check B_mn, B_elln, B_ellm, B_off are identical between Sum3 and Sum4 after orientation factorization\"\n      ],\n      \"rationale\": \"The two three-index sums have identical piecewise polygamma coefficients and differ only by the cyclic orientation of the three h1 factors.\",\n      \"confidence\": 0.92\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"all polygamma(k, A_minus(x)/(2*pi)) occurrences\",\n        \"all polygamma(k, A_plus(x)/(2*pi)) occurrences\"\n      ],\n      \"latent_object\": \"F(z) = logGamma(z), with A_s[x] = beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}\",\n      \"parameters\": [\n        \"k\",\n        \"s\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"polygamma(k, A_s(x)/(2*pi))\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"polygamma(k, A_s(x)/(2*pi))\",\n          \"theta\": {\n            \"k\": \"k\",\n            \"s\": \"s\",\n            \"x\": \"x\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define F(z)=logGamma(z). Represent every polygamma(k, A_s(x)/(2*pi)) as the (k+1)-fold z-derivative of F evaluated at z=A_s(x)/(2*pi). This unifies all polygamma orders 0 through 4 appearing in the expression.\",\n      \"required_assumptions\": [\n        \"z lies in the domain where logGamma and its derivatives are defined.\"\n      ],\n      \"proof_obligations\": [\n        \"Check polygamma(k, A_s(x)/(2*pi)) - d^(k+1)/dz^(k+1) logGamma(z)|_{z=A_s(x)/(2*pi)} = 0\"\n      ],\n      \"rationale\": \"The expression contains polygamma functions of orders 0 through 4 with arguments differing only by a sign and an epsilon-index shift; these are naturally generated by derivatives of a single logGamma master function.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"divided_difference\",\n      \"target_members\": [\n        \"two-index Piecewise Eq(m,n) and True branches\",\n        \"three-index Piecewise Eq(ell,m)&Eq(m,n), Eq(m,n), Eq(ell,n), Eq(ell,m), and True branches\"\n      ],\n      \"latent_object\": \"A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices, with coincident-index limits giving the diagonal/collapsed branches\",\n      \"parameters\": [\n        \"F\",\n        \"r\",\n        \"x\",\n        \"y\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"two-index off-diagonal True branch\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"two-index diagonal Eq(m,n) branch\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"two-index off-diagonal True branch\",\n          \"theta\": {\n            \"F\": \"polygamma\",\n            \"x\": \"epsilon(m)\",\n            \"y\": \"epsilon(n)\"\n          }\n        },\n        {\n          \"member\": \"two-index diagonal Eq(m,n) branch\",\n          \"theta\": {\n            \"F\": \"polygamma\",\n            \"x\": \"epsilon(m)\",\n            \"y\": \"epsilon(n)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Interpret the off",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

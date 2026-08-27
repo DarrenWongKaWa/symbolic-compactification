@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(x, x)"
+      "latent_object": "M(x, x)",
+      "core": "M(x, x)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(x, x)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"x\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"x\": \"2\"}}\n      ],\n      \"construction_plan\": \"Define a parametric template M(x, x) where x is a scalar parameter. Each observed instance is obtained by substituting x with a corresponding value: x=1 yields M(1,1); x=2 yields M(2,2). The original expression is the sum of these two specializations.\",\n      \"required_assumptions\": [\"M is a binary function symbol; x ranges over a set containing 1 and 2.\"],\n      \"proof_obligations\": [\n        \"M(1, 1) - M(x, x)[x -> 1] = 0\",\n        \"M(2, 2) - M(x, x)[x -> 2] = 0\"\n      ],\n      \"rationale\": \"Structural observation F01 provides a frozen LGG template M(theta0, theta0) with a single hole and witness theta0 = (1, 2), indicating both M(1,1) and M(2,2) are substitution instances of the same diagonal template. This constitutes a one-parameter family of expressions formed by applying the binary function M to two identical arguments.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

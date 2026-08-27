@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(theta0, theta0)"
+      "latent_object": "M(theta0, theta0)",
+      "core": "M(theta0, theta0)"
     },
     {
       "constructable": false,
@@ -95,22 +96,23 @@
       "obligations": [
         {
           "member": "Num(1)+Num(2)",
-          "instantiated": "(1)dd(Num((1)), Num((2))) with (1) (1)nd (2) forming (1)n unordered p(1)ir {1,2}",
+          "instantiated": "add(Num(a), Num(b)) with a and b forming an unordered pair {1,2}",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "Num(2)+Num(1)",
-          "instantiated": "(2)dd(Num((2)), Num((1))) with (2) (2)nd (1) forming (2)n unordered p(2)ir {1,2}",
+          "instantiated": "add(Num(a), Num(b)) with a and b forming an unordered pair {1,2}",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "add(Num(a), Num(b)) with a and b forming an unordered pair {1,2}"
+      "latent_object": "add(Num(a), Num(b)) with a and b forming an unordered pair {1,2}",
+      "core": "add(Num(a), Num(b)) with a and b forming an unordered pair {1,2}"
     }
   ],
   "hypotheses": [
@@ -219,5 +221,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(theta0, theta0)\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"theta0\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"theta0\": \"2\"}}\n      ],\n      \"construction_plan\": \"Instantiate the one-parameter diagonal template M(theta0, theta0) by substituting theta0=1 for M(1,1) and theta0=2 for M(2,2).\",\n      \"required_assumptions\": [\n        \"M is a binary function symbol\",\n        \"theta0 ranges over the values 1 and 2\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - M(theta0, theta0)[theta0->1] = 0\",\n        \"M(2, 2) - M(theta0, theta0)[theta0->2] = 0\"\n      ],\n      \"rationale\": \"The reported frozen LGG template M(theta0, theta0) already captures a one-parameter diagonal specialization; only the numeric argument differs.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"Num(1)+Num(2)\", \"Num(2)+Num(1)\"],\n      \"latent_object\": \"add(Num(a), Num(b)) with a and b forming an unordered pair {1,2}\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"Num(1)+Num(2)\", \"O\": \"identity\"},\n        {\"member\": \"Num(2)+Num(1)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"Num(1)+Num(2)\", \"theta\": {\"a\": \"1\", \"b\": \"2\"}},\n        {\"member\": \"Num(2)+Num(1)\", \"theta\": {\"a\": \"2\", \"b\": \"1\"}}\n      ],\n      \"construction_plan\": \"Map both expressions to the same unordered pair {1,2} under commutative addition; Num(2)+Num(1) is obtained by the argument permutation (a,b)->(b,a).\",\n      \"required_assumptions\": [\n        \"Addition of numeric constants is commutative for the observed terms\"\n      ],\n      \"proof_obligations\": [\n        \"Num(1)+Num(2) - (Num(1)+Num(2)) = 0 by identity\",\n        \"Num(2)+Num(1) - permute_{a<->b}(Num(1)+Num(2)) = 0 under commutativity\"\n      ],\n      \"rationale\": \"Both evidence packets report the same commutativity rewrite, so a symmetry-invariant representation of the unordered argument pair explains the non-identical syntactic forms.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

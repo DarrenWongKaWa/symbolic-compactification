@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"No member expressions are present in the observation packets; only relation names and rewrite evidence mention `Num(1)+Num(2) ~ Num(2)+Num(1)` and `rewrite(a+b)->(b+a)`, but these are not listed as family members. Without explicit target expressions, no latent object or operator can be certified against the required member obligations.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

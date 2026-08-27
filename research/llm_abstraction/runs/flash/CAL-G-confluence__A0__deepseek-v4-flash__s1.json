@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     }
   ],
   "hypotheses": [
@@ -141,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}}\n      ],\n      \"construction_plan\": \"Define a generic two-argument evaluation K(a,b). The first branch is obtained by substituting a=n, b=m. The second branch is obtained by specializing the second argument to equal the first (b=a), then substituting a=n; equivalently, instantiate the template at (a,b)=(n,n). The piecewise expression selects between these two instances based on whether n and m are unequal.\",\n      \"required_assumptions\": [\"K is defined on the domain containing (n,m) and (n,n); parameter substitution is valid.\"],\n      \"proof_obligations\": [\n        \"K(n, m) - (K(a,b) with (a,b):=(n,m)) = 0\",\n        \"K(n, n) - (K(a,b) with (a,b):=(n,n)) = 0\"\n      ],\n      \"rationale\": \"The two non-identical branch expressions are evaluations of the same binary kernel K. The second is the diagonal specialization of the first under the identification m=n, so both branches are instances of a shared parameterized object K(a,b).\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -68,26 +68,27 @@
           "instantiated": "K(n)*theta",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "K(n)*b(n)",
           "instantiated": "K(n)*theta",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "K(n)",
           "instantiated": "K(n)*theta",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*theta"
+      "latent_object": "K(n)*theta",
+      "core": "K(n)*theta"
     }
   ],
   "hypotheses": [
@@ -150,5 +151,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\", \"K(n)\"],\n      \"latent_object\": \"K(n)*theta\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": \"a(n)\"},\n        {\"member\": \"K(n)*b(n)\", \"theta\": \"b(n)\"},\n        {\"member\": \"K(n)\", \"theta\": \"1\"}\n      ],\n      \"construction_plan\": \"Instantiate the repeated-kernel template K(n)*theta by replacing theta with the member-specific companion value. For K(n), theta=1 and multiplicative identity reduces the instantiated template to K(n).\",\n      \"required_assumptions\": [\n        \"Multiplication is associative/commutative as reported by the MatchPy AC backend.\",\n        \"Multiplicative identity simplification K(n)*1 -> K(n) is available.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*theta)[theta -> a(n)] = 0\",\n        \"K(n)*b(n) - (K(n)*theta)[theta -> b(n)] = 0\",\n        \"K(n) - simplify((K(n)*theta)[theta -> 1]) = 0\"\n      ],\n      \"rationale\": \"F01 reports a one-hole AC/LGG product pattern K(n)*theta with theta in {a(n), b(n)}. F02 reports K(n) as the shared CSE subexpression. Treating K(n) as a repeated kernel and theta as a single companion parameter explains both non-identical product forms and the shared bare subexpression without claiming a closed-form simplification beyond the symbolic template.\",\n      \"confidence\": 0.86\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

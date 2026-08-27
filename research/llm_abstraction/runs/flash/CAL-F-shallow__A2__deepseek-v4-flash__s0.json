@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -68,19 +68,20 @@
           "instantiated": "I*mu*theta",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "I*beta*mu",
           "instantiated": "I*mu*theta",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "I*mu*theta"
+      "latent_object": "I*mu*theta",
+      "core": "I*mu*theta"
     }
   ],
   "hypotheses": [
@@ -132,5 +133,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"-I*mu\", \"I*beta*mu\"],\n      \"latent_object\": \"I*mu*theta\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"-I*mu\", \"O\": \"specialize\"},\n        {\"member\": \"I*beta*mu\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"-I*mu\", \"theta\": -1},\n        {\"member\": \"I*beta*mu\", \"theta\": \"beta\"}\n      ],\n      \"construction_plan\": \"Substitute the parameter theta in the template I*mu*theta with -1 for the first member and with beta for the second member.\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"-I*mu - (I*mu*(-1)) = 0\",\n        \"I*beta*mu - (I*mu*beta) = 0\"\n      ],\n      \"rationale\": \"The two terms share the exact monomial structure I*mu*theta, differing only in the coefficient theta. The provided structural packet reports a frozen LGG template I*mu*theta0 with holes (-1, beta), matching this parameterization. This is the simplest non-constant shared structure explaining both terms.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

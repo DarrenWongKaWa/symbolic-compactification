@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "T(F, G, x) = F(x)*G(x)*F(x)"
+      "latent_object": "T(F, G, x) = F(x)*G(x)*F(x)",
+      "core": "F(x)*G(x)*F(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"T(F, G, x) = F(x)*G(x)*F(x)\",\n      \"parameters\": [\n        \"F\",\n        \"G\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"F\": \"V\",\n            \"G\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"F\": \"W\",\n            \"G\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template T(F,G,x) by substituting the function symbols F and G and the free variable x. The product order is preserved as F(x)*G(x)*F(x).\",\n      \"required_assumptions\": [\n        \"Symbolic substitution into the template is well-defined.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T(V,G0,p) = 0\",\n        \"W(q)*H0(q)*W(q) - T(W,H0,q) = 0\"\n      ],\n      \"rationale\": \"Both non-identical summands share the repeated product structure F(x)*G(x)*F(x). Observation F01 records the AC-equivalent form F(x)^2*G(x). No physical interpretation is assumed.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

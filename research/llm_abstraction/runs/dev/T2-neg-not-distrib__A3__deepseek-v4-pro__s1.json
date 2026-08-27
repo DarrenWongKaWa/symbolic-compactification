@@ -34,15 +34,15 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 3,
+    "n_zero": 6,
     "n_nonzero": 0,
-    "n_unknown": 3,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
@@ -69,74 +69,77 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x*(y + z)))",
+          "instantiated": "F(x*(y + z))",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(w*z + x*y)",
-          "instantiated": "F((w*z + x*y))",
+          "instantiated": "F(w*z + x*y)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(theta0)"
+      "latent_object": "F(theta0)",
+      "core": "F(theta0)"
     },
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "(x)*((y) + (z))",
+          "instantiated": "x*(y + z)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "(x)*((y) + (z))",
+          "instantiated": "y + z",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "A(x,y,z) = x*(y + z)"
+      "latent_object": "A(x,y,z) = x*(y + z)",
+      "core": "x*(y + z)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "P(((x)); (x),(y),(z)) = (x)*(y) + ((x))*(z)",
+          "instantiated": "x*y + x*z",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "w*z + x*y",
-          "instantiated": "P((w); (x),(y),(z)) = (x)*(y) + (w)*(z)",
+          "instantiated": "w*z + x*y",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "P(q; x,y,z) = x*y + q*z"
+      "latent_object": "P(q; x,y,z) = x*y + q*z",
+      "core": "x*y + q*z"
     }
   ],
   "hypotheses": [
@@ -305,5 +308,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"F(w*z + x*y)\"\n      ],\n      \"latent_object\": \"F(theta0)\",\n      \"parameters\": [\n        \"theta0\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"F(w*z + x*y)\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"theta\": {\n            \"theta0\": \"x*(y + z)\"\n          }\n        },\n        {\n          \"member\": \"F(w*z + x*y)\",\n          \"theta\": {\n            \"theta0\": \"w*z + x*y\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the single parameter theta0 with the inner argument of each member and apply the declared unary function F.\",\n      \"required_assumptions\": [\n        \"F is the same declared function in both members\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(theta0)|theta0=x*(y + z) = 0\",\n        \"F(w*z + x*y) - F(theta0)|theta0=w*z + x*y = 0\"\n      ],\n      \"rationale\": \"The packets report SAME_FUNCTION_FAMILY and a frozen LGG template F(theta0), so the shared outer F with a variable inner argument is the direct structural interpretation.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"x*(y + z)\",\n        \"y + z\"\n      ],\n      \"latent_object\": \"A(x,y,z) = x*(y + z)\",\n      \"parameters\": [\n        \"x\",\n        \"y\",\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"y + z\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"x\": \"x\",\n            \"y\": \"y\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"y + z\",\n          \"theta\": {\n            \"x\": \"x\",\n            \"y\": \"y\",\n            \"z\": \"z\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Evaluate A at the current symbolic variables for the first member. For the second member differentiate A with respect to x, which is the variable reported by the derivative witness.\",\n      \"required_assumptions\": [\n        \"x is the differentiation variable\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y + z) - A = 0\",\n        \"y + z - d/dx A = 0\"\n      ],\n      \"rationale\": \"This is exactly the DERIVATIVE_RELATED packet: sympy reports diff(x*(y+z), x) = y+z.\",\n      \"confidence\": 0.99\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"x*(y + z)\",\n        \"w*z + x*y\"\n      ],\n      \"latent_object\": \"P(q; x,y,z) = x*y + q*z\",\n      \"parameters\": [\n        \"q\",\n        \"x\",\n        \"y\",\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"w*z + x*y\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"q\": \"x\",\n            \"x\": \"x\",\n            \"y\": \"y\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"w*z + x*y\",\n          \"theta\": {\n            \"q\": \"w\",\n            \"x\": \"x\",\n            \"y\": \"y\",\n            \"z\": \"z\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate P(q)=x*y+q*z. For w*z+x*y set q=w, yielding w*z+x*y. For x*(y+z) set q=x and use distributivity to rewrite x*y+x*z as x*(y+z).\",\n      \"required_assumptions\": [\n        \"Distributivity of multiplication over addition is available for the algebraic rewrite of the q=x instance\"\n      ],\n      \"proof_obligations\": [\n        \"w*z + x*y - P(w) = 0\",\n        \"x*(y + z) - P(x) = 0 after expanding P(x)=x*y+x*z\"\n      ],\n      \"rationale\": \"Both inner arguments are two-term polynomial arguments with a common x*y monomial; the second monomial is q*z with q specialized to x or w. This gives a shared master polynomial explaining cross-family resemblance.\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

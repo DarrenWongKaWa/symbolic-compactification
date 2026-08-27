@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "(G0)((p))*(V)((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "H0(q)*W(q)**2",
-          "instantiated": "(H0)((q))*(W)((q))**2",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "g(x)*f(x)**2"
+      "latent_object": "g(x)*f(x)**2",
+      "core": "g(x)*f(x)**2"
     }
   ],
   "hypotheses": [
@@ -146,5 +147,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"H0(q)*W(q)**2\"\n      ],\n      \"latent_object\": \"g(x)*f(x)**2\",\n      \"parameters\": [\n        \"x\",\n        \"f\",\n        \"g\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"theta\": {\n            \"x\": \"p\",\n            \"f\": \"V\",\n            \"g\": \"G0\"\n          }\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"theta\": {\n            \"x\": \"q\",\n            \"f\": \"W\",\n            \"g\": \"H0\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the common template g(x)*f(x)**2 by assigning the same variable to x and assigning one unary function to f and another unary function to g for each member.\",\n      \"required_assumptions\": [\n        \"f and g are unary function symbols\",\n        \"the exponent 2 denotes squaring\",\n        \"multiplication is commutative for AC pattern matching\"\n      ],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - (g(x)*f(x)**2)[x=p, g=G0, f=V] = 0\",\n        \"H0(q)*W(q)**2 - (g(x)*f(x)**2)[x=q, g=H0, f=W] = 0\"\n      ],\n      \"rationale\": \"Both expressions are instances of a unary function of a variable multiplied by the square of another unary function of the same variable; this is the only nontrivial shared structural family observed in the given packets.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

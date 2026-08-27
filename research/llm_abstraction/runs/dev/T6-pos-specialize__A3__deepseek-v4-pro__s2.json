@@ -68,22 +68,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n),(m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n),(n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "K(a,b)"
+      "latent_object": "K(a,b)",
+      "core": "K(a,b)"
     },
     {
       "constructable": true,
@@ -94,15 +95,16 @@
       "obligations": [
         {
           "member": "Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))",
-          "instantiated": "Piecewise((K((n),(m)), Ne((n),(m))), (K((n),(n)), True))",
+          "instantiated": "Piecewise((K(n, m), Ne(m, n)), (K(n, n), True))",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "P(a,b)=Piecewise((K(a,b), Ne(a,b)), (K(a,a), True))"
+      "latent_object": "P(a,b)=Piecewise((K(a,b), Ne(a,b)), (K(a,a), True))",
+      "core": "Piecewise((K(a,b), Ne(a,b)), (K(a,a), True))"
     }
   ],
   "hypotheses": [
@@ -200,5 +202,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"K(a,b)\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"m\"\n          }\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"n\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Let the latent object be the two-argument form K(a,b). Recover K(n,m) by instantiating a=n and b=m. Recover K(n,n) by instantiating a=n and specializing b to a.\",\n      \"required_assumptions\": [\n        \"K is defined for arbitrary argument pairs, including equal arguments\"\n      ],\n      \"proof_obligations\": [\n        \"K(n, m) - K(a,b)[a=n,b=m] = 0\",\n        \"K(n, n) - K(a,b)[a=n,b=n] = 0\"\n      ],\n      \"rationale\": \"F01 reports the same function family; K(n,n) is the diagonal specialization of K(n,m).\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\"\n      ],\n      \"latent_object\": \"P(a,b)=Piecewise((K(a,b), Ne(a,b)), (K(a,a), True))\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"m\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Let P(a,b) be a two-branch object: off-diagonal branch K(a,b) and diagonal branch K(a,a), selected by Ne(a,b). Instantiate a=n and b=m to recover the observed Piecewise expression.\",\n      \"required_assumptions\": [\n        \"Ne(a,b) is the branch condition distinguishing diagonal from off-diagonal cases\"\n      ],\n      \"proof_obligations\": [\n        \"Piecewise((K(n,m), Ne(n,m)), (K(n,n), True)) - P(a,b)[a=n,b=m] = 0\"\n      ],\n      \"rationale\": \"F02 reports a branch-dependent expression; this latent template captures the Piecewise branch structure without renaming K.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

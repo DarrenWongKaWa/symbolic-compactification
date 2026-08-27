@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "G0((p))*V((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)*V(q)**2",
-          "instantiated": "G0((q))*V((q))**2",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)*V(theta)**2"
+      "latent_object": "G0(theta)*V(theta)**2",
+      "core": "G0(theta)*V(theta)**2"
     },
     {
       "constructable": true,
@@ -95,22 +96,23 @@
       "obligations": [
         {
           "member": "G0(p)",
-          "instantiated": "G0((p))",
+          "instantiated": "G0(p)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)",
-          "instantiated": "G0((q))",
+          "instantiated": "G0(q)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)"
+      "latent_object": "G0(theta)",
+      "core": "G0(theta)"
     },
     {
       "constructable": true,
@@ -121,22 +123,23 @@
       "obligations": [
         {
           "member": "V(p)",
-          "instantiated": "V((p))",
+          "instantiated": "V(p)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)",
-          "instantiated": "V((q))",
+          "instantiated": "V(q)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "V(theta)"
+      "latent_object": "V(theta)",
+      "core": "V(theta)"
     }
   ],
   "hypotheses": [
@@ -293,5 +296,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"G0(p)*V(p)**2\", \"G0(q)*V(q)**2\"],\n      \"latent_object\": \"G0(theta)*V(theta)**2\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the formal parameter theta with p or q in the template G0(theta)*V(theta)**2.\",\n      \"required_assumptions\": [\"theta is a formal symbol distinct from p and q\", \"G0 and V are unary functions\"],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - (G0(theta)*V(theta)**2)[theta->p] = 0\",\n        \"G0(q)*V(q)**2 - (G0(theta)*V(theta)**2)[theta->q] = 0\"\n      ],\n      \"rationale\": \"The two members are syntactically identical up to replacing the symbol p with q, so they are instances of a single parameterized univariate expression.\",\n      \"confidence\": 0.97\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"G0(p)\", \"G0(q)\"],\n      \"latent_object\": \"G0(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"G0(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the formal parameter theta with p or q in the template G0(theta).\",\n      \"required_assumptions\": [\"theta is a formal symbol distinct from p and q\", \"G0 is a unary function\"],\n      \"proof_obligations\": [\n        \"G0(p) - G0(theta)[theta->p] = 0\",\n        \"G0(q) - G0(theta)[theta->q] = 0\"\n      ],\n      \"rationale\": \"The two expressions are applications of the same named function G0 to different symbols p and q, forming a direct substitution family.\",\n      \"confidence\": 0.98\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)\", \"V(q)\"],\n      \"latent_object\": \"V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the formal parameter theta with p or q in the template V(theta).\",\n      \"required_assumptions\": [\"theta is a formal symbol distinct from p and q\", \"V is a unary function\"],\n      \"proof_obligations\": [\n        \"V(p) - V(theta)[theta->p] = 0\",\n        \"V(q) - V(theta)[theta->q] = 0\"\n      ],\n      \"rationale\": \"The two expressions are applications of the same named function V to different symbols p and q, forming a direct substitution family.\",\n      \"confidence\": 0.98\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

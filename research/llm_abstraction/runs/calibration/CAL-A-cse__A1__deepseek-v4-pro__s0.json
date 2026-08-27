@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(n)*phi(n)"
+      "latent_object": "K(n)*phi(n)",
+      "core": "K(n)*phi(n)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\"\n      ],\n      \"latent_object\": \"K(n)*phi(n)\",\n      \"parameters\": [\n        \"phi\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"phi\": \"a\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"phi\": \"b\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define a one-parameter template T_phi(n)=K(n)*phi(n). Obtain the first summand by specializing phi to a, and the second summand by specializing phi to b.\",\n      \"required_assumptions\": [\n        \"K, a, and b are functions of the same variable n\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - T_phi=a(n) = 0\",\n        \"K(n)*b(n) - T_phi=b(n) = 0\"\n      ],\n      \"rationale\": \"Both terms share the identical factor K(n) and differ only in the trailing function factor a(n) versus b(n), so they are instances of a single parameterized multiplicative family.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

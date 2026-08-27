@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "N0002",
-          "instantiated": "G0((p))*V((p))**2",
+          "instantiated": "G0(theta)*V(theta)**2",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0006",
-          "instantiated": "G0((q))*V((q))**2",
+          "instantiated": "G0(theta)*V(theta)**2",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)*V(theta)**2"
+      "latent_object": "G0(theta)*V(theta)**2",
+      "core": "G0(theta)*V(theta)**2"
     },
     {
       "constructable": false,
@@ -93,22 +94,23 @@
       "obligations": [
         {
           "member": "N0005",
-          "instantiated": "G0((p))",
+          "instantiated": "G0(theta)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0009",
-          "instantiated": "G0((q))",
+          "instantiated": "G0(theta)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)"
+      "latent_object": "G0(theta)",
+      "core": "G0(theta)"
     },
     {
       "constructable": false,
@@ -119,22 +121,23 @@
       "obligations": [
         {
           "member": "N0004",
-          "instantiated": "V((p))",
+          "instantiated": "V(theta)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0008",
-          "instantiated": "V((q))",
+          "instantiated": "V(theta)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "V(theta)"
+      "latent_object": "V(theta)",
+      "core": "V(theta)"
     }
   ],
   "hypotheses": [
@@ -289,5 +292,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"N0002\", \"N0006\"],\n      \"latent_object\": \"G0(theta)*V(theta)**2\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"N0002\", \"O\": \"identity\"},\n        {\"member\": \"N0006\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"N0002\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"N0006\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the template G0(theta)*V(theta)**2 by substituting theta with p or q.\",\n      \"required_assumptions\": [\"G0 and V are unary functions\", \"theta is a free symbolic parameter\"],\n      \"proof_obligations\": [\n        \"N0002 - (G0(theta)*V(theta)**2).subs(theta, p) == 0\",\n        \"N0006 - (G0(theta)*V(theta)**2).subs(theta, q) == 0\"\n      ],\n      \"rationale\": \"The two members have identical multiplicative structure with a common symbolic argument that differs only by substitution.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"N0005\", \"N0009\"],\n      \"latent_object\": \"G0(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"N0005\", \"O\": \"identity\"},\n        {\"member\": \"N0009\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"N0005\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"N0009\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the template G0(theta) by substituting theta with p or q.\",\n      \"required_assumptions\": [\"G0 is a unary function\"],\n      \"proof_obligations\": [\n        \"N0005 - G0(theta).subs(theta, p) == 0\",\n        \"N0009 - G0(theta).subs(theta, q) == 0\"\n      ],\n      \"rationale\": \"The two members are the same applied function G0 with different symbolic arguments.\",\n      \"confidence\": 0.98\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"N0004\", \"N0008\"],\n      \"latent_object\": \"V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"N0004\", \"O\": \"identity\"},\n        {\"member\": \"N0008\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"N0004\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"N0008\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the template V(theta) by substituting theta with p or q.\",\n      \"required_assumptions\": [\"V is a unary function\"],\n      \"proof_obligations\": [\n        \"N0004 - V(theta).subs(theta, p) == 0\",\n        \"N0008 - V(theta).subs(theta, q) == 0\"\n      ],\n      \"rationale\": \"The two members are the same applied function V with different symbolic arguments.\",\n      \"confidence\": 0.98\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

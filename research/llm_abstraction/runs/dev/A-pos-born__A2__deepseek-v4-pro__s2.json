@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "V(theta)*G0(theta)*V(theta)"
+      "latent_object": "V(theta)*G0(theta)*V(theta)",
+      "core": "V(theta)*G0(theta)*V(theta)"
     },
     {
       "constructable": true,
@@ -96,22 +97,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "G0((p))*V((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)*V(q)**2",
-          "instantiated": "G0((q))*V((q))**2",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)*V(theta)**2"
+      "latent_object": "G0(theta)*V(theta)**2",
+      "core": "G0(theta)*V(theta)**2"
     }
   ],
   "hypotheses": [
@@ -216,5 +218,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"V(q)*G0(q)*V(q)\"],\n      \"latent_object\": \"V(theta)*G0(theta)*V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Treat the common symbolic form V(theta)*G0(theta)*V(theta) as a kernel. Substituting theta=p gives the first summand; substituting theta=q gives the second summand.\",\n      \"required_assumptions\": [\"The symbols p and q can be substituted for the parameter theta in undefined functions.\"],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (V(theta)*G0(theta)*V(theta) with theta->p) = 0\",\n        \"V(q)*G0(q)*V(q) - (V(theta)*G0(theta)*V(theta) with theta->q) = 0\"\n      ],\n      \"rationale\": \"The two summands are syntactically identical except for the free symbol p versus q, so they are evaluations of the same univariate symbolic kernel at two different arguments.\",\n      \"confidence\": 0.97\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"G0(p)*V(p)**2\", \"G0(q)*V(q)**2\"],\n      \"latent_object\": \"G0(theta)*V(theta)**2\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Use the AC-normalized form G0(theta)*V(theta)**2 as a parameterized template. Substituting theta with p or q reproduces the two members of the observed structural family F01.\",\n      \"required_assumptions\": [\"Multiplication is commutative and associative, so V(x)*G0(x)*V(x) can be rewritten as G0(x)*V(x)**2.\"],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - (G0(theta)*V(theta)**2 with theta->p) = 0\",\n        \"G0(q)*V(q)**2 - (G0(theta)*V(theta)**2 with theta->q) = 0\"\n      ],\n      \"rationale\": \"The AC-equivalent observation already collapses the two factors of V into V(theta)**2 and places G0(theta) first; this is a normalized one-parameter family matching that structural observation.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

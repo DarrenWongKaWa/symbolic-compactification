@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -65,22 +65,23 @@
       "obligations": [
         {
           "member": "F(z)+G(z)",
-          "instantiated": "Sum of an unordered pair of unar(G(z)) function applications at the same argument z: {F(z), G(z)}",
+          "instantiated": "Sum of an unordered pair of unary function applications at the same argument z: {F(z), G(z)}",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "G(z)+F(z)",
-          "instantiated": "Sum of an unordered pair of unar(F(z)) function applications at the same argument z: {F(z), G(z)}",
+          "instantiated": "Sum of an unordered pair of unary function applications at the same argument z: {F(z), G(z)}",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "Sum of an unordered pair of unary function applications at the same argument z: {F(z), G(z)}"
+      "latent_object": "Sum of an unordered pair of unary function applications at the same argument z: {F(z), G(z)}",
+      "core": "Sum of an unordered pair of unary function applications at the same argument z: {F(z), G(z)}"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"F(z)+G(z)\", \"G(z)+F(z)\"],\n      \"latent_object\": \"Sum of an unordered pair of unary function applications at the same argument z: {F(z), G(z)}\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"F(z)+G(z)\", \"O\": \"identity\"},\n        {\"member\": \"G(z)+F(z)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(z)+G(z)\", \"theta\": {\"x\": \"F(z)\", \"y\": \"G(z)\"}},\n        {\"member\": \"G(z)+F(z)\", \"theta\": {\"x\": \"G(z)\", \"y\": \"F(z)\"}}\n      ],\n      \"construction_plan\": \"Form the binary sum x+y from an ordered pair (x,y). The latent object stores only the unordered multiset {x,y}, so the two orderings of the summands instantiate the same latent object under commutative addition.\",\n      \"required_assumptions\": [\"Addition is commutative for the symbolic expressions in this domain.\"],\n      \"proof_obligations\": [\"F(z)+G(z) - (G(z)+F(z)) = 0 under commutativity of addition\"],\n      \"rationale\": \"The reported structural observations are both commutative rewrite facts a+b ~ b+a. The only nontrivial symmetry visible in F(z)+G(z) is permutation of the two unary function applications F(z) and G(z), which explains EGRAPH_EQUIVALENT and KNOWN_REWRITE_EQUIVALENT without invoking leaf substitution.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

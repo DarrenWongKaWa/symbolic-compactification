@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"The only shared structure is the trivial multiplicative factor I*mu with scalar coefficient -1 or beta (the observed LGG template I*mu*theta0). This is a shallow hole-product and is not a scientifically or structurally non-trivial shared latent object.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

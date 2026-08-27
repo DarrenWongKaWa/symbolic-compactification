@@ -34,7 +34,7 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -51,7 +51,7 @@
     "d_certified": [],
     "highest_attempted": "D4",
     "highest_certified": null,
-    "quality": "incorrect",
+    "quality": "gold-like-but-unsupported",
     "success": false,
     "types": [
       "repeated_kernel",
@@ -69,36 +69,37 @@
       "obligations": [
         {
           "member": "S1",
-          "instantiated": "Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums",
+          "instantiated": "Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True))",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S2",
-          "instantiated": "Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums",
+          "instantiated": "Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True))",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S3",
-          "instantiated": "Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums",
+          "instantiated": "Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True))",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S4",
-          "instantiated": "Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums",
+          "instantiated": "Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True))",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums"
+      "latent_object": "Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums",
+      "core": "Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True))"
     },
     {
       "constructable": false,
@@ -109,15 +110,16 @@
       "obligations": [
         {
           "member": "all polygamma occurrences",
-          "instantiated": "G_(0,1,2,3,4)((u_j or v_j)) = polygamma((0,1,2,3,4), (beta*(u_j or v_j) + pi)/(2*pi)), with (u_j or v_j) = u_j = gamma + I*(epsilon(j)-mu) o(0,1,2,3,4) (u_j or v_j) = v_j = gamma - I*(epsilon(j)-mu)",
+          "instantiated": "gamma - I*(epsilon(j)-mu)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G_r(z) = polygamma(r, (beta*z + pi)/(2*pi)), with z = u_j = gamma + I*(epsilon(j)-mu) or z = v_j = gamma - I*(epsilon(j)-mu)"
+      "latent_object": "G_r(z) = polygamma(r, (beta*z + pi)/(2*pi)), with z = u_j = gamma + I*(epsilon(j)-mu) or z = v_j = gamma - I*(epsilon(j)-mu)",
+      "core": "gamma - I*(epsilon(j)-mu)"
     },
     {
       "constructable": false,
@@ -128,43 +130,44 @@
       "obligations": [
         {
           "member": "C2 diagonal branch Eq(m,n)",
-          "instantiated": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are (epsilon(m) -> epsilon(n))s of these kernels as the epsilon variables collide",
+          "instantiated": "n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "C3 branch Eq(m,n)",
-          "instantiated": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are (epsilon(m) -> epsilon(n))s of these kernels as the epsilon variables collide",
+          "instantiated": "n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "C3 branch Eq(ell,n)",
-          "instantiated": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are (epsilon(ell) -> epsilon(n))s of these kernels as the epsilon variables collide",
+          "instantiated": "n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "C3 branch Eq(ell,m)",
-          "instantiated": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are (epsilon(ell) -> epsilon(m))s of these kernels as the epsilon variables collide",
+          "instantiated": "n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "C3 branch Eq(ell,m)&Eq(m,n)",
-          "instantiated": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are (epsilon(ell) -> epsilon(m) and epsilon(m) -> epsilon(n))s of these kernels as the epsilon variables collide",
+          "instantiated": "n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are limits of these kernels as the epsilon variables collide"
+      "latent_object": "A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are limits of these kernels as the epsilon variables collide",
+      "core": "n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m"
     }
   ],
   "hypotheses": [
@@ -380,5 +383,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"S1: Sum over n,m of C2(m,n)*h1(b,n,m)*h2(a,c,m,n)\",\n        \"S2: Sum over n,m of C2(m,n)*h1(c,n,m)*h2(a,b,m,n)\",\n        \"S3: Sum over n,m,ell of C3(m,n,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\",\n        \"S4: Sum over n,m,ell of C3(m,n,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"\n      ],\n      \"latent_object\": \"Two indexed coefficient kernels: C2_{mn}=Piecewise((A_n, Eq(m,n)), (B_{mn}, True)) and C3_{mn,ell}=Piecewise((T0, Eq(ell,m)&Eq(m,n)), (T1, Eq(m,n)), (T2, Eq(ell,n)), (T3, Eq(ell,m)), (T4, True)), where A_n, B_{mn}, T0...T4 are the polygamma-rational pieces appearing in the respective sums\",\n      \"parameters\": [\"m\", \"n\", \"ell\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"specialize\"},\n        {\"member\": \"S2\", \"O\": \"specialize\"},\n        {\"member\": \"S3\", \"O\": \"specialize\"},\n        {\"member\": \"S4\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S1\", \"theta\": {\"h1_indices\": \"(b,n,m)\", \"h2_indices\": \"(a,c,m,n)\"}},\n        {\"member\": \"S2\", \"theta\": {\"h1_indices\": \"(c,n,m)\", \"h2_indices\": \"(a,b,m,n)\"}},\n        {\"member\": \"S3\", \"theta\": {\"h1_indices\": \"(a,m,n),(b,ell,m),(c,n,ell)\", \"h2_indices\": \"none\"}},\n        {\"member\": \"S4\", \"theta\": {\"h1_indices\": \"(a,m,n),(b,n,ell),(c,ell,m)\", \"h2_indices\": \"none\"}}\n      ],\n      \"construction_plan\": \"Extract the coefficient Piecewise expressions from the first double sum and first triple sum as C2 and C3. The remaining sums are obtained by contracting the same C2 and C3 with the indicated permutations of h1/h2 indices; no change is made to the coefficient kernels.\",\n      \"required_assumptions\": [\n        \"C2 depends only on m,n and the shared parameters beta,gamma,mu,epsilon, not on a,b,c\",\n        \"C3 depends only on m,n,ell and the shared parameters beta,gamma,mu,epsilon, not on a,b,c\"\n      ],\n      \"proof_obligations\": [\n        \"S1 - Sum_{n,m} C2(m,n)*h1(b,n,m)*h2(a,c,m,n) = 0\",\n        \"S2 - Sum_{n,m} C2(m,n)*h1(c,n,m)*h2(a,b,m,n) = 0\",\n        \"S3 - Sum_{n,m,ell} C3(m,n,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) = 0\",\n        \"S4 - Sum_{n,m,ell} C3(m,n,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) = 0\"\n      ],\n      \"rationale\": \"The four summation terms are not independent: the two double sums share one two-index coefficient kernel and the two triple sums share one three-index coefficient kernel; only the external h1/h2 index contractions are permuted.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"all polygamma occurrences in the four summation terms\"\n      ],\n      \"latent_object\": \"G_r(z) = polygamma(r, (beta*z + pi)/(2*pi)), with z = u_j = gamma + I*(epsilon(j)-mu) or z = v_j = gamma - I*(epsilon(j)-mu)\",\n      \"parameters\": [\"r\", \"z\", \"beta\", \"gamma\", \"mu\"],\n      \"operators\": [\n        {\"member\": \"all polygamma occurrences\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"all polygamma occurrences\", \"theta\": {\"r\": \"0,1,2,3,4\", \"z\": \"u_j or v_j\"}}\n      ],\n      \"construction_plan\": \"Every polygamma term is obtained by selecting an integer order r and a shifted argument z=gamma + I*(epsilon(j)-mu) or z=gamma - I*(epsilon(j)-mu), then forming G_r(z). The rational prefactors and denominators remain as explicit coefficient data.\",\n      \"required_assumptions\": [\n        \"epsilon(j) is an index-dependent quantity\",\n        \"beta, gamma, mu are parameters with values for which polygamma is defined\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(r, (beta*(gamma - I*mu + I*epsilon(j)) + pi)/(2*pi)) = G_r(gamma + I*(epsilon(j)-mu)) for each occurrence\",\n        \"polygamma(r, (beta*(gamma + I*mu - I*epsilon(j)) + pi)/(2*pi)) = G_r(gamma - I*(epsilon(j)-mu)) for each occurrence\"\n      ],\n      \"rationale\": \"All polygamma arguments are affine in epsilon(j) with the same conjugate pair of shifts, and the orders range from 0 through 4. This is a single two-branch family of transcendental functions specialized to index values.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\n        \"C2 diagonal branch Eq(m,n) and C2 off-diagonal branch True\",\n        \"C3 branches with conditions Eq(ell,m)&Eq(m,n), Eq(m,n), Eq(ell,n), Eq(ell,m), and True\"\n      ],\n      \"latent_object\": \"A single nonsingular coefficient kernel C2_off(m,n) for m != n and a single nonsingular coefficient kernel C3_off(m,n,ell) for distinct m,n,ell; coincident-index branches are limits of these kernels as the epsilon variables collide\",\n      \"parameters\": [\"m\", \"n\", \"ell\"],\n      \"operators\": [\n        {\"member\": \"C2 diagonal branch Eq(m,n)\", \"O\": \"specialize\"},\n        {\"member\": \"C3 branch Eq(m,n)\", \"O\": \"specialize\"},\n        {\"member\": \"C3 branch Eq(ell,n)\", \"O\": \"specialize\"},\n        {\"member\": \"C3 branch Eq(ell,m)\", \"O\": \"specialize\"},\n        {\"member\": \"C3 branch Eq(ell,m)&Eq(m,n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"C2 diagonal branch Eq(m,n)\", \"theta\": {\"limit\": \"epsilon(m) -> epsilon(n)\"}},\n        {\"member\": \"C3 branch Eq(m,n)\", \"theta\": {\"limit\": \"epsilon(m) -> epsilon(n)\"}},\n        {\"member\": \"C3 branch Eq(ell,n)\", \"theta\": {\"limit\": \"epsilon(ell) -> epsilon(n)\"}},\n        {\"member\": \"C3 branch Eq(ell,m)\", \"theta\": {\"limit\": \"epsilon(ell) -> epsilon(m)\"}},\n        {\"member\": \"C3 branch Eq(ell,m)&Eq(m,n)\", \"theta\": {\"limit\": \"epsilon(ell) -> epsilon(m) and epsilon(m) -> epsilon(n)\"}}\n      ],\n      \"construction_plan\": \"Define C2_off(m,n) as the True branch of the two-index coefficient and C3_off(m,n,ell) as the fully generic True branch of the three-index coefficient. The diagonal and partially diagonal Piecewise branches are obtained as limits of these generic branches under the corresponding index collisions in epsilon.\",\n      \"required_assumptions\": [\n        \"The coefficient kernels are meromorphic in the epsilon variables\",\n        \"The Piecewise equal-index cases are the analytic/continuous limits of the generic cases\"\n      ],\n      \"proof_obligations\": [\n        \"lim_{epsilon(m)->epsilon(n)} C2_off(m,n) = C2 diagonal branch\",\n        \"lim_{epsilon(m)->epsilon(n)} C3_off(m,n,ell) = C3 Eq(m,n) branch\",\n        \"lim_{epsilon(ell)->epsilon(n)} C3_off(m,n,ell) = C3 Eq(ell,n) branch\",\n        \"lim_{epsilon(ell)->epsilon(m)} C3_off(m,n,ell) = C3 Eq(ell,m) branch\",\n        \"successive limits recover C3 Eq(ell,m)&Eq(m,n) branch\"\n      ],\n      \"rationale\": \"The Piecewise structure separates repeated-index cases from the generic case, while the generic branches contain denominators that are powers of epsilon differences and numerators built from polygamma differences and derivatives. This is the typical signature of confluent limits of a single kernel at colliding nodes.\",\n      \"confidence\": 0.55\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

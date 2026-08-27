@@ -34,7 +34,7 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F(x*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G(t) = F(x*y + t*z)"
+      "latent_object": "G(t) = F(x*y + t*z)",
+      "core": "F(x*y + t*z)"
     },
     {
       "constructable": true,
@@ -96,22 +97,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x)*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F((x)*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "M(a,b) = F(a*y + b*z)"
+      "latent_object": "M(a,b) = F(a*y + b*z)",
+      "core": "F(a*y + b*z)"
     },
     {
       "constructable": false,
@@ -122,22 +124,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "Matrix-vector construction: M = [[x, x], [x, w]], v = [y, z], with (0)-wise application T_i = F((M v)_i)",
+          "instantiated": "F((M v)_i)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "Matrix-vector construction: M = [[x, x], [x, w]], v = [y, z], with (1)-wise application T_i = F((M v)_i)",
+          "instantiated": "F((M v)_i)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "tensor_generator",
       "d_level": "D5",
-      "latent_object": "Matrix-vector construction: M = [[x, x], [x, w]], v = [y, z], with row-wise application T_i = F((M v)_i)"
+      "latent_object": "Matrix-vector construction: M = [[x, x], [x, w]], v = [y, z], with row-wise application T_i = F((M v)_i)",
+      "core": "F((M v)_i)"
     }
   ],
   "hypotheses": [
@@ -300,5 +303,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"G(t) = F(x*y + t*z)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"t\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"t\": \"w\"}}\n      ],\n      \"construction_plan\": \"Define G(t)=F(x*y+t*z). Instantiate at t=x and t=w. For the first term, use the algebraic rewrite x*(y+z)=x*y+x*z; the second term is already G(w). The full expression is the sum of the two evaluations.\",\n      \"required_assumptions\": [\"F is unary\", \"algebraic rewrite x*(y+z)=x*y+x*z is allowed\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - specialize(G(t), t=x) = 0 after algebra\",\n        \"F(x*y + w*z) - specialize(G(t), t=w) = 0\"\n      ],\n      \"rationale\": \"The two F arguments share the same term x*y and differ only in the multiplier of z, so they are evaluations of a one-parameter family G(t)=F(x*y+t*z).\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"M(a,b) = F(a*y + b*z)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"a\": \"x\", \"b\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"a\": \"x\", \"b\": \"w\"}}\n      ],\n      \"construction_plan\": \"Define the master bilinear form M(a,b)=F(a*y+b*z). Instantiate it at coefficient pairs (x,x) and (x,w). The first instantiation uses the algebra fact x*(y+z)=x*y+x*z.\",\n      \"required_assumptions\": [\"F is unary\", \"algebraic rewrite x*(y+z)=x*y+x*z is allowed\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - specialize(M(a,b), {a:x,b:x}) = 0 after algebra\",\n        \"F(x*y + w*z) - specialize(M(a,b), {a:x,b:w}) = 0\"\n      ],\n      \"rationale\": \"Both arguments of F are evaluations of the same bilinear form a*y+b*z at two coefficient vectors, so a two-parameter master function is a natural shared parent.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"tensor_generator\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"Matrix-vector construction: M = [[x, x], [x, w]], v = [y, z], with row-wise application T_i = F((M v)_i)\",\n      \"parameters\": [\"x\", \"y\", \"z\", \"w\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"row\": \"0\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"row\": \"1\"}}\n      ],\n      \"construction_plan\": \"Form the 2x2 matrix M with rows [x,x] and [x,w] and vector v=[y,z]. Compute Mv. The two target members are F applied to the two components of Mv, after noting (Mv)_0 = x*y+x*z = x*(y+z) and (Mv)_1 = x*y+w*z.\",\n      \"required_assumptions\": [\"standard matrix-vector multiplication algebra\", \"row selection after applying F is valid\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F((M v)_0) = 0 after algebra\",\n        \"F(x*y + w*z) - F((M v)_1) = 0\"\n      ],\n      \"rationale\": \"The two terms are F evaluated on the two components of a single matrix-vector product; this explains the shared first coefficient x and the differing second coefficients x and w as rows of a matrix.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

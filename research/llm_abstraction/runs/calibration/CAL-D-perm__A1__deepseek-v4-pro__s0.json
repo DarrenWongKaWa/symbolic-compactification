@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((j), (i))",
+          "instantiated": "T(j, i)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "T(a, b)"
+      "latent_object": "T(a, b)",
+      "core": "T(a, b)"
     },
     {
       "constructable": false,
@@ -95,22 +96,23 @@
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j)) with a swa(i) o(i)erator \u03c3 acting as T((i),(j)) -> T((j),(i))",
+          "instantiated": "T(p, q) with a swap operator \u03c3 acting as T(p,q) -> T(q,p)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((i), (j)) with a swa(i) o(i)erator \u03c3 acting as T((i),(j)) -> T((j),(i))",
+          "instantiated": "T(p, q) with a swap operator \u03c3 acting as T(p,q) -> T(q,p)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "T(p, q) with a swap operator \u03c3 acting as T(p,q) -> T(q,p)"
+      "latent_object": "T(p, q) with a swap operator \u03c3 acting as T(p,q) -> T(q,p)",
+      "core": "T(p, q) with a swap operator \u03c3 acting as T(p,q) -> T(q,p)"
     }
   ],
   "hypotheses": [
@@ -221,5 +223,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"j\", \"b\": \"i\"}}\n      ],\n      \"construction_plan\": \"Instantiate the binary template T(a,b) on the two ordered pairs (i,j) and (j,i).\",\n      \"required_assumptions\": [\"T accepts ordered arguments\"],\n      \"proof_obligations\": [\n        \"T(i, j) - T(a,b)[a=i,b=j] = 0\",\n        \"T(j, i) - T(a,b)[a=j,b=i] = 0\"\n      ],\n      \"rationale\": \"The expression consists of two evaluations of the same binary symbol T with the same two symbols in opposite orders, so it is a repeated kernel over the ordered pairs (i,j) and (j,i).\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(p, q) with a swap operator \u03c3 acting as T(p,q) -> T(q,p)\",\n      \"parameters\": [\"p\", \"q\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"p\": \"i\", \"q\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"p\": \"i\", \"q\": \"j\"}}\n      ],\n      \"construction_plan\": \"Start from the single ordered representative (p,q)=(i,j); the first term is the identity image and the second term is the image under the argument transposition \u03c3.\",\n      \"required_assumptions\": [\"T is a function of an ordered pair\"],\n      \"proof_obligations\": [\n        \"T(i, j) - T(p,q)[p=i,q=j] = 0\",\n        \"T(j, i) - \u03c3(T(p,q))[p=i,q=j] = 0\"\n      ],\n      \"rationale\": \"The two terms are related by swapping the two arguments, so one ordered representative plus a transposition operator is a minimal symmetry-based description.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

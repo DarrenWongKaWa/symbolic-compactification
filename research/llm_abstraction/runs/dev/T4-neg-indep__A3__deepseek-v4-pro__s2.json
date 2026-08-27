@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"The observation packets contain no actual member expressions (members are listed as none) and only report generic commutative-addition rewrite facts. Without concrete expressions involving F, G, or z, no non-trivial shared latent structure can be proposed.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

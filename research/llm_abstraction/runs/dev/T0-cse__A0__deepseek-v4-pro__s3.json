@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*x(n)"
+      "latent_object": "K(n)*x(n)",
+      "core": "K(n)*x(n)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*x(n)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"x\": \"a\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"x\": \"b\"}}\n      ],\n      \"construction_plan\": \"Define the parameterized factor template F_x(n)=K(n)*x(n). The two additive terms are obtained by substituting x=a and x=b, respectively.\",\n      \"required_assumptions\": [\n        \"K, a, and b are unary functions of n\",\n        \"The two products share the same K(n)\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - F_a(n) = 0\",\n        \"K(n)*b(n) - F_b(n) = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms share the exact factor K(n) and differ only in the second factor, so they are instances of a single parameterized product kernel K(n)*x(n).\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

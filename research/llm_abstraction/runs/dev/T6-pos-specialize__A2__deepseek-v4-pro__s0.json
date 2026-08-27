@@ -40,9 +40,9 @@
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 2,
+    "n_zero": 3,
     "n_nonzero": 0,
-    "n_unknown": 3,
+    "n_unknown": 2,
     "d_attempted": [
       "D3"
     ],
@@ -68,55 +68,57 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     },
     {
-      "constructable": false,
+      "constructable": true,
       "certified": false,
-      "n_zero": 0,
+      "n_zero": 1,
       "n_nonzero": 0,
-      "n_unknown": 3,
+      "n_unknown": 2,
       "obligations": [
         {
           "member": "Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))",
-          "instantiated": "Pie(Ne(n, m))ewise((K((n), (m)), (Ne(n, m))), (K((n), (n)), True))",
+          "instantiated": "Piecewise((K(a, b), c), (K(a, a), True))",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "K(n, m)",
-          "instantiated": "Pie(True)ewise((K((n), (m)), (True)), (K((n), (n)), True))",
+          "instantiated": "Piecewise((K(a, b), c), (K(a, a), True))",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "Pie(False)ewise((K((n), (n)), (False)), (K((n), (n)), True))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "P(a, b, c) = Piecewise((K(a, b), c), (K(a, a), True))"
+      "latent_object": "P(a, b, c) = Piecewise((K(a, b), c), (K(a, a), True))",
+      "core": "Piecewise((K(a, b), c), (K(a, a), True))"
     }
   ],
   "hypotheses": [
@@ -244,5 +246,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}}\n      ],\n      \"construction_plan\": \"Instantiate the binary kernel K at the off-diagonal pair (n, m). The diagonal member is obtained by specializing the second argument to equal the first argument.\",\n      \"required_assumptions\": [\"K is a binary function of two independent arguments\"],\n      \"proof_obligations\": [\n        \"K(n, m) - K(a, b)|{a=n, b=m} = 0\",\n        \"K(n, n) - K(a, b)|{a=n, b=n} = 0\"\n      ],\n      \"rationale\": \"Both K-calls are evaluations of the same binary kernel; the second is the diagonal specialization of the first.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"P(a, b, c) = Piecewise((K(a, b), c), (K(a, a), True))\",\n      \"parameters\": [\"a\", \"b\", \"c\"],\n      \"operators\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"O\": \"specialize\"\n        },\n        {\"member\": \"K(n, m)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"theta\": {\"a\": \"n\", \"b\": \"m\", \"c\": \"Ne(n, m)\"}\n        },\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\", \"c\": \"True\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\", \"c\": \"False\"}}\n      ],\n      \"construction_plan\": \"Introduce a Boolean branch-selector parameter c for a two-branch piecewise form. The original expression is the specialization c -> Ne(n, m). Setting c -> True selects the first branch, giving K(n, m); setting c -> False selects the otherwise branch, giving K(n, n).\",\n      \"required_assumptions\": [\n        \"The usual piecewise simplification rules apply: a branch with condition True is selected, and a branch with condition False is discarded.\"\n      ],\n      \"proof_obligations\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True)) - P(n, m, Ne(n, m)) = 0\",\n        \"K(n, m) - simplify(P(n, m, True)) = 0\",\n        \"K(n, n) - simplify(P(n, n, False)) = 0\"\n      ],\n      \"rationale\": \"The whole expression can be viewed as a Boolean specialization of a master two-branch selector built from the same kernel K; the individual branch expressions are recovered by choosing the branch condition.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

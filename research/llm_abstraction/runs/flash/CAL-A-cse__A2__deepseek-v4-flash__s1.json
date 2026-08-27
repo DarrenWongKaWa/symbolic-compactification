@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(n)*f(n)"
+      "latent_object": "K(n)*f(n)",
+      "core": "K(n)*f(n)"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*f(n)\",\n      \"parameters\": [\"f\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"f\": \"a\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"f\": \"b\"}}\n      ],\n      \"construction_plan\": \"Start with the template K(n)*f(n), where f is a placeholder function. Substitute f by a to get the first term; substitute f by b to get the second term. The original expression is then the sum of these two generated terms.\",\n      \"required_assumptions\": [\n        \"a(n) and b(n) are arbitrary expressions in n\",\n        \"multiplication distributes over addition if treating the sum\",\n        \"K(n) is a common kernel factor\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*f(n))[f:=a] = 0\",\n        \"K(n)*b(n) - (K(n)*f(n))[f:=b] = 0\"\n      ],\n      \"rationale\": \"Structural observation F01 reports the two products K(n)*a(n) and K(n)*b(n) as AC-equivalent and as substitution instances of a frozen LGG template theta0*K(n) with holes a(n) and b(n). This matches a parameterized family in the placeholder function f, with K(n) as a fixed kernel.\",\n      \"confidence\": 0.82\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

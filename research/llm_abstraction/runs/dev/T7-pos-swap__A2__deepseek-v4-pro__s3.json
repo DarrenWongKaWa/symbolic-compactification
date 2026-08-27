@@ -40,14 +40,15 @@
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 2,
+    "n_zero": 3,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D2",
       "D5"
     ],
     "d_certified": [
+      "D2",
       "D5"
     ],
     "highest_attempted": "D5",
@@ -62,29 +63,30 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "permute_inst_args"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "T(a, b)"
+      "latent_object": "T(a, b)",
+      "core": "T(a, b)"
     },
     {
       "constructable": true,
@@ -95,15 +97,16 @@
       "obligations": [
         {
           "member": "T(i, j) + T(j, i)",
-          "instantiated": "T((i), (j)) + T((j), (i))",
+          "instantiated": "T(i, j) + T(j, i)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "S(a, b) = T(a, b) + T(b, a)"
+      "latent_object": "S(a, b) = T(a, b) + T(b, a)",
+      "core": "T(a, b) + T(b, a)"
     }
   ],
   "hypotheses": [
@@ -205,5 +208,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"T(i, j)\",\n        \"T(j, i)\"\n      ],\n      \"latent_object\": \"T(a, b)\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"T(i, j)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"T(j, i)\",\n          \"O\": \"permute\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"T(i, j)\",\n          \"theta\": {\n            \"a\": \"i\",\n            \"b\": \"j\"\n          }\n        },\n        {\n          \"member\": \"T(j, i)\",\n          \"theta\": {\n            \"a\": \"i\",\n            \"b\": \"j\"\n          }\n        }\n      ],\n      \"construction_plan\": \"For T(i, j), instantiate the binary kernel T(a,b) at (a,b)=(i,j). For T(j, i), apply the argument-permutation operator (a,b)->(b,a) to the same kernel, then instantiate at (a,b)=(i,j).\",\n      \"required_assumptions\": [\n        \"T is a two-argument function or indexed object\",\n        \"i and j are independent index symbols\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - T(a,b)[a=i,b=j] = 0\",\n        \"T(j, i) - permute(T(a,b))[a=i,b=j] = 0\",\n        \"T(i, j) + T(j, i) - (T(a,b)+T(b,a))[a=i,b=j] = 0\"\n      ],\n      \"rationale\": \"The two terms differ only by reversal of the argument list; a single binary kernel T evaluated on the S2 orbit of the ordered pair (i,j) is the minimal shared structure.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\n        \"T(i, j) + T(j, i)\"\n      ],\n      \"latent_object\": \"S(a, b) = T(a, b) + T(b, a)\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"T(i, j) + T(j, i)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"T(i, j) + T(j, i)\",\n          \"theta\": {\n            \"a\": \"i\",\n            \"b\": \"j\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define the two-index symmetrized object S(a,b)=T(a,b)+T(b,a). The full expression is the specialization S(i,j), i.e. S(a,b) with a=i and b=j.\",\n      \"required_assumptions\": [\n        \"T is a two-argument object\",\n        \"The sum over swapped argument order is well-defined\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) + T(j, i) - S(i, j) = 0\",\n        \"S(i, j) - S(j, i) = 0\"\n      ],\n      \"rationale\": \"The full expression is exactly the S2-symmetrization of T over its two argument slots, so it is structurally invariant under the swap i<->j.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

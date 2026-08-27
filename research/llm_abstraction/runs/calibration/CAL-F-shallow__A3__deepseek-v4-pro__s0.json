@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"The only observed non-empty family contains -I*mu and I*beta*mu. Their shared structure is the one-hole product I*mu*theta0 with theta0 = -1 or beta, which is a shallow substitution template and is explicitly noted as not a scientific object. No non-trivial latent object, operator family, or representation change is warranted across the provided packets.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

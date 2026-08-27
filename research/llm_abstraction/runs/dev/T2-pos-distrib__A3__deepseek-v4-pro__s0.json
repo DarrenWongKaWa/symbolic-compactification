@@ -66,22 +66,23 @@
       "obligations": [
         {
           "member": "N0002",
-          "instantiated": "F((x*(y+z)))",
+          "instantiated": "F(theta0)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0005",
-          "instantiated": "F((x*y+x*z))",
+          "instantiated": "F(theta0)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(theta0)"
+      "latent_object": "F(theta0)",
+      "core": "F(theta0)"
     },
     {
       "constructable": false,
@@ -92,22 +93,23 @@
       "obligations": [
         {
           "member": "N0003",
-          "instantiated": "x*((y)+(z))",
+          "instantiated": "x*(y+z)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0004",
-          "instantiated": "x*((y)+(z))",
+          "instantiated": "x*(y+z)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "x*(y+z)"
+      "latent_object": "x*(y+z)",
+      "core": "x*(y+z)"
     }
   ],
   "hypotheses": [
@@ -218,5 +220,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"N0002\", \"N0005\"],\n      \"latent_object\": \"F(theta0)\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\"member\": \"N0002\", \"O\": \"specialize\"},\n        {\"member\": \"N0005\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"N0002\", \"theta\": {\"theta0\": \"x*(y+z)\"}},\n        {\"member\": \"N0005\", \"theta\": {\"theta0\": \"x*y+x*z\"}}\n      ],\n      \"construction_plan\": \"Instantiate the shared unary kernel F(theta0) by setting theta0 to the argument expression reported for each member. The two argument expressions are not syntactically identical but are related by distributivity.\",\n      \"required_assumptions\": [\n        \"F is a unary function on algebraic expressions\",\n        \"Standard ring distributivity x*(y+z)=x*y+x*z is available\"\n      ],\n      \"proof_obligations\": [\n        \"N0002 - F(x*(y+z)) = 0 under theta0=x*(y+z)\",\n        \"N0005 - F(x*y+x*z) = 0 under theta0=x*y+x*z\",\n        \"x*(y+z) - (x*y+x*z) = 0 under ring algebra\"\n      ],\n      \"rationale\": \"Both members share the same outer unary F applied to two forms of one algebraic argument; the observation packet reports an LGG template F(theta0), so a parameterized kernel is the minimal shared structure.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"N0003\", \"N0004\"],\n      \"latent_object\": \"x*(y+z)\",\n      \"parameters\": [\"y\", \"z\"],\n      \"operators\": [\n        {\"member\": \"N0003\", \"O\": \"identity\"},\n        {\"member\": \"N0004\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"N0003\", \"theta\": {\"y\": \"y\", \"z\": \"z\"}},\n        {\"member\": \"N0004\", \"theta\": {\"y\": \"y\", \"z\": \"z\"}}\n      ],\n      \"construction_plan\": \"Treat x*(y+z) as the base expression in x. N0003 is the base expression itself; applying differentiation with respect to x to the base expression yields y+z, which is N0004.\",\n      \"required_assumptions\": [\n        \"Differentiation is with respect to x\",\n        \"y and z are treated as constants in the derivative\"\n      ],\n      \"proof_obligations\": [\n        \"N0003 - x*(y+z) = 0\",\n        \"N0004 - d/dx[x*(y+z)] = 0\"\n      ],\n      \"rationale\": \"The packet reports an exact sympy derivative fact: diff(x*(y+z), x) equals y+z, so the two members form a derivative family with the product expression as the latent object.\",\n      \"confidence\": 0.99\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

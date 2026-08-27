@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     }
   ],
   "hypotheses": [
@@ -141,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}}\n      ],\n      \"construction_plan\": \"Define F(a,b)=K(a,b). The piecewise expression is assembled by selecting the specialization F(n,m) on the condition Ne(n,m) and F(n,n) on the complementary True diagonal condition.\",\n      \"required_assumptions\": [\"K is a bivariate function accepting symbolic arguments n and m.\"],\n      \"proof_obligations\": [\n        \"K(n, m) - K(a, b)|_{a=n,b=m} = 0\",\n        \"K(n, n) - K(a, b)|_{a=n,b=n} = 0\"\n      ],\n      \"rationale\": \"The two piecewise branches are the same underlying bivariate kernel K evaluated at (n,m) and at the diagonal point (n,n), so the non-identical branches are repeated specializations of one latent kernel.\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

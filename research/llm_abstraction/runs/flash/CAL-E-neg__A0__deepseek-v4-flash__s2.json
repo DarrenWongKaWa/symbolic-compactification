@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(A,B,x) = A(x)*B(x)*A(x)"
+      "latent_object": "T(A,B,x) = A(x)*B(x)*A(x)",
+      "core": "A(x)*B(x)*A(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"W(q)*H0(q)*W(q)\"],\n      \"latent_object\": \"T(A,B,x) = A(x)*B(x)*A(x)\",\n      \"parameters\": [\"A\", \"B\", \"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"A\": \"V\", \"B\": \"G0\", \"x\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"A\": \"W\", \"B\": \"H0\", \"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the template T(A,B,x) twice using the two parameter assignments and take the formal sum of the instantiations: T(V,G0,p) + T(W,H0,q), reproducing the raw expression.\",\n      \"required_assumptions\": [\n        \"All products are symbolic and well-formed; no commutation or analytic properties are assumed.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T(V,G0,p) = 0\",\n        \"W(q)*H0(q)*W(q) - T(W,H0,q) = 0\"\n      ],\n      \"rationale\": \"The two summands are not syntactically equal but share the same ordered three-factor structure A(x)*B(x)*A(x). They differ only through the symbols substituted for A, B, and x, making them two instances of a single parameter-dependent family.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

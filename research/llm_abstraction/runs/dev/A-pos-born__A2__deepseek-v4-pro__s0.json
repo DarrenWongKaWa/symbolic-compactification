@@ -67,36 +67,37 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)*V(q)**2",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(theta) = V(theta)*G0(theta)*V(theta)"
+      "latent_object": "K(theta) = V(theta)*G0(theta)*V(theta)",
+      "core": "V(theta)*G0(theta)*V(theta)"
     }
   ],
   "hypotheses": [
@@ -178,5 +179,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\",\n        \"G0(p)*V(p)**2\",\n        \"G0(q)*V(q)**2\"\n      ],\n      \"latent_object\": \"K(theta) = V(theta)*G0(theta)*V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"},\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"theta\": \"q\"}},\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate K(theta)=V(theta)*G0(theta)*V(theta) at theta=p and theta=q. The raw expression is the sum K(p)+K(q). The F01 members G0(theta)*V(theta)**2 are obtained from K(theta) by associativity/commutativity and collecting V(theta)*V(theta) as V(theta)**2.\",\n      \"required_assumptions\": [\n        \"V and G0 are uninterpreted single-argument functions\",\n        \"multiplication is associative and commutative for rewriting V*G0*V to G0*V^2\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - K(p) = 0\",\n        \"V(q)*G0(q)*V(q) - K(q) = 0\",\n        \"G0(p)*V(p)**2 - K(p) = 0 after V(p)*V(p) -> V(p)**2 and AC reorder\",\n        \"G0(q)*V(q)**2 - K(q) = 0 after V(q)*V(q) -> V(q)**2 and AC reorder\",\n        \"K(p)+K(q) = V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)\"\n      ],\n      \"rationale\": \"The expression is a sum of the same kernel evaluated at two different symbols p and q; the F01 observation is exactly this kernel after AC/semantic simplification of V*V to V^2.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

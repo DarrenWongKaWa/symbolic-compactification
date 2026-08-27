@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "M(n, n)"
+      "latent_object": "M(n, n)",
+      "core": "M(n, n)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(n, n)\",\n      \"parameters\": [\"n\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"n\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"n\": \"2\"}}\n      ],\n      \"construction_plan\": \"Define the diagonal kernel K(n)=M(n,n) for a symbolic parameter n. Instantiate K at n=1 and n=2 to obtain the two expression terms.\",\n      \"required_assumptions\": [\"M is defined at (1,1) and (2,2)\"],\n      \"proof_obligations\": [\"M(1, 1) - K(1) = 0\", \"M(2, 2) - K(2) = 0\"],\n      \"rationale\": \"The two subexpressions are evaluations of the same binary function M with equal arguments, so they arise from a common diagonal specialization rather than from unrelated terms.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -34,23 +34,25 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
-    "construction_ok": false,
-    "certified": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 10,
+    "n_unknown": 8,
     "d_attempted": [
       "D1",
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D1"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "unverifiable",
+    "highest_certified": "D1",
+    "quality": "incorrect",
     "success": false,
     "types": [
       "parameterized_family",
@@ -68,50 +70,51 @@
       "obligations": [
         {
           "member": "N0014",
-          "instantiated": "((pi)eta)*(g((pi)eta)mm((pi)eta) + (1)*I*mu - (1)*I*ep(1)ilo(n)((n))) + (pi)",
+          "instantiated": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0016",
-          "instantiated": "(1)*(g(1)mm(1) + (1)*I*mu - (1)*I*ep(1)ilo(n)((n))) + (0)",
+          "instantiated": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0015",
-          "instantiated": "((0)eta)*(g((0)eta)mm((0)eta) + (1)*I*mu - (1)*I*ep(1)ilo(n)((n))) + (0)",
+          "instantiated": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0023",
-          "instantiated": "((pi)eta)*(g((pi)eta)mm((pi)eta) + (-1)*I*mu - (-1)*I*ep(-1)ilo(n)((n))) + (pi)",
+          "instantiated": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0025",
-          "instantiated": "(1)*(g(1)mm(1) + (-1)*I*mu - (-1)*I*ep(-1)ilo(n)((n))) + (0)",
+          "instantiated": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0024",
-          "instantiated": "((0)eta)*(g((0)eta)mm((0)eta) + (-1)*I*mu - (-1)*I*ep(-1)ilo(n)((n))) + (0)",
+          "instantiated": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "A(n,s,a,b) = a*(gamma + s*I*mu - s*I*epsilon(n)) + b"
+      "latent_object": "A(n,s,a,b) = a*(gamma + s*I*mu - s*I*epsilon(n)) + b",
+      "core": "a*(gamma + s*I*mu - s*I*epsilon(n)) + b"
     },
     {
       "constructable": false,
@@ -122,48 +125,50 @@
       "obligations": [
         {
           "member": "N0019",
-          "instantiated": "epsilon((n))",
+          "instantiated": "epsilon(t)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "N0047",
-          "instantiated": "epsilon((m))",
+          "instantiated": "epsilon(t)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "E(t) = epsilon(t)"
+      "latent_object": "E(t) = epsilon(t)",
+      "core": "epsilon(t)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "(beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi)",
-          "instantiated": "(beta*(gamma + (1)*I*mu - (1)*I*ep(1)ilo(n)((n))) + pi)/(2*pi)",
+          "instantiated": "(beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "(beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi)",
-          "instantiated": "(beta*(gamma + (-1)*I*mu - (-1)*I*ep(-1)ilo(n)((n))) + pi)/(2*pi)",
+          "instantiated": "(beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "other_structured",
       "d_level": "D1",
-      "latent_object": "U(s,n) = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi)"
+      "latent_object": "U(s,n) = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi)",
+      "core": "(beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi)"
     }
   ],
   "hypotheses": [
@@ -389,5 +394,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"N0014\",\n        \"N0016\",\n        \"N0015\",\n        \"N0023\",\n        \"N0025\",\n        \"N0024\"\n      ],\n      \"latent_object\": \"A(n,s,a,b) = a*(gamma + s*I*mu - s*I*epsilon(n)) + b\",\n      \"parameters\": [\n        \"n\",\n        \"s\",\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"N0014\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"N0016\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"N0015\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"N0023\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"N0025\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"N0024\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"N0014\",\n          \"theta\": {\n            \"n\": \"n\",\n            \"s\": 1,\n            \"a\": \"beta\",\n            \"b\": \"pi\"\n          }\n        },\n        {\n          \"member\": \"N0016\",\n          \"theta\": {\n            \"n\": \"n\",\n            \"s\": 1,\n            \"a\": 1,\n            \"b\": 0\n          }\n        },\n        {\n          \"member\": \"N0015\",\n          \"theta\": {\n            \"n\": \"n\",\n            \"s\": 1,\n            \"a\": \"beta\",\n            \"b\": 0\n          }\n        },\n        {\n          \"member\": \"N0023\",\n          \"theta\": {\n            \"n\": \"n\",\n            \"s\": -1,\n            \"a\": \"beta\",\n            \"b\": \"pi\"\n          }\n        },\n        {\n          \"member\": \"N0025\",\n          \"theta\": {\n            \"n\": \"n\",\n            \"s\": -1,\n            \"a\": 1,\n            \"b\": 0\n          }\n        },\n        {\n          \"member\": \"N0024\",\n          \"theta\": {\n            \"n\": \"n\",\n            \"s\": -1,\n            \"a\": \"beta\",\n            \"b\": 0\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the affine template A(n,s,a,b) with s=+1 for the plus branch and s=-1 for the minus branch. Choose (a,b) as (1,0), (beta,0), or (beta,pi) to recover the three affine forms in each branch. This reduces the two observed DERIVATIVE_RELATED families to one two-branch affine family.\",\n      \"required_assumptions\": [\n        \"No real-valued or complex-conjugation assumptions on gamma, mu, or epsilon are required.\"\n      ],\n      \"proof_obligations\": [\n        \"N0014 - A(n,1,beta,pi) = 0\",\n        \"N0016 - A(n,1,1,0) = 0\",\n        \"N0015 - A(n,1,beta,0) = 0\",\n        \"N0023 - A(n,-1,beta,pi) = 0\",\n        \"N0025 - A(n,-1,1,0) = 0\",\n        \"N0024 - A(n,-1,beta,0) = 0\"\n      ],\n      \"rationale\": \"The six members are affine transformations of the same signed displacement z_s = gamma + s*I*mu - s*I*epsilon(n). The observed beta derivatives hold because A is linear in the multiplier a and the b term is a constant translation.\",\n      \"confidence\": 0.97\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"N0019\",\n        \"N0047\"\n      ],\n      \"latent_object\": \"E(t) = epsilon(t)\",\n      \"parameters\": [\n        \"t\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"N0019\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"N0047\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"N0019\",\n          \"theta\": {\n            \"t\": \"n\"\n          }\n        },\n        {\n          \"member\": \"N0047\",\n          \"theta\": {\n            \"t\": \"m\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the single indexed function template epsilon(t) at t=n and t=m. This captures the CSE/SAME_FUNCTION_FAMILY observation without adding any structure beyond a discrete index parameter.\",\n      \"required_assumptions\": [\n        \"epsilon is an AppliedUndef function accepting an index-like argument.\"\n      ],\n      \"proof_obligations\": [\n        \"N0019 - epsilon(n) = 0\",\n        \"N0047 - epsilon(m) = 0\"\n      ],\n      \"rationale\": \"The two members are applications of the same undeclared function to two different parameters, sharing both the function symbol and an index-like role.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\n        \"(beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi)\",\n        \"(beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi)\"\n      ],\n      \"latent_object\": \"U(s,n) = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi)\",\n      \"parameters\": [\n        \"s\",\n        \"n\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"(beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"(beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"(beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi)\",\n          \"theta\": {\n            \"s\": 1,\n            \"n\": \"n\"\n          }\n        },\n        {\n          \"member\": \"(beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi)\",\n          \"theta\": {\n            \"s\": -1,\n            \"n\": \"n\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the signed modular affine form U(s,n) with s=+1 and s=-1. These two instantiations are exactly the repeated polygamma arguments appearing in N0002 and N0003, thereby representing the plus/minus polygamma argument pair as one signed parameterized object.\",\n      \"required_assumptions\": [\n        \"No reality assumptions are needed; this is a symbolic regrouping and normalization by 2*pi.\"\n      ],\n      \"proof_obligations\": [\n        \"(beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi) - U(1,n) = 0\",\n        \"(beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi) - U(-1,n) = 0\"\n      ],\n      \"rationale\": \"The large N0002/N0003 expressions contain both signed forms as arguments to polygamma. The U(s,n) template identifies them as a sign-indexed pair, connecting the F01/F02 argument structure to the affine displacement family seen in F03/F04.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

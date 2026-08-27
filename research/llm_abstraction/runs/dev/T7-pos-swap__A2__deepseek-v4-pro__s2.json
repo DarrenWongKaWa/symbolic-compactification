@@ -35,23 +35,26 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 4,
     "n_nonzero": 0,
-    "n_unknown": 4,
+    "n_unknown": 0,
     "d_attempted": [
       "D1",
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D1",
+      "D5"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D5",
+    "quality": "useful",
+    "success": true,
     "types": [
       "symmetry_invariant",
       "other_structured"
@@ -59,56 +62,58 @@
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j)), a binar(j) inde(i)ed kernel with an S2 action on ordered slots",
+          "instantiated": "T(i, j)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((i), (j)), a binar(j) inde(i)ed kernel with an S2 action on ordered slots",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "permute_inst_args"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "F(x, y) = T(x, y), a binary indexed kernel with an S2 action on ordered slots"
+      "latent_object": "F(x, y) = T(x, y), a binary indexed kernel with an S2 action on ordered slots",
+      "core": "T(x, y)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j) + T(j, i)",
-          "instantiated": "(T(i, j)) + (T(j, i)), the unordered sum of two summands under commutative addition",
+          "instantiated": "T(i, j) + T(j, i)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "T(j, i) + T(i, j)",
-          "instantiated": "(T(i, j)) + (T(j, i)), the unordered sum of two summands under commutative addition",
+          "instantiated": "T(i, j) + T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "other_structured",
       "d_level": "D1",
-      "latent_object": "U(A, B) = A + B, the unordered sum of two summands under commutative addition"
+      "latent_object": "U(A, B) = A + B, the unordered sum of two summands under commutative addition",
+      "core": "A + B"
     }
   ],
   "hypotheses": [
@@ -223,5 +228,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"F(x, y) = T(x, y), a binary indexed kernel with an S2 action on ordered slots\",\n      \"parameters\": [\"T\", \"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"x\": \"i\", \"y\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"x\": \"i\", \"y\": \"j\"}}\n      ],\n      \"construction_plan\": \"Start from F at the ordered pair (i, j). The identity operator returns F(i, j) = T(i, j). The slot permutation sigma swaps the two arguments, giving sigma F(i, j) = F(j, i) = T(j, i). The raw expression is the orbit sum (identity + sigma)F evaluated at (i, j).\",\n      \"required_assumptions\": [\n        \"T is a binary indexed function\",\n        \"i and j are symbols that can occupy the two argument slots\"\n      ],\n      \"proof_obligations\": [\n        \"identity(F)(i, j) - T(i, j) = 0\",\n        \"sigma(F)(i, j) - T(j, i) = 0\",\n        \"(identity + sigma)(F)(i, j) - [T(i, j) + T(j, i)] = 0\"\n      ],\n      \"rationale\": \"F01 observes the same function T with reversed arguments, matching the orbit of a binary kernel under slot permutation.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\"T(i, j) + T(j, i)\", \"T(j, i) + T(i, j)\"],\n      \"latent_object\": \"U(A, B) = A + B, the unordered sum of two summands under commutative addition\",\n      \"parameters\": [\"A\", \"B\"],\n      \"operators\": [\n        {\"member\": \"T(i, j) + T(j, i)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i) + T(i, j)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j) + T(j, i)\", \"theta\": {\"A\": \"T(i, j)\", \"B\": \"T(j, i)\"}},\n        {\"member\": \"T(j, i) + T(i, j)\", \"theta\": {\"A\": \"T(i, j)\", \"B\": \"T(j, i)\"}}\n      ],\n      \"construction_plan\": \"Bind A to T(i, j) and B to T(j, i). The identity placement gives the raw expression A + B. Permuting the two summands gives B + A, which is identified with A + B by commutativity of addition.\",\n      \"required_assumptions\": [\n        \"The top-level addition operation is commutative for the two T-term summands\"\n      ],\n      \"proof_obligations\": [\n        \"U(A, B) - [T(i, j) + T(j, i)] = 0\",\n        \"permute(U)(A, B) - [T(j, i) + T(i, j)] = 0\",\n        \"[T(j, i) + T(i, j)] - [T(i, j) + T(j, i)] = 0 under commutativity\"\n      ],\n      \"rationale\": \"F02 and F03 report commutative addition/rewrite structure at the top level; the raw expression is a sum of two terms, so swapping the summands preserves the expression algebraically.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -36,21 +36,23 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 1,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 3,
+    "n_unknown": 2,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
     "types": [
       "derivative_family",
       "master_function"
@@ -59,29 +61,30 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma(0, (z))",
+          "instantiated": "polygamma(0, z)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma(0, (z))",
+          "instantiated": "polygamma(1, z)",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "F(z)=polygamma(0, z)"
+      "latent_object": "F(z)=polygamma(0, z)",
+      "core": "polygamma(0, z)"
     },
     {
       "constructable": false,
@@ -95,19 +98,20 @@
           "instantiated": "log Gamma(z)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "unparseable_latent"
         },
         {
           "member": "polygamma(1, z)",
           "instantiated": "log Gamma(z)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "G(z)=log Gamma(z)"
+      "latent_object": "G(z)=log Gamma(z)",
+      "core": "log Gamma(z)"
     }
   ],
   "hypotheses": [
@@ -211,5 +215,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"polygamma(0, z)\",\n        \"polygamma(1, z)\"\n      ],\n      \"latent_object\": \"F(z)=polygamma(0, z)\",\n      \"parameters\": [\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"theta\": {\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"theta\": {\n            \"z\": \"z\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Let F(z)=polygamma(0,z). Then polygamma(0,z) is F(z), and polygamma(1,z) is dF/dz. The raw expression is the sum F(z)+dF/dz, i.e. the differential operator 1+d/dz applied to F.\",\n      \"required_assumptions\": [\n        \"polygamma(n+1,z)=d/dz polygamma(n,z) for nonnegative integer n, in particular for n=0.\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - F(z) = 0\",\n        \"polygamma(1, z) - d/dz F(z) = 0\",\n        \"polygamma(0, z)+polygamma(1, z) - (F(z)+dF/dz) = 0\"\n      ],\n      \"rationale\": \"The two polygamma subterms have consecutive order parameters 0 and 1 and the same argument z, matching the first two levels of the derivative sequence of the digamma function.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"polygamma(0, z)\",\n        \"polygamma(1, z)\"\n      ],\n      \"latent_object\": \"G(z)=log Gamma(z)\",\n      \"parameters\": [\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"O\": \"d/dtheta\"\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"theta\": {}\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"theta\": {}\n        }\n      ],\n      \"construction_plan\": \"Let G(z)=log Gamma(z). Then polygamma(0,z)=dG/dz and polygamma(1,z)=d^2G/dz^2. The raw expression is therefore dG/dz+d^2G/dz^2, i.e. the second-order differential operator d/dz+d^2/dz^2 applied to G.\",\n      \"required_assumptions\": [\n        \"log Gamma(z) is twice differentiable on the relevant domain.\",\n        \"polygamma(n,z) is the (n+1)-th derivative of log Gamma(z) for n=0,1.\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - d/dz log Gamma(z) = 0\",\n        \"polygamma(1, z) - d^2/dz^2 log Gamma(z) = 0\",\n        \"polygamma(0, z)+polygamma(1, z) - (d/dz+d^2/dz^2)log Gamma(z) = 0\"\n      ],\n      \"rationale\": \"Both polygamma orders arise as consecutive derivatives of the same master function log Gamma, so the expression is structurally a linear differential operator applied to that master function.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

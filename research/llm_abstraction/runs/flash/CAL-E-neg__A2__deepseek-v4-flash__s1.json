@@ -34,24 +34,25 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 2,
+    "n_zero": 4,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D3",
       "D5"
     ],
     "d_certified": [
-      "D3"
+      "D3",
+      "D5"
     ],
     "highest_attempted": "D5",
-    "highest_certified": "D3",
+    "highest_certified": "D5",
     "quality": "incorrect",
     "success": false,
     "types": [
@@ -69,48 +70,50 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "A(x)*B(x)*A(x)"
+      "latent_object": "A(x)*B(x)*A(x)",
+      "core": "A(x)*B(x)*A(x)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(G0)((p))*(V)((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(H0)((q))*(W)((q))**2",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "basis_reduction",
       "d_level": "D5",
-      "latent_object": "Y(s)*X(s)**2"
+      "latent_object": "Y(s)*X(s)**2",
+      "core": "Y(s)*X(s)**2"
     }
   ],
   "hypotheses": [
@@ -227,5 +230,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"W(q)*H0(q)*W(q)\"],\n      \"latent_object\": \"A(x)*B(x)*A(x)\",\n      \"parameters\": [\"A\", \"B\", \"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"A\": \"V\", \"B\": \"G0\", \"x\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"A\": \"W\", \"B\": \"H0\", \"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Take the template T = A(x)*B(x)*A(x). Substitute A=V, B=G0, x=p to get the first summand; substitute A=W, B=H0, x=q to get the second summand. The observed expression is the sum of these two instances.\",\n      \"required_assumptions\": [\"A and B are function placeholders and x is a variable placeholder; the multiplication of the declared function values is well-defined.\"],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - substitute(A(x)*B(x)*A(x), {A: V, B: G0, x: p}) = 0\",\n        \"W(q)*H0(q)*W(q) - substitute(A(x)*B(x)*A(x), {A: W, B: H0, x: q}) = 0\"\n      ],\n      \"rationale\": \"Both summands share the identical multiplicative pattern: a first function of the variable, then a second function of the same variable, then the first function again. The only differences are the function names and variable labels, so a parameterized template is the minimal shared structure.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"basis_reduction\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"W(q)*H0(q)*W(q)\"],\n      \"latent_object\": \"Y(s)*X(s)**2\",\n      \"parameters\": [\"X\", \"Y\", \"s\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"permute\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"X\": \"V\", \"Y\": \"G0\", \"s\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"X\": \"W\", \"Y\": \"H0\", \"s\": \"q\"}}\n      ],\n      \"construction_plan\": \"Using associativity and commutativity of multiplication, rewrite X(s)*Y(s)*X(s) as Y(s)*X(s)**2 for each summand. Then both summands are instances of the same reduced product form with a squared leading factor and a single remaining factor.\",\n      \"required_assumptions\": [\"The product of function values is associative and commutative, so factor order is not semantically distinguished.\"],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - substitute(Y(s)*X(s)**2, {X: V, Y: G0, s: p}) = 0 modulo AC\",\n        \"W(q)*H0(q)*W(q) - substitute(Y(s)*X(s)**2, {X: W, Y: H0, s: q}) = 0 modulo AC\"\n      ],\n      \"rationale\": \"The two summands become identical in form once the repeated multiplicative factor is collected as a square. This matches the reported AC-equivalent family where both members are of the shape theta0**2*theta1.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

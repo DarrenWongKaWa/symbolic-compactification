@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(a, b)"
+      "latent_object": "K(a, b)",
+      "core": "K(a, b)"
     },
     {
       "constructable": true,
@@ -96,15 +97,16 @@
       "obligations": [
         {
           "member": "Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))",
-          "instantiated": "Piecewise((K((n), (m)), Ne((n), (m))), (K((n), (n)), True))",
+          "instantiated": "Piecewise((K(n, m), Ne(m, n)), (K(n, n), True))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "other_structured",
       "d_level": "D1",
-      "latent_object": "Piecewise((K(a, b), Ne(a, b)), (K(a, a), True))"
+      "latent_object": "Piecewise((K(a, b), Ne(a, b)), (K(a, a), True))",
+      "core": "Piecewise((K(a, b), Ne(a, b)), (K(a, a), True))"
     }
   ],
   "hypotheses": [
@@ -198,5 +200,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"K(a, b)\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"m\"\n          }\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"n\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the bivariate kernel template K(a,b) with a=n,b=m for the general member, and with a=b=n for the diagonal member.\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"K(n, m) - K(a, b)[a->n, b->m] = 0\",\n        \"K(n, n) - K(a, b)[a->n, b->n] = 0\"\n      ],\n      \"rationale\": \"F01 groups two evaluations of the same undefined bivariate function K; the diagonal member is the specialization a=b=n of the general two-index evaluation.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\"\n      ],\n      \"latent_object\": \"Piecewise((K(a, b), Ne(a, b)), (K(a, a), True))\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"m\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the conditional bivariate template with a=n and b=m. The first branch becomes the off-diagonal evaluation K(n,m), and the default branch becomes the diagonal evaluation K(n,n).\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True)) - Piecewise((K(a, b), Ne(a, b)), (K(a, a), True))[a->n, b->m] = 0\"\n      ],\n      \"rationale\": \"F02 describes a piecewise branch dependency on whether the two arguments are equal. This latent template makes that conditional split explicit, using the same two K evaluations identified in F01.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

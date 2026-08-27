@@ -34,14 +34,14 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 4,
-    "n_nonzero": 0,
+    "n_zero": 3,
+    "n_nonzero": 1,
     "n_unknown": 0,
     "d_attempted": [
       "D3"
@@ -68,28 +68,29 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x*(y + z)))",
+          "instantiated": "F(x*(y + z))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(w*z + x*y)",
-          "instantiated": "F((w*z + x*y))",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "F(u)"
+      "latent_object": "F(u)",
+      "core": "F(u)"
     },
     {
       "constructable": true,
-      "certified": true,
-      "n_zero": 2,
-      "n_nonzero": 0,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 1,
       "n_unknown": 0,
       "obligations": [
         {
@@ -97,19 +98,20 @@
           "instantiated": "x*(y + z)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "x*(y + z)",
+          "instantiated": "x",
           "operator": "d/dtheta",
-          "verdict": "ZERO",
-          "note": "sympy.diff_identity"
+          "verdict": "NONZERO",
+          "note": "instantiate_then_diff"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "x*(y + z)"
+      "latent_object": "x*(y + z)",
+      "core": "x*(y + z)"
     }
   ],
   "hypotheses": [
@@ -214,5 +216,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"F(w*z + x*y)\"\n      ],\n      \"latent_object\": \"F(u)\",\n      \"parameters\": [\n        \"u\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"F(w*z + x*y)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"F(x*(y + z))\",\n          \"theta\": {\n            \"u\": \"x*(y + z)\"\n          }\n        },\n        {\n          \"member\": \"F(w*z + x*y)\",\n          \"theta\": {\n            \"u\": \"w*z + x*y\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the master function F(u) by substituting the displayed argument expression for the parameter u.\",\n      \"required_assumptions\": [\n        \"F is an uninterpreted AppliedUndef function of one argument\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - specialize(F(u), u -> x*(y + z)) = 0\",\n        \"F(w*z + x*y) - specialize(F(u), u -> w*z + x*y) = 0\"\n      ],\n      \"rationale\": \"The two members are reported as substitution instances of the same frozen LGG template F(theta0); the shared structure is the outer function F applied to different first-degree polynomial arguments.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"x*(y + z)\",\n        \"y + z\"\n      ],\n      \"latent_object\": \"x*(y + z)\",\n      \"parameters\": [\n        \"diff_var\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"y + z\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"x*(y + z)\",\n          \"theta\": {\n            \"diff_var\": \"x\"\n          }\n        },\n        {\n          \"member\": \"y + z\",\n          \"theta\": {\n            \"diff_var\": \"x\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Start from the base expression x*(y + z). The member x*(y + z) is obtained by the identity operator. The member y + z is obtained by applying the derivative operator d/dtheta to the latent object and then specializing theta to the differentiation variable x.\",\n      \"required_assumptions\": [\n        \"y + z is treated as independent of x under differentiation\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y + z) - x*(y + z) = 0\",\n        \"y + z - d/dx[x*(y + z)] = 0\"\n      ],\n      \"rationale\": \"The observation reports sympy.diff(x*(y + z), x) == y + z, so the two non-identical expressions are directly connected by differentiation with respect to x.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

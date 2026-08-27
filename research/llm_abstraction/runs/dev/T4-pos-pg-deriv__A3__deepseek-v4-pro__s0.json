@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma((0), z)",
+          "instantiated": "polygamma(0, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma((1), z)",
+          "instantiated": "polygamma(1, z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "F(theta, z) = polygamma(theta, z)"
+      "latent_object": "F(theta, z) = polygamma(theta, z)",
+      "core": "polygamma(theta, z)"
     }
   ],
   "hypotheses": [
@@ -140,5 +141,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\n        \"polygamma(0, z)\",\n        \"polygamma(1, z)\"\n      ],\n      \"latent_object\": \"F(theta, z) = polygamma(theta, z)\",\n      \"parameters\": [\n        \"theta\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"theta\": {\n            \"theta\": 0\n          }\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"theta\": {\n            \"theta\": 1\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the latent object F(theta, z) = polygamma(theta, z) at theta = 0 to obtain polygamma(0, z) and at theta = 1 to obtain polygamma(1, z). The derivative relation d/dz F(theta, z) = F(theta+1, z) is treated as a required structural link between consecutive specializations.\",\n      \"required_assumptions\": [\n        \"polygamma(theta, z) is defined for theta = 0 and theta = 1.\",\n        \"Differentiation with respect to z commutes with specialization of theta.\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - F(0, z) = 0\",\n        \"polygamma(1, z) - F(1, z) = 0\",\n        \"d/dz F(0, z) - F(1, z) = 0\"\n      ],\n      \"rationale\": \"The two members are consecutive orders of the polygamma function, and the reported derivative relation diff(polygamma(0, z), z) == polygamma(1, z) indicates a one-parameter derivative family rather than unrelated substitutions.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

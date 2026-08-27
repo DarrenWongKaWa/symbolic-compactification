@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))^2 * G0((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))^2 * G0((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(theta) = V(theta)^2 * G0(theta)"
+      "latent_object": "K(theta) = V(theta)^2 * G0(theta)",
+      "core": "V(theta)^2 * G0(theta)"
     },
     {
       "constructable": false,
@@ -98,12 +99,13 @@
           "instantiated": "V(x)^2*G0(x)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "S({p,q}) = sum_{x in {p,q}} K(x), where K(x)=V(x)^2*G0(x)"
+      "latent_object": "S({p,q}) = sum_{x in {p,q}} K(x), where K(x)=V(x)^2*G0(x)",
+      "core": "V(x)^2*G0(x)"
     }
   ],
   "hypotheses": [
@@ -199,5 +201,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"K(theta) = V(theta)^2 * G0(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"theta\": \"p\"\n          }\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"theta\": {\n            \"theta\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Substitute theta=p and theta=q into the common kernel K(theta)=V(theta)^2*G0(theta). Under commutativity, each instantiation matches one summand of the original expression.\",\n      \"required_assumptions\": [\n        \"Multiplication is commutative for the symbolic factors in each summand.\",\n        \"V and G0 are univariate functions or at least accept a single argument.\"\n      ],\n      \"proof_obligations\": [\n        \"K(p) - (V(p)*G0(p)*V(p)) = 0\",\n        \"K(q) - (V(q)*G0(q)*V(q)) = 0\"\n      ],\n      \"rationale\": \"The two summands are identical up to renaming the free variable p/q, so they are substitution instances of a single univariate kernel V(x)^2*G0(x). This explains FAMILY F01 and the repeated V and G0 applications.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"S({p,q}) = sum_{x in {p,q}} K(x), where K(x)=V(x)^2*G0(x)\",\n      \"parameters\": [\"x\", \"X\"],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)\",\n          \"theta\": {\n            \"X\": \"{p,q}\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Represent the full expression as a two-point sum of a univariate kernel K(x)=V(x)^2*G0(x), with the summation variable ranging over the set {p,q}.\",\n      \"required_assumptions\": [\n        \"Addition is commutative and associative.\",\n        \"The variable set is finite and consists of the two declared free symbols p and q.\"\n      ],\n      \"proof_obligations\": [\n        \"sum_{x in {p,q}} (V(x)^2*G0(x)) - (V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)) = 0\"\n      ],\n      \"rationale\": \"The raw expression is a repeated evaluation of a common kernel at two distinct free variables; this is a structural repetition pattern rather than an arbitrary simplification.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

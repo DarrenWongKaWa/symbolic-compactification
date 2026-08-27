@@ -71,22 +71,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "V(theta)*G0(theta)*V(theta)"
+      "latent_object": "V(theta)*G0(theta)*V(theta)",
+      "core": "V(theta)*G0(theta)*V(theta)"
     },
     {
       "constructable": true,
@@ -97,22 +98,23 @@
       "obligations": [
         {
           "member": "V(p)",
-          "instantiated": "V((p))",
+          "instantiated": "V(p)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)",
-          "instantiated": "V((q))",
+          "instantiated": "V(q)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "V(theta)"
+      "latent_object": "V(theta)",
+      "core": "V(theta)"
     },
     {
       "constructable": true,
@@ -123,22 +125,23 @@
       "obligations": [
         {
           "member": "G0(p)",
-          "instantiated": "G0((p))",
+          "instantiated": "G0(p)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)",
-          "instantiated": "G0((q))",
+          "instantiated": "G0(q)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)"
+      "latent_object": "G0(theta)",
+      "core": "G0(theta)"
     }
   ],
   "hypotheses": [
@@ -293,5 +296,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"V(theta)*G0(theta)*V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the parameter theta in the latent product V(theta)*G0(theta)*V(theta) with p to recover the first term and with q to recover the second term. The full raw expression is the sum of these two instantiations.\",\n      \"required_assumptions\": [\n        \"V and G0 are unary function symbols.\",\n        \"The product is evaluated symbolically without expanding or simplifying the factors.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - specialize(V(theta)*G0(theta)*V(theta), theta=p) = 0\",\n        \"V(q)*G0(q)*V(q) - specialize(V(theta)*G0(theta)*V(theta), theta=q) = 0\"\n      ],\n      \"rationale\": \"The two product terms share the same repeated kernel V(theta)*G0(theta)*V(theta), with only the symbolic argument changing from p to q. This matches the observed LGG family template G0(theta0)*V(theta0)**2 up to commutative reordering.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)\",\n        \"V(q)\"\n      ],\n      \"latent_object\": \"V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the unary function template V(theta) at theta=p and theta=q to obtain the two V-factor subexpressions appearing in the raw sum.\",\n      \"required_assumptions\": [\"V is a unary function symbol.\"],\n      \"proof_obligations\": [\n        \"V(p) - specialize(V(theta), theta=p) = 0\",\n        \"V(q) - specialize(V(theta), theta=q) = 0\"\n      ],\n      \"rationale\": \"The expressions V(p) and V(q) are substitution instances of the same function symbol V, so they form a trivial parameterized family.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)\",\n        \"G0(q)\"\n      ],\n      \"latent_object\": \"G0(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"G0(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the unary function template G0(theta) at theta=p and theta=q to obtain the two G0-factor subexpressions appearing in the raw sum.\",\n      \"required_assumptions\": [\"G0 is a unary function symbol.\"],\n      \"proof_obligations\": [\n        \"G0(p) - specialize(G0(theta), theta=p) = 0\",\n        \"G0(q) - specialize(G0(theta), theta=q) = 0\"\n      ],\n      \"rationale\": \"The expressions G0(p) and G0(q) are substitution instances of the same function symbol G0, so they form a trivial parameterized family.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

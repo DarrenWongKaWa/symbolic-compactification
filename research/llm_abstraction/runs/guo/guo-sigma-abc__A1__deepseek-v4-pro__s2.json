@@ -34,7 +34,7 @@
     "n_hypotheses": 4,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -52,7 +52,7 @@
     "d_certified": [],
     "highest_attempted": "D5",
     "highest_certified": null,
-    "quality": "incorrect",
+    "quality": "gold-like-but-unsupported",
     "success": false,
     "types": [
       "symmetry_invariant",
@@ -71,36 +71,37 @@
       "obligations": [
         {
           "member": "S1",
-          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index (K2) K2_{mn} and three-index (K2) K3_{mnl}, plus edge-labeled h factors.",
+          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2",
-          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index (K2) K2_{mn} and three-index (K2) K3_{mnl}, plus edge-labeled h factors.",
+          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3",
-          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index (K3) K2_{mn} and three-index (K3) K3_{mnl}, plus edge-labeled h factors.",
+          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S4",
-          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index (K3) K2_{mn} and three-index (K3) K3_{mnl}, plus edge-labeled h factors.",
+          "instantiated": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}, plus edge-labeled h factors."
+      "latent_object": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}, plus edge-labeled h factors.",
+      "core": "A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}"
     },
     {
       "constructable": false,
@@ -111,22 +112,23 @@
       "obligations": [
         {
           "member": "S1",
-          "instantiated": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands.",
+          "instantiated": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2",
-          "instantiated": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands.",
+          "instantiated": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands."
+      "latent_object": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands.",
+      "core": "A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands"
     },
     {
       "constructable": false,
@@ -137,36 +139,37 @@
       "obligations": [
         {
           "member": "S1",
-          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon (x=epsilon(m), y=epsilon(n)), and the diagonal/confluent branches are derivative limits taken at coincident indices.",
+          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2",
-          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon (x=epsilon(m), y=epsilon(n)), and the diagonal/confluent branches are derivative limits taken at coincident indices.",
+          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3",
-          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon (x=epsilon(m), y=epsilon(n), z=epsilon(ell)), and the diagonal/confluent branches are derivative limits taken at coincident indices.",
+          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S4",
-          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon (x=epsilon(m), y=epsilon(n), z=epsilon(ell)), and the diagonal/confluent branches are derivative limits taken at coincident indices.",
+          "instantiated": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "divided_difference",
       "d_level": "D4",
-      "latent_object": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables, and the diagonal/confluent branches are derivative limits taken at coincident indices."
+      "latent_object": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables, and the diagonal/confluent branches are derivative limits taken at coincident indices.",
+      "core": "A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables"
     },
     {
       "constructable": false,
@@ -177,36 +180,37 @@
       "obligations": [
         {
           "member": "S1",
-          "instantiated": "A master function Psi(z)=polygamma(0,z), evaluated at ((beta*(gamma +- I*mu -+ I*epsilon(n)) + pi)/(2*pi))s z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k.",
+          "instantiated": "(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "no_candidate"
         },
         {
           "member": "S2",
-          "instantiated": "A master function Psi(z)=polygamma(0,z), evaluated at ((beta*(gamma +- I*mu -+ I*epsilon(n)) + pi)/(2*pi))s z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k.",
+          "instantiated": "(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "no_candidate"
         },
         {
           "member": "S3",
-          "instantiated": "A master function Psi(z)=polygamma(0,z), evaluated at ((beta*(gamma +- I*mu -+ I*epsilon(k)) + pi)/(2*pi))s z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k.",
+          "instantiated": "(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "no_candidate"
         },
         {
           "member": "S4",
-          "instantiated": "A master function Psi(z)=polygamma(0,z), evaluated at ((beta*(gamma +- I*mu -+ I*epsilon(k)) + pi)/(2*pi))s z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k.",
+          "instantiated": "(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "A master function Psi(z)=polygamma(0,z), evaluated at arguments z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k."
+      "latent_object": "A master function Psi(z)=polygamma(0,z), evaluated at arguments z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k.",
+      "core": "(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi)"
     }
   ],
   "hypotheses": [
@@ -521,5 +525,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"S1\", \"S2\", \"S3\", \"S4\"],\n      \"latent_object\": \"A contraction template T(K2, K3; a, b, c; orientation) with base two-index kernel K2_{mn} and three-index kernel K3_{mnl}, plus edge-labeled h factors.\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\", \"h1\", \"h2\", \"orientation\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"identity\"},\n        {\"member\": \"S2\", \"O\": \"permute\"},\n        {\"member\": \"S3\", \"O\": \"identity\"},\n        {\"member\": \"S4\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S1\",\n          \"theta\": {\n            \"kernel\": \"K2\",\n            \"h1_external_label\": \"b\",\n            \"h2_external_labels\": \"a,c\",\n            \"h1_arguments\": \"[n,m]\",\n            \"h2_arguments\": \"[m,n]\"\n          }\n        },\n        {\n          \"member\": \"S2\",\n          \"theta\": {\n            \"kernel\": \"K2\",\n            \"h1_external_label\": \"c\",\n            \"h2_external_labels\": \"a,b\",\n            \"h1_arguments\": \"[n,m]\",\n            \"h2_arguments\": \"[m,n]\",\n            \"label_swap\": \"b<->c\"\n          }\n        },\n        {\n          \"member\": \"S3\",\n          \"theta\": {\n            \"kernel\": \"K3\",\n            \"h1_factors\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\"\n          }\n        },\n        {\n          \"member\": \"S4\",\n          \"theta\": {\n            \"kernel\": \"K3\",\n            \"h1_factors\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\",\n            \"edge_permutation\": \"(ell,m,n)->(n,ell,m) on b,c edges\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Read K2 from S1 by factoring h1(b,n,m)*h2(a,c,m,n); then S2 is obtained by permuting external labels b and c while keeping K2 unchanged. Read K3 from S3 by factoring h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell); then S4 is obtained by a permutation of the index arguments of the b and c h1-factors while keeping K3 unchanged.\",\n      \"required_assumptions\": [\n        \"The two-index kernel K2 is symmetric under b<->c external label exchange.\",\n        \"The three-index kernel K3 is invariant under the stated edge-index permutation.\",\n        \"h1 and h2 are generic functions with no hidden relation to the kernel coefficients.\"\n      ],\n      \"proof_obligations\": [\n        \"Coefficient(Piecewise(S1), h1*h2) == Coefficient(Piecewise(S2), h1*h2) after b<->c\",\n        \"Coefficient(Piecewise(S3), h1*h1*h1) == Coefficient(Piecewise(S4), h1*h1*h1) after index permutation\",\n        \"All piecewise branch conditions are preserved by the permutation.\"\n      ],\n      \"rationale\": \"The piecewise polygamma coefficients are visually identical between S1 and S2 and between S3 and S4; only the external h1/h2 labels and argument order differ.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"S1\", \"S2\"],\n      \"latent_object\": \"A single two-index kernel F_{mn}(beta,gamma,mu,epsilon) that is the full polygamma coefficient in the S1/S2 summands.\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"identity\"},\n        {\"member\": \"S2\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S1\",\n          \"theta\": {\n            \"kernel_attachments\": \"F_{mn}*h1(b,n,m)*h2(a,c,m,n)\"\n          }\n        },\n        {\n          \"member\": \"S2\",\n          \"theta\": {\n            \"kernel_attachments\": \"F_{mn}*h1(c,n,m)*h2(a,b,m,n)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define F_{mn} as the coefficient multiplying h1*h2 in the first double sum. Reuse F_{mn} with different external labels in the second double sum.\",\n      \"required_assumptions\": [\n        \"F_{mn} does not depend on the external labels a,b,c except through parameter and index positions.\",\n        \"The h functions are separate from F.\"\n      ],\n      \"proof_obligations\": [\n        \"F(S1)_mn - F(S2)_mn = 0 for each Piecewise branch\",\n        \"The only difference between S1 and S2 is the external label assignment in h1/h2.\"\n      ],\n      \"rationale\": \"The two double sums contain exactly the same Piecewise coefficient structure and differ only in the attached h-factor labels.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"divided_difference\",\n      \"target_members\": [\"S1\", \"S2\", \"S3\", \"S4\"],\n      \"latent_object\": \"A meromorphic base kernel L(x,y,z; beta,gamma,mu) such that the nonconfluent branches are divided differences of L in the epsilon variables, and the diagonal/confluent branches are derivative limits taken at coincident indices.\",\n      \"parameters\": [\"x\", \"y\", \"z\", \"beta\", \"gamma\", \"mu\", \"epsilon\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"specialize\"},\n        {\"member\": \"S2\", \"O\": \"specialize\"},\n        {\"member\": \"S3\", \"O\": \"specialize\"},\n        {\"member\": \"S4\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S1\",\n          \"theta\": {\n            \"variables\": \"x=epsilon(m), y=epsilon(n)\",\n            \"confluent_case\": \"m=n\"\n          }\n        },\n        {\n          \"member\": \"S2\",\n          \"theta\": {\n            \"variables\": \"x=epsilon(m), y=epsilon(n)\",\n            \"confluent_case\": \"m=n\"\n          }\n        },\n        {\n          \"member\": \"S3\",\n          \"theta\": {\n            \"variables\": \"x=epsilon(m), y=epsilon(n), z=epsilon(ell)\",\n            \"confluent_cases\": \"ell=m=n, m=n, ell=n, ell=m\"\n          }\n        },\n        {\n          \"member\": \"S4\",\n          \"theta\": {\n            \"variables\": \"x=epsilon(m), y=epsilon(n), z=epsilon(ell)\",\n            \"confluent_cases\": \"same as S3 under index permutation\"\n          }\n        }\n      ],\n      \"construction_plan\": \"For each branch, express the rational coefficients and polygamma(k) terms as divided differences or confluent limits of a base kernel L. Off-diagonal denominators (epsilon(i)-epsilon(j))^{-r} fix the divided-difference order r; confluence produces polygamma order equal to the number of coalescing variables.\",\n      \"required_assumptions\": [\n        \"The base kernel L has poles with residues producing the observed polygamma(0) terms.\",\n        \"Coincident limits exist and match the Piecewise branches.\"\n      ],\n      \"proof_obligations\": [\n        \"Compute divided differences of L and compare with off-diagonal branch of S1\",\n        \"Compute confluent limits and compare with Eq(m,n) branch of S1\",\n        \"Repeat for S3/S4 triple-index branches including theta, ell=m, ell=n cases\"\n      ],\n      \"rationale\": \"The expression contains many denominators (epsilon(i)-epsilon(j))^r and polygamma orders aligned with coincidence depth, which is the signature of a confluent divided-difference expansion.\",\n      \"confidence\": 0.45\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\"S1\", \"S2\", \"S3\", \"S4\"],\n      \"latent_object\": \"A master function Psi(z)=polygamma(0,z), evaluated at arguments z=(beta*(gamma +- I*mu -+ I*epsilon(i)) + pi)/(2*pi); every polygamma(k) is d^k Psi/dz^k.\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\", \"z\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"d/dtheta\"},\n        {\"member\": \"S2\", \"O\": \"d/dtheta\"},\n        {\"member\": \"S3\", \"O\": \"d/dtheta\"},\n        {\"member\": \"S4\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S1\",\n          \"theta\": {\n            \"polygamma_order\": \"0 through 3\",\n            \"argument\": \"(beta*(gamma +- I*mu -+ I*epsilon(n)) + pi)/(2*pi)\"\n          }\n        },\n        {\n          \"member\": \"S2\",\n          \"theta\": {\n            \"polygamma_order\": \"0 through 3\",\n            \"argument\": \"(beta*(gamma +- I*mu -+ I*epsilon(n)) + pi)/(2*pi)\"\n          }\n        },\n        {\n          \"member\": \"S3\",\n          \"theta\": {\n            \"polygamma_order\": \"0 through 4\",\n            \"argument\": \"(beta*(gamma +- I*mu -+ I*epsilon(k)) + pi)/(2*pi)\"\n          }\n        },\n        {\n          \"member\": ",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

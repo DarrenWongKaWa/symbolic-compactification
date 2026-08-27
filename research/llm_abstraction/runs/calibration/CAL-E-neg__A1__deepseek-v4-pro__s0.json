@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "T(f,k,x) = f(x)*k(x)*f(x)"
+      "latent_object": "T(f,k,x) = f(x)*k(x)*f(x)",
+      "core": "f(x)*k(x)*f(x)"
     }
   ],
   "hypotheses": [
@@ -147,5 +148,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"T(f,k,x) = f(x)*k(x)*f(x)\",\n      \"parameters\": [\"f\", \"k\", \"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"f\": \"V\", \"k\": \"G0\", \"x\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"f\": \"W\", \"k\": \"H0\", \"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate T(f,k,x) by replacing f, k, and x with the listed unary functions and variable. The full raw expression is the sum of the two resulting instantiations.\",\n      \"required_assumptions\": [\n        \"V and W are unary function symbols\",\n        \"G0 and H0 are unary function symbols\",\n        \"p and q are independent variables\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T(V,G0,p) = 0\",\n        \"W(q)*H0(q)*W(q) - T(W,H0,q) = 0\",\n        \"V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q) - (T(V,G0,p)+T(W,H0,q)) = 0\"\n      ],\n      \"rationale\": \"Both summands share the same repeated outer-factor/kernel structure f(x)*k(x)*f(x), differing only by function names and variable labels. No deeper algebraic relation between p and q is assumed.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

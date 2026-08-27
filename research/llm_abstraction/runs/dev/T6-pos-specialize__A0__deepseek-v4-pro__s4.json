@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "K(x, y)"
+      "latent_object": "K(x, y)",
+      "core": "K(x, y)"
     }
   ],
   "hypotheses": [
@@ -141,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"x\": \"n\", \"y\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"x\": \"n\", \"y\": \"n\"}}\n      ],\n      \"construction_plan\": \"Instantiate the latent bivariate function K(x,y) at (x,y)=(n,m) for the non-diagonal branch, and at (x,y)=(n,n) for the diagonal branch. The Piecewise condition Ne(n,m) selects which instantiation is active.\",\n      \"required_assumptions\": [\"K is defined as a bivariate function for all relevant pairs (x,y), including x=y.\"],\n      \"proof_obligations\": [\n        \"K(n,m) == K(x,y) evaluated at (x=n, y=m)\",\n        \"K(n,n) == K(x,y) evaluated at (x=n, y=n)\"\n      ],\n      \"rationale\": \"The two branches are non-identical instances of one latent bivariate function K, related by identity and diagonal specialization of the second argument to the first.\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "M(1,1)",
-          "instantiated": "M((1),(1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2,2)",
-          "instantiated": "M((2),(2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "D(k) = M(k,k)"
+      "latent_object": "D(k) = M(k,k)",
+      "core": "M(k,k)"
     },
     {
       "constructable": false,
@@ -95,22 +96,23 @@
       "obligations": [
         {
           "member": "M(1,1)",
-          "instantiated": "M((1),(1)) with free p(1)r(1)meters (1),(1)",
+          "instantiated": "M(a,b) with free parameters a",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "M(2,2)",
-          "instantiated": "M((2),(2)) with free p(2)r(2)meters (2),(2)",
+          "instantiated": "M(a,b) with free parameters a",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "M(a,b) with free parameters a,b"
+      "latent_object": "M(a,b) with free parameters a,b",
+      "core": "M(a,b) with free parameters a"
     }
   ],
   "hypotheses": [
@@ -218,5 +220,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1,1)\", \"M(2,2)\"],\n      \"latent_object\": \"D(k) = M(k,k)\",\n      \"parameters\": [\"k\"],\n      \"operators\": [{\"member\": \"M(1,1)\", \"O\": \"specialize\"}, {\"member\": \"M(2,2)\", \"O\": \"specialize\"}],\n      \"instance_maps\": [{\"member\": \"M(1,1)\", \"theta\": {\"k\": \"1\"}}, {\"member\": \"M(2,2)\", \"theta\": {\"k\": \"2\"}}],\n      \"construction_plan\": \"Define D(k) for integer k; then D(1)=M(1,1) and D(2)=M(2,2). The expression M(1,1)+M(2,2) equals D(1)+D(2).\",\n      \"required_assumptions\": [\"M is defined for pairs of integers with equal values.\"],\n      \"proof_obligations\": [\"M(1,1) - D(1) = 0\", \"M(2,2) - D(2) = 0\"],\n      \"rationale\": \"Both terms are structurally identical apart from the index value; they are evaluations of a single univariate diagonal restriction of the binary function M.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"M(1,1)\", \"M(2,2)\"],\n      \"latent_object\": \"M(a,b) with free parameters a,b\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [{\"member\": \"M(1,1)\", \"O\": \"specialize\"}, {\"member\": \"M(2,2)\", \"O\": \"specialize\"}],\n      \"instance_maps\": [{\"member\": \"M(1,1)\", \"theta\": {\"a\": \"1\", \"b\": \"1\"}}, {\"member\": \"M(2,2)\", \"theta\": {\"a\": \"2\", \"b\": \"2\"}}],\n      \"construction_plan\": \"The binary kernel M is applied to the pairs (1,1) and (2,2); each member is the result of substituting those numeric arguments into M.\",\n      \"required_assumptions\": [\"M is a well-defined function on integer pairs.\"],\n      \"proof_obligations\": [\"M(1,1) - M(1,1) = 0\", \"M(2,2) - M(2,2) = 0\"],\n      \"rationale\": \"Both terms call the same kernel M with equal arguments; they are distinct specializations of the same shared kernel object.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

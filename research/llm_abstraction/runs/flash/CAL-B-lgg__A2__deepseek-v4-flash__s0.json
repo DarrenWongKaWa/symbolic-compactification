@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "G0((p))*V((p))**2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "G0(q)*V(q)**2",
-          "instantiated": "G0((q))*V((q))**2",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "G0(theta)*V(theta)**2"
+      "latent_object": "G0(theta)*V(theta)**2",
+      "core": "G0(theta)*V(theta)**2"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"G0(p)*V(p)**2\", \"G0(q)*V(q)**2\"],\n      \"latent_object\": \"G0(theta)*V(theta)**2\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Start from the template G0(theta)*V(theta)**2. Substitute theta = p to obtain G0(p)*V(p)**2 and theta = q to obtain G0(q)*V(q)**2. Under commutative multiplication, these are respectively the same products as V(p)*G0(p)*V(p) and V(q)*G0(q)*V(q).\",\n      \"required_assumptions\": [\"V and G0 are univariate functions\", \"multiplication is commutative in the ambient algebra\"],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - substitute(theta=p, G0(theta)*V(theta)**2) = 0\",\n        \"G0(q)*V(q)**2 - substitute(theta=q, G0(theta)*V(theta)**2) = 0\"\n      ],\n      \"rationale\": \"The two product subexpressions differ only by replacing p with q. Observed family F01 already reports a one-hole LGG template of the form G0(theta0)*V(theta0)**2, and observed families F02 and F03 identify G0 and V as repeated function families across the two instances.\",\n      \"confidence\": 0.98\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

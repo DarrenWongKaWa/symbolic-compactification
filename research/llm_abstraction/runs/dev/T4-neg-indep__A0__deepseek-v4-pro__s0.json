@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single raw expression F(z)+G(z) is provided; there are no multiple non-identical structural families or operators relating distinct members. The subterms F(z) and G(z) differ only by leaf symbol substitution, which the prompt excludes from latent-structure hypotheses.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

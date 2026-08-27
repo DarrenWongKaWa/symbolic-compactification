@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n), (m))",
+          "instantiated": "K(n, m)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n), (n))",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(x, y)"
+      "latent_object": "K(x, y)",
+      "core": "K(x, y)"
     }
   ],
   "hypotheses": [
@@ -143,5 +144,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"x\": \"n\", \"y\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"x\": \"n\", \"y\": \"n\"}}\n      ],\n      \"construction_plan\": \"Introduce an undefined bivariate function K(x,y). Instantiate x=n,y=m to obtain K(n,m); instantiate x=n,y=n to obtain K(n,n), the diagonal specialization. The Piecewise expression is the guard-selected evaluation of these two instances under Ne(n,m).\",\n      \"required_assumptions\": [\n        \"K is an undefined function of two positional arguments\",\n        \"n and m are scalar symbols\",\n        \"the Piecewise condition Ne(n,m) distinguishes the off-diagonal instance from the diagonal instance\"\n      ],\n      \"proof_obligations\": [\n        \"K(n,m) - K(x,y) under the substitution x=n,y=m = 0\",\n        \"K(n,n) - K(x,y) under the substitution x=n,y=n = 0\"\n      ],\n      \"rationale\": \"The two non-identical subexpressions are calls to the same undefined binary function K. K(n,n) is the diagonal specialization of K(x,y), while K(n,m) is the full off-diagonal instance. This explains the shared function family and the branch dependency without assuming a physical interpretation.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

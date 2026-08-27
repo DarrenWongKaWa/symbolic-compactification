@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(k, k)"
+      "latent_object": "M(k, k)",
+      "core": "M(k, k)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(k, k)\",\n      \"parameters\": [\"k\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"k\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"k\": \"2\"}}\n      ],\n      \"construction_plan\": \"Define the one-parameter diagonal family F(k)=M(k,k). The two summands are obtained by substituting k=1 and k=2, respectively.\",\n      \"required_assumptions\": [\n        \"k ranges over the two indicated numeric arguments.\",\n        \"M accepts scalar arguments 1 and 2.\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - F(1) = 0\",\n        \"M(2, 2) - F(2) = 0\"\n      ],\n      \"rationale\": \"The two terms differ only by replacing both arguments of M with 1 versus 2, so they are points on the diagonal specialization of the same binary form M.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F(P_(factored)) with P_(factored) = x*(y+z) if (factored)=factored and P_(factored) = x*y+x*z if (factored)=expanded",
+          "instantiated": "expanded",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "F(x*y+x*z)",
-          "instantiated": "F(P_(expanded)) with P_(expanded) = x*(y+z) if (expanded)=factored and P_(expanded) = x*y+x*z if (expanded)=expanded",
+          "instantiated": "expanded",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "F(P_form) with P_form = x*(y+z) if form=factored and P_form = x*y+x*z if form=expanded"
+      "latent_object": "F(P_form) with P_form = x*(y+z) if form=factored and P_form = x*y+x*z if form=expanded",
+      "core": "expanded"
     },
     {
       "constructable": true,
@@ -95,15 +96,16 @@
       "obligations": [
         {
           "member": "F(x*(y+z)) + F(x*y+x*z)",
-          "instantiated": "F(x*(y+(1)*z)) + F(x*y + (1)*x*z)",
+          "instantiated": "F(x*(y + z)) + F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(x*(y+a*z)) + F(x*y + a*x*z)"
+      "latent_object": "F(x*(y+a*z)) + F(x*y + a*x*z)",
+      "core": "F(x*(y+a*z)) + F(x*y + a*x*z)"
     }
   ],
   "hypotheses": [
@@ -198,5 +200,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+x*z)\"],\n      \"latent_object\": \"F(P_form) with P_form = x*(y+z) if form=factored and P_form = x*y+x*z if form=expanded\",\n      \"parameters\": [\"form\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"form\": \"factored\"}},\n        {\"member\": \"F(x*y+x*z)\", \"theta\": {\"form\": \"expanded\"}}\n      ],\n      \"construction_plan\": \"Start from the two presentations of the same polynomial under distributivity. Specializing the form parameter to 'factored' gives the first F-call; specializing to 'expanded' gives the second F-call. The raw expression is the sum of the two specializations.\",\n      \"required_assumptions\": [\"Multiplication distributes over addition: x*(y+z) = x*y+x*z.\"],\n      \"proof_obligations\": [\n        \"x*(y+z) - (x*y+x*z) = 0\",\n        \"F(x*(y+z)) - F(P_factored) = 0\",\n        \"F(x*y+x*z) - F(P_expanded) = 0\"\n      ],\n      \"rationale\": \"The only non-leaf structural relation is the distributive equivalence between the two arguments of F. The expression sums the same symbolic F over both presentations, giving a symmetry-invariant form under factoring/expanding the argument.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z)) + F(x*y+x*z)\"],\n      \"latent_object\": \"F(x*(y+a*z)) + F(x*y + a*x*z)\",\n      \"parameters\": [\"a\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z)) + F(x*y+x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z)) + F(x*y+x*z)\", \"theta\": {\"a\": \"1\"}}\n      ],\n      \"construction_plan\": \"Introduce a scalar coefficient a on z and distribute it in the second term. Specializing a=1 recovers the original expression. The family makes the distributive relation x*(y+a*z)=x*y+a*x*z explicit.\",\n      \"required_assumptions\": [\"a is an algebraic scalar and multiplication distributes over addition.\"],\n      \"proof_obligations\": [\n        \"x*(y+1*z) - (x*y+1*x*z) = 0\",\n        \"F(x*(y+z)) + F(x*y+x*z) - (F(x*(y+1*z)) + F(x*y+1*x*z)) = 0\"\n      ],\n      \"rationale\": \"The expression can be seen as the a=1 member of a one-parameter family that tracks the distributive rewrite, without assuming any property of F beyond being a unary function.\",\n      \"confidence\": 0.25\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

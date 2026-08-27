@@ -34,7 +34,7 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -71,22 +71,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F((x*(y+z)))",
+          "instantiated": "F(x*(y + z))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y+w*z)",
-          "instantiated": "F((x*y+w*z))",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "F(u)"
+      "latent_object": "F(u)",
+      "core": "F(u)"
     },
     {
       "constructable": true,
@@ -97,22 +98,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F(x*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y+w*z)",
-          "instantiated": "F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "Phi(t) = F(x*y + t*z)"
+      "latent_object": "Phi(t) = F(x*y + t*z)",
+      "core": "F(x*y + t*z)"
     },
     {
       "constructable": true,
@@ -123,22 +125,23 @@
       "obligations": [
         {
           "member": "x*(y+z)",
-          "instantiated": "(x)*(y+z)",
+          "instantiated": "x*(y + z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "y+z",
           "instantiated": "theta*(y+z)",
           "operator": "d/dtheta",
           "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "theta*(y+z)"
+      "latent_object": "theta*(y+z)",
+      "core": "theta*(y+z)"
     }
   ],
   "hypotheses": [
@@ -293,5 +296,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+w*z)\"],\n      \"latent_object\": \"F(u)\",\n      \"parameters\": [\"u\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"u\": \"x*(y+z)\"}},\n        {\"member\": \"F(x*y+w*z)\", \"theta\": {\"u\": \"x*y+w*z\"}}\n      ],\n      \"construction_plan\": \"Substitute u as the argument of F in the latent template F(u). No algebra is required.\",\n      \"required_assumptions\": [\"F is a unary function symbol applicable to arbitrary expressions.\"],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(u)[u:=x*(y+z)] = 0\",\n        \"F(x*y+w*z) - F(u)[u:=x*y+w*z] = 0\"\n      ],\n      \"rationale\": \"The two F calls share the same unevaluated function symbol F, so the expression is a sum of two images of one unary kernel F.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+w*z)\"],\n      \"latent_object\": \"Phi(t) = F(x*y + t*z)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"t\": \"x\"}},\n        {\"member\": \"F(x*y+w*z)\", \"theta\": {\"t\": \"w\"}}\n      ],\n      \"construction_plan\": \"For the first member, expand x*(y+z) to x*y+x*z and then set t=x in Phi(t). For the second member, set t=w directly.\",\n      \"required_assumptions\": [\"Distributive rewrite x*(y+z)=x*y+x*z is allowed.\"],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(x*y + x*z) = 0 by distributivity\",\n        \"Phi(x) = F(x*y + x*z)\",\n        \"Phi(w) = F(x*y + w*z)\",\n        \"F(x*y+w*z) - Phi(w) = 0\"\n      ],\n      \"rationale\": \"Both F arguments are composed of the shared monomial x*y plus a coefficient of z that is x in the first argument after distribution and w in the second argument.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"x*(y+z)\", \"y+z\"],\n      \"latent_object\": \"theta*(y+z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"x*(y+z)\", \"O\": \"specialize\"},\n        {\"member\": \"y+z\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"x*(y+z)\", \"theta\": {\"theta\": \"x\"}},\n        {\"member\": \"y+z\", \"theta\": {}}\n      ],\n      \"construction_plan\": \"Specialize theta=x to obtain x*(y+z). Differentiate theta*(y+z) with respect to theta to obtain y+z; the derivative is independent of theta.\",\n      \"required_assumptions\": [\n        \"Standard derivative of a linear function in theta\",\n        \"y+z is treated as constant with respect to theta\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y+z) - (theta*(y+z))[theta:=x] = 0\",\n        \"d/dtheta(theta*(y+z)) - (y+z) = 0\"\n      ],\n      \"rationale\": \"The reported derivative relation is exact: differentiating the inner product x*(y+z) with respect to x yields y+z.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -34,7 +34,7 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F(x*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(x*y + t*z)"
+      "latent_object": "F(x*y + t*z)",
+      "core": "F(x*y + t*z)"
     },
     {
       "constructable": true,
@@ -96,22 +97,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F((x)*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F((x)*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "basis_reduction",
       "d_level": "D5",
-      "latent_object": "F(c_y*y + c_z*z)"
+      "latent_object": "F(c_y*y + c_z*z)",
+      "core": "F(c_y*y + c_z*z)"
     }
   ],
   "hypotheses": [
@@ -222,5 +224,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(x*y + t*z)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"t\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"t\": \"w\"}}\n      ],\n      \"construction_plan\": \"Define L(t)=F(x*y + t*z). Rewrite x*(y+z) as x*y + x*z; then the first F-call is L(x) and the second F-call is L(w). The original expression is the sum L(x)+L(w).\",\n      \"required_assumptions\": [\"Multiplication distributes over addition: x*(y+z)=x*y+x*z\"],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(x*y + x*z) = 0\",\n        \"F(x*y + x*z) - F(x*y + x*z) = 0\",\n        \"F(x*y + w*z) - F(x*y + w*z) = 0\"\n      ],\n      \"rationale\": \"Both F arguments share the same x*y term and differ only in the coefficient multiplying z, so they are evaluations of a common one-parameter family in that coefficient.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"basis_reduction\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(c_y*y + c_z*z)\",\n      \"parameters\": [\"c_y\", \"c_z\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"c_y\": \"x\", \"c_z\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"c_y\": \"x\", \"c_z\": \"w\"}}\n      ],\n      \"construction_plan\": \"Treat the argument of F as a linear form in the basis (y,z). The first argument expands to x*y+x*z, giving coefficient vector (x,x); the second argument gives coefficient vector (x,w). The original expression is the sum of F applied to these two coefficient vectors.\",\n      \"required_assumptions\": [\"The arguments of F are linear combinations of y and z\", \"Distributivity: x*(y+z)=x*y+x*z\"],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(x*y + x*z) = 0\",\n        \"F(x*y + x*z) - F(x*y + x*z) = 0\",\n        \"F(x*y + w*z) - F(x*y + w*z) = 0\"\n      ],\n      \"rationale\": \"Both expressions are F applied to linear forms in y and z, so their coefficient vectors form a reduced latent representation of the shared structure.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

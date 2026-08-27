@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "(V)((p))**2*(G0)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "H0(q)*W(q)**2",
-          "instantiated": "(W)((q))**2*(H0)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(f,g,x) = f(x)**2*g(x)"
+      "latent_object": "T(f,g,x) = f(x)**2*g(x)",
+      "core": "f(x)**2*g(x)"
     }
   ],
   "hypotheses": [
@@ -144,5 +145,6 @@
   ],
   "raw_content": "{\"abstain\":false,\"abstain_reason\":\"\",\"hypotheses\":[{\"hypothesis_type\":\"parameterized_family\",\"target_members\":[\"G0(p)*V(p)**2\",\"H0(q)*W(q)**2\"],\"latent_object\":\"T(f,g,x) = f(x)**2*g(x)\",\"parameters\":[\"f\",\"g\",\"x\"],\"operators\":[{\"member\":\"G0(p)*V(p)**2\",\"O\":\"specialize\"},{\"member\":\"H0(q)*W(q)**2\",\"O\":\"specialize\"}],\"instance_maps\":[{\"member\":\"G0(p)*V(p)**2\",\"theta\":{\"f\":\"V\",\"g\":\"G0\",\"x\":\"p\"}},{\"member\":\"H0(q)*W(q)**2\",\"theta\":{\"f\":\"W\",\"g\":\"H0\",\"x\":\"q\"}}],\"construction_plan\":\"Instantiate the template T(f,g,x)=f(x)^2*g(x) with the specified function symbols and variable; factor ordering is normalized by commutative multiplication.\",\"required_assumptions\":[\"Multiplication is commutative and associative\"],\"proof_obligations\":[\"G0(p)*V(p)**2 - T(V,G0,p) = 0\",\"H0(q)*W(q)**2 - T(W,H0,q) = 0\"],\"rationale\":\"The two observed subexpressions share the same AC/Mul pattern f(x)^2*g(x), differing only by function symbols and variable names; this is a structural parameterized family, not a physical interpretation.\",\"confidence\":0.8}]}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

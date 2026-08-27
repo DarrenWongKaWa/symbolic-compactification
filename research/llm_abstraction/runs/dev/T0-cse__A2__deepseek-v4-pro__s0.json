@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a(n))",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b(n))",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*theta"
+      "latent_object": "K(n)*theta",
+      "core": "K(n)*theta"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*theta\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"theta\": \"a(n)\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"theta\": \"b(n)\"}}\n      ],\n      \"construction_plan\": \"Start with the shared-kernel template K(n)*theta and specialize theta to a(n) or b(n) to recover the two product terms. The common factor K(n) remains fixed.\",\n      \"required_assumptions\": [\n        \"K, a, and b are defined for the same symbol n\",\n        \"multiplication is associative enough to place theta immediately after K(n) in the template\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*theta)[theta:=a(n)] = 0\",\n        \"K(n)*b(n) - (K(n)*theta)[theta:=b(n)] = 0\"\n      ],\n      \"rationale\": \"The two product terms are non-identical only in the second factor and share the same multiplicative kernel K(n); MatchPy/LGG observations report an AC Mul pattern and a frozen LGG template theta0*K(n) with one hole, matching this one-parameter specialization.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

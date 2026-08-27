@@ -36,21 +36,23 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 1,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D5"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D5",
+    "quality": "useful",
+    "success": true,
     "types": [
       "symmetry_invariant"
     ]
@@ -58,29 +60,30 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i,j)",
-          "instantiated": "T((i),(j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j,i)",
-          "instantiated": "T((i),(j))",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "permute_inst_args"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "T(u,v)"
+      "latent_object": "T(u,v)",
+      "core": "T(u,v)"
     }
   ],
   "hypotheses": [
@@ -139,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i,j)\", \"T(j,i)\"],\n      \"latent_object\": \"T(u,v)\",\n      \"parameters\": [\"u\", \"v\"],\n      \"operators\": [\n        {\"member\": \"T(i,j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j,i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i,j)\", \"theta\": {\"u\": \"i\", \"v\": \"j\"}},\n        {\"member\": \"T(j,i)\", \"theta\": {\"u\": \"i\", \"v\": \"j\"}}\n      ],\n      \"construction_plan\": \"Instantiate the latent binary kernel T(u,v) at (u,v)=(i,j). The identity operator gives T(i,j); the argument permutation operator gives T(j,i). The raw expression is the sum of these two operator images, i.e. the symmetrization S[T](i,j)=T(i,j)+T(j,i).\",\n      \"required_assumptions\": [\"T(i,j) and T(j,i) are well-formed terms over the same argument domain\"],\n      \"proof_obligations\": [\n        \"T(i,j) - identity[T(u,v)]|_{u=i,v=j} = 0\",\n        \"T(j,i) - permute[T(u,v)]|_{u=i,v=j} = 0\"\n      ],\n      \"rationale\": \"The expression is structurally the sum of a binary term and its swapped-argument counterpart, so the latent object is the unsymmetrized binary kernel T(u,v) together with the two-element permutation action; the sum is the invariant symmetrization.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

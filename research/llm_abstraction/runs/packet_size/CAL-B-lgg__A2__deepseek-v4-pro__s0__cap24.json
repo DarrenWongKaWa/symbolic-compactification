@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "V(theta)*G0(theta)*V(theta)"
+      "latent_object": "V(theta)*G0(theta)*V(theta)",
+      "core": "V(theta)*G0(theta)*V(theta)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"V(theta)*G0(theta)*V(theta)\",\n      \"parameters\": [\n        \"theta\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"theta\": \"p\"\n          }\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"theta\": {\n            \"theta\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Evaluate the same product template V(theta)*G0(theta)*V(theta) at theta=p and theta=q, then sum the two specializations.\",\n      \"required_assumptions\": [\n        \"V and G0 are unary functions of the parameter theta.\",\n        \"Multiplication is associative and commutative, allowing the two V factors to be grouped as in the AC observation.\"\n      ],\n      \"proof_obligations\": [\n        \"specialize(V(theta)*G0(theta)*V(theta), theta=p) - (V(p)*G0(p)*V(p)) = 0\",\n        \"specialize(V(theta)*G0(theta)*V(theta), theta=q) - (V(q)*G0(q)*V(q)) = 0\"\n      ],\n      \"rationale\": \"The two summands are non-identical only through the free symbol p or q; they match a single symbolic product template under specialization. This explains the observed F01 AC-equivalent family without postulating hidden operations.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -2,92 +2,75 @@
 
 Infrastructure experiment. Frozen B9 (`4237f6b`), LGG (`efc0924`),
 Beyond-LGG (`3214a5a`), and SOL v1 (`0a2905b`) were not mutated.
+Proposer prompts/config are frozen. Constructor was upgraded **after**
+the LLM runs (no new API calls) to test CASE E.
 
-Model: `deepseek-v4-pro`, thinking enabled, `reasoning_effort=high`.
-Schema parse failures: **1 / 276**. Unnecessary-interpolation rate: **0**.
-API key never written into artifacts.
+Model: `deepseek-v4-pro`, thinking on, `reasoning_effort=high`.
+n=276 scored runs. Parse failures: 1. Unnecessary-interpolation: 0.
 
-Primary contrast A0 RAW vs A2 RAW+SOL (calibration+DEV): **CASE A**
-(aggregate type+target 0.476 vs 0.476; certified 0.68 vs 0.70).
+Primary contrast A0 vs A2 (calibration+DEV, n=63 each): **CASE A**
+(success 0.54 vs 0.52; type+target 0.57 vs 0.65; certified 0.83 vs 0.90).
 
-Category-level the picture is **not** uniform. SOL helps some T2/T5/T7
-cells and **hurts T1 by CSE anchoring**.
+Category-level: SOL **helps T2/T5**, **hurts T1 by CSE anchoring**,
+**null on F6**. T7 permutation is certified on **both** arms once the
+constructor does argument swap on parsed expressions (CASE E, then fixed).
 
-## Calibration (8 items × A0–A3 × 1 seed = 32)
+## Constructor v2 (no new LLM calls)
 
-| condition | n | success | type+target | certified | repr_chg | false_abs | abstain |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| A0 | 8 | 0.50 | 0.50 | 0.75 | 0.75 | 0.125 | 0.125 |
-| A1 | 8 | 0.38 | 0.50 | 0.88 | 0.75 | 0.25 | 0.00 |
-| A2 | 8 | 0.50 | 0.62 | 0.50 | 0.38 | 0.00 | 0.125 |
-| A3 | 8 | 0.50 | 0.38 | 0.75 | 0.25 | 0.125 | 0.125 |
+Previous UNKNOWN obligations were dominated by string-replacing `i`/`n`
+into English latents and by differentiating without substituting.
 
-Notes: CAL-B interpolation/geodesic did **not** reappear. CAL-F RAW/SOL
-abstained (good); A1 over-proposed. CAL-G confluence: RAW missed, A2/A3
-hit. CAL-H representation change: never `basis_reduction`. CAL-E negatives
-rarely abstain.
+After expression-core + xreplace + function-hole maps + `d/dθ` then
+instantiate:
 
-## DEV multi-seed (11 items)
+- certified files 175 → 223
+- UNKNOWN obligations 349 → 244
+- T7 success A0/A2 both **1.0** (was 0.0 / 0.4)
+- T0 CSE now certifiable when maps are `u → a(n)`
+- remaining UNKNOWN: unparseable prose latents (`unparseable_latent`, Guo)
 
-Flagship A0/A2: 5 seeds. A1/A3: 3 seeds. n=176.
+## Calibration (8 × A0–A3 × 1 seed)
 
-| condition | n | success | type+target | certified | repr_chg | false_abs | abstain |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| A0 | 55 | 0.40 | 0.47 | 0.67 | 0.64 | 0.18 | 0.09 |
-| A1 | 33 | 0.45 | 0.58 | 0.64 | 0.70 | 0.15 | 0.12 |
-| A2 | 55 | 0.42 | 0.45 | 0.73 | 0.58 | 0.16 | 0.04 |
-| A3 | 33 | 0.36 | 0.39 | 0.76 | 0.52 | 0.18 | 0.09 |
+See `runs/calibration/`. Schema held. CAL-B did not revive geodesic
+interpolation. CAL-G: SOL helps confluence typing. CAL-H: no new head.
 
-### Flagship A0 vs A2 by category (5 seeds)
+## DEV flagship A0 vs A2 by category (5 seeds)
 
-| cat | task | A0 success | A2 success | A0 cert | A2 cert | note |
-|---|---|---:|---:|---:|---:|---|
-| T0 | exact CSE | 0.4 | 0.2 | 0.6 | 0.6 | SOL not helpful |
-| T1 | substitution | **1.0** | **0.2** | 1.0 | 1.0 | SOL anchors to `repeated_kernel` |
-| T1-neg | unrelated | 0.0 | 0.0 | 1.0 | 0.8 | false shallow templates |
-| T2 | distributivity | 0.0 | **0.6** | 0.2 | 0.8 | SOL helps F2 |
-| T2-neg | not distrib | 0.0 | 0.0 | 1.0 | 1.0 | over-generalization |
-| T3 | derivative | 0.8 | 0.4 | 0.8 | 0.6 | RAW better typed |
-| T3-neg | independent F,G | 1.0 | 1.0 | 0.0 | 0.0 | abstains / no cert |
-| T4 | polygamma master | 1.0 | 1.0 | 1.0 | 1.0 | both fine |
-| T5 | confluence toy | 0.2 | **0.8** | 0.8 | 0.8 | SOL helps F5 type |
-| T6 | new head / trace | 0.0 | 0.0 | 1.0 | 1.0 | F6 fail both |
-| T7 | swap orbit | 0.0 | **0.4** | 0.0 | 0.4 | SOL sometimes certifies |
+| cat | task | A0 suc | A2 suc | A0 cert | A2 cert |
+|---|---|---:|---:|---:|---:|
+| T0 | exact CSE | 0.80 | 0.40 | 1.00 | 1.00 |
+| T1 | substitution | **1.00** | **0.20** | 1.00 | 1.00 |
+| T1-neg | unrelated | 0.00 | 0.00 | 1.00 | 1.00 |
+| T2 | distributivity | 0.00 | **0.60** | 0.20 | 1.00 |
+| T2-neg | not distrib | 0.00 | 0.00 | 1.00 | 1.00 |
+| T3 | derivative | 1.00 | 0.80 | 1.00 | 1.00 |
+| T3-neg | independent F,G | 1.00 | 0.60 | 0.00 | 0.40 |
+| T4 | polygamma master | 1.00 | 1.00 | 1.00 | 1.00 |
+| T5 | confluence toy | 0.20 | **0.80** | 1.00 | 0.80 |
+| T6 | new head / trace | 0.00 | 0.00 | 1.00 | 0.80 |
+| T7 | swap orbit | **1.00** | **1.00** | 1.00 | 1.00 |
 
-T1 mechanism: RAW emits `parameterized_family` 5/5. SOL emits
-`repeated_kernel` 3/5 (CSE packets) even though members and ZERO
-reconstruction remain. Local structure up, abstraction type down.
+T1: RAW emits `parameterized_family` 5/5. SOL emits `repeated_kernel`
+from CSE packets 3/5. Reconstruction still ZERO. Local structure up,
+abstraction type down.
 
-## Packet size (CAL-B, CAL-C, A2, seed 0)
+## Packet size
 
-cap 5/10/20/24. CAL-B useful at all caps. CAL-C useful only at default
-cap 10; 5/20/24 missed or unverifiable. No evidence that dumping more
-families helps; some evidence it hurts.
+CAL-B useful at caps 5/10/20/24. CAL-C useful at cap 10; 5/20/24 miss.
+Dumping more families does not help.
 
-## Flash (`deepseek-v4-flash`, same prompts, calib A0 vs A2 × 3 seeds)
+## Flash (same prompts)
 
-| condition | n | success | type+target | certified | repr_chg |
-|---|---:|---:|---:|---:|---:|
-| A0 | 24 | 0.38 | 0.46 | 0.58 | 0.50 |
-| A2 | 24 | 0.21 | 0.42 | 0.58 | 0.33 |
+A0 success 0.54 vs A2 0.38; repr-change 0.50 vs 0.33. Anchoring
+reproduces inside the provider. Not multi-model generalization.
 
-Same prompts. SOL lowers success and representation-change rate (anchoring).
-Not multi-model generalization.
+## Guo (DEV, 12 runs)
 
-## Frozen baselines (no LLM)
+Certified 2/12 (shallow polygamma/affine templates). Success 1/12.
+UNKNOWN still on DD/master/confluence obligations. Verbal
+divided-difference / derivative families appear in RAW and SOL.
+Not Φ_Γ, not PRB, not certified generators.
 
-On the same items: B0/B9 finds exact CSE/permutation; B1 LGG certifies
-Born-like substitution and some polygamma templates; B3 operator graph
-finds derivative and swap. LLM RAW matches LGG on T1; LLM+SOL falls
-behind LGG on T1. Neither LLM arm invents a new F6 head.
+## Tokens
 
-## Tokens (bookkeeping, off-peak list prices)
-
-See `TOKEN_COSTS.csv`. Pro completion ~1.0M tokens across DEV+calib+guo;
-estimated off-peak USD on the order of $2–3. Not a scientific metric.
-
-## What this does **not** show
-
-- AI discovering physics
-- SOL as a general invention engine
-- certified Φ_Γ / Hermite DD / nine generators on Guo
+`TOKEN_COSTS.csv`. Not a scientific metric.

@@ -36,21 +36,23 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 1,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D5"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D5",
+    "quality": "useful",
+    "success": true,
     "types": [
       "symmetry_invariant"
     ]
@@ -58,29 +60,30 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i), (j))",
+          "instantiated": "T(i, j)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((j), (i))",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "K(x, y) = T(x, y)"
+      "latent_object": "K(x, y) = T(x, y)",
+      "core": "T(x, y)"
     }
   ],
   "hypotheses": [
@@ -141,5 +144,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"K(x, y) = T(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"x\": \"i\", \"y\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"x\": \"j\", \"y\": \"i\"}}\n      ],\n      \"construction_plan\": \"Start with the two-slot kernel K(x,y)=T(x,y). The term T(i,j) is obtained by identity specialization (x,y)->(i,j). The term T(j,i) is obtained by permuting the slots of K, then specializing to (i,j); equivalently specializing (x,y)->(j,i). The full expression is the sum over the S2 orbit of the ordered pair (i,j).\",\n      \"required_assumptions\": [\n        \"T is a formal two-argument function\",\n        \"Permutation acts on the argument order of T\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - identity[K](i, j) = 0\",\n        \"T(j, i) - permute[K](i, j) = 0\",\n        \"T(i, j) + T(j, i) - (identity[K](i, j) + permute[K](i, j)) = 0\"\n      ],\n      \"rationale\": \"The expression is exactly the symmetrization of the two-argument kernel T under the transposition (i,j). The two non-identical terms are related by argument permutation, not by leaf substitution.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

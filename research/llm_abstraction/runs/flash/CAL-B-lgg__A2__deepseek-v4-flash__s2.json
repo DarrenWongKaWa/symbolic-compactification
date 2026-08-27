@@ -35,52 +35,55 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": false,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
     "types": [
       "parameterized_family"
     ]
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V(x)*G0(x)*V(x)",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V(x)*G0(x)*V(x)",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "V(x)*G0(x)*V(x)"
+      "latent_object": "V(x)*G0(x)*V(x)",
+      "core": "V(x)*G0(x)*V(x)"
     }
   ],
   "hypotheses": [
@@ -130,5 +133,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"V(q)*G0(q)*V(q)\"],\n      \"latent_object\": \"V(x)*G0(x)*V(x)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"x\": \"p\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"x\": \"q\"}\n      ],\n      \"construction_plan\": \"Define the template T(x) = V(x)*G0(x)*V(x). Specialize the formal parameter x to p to obtain the first summand, and to q to obtain the second summand. The raw expression is the sum of these two specializations.\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - specialize(V(x)*G0(x)*V(x), x, p) == 0\",\n        \"V(q)*G0(q)*V(q) - specialize(V(x)*G0(x)*V(x), x, q) == 0\"\n      ],\n      \"rationale\": \"The two summands are non-identical but share the exact same multiplicative structure V*G0*V with the same argument inside V and G0. They differ only by the symbol p versus q, matching the AC-equivalent family F01 and the LGG template G0(theta0)*V(theta0)**2 with theta0 mapped to p and q.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

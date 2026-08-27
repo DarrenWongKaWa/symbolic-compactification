@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(theta)=V(theta)*G0(theta)*V(theta)"
+      "latent_object": "K(theta)=V(theta)*G0(theta)*V(theta)",
+      "core": "V(theta)*G0(theta)*V(theta)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"K(theta)=V(theta)*G0(theta)*V(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"theta\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"theta\": \"q\"}}\n      ],\n      \"construction_plan\": \"Define kernel K(theta)=V(theta)*G0(theta)*V(theta). Instantiate at theta=p and theta=q; the raw summands are K(p) and K(q), and their sum is the observed expression.\",\n      \"required_assumptions\": [\n        \"V and G0 are unary functions that can be evaluated at p and q\",\n        \"The product V(theta)*G0(theta)*V(theta) is treated as the same AC product as G0(theta)*V(theta)^2\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - K(p) = 0\",\n        \"V(q)*G0(q)*V(q) - K(q) = 0\"\n      ],\n      \"rationale\": \"Both non-identical summands are the same product of V, G0, and V with only the free symbol changed; this is a repeated kernel with a single parameter theta.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

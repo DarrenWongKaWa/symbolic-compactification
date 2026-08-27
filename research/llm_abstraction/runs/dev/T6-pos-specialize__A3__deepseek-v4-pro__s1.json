@@ -35,22 +35,24 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 5,
     "n_nonzero": 0,
-    "n_unknown": 5,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
     "types": [
       "parameterized_family",
       "master_function"
@@ -58,63 +60,65 @@
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n),(m)), (n) two-index kernel templ(n)te with form(n)l p(n)r(n)meters (n),(m)",
+          "instantiated": "K(n, m)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n),(n)), (n) two-index kernel templ(n)te with form(n)l p(n)r(n)meters (n),(n)",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "K(a,b), a two-index kernel template with formal parameters a,b"
+      "latent_object": "K(a,b), a two-index kernel template with formal parameters a,b",
+      "core": "K(a,b)"
     },
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 3,
       "n_nonzero": 0,
-      "n_unknown": 3,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "K(n, m)",
-          "instantiated": "K((n),(m)), the s(n)me two-index m(n)ster function, used with condition(n)l (m)r(n)nch ev(n)lu(n)tion on the di(n)gon(n)l (n)nd off-di(n)gon(n)l regions",
+          "instantiated": "K(n, m)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "K(n, n)",
-          "instantiated": "K((n),(n)), the s(n)me two-index m(n)ster function, used with condition(n)l (n)r(n)nch ev(n)lu(n)tion on the di(n)gon(n)l (n)nd off-di(n)gon(n)l regions",
+          "instantiated": "K(n, n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))",
-          "instantiated": "K((n),(Piecewise((m, Ne(n, m)), (n, True)))), the s(n)me two-index m(n)ster function, used with condition(n)l (Piecewise((m, Ne(n, m)), (n, True)))r(n)nch ev(n)lu(n)tion on the di(n)gon(n)l (n)nd off-di(n)gon(n)l regions",
+          "instantiated": "K(n, Piecewise((m, Ne(n, m)), (n, True)))",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "master_function",
       "d_level": "D3",
-      "latent_object": "K(a,b), the same two-index master function, used with conditional branch evaluation on the diagonal and off-diagonal regions"
+      "latent_object": "K(a,b), the same two-index master function, used with conditional branch evaluation on the diagonal and off-diagonal regions",
+      "core": "K(a,b)"
     }
   ],
   "hypotheses": [
@@ -240,5 +244,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(a,b), a two-index kernel template with formal parameters a,b\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}}\n      ],\n      \"construction_plan\": \"Start from the two-index template K(a,b). The member K(n,m) is obtained by the identity substitution (a,b)=(n,m); the diagonal member K(n,n) is obtained by specializing b = a = n.\",\n      \"required_assumptions\": [\n        \"K is an undefined two-place function symbolic in its indices.\",\n        \"n and m are independent symbolic parameters.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n, m) - K(a,b)[a=n,b=m] = 0\",\n        \"K(n, n) - K(a,b)[a=n,b=n] = 0\"\n      ],\n      \"rationale\": \"The two members of family F01 are applications of the same indexed function K with different argument pairs; K(n,n) is the diagonal specialization of K(n,m). This matches the observed SAME_FUNCTION_FAMILY relation.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"K(a,b), the same two-index master function, used with conditional branch evaluation on the diagonal and off-diagonal regions\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"},\n        {\"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}},\n        {\n          \"member\": \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))\",\n          \"theta\": {\n            \"a\": \"n\",\n            \"b\": \"Piecewise((m, Ne(n, m)), (n, True))\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Use K(a,b) as the master function. For the piecewise member, apply the specialization a = n and choose b conditionally: b = m on the branch Ne(n,m), and b = n on the True branch. This exactly reconstructs the two branch arguments in terms of the same master function.\",\n      \"required_assumptions\": [\n        \"The condition Ne(n,m) partitions the index domain into off-diagonal and diagonal cases.\",\n        \"K(a,a) is the diagonal evaluation of K(a,b).\"\n      ],\n      \"proof_obligations\": [\n        \"Piecewise((K(n, m), Ne(n, m)), (K(n, n), True)) - K(a,b)[a=n, b=Piecewise((m, Ne(n,m)), (n, True))] = 0\",\n        \"K(n, m) - K(a,b)[a=n,b=m] = 0\",\n        \"K(n, n) - K(a,b)[a=n,b=n] = 0\"\n      ],\n      \"rationale\": \"The piecewise member from family F02 uses the two members of family F01 in separate branches, so a single master function K(a,b) with conditional branch specialization explains the observed SAME_BRANCH_DEPENDENCY structure without requiring a new latent object.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

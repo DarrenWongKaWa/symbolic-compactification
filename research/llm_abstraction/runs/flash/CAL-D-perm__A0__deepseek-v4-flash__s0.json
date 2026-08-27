@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"The raw expression is a single symmetrization T(i,j)+T(j,i); there are no multiple non-identical structural families to explain. Any proposed latent object would be a tautological definition or trivial reordering, which does not warrant a non-trivial structural hypothesis.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

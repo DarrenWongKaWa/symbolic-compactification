@@ -34,7 +34,7 @@
     "n_hypotheses": 4,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -51,7 +51,7 @@
     "d_certified": [],
     "highest_attempted": "D5",
     "highest_certified": null,
-    "quality": "incorrect",
+    "quality": "gold-like-but-unsupported",
     "success": false,
     "types": [
       "repeated_kernel",
@@ -70,36 +70,37 @@
       "obligations": [
         {
           "member": "S2_bc",
-          "instantiated": "two label-independent scalar (K2)s K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums",
+          "instantiated": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2_cb",
-          "instantiated": "two label-independent scalar (K2)s K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums",
+          "instantiated": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_bc",
-          "instantiated": "two label-independent scalar (K3)s K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums",
+          "instantiated": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_cb",
-          "instantiated": "two label-independent scalar (K3)s K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums",
+          "instantiated": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums"
+      "latent_object": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums",
+      "core": "two label-independent scalar kernels K2(n,m) and K3(n,m,ell)"
     },
     {
       "constructable": false,
@@ -110,22 +111,23 @@
       "obligations": [
         {
           "member": "S3_bc",
-          "instantiated": "the triple-sum coefficient kernel K3(n,m,ell), viewed as invariant under reversal of oriented edge labels on the triangle (n,m,ell)",
+          "instantiated": "the triple-sum coefficient kernel K3(n,m,ell)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S3_cb",
-          "instantiated": "the triple-sum coefficient kernel K3(n,m,ell), viewed as invariant under reversal of oriented edge labels on the triangle (n,m,ell)",
+          "instantiated": "the triple-sum coefficient kernel K3(n,m,ell)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "the triple-sum coefficient kernel K3(n,m,ell), viewed as invariant under reversal of oriented edge labels on the triangle (n,m,ell)"
+      "latent_object": "the triple-sum coefficient kernel K3(n,m,ell), viewed as invariant under reversal of oriented edge labels on the triangle (n,m,ell)",
+      "core": "the triple-sum coefficient kernel K3(n,m,ell)"
     },
     {
       "constructable": false,
@@ -136,22 +138,23 @@
       "obligations": [
         {
           "member": "O2(n,m)",
-          "instantiated": "ba(both +1 and -1)e function(both +1 and -1) P_(both +1 and -1)^(0,1,2)(z) = polygamma((0,1,2), (beta*(gamma + (both +1 and -1)*I*mu - (both +1 and -1)*I*z) + pi)/(2*pi)) fo(0,1,2) (both +1 and -1) in {+1,-1} and (0,1,2) >= 0, togethe(0,1,2) with thei(0,1,2) divided diffe(0,1,2)ence(both +1 and -1) on ({ep(both +1 and -1)ilon(n), ep(both +1 and -1)ilon(m)}) ep(both +1 and -1)ilon(n), ep(both +1 and -1)ilon(m), ep(both +1 and -1)ilon(ell)",
+          "instantiated": "0",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "G3(n,m,ell)",
-          "instantiated": "ba(both +1 and -1)e function(both +1 and -1) P_(both +1 and -1)^(0,1,2)(z) = polygamma((0,1,2), (beta*(gamma + (both +1 and -1)*I*mu - (both +1 and -1)*I*z) + pi)/(2*pi)) fo(0,1,2) (both +1 and -1) in {+1,-1} and (0,1,2) >= 0, togethe(0,1,2) with thei(0,1,2) divided diffe(0,1,2)ence(both +1 and -1) on ({ep(both +1 and -1)ilon(n), ep(both +1 and -1)ilon(m), ep(both +1 and -1)ilon(ell)}) ep(both +1 and -1)ilon(n), ep(both +1 and -1)ilon(m), ep(both +1 and -1)ilon(ell)",
+          "instantiated": "0",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "divided_difference",
       "d_level": "D4",
-      "latent_object": "base functions P_s^r(z) = polygamma(r, (beta*(gamma + s*I*mu - s*I*z) + pi)/(2*pi)) for s in {+1,-1} and r >= 0, together with their divided differences on nodes epsilon(n), epsilon(m), epsilon(ell)"
+      "latent_object": "base functions P_s^r(z) = polygamma(r, (beta*(gamma + s*I*mu - s*I*z) + pi)/(2*pi)) for s in {+1,-1} and r >= 0, together with their divided differences on nodes epsilon(n), epsilon(m), epsilon(ell)",
+      "core": "0"
     },
     {
       "constructable": false,
@@ -162,50 +165,51 @@
       "obligations": [
         {
           "member": "D2(n)",
-          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell), whose (m=n)nt-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "D3(n)",
-          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell), whose (ell=m=n)nt-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "M3(n,ell)",
-          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell), whose (m=n)nt-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "N3(m,n)",
-          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell), whose (ell=n)nt-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "E3(m,n)",
-          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell), whose (ell=m)nt-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "G3(n,m,ell)",
-          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell), whose (none)nt-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+          "instantiated": "a single generic off-diagonal kernel G3(n,m,ell)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "a single generic off-diagonal kernel G3(n,m,ell), whose coincident-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)"
+      "latent_object": "a single generic off-diagonal kernel G3(n,m,ell), whose coincident-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)",
+      "core": "a single generic off-diagonal kernel G3(n,m,ell)"
     }
   ],
   "hypotheses": [
@@ -494,5 +498,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"S2_bc = Sum_{n,m} K2(n,m)*h1(b,n,m)*h2(a,c,m,n)\",\n        \"S2_cb = Sum_{n,m} K2(n,m)*h1(c,n,m)*h2(a,b,m,n)\",\n        \"S3_bc = Sum_{n,m,ell} K3(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\",\n        \"S3_cb = Sum_{n,m,ell} K3(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"\n      ],\n      \"latent_object\": \"two label-independent scalar kernels K2(n,m) and K3(n,m,ell), formed by the Piecewise coefficients of the double and triple sums\",\n      \"parameters\": [\"kernel\", \"h_product\"],\n      \"operators\": [\n        {\"member\": \"S2_bc\", \"O\": \"identity\"},\n        {\"member\": \"S2_cb\", \"O\": \"permute\"},\n        {\"member\": \"S3_bc\", \"O\": \"identity\"},\n        {\"member\": \"S3_cb\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S2_bc\", \"theta\": {\"kernel\": \"K2\", \"h_product\": \"h1(b,n,m)*h2(a,c,m,n)\"}},\n        {\"member\": \"S2_cb\", \"theta\": {\"kernel\": \"K2\", \"h_product\": \"h1(c,n,m)*h2(a,b,m,n)\"}},\n        {\"member\": \"S3_bc\", \"theta\": {\"kernel\": \"K3\", \"h_product\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\"}},\n        {\"member\": \"S3_cb\", \"theta\": {\"kernel\": \"K3\", \"h_product\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"}}\n      ],\n      \"construction_plan\": \"Extract the scalar coefficient from each of the four sums. The two double sums use the same K2; the two triple sums use the same K3. The full expression is the sum over the appropriate external h-products of these shared kernels.\",\n      \"required_assumptions\": [\n        \"K2 and K3 do not depend on the labels a,b,c except through the arguments already present in epsilon and polygamma terms\"\n      ],\n      \"proof_obligations\": [\n        \"Extract K2 from S2_bc and S2_cb and show the two extractions are identical as piecewise functions of n,m\",\n        \"Extract K3 from S3_bc and S3_cb and show the two extractions are identical as piecewise functions of n,m,ell\",\n        \"Reconstruct each sum by multiplying the shared kernel by the stated h-product and performing the same index summations\"\n      ],\n      \"rationale\": \"The four Sum terms have identical branch coefficients; only the external h1/h2 label order and index arrangement differ. This is direct reuse of two scalar kernels.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\n        \"S3_bc\",\n        \"S3_cb\"\n      ],\n      \"latent_object\": \"the triple-sum coefficient kernel K3(n,m,ell), viewed as invariant under reversal of oriented edge labels on the triangle (n,m,ell)\",\n      \"parameters\": [\"orientation\", \"h_product\"],\n      \"operators\": [\n        {\"member\": \"S3_bc\", \"O\": \"identity\"},\n        {\"member\": \"S3_cb\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S3_bc\", \"theta\": {\"orientation\": \"(n,m,ell)\", \"h_product\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\"}},\n        {\"member\": \"S3_cb\", \"theta\": {\"orientation\": \"(n,ell,m)\", \"h_product\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\"}}\n      ],\n      \"construction_plan\": \"Apply the simultaneous reversal of the oriented cycle (m,ell) and the corresponding exchange of h1 arguments; the scalar kernel K3 stays fixed. The two triple sums are the two orientations of the same triangle product.\",\n      \"required_assumptions\": [\n        \"K3(n,m,ell) is invariant under swapping m and ell in the appropriate h-factor arrangement\"\n      ],\n      \"proof_obligations\": [\n        \"Show K3(n,m,ell) = K3(n,ell,m) under the stated simultaneous transformation of the h-product\",\n        \"Recover S3_cb from S3_bc by applying the orientation-reversal permutation\"\n      ],\n      \"rationale\": \"The two triple sums share the same scalar coefficient but arrange the h1 indices in opposite cyclic orders, consistent with an orientation-reversal symmetry of a triangle kernel.\",\n      \"confidence\": 0.55\n    },\n    {\n      \"hypothesis_type\": \"divided_difference\",\n      \"target_members\": [\n        \"O2(n,m)\",\n        \"G3(n,m,ell)\"\n      ],\n      \"latent_object\": \"base functions P_s^r(z) = polygamma(r, (beta*(gamma + s*I*mu - s*I*z) + pi)/(2*pi)) for s in {+1,-1} and r >= 0, together with their divided differences on nodes epsilon(n), epsilon(m), epsilon(ell)\",\n      \"parameters\": [\"s\", \"r\", \"nodes\"],\n      \"operators\": [\n        {\"member\": \"O2(n,m)\", \"O\": \"specialize\"},\n        {\"member\": \"G3(n,m,ell)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"O2(n,m)\", \"theta\": {\"s\": \"both +1 and -1\", \"r\": \"0,1,2\", \"nodes\": \"{epsilon(n), epsilon(m)}\"}},\n        {\"member\": \"G3(n,m,ell)\", \"theta\": {\"s\": \"both +1 and -1\", \"r\": \"0,1,2\", \"nodes\": \"{epsilon(n), epsilon(m), epsilon(ell)}\"}}\n      ],\n      \"construction_plan\": \"Rewrite the off-diagonal branch coefficients as linear combinations of divided differences of P_s^r over the relevant epsilon nodes. Terms with (P_s^r(eps(i))-P_s^r(eps(j)))/(eps(i)-eps(j)) are first divided differences; higher negative powers of eps differences correspond to higher-order divided differences or confluent derivatives.\",\n      \"required_assumptions\": [\n        \"epsilon is sufficiently non-degenerate on distinct summation indices, with singular cases handled by confluent divided differences\"\n      ],\n      \"proof_obligations\": [\n        \"Express O2(n,m) as a rational linear combination of divided differences of P_s^r up to order 3 on {epsilon(n), epsilon(m)}\",\n        \"Express G3(n,m,ell) as a rational linear combination of divided differences of P_s^r up to order 3 on {epsilon(n), epsilon(m), epsilon(ell)}\",\n        \"Verify that the rational prefactors match the standard divided-difference coefficient formulas after accounting for signs and factors of pi and beta\"\n      ],\n      \"rationale\": \"The off-diagonal expressions contain rational denominators in epsilon differences multiplied by differences of polygamma values at shifted arguments, which is the characteristic structure of divided differences.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\n        \"D2(n)\",\n        \"O2(n,m)\",\n        \"D3(n)\",\n        \"M3(n,ell)\",\n        \"N3(m,n)\",\n        \"E3(m,n)\",\n        \"G3(n,m,ell)\"\n      ],\n      \"latent_object\": \"a single generic off-diagonal kernel G3(n,m,ell), whose coincident-index branches are limits as subsets of epsilon nodes coalesce; likewise O2(n,m) limits to D2(n)\",\n      \"parameters\": [\"coincide\"],\n      \"operators\": [\n        {\"member\": \"D2(n)\", \"O\": \"specialize\"},\n        {\"member\": \"D3(n)\", \"O\": \"specialize\"},\n        {\"member\": \"M3(n,ell)\", \"O\": \"specialize\"},\n        {\"member\": \"N3(m,n)\", \"O\": \"specialize\"},\n        {\"member\": \"E3(m,n)\", \"O\": \"specialize\"},\n        {\"member\": \"G3(n,m,ell)\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"D2(n)\", \"theta\": {\"coincide\": \"m=n\"}},\n        {\"member\": \"D3(n)\", \"theta\": {\"coincide\": \"ell=m=n\"}},\n        {\"member\": \"M3(n,ell)\", \"theta\": {\"coincide\": \"m=n\"}},\n        {\"member\": \"N3(m,n)\", \"theta\": {\"coincide\": \"ell=n\"}},\n        {\"member\": \"E3(m,n)\", \"theta\": {\"coincide\": \"ell=m\"}},\n        {\"member\": \"G3(n,m,ell)\", \"theta\": {\"coincide\": \"none\"}}\n      ],\n      \"construction_plan\": \"Starting from the generic all-distinct branch G3(n,m,ell), take the limits epsilon(ell)->epsilon(m), epsilon(ell)->epsilon(n), epsilon(m)->epsilon(n), and their compositions, matching the piecewise conditions. Likewise take epsilon(m)->epsilon(n) in O2(n,m) to recover D2(n).\",\n      \"required_assumptions\": [\n        \"The generic off-diagonal kernel is sufficiently regular in the epsilon nodes so that the required limits exist and match the diagonal branch definitions\"\n      ],\n      \"proof_obligations\": [\n        \"lim_{epsilon(m)->epsilon(n)} O2(n,m) == D2(n)\",\n        \"lim_{epsilon(ell)->epsilon(m)->epsilon(n)} G3(n,m,ell) == D3(n)\",\n        \"lim_{epsilon(m)->epsilon(n)} G3(n,m,ell) == M3(n,ell)\",\n        \"lim_{epsilon(ell)->epsilon(n)} G3(n,m,ell) == N3(m,n)\",\n        \"lim_",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

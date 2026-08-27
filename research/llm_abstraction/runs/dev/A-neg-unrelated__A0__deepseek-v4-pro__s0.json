@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "T(f,K,x) = f(x)*K(x)*f(x)"
+      "latent_object": "T(f,K,x) = f(x)*K(x)*f(x)",
+      "core": "f(x)*K(x)*f(x)"
     }
   ],
   "hypotheses": [
@@ -145,5 +146,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"T(f,K,x) = f(x)*K(x)*f(x)\",\n      \"parameters\": [\"f\", \"K\", \"x\"],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"f\": \"V\",\n            \"K\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"f\": \"W\",\n            \"K\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template T(f,K,x)=f(x)*K(x)*f(x) by substituting the mapped function symbols for f and K and the mapped variable for x, preserving the original product order.\",\n      \"required_assumptions\": [\n        \"V, G0, W, and H0 are unary functions that can be evaluated at the indicated arguments.\",\n        \"The multiplication operation is associative as written.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - specialize(T; f=V, K=G0, x=p) = 0\",\n        \"W(q)*H0(q)*W(q) - specialize(T; f=W, K=H0, x=q) = 0\"\n      ],\n      \"rationale\": \"Both additive terms share the identical sandwich product pattern f(x)*K(x)*f(x), differing only in the outer function, central kernel, and variable name.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

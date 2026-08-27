@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(theta, theta)"
+      "latent_object": "M(theta, theta)",
+      "core": "M(theta, theta)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(theta, theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"theta\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"theta\": \"2\"}}\n      ],\n      \"construction_plan\": \"Instantiate the diagonal template M(theta, theta) with theta=1 to obtain M(1, 1) and with theta=2 to obtain M(2, 2).\",\n      \"required_assumptions\": [\n        \"M is a declared binary function symbol and substitution of equal arguments is valid.\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - M(theta, theta)[theta := 1] = 0\",\n        \"M(2, 2) - M(theta, theta)[theta := 2] = 0\"\n      ],\n      \"rationale\": \"Both terms are diagonal evaluations of the same declared binary function M, so they share the parameterized diagonal form M(theta, theta).\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

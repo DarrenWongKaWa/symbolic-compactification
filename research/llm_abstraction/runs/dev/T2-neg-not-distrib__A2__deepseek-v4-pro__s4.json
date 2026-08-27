@@ -34,15 +34,15 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
     "unnecessary": false,
     "representation_change": false,
-    "n_zero": 3,
+    "n_zero": 4,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
@@ -68,48 +68,50 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F(x*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F(x*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(x*y + t*z)"
+      "latent_object": "F(x*y + t*z)",
+      "core": "F(x*y + t*z)"
     },
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "(x)*(y + z)",
+          "instantiated": "x*(y + z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "(theta)*(y + z)",
+          "instantiated": "y + z",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "theta*(y + z)"
+      "latent_object": "theta*(y + z)",
+      "core": "theta*(y + z)"
     }
   ],
   "hypotheses": [
@@ -217,5 +219,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(x*y + t*z)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"t\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"t\": \"w\"}}\n      ],\n      \"construction_plan\": \"Distribute x over y+z in the first F argument to obtain x*y + x*z. Then both F arguments are instances of F(x*y + t*z) with t=x and t=w; the full expression is the sum of those two specializations.\",\n      \"required_assumptions\": [\"F is an arbitrary unary function\", \"multiplication distributes over addition\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(x*y + x*z) = 0\",\n        \"F(x*y + x*z) - F(x*y + t*z)[t->x] = 0\",\n        \"F(x*y + w*z) - F(x*y + t*z)[t->w] = 0\"\n      ],\n      \"rationale\": \"After expanding the first argument, both F arguments share the common term x*y and differ only through the coefficient of z, x versus w. This is a direct two-instance specialization of a single linear-in-z template.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"x*(y + z)\", \"y + z\"],\n      \"latent_object\": \"theta*(y + z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"x*(y + z)\", \"O\": \"specialize\"},\n        {\"member\": \"y + z\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"x*(y + z)\", \"theta\": {\"theta\": \"x\"}},\n        {\"member\": \"y + z\", \"theta\": {\"theta\": \"theta\"}}\n      ],\n      \"construction_plan\": \"Let theta be a symbolic coefficient. The member x*(y+z) is recovered by specializing theta to x. Differentiating theta*(y+z) with respect to theta yields y+z, the second member.\",\n      \"required_assumptions\": [\"x, y, z are independent variables\", \"standard differentiation rules apply\"],\n      \"proof_obligations\": [\n        \"theta*(y + z)[theta->x] - x*(y + z) = 0\",\n        \"d/dtheta (theta*(y + z)) - (y + z) = 0\"\n      ],\n      \"rationale\": \"The derivative relation F02 is exactly the derivative of a scalar multiple of (y+z) with respect to the scalar coefficient; the reported derivative uses x as the scalar.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(theta0, theta0)"
+      "latent_object": "M(theta0, theta0)",
+      "core": "M(theta0, theta0)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"M(1, 1)\",\n        \"M(2, 2)\"\n      ],\n      \"latent_object\": \"M(theta0, theta0)\",\n      \"parameters\": [\n        \"theta0\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"M(1, 1)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"M(2, 2)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"M(1, 1)\",\n          \"theta\": {\n            \"theta0\": \"1\"\n          }\n        },\n        {\n          \"member\": \"M(2, 2)\",\n          \"theta\": {\n            \"theta0\": \"2\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the diagonal template M(theta0, theta0) by substituting theta0 = 1 for M(1, 1) and theta0 = 2 for M(2, 2).\",\n      \"required_assumptions\": [\n        \"M is an undefined bivariate function, and substitution into both argument positions is allowed.\"\n      ],\n      \"proof_obligations\": [\n        \"M(1, 1) - M(theta0, theta0)[theta0 -> 1] = 0\",\n        \"M(2, 2) - M(theta0, theta0)[theta0 -> 2] = 0\"\n      ],\n      \"rationale\": \"The reported LGG template is M(theta0, theta0) with witness theta0 in {1, 2}; both members are specializations of the same diagonal AppliedUndef form, sharing a parameterized diagonal object rather than a reduced arithmetic expression.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

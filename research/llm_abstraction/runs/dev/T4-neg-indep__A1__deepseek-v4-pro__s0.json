@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single raw expression F(z)+G(z) is provided, so there are no multiple non-identical structural families to relate. Any proposed latent object, such as a bivariate master function H(a,z) with F(z)=H(0,z) and G(z)=H(1,z), would be an arbitrary auxiliary construction not required by the expression structure.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

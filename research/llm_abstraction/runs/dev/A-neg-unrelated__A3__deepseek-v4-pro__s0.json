@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "(G0)((p))*(V)((p))^2",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "H0(q)*W(q)**2",
-          "instantiated": "(H0)((q))*(W)((q))^2",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "A(x)*B(x)^2"
+      "latent_object": "A(x)*B(x)^2",
+      "core": "A(x)*B(x)^2"
     }
   ],
   "hypotheses": [
@@ -145,5 +146,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"H0(q)*W(q)**2\"\n      ],\n      \"latent_object\": \"A(x)*B(x)^2\",\n      \"parameters\": [\n        \"A\",\n        \"B\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"theta\": {\n            \"A\": \"G0\",\n            \"B\": \"V\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"theta\": {\n            \"A\": \"H0\",\n            \"B\": \"W\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template A(x)*B(x)^2 by substituting the parameter map for each member. For N0002 substitute A=G0, B=V, x=p; for N0006 substitute A=H0, B=W, x=q.\",\n      \"required_assumptions\": [\n        \"Substitution is capture-avoiding\",\n        \"Multiplication is treated as associative-commutative, so factor ordering is not significant\"\n      ],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - (A(x)*B(x)^2)[A:=G0,B:=V,x:=p] = 0\",\n        \"H0(q)*W(q)^2 - (A(x)*B(x)^2)[A:=H0,B:=W,x:=q] = 0\"\n      ],\n      \"rationale\": \"Both expressions have the same syntactic architecture: a unary function applied to a variable times the square of another unary function applied to the same variable. The observed relation is a substitution instance of this parameterized two-function kernel.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

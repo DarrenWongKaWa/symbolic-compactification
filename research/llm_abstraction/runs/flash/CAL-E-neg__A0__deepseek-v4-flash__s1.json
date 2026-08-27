@@ -34,7 +34,7 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -69,22 +69,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "(V)((p)) * (G0)((p)) * (V)((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "(W)((q)) * (H0)((q)) * (W)((q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(z) * K(z) * F(z)"
+      "latent_object": "F(z) * K(z) * F(z)",
+      "core": "F(z) * K(z) * F(z)"
     },
     {
       "constructable": false,
@@ -95,29 +96,30 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q)",
-          "instantiated": "((V)((p)), (W)((q))) * diag((G0)((p)), (H0)((q))) * ((V)((p)), (W)((q)))^T",
+          "instantiated": "(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "((V)((p)), (0)(y)) * diag((G0)((p)), D(y)) * ((V)((p)), (0)(y))^T",
+          "instantiated": "(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "W(q)*H0(q)*W(q)",
-          "instantiated": "((0)(x), (W)((q))) * diag(C(x), (H0)((q))) * ((0)(x), (W)((q)))^T",
+          "instantiated": "(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "basis_reduction",
       "d_level": "D5",
-      "latent_object": "(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T"
+      "latent_object": "(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T",
+      "core": "(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T"
     }
   ],
   "hypotheses": [
@@ -258,5 +260,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"F(z) * K(z) * F(z)\",\n      \"parameters\": [\n        \"F\",\n        \"K\",\n        \"z\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"F\": \"V\",\n            \"K\": \"G0\",\n            \"z\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"F\": \"W\",\n            \"K\": \"H0\",\n            \"z\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Substitute the mapped function symbols and argument variable into the template F(z)*K(z)*F(z). For the first member set F=V, K=G0, z=p; for the second set F=W, K=H0, z=q. The resulting expressions match exactly.\",\n      \"required_assumptions\": [\n        \"V, G0, W, H0 are scalar-valued functions on their respective domains\",\n        \"The formal product of scalar values is associative and commutative\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - specialize(F(z)*K(z)*F(z), {F:V, K:G0, z:p}) = 0\",\n        \"W(q)*H0(q)*W(q) - specialize(F(z)*K(z)*F(z), {F:W, K:H0, z:q}) = 0\"\n      ],\n      \"rationale\": \"The two summands are syntactically non-identical (different function names and variables) but share the identical algebraic pattern A(z)*B(z)*A(z). A parameterized template captures this common structure with three substitution slots.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"basis_reduction\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q)\",\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"(A(x), B(y)) * diag(C(x), D(y)) * (A(x), B(y))^T\",\n      \"parameters\": [\n        \"A\",\n        \"B\",\n        \"C\",\n        \"D\",\n        \"x\",\n        \"y\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"A\": \"V\",\n            \"B\": \"W\",\n            \"C\": \"G0\",\n            \"D\": \"H0\",\n            \"x\": \"p\",\n            \"y\": \"q\"\n          }\n        },\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"A\": \"V\",\n            \"C\": \"G0\",\n            \"x\": \"p\",\n            \"B\": \"0\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"B\": \"W\",\n            \"D\": \"H0\",\n            \"y\": \"q\",\n            \"A\": \"0\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Construct a two-dimensional row vector (A(x), B(y)) and a diagonal matrix diag(C(x), D(y)). The matrix product (A(x),B(y)) * diag(C(x),D(y)) * (A(x),B(y))^T expands to A(x)C(x)A(x) + B(y)D(y)B(y). With the substitutions A=V, B=W, C=G0, D=H0, x=p, y=q, this yields the full expression. For the individual summands, set the other vector component to the zero function: the first summand is obtained by B=0, the second by A=0.\",\n      \"required_assumptions\": [\n        \"The function values are scalars, so vector and matrix multiplication are standard\",\n        \"The zero function acts as the additive identity for the product\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q) - ((A(x),B(y)) * diag(C(x),D(y)) * (A(x),B(y))^T with A=V,B=W,C=G0,D=H0,x=p,y=q) = 0\",\n        \"V(p)*G0(p)*V(p) - ((A(x),0) * diag(C(x),D(y)) * (A(x),0)^T with A=V,C=G0,x=p) = 0\",\n        \"W(q)*H0(q)*W(q) - ((0,B(y)) * diag(C(x),D(y)) * (0,B(y))^T with B=W,D=H0,y=q) = 0\"\n      ],\n      \"rationale\": \"The sum of two terms of the form A(x)C(x)A(x) and B(y)D(y)B(y) is precisely the quadratic form of a diagonal matrix in the direct sum of the two one-dimensional spaces. This representation change explains the full expression as a single bilinear object and the summands as its diagonal projections.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

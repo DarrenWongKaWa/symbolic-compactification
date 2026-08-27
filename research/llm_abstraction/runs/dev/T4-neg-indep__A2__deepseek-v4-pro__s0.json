@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only one expression is provided, F(z)+G(z), and no non-trivial multiple structural families are present. The observed relations are only commutativity/rewrite facts for addition, which do not require a latent mathematical object or representation change.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

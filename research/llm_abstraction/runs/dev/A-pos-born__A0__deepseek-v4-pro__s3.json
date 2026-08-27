@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "V(t)*G0(t)*V(t)"
+      "latent_object": "V(t)*G0(t)*V(t)",
+      "core": "V(t)*G0(t)*V(t)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"V(t)*G0(t)*V(t)\",\n      \"parameters\": [\n        \"t\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"t\": \"p\"\n          }\n        },\n        {\n          \"member\": \"V(q)*G0(q)*V(q)\",\n          \"theta\": {\n            \"t\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define the one-parameter symbolic template F(t) = V(t)*G0(t)*V(t). Instantiate F by substituting t -> p to obtain V(p)*G0(p)*V(p), and t -> q to obtain V(q)*G0(q)*V(q). The original expression is the sum of two instances of this template.\",\n      \"required_assumptions\": [\n        \"V and G0 are defined for the symbolic arguments p and q.\",\n        \"The multiplication is associative so V(t)*G0(t)*V(t) is the common structural form.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (V(t)*G0(t)*V(t) with t -> p) = 0\",\n        \"V(q)*G0(q)*V(q) - (V(t)*G0(t)*V(t) with t -> q) = 0\"\n      ],\n      \"rationale\": \"The two non-identical summands are syntactically identical up to a consistent renaming of the scalar argument from p to q, so they are evaluations of the same parameterized symbolic product V(t)G0(t)V(t).\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

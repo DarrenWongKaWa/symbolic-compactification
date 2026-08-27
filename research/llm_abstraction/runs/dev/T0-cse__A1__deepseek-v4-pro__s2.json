@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*f(n)"
+      "latent_object": "K(n)*f(n)",
+      "core": "K(n)*f(n)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*f(n)\",\n      \"parameters\": [\"f\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"f\": \"a\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"f\": \"b\"}}\n      ],\n      \"construction_plan\": \"Substitute the function parameter f by the declared function name a or b in the template K(n)*f(n), leaving n symbolic.\",\n      \"required_assumptions\": [\n        \"K, a, and b are unary functions of n\",\n        \"Multiplication of function values is well-defined\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*f(n) with f=a) = 0\",\n        \"K(n)*b(n) - (K(n)*f(n) with f=b) = 0\"\n      ],\n      \"rationale\": \"Both summands share the common factor K(n), so they are specializations of a single kernel product K(n)*f(n). The full expression is a sum of two such specializations.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

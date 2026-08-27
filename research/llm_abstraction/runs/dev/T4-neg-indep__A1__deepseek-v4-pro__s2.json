@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single raw expression is provided, F(z) + G(z), with F and G as arbitrary unary function symbols and no declared relations or assumptions. The only apparent shared structure is the generic template h(z) applied to two different function names plus commutativity of addition, which is tautological and does not warrant a non-trivial latent object or representation-change hypothesis.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

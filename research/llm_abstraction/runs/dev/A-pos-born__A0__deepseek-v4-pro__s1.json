@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "V(p)*G0(p)*V(p)",
-          "instantiated": "V((p))*G0((p))*V((p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "V(q)*G0(q)*V(q)",
-          "instantiated": "V((q))*G0((q))*V((q))",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(x)=V(x)*G0(x)*V(x)"
+      "latent_object": "F(x)=V(x)*G0(x)*V(x)",
+      "core": "V(x)*G0(x)*V(x)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"V(q)*G0(q)*V(q)\"\n      ],\n      \"latent_object\": \"F(x)=V(x)*G0(x)*V(x)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"x\": \"p\"}},\n        {\"member\": \"V(q)*G0(q)*V(q)\", \"theta\": {\"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Define the univariate template F(x)=V(x)*G0(x)*V(x). Substitute x=p and x=q to generate the two summands; the full expression is the sum of these two specializations.\",\n      \"required_assumptions\": [\n        \"V and G0 are unary functions defined at p and q so that the products are well-formed.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - F(p) = 0\",\n        \"V(q)*G0(q)*V(q) - F(q) = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms are syntactically identical except for the replacement of p by q, so they are naturally instances of a single parameterized univariate object.\",\n      \"confidence\": 0.98\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

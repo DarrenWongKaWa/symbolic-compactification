@@ -67,29 +67,30 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "(a(n))*K(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "(b(n))*K(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)",
-          "instantiated": "(1)*K(n)",
+          "instantiated": "K(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "theta0*K(n)"
+      "latent_object": "theta0*K(n)",
+      "core": "theta0*K(n)"
     }
   ],
   "hypotheses": [
@@ -158,5 +159,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\", \"K(n)\"],\n      \"latent_object\": \"theta0*K(n)\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"theta0\": \"a(n)\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"theta0\": \"b(n)\"}},\n        {\"member\": \"K(n)\", \"theta\": {\"theta0\": \"1\"}}\n      ],\n      \"construction_plan\": \"Define a one-parameter template F_theta0(n) = theta0 * K(n). Replace theta0 with a(n), b(n), and 1 to obtain the three target members respectively. The raw expression is the sum of the first two specializations; the third identifies the repeated factor K(n) as the unit-coefficient instance.\",\n      \"required_assumptions\": [\"K, a, b are arbitrary functions of n\", \"multiplication is commutative (AC)\"],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (theta0*K(n))[theta0=a(n)] = 0\",\n        \"K(n)*b(n) - (theta0*K(n))[theta0=b(n)] = 0\",\n        \"K(n) - (theta0*K(n))[theta0=1] = 0\"\n      ],\n      \"rationale\": \"F01 reports an LGG family with frozen template theta0*K(n) and witnesses a(n) and b(n); F02 reports K(n) as a common subexpression. The template theta0*K(n) directly generates the two product terms via specialization of theta0, and also generates the common factor K(n) as the specialization theta0=1.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

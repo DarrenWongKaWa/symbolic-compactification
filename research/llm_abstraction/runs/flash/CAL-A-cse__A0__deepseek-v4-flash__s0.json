@@ -35,52 +35,55 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D2"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D2"
+    ],
     "highest_attempted": "D2",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D2",
+    "quality": "useful",
+    "success": true,
     "types": [
       "repeated_kernel"
     ]
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a(n))(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b(n))(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*f(n)"
+      "latent_object": "K(n)*f(n)",
+      "core": "K(n)*f(n)"
     }
   ],
   "hypotheses": [
@@ -136,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*f(n)\",\n      \"parameters\": [\"f\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"f\": \"a(n)\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"f\": \"b(n)\"}}\n      ],\n      \"construction_plan\": \"Define a template with a free functional slot f: emit K(n)*f(n). Instantiate f as a(n) for the first member and as b(n) for the second member.\",\n      \"required_assumptions\": [\"K(n), a(n), b(n) are defined expressions for the relevant n\"],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - specialize_{f->a(n)}[K(n)*f(n)] = 0\",\n        \"K(n)*b(n) - specialize_{f->b(n)}[K(n)*f(n)] = 0\"\n      ],\n      \"rationale\": \"The two summands share the exact same left factor K(n) and differ only in the function appearing in the right factor; a single functional template K(n)*f(n) captures this shared structure.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

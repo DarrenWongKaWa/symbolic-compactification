@@ -40,15 +40,16 @@
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 3,
+    "n_zero": 4,
     "n_nonzero": 0,
-    "n_unknown": 3,
+    "n_unknown": 2,
     "d_attempted": [
       "D1",
       "D3",
       "D4"
     ],
     "d_certified": [
+      "D1",
       "D3"
     ],
     "highest_attempted": "D4",
@@ -71,22 +72,23 @@
       "obligations": [
         {
           "member": "F(x*(y + z))",
-          "instantiated": "F((x*(y + z)))",
+          "instantiated": "F(x*(y + z))",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + x*z)",
-          "instantiated": "F((x*y + x*z))",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(theta)"
+      "latent_object": "F(theta)",
+      "core": "F(theta)"
     },
     {
       "constructable": false,
@@ -100,45 +102,47 @@
           "instantiated": "normal form NF_distrib(x,y,z) under distributivity of multiplication over addition",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "x*y + x*z",
           "instantiated": "normal form NF_distrib(x,y,z) under distributivity of multiplication over addition",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "confluent_representation",
       "d_level": "D4",
-      "latent_object": "normal form NF_distrib(x,y,z) under distributivity of multiplication over addition"
+      "latent_object": "normal form NF_distrib(x,y,z) under distributivity of multiplication over addition",
+      "core": "normal form NF_distrib(x,y,z) under distributivity of multiplication over addition"
     },
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "x*(y + z)",
-          "instantiated": "(x)*(y + z)",
+          "instantiated": "x*(y + z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "y + z",
-          "instantiated": "(x)*(y + z)",
+          "instantiated": "y + z",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "other_structured",
       "d_level": "D1",
-      "latent_object": "theta*(y + z)"
+      "latent_object": "theta*(y + z)",
+      "core": "theta*(y + z)"
     }
   ],
   "hypotheses": [
@@ -286,5 +290,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y + z))\", \"F(x*y + x*z)\"],\n      \"latent_object\": \"F(theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"theta\": \"x*(y + z)\"}},\n        {\"member\": \"F(x*y + x*z)\", \"theta\": {\"theta\": \"x*y + x*z\"}}\n      ],\n      \"construction_plan\": \"Instantiate the unary template F(theta) with the two algebraic arguments appearing in the sum.\",\n      \"required_assumptions\": [\"F is an uninterpreted unary function.\"],\n      \"proof_obligations\": [\n        \"F(x*(y + z)) - F(theta)[theta := x*(y + z)] = 0\",\n        \"F(x*y + x*z) - F(theta)[theta := x*y + x*z] = 0\"\n      ],\n      \"rationale\": \"The top-level summands share the same unary F-call structure and differ only by the syntactic argument, matching the reported SAME_FUNCTION_FAMILY/SUBSTITUTION_INSTANCE observation.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"confluent_representation\",\n      \"target_members\": [\"x*(y + z)\", \"x*y + x*z\"],\n      \"latent_object\": \"normal form NF_distrib(x,y,z) under distributivity of multiplication over addition\",\n      \"parameters\": [],\n      \"operators\": [\n        {\"member\": \"x*(y + z)\", \"O\": \"identity\"},\n        {\"member\": \"x*y + x*z\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"x*(y + z)\", \"theta\": {}},\n        {\"member\": \"x*y + x*z\", \"theta\": {}}\n      ],\n      \"construction_plan\": \"Select a common expanded normal form NF_distrib = x*y + x*z; the factored expression is reduced to NF_distrib by the distributivity rewrite.\",\n      \"required_assumptions\": [\"Ring distributivity: a*(b+c) = a*b + a*c.\"],\n      \"proof_obligations\": [\n        \"x*(y + z) - (x*y + x*z) = 0 modulo distributivity\",\n        \"x*y + x*z - (x*y + x*z) = 0\"\n      ],\n      \"rationale\": \"The two arguments of F are non-identical syntactic representatives of the same polynomial under the confluent distributivity rewrite; this explains why the two F summands share the same algebraic argument class.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\"x*(y + z)\", \"y + z\"],\n      \"latent_object\": \"theta*(y + z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"x*(y + z)\", \"O\": \"specialize\"},\n        {\"member\": \"y + z\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"x*(y + z)\", \"theta\": {\"theta\": \"x\"}},\n        {\"member\": \"y + z\", \"theta\": {\"theta\": \"x\"}}\n      ],\n      \"construction_plan\": \"Take the parameterized product theta*(y+z); specialize theta=x to produce the factored argument, and differentiate with respect to theta to produce y+z.\",\n      \"required_assumptions\": [\"theta is independent of y and z.\"],\n      \"proof_obligations\": [\n        \"theta*(y+z)[theta := x] - x*(y+z) = 0\",\n        \"d/dtheta[theta*(y+z)] - (y+z) = 0\"\n      ],\n      \"rationale\": \"The reported exact derivative relation diff(x*(y+z), x) = y+z is captured by a one-parameter family theta*(y+z); the derivative in theta removes the linear multiplier.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

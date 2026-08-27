@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only a single expression is provided; there are no multiple non-identical structural families to explain. The expression is a simple linear combination of -I*mu and I*beta*mu, whose common factor I*mu is a trivial hole-product of constants, not a non-trivial latent structure.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

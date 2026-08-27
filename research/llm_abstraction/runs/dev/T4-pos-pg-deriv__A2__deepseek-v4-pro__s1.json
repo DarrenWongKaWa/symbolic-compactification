@@ -36,21 +36,23 @@
     "type_hit": true,
     "targeting_hit": true,
     "construction_ok": true,
-    "certified": false,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": false,
-    "n_zero": 1,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 1,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
     "types": [
       "derivative_family"
     ]
@@ -58,29 +60,30 @@
   "constructions": [
     {
       "constructable": true,
-      "certified": false,
-      "n_zero": 1,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 1,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "polygamma(0, z)",
-          "instantiated": "polygamma(0, (z))",
+          "instantiated": "polygamma(0, z)",
           "operator": "identity",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "polygamma(1, z)",
-          "instantiated": "polygamma(0, (z))",
+          "instantiated": "polygamma(1, z)",
           "operator": "d/dtheta",
-          "verdict": "UNKNOWN",
-          "note": "sympy.diff_identity"
+          "verdict": "ZERO",
+          "note": "diff_then_instantiate"
         }
       ],
       "hypothesis_type": "derivative_family",
       "d_level": "D3",
-      "latent_object": "polygamma(0, theta)"
+      "latent_object": "polygamma(0, theta)",
+      "core": "polygamma(0, theta)"
     }
   ],
   "hypotheses": [
@@ -137,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(0, theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"identity\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": \"z\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": \"z\"}}\n      ],\n      \"construction_plan\": \"Start from the latent base function F(theta)=polygamma(0, theta). The first member is obtained by evaluating F at theta=z. The second member is obtained by applying the derivative operator d/dtheta to F(theta) and then evaluating at theta=z, using the derivative identity d/dtheta polygamma(0, theta) = polygamma(1, theta).\",\n      \"required_assumptions\": [\n        \"polygamma(0, theta) is differentiable with respect to theta\",\n        \"d/dtheta polygamma(0, theta) = polygamma(1, theta) holds\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - polygamma(0, theta)|_{theta=z} = 0\",\n        \"polygamma(1, z) - (d/dtheta polygamma(0, theta))|_{theta=z} = 0\"\n      ],\n      \"rationale\": \"The two observed terms are consecutive orders of the polygamma function, and the second term is exactly the derivative of the first with respect to its argument, forming a standard derivative family.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -35,80 +35,83 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": false,
-    "n_zero": 0,
+    "n_zero": 6,
     "n_nonzero": 0,
-    "n_unknown": 6,
+    "n_unknown": 0,
     "d_attempted": [
       "D3"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D3"
+    ],
     "highest_attempted": "D3",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
     "types": [
       "parameterized_family"
     ]
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 6,
       "n_nonzero": 0,
-      "n_unknown": 6,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "M_{(1),(2)}((p)) = G0((p))**(1) * V((p))**(2)",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "G0(q)*V(q)**2",
-          "instantiated": "M_{(1),(2)}((q)) = G0((q))**(1) * V((q))**(2)",
+          "instantiated": "G0(q)*V(q)**2",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "G0(p)",
-          "instantiated": "M_{(1),(0)}((p)) = G0((p))**(1) * V((p))**(0)",
+          "instantiated": "G0(p)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "G0(q)",
-          "instantiated": "M_{(1),(0)}((q)) = G0((q))**(1) * V((q))**(0)",
+          "instantiated": "G0(q)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "V(p)",
-          "instantiated": "M_{(0),(1)}((p)) = G0((p))**(0) * V((p))**(1)",
+          "instantiated": "V(p)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "V(q)",
-          "instantiated": "M_{(0),(1)}((q)) = G0((q))**(0) * V((q))**(1)",
+          "instantiated": "V(q)",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M_{a,b}(theta) = G0(theta)**a * V(theta)**b"
+      "latent_object": "M_{a,b}(theta) = G0(theta)**a * V(theta)**b",
+      "core": "G0(theta)**a * V(theta)**b"
     }
   ],
   "hypotheses": [
@@ -227,5 +230,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"G0(q)*V(q)**2\",\n        \"G0(p)\",\n        \"G0(q)\",\n        \"V(p)\",\n        \"V(q)\"\n      ],\n      \"latent_object\": \"M_{a,b}(theta) = G0(theta)**a * V(theta)**b\",\n      \"parameters\": [\"theta\", \"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(p)\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)\", \"O\": \"specialize\"},\n        {\"member\": \"V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"V(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": {\"theta\": \"p\", \"a\": 1, \"b\": 2}},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": {\"theta\": \"q\", \"a\": 1, \"b\": 2}},\n        {\"member\": \"G0(p)\", \"theta\": {\"theta\": \"p\", \"a\": 1, \"b\": 0}},\n        {\"member\": \"G0(q)\", \"theta\": {\"theta\": \"q\", \"a\": 1, \"b\": 0}},\n        {\"member\": \"V(p)\", \"theta\": {\"theta\": \"p\", \"a\": 0, \"b\": 1}},\n        {\"member\": \"V(q)\", \"theta\": {\"theta\": \"q\", \"a\": 0, \"b\": 1}}\n      ],\n      \"construction_plan\": \"Select a symbolic argument theta in {p,q} and an exponent pair (a,b) in {(1,2),(1,0),(0,1)}. Instantiate the monomial template G0(theta)**a * V(theta)**b, using the convention that any factor with exponent 0 is omitted after algebraic simplification.\",\n      \"required_assumptions\": [\n        \"The expressions are interpreted under the usual algebraic convention x**0 = 1 for non-identically-zero symbolic function applications.\",\n        \"G0 and V are the same function symbols across all listed members.\"\n      ],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - M_{1,2}(p) = 0\",\n        \"G0(q)*V(q)**2 - M_{1,2}(q) = 0\",\n        \"G0(p) - M_{1,0}(p) = 0\",\n        \"G0(q) - M_{1,0}(q) = 0\",\n        \"V(p) - M_{0,1}(p) = 0\",\n        \"V(q) - M_{0,1}(q) = 0\"\n      ],\n      \"rationale\": \"All six expressions are monomials in the same two undefined function applications G0 and V, evaluated at the same symbolic argument. F01, F02, and F03 are the exponent choices (1,2), (1,0), and (0,1) respectively, specialized to p and q. This is a structural parameterized family, not an externally introduced physical object.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

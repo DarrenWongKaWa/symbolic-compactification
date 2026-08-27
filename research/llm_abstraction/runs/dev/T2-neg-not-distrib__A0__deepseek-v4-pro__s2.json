@@ -34,7 +34,7 @@
     "n_hypotheses": 2,
     "n_parse_failure_hyps": 0,
     "type_hit": true,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -70,22 +70,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F((x)*y + (x)*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F((x)*y + (w)*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "F(u*y + v*z)"
+      "latent_object": "F(u*y + v*z)",
+      "core": "F(u*y + v*z)"
     },
     {
       "constructable": true,
@@ -96,22 +97,23 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "F((1)*x*y + (1)*x*z + (0)*w*z)",
+          "instantiated": "F(x*y + x*z)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "F(x*y + w*z)",
-          "instantiated": "F((1)*x*y + (0)*x*z + (1)*w*z)",
+          "instantiated": "F(w*z + x*y)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "basis_reduction",
       "d_level": "D5",
-      "latent_object": "F(c1*x*y + c2*x*z + c3*w*z)"
+      "latent_object": "F(c1*x*y + c2*x*z + c3*w*z)",
+      "core": "F(c1*x*y + c2*x*z + c3*w*z)"
     }
   ],
   "hypotheses": [
@@ -225,5 +227,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(u*y + v*z)\",\n      \"parameters\": [\"u\", \"v\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"u\": \"x\", \"v\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"u\": \"x\", \"v\": \"w\"}}\n      ],\n      \"construction_plan\": \"Instantiate the bilinear argument template u*y + v*z with (u,v)=(x,x) for the first member and (u,v)=(x,w) for the second member, then apply F.\",\n      \"required_assumptions\": [\"Multiplication distributes over addition: x*(y+z)=x*y+x*z.\"],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(u*y+v*z)|_{u=x,v=x} = 0 after distributing x over y+z\",\n        \"F(x*y + w*z) - F(u*y+v*z)|_{u=x,v=w} = 0\"\n      ],\n      \"rationale\": \"Both F arguments are evaluations of one bilinear template F(u*y+v*z); they differ only by choosing the second coefficient as x versus w.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"basis_reduction\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"F(c1*x*y + c2*x*z + c3*w*z)\",\n      \"parameters\": [\"c1\", \"c2\", \"c3\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"c1\": \"1\", \"c2\": \"1\", \"c3\": \"0\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"c1\": \"1\", \"c2\": \"0\", \"c3\": \"1\"}}\n      ],\n      \"construction_plan\": \"Express each F argument in the monomial basis {x*y, x*z, w*z}; the first has coefficients (1,1,0), the second has coefficients (1,0,1).\",\n      \"required_assumptions\": [\"The polynomial arguments are regarded in the span of {x*y, x*z, w*z}.\"],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(1*x*y + 1*x*z + 0*w*z) = 0\",\n        \"F(x*y + w*z) - F(1*x*y + 0*x*z + 1*w*z) = 0\"\n      ],\n      \"rationale\": \"The two arguments share the basis element x*y and differ by selecting either x*z or w*z as the second term; this explains the visible algebraic overlap.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

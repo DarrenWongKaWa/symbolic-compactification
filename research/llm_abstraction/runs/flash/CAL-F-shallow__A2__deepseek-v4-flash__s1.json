@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -68,19 +68,20 @@
           "instantiated": "I*theta*mu",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "I*beta*mu",
           "instantiated": "I*theta*mu",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "I*theta*mu"
+      "latent_object": "I*theta*mu",
+      "core": "I*theta*mu"
     }
   ],
   "hypotheses": [
@@ -133,5 +134,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"-I*mu\", \"I*beta*mu\"],\n      \"latent_object\": \"I*theta*mu\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"-I*mu\", \"O\": \"specialize\"},\n        {\"member\": \"I*beta*mu\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"-I*mu\", \"theta\": \"-1\"},\n        {\"member\": \"I*beta*mu\", \"theta\": \"beta\"}\n      ],\n      \"construction_plan\": \"Generate each member by specializing the latent object I*theta*mu: set theta = -1 to obtain -I*mu, and set theta = beta to obtain I*beta*mu.\",\n      \"required_assumptions\": [\"theta is a scalar parameter symbol\", \"mu is a commutative scalar symbol\"],\n      \"proof_obligations\": [\n        \"-I*mu - specialize(I*theta*mu, theta=-1) = 0\",\n        \"I*beta*mu - specialize(I*theta*mu, theta=beta) = 0\"\n      ],\n      \"rationale\": \"The structural observation packet F01 reports a frozen LGG template I*mu*theta0 with hole values (-1, beta), showing that -I*mu and I*beta*mu are substitution instances of the same monomial-in-mu with a scalar coefficient. This is a parameterized family in the coefficient theta.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

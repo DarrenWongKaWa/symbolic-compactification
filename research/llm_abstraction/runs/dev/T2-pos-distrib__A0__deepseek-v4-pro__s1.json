@@ -68,19 +68,20 @@
           "instantiated": "a*b+a*c",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "F(x*(y + z))",
           "instantiated": "a*b+a*c",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "F(phi), where phi ranges over the equivalence class of the polynomial x*y + x*z under the distributive law a*(b+c)=a*b+a*c"
+      "latent_object": "F(phi), where phi ranges over the equivalence class of the polynomial x*y + x*z under the distributive law a*(b+c)=a*b+a*c",
+      "core": "a*b+a*c"
     }
   ],
   "hypotheses": [
@@ -136,5 +137,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"F(x*(y + z))\",\n        \"F(x*y + x*z)\"\n      ],\n      \"latent_object\": \"F(phi), where phi ranges over the equivalence class of the polynomial x*y + x*z under the distributive law a*(b+c)=a*b+a*c\",\n      \"parameters\": [\"phi\"],\n      \"operators\": [\n        {\"member\": \"F(x*y + x*z)\", \"O\": \"identity\"},\n        {\"member\": \"F(x*(y + z))\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*y + x*z)\", \"theta\": {\"phi\": \"x*y + x*z\"}},\n        {\"member\": \"F(x*(y + z))\", \"theta\": {\"phi\": \"x*(y + z)\"}}\n      ],\n      \"construction_plan\": \"Fix the canonical expanded argument phi0 = x*y + x*z. The first target term is F(phi0). The second target term is obtained by specializing phi to the factored representative x*(y + z) in the same equivalence class.\",\n      \"required_assumptions\": [\n        \"x, y, z are elements of an algebraic structure where multiplication distributes over addition\"\n      ],\n      \"proof_obligations\": [\n        \"Show x*(y + z) equals x*y + x*z under the distributivity axiom.\",\n        \"Show both target members are applications of the same unary kernel F to representatives of this equivalence class.\"\n      ],\n      \"rationale\": \"The raw expression is a sum of two F-terms whose arguments are syntactically different but structurally related by the distributive law; this is naturally a repeated kernel over an argument equivalence class.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

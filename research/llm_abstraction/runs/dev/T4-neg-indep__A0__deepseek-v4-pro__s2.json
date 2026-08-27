@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"The raw expression is a single arbitrary sum F(z)+G(z) of two uninterpreted unary functions with no declared assumptions, parameters, or structural constraints. There is insufficient evidence of multiple non-identical structural families to propose a non-trivial latent object or operator.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

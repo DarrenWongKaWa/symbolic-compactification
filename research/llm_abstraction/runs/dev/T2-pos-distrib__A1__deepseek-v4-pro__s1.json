@@ -35,14 +35,14 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
+    "construction_ok": true,
     "certified": false,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
     "n_zero": 0,
-    "n_nonzero": 0,
-    "n_unknown": 4,
+    "n_nonzero": 2,
+    "n_unknown": 2,
     "d_attempted": [
       "D3",
       "D5"
@@ -67,48 +67,50 @@
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "H((x),(y),(z),(0)) = F(if (0)=0 then (x)*((y)+(z)) else (x)*(y)+(x)*(z))",
+          "instantiated": "F(if r=0 then u*(v+w) else u*v+u*w)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "F(x*y+x*z)",
-          "instantiated": "H((x),(y),(z),(1)) = F(if (1)=0 then (x)*((y)+(z)) else (x)*(y)+(x)*(z))",
+          "instantiated": "F(if r=0 then u*(v+w) else u*v+u*w)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "H(u,v,w,r) = F(if r=0 then u*(v+w) else u*v+u*w)"
+      "latent_object": "H(u,v,w,r) = F(if r=0 then u*(v+w) else u*v+u*w)",
+      "core": "F(if r=0 then u*(v+w) else u*v+u*w)"
     },
     {
-      "constructable": false,
+      "constructable": true,
       "certified": false,
       "n_zero": 0,
-      "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_nonzero": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "F(x*(y+z))",
-          "instantiated": "Q = x*y + x*z with two (q_factored)s: q_factored = x*(y+z), q_expanded = x*y+x*z; represented F-call is F(Q)",
+          "instantiated": "x*y + x*z",
           "operator": "specialize",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "NONZERO",
+          "note": "instantiate"
         },
         {
           "member": "F(x*y+x*z)",
-          "instantiated": "Q = x*y + x*z with two (q_expanded)s: q_factored = x*(y+z), q_expanded = x*y+x*z; represented F-call is F(Q)",
+          "instantiated": "x*y + x*z",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "NONZERO",
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "Q = x*y + x*z with two presentations: q_factored = x*(y+z), q_expanded = x*y+x*z; represented F-call is F(Q)"
+      "latent_object": "Q = x*y + x*z with two presentations: q_factored = x*(y+z), q_expanded = x*y+x*z; represented F-call is F(Q)",
+      "core": "x*y+x*z"
     }
   ],
   "hypotheses": [
@@ -225,5 +227,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+x*z)\"],\n      \"latent_object\": \"H(u,v,w,r) = F(if r=0 then u*(v+w) else u*v+u*w)\",\n      \"parameters\": [\"u\", \"v\", \"w\", \"r\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"u\": \"x\", \"v\": \"y\", \"w\": \"z\", \"r\": \"0\"}},\n        {\"member\": \"F(x*y+x*z)\", \"theta\": {\"u\": \"x\", \"v\": \"y\", \"w\": \"z\", \"r\": \"1\"}}\n      ],\n      \"construction_plan\": \"Define a two-branch family H whose argument is either the factored presentation u*(v+w) or the expanded presentation u*v+u*w. Instantiate H at (x,y,z,r=0) for the first F-call and at (x,y,z,r=1) for the second F-call.\",\n      \"required_assumptions\": [\n        \"F is a unary function symbol\",\n        \"The discrete parameter r selects the syntactic presentation\"\n      ],\n      \"proof_obligations\": [\n        \"H(x,y,z,0) - F(x*(y+z)) = 0\",\n        \"H(x,y,z,1) - F(x*y+x*z) = 0\"\n      ],\n      \"rationale\": \"The two summands differ only in the syntactic form of the argument to F; a two-branch presentation family captures this without assuming equality of arguments.\",\n      \"confidence\": 0.55\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+x*z)\"],\n      \"latent_object\": \"Q = x*y + x*z with two presentations: q_factored = x*(y+z), q_expanded = x*y+x*z; represented F-call is F(Q)\",\n      \"parameters\": [\"x\", \"y\", \"z\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+x*z)\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"presentation\": \"q_factored\"}},\n        {\"member\": \"F(x*y+x*z)\", \"theta\": {\"presentation\": \"q_expanded\"}}\n      ],\n      \"construction_plan\": \"Identify the common polynomial Q = x*y+x*z. Present Q in factored form for the first member and in expanded form for the second member; apply F to the selected presentation.\",\n      \"required_assumptions\": [\n        \"Multiplication distributes over addition in the intended algebra\"\n      ],\n      \"proof_obligations\": [\n        \"x*(y+z) - (x*y+x*z) = 0\",\n        \"F(x*(y+z)) - F(x*y+x*z) = 0 under substitution of equal arguments\"\n      ],\n      \"rationale\": \"The two F-call arguments are related by the distributivity symmetry; the structural change is a rewrite between factored and expanded presentations of the same polynomial.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

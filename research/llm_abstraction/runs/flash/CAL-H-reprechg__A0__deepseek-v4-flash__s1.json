@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1,1)",
-          "instantiated": "M((1),(1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2,2)",
-          "instantiated": "M((2),(2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "M(a,a)"
+      "latent_object": "M(a,a)",
+      "core": "M(a,a)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1,1)\", \"M(2,2)\"],\n      \"latent_object\": \"M(a,a)\",\n      \"parameters\": [\"a\"],\n      \"operators\": [\n        {\"member\": \"M(1,1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2,2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1,1)\", \"theta\": {\"a\": \"1\"}},\n        {\"member\": \"M(2,2)\", \"theta\": {\"a\": \"2\"}}\n      ],\n      \"construction_plan\": \"Treat the two argument function M as a template. The latent object is the diagonal restriction M(a,a) obtained by equating the two arguments. Each target member is produced by substituting a single parameter value: a=1 for M(1,1) and a=2 for M(2,2).\",\n      \"required_assumptions\": [\"M is defined on pairs (1,1) and (2,2).\"],\n      \"proof_obligations\": [\n        \"M(1,1) - specialize(M(a,a), a=1) = 0\",\n        \"M(2,2) - specialize(M(a,a), a=2) = 0\"\n      ],\n      \"rationale\": \"The two terms share the same function M and the same pattern of equal arguments; they differ only in the chosen index value. This is directly captured by a one-parameter family of diagonal evaluations.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "K(n)*a(n)",
-          "instantiated": "K(n)*(a)(n)",
+          "instantiated": "K(n)*a(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "K(n)*b(n)",
-          "instantiated": "K(n)*(b)(n)",
+          "instantiated": "K(n)*b(n)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K(n)*q(n)"
+      "latent_object": "K(n)*q(n)",
+      "core": "K(n)*q(n)"
     }
   ],
   "hypotheses": [
@@ -139,5 +140,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*q(n)\",\n      \"parameters\": [\"q\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"q\": \"a\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"q\": \"b\"}}\n      ],\n      \"construction_plan\": \"Instantiate the template K(n)*q(n) by replacing the parameter q with the function symbol a to obtain K(n)*a(n), and with b to obtain K(n)*b(n). The raw expression is the sum of these two instantiations.\",\n      \"required_assumptions\": [\n        \"K(n), a(n), and b(n) are defined for the declared symbol n\",\n        \"The two product terms are generated from the same template and then summed\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*q(n))[q=a] = 0\",\n        \"K(n)*b(n) - (K(n)*q(n))[q=b] = 0\"\n      ],\n      \"rationale\": \"Both non-identical terms share the same multiplicative factor K(n), so they can be viewed as specializations of a single product template K(n)*q(n) with q replaced by the two different function symbols a and b.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

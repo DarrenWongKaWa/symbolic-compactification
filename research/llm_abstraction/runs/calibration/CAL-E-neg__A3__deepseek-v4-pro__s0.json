@@ -34,7 +34,7 @@
     "n_hypotheses": 1,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": true,
     "certified": true,
     "false_abstraction": true,
@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "G0(p)*V(p)**2",
-          "instantiated": "(V(p))**2 * (G0(p))",
+          "instantiated": "G0(p)*V(p)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "H0(q)*W(q)**2",
-          "instantiated": "(W(q))**2 * (H0(q))",
+          "instantiated": "H0(q)*W(q)**2",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "theta0**2 * theta1"
+      "latent_object": "theta0**2 * theta1",
+      "core": "theta0**2 * theta1"
     }
   ],
   "hypotheses": [
@@ -141,5 +142,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"G0(p)*V(p)**2\",\n        \"H0(q)*W(q)**2\"\n      ],\n      \"latent_object\": \"theta0**2 * theta1\",\n      \"parameters\": [\n        \"theta0\",\n        \"theta1\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0(p)*V(p)**2\",\n          \"theta\": {\n            \"theta0\": \"V(p)\",\n            \"theta1\": \"G0(p)\"\n          }\n        },\n        {\n          \"member\": \"H0(q)*W(q)**2\",\n          \"theta\": {\n            \"theta0\": \"W(q)\",\n            \"theta1\": \"H0(q)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template T(theta0,theta1)=theta0**2*theta1 with the substitutions given in instance_maps. Since multiplication is AC, the order of factors can be normalized to match each member.\",\n      \"required_assumptions\": [\n        \"Multiplication is associative and commutative, so factor order is not significant.\"\n      ],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - AC_normal(T(theta0,theta1)[theta0=V(p),theta1=G0(p)]) = 0\",\n        \"H0(q)*W(q)**2 - AC_normal(T(theta0,theta1)[theta0=W(q),theta1=H0(q)]) = 0\"\n      ],\n      \"rationale\": \"The two members are syntactically matched by the AC-robust template theta0**2*theta1: each is a product of a squared univariate function and another univariate function over the same variable, with paired symbol substitutions (p,V,G0) and (q,W,H0).\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

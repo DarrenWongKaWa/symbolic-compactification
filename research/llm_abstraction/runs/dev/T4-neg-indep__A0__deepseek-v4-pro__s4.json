@@ -55,5 +55,6 @@
   "hypotheses": [],
   "raw_content": "{\n  \"abstain\": true,\n  \"abstain_reason\": \"Only one raw expression is provided, F(z)+G(z), and no relations or additional structural families among F and G are declared. Any latent object would reduce to a trivial addition template or leaf specialization rather than a non-trivial shared structure.\",\n  \"hypotheses\": []\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

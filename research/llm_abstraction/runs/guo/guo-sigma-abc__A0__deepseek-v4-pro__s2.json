@@ -34,7 +34,7 @@
     "n_hypotheses": 3,
     "n_parse_failure_hyps": 0,
     "type_hit": false,
-    "targeting_hit": false,
+    "targeting_hit": true,
     "construction_ok": false,
     "certified": false,
     "false_abstraction": false,
@@ -68,22 +68,23 @@
       "obligations": [
         {
           "member": "S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))",
-          "instantiated": "Piecewise(D2(n), Eq(m,n), O2(m,n), True), where D2(n) is the h1/h2-free diagonal coefficient and O2(m,n) is the h1/h2-free off-diagonal coefficient from S1",
+          "instantiated": "Piecewise(D2(n), Eq(m,n), O2(m,n), True)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))",
-          "instantiated": "Piecewise(D2(n), Eq(m,n), O2(m,n), True), where D2(n) is the h1/h2-free diagonal coefficient and O2(m,n) is the h1/h2-free off-diagonal coefficient from S1",
+          "instantiated": "Piecewise(D2(n), Eq(m,n), O2(m,n), True)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K2(m,n) = Piecewise(D2(n), Eq(m,n), O2(m,n), True), where D2(n) is the h1/h2-free diagonal coefficient and O2(m,n) is the h1/h2-free off-diagonal coefficient from S1"
+      "latent_object": "K2(m,n) = Piecewise(D2(n), Eq(m,n), O2(m,n), True), where D2(n) is the h1/h2-free diagonal coefficient and O2(m,n) is the h1/h2-free off-diagonal coefficient from S1",
+      "core": "Piecewise(D2(n), Eq(m,n), O2(m,n), True)"
     },
     {
       "constructable": false,
@@ -94,22 +95,23 @@
       "obligations": [
         {
           "member": "S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))",
-          "instantiated": "Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True), where C0-C4 are the h1-free coefficient blocks from S3",
+          "instantiated": "Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True)",
           "operator": "identity",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "unparseable_latent"
         },
         {
           "member": "S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))",
-          "instantiated": "Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True), where C0-C4 are the h1-free coefficient blocks from S3",
+          "instantiated": "Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True)",
           "operator": "permute",
           "verdict": "UNKNOWN",
-          "note": "permute"
+          "note": "unparseable_latent"
         }
       ],
       "hypothesis_type": "repeated_kernel",
       "d_level": "D2",
-      "latent_object": "K3(m,n,ell) = Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True), where C0-C4 are the h1-free coefficient blocks from S3"
+      "latent_object": "K3(m,n,ell) = Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True), where C0-C4 are the h1-free coefficient blocks from S3",
+      "core": "Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True)"
     },
     {
       "constructable": false,
@@ -120,36 +122,37 @@
       "obligations": [
         {
           "member": "S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))",
-          "instantiated": "P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
+          "instantiated": "1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))",
-          "instantiated": "P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
+          "instantiated": "1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))",
-          "instantiated": "P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
+          "instantiated": "1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         },
         {
           "member": "S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))",
-          "instantiated": "P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
+          "instantiated": "1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
           "operator": "specialize",
           "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "note": "no_candidate"
         }
       ],
       "hypothesis_type": "basis_reduction",
       "d_level": "D5",
-      "latent_object": "P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)"
+      "latent_object": "P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)",
+      "core": "1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)"
     }
   ],
   "hypotheses": [
@@ -361,5 +364,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n        \"S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))\"\n      ],\n      \"latent_object\": \"K2(m,n) = Piecewise(D2(n), Eq(m,n), O2(m,n), True), where D2(n) is the h1/h2-free diagonal coefficient and O2(m,n) is the h1/h2-free off-diagonal coefficient from S1\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\", \"a\", \"b\", \"c\", \"m\", \"n\"],\n      \"operators\": [\n        {\"member\": \"S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))\", \"O\": \"identity\"},\n        {\"member\": \"S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n          \"theta\": {\n            \"h_factor\": \"h1(b,n,m)*h2(a,c,m,n)\",\n            \"kernel\": \"K2(m,n)\"\n          }\n        },\n        {\n          \"member\": \"S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n          \"theta\": {\n            \"h_factor\": \"h1(c,n,m)*h2(a,b,m,n)\",\n            \"kernel\": \"K2(m,n)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Factor the double-sum terms as K2(m,n) times a product of h1 and h2. S1 uses K2(m,n)*h1(b,n,m)*h2(a,c,m,n); S2 uses the same K2(m,n) but with the external labels permuted to h1(c,n,m)*h2(a,b,m,n).\",\n      \"required_assumptions\": [\n        \"K2(m,n) does not depend on the external labels a,b,c except through the attached h1/h2 factor\"\n      ],\n      \"proof_obligations\": [\n        \"For the Eq(m,n) branch: K2_diag_from_S1(n) - K2_diag_from_S2(n) = 0\",\n        \"For the True branch: K2_offdiag_from_S1(m,n) - K2_offdiag_from_S2(m,n) = 0\"\n      ],\n      \"rationale\": \"The first two double sums have identical polygamma and rational coefficient structure; only the h1/h2 prefactors differ by a permutation of the labels b and c.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\",\n        \"S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\"\n      ],\n      \"latent_object\": \"K3(m,n,ell) = Piecewise(C0(n), Eq(ell,m) & Eq(m,n), C1(m,n), Eq(m,n), C2(m,n,ell), Eq(ell,n), C3(m,n,ell), Eq(ell,m), C4(m,n,ell), True), where C0-C4 are the h1-free coefficient blocks from S3\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\", \"a\", \"b\", \"c\", \"m\", \"n\", \"ell\"],\n      \"operators\": [\n        {\"member\": \"S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\", \"O\": \"identity\"},\n        {\"member\": \"S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\",\n          \"theta\": {\n            \"h_factor\": \"h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\",\n            \"kernel\": \"K3(m,n,ell)\"\n          }\n        },\n        {\n          \"member\": \"S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\",\n          \"theta\": {\n            \"h_factor\": \"h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)\",\n            \"kernel\": \"K3(m,n,ell)\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Factor the triple-sum terms as K3(m,n,ell) times a product of three h1 factors. S3 uses K3(m,n,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell); S4 uses the same K3(m,n,ell) with the b and c h1 index orientation permuted to h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m).\",\n      \"required_assumptions\": [\n        \"K3(m,n,ell) is independent of the external labels a,b,c once the h1 prefactor is factored out\"\n      ],\n      \"proof_obligations\": [\n        \"For the fully coincident branch Eq(ell,m)&Eq(m,n): K3_branch0_from_S3 - K3_branch0_from_S4 = 0\",\n        \"For the Eq(m,n) branch: K3_branch1_from_S3 - K3_branch1_from_S4 = 0\",\n        \"For the Eq(ell,n) branch: K3_branch2_from_S3 - K3_branch2_from_S4 = 0\",\n        \"For the Eq(ell,m) branch: K3_branch3_from_S3 - K3_branch3_from_S4 = 0\",\n        \"For the True branch: K3_branch4_from_S3 - K3_branch4_from_S4 = 0\"\n      ],\n      \"rationale\": \"The third and fourth triple sums contain the same five branch coefficient blocks; only the h1 index pattern changes from one cyclic orientation to another.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"basis_reduction\",\n      \"target_members\": [\n        \"S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n        \"S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n        \"S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\",\n        \"S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\"\n      ],\n      \"latent_object\": \"P_k(z_{s,j}) = polygamma(k, z_{s,j}), with k=0,...,4, s in {+,-}, j in {m,n,ell}, where z_{+j} = 1/2 + beta*(gamma + I*mu - I*epsilon(j))/(2*pi) and z_{-j} = 1/2 + beta*(gamma - I*mu + I*epsilon(j))/(2*pi)\",\n      \"parameters\": [\"beta\", \"gamma\", \"mu\", \"epsilon\", \"k\", \"s\", \"j\"],\n      \"operators\": [\n        {\"member\": \"S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))\", \"O\": \"specialize\"},\n        {\"member\": \"S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))\", \"O\": \"specialize\"},\n        {\"member\": \"S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\", \"O\": \"specialize\"},\n        {\"member\": \"S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"S1: Sum(Piecewise(... h1(b,n,m)*h2(a,c,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n          \"theta\": {\n            \"allowed_arguments\": \"z_{+m}, z_{-m}, z_{+n}, z_{-n}\",\n            \"orders\": \"0..3\"\n          }\n        },\n        {\n          \"member\": \"S2: Sum(Piecewise(... h1(c,n,m)*h2(a,b,m,n) ...), (n,1,Nb),(m,1,Nb))\",\n          \"theta\": {\n            \"allowed_arguments\": \"z_{+m}, z_{-m}, z_{+n}, z_{-n}\",\n            \"orders\": \"0..3\"\n          }\n        },\n        {\n          \"member\": \"S3: Sum(Piecewise(... h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\",\n          \"theta\": {\n            \"allowed_arguments\": \"z_{+m}, z_{-m}, z_{+n}, z_{-n}, z_{+ell}, z_{-ell}\",\n            \"orders\": \"0..4\"\n          }\n        },\n        {\n          \"member\": \"S4: Sum(Piecewise(... h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) ...), (n,1,Nb),(m,1,Nb),(ell,1,Nb))\",\n          \"theta\": {\n            \"allowed_arguments\": \"z_{+m}, z_{-m}, z_{+n}, z_{-n}, z_{+ell}, z_{-ell}\",\n            \"orders\": \"0..4\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Replace each polygamma(k, argument) in the raw expression by P_k(z_{s,j}) after matching the argument to the corresponding signed shifted variable z_{+j} or z_{-j}. Leave all polynomial, rational, denominator, and h1/h2 prefactors unchanged.\",\n      \"required_assumptions\": [\n        \"z_{+j} and z_{-j} are treated as separate symbolic basis arguments except where equality of epsilon values or mu forces coincidences\",\n        \"The only polygamma orders appearing are k=0 through k=4\"\n      ],\n      \"proof_obligations\": [\n        \"For every polygamma term in S1-S4, the original argument minus the matched z_{s,j} is identically zero\",\n        \"No polygamma argument in S1-S4 lies outside the two signed-index families\",\n        \"The coefficient of each P_k(z_{s,j}) is exactly the original rational/polynomial coefficient after substitution\"\n      ],\n      \"rationale\": \"All polygamma arguments in the entire expression are of the two shifted sign-index forms.",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

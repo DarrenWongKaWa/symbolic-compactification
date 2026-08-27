@@ -35,52 +35,55 @@
     "n_parse_failure_hyps": 0,
     "type_hit": true,
     "targeting_hit": true,
-    "construction_ok": false,
-    "certified": false,
+    "construction_ok": true,
+    "certified": true,
     "false_abstraction": false,
     "unnecessary": false,
     "representation_change": true,
-    "n_zero": 0,
+    "n_zero": 2,
     "n_nonzero": 0,
-    "n_unknown": 2,
+    "n_unknown": 0,
     "d_attempted": [
       "D5"
     ],
-    "d_certified": [],
+    "d_certified": [
+      "D5"
+    ],
     "highest_attempted": "D5",
-    "highest_certified": null,
-    "quality": "gold-like-but-unsupported",
-    "success": false,
+    "highest_certified": "D5",
+    "quality": "useful",
+    "success": true,
     "types": [
       "symmetry_invariant"
     ]
   },
   "constructions": [
     {
-      "constructable": false,
-      "certified": false,
-      "n_zero": 0,
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
       "n_nonzero": 0,
-      "n_unknown": 2,
+      "n_unknown": 0,
       "obligations": [
         {
           "member": "T(i, j)",
-          "instantiated": "T((i),(j)), (i) (j)in(i)ry kernel templ(i)te with (i)n S2 (i)rgument-permut(i)tion (i)ction",
+          "instantiated": "T(i, j)",
           "operator": "identity",
-          "verdict": "UNKNOWN",
-          "note": "identity_or_specialize"
+          "verdict": "ZERO",
+          "note": "instantiate"
         },
         {
           "member": "T(j, i)",
-          "instantiated": "T((i),(j)), (i) (j)in(i)ry kernel templ(i)te with (i)n S2 (i)rgument-permut(i)tion (i)ction",
+          "instantiated": "T(j, i)",
           "operator": "permute",
-          "verdict": "UNKNOWN",
-          "note": "permute"
+          "verdict": "ZERO",
+          "note": "permute_inst_args"
         }
       ],
       "hypothesis_type": "symmetry_invariant",
       "d_level": "D5",
-      "latent_object": "K(a,b) = T(a,b), a binary kernel template with an S2 argument-permutation action"
+      "latent_object": "K(a,b) = T(a,b), a binary kernel template with an S2 argument-permutation action",
+      "core": "T(a,b)"
     }
   ],
   "hypotheses": [
@@ -140,5 +143,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"K(a,b) = T(a,b), a binary kernel template with an S2 argument-permutation action\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}}\n      ],\n      \"construction_plan\": \"Start with K(a,b)=T(a,b). For T(i,j), apply identity and instantiate a=i,b=j. For T(j,i), apply the permutation operator that swaps the two arguments of K and then instantiate a=i,b=j.\",\n      \"required_assumptions\": [\n        \"T is an undefined two-argument function\",\n        \"argument permutation is a syntactic swap of the two slots\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - identity(K(a,b))[a:=i,b:=j] = 0\",\n        \"T(j, i) - permute(K(a,b))[a:=i,b:=j] = 0\"\n      ],\n      \"rationale\": \"The two summands are the two elements of the argument-swap orbit of the same binary kernel T, so a single template with identity and permutation operators explains both non-identical terms.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }

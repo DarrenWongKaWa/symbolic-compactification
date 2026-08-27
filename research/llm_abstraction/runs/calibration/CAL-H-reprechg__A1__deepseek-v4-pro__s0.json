@@ -67,22 +67,23 @@
       "obligations": [
         {
           "member": "M(1, 1)",
-          "instantiated": "M((1), (1))",
+          "instantiated": "M(1, 1)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         },
         {
           "member": "M(2, 2)",
-          "instantiated": "M((2), (2))",
+          "instantiated": "M(2, 2)",
           "operator": "specialize",
           "verdict": "ZERO",
-          "note": "identity_or_specialize"
+          "note": "instantiate"
         }
       ],
       "hypothesis_type": "parameterized_family",
       "d_level": "D3",
-      "latent_object": "g(t) = M(t, t)"
+      "latent_object": "g(t) = M(t, t)",
+      "core": "M(t, t)"
     }
   ],
   "hypotheses": [
@@ -138,5 +139,6 @@
   ],
   "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"g(t) = M(t, t)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"t\": \"1\"}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"t\": \"2\"}}\n      ],\n      \"construction_plan\": \"Define a univariate diagonal specialization g(t) = M(t, t). Evaluate g at t=1 and t=2 to obtain the two M-calls; the raw expression is their sum.\",\n      \"required_assumptions\": [\"The diagonal specialization M(t, t) is defined for the integer arguments 1 and 2.\"],\n      \"proof_obligations\": [\"g(1) - M(1, 1) = 0\", \"g(2) - M(2, 2) = 0\"],\n      \"rationale\": \"Both M-calls are diagonal evaluations of the same declared bivariate function M, so they are members of the one-parameter diagonal specialization M(t, t).\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
   "error": null,
-  "blocked": false
+  "blocked": false,
+  "rescored_constructor": "expr_xreplace_v2"
 }
