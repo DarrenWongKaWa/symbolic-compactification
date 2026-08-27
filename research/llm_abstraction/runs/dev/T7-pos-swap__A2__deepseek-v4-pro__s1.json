@@ -1,0 +1,143 @@
+{
+  "stage": "dev",
+  "item_id": "T7-pos-swap",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1327,
+    "completion_tokens": 4593,
+    "total_tokens": 5920,
+    "reasoning_tokens": 4136,
+    "cached_tokens": 1280
+  },
+  "latency_s": 75.659,
+  "request_id": "839a8fa7-2ee3-4d42-a804-612e9b3b5640",
+  "reasoning_len": 16251,
+  "eval": {
+    "id": "T7-pos-swap",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 1,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "T(i, j)",
+          "instantiated": "T((i), (j))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "instantiated": "T((i), (j))",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "F(u, v) = T(u, v)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "T(i, j)",
+        "T(j, i)"
+      ],
+      "latent_object": "F(u, v) = T(u, v)",
+      "parameters": [
+        "u",
+        "v"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j)",
+          "O": "identity"
+        },
+        {
+          "member": "T(j, i)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j)",
+          "theta": {
+            "u": "i",
+            "v": "j"
+          }
+        },
+        {
+          "member": "T(j, i)",
+          "theta": {
+            "u": "i",
+            "v": "j"
+          }
+        }
+      ],
+      "construction_plan": "Define the latent ordered two-slot kernel F(u,v)=T(u,v). Let P be the S2 permutation operator P[F(u,v)]=F(v,u). The term T(i,j) is the identity orbit representative F(i,j). Applying P gives T(j,i). The raw expression is the orbit sum F(i,j)+P[F(i,j)] over the two-element argument-permutation group.",
+      "required_assumptions": [
+        "T has two distinguishable ordered argument slots so the swap u<->v is a nontrivial operator."
+      ],
+      "proof_obligations": [
+        "T(i, j) - identity[F(u, v) with u=i, v=j] = 0",
+        "T(j, i) - permute[F(u, v) with u=i, v=j] = 0"
+      ],
+      "rationale": "The two non-identical subexpressions are the same applied function T with its two indices interchanged; the index swap is exactly the nontrivial S2 permutation action on the ordered argument slots. This represents the expression as a symmetrized orbit sum without introducing any leaf-substitution-only parameter family.",
+      "confidence": 0.73,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"F(u, v) = T(u, v)\",\n      \"parameters\": [\"u\", \"v\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"u\": \"i\", \"v\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"u\": \"i\", \"v\": \"j\"}}\n      ],\n      \"construction_plan\": \"Define the latent ordered two-slot kernel F(u,v)=T(u,v). Let P be the S2 permutation operator P[F(u,v)]=F(v,u). The term T(i,j) is the identity orbit representative F(i,j). Applying P gives T(j,i). The raw expression is the orbit sum F(i,j)+P[F(i,j)] over the two-element argument-permutation group.\",\n      \"required_assumptions\": [\n        \"T has two distinguishable ordered argument slots so the swap u<->v is a nontrivial operator.\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - identity[F(u, v) with u=i, v=j] = 0\",\n        \"T(j, i) - permute[F(u, v) with u=i, v=j] = 0\"\n      ],\n      \"rationale\": \"The two non-identical subexpressions are the same applied function T with its two indices interchanged; the index swap is exactly the nontrivial S2 permutation action on the ordered argument slots. This represents the expression as a symmetrized orbit sum without introducing any leaf-substitution-only parameter family.\",\n      \"confidence\": 0.73\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

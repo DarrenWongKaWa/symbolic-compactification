@@ -1,0 +1,144 @@
+{
+  "stage": "dev",
+  "item_id": "T7-pos-swap",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A0",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 769,
+    "completion_tokens": 4196,
+    "total_tokens": 4965,
+    "reasoning_tokens": 3777,
+    "cached_tokens": 640
+  },
+  "latency_s": 73.583,
+  "request_id": "aa3abdbb-0fa1-4491-9a18-d1af69b330b0",
+  "reasoning_len": 15031,
+  "eval": {
+    "id": "T7-pos-swap",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 1,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "T(i, j)",
+          "instantiated": "T((i), (j))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "instantiated": "T((j), (i))",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "T(x, y)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "T(i, j)",
+        "T(j, i)"
+      ],
+      "latent_object": "T(x, y)",
+      "parameters": [
+        "x",
+        "y"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j)",
+          "O": "identity"
+        },
+        {
+          "member": "T(j, i)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j)",
+          "theta": {
+            "x": "i",
+            "y": "j"
+          }
+        },
+        {
+          "member": "T(j, i)",
+          "theta": {
+            "x": "j",
+            "y": "i"
+          }
+        }
+      ],
+      "construction_plan": "Start with a two-argument kernel T(x,y). The member T(i,j) is the identity specialization x=i, y=j. The member T(j,i) is obtained from the same latent object by the argument permutation (x,y)->(y,x) and then specializing x=i, y=j. The observed expression is the sum of the identity member and the permuted member, i.e. an unnormalized S2 symmetrization of T.",
+      "required_assumptions": [
+        "T is a function of two ordered arguments",
+        "i and j are valid argument labels"
+      ],
+      "proof_obligations": [
+        "T(i, j) - identity[T(x, y)] = 0",
+        "T(j, i) - permute[T(x, y)] = 0"
+      ],
+      "rationale": "The raw expression sums T over the two possible orderings of the pair (i,j), which is exactly the structure of an unnormalized symmetrization of an arbitrary two-argument function.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"x\": \"i\", \"y\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"x\": \"j\", \"y\": \"i\"}}\n      ],\n      \"construction_plan\": \"Start with a two-argument kernel T(x,y). The member T(i,j) is the identity specialization x=i, y=j. The member T(j,i) is obtained from the same latent object by the argument permutation (x,y)->(y,x) and then specializing x=i, y=j. The observed expression is the sum of the identity member and the permuted member, i.e. an unnormalized S2 symmetrization of T.\",\n      \"required_assumptions\": [\n        \"T is a function of two ordered arguments\",\n        \"i and j are valid argument labels\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - identity[T(x, y)] = 0\",\n        \"T(j, i) - permute[T(x, y)] = 0\"\n      ],\n      \"rationale\": \"The raw expression sums T over the two possible orderings of the pair (i,j), which is exactly the structure of an unnormalized symmetrization of an arbitrary two-argument function.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,144 @@
+{
+  "stage": "packet_size",
+  "item_id": "CAL-C-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 20,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1307,
+    "completion_tokens": 3339,
+    "total_tokens": 4646,
+    "reasoning_tokens": 2890,
+    "cached_tokens": 1280
+  },
+  "latency_s": 49.756,
+  "request_id": "0da45a26-d3fa-4e1f-aa25-0ba40104bce7",
+  "reasoning_len": 11453,
+  "eval": {
+    "id": "CAL-C-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "polygamma(theta, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "polygamma(theta, z)",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "theta": 0
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "theta": 1
+          }
+        }
+      ],
+      "construction_plan": "Introduce the parameterized expression polygamma(theta, z). The two members are obtained by specializing theta to 0 and 1. The structural observation that diff(polygamma(0,z), z) equals polygamma(1,z) is captured as a separate exact constraint on the parameterized family, not as a direct instantiation of theta.",
+      "required_assumptions": [
+        "polygamma(n, z) is defined for n=0 and n=1",
+        "The derivative relation d/dz polygamma(0,z)=polygamma(1,z) is available as a symbolic fact"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - specialize_{theta=0} polygamma(theta,z) = 0",
+        "polygamma(1, z) - specialize_{theta=1} polygamma(theta,z) = 0",
+        "diff(polygamma(0,z), z) - polygamma(1,z) = 0"
+      ],
+      "rationale": "The two terms share the same named function with consecutive first arguments, so a parameterized polygamma template explains their structural relationship without needing any simplification of the full sum.",
+      "confidence": 0.97,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(theta, z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": 0}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": 1}}\n      ],\n      \"construction_plan\": \"Introduce the parameterized expression polygamma(theta, z). The two members are obtained by specializing theta to 0 and 1. The structural observation that diff(polygamma(0,z), z) equals polygamma(1,z) is captured as a separate exact constraint on the parameterized family, not as a direct instantiation of theta.\",\n      \"required_assumptions\": [\n        \"polygamma(n, z) is defined for n=0 and n=1\",\n        \"The derivative relation d/dz polygamma(0,z)=polygamma(1,z) is available as a symbolic fact\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - specialize_{theta=0} polygamma(theta,z) = 0\",\n        \"polygamma(1, z) - specialize_{theta=1} polygamma(theta,z) = 0\",\n        \"diff(polygamma(0,z), z) - polygamma(1,z) = 0\"\n      ],\n      \"rationale\": \"The two terms share the same named function with consecutive first arguments, so a parameterized polygamma template explains their structural relationship without needing any simplification of the full sum.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

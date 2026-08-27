@@ -1,0 +1,137 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-F-shallow",
+  "category": "F1",
+  "polarity": "trap",
+  "condition": "A2",
+  "seed": 1,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1294,
+    "completion_tokens": 2616,
+    "total_tokens": 3910,
+    "reasoning_tokens": 2246,
+    "cached_tokens": 640
+  },
+  "latency_s": 22.647,
+  "request_id": "b3d6c32e-45bc-42eb-912b-93e974c59e1c",
+  "reasoning_len": 8959,
+  "eval": {
+    "id": "CAL-F-shallow",
+    "category": "F1",
+    "polarity": "trap",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": false,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D3",
+    "highest_certified": null,
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "-I*mu",
+          "instantiated": "I*theta*mu",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "I*beta*mu",
+          "instantiated": "I*theta*mu",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "I*theta*mu"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "-I*mu",
+        "I*beta*mu"
+      ],
+      "latent_object": "I*theta*mu",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "-I*mu",
+          "O": "specialize"
+        },
+        {
+          "member": "I*beta*mu",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "-I*mu",
+          "theta": "-1"
+        },
+        {
+          "member": "I*beta*mu",
+          "theta": "beta"
+        }
+      ],
+      "construction_plan": "Generate each member by specializing the latent object I*theta*mu: set theta = -1 to obtain -I*mu, and set theta = beta to obtain I*beta*mu.",
+      "required_assumptions": [
+        "theta is a scalar parameter symbol",
+        "mu is a commutative scalar symbol"
+      ],
+      "proof_obligations": [
+        "-I*mu - specialize(I*theta*mu, theta=-1) = 0",
+        "I*beta*mu - specialize(I*theta*mu, theta=beta) = 0"
+      ],
+      "rationale": "The structural observation packet F01 reports a frozen LGG template I*mu*theta0 with hole values (-1, beta), showing that -I*mu and I*beta*mu are substitution instances of the same monomial-in-mu with a scalar coefficient. This is a parameterized family in the coefficient theta.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"-I*mu\", \"I*beta*mu\"],\n      \"latent_object\": \"I*theta*mu\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"-I*mu\", \"O\": \"specialize\"},\n        {\"member\": \"I*beta*mu\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"-I*mu\", \"theta\": \"-1\"},\n        {\"member\": \"I*beta*mu\", \"theta\": \"beta\"}\n      ],\n      \"construction_plan\": \"Generate each member by specializing the latent object I*theta*mu: set theta = -1 to obtain -I*mu, and set theta = beta to obtain I*beta*mu.\",\n      \"required_assumptions\": [\"theta is a scalar parameter symbol\", \"mu is a commutative scalar symbol\"],\n      \"proof_obligations\": [\n        \"-I*mu - specialize(I*theta*mu, theta=-1) = 0\",\n        \"I*beta*mu - specialize(I*theta*mu, theta=beta) = 0\"\n      ],\n      \"rationale\": \"The structural observation packet F01 reports a frozen LGG template I*mu*theta0 with hole values (-1, beta), showing that -I*mu and I*beta*mu are substitution instances of the same monomial-in-mu with a scalar coefficient. This is a parameterized family in the coefficient theta.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

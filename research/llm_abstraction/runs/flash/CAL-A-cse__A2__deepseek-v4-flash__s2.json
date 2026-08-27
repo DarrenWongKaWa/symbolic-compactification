@@ -1,0 +1,161 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-A-cse",
+  "category": "T0",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 2,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1410,
+    "completion_tokens": 3697,
+    "total_tokens": 5107,
+    "reasoning_tokens": 3120,
+    "cached_tokens": 1408
+  },
+  "latency_s": 31.098,
+  "request_id": "f4c1be44-6ba9-4d42-b122-acfe6e2fa93a",
+  "reasoning_len": 11881,
+  "eval": {
+    "id": "CAL-A-cse",
+    "category": "T0",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 3,
+    "d_attempted": [
+      "D2"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D2",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 3,
+      "obligations": [
+        {
+          "member": "K(n)*a(n)",
+          "instantiated": "K(n)*(a(n))(n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "instantiated": "K(n)*(b(n))(n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)",
+          "instantiated": "K(n)*(1)(n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "K(n)*x(n)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "K(n)*a(n)",
+        "K(n)*b(n)",
+        "K(n)"
+      ],
+      "latent_object": "K(n)*x(n)",
+      "parameters": [
+        "x"
+      ],
+      "operators": [
+        {
+          "member": "K(n)*a(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n)*a(n)",
+          "theta": {
+            "x": "a(n)"
+          }
+        },
+        {
+          "member": "K(n)*b(n)",
+          "theta": {
+            "x": "b(n)"
+          }
+        },
+        {
+          "member": "K(n)",
+          "theta": {
+            "x": "1"
+          }
+        }
+      ],
+      "construction_plan": "Start from the template K(n)*x(n). Substitute the placeholder function x(n) by a(n), b(n), and the constant 1 to obtain K(n)*a(n), K(n)*b(n), and K(n), respectively. The template matches the frozen LGG shape theta0*K(n) reported in observation F01, while the x=1 instance produces the shared CSE member reported in F02.",
+      "required_assumptions": [
+        "n is a scalar symbol",
+        "K(n), a(n), b(n) are well-defined function applications",
+        "multiplication is associative/commutative as observed in the structural packets"
+      ],
+      "proof_obligations": [
+        "K(n)*a(n) - (K(n)*x(n))[x:=a(n)] = 0",
+        "K(n)*b(n) - (K(n)*x(n))[x:=b(n)] = 0",
+        "K(n) - (K(n)*x(n))[x:=1] = 0"
+      ],
+      "rationale": "Observation F01 identifies both product terms as instances of a common LGG template theta0*K(n); observation F02 identifies K(n) as a shared CSE. A single-parameter template K(n)*x(n) reproduces exactly those product members and the shared factor without adding auxiliary structure or simplifying the full expression.",
+      "confidence": 0.62,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\",\n        \"K(n)\"\n      ],\n      \"latent_object\": \"K(n)*x(n)\",\n      \"parameters\": [\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"x\": \"a(n)\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"x\": \"b(n)\"\n          }\n        },\n        {\n          \"member\": \"K(n)\",\n          \"theta\": {\n            \"x\": \"1\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Start from the template K(n)*x(n). Substitute the placeholder function x(n) by a(n), b(n), and the constant 1 to obtain K(n)*a(n), K(n)*b(n), and K(n), respectively. The template matches the frozen LGG shape theta0*K(n) reported in observation F01, while the x=1 instance produces the shared CSE member reported in F02.\",\n      \"required_assumptions\": [\n        \"n is a scalar symbol\",\n        \"K(n), a(n), b(n) are well-defined function applications\",\n        \"multiplication is associative/commutative as observed in the structural packets\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*x(n))[x:=a(n)] = 0\",\n        \"K(n)*b(n) - (K(n)*x(n))[x:=b(n)] = 0\",\n        \"K(n) - (K(n)*x(n))[x:=1] = 0\"\n      ],\n      \"rationale\": \"Observation F01 identifies both product terms as instances of a common LGG template theta0*K(n); observation F02 identifies K(n) as a shared CSE. A single-parameter template K(n)*x(n) reproduces exactly those product members and the shared factor without adding auxiliary structure or simplifying the full expression.\",\n      \"confidence\": 0.62\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,239 @@
+{
+  "stage": "dev",
+  "item_id": "T0-cse",
+  "category": "T0",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1310,
+    "completion_tokens": 7035,
+    "total_tokens": 8345,
+    "reasoning_tokens": 6257,
+    "cached_tokens": 1280
+  },
+  "latency_s": 101.111,
+  "request_id": "ab657d49-c78f-4a51-ab62-f07dccd27a9c",
+  "reasoning_len": 23361,
+  "eval": {
+    "id": "T0-cse",
+    "category": "T0",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 3,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family",
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "K(n)*a(n)",
+          "instantiated": "(a(n))*K(n)",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "instantiated": "(b(n))*K(n)",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "theta0*K(n)"
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 3,
+      "obligations": [
+        {
+          "member": "K(n)",
+          "instantiated": "K(n)*(1)(n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)*a(n)",
+          "instantiated": "K(n)*(a(n))(n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "instantiated": "K(n)*(b(n))(n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "K(n)*t(n)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "K(n)*a(n)",
+        "K(n)*b(n)"
+      ],
+      "latent_object": "theta0*K(n)",
+      "parameters": [
+        "theta0"
+      ],
+      "operators": [
+        {
+          "member": "K(n)*a(n)",
+          "O": "identity"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "O": "identity"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n)*a(n)",
+          "theta": {
+            "theta0": "a(n)"
+          }
+        },
+        {
+          "member": "K(n)*b(n)",
+          "theta": {
+            "theta0": "b(n)"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate theta0 as a(n) or b(n) in the LGG template theta0*K(n); use commutative/associative multiplication to match the reported K(n)*theta0 factor order.",
+      "required_assumptions": [
+        "Multiplication is commutative/associative for AC matching.",
+        "a(n) and b(n) may substitute for theta0."
+      ],
+      "proof_obligations": [
+        "K(n)*a(n) - (theta0*K(n))[theta0=a(n)] = 0",
+        "K(n)*b(n) - (theta0*K(n))[theta0=b(n)] = 0"
+      ],
+      "rationale": "F01 reports a frozen LGG template theta0*K(n) with both members as AC-equivalent substitution instances.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "K(n)",
+        "K(n)*a(n)",
+        "K(n)*b(n)"
+      ],
+      "latent_object": "K(n)*t(n)",
+      "parameters": [
+        "t"
+      ],
+      "operators": [
+        {
+          "member": "K(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)*a(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n)",
+          "theta": {
+            "t": "1"
+          }
+        },
+        {
+          "member": "K(n)*a(n)",
+          "theta": {
+            "t": "a(n)"
+          }
+        },
+        {
+          "member": "K(n)*b(n)",
+          "theta": {
+            "t": "b(n)"
+          }
+        }
+      ],
+      "construction_plan": "Substitute the second factor t(n) in K(n)*t(n) with 1, a(n), or b(n). The unit case K(n)*1 reduces to K(n).",
+      "required_assumptions": [
+        "K(n)*1 = K(n).",
+        "a(n) and b(n) are valid second-factor expressions."
+      ],
+      "proof_obligations": [
+        "K(n) - (K(n)*t(n))[t=1] = 0 after multiplicative-unit simplification",
+        "K(n)*a(n) - (K(n)*t(n))[t=a(n)] = 0",
+        "K(n)*b(n) - (K(n)*t(n))[t=b(n)] = 0"
+      ],
+      "rationale": "This product template includes the CSE-shared subexpression K(n) as the unit-cofactor instance, thereby connecting F01 and F02 without claiming a closed form.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"theta0*K(n)\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"identity\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"theta0\": \"a(n)\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"theta0\": \"b(n)\"}}\n      ],\n      \"construction_plan\": \"Instantiate theta0 as a(n) or b(n) in the LGG template theta0*K(n); use commutative/associative multiplication to match the reported K(n)*theta0 factor order.\",\n      \"required_assumptions\": [\n        \"Multiplication is commutative/associative for AC matching.\",\n        \"a(n) and b(n) may substitute for theta0.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (theta0*K(n))[theta0=a(n)] = 0\",\n        \"K(n)*b(n) - (theta0*K(n))[theta0=b(n)] = 0\"\n      ],\n      \"rationale\": \"F01 reports a frozen LGG template theta0*K(n) with both members as AC-equivalent substitution instances.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n)\", \"K(n)*a(n)\", \"K(n)*b(n)\"],\n      \"latent_object\": \"K(n)*t(n)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"K(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)\", \"theta\": {\"t\": \"1\"}},\n        {\"member\": \"K(n)*a(n)\", \"theta\": {\"t\": \"a(n)\"}},\n        {\"member\": \"K(n)*b(n)\", \"theta\": {\"t\": \"b(n)\"}}\n      ],\n      \"construction_plan\": \"Substitute the second factor t(n) in K(n)*t(n) with 1, a(n), or b(n). The unit case K(n)*1 reduces to K(n).\",\n      \"required_assumptions\": [\n        \"K(n)*1 = K(n).\",\n        \"a(n) and b(n) are valid second-factor expressions.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n) - (K(n)*t(n))[t=1] = 0 after multiplicative-unit simplification\",\n        \"K(n)*a(n) - (K(n)*t(n))[t=a(n)] = 0\",\n        \"K(n)*b(n) - (K(n)*t(n))[t=b(n)] = 0\"\n      ],\n      \"rationale\": \"This product template includes the CSE-shared subexpression K(n) as the unit-cofactor instance, thereby connecting F01 and F02 without claiming a closed form.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,145 @@
+{
+  "stage": "dev",
+  "item_id": "T6-pos-specialize",
+  "category": "T5",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1219,
+    "completion_tokens": 5215,
+    "total_tokens": 6434,
+    "reasoning_tokens": 4807,
+    "cached_tokens": 1152
+  },
+  "latency_s": 88.221,
+  "request_id": "812ad62a-e8ad-4f90-9c0e-2c26c416a0e5",
+  "reasoning_len": 18802,
+  "eval": {
+    "id": "T6-pos-specialize",
+    "category": "T5",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "K(n, m)",
+          "instantiated": "K((n), (m))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n, n)",
+          "instantiated": "K((n), (n))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "K(x, y)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "K(n, m)",
+        "K(n, n)"
+      ],
+      "latent_object": "K(x, y)",
+      "parameters": [
+        "x",
+        "y"
+      ],
+      "operators": [
+        {
+          "member": "K(n, m)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n, n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n, m)",
+          "theta": {
+            "x": "n",
+            "y": "m"
+          }
+        },
+        {
+          "member": "K(n, n)",
+          "theta": {
+            "x": "n",
+            "y": "n"
+          }
+        }
+      ],
+      "construction_plan": "Start from the two-argument template K(x, y); specialize the parameter pair (x, y) to (n, m) to obtain the off-diagonal branch and to (n, n) to obtain the diagonal branch. The original Piecewise expression is the conditional combination of these two specializations under the condition Ne(n, m).",
+      "required_assumptions": [
+        "K is a binary function accepting symbolic arguments x and y"
+      ],
+      "proof_obligations": [
+        "K(n, m) - K(x, y)[x->n, y->m] = 0",
+        "K(n, n) - K(x, y)[x->n, y->n] = 0"
+      ],
+      "rationale": "The observed SAME_FUNCTION_FAMILY relation is structural: both branch expressions use the same function K and differ only by assignment of the two arguments. No algebraic rewrite, derivative, or physical interpretation is needed.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"x\": \"n\", \"y\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"x\": \"n\", \"y\": \"n\"}}\n      ],\n      \"construction_plan\": \"Start from the two-argument template K(x, y); specialize the parameter pair (x, y) to (n, m) to obtain the off-diagonal branch and to (n, n) to obtain the diagonal branch. The original Piecewise expression is the conditional combination of these two specializations under the condition Ne(n, m).\",\n      \"required_assumptions\": [\n        \"K is a binary function accepting symbolic arguments x and y\"\n      ],\n      \"proof_obligations\": [\n        \"K(n, m) - K(x, y)[x->n, y->m] = 0\",\n        \"K(n, n) - K(x, y)[x->n, y->n] = 0\"\n      ],\n      \"rationale\": \"The observed SAME_FUNCTION_FAMILY relation is structural: both branch expressions use the same function K and differ only by assignment of the two arguments. No algebraic rewrite, derivative, or physical interpretation is needed.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

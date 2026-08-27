@@ -1,0 +1,203 @@
+{
+  "stage": "packet_size",
+  "item_id": "CAL-C-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1307,
+    "completion_tokens": 2301,
+    "total_tokens": 3608,
+    "reasoning_tokens": 1608,
+    "cached_tokens": 1280
+  },
+  "latency_s": 34.39,
+  "request_id": "95236cfa-83d8-4d4a-8b01-634e93d938e6",
+  "reasoning_len": 6266,
+  "eval": {
+    "id": "CAL-C-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 3,
+    "n_nonzero": 1,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "parameterized_family",
+      "derivative_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "polygamma(theta, z)"
+    },
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 1,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma(0, z)",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma(0, z)",
+          "operator": "identity",
+          "verdict": "NONZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "derivative_family",
+      "d_level": "D3",
+      "latent_object": "polygamma(0, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "polygamma(theta, z)",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "theta": "0"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "theta": "1"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the shared template polygamma(theta, z) at theta=0 and theta=1 to obtain the two summands; the raw expression is their sum.",
+      "required_assumptions": [
+        "The first argument of polygamma can be treated as a discrete family parameter theta."
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - polygamma(theta, z)[theta=0] = 0",
+        "polygamma(1, z) - polygamma(theta, z)[theta=1] = 0"
+      ],
+      "rationale": "The structural observation reports an LGG template polygamma(theta0, z) with instance values theta0 in {0, 1}, so both summands are members of the same parameterized family.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "derivative_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "polygamma(0, z)",
+      "parameters": [],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "identity"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "d/dtheta"
+        }
+      ],
+      "instance_maps": [],
+      "construction_plan": "Start from the base member polygamma(0, z). The first summand is obtained by the identity operator, and the second summand is obtained by applying d/dz to the base member. The full expression is the sum of these two generated members.",
+      "required_assumptions": [
+        "The derivative relation d/dz polygamma(0, z) = polygamma(1, z) holds under the symbolic convention for polygamma."
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - identity(polygamma(0, z)) = 0",
+        "polygamma(1, z) - d/dz(polygamma(0, z)) = 0"
+      ],
+      "rationale": "The observation packet includes the exact derivative fact diff(polygamma(0, z), z) == polygamma(1, z), so the two non-identical terms are linked as consecutive members of a derivative family.",
+      "confidence": 0.99,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(theta, z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": \"0\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": \"1\"}}\n      ],\n      \"construction_plan\": \"Instantiate the shared template polygamma(theta, z) at theta=0 and theta=1 to obtain the two summands; the raw expression is their sum.\",\n      \"required_assumptions\": [\"The first argument of polygamma can be treated as a discrete family parameter theta.\"],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - polygamma(theta, z)[theta=0] = 0\",\n        \"polygamma(1, z) - polygamma(theta, z)[theta=1] = 0\"\n      ],\n      \"rationale\": \"The structural observation reports an LGG template polygamma(theta0, z) with instance values theta0 in {0, 1}, so both summands are members of the same parameterized family.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(0, z)\",\n      \"parameters\": [],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"identity\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [],\n      \"construction_plan\": \"Start from the base member polygamma(0, z). The first summand is obtained by the identity operator, and the second summand is obtained by applying d/dz to the base member. The full expression is the sum of these two generated members.\",\n      \"required_assumptions\": [\"The derivative relation d/dz polygamma(0, z) = polygamma(1, z) holds under the symbolic convention for polygamma.\"],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - identity(polygamma(0, z)) = 0\",\n        \"polygamma(1, z) - d/dz(polygamma(0, z)) = 0\"\n      ],\n      \"rationale\": \"The observation packet includes the exact derivative fact diff(polygamma(0, z), z) == polygamma(1, z), so the two non-identical terms are linked as consecutive members of a derivative family.\",\n      \"confidence\": 0.99\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

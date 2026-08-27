@@ -1,0 +1,598 @@
+{
+  "stage": "guo",
+  "item_id": "guo-sigma-abc",
+  "category": "GUO",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 4,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 2256,
+    "completion_tokens": 11896,
+    "total_tokens": 14152,
+    "reasoning_tokens": 9839,
+    "cached_tokens": 2176
+  },
+  "latency_s": 182.624,
+  "request_id": "9ef0a5c6-1bdb-4c91-b5b1-b9c245f8d39f",
+  "reasoning_len": 33890,
+  "eval": {
+    "id": "guo-sigma-abc",
+    "category": "GUO",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 4,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": false,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 20,
+    "d_attempted": [
+      "D1",
+      "D3",
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "derivative_family",
+      "symmetry_invariant",
+      "other_structured",
+      "other_structured"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 6,
+      "obligations": [
+        {
+          "member": "N0014",
+          "instantiated": "A_{(+1),(1)}(beta) = beta*(gamma + (+1)*I*mu - (+1)*I*ep(+1)ilon(n)) + (1)*pi, with (+1) in {+1,-1}, (1) in {0,1}",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0015",
+          "instantiated": "A_{(+1),(0)}(beta) = beta*(gamma + (+1)*I*mu - (+1)*I*ep(+1)ilon(n)) + (0)*pi, with (+1) in {+1,-1}, (0) in {0,1}",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0016",
+          "instantiated": "A_{(+1),(0)}(beta) = beta*(gamma + (+1)*I*mu - (+1)*I*ep(+1)ilon(n)) + (0)*pi, with (+1) in {+1,-1}, (0) in {0,1}",
+          "operator": "d/dtheta",
+          "verdict": "UNKNOWN",
+          "note": "sympy.diff_identity"
+        },
+        {
+          "member": "N0023",
+          "instantiated": "A_{(-1),(1)}(beta) = beta*(gamma + (-1)*I*mu - (-1)*I*ep(-1)ilon(n)) + (1)*pi, with (-1) in {+1,-1}, (1) in {0,1}",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0024",
+          "instantiated": "A_{(-1),(0)}(beta) = beta*(gamma + (-1)*I*mu - (-1)*I*ep(-1)ilon(n)) + (0)*pi, with (-1) in {+1,-1}, (0) in {0,1}",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0025",
+          "instantiated": "A_{(-1),(0)}(beta) = beta*(gamma + (-1)*I*mu - (-1)*I*ep(-1)ilon(n)) + (0)*pi, with (-1) in {+1,-1}, (0) in {0,1}",
+          "operator": "d/dtheta",
+          "verdict": "UNKNOWN",
+          "note": "sympy.diff_identity"
+        }
+      ],
+      "hypothesis_type": "derivative_family",
+      "d_level": "D3",
+      "latent_object": "A_{s,delta}(beta) = beta*(gamma + s*I*mu - s*I*epsilon(n)) + delta*pi, with s in {+1,-1}, delta in {0,1}"
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 4,
+      "obligations": [
+        {
+          "member": "N0014",
+          "instantiated": "(beta*(gamma + (+1)*I*mu - (+1)*I*ep(+1)ilon(n)) + pi)/(2*pi), (+1) in {+1,-1}",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0023",
+          "instantiated": "(beta*(gamma + (-1)*I*mu - (-1)*I*ep(-1)ilon(n)) + pi)/(2*pi), (-1) in {+1,-1}",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0002",
+          "instantiated": "(beta*(gamma + (both)*I*mu - (both)*I*ep(both)ilon(n)) + pi)/(2*pi), (both) in {+1,-1}",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0003",
+          "instantiated": "(beta*(gamma + (both)*I*mu - (both)*I*ep(both)ilon(n)) + pi)/(2*pi), (both) in {+1,-1}",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi), s in {+1,-1}"
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 3,
+      "obligations": [
+        {
+          "member": "N0040",
+          "instantiated": "(Eq(m,n)) two-branch piecewise selector S(C,(Eq(m,n)),(inactive)) = Piecewise(((Eq(m,n)),C),((inactive),True)) with C = Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0003",
+          "instantiated": "(branch expression from expression packet) two-branch piecewise selector S(C,(branch expression from expression packet),(other branch)) = Piecewise(((branch expression from expression packet),C),((other branch),True)) with C = Eq(m,n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0002",
+          "instantiated": "(branch expression from expression packet) two-branch piecewise selector S(C,(branch expression from expression packet),(other branch)) = Piecewise(((branch expression from expression packet),C),((other branch),True)) with C = Eq(m,n)",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "other_structured",
+      "d_level": "D1",
+      "latent_object": "A two-branch piecewise selector S(C,A,B) = Piecewise((A,C),(B,True)) with C = Eq(m,n)"
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 7,
+      "obligations": [
+        {
+          "member": "N0019",
+          "instantiated": "A shared symbolic subexpression graph wi(n)h nodes epsilon((n)), pi**(-4), I*mu, pi**2, be(n)a*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0047",
+          "instantiated": "A shared symbolic subexpression graph wi(m)h nodes epsilon((m)), pi**(-4), I*mu, pi**2, be(m)a*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0006",
+          "instantiated": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0017",
+          "instantiated": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0010",
+          "instantiated": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0055",
+          "instantiated": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "N0040",
+          "instantiated": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "other_structured",
+      "d_level": "D1",
+      "latent_object": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "derivative_family",
+      "target_members": [
+        "N0014",
+        "N0015",
+        "N0016",
+        "N0023",
+        "N0024",
+        "N0025"
+      ],
+      "latent_object": "A_{s,delta}(beta) = beta*(gamma + s*I*mu - s*I*epsilon(n)) + delta*pi, with s in {+1,-1}, delta in {0,1}",
+      "parameters": [
+        "s",
+        "delta"
+      ],
+      "operators": [
+        {
+          "member": "N0014",
+          "O": "identity"
+        },
+        {
+          "member": "N0015",
+          "O": "identity"
+        },
+        {
+          "member": "N0016",
+          "O": "d/dtheta"
+        },
+        {
+          "member": "N0023",
+          "O": "identity"
+        },
+        {
+          "member": "N0024",
+          "O": "identity"
+        },
+        {
+          "member": "N0025",
+          "O": "d/dtheta"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "N0014",
+          "theta": {
+            "s": "+1",
+            "delta": "1"
+          }
+        },
+        {
+          "member": "N0015",
+          "theta": {
+            "s": "+1",
+            "delta": "0"
+          }
+        },
+        {
+          "member": "N0016",
+          "theta": {
+            "s": "+1",
+            "delta": "0"
+          }
+        },
+        {
+          "member": "N0023",
+          "theta": {
+            "s": "-1",
+            "delta": "1"
+          }
+        },
+        {
+          "member": "N0024",
+          "theta": {
+            "s": "-1",
+            "delta": "0"
+          }
+        },
+        {
+          "member": "N0025",
+          "theta": {
+            "s": "-1",
+            "delta": "0"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate A_{s,delta}(beta) with s=+1 or s=-1. For delta=1 the member includes the additive pi; for delta=0 the member is only beta times the signed core. Applying d/dbeta to either member yields the corresponding signed core.",
+      "required_assumptions": [
+        "gamma, mu, and epsilon(n) are independent of beta."
+      ],
+      "proof_obligations": [
+        "N0014 - (beta*(gamma + I*mu - I*epsilon(n)) + pi) = 0",
+        "N0015 - beta*(gamma + I*mu - I*epsilon(n)) = 0",
+        "N0016 - d/dbeta [beta*(gamma + I*mu - I*epsilon(n))] = 0",
+        "N0023 - (beta*(gamma - I*mu + I*epsilon(n)) + pi) = 0",
+        "N0024 - beta*(gamma - I*mu + I*epsilon(n)) = 0",
+        "N0025 - d/dbeta [beta*(gamma - I*mu + I*epsilon(n))] = 0"
+      ],
+      "rationale": "F03 and F04 already show derivative facts with respect to beta; they are the same affine template under sign reversal of the imaginary part.",
+      "confidence": 0.97,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "N0014",
+        "N0023",
+        "N0002",
+        "N0003"
+      ],
+      "latent_object": "z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi), s in {+1,-1}",
+      "parameters": [
+        "s"
+      ],
+      "operators": [
+        {
+          "member": "N0014",
+          "O": "specialize"
+        },
+        {
+          "member": "N0023",
+          "O": "specialize"
+        },
+        {
+          "member": "N0002",
+          "O": "specialize"
+        },
+        {
+          "member": "N0003",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "N0014",
+          "theta": {
+            "s": "+1"
+          }
+        },
+        {
+          "member": "N0023",
+          "theta": {
+            "s": "-1"
+          }
+        },
+        {
+          "member": "N0002",
+          "theta": {
+            "s": "both"
+          }
+        },
+        {
+          "member": "N0003",
+          "theta": {
+            "s": "both"
+          }
+        }
+      ],
+      "construction_plan": "Use the signed core with s=+1 to form z_{+1} and with s=-1 to form z_{-1}. N0014 and N0023 are, up to the explicit denominator 2*pi, the numerators of z_{+1} and z_{-1}. N0002 and N0003 contain polygamma terms whose arguments are z_{+1} and z_{-1}.",
+      "required_assumptions": [
+        "The visible polygamma arguments in N0002 and N0003 are exactly z_{+1} and z_{-1}."
+      ],
+      "proof_obligations": [
+        "N0014/(2*pi) - z_{+1} = 0",
+        "N0023/(2*pi) - z_{-1} = 0",
+        "Substitute z_{+1} and z_{-1} into the polygamma arguments of N0002 and N0003 and verify symbolic equality."
+      ],
+      "rationale": "The sign-symmetric affine forms in F03/F04 become the normalized arguments inside the polygamma expressions in F01/F02.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    },
+    {
+      "hypothesis_type": "other_structured",
+      "target_members": [
+        "N0002",
+        "N0003",
+        "N0040"
+      ],
+      "latent_object": "A two-branch piecewise selector S(C,A,B) = Piecewise((A,C),(B,True)) with C = Eq(m,n)",
+      "parameters": [
+        "A",
+        "B"
+      ],
+      "operators": [
+        {
+          "member": "N0040",
+          "O": "identity"
+        },
+        {
+          "member": "N0003",
+          "O": "specialize"
+        },
+        {
+          "member": "N0002",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "N0040",
+          "theta": {
+            "A": "Eq(m,n)",
+            "B": "inactive"
+          }
+        },
+        {
+          "member": "N0003",
+          "theta": {
+            "A": "branch expression from expression packet",
+            "B": "other branch"
+          }
+        },
+        {
+          "member": "N0002",
+          "theta": {
+            "A": "branch expression from expression packet",
+            "B": "other branch"
+          }
+        }
+      ],
+      "construction_plan": "Use Eq(m,n) as the condition C. Build the branch expressions A and B from the signed polygamma objects in the structural packets. Then N0040 is C; N0003 is S(C,A,B); N0002 is the summation over n of S(C,A,B).",
+      "required_assumptions": [
+        "The Piecewise in N0002 and N0003 uses Eq(m,n) as a branch condition."
+      ],
+      "proof_obligations": [
+        "N0040 - Eq(m,n) = 0",
+        "Verify that N0003 equals Piecewise((A,Eq(m,n)),(B,True)) for the supplied A and B.",
+        "Verify that N0002 equals Sum_{n} Piecewise((A,Eq(m,n)),(B,True)) for the supplied A and B."
+      ],
+      "rationale": "F10 gives Eq(m,n) as a CSE shared node and F02 identifies N0003 as a two-branch Piecewise; F01 is a Sum of such a Piecewise, so the selector is a common structural kernel.",
+      "confidence": 0.6,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D1"
+    },
+    {
+      "hypothesis_type": "other_structured",
+      "target_members": [
+        "N0019",
+        "N0047",
+        "N0006",
+        "N0017",
+        "N0010",
+        "N0055",
+        "N0040"
+      ],
+      "latent_object": "A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)",
+      "parameters": [
+        "t"
+      ],
+      "operators": [
+        {
+          "member": "N0019",
+          "O": "identity"
+        },
+        {
+          "member": "N0047",
+          "O": "identity"
+        },
+        {
+          "member": "N0006",
+          "O": "identity"
+        },
+        {
+          "member": "N0017",
+          "O": "identity"
+        },
+        {
+          "member": "N0010",
+          "O": "identity"
+        },
+        {
+          "member": "N0055",
+          "O": "identity"
+        },
+        {
+          "member": "N0040",
+          "O": "identity"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "N0019",
+          "theta": {
+            "t": "n"
+          }
+        },
+        {
+          "member": "N0047",
+          "theta": {
+            "t": "m"
+          }
+        },
+        {
+          "member": "N0006",
+          "theta": {}
+        },
+        {
+          "member": "N0017",
+          "theta": {}
+        },
+        {
+          "member": "N0010",
+          "theta": {}
+        },
+        {
+          "member": "N0055",
+          "theta": {}
+        },
+        {
+          "member": "N0040",
+          "theta": {}
+        }
+      ],
+      "construction_plan": "The listed nodes are common subexpressions in the raw expression. Their identification as shared nodes is exactly the CSE information reported in F05-F10.",
+      "required_assumptions": [
+        "The CSE replacements in the packets correspond to a shared subexpression graph, not accidental syntactic equality."
+      ],
+      "proof_obligations": [
+        "N0019 - epsilon(n) = 0",
+        "N0047 - epsilon(m) = 0",
+        "N0006 - pi**(-4) = 0",
+        "N0017 - I*mu = 0",
+        "N0010 - pi**2 = 0",
+        "N0055 - beta*gamma = 0",
+        "N0040 - Eq(m,n) = 0"
+      ],
+      "rationale": "Multiple CSE/DESCRIPTIVE_FACT families are structurally related as shared symbolic nodes rather than independent expressions.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D1"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"N0014\",\"N0015\",\"N0016\",\"N0023\",\"N0024\",\"N0025\"],\n      \"latent_object\": \"A_{s,delta}(beta) = beta*(gamma + s*I*mu - s*I*epsilon(n)) + delta*pi, with s in {+1,-1}, delta in {0,1}\",\n      \"parameters\": [\"s\",\"delta\"],\n      \"operators\": [\n        {\"member\":\"N0014\",\"O\":\"identity\"},\n        {\"member\":\"N0015\",\"O\":\"identity\"},\n        {\"member\":\"N0016\",\"O\":\"d/dtheta\"},\n        {\"member\":\"N0023\",\"O\":\"identity\"},\n        {\"member\":\"N0024\",\"O\":\"identity\"},\n        {\"member\":\"N0025\",\"O\":\"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\":\"N0014\",\"theta\":{\"s\":\"+1\",\"delta\":\"1\"}},\n        {\"member\":\"N0015\",\"theta\":{\"s\":\"+1\",\"delta\":\"0\"}},\n        {\"member\":\"N0016\",\"theta\":{\"s\":\"+1\",\"delta\":\"0\"}},\n        {\"member\":\"N0023\",\"theta\":{\"s\":\"-1\",\"delta\":\"1\"}},\n        {\"member\":\"N0024\",\"theta\":{\"s\":\"-1\",\"delta\":\"0\"}},\n        {\"member\":\"N0025\",\"theta\":{\"s\":\"-1\",\"delta\":\"0\"}}\n      ],\n      \"construction_plan\": \"Instantiate A_{s,delta}(beta) with s=+1 or s=-1. For delta=1 the member includes the additive pi; for delta=0 the member is only beta times the signed core. Applying d/dbeta to either member yields the corresponding signed core.\",\n      \"required_assumptions\": [\"gamma, mu, and epsilon(n) are independent of beta.\"],\n      \"proof_obligations\": [\n        \"N0014 - (beta*(gamma + I*mu - I*epsilon(n)) + pi) = 0\",\n        \"N0015 - beta*(gamma + I*mu - I*epsilon(n)) = 0\",\n        \"N0016 - d/dbeta [beta*(gamma + I*mu - I*epsilon(n))] = 0\",\n        \"N0023 - (beta*(gamma - I*mu + I*epsilon(n)) + pi) = 0\",\n        \"N0024 - beta*(gamma - I*mu + I*epsilon(n)) = 0\",\n        \"N0025 - d/dbeta [beta*(gamma - I*mu + I*epsilon(n))] = 0\"\n      ],\n      \"rationale\": \"F03 and F04 already show derivative facts with respect to beta; they are the same affine template under sign reversal of the imaginary part.\",\n      \"confidence\": 0.97\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"N0014\",\"N0023\",\"N0002\",\"N0003\"],\n      \"latent_object\": \"z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi), s in {+1,-1}\",\n      \"parameters\": [\"s\"],\n      \"operators\": [\n        {\"member\":\"N0014\",\"O\":\"specialize\"},\n        {\"member\":\"N0023\",\"O\":\"specialize\"},\n        {\"member\":\"N0002\",\"O\":\"specialize\"},\n        {\"member\":\"N0003\",\"O\":\"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\":\"N0014\",\"theta\":{\"s\":\"+1\"}},\n        {\"member\":\"N0023\",\"theta\":{\"s\":\"-1\"}},\n        {\"member\":\"N0002\",\"theta\":{\"s\":\"both\"}},\n        {\"member\":\"N0003\",\"theta\":{\"s\":\"both\"}}\n      ],\n      \"construction_plan\": \"Use the signed core with s=+1 to form z_{+1} and with s=-1 to form z_{-1}. N0014 and N0023 are, up to the explicit denominator 2*pi, the numerators of z_{+1} and z_{-1}. N0002 and N0003 contain polygamma terms whose arguments are z_{+1} and z_{-1}.\",\n      \"required_assumptions\": [\"The visible polygamma arguments in N0002 and N0003 are exactly z_{+1} and z_{-1}.\"],\n      \"proof_obligations\": [\n        \"N0014/(2*pi) - z_{+1} = 0\",\n        \"N0023/(2*pi) - z_{-1} = 0\",\n        \"Substitute z_{+1} and z_{-1} into the polygamma arguments of N0002 and N0003 and verify symbolic equality.\"\n      ],\n      \"rationale\": \"The sign-symmetric affine forms in F03/F04 become the normalized arguments inside the polygamma expressions in F01/F02.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\"N0002\",\"N0003\",\"N0040\"],\n      \"latent_object\": \"A two-branch piecewise selector S(C,A,B) = Piecewise((A,C),(B,True)) with C = Eq(m,n)\",\n      \"parameters\": [\"A\",\"B\"],\n      \"operators\": [\n        {\"member\":\"N0040\",\"O\":\"identity\"},\n        {\"member\":\"N0003\",\"O\":\"specialize\"},\n        {\"member\":\"N0002\",\"O\":\"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\":\"N0040\",\"theta\":{\"A\":\"Eq(m,n)\",\"B\":\"inactive\"}},\n        {\"member\":\"N0003\",\"theta\":{\"A\":\"branch expression from expression packet\",\"B\":\"other branch\"}},\n        {\"member\":\"N0002\",\"theta\":{\"A\":\"branch expression from expression packet\",\"B\":\"other branch\"}}\n      ],\n      \"construction_plan\": \"Use Eq(m,n) as the condition C. Build the branch expressions A and B from the signed polygamma objects in the structural packets. Then N0040 is C; N0003 is S(C,A,B); N0002 is the summation over n of S(C,A,B).\",\n      \"required_assumptions\": [\"The Piecewise in N0002 and N0003 uses Eq(m,n) as a branch condition.\"],\n      \"proof_obligations\": [\n        \"N0040 - Eq(m,n) = 0\",\n        \"Verify that N0003 equals Piecewise((A,Eq(m,n)),(B,True)) for the supplied A and B.\",\n        \"Verify that N0002 equals Sum_{n} Piecewise((A,Eq(m,n)),(B,True)) for the supplied A and B.\"\n      ],\n      \"rationale\": \"F10 gives Eq(m,n) as a CSE shared node and F02 identifies N0003 as a two-branch Piecewise; F01 is a Sum of such a Piecewise, so the selector is a common structural kernel.\",\n      \"confidence\": 0.6\n    },\n    {\n      \"hypothesis_type\": \"other_structured\",\n      \"target_members\": [\"N0019\",\"N0047\",\"N0006\",\"N0017\",\"N0010\",\"N0055\",\"N0040\"],\n      \"latent_object\": \"A shared symbolic subexpression graph with nodes epsilon(t), pi**(-4), I*mu, pi**2, beta*gamma, and Eq(m,n)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\":\"N0019\",\"O\":\"identity\"},\n        {\"member\":\"N0047\",\"O\":\"identity\"},\n        {\"member\":\"N0006\",\"O\":\"identity\"},\n        {\"member\":\"N0017\",\"O\":\"identity\"},\n        {\"member\":\"N0010\",\"O\":\"identity\"},\n        {\"member\":\"N0055\",\"O\":\"identity\"},\n        {\"member\":\"N0040\",\"O\":\"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\":\"N0019\",\"theta\":{\"t\":\"n\"}},\n        {\"member\":\"N0047\",\"theta\":{\"t\":\"m\"}},\n        {\"member\":\"N0006\",\"theta\":{}},\n        {\"member\":\"N0017\",\"theta\":{}},\n        {\"member\":\"N0010\",\"theta\":{}},\n        {\"member\":\"N0055\",\"theta\":{}},\n        {\"member\":\"N0040\",\"theta\":{}}\n      ],\n      \"construction_plan\": \"The listed nodes are common subexpressions in the raw expression. Their identification as shared nodes is exactly the CSE information reported in F05-F10.\",\n      \"required_assumptions\": [\"The CSE replacements in the packets correspond to a shared subexpression graph, not accidental syntactic equality.\"],\n      \"proof_obligations\": [\n        \"N0019 - epsilon(n) = 0\",\n        \"N0047 - epsilon(m) = 0\",\n        \"N0006 - pi**(-4) = 0\",\n        \"N0017 - I*mu = 0\",\n        \"N0010 - pi**2 = 0\",\n        \"N0055 - beta*gamma = 0\",\n        \"N0040 - Eq(m,n) = 0\"\n      ],\n      \"rationale\": \"Multiple CSE/DESCRIPTIVE_FACT families are structurally related as shared symbolic nodes rather than independent expressions.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

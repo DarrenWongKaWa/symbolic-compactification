@@ -1,0 +1,202 @@
+{
+  "stage": "dev",
+  "item_id": "T2-pos-distrib",
+  "category": "T2",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 869,
+    "completion_tokens": 8621,
+    "total_tokens": 9490,
+    "reasoning_tokens": 7866,
+    "cached_tokens": 768
+  },
+  "latency_s": 144.134,
+  "request_id": "1cf289cc-3dc7-493b-89a0-5de1dc0d2786",
+  "reasoning_len": 30937,
+  "eval": {
+    "id": "T2-pos-distrib",
+    "category": "T2",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 1,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D3",
+      "D5"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D5",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "symmetry_invariant",
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "F(x*(y+z))",
+          "instantiated": "F(P_(factored)) with P_(factored) = x*(y+z) if (factored)=factored and P_(factored) = x*y+x*z if (factored)=expanded",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "F(x*y+x*z)",
+          "instantiated": "F(P_(expanded)) with P_(expanded) = x*(y+z) if (expanded)=factored and P_(expanded) = x*y+x*z if (expanded)=expanded",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "F(P_form) with P_form = x*(y+z) if form=factored and P_form = x*y+x*z if form=expanded"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "F(x*(y+z)) + F(x*y+x*z)",
+          "instantiated": "F(x*(y+(1)*z)) + F(x*y + (1)*x*z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "F(x*(y+a*z)) + F(x*y + a*x*z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "F(x*(y+z))",
+        "F(x*y+x*z)"
+      ],
+      "latent_object": "F(P_form) with P_form = x*(y+z) if form=factored and P_form = x*y+x*z if form=expanded",
+      "parameters": [
+        "form"
+      ],
+      "operators": [
+        {
+          "member": "F(x*(y+z))",
+          "O": "specialize"
+        },
+        {
+          "member": "F(x*y+x*z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(x*(y+z))",
+          "theta": {
+            "form": "factored"
+          }
+        },
+        {
+          "member": "F(x*y+x*z)",
+          "theta": {
+            "form": "expanded"
+          }
+        }
+      ],
+      "construction_plan": "Start from the two presentations of the same polynomial under distributivity. Specializing the form parameter to 'factored' gives the first F-call; specializing to 'expanded' gives the second F-call. The raw expression is the sum of the two specializations.",
+      "required_assumptions": [
+        "Multiplication distributes over addition: x*(y+z) = x*y+x*z."
+      ],
+      "proof_obligations": [
+        "x*(y+z) - (x*y+x*z) = 0",
+        "F(x*(y+z)) - F(P_factored) = 0",
+        "F(x*y+x*z) - F(P_expanded) = 0"
+      ],
+      "rationale": "The only non-leaf structural relation is the distributive equivalence between the two arguments of F. The expression sums the same symbolic F over both presentations, giving a symmetry-invariant form under factoring/expanding the argument.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    },
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "F(x*(y+z)) + F(x*y+x*z)"
+      ],
+      "latent_object": "F(x*(y+a*z)) + F(x*y + a*x*z)",
+      "parameters": [
+        "a"
+      ],
+      "operators": [
+        {
+          "member": "F(x*(y+z)) + F(x*y+x*z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(x*(y+z)) + F(x*y+x*z)",
+          "theta": {
+            "a": "1"
+          }
+        }
+      ],
+      "construction_plan": "Introduce a scalar coefficient a on z and distribute it in the second term. Specializing a=1 recovers the original expression. The family makes the distributive relation x*(y+a*z)=x*y+a*x*z explicit.",
+      "required_assumptions": [
+        "a is an algebraic scalar and multiplication distributes over addition."
+      ],
+      "proof_obligations": [
+        "x*(y+1*z) - (x*y+1*x*z) = 0",
+        "F(x*(y+z)) + F(x*y+x*z) - (F(x*(y+1*z)) + F(x*y+1*x*z)) = 0"
+      ],
+      "rationale": "The expression can be seen as the a=1 member of a one-parameter family that tracks the distributive rewrite, without assuming any property of F beyond being a unary function.",
+      "confidence": 0.25,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+x*z)\"],\n      \"latent_object\": \"F(P_form) with P_form = x*(y+z) if form=factored and P_form = x*y+x*z if form=expanded\",\n      \"parameters\": [\"form\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"form\": \"factored\"}},\n        {\"member\": \"F(x*y+x*z)\", \"theta\": {\"form\": \"expanded\"}}\n      ],\n      \"construction_plan\": \"Start from the two presentations of the same polynomial under distributivity. Specializing the form parameter to 'factored' gives the first F-call; specializing to 'expanded' gives the second F-call. The raw expression is the sum of the two specializations.\",\n      \"required_assumptions\": [\"Multiplication distributes over addition: x*(y+z) = x*y+x*z.\"],\n      \"proof_obligations\": [\n        \"x*(y+z) - (x*y+x*z) = 0\",\n        \"F(x*(y+z)) - F(P_factored) = 0\",\n        \"F(x*y+x*z) - F(P_expanded) = 0\"\n      ],\n      \"rationale\": \"The only non-leaf structural relation is the distributive equivalence between the two arguments of F. The expression sums the same symbolic F over both presentations, giving a symmetry-invariant form under factoring/expanding the argument.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z)) + F(x*y+x*z)\"],\n      \"latent_object\": \"F(x*(y+a*z)) + F(x*y + a*x*z)\",\n      \"parameters\": [\"a\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z)) + F(x*y+x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z)) + F(x*y+x*z)\", \"theta\": {\"a\": \"1\"}}\n      ],\n      \"construction_plan\": \"Introduce a scalar coefficient a on z and distribute it in the second term. Specializing a=1 recovers the original expression. The family makes the distributive relation x*(y+a*z)=x*y+a*x*z explicit.\",\n      \"required_assumptions\": [\"a is an algebraic scalar and multiplication distributes over addition.\"],\n      \"proof_obligations\": [\n        \"x*(y+1*z) - (x*y+1*x*z) = 0\",\n        \"F(x*(y+z)) + F(x*y+x*z) - (F(x*(y+1*z)) + F(x*y+1*x*z)) = 0\"\n      ],\n      \"rationale\": \"The expression can be seen as the a=1 member of a one-parameter family that tracks the distributive rewrite, without assuming any property of F beyond being a unary function.\",\n      \"confidence\": 0.25\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

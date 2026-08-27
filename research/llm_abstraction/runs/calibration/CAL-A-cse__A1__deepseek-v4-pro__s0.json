@@ -1,0 +1,142 @@
+{
+  "stage": "calibration",
+  "item_id": "CAL-A-cse",
+  "category": "T0",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 890,
+    "completion_tokens": 3234,
+    "total_tokens": 4124,
+    "reasoning_tokens": 2848,
+    "cached_tokens": 0
+  },
+  "latency_s": 49.009,
+  "request_id": "dd3ec641-621c-477b-805a-46f4b9dccf07",
+  "reasoning_len": 10810,
+  "eval": {
+    "id": "CAL-A-cse",
+    "category": "T0",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "K(n)*a(n)",
+          "instantiated": "K(n)*(a)(n)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "instantiated": "K(n)*(b)(n)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "K(n)*phi(n)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "K(n)*a(n)",
+        "K(n)*b(n)"
+      ],
+      "latent_object": "K(n)*phi(n)",
+      "parameters": [
+        "phi"
+      ],
+      "operators": [
+        {
+          "member": "K(n)*a(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n)*a(n)",
+          "theta": {
+            "phi": "a"
+          }
+        },
+        {
+          "member": "K(n)*b(n)",
+          "theta": {
+            "phi": "b"
+          }
+        }
+      ],
+      "construction_plan": "Define a one-parameter template T_phi(n)=K(n)*phi(n). Obtain the first summand by specializing phi to a, and the second summand by specializing phi to b.",
+      "required_assumptions": [
+        "K, a, and b are functions of the same variable n"
+      ],
+      "proof_obligations": [
+        "K(n)*a(n) - T_phi=a(n) = 0",
+        "K(n)*b(n) - T_phi=b(n) = 0"
+      ],
+      "rationale": "Both terms share the identical factor K(n) and differ only in the trailing function factor a(n) versus b(n), so they are instances of a single parameterized multiplicative family.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"K(n)*a(n)\",\n        \"K(n)*b(n)\"\n      ],\n      \"latent_object\": \"K(n)*phi(n)\",\n      \"parameters\": [\n        \"phi\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n)*a(n)\",\n          \"theta\": {\n            \"phi\": \"a\"\n          }\n        },\n        {\n          \"member\": \"K(n)*b(n)\",\n          \"theta\": {\n            \"phi\": \"b\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define a one-parameter template T_phi(n)=K(n)*phi(n). Obtain the first summand by specializing phi to a, and the second summand by specializing phi to b.\",\n      \"required_assumptions\": [\n        \"K, a, and b are functions of the same variable n\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - T_phi=a(n) = 0\",\n        \"K(n)*b(n) - T_phi=b(n) = 0\"\n      ],\n      \"rationale\": \"Both terms share the identical factor K(n) and differ only in the trailing function factor a(n) versus b(n), so they are instances of a single parameterized multiplicative family.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

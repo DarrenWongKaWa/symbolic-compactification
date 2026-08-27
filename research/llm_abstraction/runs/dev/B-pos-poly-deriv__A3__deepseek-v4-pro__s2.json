@@ -1,0 +1,143 @@
+{
+  "stage": "dev",
+  "item_id": "B-pos-poly-deriv",
+  "category": "T4",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1212,
+    "completion_tokens": 3616,
+    "total_tokens": 4828,
+    "reasoning_tokens": 3164,
+    "cached_tokens": 1152
+  },
+  "latency_s": 59.606,
+  "request_id": "bbde3c4f-1079-4b65-a1b0-a93f3a152705",
+  "reasoning_len": 12941,
+  "eval": {
+    "id": "B-pos-poly-deriv",
+    "category": "T4",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "polygamma(theta, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "polygamma(theta, z)",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "theta": 0
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "theta": 1
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the latent template polygamma(theta, z) by specializing the order parameter theta to 0 for polygamma(0, z) and to 1 for polygamma(1, z).",
+      "required_assumptions": [
+        "polygamma(theta, z) is a two-argument symbolic family defined for nonnegative integer orders, including theta = 0 and theta = 1.",
+        "The expressions polygamma(0, z) and polygamma(1, z) are instances of this family rather than unrelated functions."
+      ],
+      "proof_obligations": [
+        "polygamma(theta, z) with theta -> 0 equals polygamma(0, z)",
+        "polygamma(theta, z) with theta -> 1 equals polygamma(1, z)"
+      ],
+      "rationale": "The two members are the same named polygamma function differing only in the first argument. The reported LGG candidate template polygamma(theta0, z) has instance maps theta0 in {0, 1}, and the exact derivative relation diff(polygamma(0, z), z) = polygamma(1, z) is consistent with consecutive orders of a single parameterized polygamma family.",
+      "confidence": 0.97,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(theta, z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": 0}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": 1}}\n      ],\n      \"construction_plan\": \"Instantiate the latent template polygamma(theta, z) by specializing the order parameter theta to 0 for polygamma(0, z) and to 1 for polygamma(1, z).\",\n      \"required_assumptions\": [\n        \"polygamma(theta, z) is a two-argument symbolic family defined for nonnegative integer orders, including theta = 0 and theta = 1.\",\n        \"The expressions polygamma(0, z) and polygamma(1, z) are instances of this family rather than unrelated functions.\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(theta, z) with theta -> 0 equals polygamma(0, z)\",\n        \"polygamma(theta, z) with theta -> 1 equals polygamma(1, z)\"\n      ],\n      \"rationale\": \"The two members are the same named polygamma function differing only in the first argument. The reported LGG candidate template polygamma(theta0, z) has instance maps theta0 in {0, 1}, and the exact derivative relation diff(polygamma(0, z), z) = polygamma(1, z) is consistent with consecutive orders of a single parameterized polygamma family.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

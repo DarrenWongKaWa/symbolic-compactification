@@ -1,0 +1,151 @@
+{
+  "stage": "calibration",
+  "item_id": "CAL-E-neg",
+  "category": "T1-neg",
+  "polarity": "negative",
+  "condition": "A1",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 919,
+    "completion_tokens": 3093,
+    "total_tokens": 4012,
+    "reasoning_tokens": 2600,
+    "cached_tokens": 640
+  },
+  "latency_s": 43.343,
+  "request_id": "a18f6df8-c68b-4831-955a-34b1d3986920",
+  "reasoning_len": 9662,
+  "eval": {
+    "id": "CAL-E-neg",
+    "category": "T1-neg",
+    "polarity": "negative",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": false,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D2"
+    ],
+    "d_certified": [
+      "D2"
+    ],
+    "highest_attempted": "D2",
+    "highest_certified": "D2",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "T(f,k,x) = f(x)*k(x)*f(x)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "V(p)*G0(p)*V(p)",
+        "W(q)*H0(q)*W(q)"
+      ],
+      "latent_object": "T(f,k,x) = f(x)*k(x)*f(x)",
+      "parameters": [
+        "f",
+        "k",
+        "x"
+      ],
+      "operators": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "O": "specialize"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "theta": {
+            "f": "V",
+            "k": "G0",
+            "x": "p"
+          }
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "theta": {
+            "f": "W",
+            "k": "H0",
+            "x": "q"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate T(f,k,x) by replacing f, k, and x with the listed unary functions and variable. The full raw expression is the sum of the two resulting instantiations.",
+      "required_assumptions": [
+        "V and W are unary function symbols",
+        "G0 and H0 are unary function symbols",
+        "p and q are independent variables"
+      ],
+      "proof_obligations": [
+        "V(p)*G0(p)*V(p) - T(V,G0,p) = 0",
+        "W(q)*H0(q)*W(q) - T(W,H0,q) = 0",
+        "V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q) - (T(V,G0,p)+T(W,H0,q)) = 0"
+      ],
+      "rationale": "Both summands share the same repeated outer-factor/kernel structure f(x)*k(x)*f(x), differing only by function names and variable labels. No deeper algebraic relation between p and q is assumed.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"T(f,k,x) = f(x)*k(x)*f(x)\",\n      \"parameters\": [\"f\", \"k\", \"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"f\": \"V\", \"k\": \"G0\", \"x\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"f\": \"W\", \"k\": \"H0\", \"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate T(f,k,x) by replacing f, k, and x with the listed unary functions and variable. The full raw expression is the sum of the two resulting instantiations.\",\n      \"required_assumptions\": [\n        \"V and W are unary function symbols\",\n        \"G0 and H0 are unary function symbols\",\n        \"p and q are independent variables\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T(V,G0,p) = 0\",\n        \"W(q)*H0(q)*W(q) - T(W,H0,q) = 0\",\n        \"V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q) - (T(V,G0,p)+T(W,H0,q)) = 0\"\n      ],\n      \"rationale\": \"Both summands share the same repeated outer-factor/kernel structure f(x)*k(x)*f(x), differing only by function names and variable labels. No deeper algebraic relation between p and q is assumed.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

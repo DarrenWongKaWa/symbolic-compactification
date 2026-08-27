@@ -1,0 +1,348 @@
+{
+  "id": "CAL-B-lgg",
+  "B0": {
+    "architecture": "observe\u2192hypothesis\u2192construct\u2192verify",
+    "n_hypotheses": 0,
+    "hypothesis_types": [],
+    "hypotheses": [],
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "false_promotion": false,
+    "certified_closed": "V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)",
+    "certified_structured": "V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)",
+    "certified_definitions": {},
+    "d_attempted": [],
+    "d_certified": [],
+    "graph": {
+      "n": 0,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "nodes": []
+    },
+    "observations_keys": [
+      "builtin_families",
+      "coefficient_clusters",
+      "common_factors",
+      "denominators",
+      "divided_difference_hits",
+      "facts_only",
+      "free_symbols",
+      "function_families",
+      "indexed_calls",
+      "permutation_pairs",
+      "piecewise",
+      "poles",
+      "polygamma_calls",
+      "repeated_subtrees",
+      "structure_summary",
+      "substitution_candidates",
+      "term_count",
+      "term_symbol_bipartite",
+      "terms"
+    ],
+    "aggressive": true,
+    "baseline": "B0_frozen_B9",
+    "method": "B9_frozen"
+  },
+  "B1": {
+    "method": "M_lgg",
+    "n_hypotheses": 2,
+    "operators": [
+      "antiunification",
+      "antiunification"
+    ],
+    "n_certified_abstractions": 2,
+    "false_promotion": false,
+    "adjudications": [
+      {
+        "operator": "antiunification",
+        "template": "G0(theta0)*V(theta0)**2",
+        "family": [
+          "G0(p)*V(p)**2",
+          "G0(q)*V(q)**2"
+        ],
+        "n_zero": 2,
+        "n_nonzero": 0,
+        "n_unknown": 0,
+        "certified_abstraction": true,
+        "false_promotion": false,
+        "obligations": [
+          {
+            "member": "G0(p)*V(p)**2",
+            "instantiated": "G0((p))*V((p))**2",
+            "verdict": "ZERO"
+          },
+          {
+            "member": "G0(q)*V(q)**2",
+            "instantiated": "G0((q))*V((q))**2",
+            "verdict": "ZERO"
+          }
+        ],
+        "hypothesis": {
+          "operator": "antiunification",
+          "family": [
+            "G0(p)*V(p)**2",
+            "G0(q)*V(q)**2"
+          ],
+          "latent_variables": [
+            "theta0"
+          ],
+          "template": "G0(theta0)*V(theta0)**2",
+          "instance_maps": [
+            {
+              "member": "G0(p)*V(p)**2",
+              "theta": {
+                "theta0": "p"
+              },
+              "operator_on_template": "identity"
+            },
+            {
+              "member": "G0(q)*V(q)**2",
+              "theta": {
+                "theta0": "q"
+              },
+              "operator_on_template": "identity"
+            }
+          ],
+          "reason": "least-general generalization of non-identical subterms",
+          "proof_obligations": [
+            "G0(p)*V(p)**2 - F(theta0) = 0",
+            "G0(q)*V(q)**2 - F(theta0) = 0"
+          ],
+          "confidence": 0.8,
+          "source": "lgg"
+        }
+      },
+      {
+        "operator": "antiunification",
+        "template": "V(theta0)**2",
+        "family": [
+          "V(p)**2",
+          "V(q)**2"
+        ],
+        "n_zero": 2,
+        "n_nonzero": 0,
+        "n_unknown": 0,
+        "certified_abstraction": true,
+        "false_promotion": false,
+        "obligations": [
+          {
+            "member": "V(p)**2",
+            "instantiated": "V((p))**2",
+            "verdict": "ZERO"
+          },
+          {
+            "member": "V(q)**2",
+            "instantiated": "V((q))**2",
+            "verdict": "ZERO"
+          }
+        ],
+        "hypothesis": {
+          "operator": "antiunification",
+          "family": [
+            "V(p)**2",
+            "V(q)**2"
+          ],
+          "latent_variables": [
+            "theta0"
+          ],
+          "template": "V(theta0)**2",
+          "instance_maps": [
+            {
+              "member": "V(p)**2",
+              "theta": {
+                "theta0": "p"
+              },
+              "operator_on_template": "identity"
+            },
+            {
+              "member": "V(q)**2",
+              "theta": {
+                "theta0": "q"
+              },
+              "operator_on_template": "identity"
+            }
+          ],
+          "reason": "least-general generalization of non-identical subterms",
+          "proof_obligations": [
+            "V(p)**2 - F(theta0) = 0",
+            "V(q)**2 - F(theta0) = 0"
+          ],
+          "confidence": 0.6000000000000001,
+          "source": "lgg"
+        }
+      }
+    ],
+    "best": {
+      "operator": "antiunification",
+      "template": "G0(theta0)*V(theta0)**2",
+      "family": [
+        "G0(p)*V(p)**2",
+        "G0(q)*V(q)**2"
+      ],
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "certified_abstraction": true,
+      "false_promotion": false,
+      "obligations": [
+        {
+          "member": "G0(p)*V(p)**2",
+          "instantiated": "G0((p))*V((p))**2",
+          "verdict": "ZERO"
+        },
+        {
+          "member": "G0(q)*V(q)**2",
+          "instantiated": "G0((q))*V((q))**2",
+          "verdict": "ZERO"
+        }
+      ],
+      "hypothesis": {
+        "operator": "antiunification",
+        "family": [
+          "G0(p)*V(p)**2",
+          "G0(q)*V(q)**2"
+        ],
+        "latent_variables": [
+          "theta0"
+        ],
+        "template": "G0(theta0)*V(theta0)**2",
+        "instance_maps": [
+          {
+            "member": "G0(p)*V(p)**2",
+            "theta": {
+              "theta0": "p"
+            },
+            "operator_on_template": "identity"
+          },
+          {
+            "member": "G0(q)*V(q)**2",
+            "theta": {
+              "theta0": "q"
+            },
+            "operator_on_template": "identity"
+          }
+        ],
+        "reason": "least-general generalization of non-identical subterms",
+        "proof_obligations": [
+          "G0(p)*V(p)**2 - F(theta0) = 0",
+          "G0(q)*V(q)**2 - F(theta0) = 0"
+        ],
+        "confidence": 0.8,
+        "source": "lgg"
+      }
+    },
+    "baseline": "B1_frozen_LGG"
+  },
+  "B2": {
+    "baseline": "B2_lgg_canon_ac",
+    "n_filtered": 2,
+    "n_ac": 1,
+    "ac_exact": false,
+    "filtered": [
+      {
+        "operator": "antiunification",
+        "family": [
+          "G0(p)*V(p)**2",
+          "G0(q)*V(q)**2"
+        ],
+        "latent_variables": [
+          "theta0"
+        ],
+        "template": "G0(theta0)*V(theta0)**2",
+        "instance_maps": [
+          {
+            "member": "G0(p)*V(p)**2",
+            "theta": {
+              "theta0": "p"
+            },
+            "operator_on_template": "identity"
+          },
+          {
+            "member": "G0(q)*V(q)**2",
+            "theta": {
+              "theta0": "q"
+            },
+            "operator_on_template": "identity"
+          }
+        ],
+        "reason": "least-general generalization of non-identical subterms",
+        "proof_obligations": [
+          "G0(p)*V(p)**2 - F(theta0) = 0",
+          "G0(q)*V(q)**2 - F(theta0) = 0"
+        ],
+        "confidence": 0.8,
+        "source": "lgg"
+      },
+      {
+        "operator": "antiunification",
+        "family": [
+          "V(p)**2",
+          "V(q)**2"
+        ],
+        "latent_variables": [
+          "theta0"
+        ],
+        "template": "V(theta0)**2",
+        "instance_maps": [
+          {
+            "member": "V(p)**2",
+            "theta": {
+              "theta0": "p"
+            },
+            "operator_on_template": "identity"
+          },
+          {
+            "member": "V(q)**2",
+            "theta": {
+              "theta0": "q"
+            },
+            "operator_on_template": "identity"
+          }
+        ],
+        "reason": "least-general generalization of non-identical subterms",
+        "proof_obligations": [
+          "V(p)**2 - F(theta0) = 0",
+          "V(q)**2 - F(theta0) = 0"
+        ],
+        "confidence": 0.6000000000000001,
+        "source": "lgg"
+      }
+    ],
+    "ac": [
+      {
+        "operator": "ac_lgg",
+        "family": [
+          "G0(p)*V(p)**2",
+          "G0(q)*V(q)**2"
+        ],
+        "template": "G0(theta0)*V(theta0)**2",
+        "exact_after_canon": false,
+        "useful_lgg": true
+      }
+    ]
+  },
+  "B3": {
+    "graph": {
+      "nodes": [
+        "G0(p)*V(p)**2",
+        "G0(q)*V(q)**2"
+      ],
+      "edges": [
+        {
+          "src": "G0(p)*V(p)**2",
+          "dst": "G0(q)*V(q)**2",
+          "kind": "substitution",
+          "note": "G0(theta0)*V(theta0)**2"
+        }
+      ]
+    },
+    "n_derivative": 0,
+    "n_algebraic": 0,
+    "n_permutation": 0,
+    "hypotheses": [],
+    "baseline": "B3_operator_graph"
+  }
+}

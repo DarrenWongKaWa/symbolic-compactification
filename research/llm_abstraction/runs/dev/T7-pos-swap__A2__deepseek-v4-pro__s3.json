@@ -1,0 +1,209 @@
+{
+  "stage": "dev",
+  "item_id": "T7-pos-swap",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 3,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1327,
+    "completion_tokens": 4932,
+    "total_tokens": 6259,
+    "reasoning_tokens": 4121,
+    "cached_tokens": 1280
+  },
+  "latency_s": 76.618,
+  "request_id": "aecb748a-e2b9-4b82-8fd0-3e842a251955",
+  "reasoning_len": 15275,
+  "eval": {
+    "id": "T7-pos-swap",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D2",
+      "D5"
+    ],
+    "d_certified": [
+      "D5"
+    ],
+    "highest_attempted": "D5",
+    "highest_certified": "D5",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "repeated_kernel",
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "T(i, j)",
+          "instantiated": "T((i), (j))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "instantiated": "T((i), (j))",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "T(a, b)"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "T(i, j) + T(j, i)",
+          "instantiated": "T((i), (j)) + T((j), (i))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "S(a, b) = T(a, b) + T(b, a)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "T(i, j)",
+        "T(j, i)"
+      ],
+      "latent_object": "T(a, b)",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j)",
+          "O": "identity"
+        },
+        {
+          "member": "T(j, i)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j)",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          }
+        },
+        {
+          "member": "T(j, i)",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          }
+        }
+      ],
+      "construction_plan": "For T(i, j), instantiate the binary kernel T(a,b) at (a,b)=(i,j). For T(j, i), apply the argument-permutation operator (a,b)->(b,a) to the same kernel, then instantiate at (a,b)=(i,j).",
+      "required_assumptions": [
+        "T is a two-argument function or indexed object",
+        "i and j are independent index symbols"
+      ],
+      "proof_obligations": [
+        "T(i, j) - T(a,b)[a=i,b=j] = 0",
+        "T(j, i) - permute(T(a,b))[a=i,b=j] = 0",
+        "T(i, j) + T(j, i) - (T(a,b)+T(b,a))[a=i,b=j] = 0"
+      ],
+      "rationale": "The two terms differ only by reversal of the argument list; a single binary kernel T evaluated on the S2 orbit of the ordered pair (i,j) is the minimal shared structure.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    },
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "T(i, j) + T(j, i)"
+      ],
+      "latent_object": "S(a, b) = T(a, b) + T(b, a)",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j) + T(j, i)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j) + T(j, i)",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          }
+        }
+      ],
+      "construction_plan": "Define the two-index symmetrized object S(a,b)=T(a,b)+T(b,a). The full expression is the specialization S(i,j), i.e. S(a,b) with a=i and b=j.",
+      "required_assumptions": [
+        "T is a two-argument object",
+        "The sum over swapped argument order is well-defined"
+      ],
+      "proof_obligations": [
+        "T(i, j) + T(j, i) - S(i, j) = 0",
+        "S(i, j) - S(j, i) = 0"
+      ],
+      "rationale": "The full expression is exactly the S2-symmetrization of T over its two argument slots, so it is structurally invariant under the swap i<->j.",
+      "confidence": 0.6,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"T(i, j)\",\n        \"T(j, i)\"\n      ],\n      \"latent_object\": \"T(a, b)\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"T(i, j)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"T(j, i)\",\n          \"O\": \"permute\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"T(i, j)\",\n          \"theta\": {\n            \"a\": \"i\",\n            \"b\": \"j\"\n          }\n        },\n        {\n          \"member\": \"T(j, i)\",\n          \"theta\": {\n            \"a\": \"i\",\n            \"b\": \"j\"\n          }\n        }\n      ],\n      \"construction_plan\": \"For T(i, j), instantiate the binary kernel T(a,b) at (a,b)=(i,j). For T(j, i), apply the argument-permutation operator (a,b)->(b,a) to the same kernel, then instantiate at (a,b)=(i,j).\",\n      \"required_assumptions\": [\n        \"T is a two-argument function or indexed object\",\n        \"i and j are independent index symbols\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - T(a,b)[a=i,b=j] = 0\",\n        \"T(j, i) - permute(T(a,b))[a=i,b=j] = 0\",\n        \"T(i, j) + T(j, i) - (T(a,b)+T(b,a))[a=i,b=j] = 0\"\n      ],\n      \"rationale\": \"The two terms differ only by reversal of the argument list; a single binary kernel T evaluated on the S2 orbit of the ordered pair (i,j) is the minimal shared structure.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\n        \"T(i, j) + T(j, i)\"\n      ],\n      \"latent_object\": \"S(a, b) = T(a, b) + T(b, a)\",\n      \"parameters\": [\n        \"a\",\n        \"b\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"T(i, j) + T(j, i)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"T(i, j) + T(j, i)\",\n          \"theta\": {\n            \"a\": \"i\",\n            \"b\": \"j\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Define the two-index symmetrized object S(a,b)=T(a,b)+T(b,a). The full expression is the specialization S(i,j), i.e. S(a,b) with a=i and b=j.\",\n      \"required_assumptions\": [\n        \"T is a two-argument object\",\n        \"The sum over swapped argument order is well-defined\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) + T(j, i) - S(i, j) = 0\",\n        \"S(i, j) - S(j, i) = 0\"\n      ],\n      \"rationale\": \"The full expression is exactly the S2-symmetrization of T over its two argument slots, so it is structurally invariant under the swap i<->j.\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,311 @@
+{
+  "id": "T2-neg-not-distrib",
+  "B0": {
+    "architecture": "observe\u2192hypothesis\u2192construct\u2192verify",
+    "n_hypotheses": 0,
+    "hypothesis_types": [],
+    "hypotheses": [],
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "false_promotion": false,
+    "certified_closed": "F(x*(y + z)) + F(x*y + w*z)",
+    "certified_structured": "F(x*(y + z)) + F(x*y + w*z)",
+    "certified_definitions": {},
+    "d_attempted": [],
+    "d_certified": [],
+    "graph": {
+      "n": 0,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "nodes": []
+    },
+    "observations_keys": [
+      "builtin_families",
+      "coefficient_clusters",
+      "common_factors",
+      "denominators",
+      "divided_difference_hits",
+      "facts_only",
+      "free_symbols",
+      "function_families",
+      "indexed_calls",
+      "permutation_pairs",
+      "piecewise",
+      "poles",
+      "polygamma_calls",
+      "repeated_subtrees",
+      "structure_summary",
+      "substitution_candidates",
+      "term_count",
+      "term_symbol_bipartite",
+      "terms"
+    ],
+    "aggressive": true,
+    "baseline": "B0_frozen_B9",
+    "method": "B9_frozen"
+  },
+  "B1": {
+    "method": "M_lgg",
+    "n_hypotheses": 2,
+    "operators": [
+      "antiunification",
+      "master_derivative"
+    ],
+    "n_certified_abstractions": 2,
+    "false_promotion": false,
+    "adjudications": [
+      {
+        "operator": "antiunification",
+        "template": "theta0*x",
+        "family": [
+          "x*(y + z)",
+          "x*y"
+        ],
+        "n_zero": 2,
+        "n_nonzero": 0,
+        "n_unknown": 0,
+        "certified_abstraction": true,
+        "false_promotion": false,
+        "obligations": [
+          {
+            "member": "x*(y + z)",
+            "instantiated": "(y + z)*x",
+            "verdict": "ZERO"
+          },
+          {
+            "member": "x*y",
+            "instantiated": "(y)*x",
+            "verdict": "ZERO"
+          }
+        ],
+        "hypothesis": {
+          "operator": "antiunification",
+          "family": [
+            "x*(y + z)",
+            "x*y"
+          ],
+          "latent_variables": [
+            "theta0"
+          ],
+          "template": "theta0*x",
+          "instance_maps": [
+            {
+              "member": "x*(y + z)",
+              "theta": {
+                "theta0": "y + z"
+              },
+              "operator_on_template": "identity"
+            },
+            {
+              "member": "x*y",
+              "theta": {
+                "theta0": "y"
+              },
+              "operator_on_template": "identity"
+            }
+          ],
+          "reason": "least-general generalization of non-identical subterms",
+          "proof_obligations": [
+            "x*(y + z) - F(theta0) = 0",
+            "x*y - F(theta0) = 0"
+          ],
+          "confidence": 0.5,
+          "source": "lgg"
+        }
+      },
+      {
+        "operator": "master_derivative",
+        "template": "x*(y + z)",
+        "family": [
+          "x*(y + z)",
+          "y + z"
+        ],
+        "n_zero": 2,
+        "n_nonzero": 0,
+        "n_unknown": 0,
+        "certified_abstraction": true,
+        "false_promotion": false,
+        "obligations": [
+          {
+            "member": "x*(y + z)",
+            "instantiated": "x*(y + z)",
+            "verdict": "ZERO"
+          },
+          {
+            "member": "y + z",
+            "instantiated": "(x)*(y + z)",
+            "verdict": "ZERO",
+            "note": "sympy.diff_identity"
+          }
+        ],
+        "hypothesis": {
+          "operator": "master_derivative",
+          "family": [
+            "x*(y + z)",
+            "y + z"
+          ],
+          "latent_variables": [
+            "x"
+          ],
+          "template": "x*(y + z)",
+          "instance_maps": [
+            {
+              "member": "x*(y + z)",
+              "theta": {},
+              "operator_on_template": "identity"
+            },
+            {
+              "member": "y + z",
+              "theta": {
+                "x": "x"
+              },
+              "operator_on_template": "d/dtheta"
+            }
+          ],
+          "reason": "y + z is d/dx of x*(y + z)",
+          "proof_obligations": [
+            "x*(y + z) - F = 0",
+            "y + z - dF/dx = 0"
+          ],
+          "confidence": 0.7,
+          "source": "derivative_relation"
+        }
+      }
+    ],
+    "best": {
+      "operator": "antiunification",
+      "template": "theta0*x",
+      "family": [
+        "x*(y + z)",
+        "x*y"
+      ],
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "certified_abstraction": true,
+      "false_promotion": false,
+      "obligations": [
+        {
+          "member": "x*(y + z)",
+          "instantiated": "(y + z)*x",
+          "verdict": "ZERO"
+        },
+        {
+          "member": "x*y",
+          "instantiated": "(y)*x",
+          "verdict": "ZERO"
+        }
+      ],
+      "hypothesis": {
+        "operator": "antiunification",
+        "family": [
+          "x*(y + z)",
+          "x*y"
+        ],
+        "latent_variables": [
+          "theta0"
+        ],
+        "template": "theta0*x",
+        "instance_maps": [
+          {
+            "member": "x*(y + z)",
+            "theta": {
+              "theta0": "y + z"
+            },
+            "operator_on_template": "identity"
+          },
+          {
+            "member": "x*y",
+            "theta": {
+              "theta0": "y"
+            },
+            "operator_on_template": "identity"
+          }
+        ],
+        "reason": "least-general generalization of non-identical subterms",
+        "proof_obligations": [
+          "x*(y + z) - F(theta0) = 0",
+          "x*y - F(theta0) = 0"
+        ],
+        "confidence": 0.5,
+        "source": "lgg"
+      }
+    },
+    "baseline": "B1_frozen_LGG"
+  },
+  "B2": {
+    "baseline": "B2_lgg_canon_ac",
+    "n_filtered": 1,
+    "n_ac": 1,
+    "ac_exact": false,
+    "filtered": [
+      {
+        "operator": "master_derivative",
+        "family": [
+          "x*(y + z)",
+          "y + z"
+        ],
+        "latent_variables": [
+          "x"
+        ],
+        "template": "x*(y + z)",
+        "instance_maps": [
+          {
+            "member": "x*(y + z)",
+            "theta": {},
+            "operator_on_template": "identity"
+          },
+          {
+            "member": "y + z",
+            "theta": {
+              "x": "x"
+            },
+            "operator_on_template": "d/dtheta"
+          }
+        ],
+        "reason": "y + z is d/dx of x*(y + z)",
+        "proof_obligations": [
+          "x*(y + z) - F = 0",
+          "y + z - dF/dx = 0"
+        ],
+        "confidence": 0.7,
+        "source": "derivative_relation"
+      }
+    ],
+    "ac": [
+      {
+        "operator": "ac_lgg",
+        "family": [
+          "F(x*(y + z))",
+          "F(w*z + x*y)"
+        ],
+        "template": "F(theta0*theta1 + theta1*x)",
+        "exact_after_canon": false,
+        "useful_lgg": true
+      }
+    ]
+  },
+  "B3": {
+    "graph": {
+      "nodes": [
+        "F(x*(y + z))",
+        "F(w*z + x*y)"
+      ],
+      "edges": [
+        {
+          "src": "F(x*(y + z))",
+          "dst": "F(w*z + x*y)",
+          "kind": "substitution",
+          "note": "F(theta0)"
+        }
+      ]
+    },
+    "n_derivative": 0,
+    "n_algebraic": 0,
+    "n_permutation": 0,
+    "hypotheses": [],
+    "baseline": "B3_operator_graph"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "T6-trace",
+  "B0": {
+    "architecture": "observe\u2192hypothesis\u2192construct\u2192verify",
+    "n_hypotheses": 0,
+    "hypothesis_types": [],
+    "hypotheses": [],
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "false_promotion": false,
+    "certified_closed": "M(1, 1) + M(2, 2)",
+    "certified_structured": "M(1, 1) + M(2, 2)",
+    "certified_definitions": {},
+    "d_attempted": [],
+    "d_certified": [],
+    "graph": {
+      "n": 0,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "nodes": []
+    },
+    "observations_keys": [
+      "builtin_families",
+      "coefficient_clusters",
+      "common_factors",
+      "denominators",
+      "divided_difference_hits",
+      "facts_only",
+      "free_symbols",
+      "function_families",
+      "indexed_calls",
+      "permutation_pairs",
+      "piecewise",
+      "poles",
+      "polygamma_calls",
+      "repeated_subtrees",
+      "structure_summary",
+      "substitution_candidates",
+      "term_count",
+      "term_symbol_bipartite",
+      "terms"
+    ],
+    "aggressive": true,
+    "baseline": "B0_frozen_B9",
+    "method": "B9_frozen"
+  },
+  "B1": {
+    "method": "M_lgg",
+    "n_hypotheses": 0,
+    "operators": [],
+    "n_certified_abstractions": 0,
+    "false_promotion": false,
+    "adjudications": [],
+    "best": null,
+    "baseline": "B1_frozen_LGG"
+  },
+  "B2": {
+    "baseline": "B2_lgg_canon_ac",
+    "n_filtered": 0,
+    "n_ac": 1,
+    "ac_exact": false,
+    "filtered": [],
+    "ac": [
+      {
+        "operator": "ac_lgg",
+        "family": [
+          "M(1, 1)",
+          "M(2, 2)"
+        ],
+        "template": "M(theta0, theta0)",
+        "exact_after_canon": false,
+        "useful_lgg": true
+      }
+    ]
+  },
+  "B3": {
+    "graph": {
+      "nodes": [
+        "M(1, 1)",
+        "M(2, 2)"
+      ],
+      "edges": [
+        {
+          "src": "M(1, 1)",
+          "dst": "M(2, 2)",
+          "kind": "substitution",
+          "note": "M(theta0, theta0)"
+        }
+      ]
+    },
+    "n_derivative": 0,
+    "n_algebraic": 0,
+    "n_permutation": 0,
+    "hypotheses": [],
+    "baseline": "B3_operator_graph"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "stage": "dev",
+  "item_id": "T2-pos-distrib",
+  "category": "T2",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 869,
+    "completion_tokens": 8524,
+    "total_tokens": 9393,
+    "reasoning_tokens": 8085,
+    "cached_tokens": 640
+  },
+  "latency_s": 147.563,
+  "request_id": "57095d8c-a030-4e00-a144-e914fe281614",
+  "reasoning_len": 32163,
+  "eval": {
+    "id": "T2-pos-distrib",
+    "category": "T2",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D3",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "F(x*(y+z))",
+          "instantiated": "F(\u03c6_(factored)(x,y,z))",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "F(x*y+x*z)",
+          "instantiated": "F(\u03c6_(expanded)(x,y,z))",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "F(\u03c6_p(x,y,z))"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "F(x*(y+z))",
+        "F(x*y+x*z)"
+      ],
+      "latent_object": "F(\u03c6_p(x,y,z))",
+      "parameters": [
+        "p"
+      ],
+      "operators": [
+        {
+          "member": "F(x*(y+z))",
+          "O": "specialize"
+        },
+        {
+          "member": "F(x*y+x*z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(x*(y+z))",
+          "theta": {
+            "p": "factored"
+          }
+        },
+        {
+          "member": "F(x*y+x*z)",
+          "theta": {
+            "p": "expanded"
+          }
+        }
+      ],
+      "construction_plan": "Define p in {factored, expanded}; define \u03c6_factored(x,y,z)=x*(y+z) and \u03c6_expanded(x,y,z)=x*y+x*z. Each target member is generated as F(\u03c6_p(x,y,z)) with the corresponding p. Distributivity of multiplication over addition equates \u03c6_factored and \u03c6_expanded as polynomial expressions.",
+      "required_assumptions": [
+        "x*(y+z) = x*y+x*z by distributivity",
+        "F is single-valued on equal arguments"
+      ],
+      "proof_obligations": [
+        "F(x*(y+z)) - F(\u03c6_factored(x,y,z)) = 0",
+        "F(x*y+x*z) - F(\u03c6_expanded(x,y,z)) = 0",
+        "\u03c6_factored(x,y,z) - \u03c6_expanded(x,y,z) = 0"
+      ],
+      "rationale": "The two indexed F calls differ only by the algebraic presentation of the same argument; the latent object is the shared F evaluation parameterized by presentation form, so the outer F structure is unchanged.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y+x*z)\"],\n      \"latent_object\": \"F(\u03c6_p(x,y,z))\",\n      \"parameters\": [\"p\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y+x*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"p\": \"factored\"}},\n        {\"member\": \"F(x*y+x*z)\", \"theta\": {\"p\": \"expanded\"}}\n      ],\n      \"construction_plan\": \"Define p in {factored, expanded}; define \u03c6_factored(x,y,z)=x*(y+z) and \u03c6_expanded(x,y,z)=x*y+x*z. Each target member is generated as F(\u03c6_p(x,y,z)) with the corresponding p. Distributivity of multiplication over addition equates \u03c6_factored and \u03c6_expanded as polynomial expressions.\",\n      \"required_assumptions\": [\n        \"x*(y+z) = x*y+x*z by distributivity\",\n        \"F is single-valued on equal arguments\"\n      ],\n      \"proof_obligations\": [\n        \"F(x*(y+z)) - F(\u03c6_factored(x,y,z)) = 0\",\n        \"F(x*y+x*z) - F(\u03c6_expanded(x,y,z)) = 0\",\n        \"\u03c6_factored(x,y,z) - \u03c6_expanded(x,y,z) = 0\"\n      ],\n      \"rationale\": \"The two indexed F calls differ only by the algebraic presentation of the same argument; the latent object is the shared F evaluation parameterized by presentation form, so the outer F structure is unchanged.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

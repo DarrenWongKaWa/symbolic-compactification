@@ -1,0 +1,146 @@
+{
+  "stage": "calibration",
+  "item_id": "CAL-D-perm",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1255,
+    "completion_tokens": 3158,
+    "total_tokens": 4413,
+    "reasoning_tokens": 2746,
+    "cached_tokens": 640
+  },
+  "latency_s": 48.72,
+  "request_id": "a99e7f46-a5d7-4d18-8feb-25ecf80f47a1",
+  "reasoning_len": 10706,
+  "eval": {
+    "id": "CAL-D-perm",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "T(i, j)",
+          "instantiated": "T((i), (j))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "instantiated": "T((j), (i))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "T(a, b)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "T(i, j)",
+        "T(j, i)"
+      ],
+      "latent_object": "T(a, b)",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j)",
+          "O": "specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j)",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          }
+        },
+        {
+          "member": "T(j, i)",
+          "theta": {
+            "a": "j",
+            "b": "i"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the two-parameter template T(a,b) by substituting the listed ordered argument values for (a,b). The two observed members are the two possible ordered assignments of the distinct declared symbols i and j to the two slots of T.",
+      "required_assumptions": [
+        "T is the same unevaluated two-argument function symbol in both members",
+        "a and b range over the declared symbols i and j"
+      ],
+      "proof_obligations": [
+        "T(i, j) - T(a,b)[a:=i,b:=j] = 0",
+        "T(j, i) - T(a,b)[a:=j,b:=i] = 0"
+      ],
+      "rationale": "Both observed expressions are applications of the same two-argument symbol T to the same set of symbols {i,j}; they differ only by argument order. A two-parameter template captures that shared application structure without asserting algebraic equality between T(i,j) and T(j,i).",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"T(a, b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"specialize\"},\n        {\"member\": \"T(j, i)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"j\", \"b\": \"i\"}}\n      ],\n      \"construction_plan\": \"Instantiate the two-parameter template T(a,b) by substituting the listed ordered argument values for (a,b). The two observed members are the two possible ordered assignments of the distinct declared symbols i and j to the two slots of T.\",\n      \"required_assumptions\": [\n        \"T is the same unevaluated two-argument function symbol in both members\",\n        \"a and b range over the declared symbols i and j\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - T(a,b)[a:=i,b:=j] = 0\",\n        \"T(j, i) - T(a,b)[a:=j,b:=i] = 0\"\n      ],\n      \"rationale\": \"Both observed expressions are applications of the same two-argument symbol T to the same set of symbols {i,j}; they differ only by argument order. A two-parameter template captures that shared application structure without asserting algebraic equality between T(i,j) and T(j,i).\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

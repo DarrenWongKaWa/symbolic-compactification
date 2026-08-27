@@ -1,0 +1,143 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-G-confluence",
+  "category": "T5",
+  "polarity": "positive",
+  "condition": "A0",
+  "seed": 2,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 796,
+    "completion_tokens": 3620,
+    "total_tokens": 4416,
+    "reasoning_tokens": 3279,
+    "cached_tokens": 768
+  },
+  "latency_s": 29.842,
+  "request_id": "94444bf8-a00f-4f53-8d19-8df63c38c990",
+  "reasoning_len": 13806,
+  "eval": {
+    "id": "CAL-G-confluence",
+    "category": "T5",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D2"
+    ],
+    "d_certified": [
+      "D2"
+    ],
+    "highest_attempted": "D2",
+    "highest_certified": "D2",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "K(n, m)",
+          "instantiated": "K((n),(m))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n, n)",
+          "instantiated": "K((n),(n))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "K(a,b)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "K(n, m)",
+        "K(n, n)"
+      ],
+      "latent_object": "K(a,b)",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "operators": [
+        {
+          "member": "K(n, m)",
+          "O": "identity"
+        },
+        {
+          "member": "K(n, n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n, m)",
+          "theta": {
+            "a": "n",
+            "b": "m"
+          }
+        },
+        {
+          "member": "K(n, n)",
+          "theta": {
+            "a": "n",
+            "b": "n"
+          }
+        }
+      ],
+      "construction_plan": "The piecewise expression evaluates the same two-argument kernel K either with the original arguments (n,m) or with the second argument specialized to the first (n,n), depending on the condition Ne(n,m).",
+      "required_assumptions": [],
+      "proof_obligations": [
+        "K(n, m) - identity[K](n,m) = 0",
+        "K(n, n) - specialize[K](n,n) = 0"
+      ],
+      "rationale": "Both branches reference the same kernel K, differing only by the specialization of the second argument to the first on the diagonal, suggesting a shared kernel with an argument identification.",
+      "confidence": 0.4,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(a,b)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"identity\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"a\": \"n\", \"b\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"a\": \"n\", \"b\": \"n\"}}\n      ],\n      \"construction_plan\": \"The piecewise expression evaluates the same two-argument kernel K either with the original arguments (n,m) or with the second argument specialized to the first (n,n), depending on the condition Ne(n,m).\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"K(n, m) - identity[K](n,m) = 0\",\n        \"K(n, n) - specialize[K](n,n) = 0\"\n      ],\n      \"rationale\": \"Both branches reference the same kernel K, differing only by the specialization of the second argument to the first on the diagonal, suggesting a shared kernel with an argument identification.\",\n      \"confidence\": 0.4\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

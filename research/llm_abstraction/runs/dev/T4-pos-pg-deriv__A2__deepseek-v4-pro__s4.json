@@ -1,0 +1,144 @@
+{
+  "stage": "dev",
+  "item_id": "T4-pos-pg-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 4,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1290,
+    "completion_tokens": 4062,
+    "total_tokens": 5352,
+    "reasoning_tokens": 3591,
+    "cached_tokens": 1280
+  },
+  "latency_s": 66.172,
+  "request_id": "9b8fc816-5234-438f-b97b-d4d1c66673ff",
+  "reasoning_len": 14569,
+  "eval": {
+    "id": "T4-pos-pg-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "P(alpha, z) = polygamma(alpha, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "P(alpha, z) = polygamma(alpha, z)",
+      "parameters": [
+        "alpha"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "alpha": "0"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "alpha": "1"
+          }
+        }
+      ],
+      "construction_plan": "Define the two-argument polygamma order family P(alpha,z)=polygamma(alpha,z). The two observed summands are obtained by specializing alpha to 0 and 1, respectively. The raw expression is therefore the sum of two adjacent specializations, and the derivative relation d/dz P(alpha,z)=P(alpha+1,z) links the two specializations.",
+      "required_assumptions": [
+        "polygamma(alpha,z) is defined for alpha in {0,1} on the relevant domain",
+        "the derivative identity d/dz polygamma(alpha,z) = polygamma(alpha+1,z) holds for alpha=0"
+      ],
+      "proof_obligations": [
+        "P(0,z) - polygamma(0,z) = 0",
+        "P(1,z) - polygamma(1,z) = 0",
+        "d/dz P(0,z) - P(1,z) = 0"
+      ],
+      "rationale": "The raw expression is a sum of two successive polygamma orders. The reported LGG template polygamma(theta0,z) and the exact derivative relation are both captured by a single parameterized order family with parameter shift under z-differentiation.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"P(alpha, z) = polygamma(alpha, z)\",\n      \"parameters\": [\"alpha\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"alpha\": \"0\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"alpha\": \"1\"}}\n      ],\n      \"construction_plan\": \"Define the two-argument polygamma order family P(alpha,z)=polygamma(alpha,z). The two observed summands are obtained by specializing alpha to 0 and 1, respectively. The raw expression is therefore the sum of two adjacent specializations, and the derivative relation d/dz P(alpha,z)=P(alpha+1,z) links the two specializations.\",\n      \"required_assumptions\": [\n        \"polygamma(alpha,z) is defined for alpha in {0,1} on the relevant domain\",\n        \"the derivative identity d/dz polygamma(alpha,z) = polygamma(alpha+1,z) holds for alpha=0\"\n      ],\n      \"proof_obligations\": [\n        \"P(0,z) - polygamma(0,z) = 0\",\n        \"P(1,z) - polygamma(1,z) = 0\",\n        \"d/dz P(0,z) - P(1,z) = 0\"\n      ],\n      \"rationale\": \"The raw expression is a sum of two successive polygamma orders. The reported LGG template polygamma(theta0,z) and the exact derivative relation are both captured by a single parameterized order family with parameter shift under z-differentiation.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

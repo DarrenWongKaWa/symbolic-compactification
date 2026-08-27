@@ -1,0 +1,224 @@
+{
+  "stage": "dev",
+  "item_id": "T4-pos-pg-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1204,
+    "completion_tokens": 6115,
+    "total_tokens": 7319,
+    "reasoning_tokens": 5305,
+    "cached_tokens": 1152
+  },
+  "latency_s": 99.259,
+  "request_id": "9a114883-248b-4353-9bb2-be117a9892af",
+  "reasoning_len": 20273,
+  "eval": {
+    "id": "T4-pos-pg-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 3,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "derivative_family",
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma(0, (z))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma(0, (z))",
+          "operator": "d/dtheta",
+          "verdict": "UNKNOWN",
+          "note": "sympy.diff_identity"
+        }
+      ],
+      "hypothesis_type": "derivative_family",
+      "d_level": "D3",
+      "latent_object": "F(z) = polygamma(0, z)"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), (z))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), (z))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "polygamma(alpha, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "derivative_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "F(z) = polygamma(0, z)",
+      "parameters": [
+        "z"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "identity"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "d/dtheta"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "z": "z"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "z": "z",
+            "derivative_order": 1
+          }
+        }
+      ],
+      "construction_plan": "Take F(z)=polygamma(0,z) as the base. The first member is obtained by O0=identity. The second member is obtained by applying O1=d/dtheta to F, with theta identified with z. This reproduces the observed exact derivative relation diff(polygamma(0,z),z)=polygamma(1,z).",
+      "required_assumptions": [
+        "The differentiation operator O=d/dtheta is applied as d/dz",
+        "polygamma(0,z) is differentiable with respect to z"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - F(z) = 0",
+        "polygamma(1, z) - d/dz F(z) = 0"
+      ],
+      "rationale": "The packet records the exact derivative witness diff(polygamma(0,z),z)=polygamma(1,z), so a derivative-family structure with one base expression and a single differentiation step explains the two non-identical members.",
+      "confidence": 0.98,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "polygamma(alpha, z)",
+      "parameters": [
+        "alpha",
+        "z"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "alpha": 0,
+            "z": "z"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "alpha": 1,
+            "z": "z"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the one-parameter template polygamma(alpha,z) at alpha=0 and alpha=1 while keeping the shared argument z symbolic. This is exactly the frozen LGG template polygamma(theta0,z) with a single order-parameter hole.",
+      "required_assumptions": [
+        "The two members differ only through the order parameter alpha",
+        "The second argument is the declared symbol z in both members"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - polygamma(alpha, z)[alpha:=0] = 0",
+        "polygamma(1, z) - polygamma(alpha, z)[alpha:=1] = 0"
+      ],
+      "rationale": "The observed LGG template polygamma(theta0,z) has one hole theta0 taking values 0 and 1, so a single parameterized order-parameter family explains the structural family without asserting equivalence.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"F(z) = polygamma(0, z)\",\n      \"parameters\": [\"z\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"identity\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"z\": \"z\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"z\": \"z\", \"derivative_order\": 1}}\n      ],\n      \"construction_plan\": \"Take F(z)=polygamma(0,z) as the base. The first member is obtained by O0=identity. The second member is obtained by applying O1=d/dtheta to F, with theta identified with z. This reproduces the observed exact derivative relation diff(polygamma(0,z),z)=polygamma(1,z).\",\n      \"required_assumptions\": [\n        \"The differentiation operator O=d/dtheta is applied as d/dz\",\n        \"polygamma(0,z) is differentiable with respect to z\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - F(z) = 0\",\n        \"polygamma(1, z) - d/dz F(z) = 0\"\n      ],\n      \"rationale\": \"The packet records the exact derivative witness diff(polygamma(0,z),z)=polygamma(1,z), so a derivative-family structure with one base expression and a single differentiation step explains the two non-identical members.\",\n      \"confidence\": 0.98\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(alpha, z)\",\n      \"parameters\": [\"alpha\", \"z\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"alpha\": 0, \"z\": \"z\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"alpha\": 1, \"z\": \"z\"}}\n      ],\n      \"construction_plan\": \"Instantiate the one-parameter template polygamma(alpha,z) at alpha=0 and alpha=1 while keeping the shared argument z symbolic. This is exactly the frozen LGG template polygamma(theta0,z) with a single order-parameter hole.\",\n      \"required_assumptions\": [\n        \"The two members differ only through the order parameter alpha\",\n        \"The second argument is the declared symbol z in both members\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - polygamma(alpha, z)[alpha:=0] = 0\",\n        \"polygamma(1, z) - polygamma(alpha, z)[alpha:=1] = 0\"\n      ],\n      \"rationale\": \"The observed LGG template polygamma(theta0,z) has one hole theta0 taking values 0 and 1, so a single parameterized order-parameter family explains the structural family without asserting equivalence.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

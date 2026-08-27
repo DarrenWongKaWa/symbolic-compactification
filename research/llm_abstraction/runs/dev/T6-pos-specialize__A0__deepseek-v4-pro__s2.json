@@ -1,0 +1,146 @@
+{
+  "stage": "dev",
+  "item_id": "T6-pos-specialize",
+  "category": "T5",
+  "polarity": "positive",
+  "condition": "A0",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 779,
+    "completion_tokens": 2716,
+    "total_tokens": 3495,
+    "reasoning_tokens": 2247,
+    "cached_tokens": 768
+  },
+  "latency_s": 45.934,
+  "request_id": "cc03ab99-3a9c-40f6-939b-8dafb25ad463",
+  "reasoning_len": 9630,
+  "eval": {
+    "id": "T6-pos-specialize",
+    "category": "T5",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "master_function"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "K(n, m)",
+          "instantiated": "K((n), (m))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n, n)",
+          "instantiated": "K((n), (n))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "master_function",
+      "d_level": "D3",
+      "latent_object": "K(x, y)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "master_function",
+      "target_members": [
+        "K(n, m)",
+        "K(n, n)"
+      ],
+      "latent_object": "K(x, y)",
+      "parameters": [
+        "x",
+        "y"
+      ],
+      "operators": [
+        {
+          "member": "K(n, m)",
+          "O": "identity"
+        },
+        {
+          "member": "K(n, n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n, m)",
+          "theta": {
+            "x": "n",
+            "y": "m"
+          }
+        },
+        {
+          "member": "K(n, n)",
+          "theta": {
+            "x": "n",
+            "y": "n"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the latent binary kernel K(x, y). The first Piecewise branch is the identity evaluation of K at (x, y) = (n, m). The second branch is the diagonal specialization obtained by setting y = x and then evaluating at (x, y) = (n, n). The condition Ne(n, m) selects between these two evaluations of the same latent kernel.",
+      "required_assumptions": [
+        "K is a well-defined binary function of two arguments.",
+        "The specialization y = x is valid for the domain of interest."
+      ],
+      "proof_obligations": [
+        "K(n, m) - K(x, y)[x -> n, y -> m] = 0",
+        "K(n, n) - K(x, y)[x -> n, y -> n] = 0"
+      ],
+      "rationale": "The two branches share the same binary kernel K; they differ only by whether the second argument is the independent symbol m or is forced equal to n. Thus the Piecewise expression is a diagonal/off-diagonal restriction of K.",
+      "confidence": 0.55,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"K(n, m)\",\n        \"K(n, n)\"\n      ],\n      \"latent_object\": \"K(x, y)\",\n      \"parameters\": [\n        \"x\",\n        \"y\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"K(n, m)\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"m\"\n          }\n        },\n        {\n          \"member\": \"K(n, n)\",\n          \"theta\": {\n            \"x\": \"n\",\n            \"y\": \"n\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the latent binary kernel K(x, y). The first Piecewise branch is the identity evaluation of K at (x, y) = (n, m). The second branch is the diagonal specialization obtained by setting y = x and then evaluating at (x, y) = (n, n). The condition Ne(n, m) selects between these two evaluations of the same latent kernel.\",\n      \"required_assumptions\": [\n        \"K is a well-defined binary function of two arguments.\",\n        \"The specialization y = x is valid for the domain of interest.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n, m) - K(x, y)[x -> n, y -> m] = 0\",\n        \"K(n, n) - K(x, y)[x -> n, y -> n] = 0\"\n      ],\n      \"rationale\": \"The two branches share the same binary kernel K; they differ only by whether the second argument is the independent symbol m or is forced equal to n. Thus the Piecewise expression is a diagonal/off-diagonal restriction of K.\",\n      \"confidence\": 0.55\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

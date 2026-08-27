@@ -37,3 +37,6 @@ workspace/input/expressions/*
 .claude/
 .qoder/
 .DS_Store
+
+.env
+.env.*

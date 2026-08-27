@@ -1,0 +1,226 @@
+{
+  "stage": "dev",
+  "item_id": "T2-neg-not-distrib",
+  "category": "T2-neg",
+  "polarity": "negative",
+  "condition": "A0",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 779,
+    "completion_tokens": 4856,
+    "total_tokens": 5635,
+    "reasoning_tokens": 4098,
+    "cached_tokens": 768
+  },
+  "latency_s": 71.623,
+  "request_id": "7dcdd8da-8932-42b4-aef8-2473c4118a32",
+  "reasoning_len": 15113,
+  "eval": {
+    "id": "T2-neg-not-distrib",
+    "category": "T2-neg",
+    "polarity": "negative",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": false,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 4,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D2",
+      "D3"
+    ],
+    "d_certified": [
+      "D2",
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family",
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "F(x*(y+z))",
+          "instantiated": "F(x*y + (x)*z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "F(x*y + w*z)",
+          "instantiated": "F(x*y + (w)*z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "H(c) = F(x*y + c*z)"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "F(x*(y+z))",
+          "instantiated": "F((x)*y + (x)*z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "F(x*y + w*z)",
+          "instantiated": "F((x)*y + (w)*z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "G(a,b) = F(a*y + b*z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "F(x*(y+z))",
+        "F(x*y + w*z)"
+      ],
+      "latent_object": "H(c) = F(x*y + c*z)",
+      "parameters": [
+        "c"
+      ],
+      "operators": [
+        {
+          "member": "F(x*(y+z))",
+          "O": "specialize"
+        },
+        {
+          "member": "F(x*y + w*z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(x*(y+z))",
+          "theta": {
+            "c": "x"
+          }
+        },
+        {
+          "member": "F(x*y + w*z)",
+          "theta": {
+            "c": "w"
+          }
+        }
+      ],
+      "construction_plan": "Define the one-parameter family H(c) by substituting c for the coefficient of z in the common linear form x*y + c*z. The two F-terms are the instances H(x) and H(w), with H(x) algebraically rewritten using x*y + x*z = x*(y+z).",
+      "required_assumptions": [
+        "F is an uninterpreted univariate function",
+        "multiplication distributes over addition",
+        "algebraic equality of arguments preserves equality of F-terms"
+      ],
+      "proof_obligations": [
+        "H(x) = F(x*y + x*z) and x*y + x*z = x*(y+z), so H(x) = F(x*(y+z))",
+        "H(w) = F(x*y + w*z)"
+      ],
+      "rationale": "Both arguments of F are the same affine template x*y + c*z with c specialized to x in the first term and w in the second term.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "F(x*(y+z))",
+        "F(x*y + w*z)"
+      ],
+      "latent_object": "G(a,b) = F(a*y + b*z)",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "operators": [
+        {
+          "member": "F(x*(y+z))",
+          "O": "specialize"
+        },
+        {
+          "member": "F(x*y + w*z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(x*(y+z))",
+          "theta": {
+            "a": "x",
+            "b": "x"
+          }
+        },
+        {
+          "member": "F(x*y + w*z)",
+          "theta": {
+            "a": "x",
+            "b": "w"
+          }
+        }
+      ],
+      "construction_plan": "Define a bilinear kernel K(a,b)=a*y+b*z and apply F. The two terms are F(K(x,x)) and F(K(x,w)), with the first rewritten by distributivity as F(x*(y+z)).",
+      "required_assumptions": [
+        "F is uninterpreted",
+        "equality of arguments under distribution implies equality of corresponding F-terms"
+      ],
+      "proof_obligations": [
+        "G(x,x) = F(x*y + x*z) = F(x*(y+z))",
+        "G(x,w) = F(x*y + w*z)"
+      ],
+      "rationale": "The two F-arguments are the same bilinear form in y and z evaluated at coefficient vectors (x,x) and (x,w), making the kernel a shared latent object.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"H(c) = F(x*y + c*z)\",\n      \"parameters\": [\"c\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"c\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"c\": \"w\"}}\n      ],\n      \"construction_plan\": \"Define the one-parameter family H(c) by substituting c for the coefficient of z in the common linear form x*y + c*z. The two F-terms are the instances H(x) and H(w), with H(x) algebraically rewritten using x*y + x*z = x*(y+z).\",\n      \"required_assumptions\": [\"F is an uninterpreted univariate function\", \"multiplication distributes over addition\", \"algebraic equality of arguments preserves equality of F-terms\"],\n      \"proof_obligations\": [\"H(x) = F(x*y + x*z) and x*y + x*z = x*(y+z), so H(x) = F(x*(y+z))\", \"H(w) = F(x*y + w*z)\"],\n      \"rationale\": \"Both arguments of F are the same affine template x*y + c*z with c specialized to x in the first term and w in the second term.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"F(x*(y+z))\", \"F(x*y + w*z)\"],\n      \"latent_object\": \"G(a,b) = F(a*y + b*z)\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"F(x*(y+z))\", \"O\": \"specialize\"},\n        {\"member\": \"F(x*y + w*z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(x*(y+z))\", \"theta\": {\"a\": \"x\", \"b\": \"x\"}},\n        {\"member\": \"F(x*y + w*z)\", \"theta\": {\"a\": \"x\", \"b\": \"w\"}}\n      ],\n      \"construction_plan\": \"Define a bilinear kernel K(a,b)=a*y+b*z and apply F. The two terms are F(K(x,x)) and F(K(x,w)), with the first rewritten by distributivity as F(x*(y+z)).\",\n      \"required_assumptions\": [\"F is uninterpreted\", \"equality of arguments under distribution implies equality of corresponding F-terms\"],\n      \"proof_obligations\": [\"G(x,x) = F(x*y + x*z) = F(x*(y+z))\", \"G(x,w) = F(x*y + w*z)\"],\n      \"rationale\": \"The two F-arguments are the same bilinear form in y and z evaluated at coefficient vectors (x,x) and (x,w), making the kernel a shared latent object.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

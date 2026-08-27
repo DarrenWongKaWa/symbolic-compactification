@@ -1,0 +1,231 @@
+{
+  "stage": "dev",
+  "item_id": "T4-neg-indep",
+  "category": "T3-neg",
+  "polarity": "negative",
+  "condition": "A2",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1034,
+    "completion_tokens": 3631,
+    "total_tokens": 4665,
+    "reasoning_tokens": 2817,
+    "cached_tokens": 1024
+  },
+  "latency_s": 60.329,
+  "request_id": "8376655b-bc63-4072-93fd-540238d48be0",
+  "reasoning_len": 11432,
+  "eval": {
+    "id": "T4-neg-indep",
+    "category": "T3-neg",
+    "polarity": "negative",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": false,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 4,
+    "d_attempted": [
+      "D3",
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "incorrect",
+    "success": true,
+    "types": [
+      "parameterized_family",
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "F(z)+G(z)",
+          "instantiated": "H_{(F),(G)}((z)) = (F)((z)) + (G)((z)), where (F) (F)nd (G) (F)re function slots (F)nd (z) is (F) sym(G)ol",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "G(z)+F(z)",
+          "instantiated": "H_{(G),(F)}((z)) = (G)((z)) + (F)((z)), where (G) (G)nd (F) (G)re function slots (G)nd (z) is (G) sym(F)ol",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "H_{a,b}(z) = a(z) + b(z), where a and b are function slots and z is a symbol"
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "F(z)+G(z)",
+          "instantiated": "CommutativeSum({(F),(G)}; (z)) = (F)((z))+(G)((z)) as an unordered sum over the two function evaluations",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "G(z)+F(z)",
+          "instantiated": "CommutativeSum({((F)),(F)}; (z)) = ((F))((z))+(F)((z)) as an unordered sum over the two function evaluations",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "CommutativeSum({F,G}; z) = F(z)+G(z) as an unordered sum over the two function evaluations"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "F(z)+G(z)",
+        "G(z)+F(z)"
+      ],
+      "latent_object": "H_{a,b}(z) = a(z) + b(z), where a and b are function slots and z is a symbol",
+      "parameters": [
+        "a",
+        "b",
+        "z"
+      ],
+      "operators": [
+        {
+          "member": "F(z)+G(z)",
+          "O": "specialize"
+        },
+        {
+          "member": "G(z)+F(z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(z)+G(z)",
+          "theta": {
+            "a": "F",
+            "b": "G",
+            "z": "z"
+          }
+        },
+        {
+          "member": "G(z)+F(z)",
+          "theta": {
+            "a": "G",
+            "b": "F",
+            "z": "z"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the two function slots a,b with F,G and evaluate them at z; then add the resulting applications.",
+      "required_assumptions": [
+        "Function application is well-defined for the symbols F and G at z.",
+        "The addition operation is well-defined for the resulting values."
+      ],
+      "proof_obligations": [
+        "F(z)+G(z) - H_{F,G}(z) = 0",
+        "G(z)+F(z) - H_{G,F}(z) = 0"
+      ],
+      "rationale": "The raw expression is a sum of two unary function evaluations at the same variable. Treating the two function names as slots in an ordered binary family explains both the given ordering and its permutation.",
+      "confidence": 0.5,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "F(z)+G(z)",
+        "G(z)+F(z)"
+      ],
+      "latent_object": "CommutativeSum({F,G}; z) = F(z)+G(z) as an unordered sum over the two function evaluations",
+      "parameters": [
+        "F",
+        "G",
+        "z"
+      ],
+      "operators": [
+        {
+          "member": "F(z)+G(z)",
+          "O": "identity"
+        },
+        {
+          "member": "G(z)+F(z)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "F(z)+G(z)",
+          "theta": {
+            "F": "F",
+            "G": "G",
+            "z": "z"
+          }
+        },
+        {
+          "member": "G(z)+F(z)",
+          "theta": {
+            "F": "G",
+            "G": "F",
+            "z": "z"
+          }
+        }
+      ],
+      "construction_plan": "Represent the expression as an orderless addition of F(z) and G(z). Any displayed ordering is obtained by choosing an order for the two terms; permuting the two function labels gives the equivalent commuted expression.",
+      "required_assumptions": [
+        "Addition of the values F(z) and G(z) is commutative."
+      ],
+      "proof_obligations": [
+        "F(z)+G(z) - CommutativeSum({F,G}; z) = 0",
+        "G(z)+F(z) - CommutativeSum({F,G}; z) = 0",
+        "F(z)+G(z) - (G(z)+F(z)) = 0"
+      ],
+      "rationale": "The structural observation reports commutativity of addition. The expression is exactly a binary sum, so the only non-identical sibling visible is the commuted sum under permutation of the two summands.",
+      "confidence": 0.4,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"F(z)+G(z)\", \"G(z)+F(z)\"],\n      \"latent_object\": \"H_{a,b}(z) = a(z) + b(z), where a and b are function slots and z is a symbol\",\n      \"parameters\": [\"a\", \"b\", \"z\"],\n      \"operators\": [\n        {\"member\": \"F(z)+G(z)\", \"O\": \"specialize\"},\n        {\"member\": \"G(z)+F(z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(z)+G(z)\", \"theta\": {\"a\": \"F\", \"b\": \"G\", \"z\": \"z\"}},\n        {\"member\": \"G(z)+F(z)\", \"theta\": {\"a\": \"G\", \"b\": \"F\", \"z\": \"z\"}}\n      ],\n      \"construction_plan\": \"Instantiate the two function slots a,b with F,G and evaluate them at z; then add the resulting applications.\",\n      \"required_assumptions\": [\n        \"Function application is well-defined for the symbols F and G at z.\",\n        \"The addition operation is well-defined for the resulting values.\"\n      ],\n      \"proof_obligations\": [\n        \"F(z)+G(z) - H_{F,G}(z) = 0\",\n        \"G(z)+F(z) - H_{G,F}(z) = 0\"\n      ],\n      \"rationale\": \"The raw expression is a sum of two unary function evaluations at the same variable. Treating the two function names as slots in an ordered binary family explains both the given ordering and its permutation.\",\n      \"confidence\": 0.5\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"F(z)+G(z)\", \"G(z)+F(z)\"],\n      \"latent_object\": \"CommutativeSum({F,G}; z) = F(z)+G(z) as an unordered sum over the two function evaluations\",\n      \"parameters\": [\"F\", \"G\", \"z\"],\n      \"operators\": [\n        {\"member\": \"F(z)+G(z)\", \"O\": \"identity\"},\n        {\"member\": \"G(z)+F(z)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"F(z)+G(z)\", \"theta\": {\"F\": \"F\", \"G\": \"G\", \"z\": \"z\"}},\n        {\"member\": \"G(z)+F(z)\", \"theta\": {\"F\": \"G\", \"G\": \"F\", \"z\": \"z\"}}\n      ],\n      \"construction_plan\": \"Represent the expression as an orderless addition of F(z) and G(z). Any displayed ordering is obtained by choosing an order for the two terms; permuting the two function labels gives the equivalent commuted expression.\",\n      \"required_assumptions\": [\n        \"Addition of the values F(z) and G(z) is commutative.\"\n      ],\n      \"proof_obligations\": [\n        \"F(z)+G(z) - CommutativeSum({F,G}; z) = 0\",\n        \"G(z)+F(z) - CommutativeSum({F,G}; z) = 0\",\n        \"F(z)+G(z) - (G(z)+F(z)) = 0\"\n      ],\n      \"rationale\": \"The structural observation reports commutativity of addition. The expression is exactly a binary sum, so the only non-identical sibling visible is the commuted sum under permutation of the two summands.\",\n      \"confidence\": 0.4\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

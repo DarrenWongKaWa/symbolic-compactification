@@ -1,0 +1,223 @@
+{
+  "stage": "dev",
+  "item_id": "T6-trace",
+  "category": "T6",
+  "polarity": "positive",
+  "condition": "A0",
+  "seed": 4,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 788,
+    "completion_tokens": 3726,
+    "total_tokens": 4514,
+    "reasoning_tokens": 3060,
+    "cached_tokens": 768
+  },
+  "latency_s": 49.305,
+  "request_id": "fceec1f4-7e6a-46cf-bbe4-b3929c81361f",
+  "reasoning_len": 11431,
+  "eval": {
+    "id": "T6-trace",
+    "category": "T6",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 4,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D2",
+      "D3"
+    ],
+    "d_certified": [
+      "D2",
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "master_function",
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "M(1, 1)",
+          "instantiated": "M((1), (1))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "M(2, 2)",
+          "instantiated": "M((2), (2))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "master_function",
+      "d_level": "D3",
+      "latent_object": "M(u, v)"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "M(1, 1)",
+          "instantiated": "M((1), (1))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "M(2, 2)",
+          "instantiated": "M((2), (2))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "D(t) = M(t, t)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "master_function",
+      "target_members": [
+        "M(1, 1)",
+        "M(2, 2)"
+      ],
+      "latent_object": "M(u, v)",
+      "parameters": [
+        "u",
+        "v"
+      ],
+      "operators": [
+        {
+          "member": "M(1, 1)",
+          "O": "specialize"
+        },
+        {
+          "member": "M(2, 2)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "M(1, 1)",
+          "theta": {
+            "u": 1,
+            "v": 1
+          }
+        },
+        {
+          "member": "M(2, 2)",
+          "theta": {
+            "u": 2,
+            "v": 2
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the declared bivariate function M(u,v) at the two diagonal argument pairs (1,1) and (2,2).",
+      "required_assumptions": [
+        "M is a bivariate function accepting numeric arguments."
+      ],
+      "proof_obligations": [
+        "M(1, 1) - M(u,v)[u:=1,v:=1] = 0",
+        "M(2, 2) - M(u,v)[u:=2,v:=2] = 0"
+      ],
+      "rationale": "Both terms are evaluations of the same declared binary function M; the shared latent object is the unevaluated bivariate template M(u,v).",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "M(1, 1)",
+        "M(2, 2)"
+      ],
+      "latent_object": "D(t) = M(t, t)",
+      "parameters": [
+        "t"
+      ],
+      "operators": [
+        {
+          "member": "M(1, 1)",
+          "O": "specialize"
+        },
+        {
+          "member": "M(2, 2)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "M(1, 1)",
+          "theta": {
+            "t": 1
+          }
+        },
+        {
+          "member": "M(2, 2)",
+          "theta": {
+            "t": 2
+          }
+        }
+      ],
+      "construction_plan": "Form the diagonal restriction D(t)=M(t,t), then instantiate t=1 and t=2.",
+      "required_assumptions": [
+        "The diagonal restriction D(t)=M(t,t) is a meaningful univariate object."
+      ],
+      "proof_obligations": [
+        "M(1, 1) - D(t)[t:=1] = 0",
+        "M(2, 2) - D(t)[t:=2] = 0"
+      ],
+      "rationale": "Both observed terms have equal arguments, so they can be viewed as specializations of the diagonal univariate object D(t)=M(t,t).",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"M(u, v)\",\n      \"parameters\": [\"u\", \"v\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"u\": 1, \"v\": 1}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"u\": 2, \"v\": 2}}\n      ],\n      \"construction_plan\": \"Instantiate the declared bivariate function M(u,v) at the two diagonal argument pairs (1,1) and (2,2).\",\n      \"required_assumptions\": [\"M is a bivariate function accepting numeric arguments.\"],\n      \"proof_obligations\": [\n        \"M(1, 1) - M(u,v)[u:=1,v:=1] = 0\",\n        \"M(2, 2) - M(u,v)[u:=2,v:=2] = 0\"\n      ],\n      \"rationale\": \"Both terms are evaluations of the same declared binary function M; the shared latent object is the unevaluated bivariate template M(u,v).\",\n      \"confidence\": 0.85\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"M(1, 1)\", \"M(2, 2)\"],\n      \"latent_object\": \"D(t) = M(t, t)\",\n      \"parameters\": [\"t\"],\n      \"operators\": [\n        {\"member\": \"M(1, 1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2, 2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1, 1)\", \"theta\": {\"t\": 1}},\n        {\"member\": \"M(2, 2)\", \"theta\": {\"t\": 2}}\n      ],\n      \"construction_plan\": \"Form the diagonal restriction D(t)=M(t,t), then instantiate t=1 and t=2.\",\n      \"required_assumptions\": [\"The diagonal restriction D(t)=M(t,t) is a meaningful univariate object.\"],\n      \"proof_obligations\": [\n        \"M(1, 1) - D(t)[t:=1] = 0\",\n        \"M(2, 2) - D(t)[t:=2] = 0\"\n      ],\n      \"rationale\": \"Both observed terms have equal arguments, so they can be viewed as specializations of the diagonal univariate object D(t)=M(t,t).\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,141 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-D-perm",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A0",
+  "seed": 1,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 786,
+    "completion_tokens": 2158,
+    "total_tokens": 2944,
+    "reasoning_tokens": 1742,
+    "cached_tokens": 768
+  },
+  "latency_s": 17.233,
+  "request_id": "c02e67ef-d7a3-4c72-bd09-edcdb6950902",
+  "reasoning_len": 7576,
+  "eval": {
+    "id": "CAL-D-perm",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 1,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "T(i,j)",
+          "instantiated": "T((i), (j))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j,i)",
+          "instantiated": "T((j), (i))",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "T(\u03b8_a, \u03b8_b)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "T(i,j)",
+        "T(j,i)"
+      ],
+      "latent_object": "T(\u03b8_a, \u03b8_b)",
+      "parameters": [
+        "\u03b8_a",
+        "\u03b8_b"
+      ],
+      "operators": [
+        {
+          "member": "T(i,j)",
+          "O": "identity"
+        },
+        {
+          "member": "T(j,i)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i,j)",
+          "theta": {
+            "\u03b8_a": "i",
+            "\u03b8_b": "j"
+          }
+        },
+        {
+          "member": "T(j,i)",
+          "theta": {
+            "\u03b8_a": "j",
+            "\u03b8_b": "i"
+          }
+        }
+      ],
+      "construction_plan": "Define a generic two-variable function T(\u03b8_a, \u03b8_b). The expression T(i,j) is obtained by specializing (\u03b8_a, \u03b8_b) to (i,j). The expression T(j,i) is obtained either by specializing (\u03b8_a, \u03b8_b) to (j,i) or by applying a permutation operator that swaps the arguments of the T(i,j) instance. Both instances share the same functional template T, differing only in argument order.",
+      "required_assumptions": [],
+      "proof_obligations": [
+        "T(j,i) - PermuteSwap[T(i,j)] = 0",
+        "T(i,j) - Identity[T(i,j)] = 0"
+      ],
+      "rationale": "The two subexpressions are structurally related by a permutation of the two arguments of a common function T. This is a symmetry of the function-argument structure, and the sum T(i,j)+T(j,i) naturally arises as the symmetrized combination of the two permuted instances.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i,j)\", \"T(j,i)\"],\n      \"latent_object\": \"T(\u03b8_a, \u03b8_b)\",\n      \"parameters\": [\"\u03b8_a\", \"\u03b8_b\"],\n      \"operators\": [\n        {\"member\": \"T(i,j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j,i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i,j)\", \"theta\": {\"\u03b8_a\": \"i\", \"\u03b8_b\": \"j\"}},\n        {\"member\": \"T(j,i)\", \"theta\": {\"\u03b8_a\": \"j\", \"\u03b8_b\": \"i\"}}\n      ],\n      \"construction_plan\": \"Define a generic two-variable function T(\u03b8_a, \u03b8_b). The expression T(i,j) is obtained by specializing (\u03b8_a, \u03b8_b) to (i,j). The expression T(j,i) is obtained either by specializing (\u03b8_a, \u03b8_b) to (j,i) or by applying a permutation operator that swaps the arguments of the T(i,j) instance. Both instances share the same functional template T, differing only in argument order.\",\n      \"required_assumptions\": [],\n      \"proof_obligations\": [\n        \"T(j,i) - PermuteSwap[T(i,j)] = 0\",\n        \"T(i,j) - Identity[T(i,j)] = 0\"\n      ],\n      \"rationale\": \"The two subexpressions are structurally related by a permutation of the two arguments of a common function T. This is a symmetry of the function-argument structure, and the sum T(i,j)+T(j,i) naturally arises as the symmetrized combination of the two permuted instances.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

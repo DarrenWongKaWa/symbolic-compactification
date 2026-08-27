@@ -1,0 +1,148 @@
+{
+  "stage": "dev",
+  "item_id": "A-neg-unrelated",
+  "category": "T1-neg",
+  "polarity": "negative",
+  "condition": "A1",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 910,
+    "completion_tokens": 2517,
+    "total_tokens": 3427,
+    "reasoning_tokens": 2010,
+    "cached_tokens": 896
+  },
+  "latency_s": 35.993,
+  "request_id": "ce9fd602-1c35-462b-b0c6-633e35ed2e15",
+  "reasoning_len": 7277,
+  "eval": {
+    "id": "A-neg-unrelated",
+    "category": "T1-neg",
+    "polarity": "negative",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": false,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "u(x)*v(x)*u(x)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "V(p)*G0(p)*V(p)",
+        "W(q)*H0(q)*W(q)"
+      ],
+      "latent_object": "u(x)*v(x)*u(x)",
+      "parameters": [
+        "u",
+        "v",
+        "x"
+      ],
+      "operators": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "O": "specialize"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "theta": {
+            "u": "V",
+            "v": "G0",
+            "x": "p"
+          }
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "theta": {
+            "u": "W",
+            "v": "H0",
+            "x": "q"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the template u(x)*v(x)*u(x) by substituting the function symbol u, the function symbol v, and the variable symbol x from each instance map.",
+      "required_assumptions": [
+        "Multiplication is the standard symbolic product in the expression; V, G0, W, H0 are unary functions of the indicated variable."
+      ],
+      "proof_obligations": [
+        "V(p)*G0(p)*V(p) - (u(x)*v(x)*u(x) with u=V, v=G0, x=p) = 0",
+        "W(q)*H0(q)*W(q) - (u(x)*v(x)*u(x) with u=W, v=H0, x=q) = 0"
+      ],
+      "rationale": "Both summands share the same sandwich/monomial form u(x)*v(x)*u(x), differing only by the outer function, inner function, and variable name. No physical interpretation is assumed.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"u(x)*v(x)*u(x)\",\n      \"parameters\": [\n        \"u\",\n        \"v\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"u\": \"V\",\n            \"v\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"u\": \"W\",\n            \"v\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate the template u(x)*v(x)*u(x) by substituting the function symbol u, the function symbol v, and the variable symbol x from each instance map.\",\n      \"required_assumptions\": [\n        \"Multiplication is the standard symbolic product in the expression; V, G0, W, H0 are unary functions of the indicated variable.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - (u(x)*v(x)*u(x) with u=V, v=G0, x=p) = 0\",\n        \"W(q)*H0(q)*W(q) - (u(x)*v(x)*u(x) with u=W, v=H0, x=q) = 0\"\n      ],\n      \"rationale\": \"Both summands share the same sandwich/monomial form u(x)*v(x)*u(x), differing only by the outer function, inner function, and variable name. No physical interpretation is assumed.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

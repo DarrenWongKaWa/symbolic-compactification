@@ -1,0 +1,144 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-F-shallow",
+  "category": "F1",
+  "polarity": "trap",
+  "condition": "A2",
+  "seed": 2,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1294,
+    "completion_tokens": 3113,
+    "total_tokens": 4407,
+    "reasoning_tokens": 2652,
+    "cached_tokens": 1280
+  },
+  "latency_s": 25.404,
+  "request_id": "b9afa1cc-ae46-4f7f-bce7-4d8ad6dbbfc8",
+  "reasoning_len": 10691,
+  "eval": {
+    "id": "CAL-F-shallow",
+    "category": "F1",
+    "polarity": "trap",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": false,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "shallow",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "-I*mu",
+          "instantiated": "I*mu*(-1)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "I*beta*mu",
+          "instantiated": "I*mu*(beta)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "I*mu*theta0"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "-I*mu",
+        "I*beta*mu"
+      ],
+      "latent_object": "I*mu*theta0",
+      "parameters": [
+        "theta0"
+      ],
+      "operators": [
+        {
+          "member": "-I*mu",
+          "O": "specialize"
+        },
+        {
+          "member": "I*beta*mu",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "-I*mu",
+          "theta": {
+            "theta0": "-1"
+          }
+        },
+        {
+          "member": "I*beta*mu",
+          "theta": {
+            "theta0": "beta"
+          }
+        }
+      ],
+      "construction_plan": "Take the template I*mu*theta0 and replace the placeholder theta0 with the value in the instance map. For theta0=-1, we get -I*mu. For theta0=beta, we get I*mu*beta which, under commutative multiplication, is AC-equivalent to I*beta*mu.",
+      "required_assumptions": [
+        "Commutative multiplication (AC)"
+      ],
+      "proof_obligations": [
+        "-I*mu - specialize(I*mu*theta0, {theta0: -1}) = 0",
+        "I*beta*mu - specialize(I*mu*theta0, {theta0: beta}) = 0 (modulo AC)"
+      ],
+      "rationale": "The two terms are non-identical but share a common multiplicative skeleton I*mu times a scalar parameter. The LGG candidate relation explicitly proposes the frozen template I*mu*theta0 with a single hole, and the instance maps exactly assign the parameter values. This is a parameterized family rather than a shallow hole-product of unrelated constants because the shared factor I*mu is not just a constant; it contains the symbolic variable mu.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [
+        "shallow"
+      ],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"-I*mu\", \"I*beta*mu\"],\n      \"latent_object\": \"I*mu*theta0\",\n      \"parameters\": [\"theta0\"],\n      \"operators\": [\n        {\n          \"member\": \"-I*mu\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"I*beta*mu\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"-I*mu\",\n          \"theta\": {\n            \"theta0\": \"-1\"\n          }\n        },\n        {\n          \"member\": \"I*beta*mu\",\n          \"theta\": {\n            \"theta0\": \"beta\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Take the template I*mu*theta0 and replace the placeholder theta0 with the value in the instance map. For theta0=-1, we get -I*mu. For theta0=beta, we get I*mu*beta which, under commutative multiplication, is AC-equivalent to I*beta*mu.\",\n      \"required_assumptions\": [\"Commutative multiplication (AC)\"],\n      \"proof_obligations\": [\n        \"-I*mu - specialize(I*mu*theta0, {theta0: -1}) = 0\",\n        \"I*beta*mu - specialize(I*mu*theta0, {theta0: beta}) = 0 (modulo AC)\"\n      ],\n      \"rationale\": \"The two terms are non-identical but share a common multiplicative skeleton I*mu times a scalar parameter. The LGG candidate relation explicitly proposes the frozen template I*mu*theta0 with a single hole, and the instance maps exactly assign the parameter values. This is a parameterized family rather than a shallow hole-product of unrelated constants because the shared factor I*mu is not just a constant; it contains the symbolic variable mu.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,144 @@
+{
+  "stage": "dev",
+  "item_id": "T7-pos-swap",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 859,
+    "completion_tokens": 4453,
+    "total_tokens": 5312,
+    "reasoning_tokens": 4020,
+    "cached_tokens": 768
+  },
+  "latency_s": 77.73,
+  "request_id": "91dd3574-c2cf-4a72-aa11-61185a9f33f3",
+  "reasoning_len": 15928,
+  "eval": {
+    "id": "T7-pos-swap",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "T(i, j)",
+          "instantiated": "T((i),(j)), (i) two-pl(i)ce kernel with (i)n S2 (i)ction on its ordered (i)rgument slots",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "instantiated": "T((j),(i)), (j) two-pl(j)ce kernel with (j)n S2 (j)ction on its ordered (j)rgument slots",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "K(a,b)=T(a,b), a two-place kernel with an S2 action on its ordered argument slots"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "T(i, j)",
+        "T(j, i)"
+      ],
+      "latent_object": "K(a,b)=T(a,b), a two-place kernel with an S2 action on its ordered argument slots",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j)",
+          "O": "identity"
+        },
+        {
+          "member": "T(j, i)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j)",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          }
+        },
+        {
+          "member": "T(j, i)",
+          "theta": {
+            "a": "j",
+            "b": "i"
+          }
+        }
+      ],
+      "construction_plan": "Start from the two-slot kernel K(a,b). Instantiate a=i,b=j to obtain T(i,j). Apply the nontrivial S2 permutation to the slots, sending (a,b) to (b,a), and instantiate to obtain T(j,i). The raw expression is the sum of the identity and permuted images.",
+      "required_assumptions": [
+        "T is a two-argument function whose argument order is meaningful."
+      ],
+      "proof_obligations": [
+        "K(i,j) - T(i,j) = 0",
+        "K(j,i) - T(j,i) = 0",
+        "T(i,j) + T(j,i) - (K(i,j) + K(j,i)) = 0"
+      ],
+      "rationale": "The two non-identical summands are the same indexed function T evaluated at the two ordered pairs (i,j) and (j,i), so the expression is the S2 orbit sum of a single two-slot kernel.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"K(a,b)=T(a,b), a two-place kernel with an S2 action on its ordered argument slots\",\n      \"parameters\": [\"a\", \"b\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"a\": \"i\", \"b\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"a\": \"j\", \"b\": \"i\"}}\n      ],\n      \"construction_plan\": \"Start from the two-slot kernel K(a,b). Instantiate a=i,b=j to obtain T(i,j). Apply the nontrivial S2 permutation to the slots, sending (a,b) to (b,a), and instantiate to obtain T(j,i). The raw expression is the sum of the identity and permuted images.\",\n      \"required_assumptions\": [\n        \"T is a two-argument function whose argument order is meaningful.\"\n      ],\n      \"proof_obligations\": [\n        \"K(i,j) - T(i,j) = 0\",\n        \"K(j,i) - T(j,i) = 0\",\n        \"T(i,j) + T(j,i) - (K(i,j) + K(j,i)) = 0\"\n      ],\n      \"rationale\": \"The two non-identical summands are the same indexed function T evaluated at the two ordered pairs (i,j) and (j,i), so the expression is the S2 orbit sum of a single two-slot kernel.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

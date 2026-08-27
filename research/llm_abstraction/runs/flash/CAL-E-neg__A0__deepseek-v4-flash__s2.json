@@ -1,0 +1,148 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-E-neg",
+  "category": "T1-neg",
+  "polarity": "negative",
+  "condition": "A0",
+  "seed": 2,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 807,
+    "completion_tokens": 6930,
+    "total_tokens": 7737,
+    "reasoning_tokens": 6479,
+    "cached_tokens": 768
+  },
+  "latency_s": 61.861,
+  "request_id": "b82960f6-1a50-4ec8-9c7f-6b476cfc4c6e",
+  "reasoning_len": 25599,
+  "eval": {
+    "id": "CAL-E-neg",
+    "category": "T1-neg",
+    "polarity": "negative",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": false,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": true,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "instantiated": "(V)((p))*(G0)((p))*(V)((p))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "instantiated": "(W)((q))*(H0)((q))*(W)((q))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "T(A,B,x) = A(x)*B(x)*A(x)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "V(p)*G0(p)*V(p)",
+        "W(q)*H0(q)*W(q)"
+      ],
+      "latent_object": "T(A,B,x) = A(x)*B(x)*A(x)",
+      "parameters": [
+        "A",
+        "B",
+        "x"
+      ],
+      "operators": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "O": "specialize"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "theta": {
+            "A": "V",
+            "B": "G0",
+            "x": "p"
+          }
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "theta": {
+            "A": "W",
+            "B": "H0",
+            "x": "q"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the template T(A,B,x) twice using the two parameter assignments and take the formal sum of the instantiations: T(V,G0,p) + T(W,H0,q), reproducing the raw expression.",
+      "required_assumptions": [
+        "All products are symbolic and well-formed; no commutation or analytic properties are assumed."
+      ],
+      "proof_obligations": [
+        "V(p)*G0(p)*V(p) - T(V,G0,p) = 0",
+        "W(q)*H0(q)*W(q) - T(W,H0,q) = 0"
+      ],
+      "rationale": "The two summands are not syntactically equal but share the same ordered three-factor structure A(x)*B(x)*A(x). They differ only through the symbols substituted for A, B, and x, making them two instances of a single parameter-dependent family.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"V(p)*G0(p)*V(p)\", \"W(q)*H0(q)*W(q)\"],\n      \"latent_object\": \"T(A,B,x) = A(x)*B(x)*A(x)\",\n      \"parameters\": [\"A\", \"B\", \"x\"],\n      \"operators\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"O\": \"specialize\"},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"V(p)*G0(p)*V(p)\", \"theta\": {\"A\": \"V\", \"B\": \"G0\", \"x\": \"p\"}},\n        {\"member\": \"W(q)*H0(q)*W(q)\", \"theta\": {\"A\": \"W\", \"B\": \"H0\", \"x\": \"q\"}}\n      ],\n      \"construction_plan\": \"Instantiate the template T(A,B,x) twice using the two parameter assignments and take the formal sum of the instantiations: T(V,G0,p) + T(W,H0,q), reproducing the raw expression.\",\n      \"required_assumptions\": [\n        \"All products are symbolic and well-formed; no commutation or analytic properties are assumed.\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - T(V,G0,p) = 0\",\n        \"W(q)*H0(q)*W(q) - T(W,H0,q) = 0\"\n      ],\n      \"rationale\": \"The two summands are not syntactically equal but share the same ordered three-factor structure A(x)*B(x)*A(x). They differ only through the symbols substituted for A, B, and x, making them two instances of a single parameter-dependent family.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

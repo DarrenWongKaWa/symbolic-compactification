@@ -1,0 +1,445 @@
+{
+  "stage": "guo",
+  "item_id": "guo-sigma-abc",
+  "category": "GUO",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 3,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 9788,
+    "completion_tokens": 9695,
+    "total_tokens": 19483,
+    "reasoning_tokens": 7646,
+    "cached_tokens": 9728
+  },
+  "latency_s": 167.062,
+  "request_id": "a1177139-1a6f-415f-bda3-9f5fab3ab1e0",
+  "reasoning_len": 26790,
+  "eval": {
+    "id": "guo-sigma-abc",
+    "category": "GUO",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 3,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": false,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 10,
+    "d_attempted": [
+      "D2",
+      "D4",
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "divided_difference",
+      "symmetry_invariant",
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 4,
+      "obligations": [
+        {
+          "member": "S1_off",
+          "instantiated": "Q_(+1 and -1)(z) = (beta*(gamma + (+1 and -1)*(m)*(mu - z)) + p(m))/(2*p(m)), (+1 and -1) (m)n {+1,-1}; P_(+1 and -1)(z)=polygamma(0,Q_(+1 and -1)(z)); Delta_{(m)(n)}^{((1,2,3))}[P_(+1 and -1)] (m)(+1 and -1) the (1,2,3)-th d(m)v(m)ded d(m)ffe(1,2,3)ence of P_(+1 and -1) ove(1,2,3) node(+1 and -1) ep(+1 and -1)(m)lon_(m),ep(+1 and -1)(m)lon_(n), w(m)th confluent l(m)m(m)t Delta_{(m)(m)}^{((1,2,3))}[P_(+1 and -1)] = (beta*(+1 and -1)*(m)/(2*p(m)))^(1,2,3) * polygamma((1,2,3), Q_(+1 and -1)(ep(+1 and -1)(m)lon_(m))).",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "S1_diag",
+          "instantiated": "Q_(+1 and -1)(z) = (beta*(gamma + (+1 and -1)*(n)*(mu - z)) + p(n))/(2*p(n)), (+1 and -1) (n)n {+1,-1}; P_(+1 and -1)(z)=polygamma(0,Q_(+1 and -1)(z)); Delta_{(n)(n)}^{((3,2,1))}[P_(+1 and -1)] (n)(+1 and -1) the (3,2,1)-th d(n)v(n)ded d(n)ffe(3,2,1)ence of P_(+1 and -1) ove(3,2,1) node(+1 and -1) ep(+1 and -1)(n)lon_(n),ep(+1 and -1)(n)lon_(n), w(n)th confluent l(n)m(n)t Delta_{(n)(n)}^{((3,2,1))}[P_(+1 and -1)] = (beta*(+1 and -1)*(n)/(2*p(n)))^(3,2,1) * polygamma((3,2,1), Q_(+1 and -1)(ep(+1 and -1)(n)lon_(n))).",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "S3_b5",
+          "instantiated": "Q_(+1 and -1)(z) = (beta*(gamma + (+1 and -1)*(m)*(mu - z)) + p(m))/(2*p(m)), (+1 and -1) (m)n {+1,-1}; P_(+1 and -1)(z)=polygamma(0,Q_(+1 and -1)(z)); Delta_{(m)(n)}^{((0,1,2))}[P_(+1 and -1)] (m)(+1 and -1) the (0,1,2)-th d(m)v(m)ded d(m)ffe(0,1,2)ence of P_(+1 and -1) ove(0,1,2) node(+1 and -1) ep(+1 and -1)(m)lon_(m),ep(+1 and -1)(m)lon_(n), w(m)th confluent l(m)m(m)t Delta_{(m)(m)}^{((0,1,2))}[P_(+1 and -1)] = (beta*(+1 and -1)*(m)/(2*p(m)))^(0,1,2) * polygamma((0,1,2), Q_(+1 and -1)(ep(+1 and -1)(m)lon_(m))).",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "S3_b1",
+          "instantiated": "Q_(+1 and -1)(z) = (beta*(gamma + (+1 and -1)*(n)*(mu - z)) + p(n))/(2*p(n)), (+1 and -1) (n)n {+1,-1}; P_(+1 and -1)(z)=polygamma(0,Q_(+1 and -1)(z)); Delta_{(n)(n)}^{((4))}[P_(+1 and -1)] (n)(+1 and -1) the (4)-th d(n)v(n)ded d(n)ffe(4)ence of P_(+1 and -1) ove(4) node(+1 and -1) ep(+1 and -1)(n)lon_(n),ep(+1 and -1)(n)lon_(n), w(n)th confluent l(n)m(n)t Delta_{(n)(n)}^{((4))}[P_(+1 and -1)] = (beta*(+1 and -1)*(n)/(2*p(n)))^(4) * polygamma((4), Q_(+1 and -1)(ep(+1 and -1)(n)lon_(n))).",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "divided_difference",
+      "d_level": "D4",
+      "latent_object": "Q_s(z) = (beta*(gamma + s*i*(mu - z)) + pi)/(2*pi), s in {+1,-1}; P_s(z)=polygamma(0,Q_s(z)); Delta_{ij}^{(r)}[P_s] is the r-th divided difference of P_s over nodes epsilon_i,epsilon_j, with confluent limit Delta_{ii}^{(r)}[P_s] = (beta*s*i/(2*pi))^r * polygamma(r, Q_s(epsilon_i))."
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "S2",
+          "instantiated": "A master sum U((b,c swapped), (same as S1), indices) in which (b,c swapped) is an ordered assignment of external labels a,b,c and (same as S1) is the cyclic order of the internal-index edges in the triple-h products.",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        },
+        {
+          "member": "S4",
+          "instantiated": "A master sum U((same as S3), (reversed cyclic order of second and third h1 index pairs), indices) in which (same as S3) is an ordered assignment of external labels a,b,c and (reversed cyclic order of second and third h1 index pairs) is the cyclic order of the internal-index edges in the triple-h products.",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "A master sum U(label_set, orientation, indices) in which label_set is an ordered assignment of external labels a,b,c and orientation is the cyclic order of the internal-index edges in the triple-h products."
+    },
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 4,
+      "obligations": [
+        {
+          "member": "S1_diag",
+          "instantiated": "K_{(+1 and -1),(3,2,1)}((n)) = polygamma((3,2,1), (beta*(gamma + (+1 and -1)*i*(mu - ep(+1 and -1)ilon_(n))) + pi)/(2*pi)) fo(3,2,1) (+1 and -1) in {+1,-1}, (3,2,1) in {0,1,2,3,4}, and (n) in {m,n,ell}.",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "S1_off",
+          "instantiated": "K_{(+1 and -1),(0,1,2)}((m,n)) = polygamma((0,1,2), (beta*(gamma + (+1 and -1)*i*(mu - ep(+1 and -1)ilon_(m,n))) + pi)/(2*pi)) fo(0,1,2) (+1 and -1) in {+1,-1}, (0,1,2) in {0,1,2,3,4}, and (m,n) in {m,n,ell}.",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "S3_b1",
+          "instantiated": "K_{(+1 and -1),(4)}((n)) = polygamma((4), (beta*(gamma + (+1 and -1)*i*(mu - ep(+1 and -1)ilon_(n))) + pi)/(2*pi)) fo(4) (+1 and -1) in {+1,-1}, (4) in {0,1,2,3,4}, and (n) in {m,n,ell}.",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "S3_b5",
+          "instantiated": "K_{(+1 and -1),(0,1,2)}((m,n,ell)) = polygamma((0,1,2), (beta*(gamma + (+1 and -1)*i*(mu - ep(+1 and -1)ilon_(m,n,ell))) + pi)/(2*pi)) fo(0,1,2) (+1 and -1) in {+1,-1}, (0,1,2) in {0,1,2,3,4}, and (m,n,ell) in {m,n,ell}.",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "K_{s,r}(j) = polygamma(r, (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)) for s in {+1,-1}, r in {0,1,2,3,4}, and j in {m,n,ell}."
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "divided_difference",
+      "target_members": [
+        "S1_diag",
+        "S1_off",
+        "S2_diag",
+        "S2_off",
+        "S3_b1",
+        "S3_b2",
+        "S3_b3",
+        "S3_b4",
+        "S3_b5",
+        "S4_b1",
+        "S4_b2",
+        "S4_b3",
+        "S4_b4",
+        "S4_b5"
+      ],
+      "latent_object": "Q_s(z) = (beta*(gamma + s*i*(mu - z)) + pi)/(2*pi), s in {+1,-1}; P_s(z)=polygamma(0,Q_s(z)); Delta_{ij}^{(r)}[P_s] is the r-th divided difference of P_s over nodes epsilon_i,epsilon_j, with confluent limit Delta_{ii}^{(r)}[P_s] = (beta*s*i/(2*pi))^r * polygamma(r, Q_s(epsilon_i)).",
+      "parameters": [
+        "s",
+        "r",
+        "i",
+        "j",
+        "k"
+      ],
+      "operators": [
+        {
+          "member": "S1_diag",
+          "O": "specialize"
+        },
+        {
+          "member": "S1_off",
+          "O": "identity"
+        },
+        {
+          "member": "S3_b1",
+          "O": "specialize"
+        },
+        {
+          "member": "S3_b2",
+          "O": "specialize"
+        },
+        {
+          "member": "S3_b3",
+          "O": "specialize"
+        },
+        {
+          "member": "S3_b4",
+          "O": "specialize"
+        },
+        {
+          "member": "S3_b5",
+          "O": "identity"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "S1_off",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "1,2,3",
+            "i": "m",
+            "j": "n"
+          }
+        },
+        {
+          "member": "S1_diag",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "3,2,1",
+            "i": "n",
+            "j": "n"
+          }
+        },
+        {
+          "member": "S3_b5",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "0,1,2",
+            "i": "m",
+            "j": "n",
+            "k": "ell"
+          }
+        },
+        {
+          "member": "S3_b1",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "4",
+            "i": "n",
+            "j": "n",
+            "k": "n"
+          }
+        }
+      ],
+      "construction_plan": "For each off-diagonal piece, rewrite the rational combination of polygamma terms as divided differences of P_+ and P_- over the relevant epsilon indices. For each equal-index piece, take the confluent limit of the corresponding off-diagonal expression, which replaces divided differences by derivatives and explains the appearance of higher-order polygamma functions.",
+      "required_assumptions": [
+        "epsilon(m), epsilon(n), epsilon(ell) are distinct in off-diagonal branches",
+        "polygamma arguments avoid non-positive integer poles"
+      ],
+      "proof_obligations": [
+        "S1_off - rational divided-difference combination of P_+ and P_- = 0",
+        "S1_diag - limit of S1_off as epsilon(m)->epsilon(n) = 0",
+        "S3_b5 - three-point divided-difference expression = 0",
+        "Each S3 equal-index branch - limit of S3_b5 under the corresponding index coincidences = 0"
+      ],
+      "rationale": "The off-diagonal branches have denominators that are powers of epsilon differences, while diagonal branches contain higher-order polygamma with matching beta powers, exactly the structure expected from confluent divided differences of a base polygamma(0) kernel.",
+      "confidence": 0.65,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D4"
+    },
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "latent_object": "A master sum U(label_set, orientation, indices) in which label_set is an ordered assignment of external labels a,b,c and orientation is the cyclic order of the internal-index edges in the triple-h products.",
+      "parameters": [
+        "label_set",
+        "orientation"
+      ],
+      "operators": [
+        {
+          "member": "S1",
+          "O": "identity"
+        },
+        {
+          "member": "S2",
+          "O": "permute"
+        },
+        {
+          "member": "S3",
+          "O": "identity"
+        },
+        {
+          "member": "S4",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "S2",
+          "theta": {
+            "label_set": "b,c swapped",
+            "orientation": "same as S1"
+          }
+        },
+        {
+          "member": "S4",
+          "theta": {
+            "label_set": "same as S3",
+            "orientation": "reversed cyclic order of second and third h1 index pairs"
+          }
+        }
+      ],
+      "construction_plan": "S2 is obtained from S1 by swapping the external labels b and c everywhere. S4 is obtained from S3 by reversing the ordered index pairs in the second and third h1 factors while leaving the coefficient branches unchanged.",
+      "required_assumptions": [
+        "a,b,c are arbitrary external labels",
+        "h1 indices can be permuted according to the stated source substitution"
+      ],
+      "proof_obligations": [
+        "S2 - substitute(b<->c, S1) = 0",
+        "S4 - substitute(h1(b,ell,m)->h1(b,n,ell), h1(c,n,ell)->h1(c,ell,m), S3) = 0",
+        "Coefficient branches of S3 and S4 are identical as written"
+      ],
+      "rationale": "The two double sums differ only by a label swap b<->c, and the two triple sums share identical coefficient functions while the h1 product changes by a cyclic orientation reversal, indicating an underlying symmetry of the index contraction pattern.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    },
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "S1_diag",
+        "S1_off",
+        "S2_diag",
+        "S2_off",
+        "S3_b1",
+        "S3_b2",
+        "S3_b3",
+        "S3_b4",
+        "S3_b5",
+        "S4_b1",
+        "S4_b2",
+        "S4_b3",
+        "S4_b4",
+        "S4_b5"
+      ],
+      "latent_object": "K_{s,r}(j) = polygamma(r, (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)) for s in {+1,-1}, r in {0,1,2,3,4}, and j in {m,n,ell}.",
+      "parameters": [
+        "s",
+        "r",
+        "j"
+      ],
+      "operators": [
+        {
+          "member": "S1_diag",
+          "O": "identity"
+        },
+        {
+          "member": "S1_off",
+          "O": "identity"
+        },
+        {
+          "member": "S3_b1",
+          "O": "identity"
+        },
+        {
+          "member": "S3_b5",
+          "O": "identity"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "S1_diag",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "3,2,1",
+            "j": "n"
+          }
+        },
+        {
+          "member": "S1_off",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "0,1,2",
+            "j": "m,n"
+          }
+        },
+        {
+          "member": "S3_b1",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "4",
+            "j": "n"
+          }
+        },
+        {
+          "member": "S3_b5",
+          "theta": {
+            "s": "+1 and -1",
+            "r": "0,1,2",
+            "j": "m,n,ell"
+          }
+        }
+      ],
+      "construction_plan": "Replace every occurrence of polygamma(r, (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)) by K_{s,r}(j). The full expression is then a rational-coefficient combination of these kernel evaluations multiplied by the appropriate h1/h2 factors.",
+      "required_assumptions": [
+        "beta, gamma, mu are independent of the summation indices",
+        "epsilon(j) is the only index-dependent part of the polygamma argument"
+      ],
+      "proof_obligations": [
+        "Each target branch after substitution equals the original branch",
+        "All polygamma arguments are exactly of the form (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)"
+      ],
+      "rationale": "Every polygamma in the expression has one of the two index-shifted forms Q_+(epsilon_j) or Q_-(epsilon_j), so the entire structure is generated by repeated evaluation of the same two scalar kernels at different orders and index points.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"divided_difference\",\n      \"target_members\": [\n        \"S1_diag\",\n        \"S1_off\",\n        \"S2_diag\",\n        \"S2_off\",\n        \"S3_b1\",\n        \"S3_b2\",\n        \"S3_b3\",\n        \"S3_b4\",\n        \"S3_b5\",\n        \"S4_b1\",\n        \"S4_b2\",\n        \"S4_b3\",\n        \"S4_b4\",\n        \"S4_b5\"\n      ],\n      \"latent_object\": \"Q_s(z) = (beta*(gamma + s*i*(mu - z)) + pi)/(2*pi), s in {+1,-1}; P_s(z)=polygamma(0,Q_s(z)); Delta_{ij}^{(r)}[P_s] is the r-th divided difference of P_s over nodes epsilon_i,epsilon_j, with confluent limit Delta_{ii}^{(r)}[P_s] = (beta*s*i/(2*pi))^r * polygamma(r, Q_s(epsilon_i)).\",\n      \"parameters\": [\"s\", \"r\", \"i\", \"j\", \"k\"],\n      \"operators\": [\n        {\"member\": \"S1_diag\", \"O\": \"specialize\"},\n        {\"member\": \"S1_off\", \"O\": \"identity\"},\n        {\"member\": \"S3_b1\", \"O\": \"specialize\"},\n        {\"member\": \"S3_b2\", \"O\": \"specialize\"},\n        {\"member\": \"S3_b3\", \"O\": \"specialize\"},\n        {\"member\": \"S3_b4\", \"O\": \"specialize\"},\n        {\"member\": \"S3_b5\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S1_off\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"1,2,3\", \"i\": \"m\", \"j\": \"n\"}},\n        {\"member\": \"S1_diag\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"3,2,1\", \"i\": \"n\", \"j\": \"n\"}},\n        {\"member\": \"S3_b5\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"0,1,2\", \"i\": \"m\", \"j\": \"n\", \"k\": \"ell\"}},\n        {\"member\": \"S3_b1\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"4\", \"i\": \"n\", \"j\": \"n\", \"k\": \"n\"}}\n      ],\n      \"construction_plan\": \"For each off-diagonal piece, rewrite the rational combination of polygamma terms as divided differences of P_+ and P_- over the relevant epsilon indices. For each equal-index piece, take the confluent limit of the corresponding off-diagonal expression, which replaces divided differences by derivatives and explains the appearance of higher-order polygamma functions.\",\n      \"required_assumptions\": [\n        \"epsilon(m), epsilon(n), epsilon(ell) are distinct in off-diagonal branches\",\n        \"polygamma arguments avoid non-positive integer poles\"\n      ],\n      \"proof_obligations\": [\n        \"S1_off - rational divided-difference combination of P_+ and P_- = 0\",\n        \"S1_diag - limit of S1_off as epsilon(m)->epsilon(n) = 0\",\n        \"S3_b5 - three-point divided-difference expression = 0\",\n        \"Each S3 equal-index branch - limit of S3_b5 under the corresponding index coincidences = 0\"\n      ],\n      \"rationale\": \"The off-diagonal branches have denominators that are powers of epsilon differences, while diagonal branches contain higher-order polygamma with matching beta powers, exactly the structure expected from confluent divided differences of a base polygamma(0) kernel.\",\n      \"confidence\": 0.65\n    },\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\n        \"S1\",\n        \"S2\",\n        \"S3\",\n        \"S4\"\n      ],\n      \"latent_object\": \"A master sum U(label_set, orientation, indices) in which label_set is an ordered assignment of external labels a,b,c and orientation is the cyclic order of the internal-index edges in the triple-h products.\",\n      \"parameters\": [\"label_set\", \"orientation\"],\n      \"operators\": [\n        {\"member\": \"S1\", \"O\": \"identity\"},\n        {\"member\": \"S2\", \"O\": \"permute\"},\n        {\"member\": \"S3\", \"O\": \"identity\"},\n        {\"member\": \"S4\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S2\", \"theta\": {\"label_set\": \"b,c swapped\", \"orientation\": \"same as S1\"}},\n        {\"member\": \"S4\", \"theta\": {\"label_set\": \"same as S3\", \"orientation\": \"reversed cyclic order of second and third h1 index pairs\"}}\n      ],\n      \"construction_plan\": \"S2 is obtained from S1 by swapping the external labels b and c everywhere. S4 is obtained from S3 by reversing the ordered index pairs in the second and third h1 factors while leaving the coefficient branches unchanged.\",\n      \"required_assumptions\": [\n        \"a,b,c are arbitrary external labels\",\n        \"h1 indices can be permuted according to the stated source substitution\"\n      ],\n      \"proof_obligations\": [\n        \"S2 - substitute(b<->c, S1) = 0\",\n        \"S4 - substitute(h1(b,ell,m)->h1(b,n,ell), h1(c,n,ell)->h1(c,ell,m), S3) = 0\",\n        \"Coefficient branches of S3 and S4 are identical as written\"\n      ],\n      \"rationale\": \"The two double sums differ only by a label swap b<->c, and the two triple sums share identical coefficient functions while the h1 product changes by a cyclic orientation reversal, indicating an underlying symmetry of the index contraction pattern.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\n        \"S1_diag\",\n        \"S1_off\",\n        \"S2_diag\",\n        \"S2_off\",\n        \"S3_b1\",\n        \"S3_b2\",\n        \"S3_b3\",\n        \"S3_b4\",\n        \"S3_b5\",\n        \"S4_b1\",\n        \"S4_b2\",\n        \"S4_b3\",\n        \"S4_b4\",\n        \"S4_b5\"\n      ],\n      \"latent_object\": \"K_{s,r}(j) = polygamma(r, (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)) for s in {+1,-1}, r in {0,1,2,3,4}, and j in {m,n,ell}.\",\n      \"parameters\": [\"s\", \"r\", \"j\"],\n      \"operators\": [\n        {\"member\": \"S1_diag\", \"O\": \"identity\"},\n        {\"member\": \"S1_off\", \"O\": \"identity\"},\n        {\"member\": \"S3_b1\", \"O\": \"identity\"},\n        {\"member\": \"S3_b5\", \"O\": \"identity\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"S1_diag\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"3,2,1\", \"j\": \"n\"}},\n        {\"member\": \"S1_off\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"0,1,2\", \"j\": \"m,n\"}},\n        {\"member\": \"S3_b1\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"4\", \"j\": \"n\"}},\n        {\"member\": \"S3_b5\", \"theta\": {\"s\": \"+1 and -1\", \"r\": \"0,1,2\", \"j\": \"m,n,ell\"}}\n      ],\n      \"construction_plan\": \"Replace every occurrence of polygamma(r, (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)) by K_{s,r}(j). The full expression is then a rational-coefficient combination of these kernel evaluations multiplied by the appropriate h1/h2 factors.\",\n      \"required_assumptions\": [\n        \"beta, gamma, mu are independent of the summation indices\",\n        \"epsilon(j) is the only index-dependent part of the polygamma argument\"\n      ],\n      \"proof_obligations\": [\n        \"Each target branch after substitution equals the original branch\",\n        \"All polygamma arguments are exactly of the form (beta*(gamma + s*i*(mu - epsilon_j)) + pi)/(2*pi)\"\n      ],\n      \"rationale\": \"Every polygamma in the expression has one of the two index-shifted forms Q_+(epsilon_j) or Q_-(epsilon_j), so the entire structure is generated by repeated evaluation of the same two scalar kernels at different orders and index points.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

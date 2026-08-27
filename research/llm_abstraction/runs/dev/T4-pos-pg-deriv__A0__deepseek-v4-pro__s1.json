@@ -1,0 +1,205 @@
+{
+  "stage": "dev",
+  "item_id": "T4-pos-pg-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A0",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 768,
+    "completion_tokens": 3069,
+    "total_tokens": 3837,
+    "reasoning_tokens": 2307,
+    "cached_tokens": 640
+  },
+  "latency_s": 50.979,
+  "request_id": "43c48bb7-8819-480f-a17a-0a0bb12249ec",
+  "reasoning_len": 8742,
+  "eval": {
+    "id": "T4-pos-pg-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "master_function",
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "log Gamma(z)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "log Gamma(z)",
+          "operator": "identity",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "master_function",
+      "d_level": "D3",
+      "latent_object": "F(z) = log Gamma(z)"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "P(n, z) = polygamma(n, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "master_function",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "F(z) = log Gamma(z)",
+      "parameters": [],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "d/dtheta"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "d/dtheta"
+        }
+      ],
+      "instance_maps": [],
+      "construction_plan": "Take the master function F(z)=log Gamma(z). Apply D=d/dz once to F to obtain polygamma(0,z), and apply D twice to F to obtain polygamma(1,z). The raw expression is then D F + D^2 F without further simplification.",
+      "required_assumptions": [
+        "Gamma(z) is nonzero and log Gamma(z) is sufficiently differentiable",
+        "polygamma(0,z) is defined as d/dz log Gamma(z)",
+        "polygamma(1,z) is defined as d^2/dz^2 log Gamma(z)"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - d/dz log Gamma(z) = 0",
+        "polygamma(1, z) - d^2/dz^2 log Gamma(z) = 0"
+      ],
+      "rationale": "Both terms are consecutive derivative orders of the same logarithmic Gamma master function, so the sum is structurally a differential operator applied to one latent object.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "P(n, z) = polygamma(n, z)",
+      "parameters": [
+        "n"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "n": "0"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "n": "1"
+          }
+        }
+      ],
+      "construction_plan": "Start from the two-parameter family P(n,z)=polygamma(n,z). The two terms are obtained by specializing n=0 and n=1 respectively, and the raw expression is P(0,z)+P(1,z).",
+      "required_assumptions": [
+        "polygamma(n,z) is defined for the nonnegative integer orders n=0 and n=1"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - P(0, z) = 0",
+        "polygamma(1, z) - P(1, z) = 0"
+      ],
+      "rationale": "The two summands are adjacent members of the standard polygamma order family, so they share a common order-parameterized template.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"master_function\",\n      \"target_members\": [\n        \"polygamma(0, z)\",\n        \"polygamma(1, z)\"\n      ],\n      \"latent_object\": \"F(z) = log Gamma(z)\",\n      \"parameters\": [],\n      \"operators\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"O\": \"d/dtheta\"\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"O\": \"d/dtheta\"\n        }\n      ],\n      \"instance_maps\": [],\n      \"construction_plan\": \"Take the master function F(z)=log Gamma(z). Apply D=d/dz once to F to obtain polygamma(0,z), and apply D twice to F to obtain polygamma(1,z). The raw expression is then D F + D^2 F without further simplification.\",\n      \"required_assumptions\": [\n        \"Gamma(z) is nonzero and log Gamma(z) is sufficiently differentiable\",\n        \"polygamma(0,z) is defined as d/dz log Gamma(z)\",\n        \"polygamma(1,z) is defined as d^2/dz^2 log Gamma(z)\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - d/dz log Gamma(z) = 0\",\n        \"polygamma(1, z) - d^2/dz^2 log Gamma(z) = 0\"\n      ],\n      \"rationale\": \"Both terms are consecutive derivative orders of the same logarithmic Gamma master function, so the sum is structurally a differential operator applied to one latent object.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"polygamma(0, z)\",\n        \"polygamma(1, z)\"\n      ],\n      \"latent_object\": \"P(n, z) = polygamma(n, z)\",\n      \"parameters\": [\n        \"n\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"polygamma(0, z)\",\n          \"theta\": {\n            \"n\": \"0\"\n          }\n        },\n        {\n          \"member\": \"polygamma(1, z)\",\n          \"theta\": {\n            \"n\": \"1\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Start from the two-parameter family P(n,z)=polygamma(n,z). The two terms are obtained by specializing n=0 and n=1 respectively, and the raw expression is P(0,z)+P(1,z).\",\n      \"required_assumptions\": [\n        \"polygamma(n,z) is defined for the nonnegative integer orders n=0 and n=1\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - P(0, z) = 0\",\n        \"polygamma(1, z) - P(1, z) = 0\"\n      ],\n      \"rationale\": \"The two summands are adjacent members of the standard polygamma order family, so they share a common order-parameterized template.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

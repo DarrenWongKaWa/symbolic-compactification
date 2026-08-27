@@ -1,0 +1,145 @@
+{
+  "stage": "dev",
+  "item_id": "T7-pos-swap",
+  "category": "T7",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 859,
+    "completion_tokens": 3484,
+    "total_tokens": 4343,
+    "reasoning_tokens": 3019,
+    "cached_tokens": 640
+  },
+  "latency_s": 61.454,
+  "request_id": "e938c3d8-089f-4990-9448-4fd7c95b2a3e",
+  "reasoning_len": 11890,
+  "eval": {
+    "id": "T7-pos-swap",
+    "category": "T7",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 1,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D5"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D5",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "symmetry_invariant"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "T(i, j)",
+          "instantiated": "T((i), (j))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "T(j, i)",
+          "instantiated": "T((j), (i))",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "symmetry_invariant",
+      "d_level": "D5",
+      "latent_object": "K(x, y) = T(x, y)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "target_members": [
+        "T(i, j)",
+        "T(j, i)"
+      ],
+      "latent_object": "K(x, y) = T(x, y)",
+      "parameters": [
+        "x",
+        "y"
+      ],
+      "operators": [
+        {
+          "member": "T(i, j)",
+          "O": "identity"
+        },
+        {
+          "member": "T(j, i)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "T(i, j)",
+          "theta": {
+            "x": "i",
+            "y": "j"
+          }
+        },
+        {
+          "member": "T(j, i)",
+          "theta": {
+            "x": "j",
+            "y": "i"
+          }
+        }
+      ],
+      "construction_plan": "Start with the two-slot kernel K(x,y)=T(x,y). The term T(i,j) is obtained by identity specialization (x,y)->(i,j). The term T(j,i) is obtained by permuting the slots of K, then specializing to (i,j); equivalently specializing (x,y)->(j,i). The full expression is the sum over the S2 orbit of the ordered pair (i,j).",
+      "required_assumptions": [
+        "T is a formal two-argument function",
+        "Permutation acts on the argument order of T"
+      ],
+      "proof_obligations": [
+        "T(i, j) - identity[K](i, j) = 0",
+        "T(j, i) - permute[K](i, j) = 0",
+        "T(i, j) + T(j, i) - (identity[K](i, j) + permute[K](i, j)) = 0"
+      ],
+      "rationale": "The expression is exactly the symmetrization of the two-argument kernel T under the transposition (i,j). The two non-identical terms are related by argument permutation, not by leaf substitution.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D5"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"symmetry_invariant\",\n      \"target_members\": [\"T(i, j)\", \"T(j, i)\"],\n      \"latent_object\": \"K(x, y) = T(x, y)\",\n      \"parameters\": [\"x\", \"y\"],\n      \"operators\": [\n        {\"member\": \"T(i, j)\", \"O\": \"identity\"},\n        {\"member\": \"T(j, i)\", \"O\": \"permute\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"T(i, j)\", \"theta\": {\"x\": \"i\", \"y\": \"j\"}},\n        {\"member\": \"T(j, i)\", \"theta\": {\"x\": \"j\", \"y\": \"i\"}}\n      ],\n      \"construction_plan\": \"Start with the two-slot kernel K(x,y)=T(x,y). The term T(i,j) is obtained by identity specialization (x,y)->(i,j). The term T(j,i) is obtained by permuting the slots of K, then specializing to (i,j); equivalently specializing (x,y)->(j,i). The full expression is the sum over the S2 orbit of the ordered pair (i,j).\",\n      \"required_assumptions\": [\n        \"T is a formal two-argument function\",\n        \"Permutation acts on the argument order of T\"\n      ],\n      \"proof_obligations\": [\n        \"T(i, j) - identity[K](i, j) = 0\",\n        \"T(j, i) - permute[K](i, j) = 0\",\n        \"T(i, j) + T(j, i) - (identity[K](i, j) + permute[K](i, j)) = 0\"\n      ],\n      \"rationale\": \"The expression is exactly the symmetrization of the two-argument kernel T under the transposition (i,j). The two non-identical terms are related by argument permutation, not by leaf substitution.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

@@ -1,0 +1,136 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-B-lgg",
+  "category": "T1",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 1,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1512,
+    "completion_tokens": 3441,
+    "total_tokens": 4953,
+    "reasoning_tokens": 3047,
+    "cached_tokens": 1408
+  },
+  "latency_s": 28.216,
+  "request_id": "dccb71fa-d4b4-4be9-94fb-dce8fad9e50e",
+  "reasoning_len": 12657,
+  "eval": {
+    "id": "CAL-B-lgg",
+    "category": "T1",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D3",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "G0(p)*V(p)**2",
+          "instantiated": "G0(theta)*V(theta)**2",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "G0(q)*V(q)**2",
+          "instantiated": "G0(theta)*V(theta)**2",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "T(theta) = G0(theta)*V(theta)**2"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "G0(p)*V(p)**2",
+        "G0(q)*V(q)**2"
+      ],
+      "latent_object": "T(theta) = G0(theta)*V(theta)**2",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "G0(p)*V(p)**2",
+          "O": "specialize"
+        },
+        {
+          "member": "G0(q)*V(q)**2",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "G0(p)*V(p)**2",
+          "theta": "p"
+        },
+        {
+          "member": "G0(q)*V(q)**2",
+          "theta": "q"
+        }
+      ],
+      "construction_plan": "Define the template T(theta)=G0(theta)*V(theta)**2. Substitute theta=p to obtain the first member and theta=q to obtain the second member. The original expression is the sum of these two instances.",
+      "required_assumptions": [
+        "Multiplication of scalar factors is commutative so V*G0*V can be written as G0*V**2."
+      ],
+      "proof_obligations": [
+        "G0(p)*V(p)**2 - T(theta) with theta=p = 0",
+        "G0(q)*V(q)**2 - T(theta) with theta=q = 0"
+      ],
+      "rationale": "The two non-identical terms share an identical algebraic skeleton with only the variable p/q changing. The LGG observation directly yields this template, and the instance maps are the two substitutions. This explains the AC equivalence and pattern-match relations.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"G0(p)*V(p)**2\", \"G0(q)*V(q)**2\"],\n      \"latent_object\": \"T(theta) = G0(theta)*V(theta)**2\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"O\": \"specialize\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0(p)*V(p)**2\", \"theta\": \"p\"},\n        {\"member\": \"G0(q)*V(q)**2\", \"theta\": \"q\"}\n      ],\n      \"construction_plan\": \"Define the template T(theta)=G0(theta)*V(theta)**2. Substitute theta=p to obtain the first member and theta=q to obtain the second member. The original expression is the sum of these two instances.\",\n      \"required_assumptions\": [\"Multiplication of scalar factors is commutative so V*G0*V can be written as G0*V**2.\"],\n      \"proof_obligations\": [\n        \"G0(p)*V(p)**2 - T(theta) with theta=p = 0\",\n        \"G0(q)*V(q)**2 - T(theta) with theta=q = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms share an identical algebraic skeleton with only the variable p/q changing. The LGG observation directly yields this template, and the instance maps are the two substitutions. This explains the AC equivalence and pattern-match relations.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

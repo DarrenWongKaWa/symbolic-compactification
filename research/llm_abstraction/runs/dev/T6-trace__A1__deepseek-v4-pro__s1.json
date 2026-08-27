@@ -1,0 +1,142 @@
+{
+  "stage": "dev",
+  "item_id": "T6-trace",
+  "category": "T6",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 873,
+    "completion_tokens": 1550,
+    "total_tokens": 2423,
+    "reasoning_tokens": 1172,
+    "cached_tokens": 768
+  },
+  "latency_s": 25.884,
+  "request_id": "8cd85362-b67b-4020-b7ee-c4811a565ae5",
+  "reasoning_len": 4770,
+  "eval": {
+    "id": "T6-trace",
+    "category": "T6",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "M(1,1)",
+          "instantiated": "M((1), (1))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "M(2,2)",
+          "instantiated": "M((2), (2))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "M(a, a)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "M(1,1)",
+        "M(2,2)"
+      ],
+      "latent_object": "M(a, a)",
+      "parameters": [
+        "a"
+      ],
+      "operators": [
+        {
+          "member": "M(1,1)",
+          "O": "specialize"
+        },
+        {
+          "member": "M(2,2)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "M(1,1)",
+          "theta": {
+            "a": "1"
+          }
+        },
+        {
+          "member": "M(2,2)",
+          "theta": {
+            "a": "2"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the symbolic template M(a,a) by substituting a=1 and a=2, respectively, producing M(1,1) and M(2,2). The full expression is the sum of these two instances.",
+      "required_assumptions": [
+        "M(1,1) and M(2,2) are evaluations of the same declared function M on diagonal integer arguments."
+      ],
+      "proof_obligations": [
+        "M(1,1) - substitute(M(a,a), a=1) = 0",
+        "M(2,2) - substitute(M(a,a), a=2) = 0"
+      ],
+      "rationale": "The two non-identical terms share the same function symbol M and the same diagonal argument structure M(a,a), differing only by the numeric value of a. No additional semantic structure is assumed.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"M(1,1)\", \"M(2,2)\"],\n      \"latent_object\": \"M(a, a)\",\n      \"parameters\": [\"a\"],\n      \"operators\": [\n        {\"member\": \"M(1,1)\", \"O\": \"specialize\"},\n        {\"member\": \"M(2,2)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"M(1,1)\", \"theta\": {\"a\": \"1\"}},\n        {\"member\": \"M(2,2)\", \"theta\": {\"a\": \"2\"}}\n      ],\n      \"construction_plan\": \"Instantiate the symbolic template M(a,a) by substituting a=1 and a=2, respectively, producing M(1,1) and M(2,2). The full expression is the sum of these two instances.\",\n      \"required_assumptions\": [\n        \"M(1,1) and M(2,2) are evaluations of the same declared function M on diagonal integer arguments.\"\n      ],\n      \"proof_obligations\": [\n        \"M(1,1) - substitute(M(a,a), a=1) = 0\",\n        \"M(2,2) - substitute(M(a,a), a=2) = 0\"\n      ],\n      \"rationale\": \"The two non-identical terms share the same function symbol M and the same diagonal argument structure M(a,a), differing only by the numeric value of a. No additional semantic structure is assumed.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

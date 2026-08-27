@@ -1,0 +1,222 @@
+{
+  "stage": "dev",
+  "item_id": "T4-pos-pg-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A1",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 2,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 851,
+    "completion_tokens": 5704,
+    "total_tokens": 6555,
+    "reasoning_tokens": 4939,
+    "cached_tokens": 768
+  },
+  "latency_s": 93.078,
+  "request_id": "88d70316-cd8a-4561-a986-5805d2287306",
+  "reasoning_len": 19516,
+  "eval": {
+    "id": "T4-pos-pg-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 2,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 3,
+    "n_nonzero": 0,
+    "n_unknown": 1,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "derivative_family",
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": false,
+      "n_zero": 1,
+      "n_nonzero": 0,
+      "n_unknown": 1,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma(0, (z))",
+          "operator": "identity",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma(0, (z))",
+          "operator": "d/dtheta",
+          "verdict": "UNKNOWN",
+          "note": "sympy.diff_identity"
+        }
+      ],
+      "hypothesis_type": "derivative_family",
+      "d_level": "D3",
+      "latent_object": "F(theta)=polygamma(0, theta)"
+    },
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), (z))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), (z))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "P(n, theta)=polygamma(n, theta)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "derivative_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "F(theta)=polygamma(0, theta)",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "identity"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "d/dtheta"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "theta": "z"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "theta": "z"
+          }
+        }
+      ],
+      "construction_plan": "Take F(theta)=polygamma(0,theta). The first member is F evaluated at theta=z; the second member is dF/dtheta evaluated at theta=z. The raw expression is the sum of these two generated members.",
+      "required_assumptions": [
+        "polygamma(0, theta) is differentiable at theta=z",
+        "the derivative of polygamma(0, theta) is polygamma(1, theta)"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - F(z) = 0",
+        "polygamma(1, z) - d/dtheta polygamma(0, theta)|_{theta=z} = 0"
+      ],
+      "rationale": "The expression contains two consecutive orders of the polygamma function; polygamma(1,z) is the first derivative of polygamma(0,z). Thus the two terms are generated from the digamma function by identity and differentiation.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    },
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "P(n, theta)=polygamma(n, theta)",
+      "parameters": [
+        "n",
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "n": "0",
+            "theta": "z"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "n": "1",
+            "theta": "z"
+          }
+        }
+      ],
+      "construction_plan": "Define a two-parameter template P(n,theta)=polygamma(n,theta). Specializing n=0 and theta=z gives the first term; specializing n=1 and theta=z gives the second term. The raw expression is the sum of these two specializations.",
+      "required_assumptions": [
+        "polygamma(n, theta) is defined for n in {0,1} at theta=z"
+      ],
+      "proof_obligations": [
+        "P(0, z) - polygamma(0, z) = 0",
+        "P(1, z) - polygamma(1, z) = 0"
+      ],
+      "rationale": "The two terms are successive members of the polygamma family indexed by the order parameter n.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"derivative_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"F(theta)=polygamma(0, theta)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"identity\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"d/dtheta\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": \"z\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": \"z\"}}\n      ],\n      \"construction_plan\": \"Take F(theta)=polygamma(0,theta). The first member is F evaluated at theta=z; the second member is dF/dtheta evaluated at theta=z. The raw expression is the sum of these two generated members.\",\n      \"required_assumptions\": [\n        \"polygamma(0, theta) is differentiable at theta=z\",\n        \"the derivative of polygamma(0, theta) is polygamma(1, theta)\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - F(z) = 0\",\n        \"polygamma(1, z) - d/dtheta polygamma(0, theta)|_{theta=z} = 0\"\n      ],\n      \"rationale\": \"The expression contains two consecutive orders of the polygamma function; polygamma(1,z) is the first derivative of polygamma(0,z). Thus the two terms are generated from the digamma function by identity and differentiation.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"P(n, theta)=polygamma(n, theta)\",\n      \"parameters\": [\"n\", \"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"n\": \"0\", \"theta\": \"z\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"n\": \"1\", \"theta\": \"z\"}}\n      ],\n      \"construction_plan\": \"Define a two-parameter template P(n,theta)=polygamma(n,theta). Specializing n=0 and theta=z gives the first term; specializing n=1 and theta=z gives the second term. The raw expression is the sum of these two specializations.\",\n      \"required_assumptions\": [\n        \"polygamma(n, theta) is defined for n in {0,1} at theta=z\"\n      ],\n      \"proof_obligations\": [\n        \"P(0, z) - polygamma(0, z) = 0\",\n        \"P(1, z) - polygamma(1, z) = 0\"\n      ],\n      \"rationale\": \"The two terms are successive members of the polygamma family indexed by the order parameter n.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

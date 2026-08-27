@@ -1,0 +1,142 @@
+{
+  "stage": "flash",
+  "item_id": "CAL-G-confluence",
+  "category": "T5",
+  "polarity": "positive",
+  "condition": "A2",
+  "seed": 0,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1236,
+    "completion_tokens": 3984,
+    "total_tokens": 5220,
+    "reasoning_tokens": 3617,
+    "cached_tokens": 640
+  },
+  "latency_s": 35.59,
+  "request_id": "20c3e177-aad7-4ab4-a87b-46be04889761",
+  "reasoning_len": 14922,
+  "eval": {
+    "id": "CAL-G-confluence",
+    "category": "T5",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "useful",
+    "success": true,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "K(n, m)",
+          "instantiated": "K(n, (m))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n, n)",
+          "instantiated": "K(n, (n))",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "K(n, x)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "K(n, m)",
+        "K(n, n)"
+      ],
+      "latent_object": "K(n, x)",
+      "parameters": [
+        "x"
+      ],
+      "operators": [
+        {
+          "member": "K(n, m)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n, n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n, m)",
+          "theta": {
+            "x": "m"
+          }
+        },
+        {
+          "member": "K(n, n)",
+          "theta": {
+            "x": "n"
+          }
+        }
+      ],
+      "construction_plan": "Define the univariate family L(n, x) = K(n, x) with the first argument n held fixed. The two target expressions are obtained by specializing the second argument x to m and n, respectively.",
+      "required_assumptions": [
+        "No additional assumptions beyond the declared symbols and function K."
+      ],
+      "proof_obligations": [
+        "K(n, m) - specialize(L(n, x), x=m) = 0",
+        "K(n, n) - specialize(L(n, x), x=n) = 0"
+      ],
+      "rationale": "Both terms are evaluations of the same two-argument function K with an identical first argument n, differing only in the second argument. This forms a one-parameter family indexed by the second argument, and the piecewise expression selects one member based on the condition Ne(n,m).",
+      "confidence": 0.6,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"K(n, m)\", \"K(n, n)\"],\n      \"latent_object\": \"K(n, x)\",\n      \"parameters\": [\"x\"],\n      \"operators\": [\n        {\"member\": \"K(n, m)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n, n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n, m)\", \"theta\": {\"x\": \"m\"}},\n        {\"member\": \"K(n, n)\", \"theta\": {\"x\": \"n\"}}\n      ],\n      \"construction_plan\": \"Define the univariate family L(n, x) = K(n, x) with the first argument n held fixed. The two target expressions are obtained by specializing the second argument x to m and n, respectively.\",\n      \"required_assumptions\": [\"No additional assumptions beyond the declared symbols and function K.\"],\n      \"proof_obligations\": [\n        \"K(n, m) - specialize(L(n, x), x=m) = 0\",\n        \"K(n, n) - specialize(L(n, x), x=n) = 0\"\n      ],\n      \"rationale\": \"Both terms are evaluations of the same two-argument function K with an identical first argument n, differing only in the second argument. This forms a one-parameter family indexed by the second argument, and the piecewise expression selects one member based on the condition Ne(n,m).\",\n      \"confidence\": 0.6\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

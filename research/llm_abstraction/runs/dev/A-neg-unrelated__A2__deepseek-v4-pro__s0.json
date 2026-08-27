@@ -1,0 +1,147 @@
+{
+  "stage": "dev",
+  "item_id": "A-neg-unrelated",
+  "category": "T1-neg",
+  "polarity": "negative",
+  "condition": "A2",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1379,
+    "completion_tokens": 2528,
+    "total_tokens": 3907,
+    "reasoning_tokens": 2031,
+    "cached_tokens": 640
+  },
+  "latency_s": 38.917,
+  "request_id": "4e9cbd8d-bdc3-4f50-a2b5-b8cb51f581e2",
+  "reasoning_len": 7397,
+  "eval": {
+    "id": "A-neg-unrelated",
+    "category": "T1-neg",
+    "polarity": "negative",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": false,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": true,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D3",
+    "highest_certified": null,
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2,
+      "obligations": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "instantiated": "(G0)((p))*(V)((p))**2",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "instantiated": "(H0)((q))*(W)((q))**2",
+          "operator": "permute",
+          "verdict": "UNKNOWN",
+          "note": "permute"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "B(x)*A(x)**2"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "V(p)*G0(p)*V(p)",
+        "W(q)*H0(q)*W(q)"
+      ],
+      "latent_object": "B(x)*A(x)**2",
+      "parameters": [
+        "A",
+        "B",
+        "x"
+      ],
+      "operators": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "O": "permute"
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "O": "permute"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "V(p)*G0(p)*V(p)",
+          "theta": {
+            "A": "V",
+            "B": "G0",
+            "x": "p"
+          }
+        },
+        {
+          "member": "W(q)*H0(q)*W(q)",
+          "theta": {
+            "A": "W",
+            "B": "H0",
+            "x": "q"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate B(x)*A(x)^2 with the given mapping. The raw terms become this template under AC permutation: V(p)*G0(p)*V(p) -> G0(p)*V(p)^2 and W(q)*H0(q)*W(q) -> H0(q)*W(q)^2.",
+      "required_assumptions": [
+        "Function values multiply commutatively and associatively",
+        "Each term is a scalar monomial in one variable"
+      ],
+      "proof_obligations": [
+        "V(p)*G0(p)*V(p) - G0(p)*V(p)**2 = 0 under AC multiplication",
+        "W(q)*H0(q)*W(q) - H0(q)*W(q)**2 = 0 under AC multiplication"
+      ],
+      "rationale": "Both summands share the same two-function monomial structure: a central function times the square of a repeated flanking function, up to multiplicative commutativity.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\n        \"V(p)*G0(p)*V(p)\",\n        \"W(q)*H0(q)*W(q)\"\n      ],\n      \"latent_object\": \"B(x)*A(x)**2\",\n      \"parameters\": [\n        \"A\",\n        \"B\",\n        \"x\"\n      ],\n      \"operators\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"O\": \"permute\"\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"O\": \"permute\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"V(p)*G0(p)*V(p)\",\n          \"theta\": {\n            \"A\": \"V\",\n            \"B\": \"G0\",\n            \"x\": \"p\"\n          }\n        },\n        {\n          \"member\": \"W(q)*H0(q)*W(q)\",\n          \"theta\": {\n            \"A\": \"W\",\n            \"B\": \"H0\",\n            \"x\": \"q\"\n          }\n        }\n      ],\n      \"construction_plan\": \"Instantiate B(x)*A(x)^2 with the given mapping. The raw terms become this template under AC permutation: V(p)*G0(p)*V(p) -> G0(p)*V(p)^2 and W(q)*H0(q)*W(q) -> H0(q)*W(q)^2.\",\n      \"required_assumptions\": [\n        \"Function values multiply commutatively and associatively\",\n        \"Each term is a scalar monomial in one variable\"\n      ],\n      \"proof_obligations\": [\n        \"V(p)*G0(p)*V(p) - G0(p)*V(p)**2 = 0 under AC multiplication\",\n        \"W(q)*H0(q)*W(q) - H0(q)*W(q)**2 = 0 under AC multiplication\"\n      ],\n      \"rationale\": \"Both summands share the same two-function monomial structure: a central function times the square of a repeated flanking function, up to multiplicative commutativity.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

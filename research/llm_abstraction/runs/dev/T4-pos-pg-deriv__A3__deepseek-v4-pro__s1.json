@@ -1,0 +1,143 @@
+{
+  "stage": "dev",
+  "item_id": "T4-pos-pg-deriv",
+  "category": "T3",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1204,
+    "completion_tokens": 5167,
+    "total_tokens": 6371,
+    "reasoning_tokens": 4759,
+    "cached_tokens": 1152
+  },
+  "latency_s": 91.106,
+  "request_id": "e1fe19e0-c4d2-4378-9502-b20b8049e6d6",
+  "reasoning_len": 18846,
+  "eval": {
+    "id": "T4-pos-pg-deriv",
+    "category": "T3",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": false,
+    "targeting_hit": true,
+    "construction_ok": true,
+    "certified": true,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "d_attempted": [
+      "D3"
+    ],
+    "d_certified": [
+      "D3"
+    ],
+    "highest_attempted": "D3",
+    "highest_certified": "D3",
+    "quality": "incorrect",
+    "success": false,
+    "types": [
+      "parameterized_family"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": true,
+      "certified": true,
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "obligations": [
+        {
+          "member": "polygamma(0, z)",
+          "instantiated": "polygamma((0), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "instantiated": "polygamma((1), z)",
+          "operator": "specialize",
+          "verdict": "ZERO",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "parameterized_family",
+      "d_level": "D3",
+      "latent_object": "polygamma(theta, z)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "target_members": [
+        "polygamma(0, z)",
+        "polygamma(1, z)"
+      ],
+      "latent_object": "polygamma(theta, z)",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "polygamma(0, z)",
+          "O": "specialize"
+        },
+        {
+          "member": "polygamma(1, z)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "polygamma(0, z)",
+          "theta": {
+            "theta": "0"
+          }
+        },
+        {
+          "member": "polygamma(1, z)",
+          "theta": {
+            "theta": "1"
+          }
+        }
+      ],
+      "construction_plan": "Instantiate the single free order parameter theta in polygamma(theta, z) to 0 and 1. The two observed expressions are exactly the specializations of this shared template.",
+      "required_assumptions": [
+        "theta is an integer order for which polygamma(theta, z) is defined"
+      ],
+      "proof_obligations": [
+        "polygamma(0, z) - polygamma(theta, z)[theta:=0] = 0",
+        "polygamma(1, z) - polygamma(theta, z)[theta:=1] = 0",
+        "d/dz polygamma(0, z) - polygamma(1, z) = 0"
+      ],
+      "rationale": "The two expressions share the same head polygamma and differ only by the integer order argument. The LGG template polygamma(theta0, z) captures this parameter. The reported derivative relation is an additional property of the parameterized family, not a separate structural generator.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D3"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"parameterized_family\",\n      \"target_members\": [\"polygamma(0, z)\", \"polygamma(1, z)\"],\n      \"latent_object\": \"polygamma(theta, z)\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"polygamma(0, z)\", \"O\": \"specialize\"},\n        {\"member\": \"polygamma(1, z)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"polygamma(0, z)\", \"theta\": {\"theta\": \"0\"}},\n        {\"member\": \"polygamma(1, z)\", \"theta\": {\"theta\": \"1\"}}\n      ],\n      \"construction_plan\": \"Instantiate the single free order parameter theta in polygamma(theta, z) to 0 and 1. The two observed expressions are exactly the specializations of this shared template.\",\n      \"required_assumptions\": [\n        \"theta is an integer order for which polygamma(theta, z) is defined\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0, z) - polygamma(theta, z)[theta:=0] = 0\",\n        \"polygamma(1, z) - polygamma(theta, z)[theta:=1] = 0\",\n        \"d/dz polygamma(0, z) - polygamma(1, z) = 0\"\n      ],\n      \"rationale\": \"The two expressions share the same head polygamma and differ only by the integer order argument. The LGG template polygamma(theta0, z) captures this parameter. The reported derivative relation is an additional property of the parameterized family, not a separate structural generator.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}

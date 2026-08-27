@@ -1,0 +1,154 @@
+{
+  "stage": "dev",
+  "item_id": "T0-cse",
+  "category": "T0",
+  "polarity": "positive",
+  "condition": "A3",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "packet_cap": 10,
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_hypotheses": 1,
+  "abstain": false,
+  "usage": {
+    "prompt_tokens": 1310,
+    "completion_tokens": 3638,
+    "total_tokens": 4948,
+    "reasoning_tokens": 3160,
+    "cached_tokens": 1280
+  },
+  "latency_s": 56.331,
+  "request_id": "4a03ef24-638b-4b55-9d3e-b613b0569cd1",
+  "reasoning_len": 12055,
+  "eval": {
+    "id": "T0-cse",
+    "category": "T0",
+    "polarity": "positive",
+    "parse_status": "OK",
+    "parse_failure": false,
+    "blocked": false,
+    "abstain": false,
+    "n_hypotheses": 1,
+    "n_parse_failure_hyps": 0,
+    "type_hit": true,
+    "targeting_hit": true,
+    "construction_ok": false,
+    "certified": false,
+    "false_abstraction": false,
+    "unnecessary": false,
+    "representation_change": false,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 3,
+    "d_attempted": [
+      "D2"
+    ],
+    "d_certified": [],
+    "highest_attempted": "D2",
+    "highest_certified": null,
+    "quality": "gold-like-but-unsupported",
+    "success": false,
+    "types": [
+      "repeated_kernel"
+    ]
+  },
+  "constructions": [
+    {
+      "constructable": false,
+      "certified": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 3,
+      "obligations": [
+        {
+          "member": "K(n)*a(n)",
+          "instantiated": "K(n)*theta",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "instantiated": "K(n)*theta",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        },
+        {
+          "member": "K(n)",
+          "instantiated": "K(n)*theta",
+          "operator": "specialize",
+          "verdict": "UNKNOWN",
+          "note": "identity_or_specialize"
+        }
+      ],
+      "hypothesis_type": "repeated_kernel",
+      "d_level": "D2",
+      "latent_object": "K(n)*theta"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "target_members": [
+        "K(n)*a(n)",
+        "K(n)*b(n)",
+        "K(n)"
+      ],
+      "latent_object": "K(n)*theta",
+      "parameters": [
+        "theta"
+      ],
+      "operators": [
+        {
+          "member": "K(n)*a(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "O": "specialize"
+        },
+        {
+          "member": "K(n)",
+          "O": "specialize"
+        }
+      ],
+      "instance_maps": [
+        {
+          "member": "K(n)*a(n)",
+          "theta": "a(n)"
+        },
+        {
+          "member": "K(n)*b(n)",
+          "theta": "b(n)"
+        },
+        {
+          "member": "K(n)",
+          "theta": "1"
+        }
+      ],
+      "construction_plan": "Instantiate the repeated-kernel template K(n)*theta by replacing theta with the member-specific companion value. For K(n), theta=1 and multiplicative identity reduces the instantiated template to K(n).",
+      "required_assumptions": [
+        "Multiplication is associative/commutative as reported by the MatchPy AC backend.",
+        "Multiplicative identity simplification K(n)*1 -> K(n) is available."
+      ],
+      "proof_obligations": [
+        "K(n)*a(n) - (K(n)*theta)[theta -> a(n)] = 0",
+        "K(n)*b(n) - (K(n)*theta)[theta -> b(n)] = 0",
+        "K(n) - simplify((K(n)*theta)[theta -> 1]) = 0"
+      ],
+      "rationale": "F01 reports a one-hole AC/LGG product pattern K(n)*theta with theta in {a(n), b(n)}. F02 reports K(n) as the shared CSE subexpression. Treating K(n) as a repeated kernel and theta as a single companion parameter explains both non-identical product forms and the shared bare subexpression without claiming a closed-form simplification beyond the symbolic template.",
+      "confidence": 0.86,
+      "parse_status": "OK",
+      "parse_error": null,
+      "quality_flags": [],
+      "d_level": "D2"
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"hypothesis_type\": \"repeated_kernel\",\n      \"target_members\": [\"K(n)*a(n)\", \"K(n)*b(n)\", \"K(n)\"],\n      \"latent_object\": \"K(n)*theta\",\n      \"parameters\": [\"theta\"],\n      \"operators\": [\n        {\"member\": \"K(n)*a(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)*b(n)\", \"O\": \"specialize\"},\n        {\"member\": \"K(n)\", \"O\": \"specialize\"}\n      ],\n      \"instance_maps\": [\n        {\"member\": \"K(n)*a(n)\", \"theta\": \"a(n)\"},\n        {\"member\": \"K(n)*b(n)\", \"theta\": \"b(n)\"},\n        {\"member\": \"K(n)\", \"theta\": \"1\"}\n      ],\n      \"construction_plan\": \"Instantiate the repeated-kernel template K(n)*theta by replacing theta with the member-specific companion value. For K(n), theta=1 and multiplicative identity reduces the instantiated template to K(n).\",\n      \"required_assumptions\": [\n        \"Multiplication is associative/commutative as reported by the MatchPy AC backend.\",\n        \"Multiplicative identity simplification K(n)*1 -> K(n) is available.\"\n      ],\n      \"proof_obligations\": [\n        \"K(n)*a(n) - (K(n)*theta)[theta -> a(n)] = 0\",\n        \"K(n)*b(n) - (K(n)*theta)[theta -> b(n)] = 0\",\n        \"K(n) - simplify((K(n)*theta)[theta -> 1]) = 0\"\n      ],\n      \"rationale\": \"F01 reports a one-hole AC/LGG product pattern K(n)*theta with theta in {a(n), b(n)}. F02 reports K(n) as the shared CSE subexpression. Treating K(n) as a repeated kernel and theta as a single companion parameter explains both non-identical product forms and the shared bare subexpression without claiming a closed-form simplification beyond the symbolic template.\",\n      \"confidence\": 0.86\n    }\n  ]\n}",
+  "error": null,
+  "blocked": false
+}
