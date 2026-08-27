@@ -1,0 +1,49 @@
+{
+  "audit_date": "2026-08-27",
+  "legend": {
+    "Y": "first-class capability as specified",
+    "P": "partial / related object / not the same mathematics",
+    "N": "absent",
+    "NA": "not applicable"
+  },
+  "columns": [
+    "grounded_members",
+    "explicit_F",
+    "operators",
+    "exact_ZERO_NONZERO_UNKNOWN",
+    "no_gold_leakage",
+    "DD",
+    "master",
+    "scientific_expressions"
+  ],
+  "rows": [
+    {"id": "newton_interpolation", "citation": "Newton Methodus Differentialis 1711; Conte-de Boor 1980 Ch.2", "cells": {"grounded_members": "P", "explicit_F": "Y", "operators": "Y", "exact_ZERO_NONZERO_UNKNOWN": "NA", "no_gold_leakage": "NA", "DD": "Y", "master": "N", "scientific_expressions": "N"}},
+    {"id": "hermite_confluent_dd", "citation": "Hermite 1878; Conte-de Boor 1980; de Boor 2005 arXiv:math/0502036; Traub 1964", "cells": {"grounded_members": "P", "explicit_F": "Y", "operators": "Y", "exact_ZERO_NONZERO_UNKNOWN": "NA", "no_gold_leakage": "NA", "DD": "Y", "master": "N", "scientific_expressions": "N"}},
+    {"id": "cas_simplify_interpolation", "citation": "Mathematica FullSimplify / InterpolatingPolynomial; SymPy simplify", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "P", "master": "N", "scientific_expressions": "Y"}},
+    {"id": "form_cadabra_xact", "citation": "FORM; Cadabra; xAct/xPerm", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "Y"}},
+    {"id": "ibp_laporta_fire_kira", "citation": "Chetyrkin-Tkachov 1981; Laporta 2000; FIRE6 arXiv:1901.07808; Kira arXiv:1705.05610", "cells": {"grounded_members": "Y", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "N", "DD": "N", "master": "P", "scientific_expressions": "Y"}},
+    {"id": "egg_eqsat", "citation": "Tate POPL 2009; Willsey et al. POPL 2021 doi:10.1145/3434304", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "egglog", "citation": "Zhang et al. PLDI 2023 doi:10.1145/3591239", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "ruler_enumo", "citation": "Nandi et al. OOPSLA 2021; Pal et al. OOPSLA 2023", "cells": {"grounded_members": "N", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "guided_eqsat", "citation": "Koehler et al. POPL 2024 doi:10.1145/3632900", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "lguess", "citation": "Peng Ji Xiong arXiv:2511.00403", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "herbie", "citation": "Panchekha et al. PLDI 2015", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "P"}},
+    {"id": "neurewriter", "citation": "Chen Tian NeurIPS 2019 arXiv:1810.00337", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "dreamcoder", "citation": "Ellis et al. PLDI 2021 doi:10.1145/3453483.3454080", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "P", "scientific_expressions": "N"}},
+    {"id": "stitch", "citation": "Bowers et al. POPL 2023 doi:10.1145/3571234", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "P", "scientific_expressions": "N"}},
+    {"id": "babble", "citation": "Cao et al. POPL 2023 arXiv:2212.04596", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "P", "scientific_expressions": "N"}},
+    {"id": "laps", "citation": "Wong et al. NeurIPS 2021 arXiv:2106.11053", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "P", "scientific_expressions": "N"}},
+    {"id": "lilo", "citation": "Grand et al. ICLR 2024 arXiv:2310.19791", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "P", "scientific_expressions": "N"}},
+    {"id": "flashfill_sygus", "citation": "Gulwani POPL 2011; Alur et al. FMCAD 2013", "cells": {"grounded_members": "P", "explicit_F": "P", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "funsearch_alphaevolve", "citation": "Romera-Paredes et al. Nature 2024; Novikov et al. 2025", "cells": {"grounded_members": "N", "explicit_F": "N", "operators": "N", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "symbolic_regression", "citation": "Udrescu Tegmark 2020; Shojaee et al. LLM-SR arXiv:2404.18400; Grayeli et al. LaSR", "cells": {"grounded_members": "N", "explicit_F": "P", "operators": "N", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "P"}},
+    {"id": "formal_provers", "citation": "AlphaGeometry; AlphaProof; LeanDojo; DeepSeek-Prover", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "llm_cas_answers", "citation": "PAL; ToRA; Moxia arXiv:2606.00671", "cells": {"grounded_members": "N", "explicit_F": "N", "operators": "N", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "oforge", "citation": "Khaitan Ganesh arXiv:2510.12350", "cells": {"grounded_members": "N", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "P", "no_gold_leakage": "P", "DD": "N", "master": "N", "scientific_expressions": "N"}},
+    {"id": "hep_ml_simplify", "citation": "Shih arXiv:2603.11164; Cheung Dersy Schwartz SciPost 2025", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "N", "no_gold_leakage": "N", "DD": "N", "master": "N", "scientific_expressions": "P"}},
+    {"id": "frozen_b9_4237f6b", "citation": "this repo structure-discovery v0.1 SHA 4237f6b", "cells": {"grounded_members": "P", "explicit_F": "N", "operators": "N", "exact_ZERO_NONZERO_UNKNOWN": "Y", "no_gold_leakage": "Y", "DD": "N", "master": "N", "scientific_expressions": "Y"}},
+    {"id": "frozen_lgg_efc0924", "citation": "this repo first-order LGG SHA efc0924 (prior, not this line)", "cells": {"grounded_members": "Y", "explicit_F": "P", "operators": "N", "exact_ZERO_NONZERO_UNKNOWN": "Y", "no_gold_leakage": "Y", "DD": "N", "master": "N", "scientific_expressions": "P"}},
+    {"id": "grounded_proposer_v1_3fea222", "citation": "this repo Grounded-Proposer-v1 SHA 3fea222; G1 local confluence not DD-OK", "cells": {"grounded_members": "Y", "explicit_F": "N", "operators": "P", "exact_ZERO_NONZERO_UNKNOWN": "Y", "no_gold_leakage": "Y", "DD": "N", "master": "N", "scientific_expressions": "Y"}},
+    {"id": "repr_invention_v1_contracts_45b2b4d", "citation": "this repo RepresentationHypothesisV2 contracts SHA 45b2b4d; schema only, not a run result", "cells": {"grounded_members": "Y", "explicit_F": "Y", "operators": "Y", "exact_ZERO_NONZERO_UNKNOWN": "Y", "no_gold_leakage": "Y", "DD": "Y", "master": "Y", "scientific_expressions": "Y"}, "note": "contract requires Y; not evidence of DD-OK or Master-OK"}
+  ]
+}
