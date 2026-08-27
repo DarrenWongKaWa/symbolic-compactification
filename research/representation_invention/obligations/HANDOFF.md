@@ -2,8 +2,8 @@
 
 Parent: `45b2b4dc7c823901f4b79713d279c6be7bae2859`
 Branch: `work/representation-obligations`
-Commit: (filled after commit)
-Tests: `.venv/bin/python -m pytest tests/test_representation_obligations.py -q`
+Commit: `44d349629c70e3415c02e050155659710a9bdb39`
+Tests: `.venv/bin/python -m pytest tests/test_representation_obligations.py -q` (25 passed)
 
 ## Semantics
 
