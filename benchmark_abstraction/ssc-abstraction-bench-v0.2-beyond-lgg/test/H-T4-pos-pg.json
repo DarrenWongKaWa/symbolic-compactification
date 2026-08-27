@@ -1,0 +1,30 @@
+{
+  "abstraction_depth": "F3",
+  "current": "polygamma(0, w) + polygamma(1, w)",
+  "expected_lgg_fail": false,
+  "family": "T4_derivative",
+  "functions": [],
+  "gold_members": [
+    "polygamma(0, w)",
+    "polygamma(1, w)"
+  ],
+  "gold_mode": "operator",
+  "hidden_from_proposer": true,
+  "id": "H-T4-pos-pg",
+  "license": "author-constructed",
+  "polarity": "positive",
+  "scientific_context": [
+    "Related expressions may be equivalent only after algebra, or related by an operator (derivative, permutation), not by leaf substitution.",
+    "Do not emit a final compact formula. Propose F and operators."
+  ],
+  "source_format": "sympy",
+  "split": "test",
+  "symbols": [
+    {
+      "name": "w",
+      "real": true
+    }
+  ],
+  "task": "beyond_lgg",
+  "version": "ssc-abstraction-bench-v0.2-beyond-lgg"
+}

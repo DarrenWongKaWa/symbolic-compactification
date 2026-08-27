@@ -1,0 +1,44 @@
+{
+  "abstraction_depth": "F2",
+  "current": "(p + q)*u + (p + r)*v",
+  "expected_lgg_fail": true,
+  "family": "T1_ac",
+  "functions": [],
+  "gold_members": [],
+  "gold_mode": "algebraic_equivalence",
+  "hidden_from_proposer": true,
+  "id": "T1-neg-different-sums",
+  "license": "author-constructed",
+  "note": "p+q vs p+r are not AC-equal",
+  "polarity": "negative",
+  "scientific_context": [
+    "Related expressions may be equivalent only after algebra, or related by an operator (derivative, permutation), not by leaf substitution.",
+    "Do not emit a final compact formula. Propose F and operators."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "p",
+      "real": true
+    },
+    {
+      "name": "q",
+      "real": true
+    },
+    {
+      "name": "r",
+      "real": true
+    },
+    {
+      "name": "u",
+      "real": true
+    },
+    {
+      "name": "v",
+      "real": true
+    }
+  ],
+  "task": "beyond_lgg",
+  "version": "ssc-abstraction-bench-v0.2-beyond-lgg"
+}

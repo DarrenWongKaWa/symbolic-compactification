@@ -21,12 +21,13 @@ A **separate** structure-discovery line lives in
 `research/structure_discovery/` (closed v0.1: typed exact-pattern protocol
 works; invention unsolved). Frozen B9 is the Layer-1 baseline.
 
-Layer 2 (`research/abstraction_invention/`, branch
-`research/verified-abstraction-invention`) asks whether a parameterized
-template can be invented from **related but non-identical** subexpressions.
-On a small held-out set, first-order anti-unification (M_lgg) recovers those
-templates where frozen B9 invention-success is 0. That is LGG, not an LLM.
-Guo is still not L4–L7. Decision: **E**. No paper package.
+Layer 2 (`research/abstraction_invention/`): first-order LGG is **closed**
+(`LGG_CLOSED.md`) — it solves substitution-level abstraction (v0.1 TEST
+5/5 vs frozen B9 0/5), not scientific invention in general. Beyond-LGG
+controls: distributivity is canonicalization (not invention); operator
+graphs recover derivative/permutation edges; a gold-free score drops
+`I*mu*theta0` below a polygamma family. LLM cell still BLOCKED. Decision
+**E**. No paper.
 
 
 The Grok skill is

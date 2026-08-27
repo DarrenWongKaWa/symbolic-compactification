@@ -1,0 +1,74 @@
+[
+  {
+    "rank": 1,
+    "template": "beta*gamma*(theta0 + theta1)",
+    "S": 19.2733,
+    "keep": false,
+    "gain": 66,
+    "depth": 0.08,
+    "named": 0.3
+  },
+  {
+    "rank": 2,
+    "template": "beta*theta0*theta1",
+    "S": 14.2133,
+    "keep": false,
+    "gain": 46,
+    "depth": 0.06,
+    "named": 0.3
+  },
+  {
+    "rank": 3,
+    "template": "theta0*theta1*(polygamma(theta2, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi)) + polygamma(theta",
+    "S": 12.63,
+    "keep": true,
+    "gain": 19,
+    "depth": 0.96,
+    "named": 1.0
+  },
+  {
+    "rank": 4,
+    "template": "beta*(gamma + I*mu - I*epsilon(n)) + pi",
+    "S": 8.0,
+    "keep": true,
+    "gain": 4,
+    "depth": 1.0,
+    "named": 1.0
+  },
+  {
+    "rank": 5,
+    "template": "beta*(gamma + I*mu - I*epsilon(n))",
+    "S": 8.0,
+    "keep": true,
+    "gain": 4,
+    "depth": 1.0,
+    "named": 1.0
+  },
+  {
+    "rank": 6,
+    "template": "beta*(gamma - I*mu + I*epsilon(n)) + pi",
+    "S": 8.0,
+    "keep": true,
+    "gain": 4,
+    "depth": 1.0,
+    "named": 1.0
+  },
+  {
+    "rank": 7,
+    "template": "beta*(gamma - I*mu + I*epsilon(n))",
+    "S": 8.0,
+    "keep": true,
+    "gain": 4,
+    "depth": 1.0,
+    "named": 1.0
+  },
+  {
+    "rank": 8,
+    "template": "I*mu*theta0",
+    "S": 6.45,
+    "keep": false,
+    "gain": 1,
+    "depth": 1.0,
+    "named": 0.3
+  }
+]

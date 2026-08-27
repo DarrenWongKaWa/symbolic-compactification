@@ -1,0 +1,41 @@
+{
+  "abstraction_depth": "F2",
+  "current": "H(a*(b + c)) + H(a*b + d*c)",
+  "expected_lgg_fail": true,
+  "family": "T2_distrib",
+  "functions": [
+    "H"
+  ],
+  "gold_members": [],
+  "gold_mode": "algebraic_equivalence",
+  "hidden_from_proposer": true,
+  "id": "H-T2-neg",
+  "license": "author-constructed",
+  "polarity": "negative",
+  "scientific_context": [
+    "Related expressions may be equivalent only after algebra, or related by an operator (derivative, permutation), not by leaf substitution.",
+    "Do not emit a final compact formula. Propose F and operators."
+  ],
+  "source_format": "sympy",
+  "split": "test",
+  "symbols": [
+    {
+      "name": "a",
+      "real": true
+    },
+    {
+      "name": "b",
+      "real": true
+    },
+    {
+      "name": "c",
+      "real": true
+    },
+    {
+      "name": "d",
+      "real": true
+    }
+  ],
+  "task": "beyond_lgg",
+  "version": "ssc-abstraction-bench-v0.2-beyond-lgg"
+}

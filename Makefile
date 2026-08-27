@@ -68,3 +68,10 @@ ai-dev:
 
 ai-final:
 	$(PYTHON) -m research.abstraction_invention.prototype.run_final
+
+ai-v02-dev:
+	$(PYTHON) -m research.abstraction_invention.beyond.run_v02 dev
+
+ai-v02-test:
+	$(PYTHON) -m research.abstraction_invention.beyond.freeze_v02
+	$(PYTHON) -m research.abstraction_invention.beyond.run_v02 test

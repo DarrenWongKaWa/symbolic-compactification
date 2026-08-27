@@ -27,6 +27,14 @@ LLM blocked. Guo: LGG found a parameterized polygamma pair template; also shallo
 - LLM vs LGG on Guo-scale families.
 - Second-order / equational anti-unification.
 
+## Beyond-LGG (this snapshot)
+
+- LGG closed: `LGG_CLOSED.md`
+- Taxonomy F1–F8, literature_v2, quality score, v0.2 bench
+- DEV+TEST: F2 often CASE A (canon); F3 needs operator graph; LLM BLOCKED
+- Guo: polygamma `keep=true` ranks above `I*mu*theta0` (`keep=false`)
+
 ## Decision
 
-**E** — algorithmic signal on toys (LGG beats CSE baseline on non-identical families). Not a paper. Not “AI invented structure.”
+**E** — LGG solves substitution abstraction; beyond LGG is partly
+normalization, partly operator edges, not an AI-method result. No paper.

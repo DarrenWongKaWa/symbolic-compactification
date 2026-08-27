@@ -1,0 +1,32 @@
+{
+  "abstraction_depth": "F3",
+  "current": "polygamma(0, z) + polygamma(1, z)",
+  "expected_lgg_fail": false,
+  "family": "T4_derivative",
+  "functions": [],
+  "gold_members": [
+    "polygamma(0, z)",
+    "polygamma(1, z)"
+  ],
+  "gold_mode": "operator",
+  "hidden_from_proposer": true,
+  "id": "T4-pos-pg-deriv",
+  "lgg_expected": "substitution_not_operator",
+  "license": "author-constructed",
+  "note": "LGG may put a hole in the order; operator method must state d/dz",
+  "polarity": "positive",
+  "scientific_context": [
+    "Related expressions may be equivalent only after algebra, or related by an operator (derivative, permutation), not by leaf substitution.",
+    "Do not emit a final compact formula. Propose F and operators."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "z",
+      "real": true
+    }
+  ],
+  "task": "beyond_lgg",
+  "version": "ssc-abstraction-bench-v0.2-beyond-lgg"
+}
