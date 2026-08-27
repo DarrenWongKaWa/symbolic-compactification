@@ -23,6 +23,9 @@ Frozen DeepSeek-v1 outputs (`research/llm_abstraction/runs/`) are closed.
 Track B grounding on those files is closed (`d20c1a2`).
 Do not re-squeeze them.
 
-New line: **Grounded-Proposer-v1** — grounding is part of the proposal
-contract. Same SOL, same model, same budgets; only the output contract
-changes (P0 aliases vs P1 catalog IDs).
+Grounded-Proposer-v1 (`3fea222`) is frozen. Guo DEV: 11/11 local
+confluence ZERO under catalog IDs.
+
+New line: **Verified Representation Invention v1**
+(`research/representation_invention/`). Same SOL/model/budgets; richer
+`H=(R,{A_i},{O_i},F)` contract. Do not mutate P1 runs.
