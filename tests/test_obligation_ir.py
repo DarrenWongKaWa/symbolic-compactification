@@ -122,6 +122,88 @@ def test_g1_requires_explicit_dd_type():
     assert g1_discovery([dd])["pass"] is True
 
 
+def test_node_id_exact_bind():
+    from research.obligation_ir.source_index import SourceIndex, SourceNode
+    from research.obligation_ir.grounding import EXACT_BIND, bind_alias
+    n = SourceNode("G0001", "sol_node", "x + y", "Add(x,y)", 1, sol_node_id="N0014")
+    idx = SourceIndex([n])
+    b = bind_alias("N0014", idx)
+    assert b.confidence == EXACT_BIND
+    assert b.text == "x + y"
+
+
+def test_h_factor_unique_bind_and_no_guess_s1():
+    from research.obligation_ir.source_index import build_index
+    from research.obligation_ir.grounding import (
+        EXACT_BIND, UNIQUE_STRUCTURAL_BIND, NO_BIND, AMBIGUOUS_BIND,
+        bind_alias,
+    )
+    expr = (
+        "Sum(Piecewise((a(n), Eq(m, n)), (f(m), True)), (n, 1, N), (m, 1, N))"
+        " + Sum(Piecewise((b(n), Eq(m, n)), (g(m), True)), (n, 1, N), (m, 1, N))"
+    )
+    idx = build_index(
+        expr,
+        [{"name": x, "real": True} for x in "nmN"],
+        ["a", "b", "f", "g"],
+    )
+    b = bind_alias("S1_True", idx, theta={"collision": "generic"}, latent="")
+    assert b.confidence in {AMBIGUOUS_BIND, NO_BIND}, b
+    expr2 = (
+        "Sum(Piecewise((K(n), Eq(m, n)), (G(m, n)*h1(b, n, m)*h2(a, c, m, n), True)), (n, 1, N), (m, 1, N))"
+        "+ Sum(Piecewise((K(n), Eq(m, n)), (G(m, n)*h1(c, n, m)*h2(a, b, m, n), True)), (n, 1, N), (m, 1, N))"
+    )
+    idx2 = build_index(
+        expr2,
+        [{"name": x, "real": True} for x in "nmNabc"],
+        ["K", "G", "h1", "h2"],
+    )
+    b2 = bind_alias(
+        "S1_True", idx2,
+        theta={"h_factor": "h1(b, n, m)*h2(a, c, m, n)", "collision": "True"},
+        latent="",
+        functions=["K", "G", "h1", "h2"],
+    )
+    assert b2.confidence == UNIQUE_STRUCTURAL_BIND, b2
+    assert b2.kind == "piecewise_branch"
+    b3 = bind_alias("S1", idx2, theta={}, latent="no h calls here")
+    assert b3.confidence == NO_BIND, b3
+
+
+def test_newton_dd_compile_on_toy():
+    from research.obligation_ir.source_index import build_index
+    from research.obligation_ir.grounding import bind_hypothesis_members, UNIQUE_STRUCTURAL_BIND
+    from research.obligation_ir.repr_compile import compile_dd
+    expr = (
+        "Sum(Piecewise((polygamma(0, n), Eq(m, n)), "
+        "((polygamma(0, m)-polygamma(0, n))/(m-n), True)), (n, 1, N), (m, 1, N))"
+    )
+    idx = build_index(expr, [{"name": x, "real": True} for x in "nmN"], [])
+    hyp = {
+        "hypothesis_type": "divided_difference",
+        "latent_object": "F_+(z)=polygamma(0,z)",
+        "target_members": ["S_True"],
+        "instance_maps": [{
+            "member": "S_True",
+            "theta": {"collision": "True", "nodes": ["m", "n"]},
+        }],
+    }
+    binds = bind_hypothesis_members(
+        hyp, idx,
+        symbols=[{"name": x, "real": True} for x in "nmN"],
+        functions=[],
+    )
+    assert any(b.admissible for b in binds), binds
+    rows = compile_dd(
+        hyp, binds, idx,
+        symbols=[{"name": x, "real": True} for x in "nmN"],
+        functions=[],
+    )
+    # F_+(z)=f(z) extract; generic vs (f(m)-f(n))/(m-n)
+    assert rows, "expected a DD obligation"
+    assert any(v.verdict == "ZERO" for _, v in rows), [(o.to_dict(), v.to_dict()) for o, v in rows]
+
+
 def test_frozen_run_files_not_required_to_exist_for_unit():
     p = ROOT / "research" / "llm_abstraction" / "runs" / "dev" / "T7-pos-swap__A0__deepseek-v4-pro__s0.json"
     if not p.is_file():
