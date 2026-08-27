@@ -39,5 +39,7 @@ Guo-specific identities, or a second model family on the frozen protocol.
 
 ## COMMIT SHA
 
-Integration + Phase 5: `45f1e46`
-Worktree merges on `research/verified-representation-invention-v1`.
+Evidence + verdict: `91a401b`
+Phase 5 wiring: `45f1e46`
+Contracts: `45b2b4d`
+Parent P1: `3fea222`
