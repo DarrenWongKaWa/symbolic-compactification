@@ -1,0 +1,104 @@
+{
+  "id": "F05_invalid_limit",
+  "description": "Claimed two-sided limit y->x of 1/(x-y) equals the finite diagonal value 0 (the dummy Eq-branch of a Piecewise). Directional limits disagree (oo vs -oo); no finite limit exists.",
+  "should_be_zero": false,
+  "expected_audit_class": "WRONG_CONFLUENCE",
+  "attack_kind": "invalid_limit",
+  "catalog": {
+    "G0001": "1/(x - y)",
+    "G0002": "0"
+  },
+  "hypothesis": {
+    "representation_type": "local_confluence",
+    "member_ids": [
+      "G0001",
+      "G0002"
+    ],
+    "member_roles": {
+      "G0001": "generic",
+      "G0002": "degenerate"
+    },
+    "latent_object": "F(z) = 1/z",
+    "latent_variables": [
+      "z"
+    ],
+    "nodes": [
+      {
+        "name": "x",
+        "expression": "x",
+        "multiplicity": 1
+      },
+      {
+        "name": "y",
+        "expression": "y",
+        "multiplicity": 1
+      }
+    ],
+    "operators": [
+      {
+        "member_id": "G0002",
+        "kind": "limit",
+        "args": {
+          "var": "y",
+          "to": "x"
+        }
+      }
+    ],
+    "instance_maps": {
+      "G0001": {
+        "theta": {}
+      },
+      "G0002": {
+        "theta": {
+          "y": "x"
+        }
+      }
+    },
+    "reconstruction_rule": "limit(1/(x-y), y->x) == 0",
+    "required_assumptions": [],
+    "proof_obligations": [
+      {
+        "kind": "LIMIT",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "left": "1/(x - y)",
+        "right": "0",
+        "operator": "limit",
+        "expected": "limit == 0",
+        "variables": {
+          "var": "y",
+          "to": "x"
+        }
+      }
+    ],
+    "scientific_rationale": "Substituting the Piecewise Eq branch for a limit of a pole.",
+    "confidence": 0.7
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "x",
+        "real": true
+      },
+      {
+        "name": "y",
+        "real": true
+      }
+    ],
+    "functions": [],
+    "expr": "1/(x - y)",
+    "limit_var": "y",
+    "limit_to": "x",
+    "claimed_value": "0",
+    "check_directional": true
+  },
+  "member_maps": [],
+  "checkable": {
+    "local_residual": true,
+    "structural_audit": false,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}

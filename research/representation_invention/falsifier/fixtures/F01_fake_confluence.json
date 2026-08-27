@@ -1,0 +1,111 @@
+{
+  "id": "F01_fake_confluence",
+  "description": "Piecewise true-branch (sin(x)-sin(y))/(x-y) is claimed confluent to the Eq-branch sin(x). The branches look related, but limit(y->x) of the generic branch is cos(x), not sin(x).",
+  "should_be_zero": false,
+  "expected_audit_class": "WRONG_CONFLUENCE",
+  "attack_kind": "fake_confluence",
+  "catalog": {
+    "G0001": "(sin(x) - sin(y))/(x - y)",
+    "G0002": "sin(x)"
+  },
+  "hypothesis": {
+    "representation_type": "local_confluence",
+    "member_ids": [
+      "G0001",
+      "G0002"
+    ],
+    "member_roles": {
+      "G0001": "generic",
+      "G0002": "degenerate"
+    },
+    "latent_object": "F(z) = sin(z)",
+    "latent_variables": [
+      "z"
+    ],
+    "nodes": [
+      {
+        "name": "x",
+        "expression": "x",
+        "multiplicity": 1
+      },
+      {
+        "name": "y",
+        "expression": "y",
+        "multiplicity": 1
+      }
+    ],
+    "operators": [
+      {
+        "member_id": "G0001",
+        "kind": "identity",
+        "args": {}
+      },
+      {
+        "member_id": "G0002",
+        "kind": "limit",
+        "args": {
+          "var": "y",
+          "to": "x"
+        }
+      }
+    ],
+    "instance_maps": {
+      "G0001": {
+        "theta": {},
+        "branch": "True"
+      },
+      "G0002": {
+        "theta": {
+          "y": "x"
+        },
+        "branch": "Eq(x, y)"
+      }
+    },
+    "reconstruction_rule": "limit(G0001, y -> x) == G0002",
+    "required_assumptions": [],
+    "proof_obligations": [
+      {
+        "kind": "CONFLUENCE",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "left": "(sin(x) - sin(y))/(x - y)",
+        "right": "sin(x)",
+        "operator": "limit",
+        "expected": "limit(generic, y, x) == degenerate",
+        "variables": {
+          "var": "y",
+          "to": "x"
+        }
+      }
+    ],
+    "scientific_rationale": "Both Piecewise branches mention sin, so the diagonal is claimed to be the same kernel.",
+    "confidence": 0.86
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "x",
+        "real": true
+      },
+      {
+        "name": "y",
+        "real": true
+      }
+    ],
+    "functions": [],
+    "generic": "(sin(x) - sin(y))/(x - y)",
+    "degenerate": "sin(x)",
+    "limit_var": "y",
+    "limit_to": "x",
+    "source_piecewise": "Piecewise(((sin(x)-sin(y))/(x-y), True), (sin(x), Eq(x, y)))"
+  },
+  "member_maps": [],
+  "checkable": {
+    "local_residual": true,
+    "structural_audit": false,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}

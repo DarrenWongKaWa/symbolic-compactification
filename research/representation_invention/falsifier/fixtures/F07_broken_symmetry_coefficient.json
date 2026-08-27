@@ -1,0 +1,84 @@
+{
+  "id": "F07_broken_symmetry_coefficient",
+  "description": "Orbit sum f(i,j)+f(j,i) is reconstructed as 2*f(i,j). That coefficient is valid only if f is already symmetric; for a generic kernel the swapped term is dropped.",
+  "should_be_zero": false,
+  "expected_audit_class": "WRONG_OPERATOR",
+  "attack_kind": "broken_symmetry_coefficient",
+  "catalog": {
+    "G0001": "f(i, j) + f(j, i)"
+  },
+  "hypothesis": {
+    "representation_type": "invariant_basis",
+    "member_ids": [
+      "G0001"
+    ],
+    "member_roles": {
+      "G0001": "kernel"
+    },
+    "latent_object": "F(x, y) = f(x, y)",
+    "latent_variables": [
+      "x",
+      "y"
+    ],
+    "nodes": [],
+    "operators": [
+      {
+        "member_id": "G0001",
+        "kind": "permutation",
+        "args": {
+          "coefficient": 2,
+          "swap": false
+        }
+      }
+    ],
+    "instance_maps": {
+      "G0001": {
+        "theta": {
+          "x": "i",
+          "y": "j"
+        },
+        "coefficient": 2
+      }
+    },
+    "reconstruction_rule": "A = 2*F(i,j)",
+    "required_assumptions": [],
+    "proof_obligations": [
+      {
+        "kind": "PERMUTATION",
+        "member_ids": [
+          "G0001"
+        ],
+        "left": "f(i, j) + f(j, i)",
+        "right": "2*f(i, j)",
+        "operator": "permutation",
+        "expected": "orbit_sum == 2*identity"
+      }
+    ],
+    "scientific_rationale": "Symmetrizer coefficient 2 without the swap.",
+    "confidence": 0.75
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "i",
+        "real": true
+      },
+      {
+        "name": "j",
+        "real": true
+      }
+    ],
+    "functions": [
+      "f"
+    ],
+    "left": "f(i, j) + f(j, i)",
+    "claimed_right": "2*f(i, j)"
+  },
+  "member_maps": [],
+  "checkable": {
+    "local_residual": true,
+    "structural_audit": false,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}

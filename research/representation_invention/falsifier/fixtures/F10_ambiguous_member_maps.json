@@ -1,0 +1,78 @@
+{
+  "id": "F10_ambiguous_member_maps",
+  "description": "Member maps mix catalog nicknames S1_True / generic_branch (never repaired) with the same G0001 assigned both generic and degenerate roles and two incompatible forms.",
+  "should_be_zero": false,
+  "expected_audit_class": "UNGROUNDABLE",
+  "attack_kind": "ambiguous_member_maps",
+  "catalog": {
+    "G0001": "(sin(x) - sin(y))/(x - y)",
+    "G0002": "cos(x)"
+  },
+  "hypothesis": {
+    "representation_type": "divided_difference",
+    "member_ids": [
+      "S1_True",
+      "generic_branch"
+    ],
+    "member_roles": {
+      "G0001": "generic"
+    },
+    "latent_object": "F(z) = sin(z)",
+    "latent_variables": [
+      "z"
+    ],
+    "nodes": [],
+    "operators": [],
+    "instance_maps": {},
+    "reconstruction_rule": "A = F[x,y]",
+    "required_assumptions": [],
+    "proof_obligations": [],
+    "scientific_rationale": "Alias ids plus conflicting roles for one member.",
+    "confidence": 0.6
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "x",
+        "real": true
+      },
+      {
+        "name": "y",
+        "real": true
+      }
+    ],
+    "functions": [],
+    "alias_ids": [
+      "S1_True",
+      "generic_branch"
+    ]
+  },
+  "member_maps": [
+    {
+      "member_id": "S1_True",
+      "role": "generic",
+      "form": "(sin(x)-sin(y))/(x-y)"
+    },
+    {
+      "member_id": "generic_branch",
+      "role": "generic",
+      "form": "(sin(x)-sin(y))/(x-y)"
+    },
+    {
+      "member_id": "G0001",
+      "role": "generic",
+      "form": "(sin(x)-sin(y))/(x-y)"
+    },
+    {
+      "member_id": "G0001",
+      "role": "degenerate",
+      "form": "sin(x)"
+    }
+  ],
+  "checkable": {
+    "local_residual": false,
+    "structural_audit": true,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}

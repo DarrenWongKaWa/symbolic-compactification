@@ -1,0 +1,103 @@
+{
+  "id": "F09_overgeneralized_latent",
+  "description": "Latent F(u)=u (identity) with substitutions u->sin(x) and u->x**2+1 'explains' unrelated members. Any expression is an instance; this is not a master object.",
+  "should_be_zero": false,
+  "expected_audit_class": "SHALLOW_REPACKAGING",
+  "attack_kind": "overgeneralized_latent",
+  "catalog": {
+    "G0001": "sin(x)",
+    "G0002": "x**2 + 1"
+  },
+  "hypothesis": {
+    "representation_type": "master_function",
+    "member_ids": [
+      "G0001",
+      "G0002"
+    ],
+    "member_roles": {
+      "G0001": "instance",
+      "G0002": "instance"
+    },
+    "latent_object": "F(u) = u",
+    "latent_variables": [
+      "u"
+    ],
+    "nodes": [],
+    "operators": [
+      {
+        "member_id": "G0001",
+        "kind": "substitution",
+        "args": {
+          "u": "sin(x)"
+        }
+      },
+      {
+        "member_id": "G0002",
+        "kind": "substitution",
+        "args": {
+          "u": "x**2 + 1"
+        }
+      }
+    ],
+    "instance_maps": {
+      "G0001": {
+        "theta": {
+          "u": "sin(x)"
+        }
+      },
+      "G0002": {
+        "theta": {
+          "u": "x**2 + 1"
+        }
+      }
+    },
+    "reconstruction_rule": "A = F(A)",
+    "required_assumptions": [],
+    "proof_obligations": [
+      {
+        "kind": "MASTER_INSTANCE",
+        "member_ids": [
+          "G0001"
+        ],
+        "left": "sin(x)",
+        "right": "sin(x)",
+        "operator": "substitution",
+        "expected": "F(sin(x)) == sin(x)"
+      },
+      {
+        "kind": "MASTER_INSTANCE",
+        "member_ids": [
+          "G0002"
+        ],
+        "left": "x**2 + 1",
+        "right": "x**2 + 1",
+        "operator": "substitution",
+        "expected": "F(x**2+1) == x**2+1"
+      }
+    ],
+    "scientific_rationale": "Identity template absorbs every member.",
+    "confidence": 0.88
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "x",
+        "real": true
+      },
+      {
+        "name": "u",
+        "real": true
+      }
+    ],
+    "functions": [],
+    "latent_template": "u",
+    "latent_var": "u"
+  },
+  "member_maps": [],
+  "checkable": {
+    "local_residual": true,
+    "structural_audit": true,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}
