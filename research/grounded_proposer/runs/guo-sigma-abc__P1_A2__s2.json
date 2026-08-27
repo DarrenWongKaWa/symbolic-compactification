@@ -1,0 +1,612 @@
+{
+  "protocol": "grounded-proposer-v1",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P1_A2",
+  "item_id": "guo-sigma-abc",
+  "blocked": false,
+  "error": null,
+  "usage": {
+    "prompt_tokens": 13574,
+    "completion_tokens": 13570,
+    "total_tokens": 27144,
+    "reasoning_tokens": 10508,
+    "cached_tokens": 13568
+  },
+  "latency_s": 178.229,
+  "request_id": "a589df26-08b4-469f-8e44-daf6da5fffa2",
+  "parse_status": "OK",
+  "n_ok": 6,
+  "n_parse_failure": 0,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "parameterized_family",
+      "latent_object": "K(\u03b81,\u03b82)=Sum_{n,m=1}^{Nb} Piecewise((D(\u03b5_n;\u03b2,\u03b3,\u03bc)*h1(\u03b81,n,m)*h2(a,\u03b82,m,n), Eq(m,n)), (O(\u03b5_m,\u03b5_n;\u03b2,\u03b3,\u03bc)*h1(\u03b81,n,m)*h2(a,\u03b82,m,n), True))",
+      "member_maps": [
+        {
+          "source_node_id": "G0002",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "m",
+              "n"
+            ],
+            "branch_condition": "-"
+          }
+        },
+        {
+          "source_node_id": "G0006",
+          "role": "instance",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "m",
+              "n"
+            ],
+            "branch_condition": "-"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0002",
+          "O": "identity"
+        },
+        {
+          "member": "G0006",
+          "O": "permute"
+        }
+      ],
+      "proof_obligations": [
+        "G0006 == permute_{b<->c}(G0002)"
+      ],
+      "required_assumptions": [
+        "h1 and h2 are arbitrary undefined functions, so global symbol permutation b<->c is admissible."
+      ],
+      "rationale": "G0002 and G0006 share the same piecewise coefficient structure and differ only by swapping the insertion labels b and c inside h1 and h2. This is the substitution-instance relation observed in F01.",
+      "confidence": 0.9,
+      "generic_member": "G0002",
+      "degenerate_member": "",
+      "limit_variable": "",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Off-diagonal two-index branch O_{b,c}(\u03b5_m,\u03b5_n) equal to the cond=True branch of parent G0003; its diagonal limit as \u03b5_m\u2192\u03b5_n gives the diagonal branch.",
+      "member_maps": [
+        {
+          "source_node_id": "G0005",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "m",
+              "n"
+            ],
+            "branch_condition": "True"
+          }
+        },
+        {
+          "source_node_id": "G0004",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "m",
+              "n"
+            ],
+            "branch_condition": "Eq(m,n)"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0005",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(G0005, epsilon(m), epsilon(n)) == G0004"
+      ],
+      "required_assumptions": [
+        "The cond=True branch expression is analytic near \u03b5_m=\u03b5_n after denominator cancellation, so the diagonal branch is the limit."
+      ],
+      "rationale": "The piecewise condition Eq(m,n) selects the diagonal coincidence; the true branch has explicit (\u03b5_m-\u03b5_n) denominators and is the generic off-diagonal expression.",
+      "confidence": 0.95,
+      "generic_member": "G0005",
+      "degenerate_member": "G0004",
+      "limit_variable": "epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Off-diagonal two-index branch O_{c,b}(\u03b5_m,\u03b5_n) equal to the cond=True branch of parent G0007; its diagonal limit as \u03b5_m\u2192\u03b5_n gives the diagonal branch.",
+      "member_maps": [
+        {
+          "source_node_id": "G0009",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "m",
+              "n"
+            ],
+            "branch_condition": "True"
+          }
+        },
+        {
+          "source_node_id": "G0008",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "m",
+              "n"
+            ],
+            "branch_condition": "Eq(m,n)"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0009",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(G0009, epsilon(m), epsilon(n)) == G0008"
+      ],
+      "required_assumptions": [
+        "The cond=True branch expression is analytic near \u03b5_m=\u03b5_n after denominator cancellation."
+      ],
+      "rationale": "Same confluent diagonal/off-diagonal structure as G0005/G0004, with b and c swapped.",
+      "confidence": 0.95,
+      "generic_member": "G0009",
+      "degenerate_member": "G0008",
+      "limit_variable": "epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Meromorphic three-index kernel K^{(1)}(\u03b5_m,\u03b5_n,\u03b5_ell) equal to the cond=True branch of parent G0011; its diagonal limits define the equality branches.",
+      "member_maps": [
+        {
+          "source_node_id": "G0016",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "True"
+          }
+        },
+        {
+          "source_node_id": "G0013",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(m,n)"
+          }
+        },
+        {
+          "source_node_id": "G0014",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(ell,n)"
+          }
+        },
+        {
+          "source_node_id": "G0015",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(ell,m)"
+          }
+        },
+        {
+          "source_node_id": "G0012",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(ell,m) & Eq(m,n)"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0016",
+          "O": "identity"
+        },
+        {
+          "member": "G0013",
+          "O": "limit"
+        },
+        {
+          "member": "G0014",
+          "O": "limit"
+        },
+        {
+          "member": "G0015",
+          "O": "limit"
+        },
+        {
+          "member": "G0012",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(G0016, epsilon(m), epsilon(n)) == G0013",
+        "limit(G0016, epsilon(ell), epsilon(n)) == G0014",
+        "limit(G0016, epsilon(ell), epsilon(m)) == G0015",
+        "concurrent limit of G0016 with epsilon(ell)->epsilon(m)->epsilon(n) == G0012"
+      ],
+      "required_assumptions": [
+        "The generic kernel is meromorphic in the \u03b5 indices and admits successive coincident limits."
+      ],
+      "rationale": "The arity-3 Piecewise branches are indexed by different coincidences among m, n, ell; each equality branch is obtained from the generic true branch by taking the corresponding spectral parameter limit.",
+      "confidence": 0.9,
+      "generic_member": "G0016",
+      "degenerate_member": "G0013",
+      "limit_variable": "epsilon(m) -> epsilon(n), epsilon(ell) -> epsilon(n), epsilon(ell) -> epsilon(m), epsilon(ell) -> epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Meromorphic three-index kernel K^{(2)}(\u03b5_m,\u03b5_n,\u03b5_ell) equal to the cond=True branch of parent G0018; its diagonal limits define the equality branches.",
+      "member_maps": [
+        {
+          "source_node_id": "G0023",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "True"
+          }
+        },
+        {
+          "source_node_id": "G0020",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(m,n)"
+          }
+        },
+        {
+          "source_node_id": "G0021",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(ell,n)"
+          }
+        },
+        {
+          "source_node_id": "G0022",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(ell,m)"
+          }
+        },
+        {
+          "source_node_id": "G0019",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "Eq(ell,m) & Eq(m,n)"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0023",
+          "O": "identity"
+        },
+        {
+          "member": "G0020",
+          "O": "limit"
+        },
+        {
+          "member": "G0021",
+          "O": "limit"
+        },
+        {
+          "member": "G0022",
+          "O": "limit"
+        },
+        {
+          "member": "G0019",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(G0023, epsilon(m), epsilon(n)) == G0020",
+        "limit(G0023, epsilon(ell), epsilon(n)) == G0021",
+        "limit(G0023, epsilon(ell), epsilon(m)) == G0022",
+        "concurrent limit of G0023 with epsilon(ell)->epsilon(m)->epsilon(n) == G0019"
+      ],
+      "required_assumptions": [
+        "The generic kernel is meromorphic in the \u03b5 indices and admits successive coincident limits."
+      ],
+      "rationale": "The second arity-3 cycle has the same confluent branch structure as the first, with the h1 index contraction re-oriented.",
+      "confidence": 0.9,
+      "generic_member": "G0023",
+      "degenerate_member": "G0020",
+      "limit_variable": "epsilon(m) -> epsilon(n), epsilon(ell) -> epsilon(n), epsilon(ell) -> epsilon(m), epsilon(ell) -> epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "parameterized_family",
+      "latent_object": "S(\u03b8_b,\u03b8_c)=Sum_{n,m,ell=1}^{Nb} Piecewise(...)*h1(a,m,n)*h1(\u03b8_b,ell,m)*h1(\u03b8_c,n,ell); swapping \u03b8_b and \u03b8_c and commuting h1 factors gives the alternate orientation.",
+      "member_maps": [
+        {
+          "source_node_id": "G0010",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "-"
+          }
+        },
+        {
+          "source_node_id": "G0017",
+          "role": "instance",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "m",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "-"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0010",
+          "O": "identity"
+        },
+        {
+          "member": "G0017",
+          "O": "permute"
+        }
+      ],
+      "proof_obligations": [
+        "G0017 == reorder_factors(permute_{b<->c}(G0010))"
+      ],
+      "required_assumptions": [
+        "h1 factors are scalar-valued, so multiplication is commutative."
+      ],
+      "rationale": "The two arity-3 sums differ by swapping b and c and reordering the h1 factors, while the coefficient kernels are identical.",
+      "confidence": 0.85,
+      "generic_member": "G0010",
+      "degenerate_member": "",
+      "limit_variable": "",
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"parameterized_family\",\n      \"latent_object\": \"K(\u03b81,\u03b82)=Sum_{n,m=1}^{Nb} Piecewise((D(\u03b5_n;\u03b2,\u03b3,\u03bc)*h1(\u03b81,n,m)*h2(a,\u03b82,m,n), Eq(m,n)), (O(\u03b5_m,\u03b5_n;\u03b2,\u03b3,\u03bc)*h1(\u03b81,n,m)*h2(a,\u03b82,m,n), True))\",\n      \"generic_member\": \"G0002\",\n      \"degenerate_member\": \"\",\n      \"limit_variable\": \"\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"m\", \"n\"],\n            \"branch_condition\": \"-\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0006\",\n          \"role\": \"instance\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"m\", \"n\"],\n            \"branch_condition\": \"-\"\n          }\n        }\n      ],\n      \"operators\": [\n        { \"member\": \"G0002\", \"O\": \"identity\" },\n        { \"member\": \"G0006\", \"O\": \"permute\" }\n      ],\n      \"proof_obligations\": [\n        \"G0006 == permute_{b<->c}(G0002)\"\n      ],\n      \"required_assumptions\": [\n        \"h1 and h2 are arbitrary undefined functions, so global symbol permutation b<->c is admissible.\"\n      ],\n      \"rationale\": \"G0002 and G0006 share the same piecewise coefficient structure and differ only by swapping the insertion labels b and c inside h1 and h2. This is the substitution-instance relation observed in F01.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Off-diagonal two-index branch O_{b,c}(\u03b5_m,\u03b5_n) equal to the cond=True branch of parent G0003; its diagonal limit as \u03b5_m\u2192\u03b5_n gives the diagonal branch.\",\n      \"generic_member\": \"G0005\",\n      \"degenerate_member\": \"G0004\",\n      \"limit_variable\": \"epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"m\", \"n\"],\n            \"branch_condition\": \"True\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"m\", \"n\"],\n            \"branch_condition\": \"Eq(m,n)\"\n          }\n        }\n      ],\n      \"operators\": [\n        { \"member\": \"G0005\", \"O\": \"limit\" }\n      ],\n      \"proof_obligations\": [\n        \"limit(G0005, epsilon(m), epsilon(n)) == G0004\"\n      ],\n      \"required_assumptions\": [\n        \"The cond=True branch expression is analytic near \u03b5_m=\u03b5_n after denominator cancellation, so the diagonal branch is the limit.\"\n      ],\n      \"rationale\": \"The piecewise condition Eq(m,n) selects the diagonal coincidence; the true branch has explicit (\u03b5_m-\u03b5_n) denominators and is the generic off-diagonal expression.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Off-diagonal two-index branch O_{c,b}(\u03b5_m,\u03b5_n) equal to the cond=True branch of parent G0007; its diagonal limit as \u03b5_m\u2192\u03b5_n gives the diagonal branch.\",\n      \"generic_member\": \"G0009\",\n      \"degenerate_member\": \"G0008\",\n      \"limit_variable\": \"epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0009\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"m\", \"n\"],\n            \"branch_condition\": \"True\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0008\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"m\", \"n\"],\n            \"branch_condition\": \"Eq(m,n)\"\n          }\n        }\n      ],\n      \"operators\": [\n        { \"member\": \"G0009\", \"O\": \"limit\" }\n      ],\n      \"proof_obligations\": [\n        \"limit(G0009, epsilon(m), epsilon(n)) == G0008\"\n      ],\n      \"required_assumptions\": [\n        \"The cond=True branch expression is analytic near \u03b5_m=\u03b5_n after denominator cancellation.\"\n      ],\n      \"rationale\": \"Same confluent diagonal/off-diagonal structure as G0005/G0004, with b and c swapped.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Meromorphic three-index kernel K^{(1)}(\u03b5_m,\u03b5_n,\u03b5_ell) equal to the cond=True branch of parent G0011; its diagonal limits define the equality branches.\",\n      \"generic_member\": \"G0016\",\n      \"degenerate_member\": \"G0013\",\n      \"limit_variable\": \"epsilon(m) -> epsilon(n), epsilon(ell) -> epsilon(n), epsilon(ell) -> epsilon(m), epsilon(ell) -> epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0016\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"True\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0013\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"Eq(m,n)\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0014\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"Eq(ell,n)\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0015\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"Eq(ell,m)\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0012\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"Eq(ell,m) & Eq(m,n)\"\n          }\n        }\n      ],\n      \"operators\": [\n        { \"member\": \"G0016\", \"O\": \"identity\" },\n        { \"member\": \"G0013\", \"O\": \"limit\" },\n        { \"member\": \"G0014\", \"O\": \"limit\" },\n        { \"member\": \"G0015\", \"O\": \"limit\" },\n        { \"member\": \"G0012\", \"O\": \"limit\" }\n      ],\n      \"proof_obligations\": [\n        \"limit(G0016, epsilon(m), epsilon(n)) == G0013\",\n        \"limit(G0016, epsilon(ell), epsilon(n)) == G0014\",\n        \"limit(G0016, epsilon(ell), epsilon(m)) == G0015\",\n        \"concurrent limit of G0016 with epsilon(ell)->epsilon(m)->epsilon(n) == G0012\"\n      ],\n      \"required_assumptions\": [\n        \"The generic kernel is meromorphic in the \u03b5 indices and admits successive coincident limits.\"\n      ],\n      \"rationale\": \"The arity-3 Piecewise branches are indexed by different coincidences among m, n, ell; each equality branch is obtained from the generic true branch by taking the corresponding spectral parameter limit.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Meromorphic three-index kernel K^{(2)}(\u03b5_m,\u03b5_n,\u03b5_ell) equal to the cond=True branch of parent G0018; its diagonal limits define the equality branches.\",\n      \"generic_member\": \"G0023\",\n      \"degenerate_member\": \"G0020\",\n      \"limit_variable\": \"epsilon(m) -> epsilon(n), epsilon(ell) -> epsilon(n), epsilon(ell) -> epsilon(m), epsilon(ell) -> epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0023\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"True\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0020\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"m\", \"n\", \"ell\"],\n            \"branch_condition\": \"Eq(m,n)\"\n          }\n        },\n        {\n     ",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "seed": 2,
+  "scores": [
+    {
+      "type": "parameterized_family",
+      "parse_status": "OK",
+      "ids": [
+        "G0002",
+        "G0006"
+      ],
+      "layer": "C",
+      "detail": "bound_not_compiled",
+      "verdicts": [],
+      "n_bind": 2
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0005",
+        "G0004"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 2
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0009",
+        "G0008"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 2
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0016",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0012"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 5
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0023",
+        "G0020",
+        "G0021",
+        "G0022",
+        "G0019"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 5
+    },
+    {
+      "type": "parameterized_family",
+      "parse_status": "OK",
+      "ids": [
+        "G0010",
+        "G0017"
+      ],
+      "layer": "C",
+      "detail": "bound_not_compiled",
+      "verdicts": [],
+      "n_bind": 2
+    }
+  ],
+  "types_ok": [
+    "parameterized_family",
+    "confluent_representation",
+    "confluent_representation",
+    "confluent_representation",
+    "confluent_representation",
+    "parameterized_family"
+  ],
+  "n_ddcf": 4,
+  "n_zero": 4,
+  "n_nonzero": 0,
+  "n_unknown": 0,
+  "n_gfail": 0
+}

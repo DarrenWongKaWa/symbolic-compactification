@@ -1,0 +1,624 @@
+{
+  "protocol": "grounded-proposer-v1",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P1_A2",
+  "item_id": "guo-sigma-abc",
+  "blocked": false,
+  "error": null,
+  "usage": {
+    "prompt_tokens": 13574,
+    "completion_tokens": 10156,
+    "total_tokens": 23730,
+    "reasoning_tokens": 7246,
+    "cached_tokens": 0
+  },
+  "latency_s": 122.377,
+  "request_id": "3fd413e3-db94-4e74-a12d-5d255e7ab3e8",
+  "parse_status": "OK",
+  "n_ok": 5,
+  "n_parse_failure": 0,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "symmetry_invariant",
+      "latent_object": "Two-index summand kernel L2(h1_label, h2_labels; beta, gamma, mu, epsilon(n), epsilon(m)) whose coefficient depends only on beta, gamma, mu, epsilon(m), epsilon(n) and whose h1/h2 label arguments can be permuted b <-> c.",
+      "member_maps": [
+        {
+          "source_node_id": "G0002",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "b",
+              "n",
+              "m",
+              "a",
+              "c"
+            ],
+            "branch_condition": "-"
+          }
+        },
+        {
+          "source_node_id": "G0006",
+          "role": "instance",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "c",
+              "n",
+              "m",
+              "a",
+              "b"
+            ],
+            "branch_condition": "-"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0002",
+          "O": "identity"
+        },
+        {
+          "member": "G0006",
+          "O": "permute"
+        }
+      ],
+      "proof_obligations": [
+        "Substituting b <-> c in the h1/h2 arguments of G0002 yields exactly the summand of G0006."
+      ],
+      "required_assumptions": [],
+      "rationale": "The two 2-index sums have the same coefficient expression and differ only by permutation of the source labels b and c carried by h1 and h2.",
+      "confidence": 0.95,
+      "generic_member": "G0002",
+      "degenerate_member": "G0006",
+      "limit_variable": "",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Off-diagonal coefficient kernel K_offdiag(b,c; epsilon_m, epsilon_n) = expression in G0005 before summing.",
+      "member_maps": [
+        {
+          "source_node_id": "G0005",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "b",
+              "n",
+              "m",
+              "a",
+              "c"
+            ],
+            "branch_condition": "true"
+          }
+        },
+        {
+          "source_node_id": "G0004",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "b",
+              "n",
+              "m",
+              "a",
+              "c"
+            ],
+            "branch_condition": "eq_m_n"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0005",
+          "O": "identity"
+        },
+        {
+          "member": "G0004",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(expr(G0005), epsilon(m), epsilon(n)) == expr(G0004) for fixed epsilon(n), beta, gamma, mu"
+      ],
+      "required_assumptions": [
+        "The limit exists and polygamma arguments avoid singularities."
+      ],
+      "rationale": "The piecewise diagonal branch is the confluent limit of the m != n branch as epsilon(m) approaches epsilon(n); denominators in G0005 are powers of epsilon(m)-epsilon(n).",
+      "confidence": 0.9,
+      "generic_member": "G0005",
+      "degenerate_member": "G0004",
+      "limit_variable": "epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Off-diagonal coefficient kernel K_offdiag(c,b; epsilon_m, epsilon_n) = expression in G0009 before summing.",
+      "member_maps": [
+        {
+          "source_node_id": "G0009",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "c",
+              "n",
+              "m",
+              "a",
+              "b"
+            ],
+            "branch_condition": "true"
+          }
+        },
+        {
+          "source_node_id": "G0008",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1",
+              "h2"
+            ],
+            "indices": [
+              "c",
+              "n",
+              "m",
+              "a",
+              "b"
+            ],
+            "branch_condition": "eq_m_n"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0009",
+          "O": "identity"
+        },
+        {
+          "member": "G0008",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(expr(G0009), epsilon(m), epsilon(n)) == expr(G0008) for fixed epsilon(n), beta, gamma, mu"
+      ],
+      "required_assumptions": [
+        "The limit exists and polygamma arguments avoid singularities."
+      ],
+      "rationale": "The second 2-index family is the b/c-permuted copy of the first, so its diagonal branch is likewise the confluent limit of its off-diagonal branch.",
+      "confidence": 0.9,
+      "generic_member": "G0009",
+      "degenerate_member": "G0008",
+      "limit_variable": "epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Three-index off-diagonal kernel K3(h1(a,m,n), h1(b,ell,m), h1(c,n,ell)) = expression in G0016 before summing.",
+      "member_maps": [
+        {
+          "source_node_id": "G0016",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "ell",
+              "m",
+              "c",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "true"
+          }
+        },
+        {
+          "source_node_id": "G0012",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "ell",
+              "m",
+              "c",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "eq_ell_m_n"
+          }
+        },
+        {
+          "source_node_id": "G0013",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "ell",
+              "m",
+              "c",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "eq_m_n"
+          }
+        },
+        {
+          "source_node_id": "G0014",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "ell",
+              "m",
+              "c",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "eq_ell_n"
+          }
+        },
+        {
+          "source_node_id": "G0015",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "ell",
+              "m",
+              "c",
+              "n",
+              "ell"
+            ],
+            "branch_condition": "eq_ell_m"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0016",
+          "O": "identity"
+        },
+        {
+          "member": "G0012",
+          "O": "limit"
+        },
+        {
+          "member": "G0013",
+          "O": "limit"
+        },
+        {
+          "member": "G0014",
+          "O": "limit"
+        },
+        {
+          "member": "G0015",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(G0016, epsilon(ell)->epsilon(m), epsilon(m)->epsilon(n)) == G0012",
+        "limit(G0016, epsilon(m)->epsilon(n)) == G0013 with epsilon(ell) fixed",
+        "limit(G0016, epsilon(ell)->epsilon(n)) == G0014 with epsilon(m) fixed",
+        "limit(G0016, epsilon(ell)->epsilon(m)) == G0015 with epsilon(n) fixed"
+      ],
+      "required_assumptions": [
+        "All identified limits exist and avoid polygamma singularities."
+      ],
+      "rationale": "The whole 3-index piecewise branch set is generated by coalescences of the spectral parameters epsilon(ell), epsilon(m), epsilon(n) from the totally non-coincident branch G0016.",
+      "confidence": 0.85,
+      "generic_member": "G0016",
+      "degenerate_member": "G0012",
+      "limit_variable": "epsilon(ell) -> epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "confluent_representation",
+      "latent_object": "Three-index off-diagonal kernel K3_perm(h1(a,m,n), h1(b,n,ell), h1(c,ell,m)) = expression in G0023 before summing.",
+      "member_maps": [
+        {
+          "source_node_id": "G0023",
+          "role": "generic",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "n",
+              "ell",
+              "c",
+              "ell",
+              "m"
+            ],
+            "branch_condition": "true"
+          }
+        },
+        {
+          "source_node_id": "G0019",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "n",
+              "ell",
+              "c",
+              "ell",
+              "m"
+            ],
+            "branch_condition": "eq_ell_m_n"
+          }
+        },
+        {
+          "source_node_id": "G0020",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "n",
+              "ell",
+              "c",
+              "ell",
+              "m"
+            ],
+            "branch_condition": "eq_m_n"
+          }
+        },
+        {
+          "source_node_id": "G0021",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "n",
+              "ell",
+              "c",
+              "ell",
+              "m"
+            ],
+            "branch_condition": "eq_ell_n"
+          }
+        },
+        {
+          "source_node_id": "G0022",
+          "role": "degenerate",
+          "source_fingerprint": {
+            "functions": [
+              "h1"
+            ],
+            "indices": [
+              "a",
+              "m",
+              "n",
+              "b",
+              "n",
+              "ell",
+              "c",
+              "ell",
+              "m"
+            ],
+            "branch_condition": "eq_ell_m"
+          }
+        }
+      ],
+      "operators": [
+        {
+          "member": "G0023",
+          "O": "identity"
+        },
+        {
+          "member": "G0019",
+          "O": "limit"
+        },
+        {
+          "member": "G0020",
+          "O": "limit"
+        },
+        {
+          "member": "G0021",
+          "O": "limit"
+        },
+        {
+          "member": "G0022",
+          "O": "limit"
+        }
+      ],
+      "proof_obligations": [
+        "limit(G0023, epsilon(ell)->epsilon(m), epsilon(m)->epsilon(n)) == G0019",
+        "limit(G0023, epsilon(m)->epsilon(n)) == G0020 with epsilon(ell) fixed",
+        "limit(G0023, epsilon(ell)->epsilon(n)) == G0021 with epsilon(m) fixed",
+        "limit(G0023, epsilon(ell)->epsilon(m)) == G0022 with epsilon(n) fixed"
+      ],
+      "required_assumptions": [
+        "All identified limits exist and avoid polygamma singularities."
+      ],
+      "rationale": "The second 3-index orientation is a permutation of the first and likewise has its piecewise branches generated from the totally non-coincident branch G0023 by spectral coalescence.",
+      "confidence": 0.85,
+      "generic_member": "G0023",
+      "degenerate_member": "G0019",
+      "limit_variable": "epsilon(ell) -> epsilon(m) -> epsilon(n)",
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"symmetry_invariant\",\n      \"latent_object\": \"Two-index summand kernel L2(h1_label, h2_labels; beta, gamma, mu, epsilon(n), epsilon(m)) whose coefficient depends only on beta, gamma, mu, epsilon(m), epsilon(n) and whose h1/h2 label arguments can be permuted b <-> c.\",\n      \"generic_member\": \"G0002\",\n      \"degenerate_member\": \"G0006\",\n      \"limit_variable\": \"\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"b\", \"n\", \"m\", \"a\", \"c\"],\n            \"branch_condition\": \"-\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0006\",\n          \"role\": \"instance\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"c\", \"n\", \"m\", \"a\", \"b\"],\n            \"branch_condition\": \"-\"\n          }\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0006\",\n          \"O\": \"permute\"\n        }\n      ],\n      \"proof_obligations\": [\n        \"Substituting b <-> c in the h1/h2 arguments of G0002 yields exactly the summand of G0006.\"\n      ],\n      \"required_assumptions\": [],\n      \"rationale\": \"The two 2-index sums have the same coefficient expression and differ only by permutation of the source labels b and c carried by h1 and h2.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Off-diagonal coefficient kernel K_offdiag(b,c; epsilon_m, epsilon_n) = expression in G0005 before summing.\",\n      \"generic_member\": \"G0005\",\n      \"degenerate_member\": \"G0004\",\n      \"limit_variable\": \"epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"b\", \"n\", \"m\", \"a\", \"c\"],\n            \"branch_condition\": \"true\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"b\", \"n\", \"m\", \"a\", \"c\"],\n            \"branch_condition\": \"eq_m_n\"\n          }\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0005\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"limit\"\n        }\n      ],\n      \"proof_obligations\": [\n        \"limit(expr(G0005), epsilon(m), epsilon(n)) == expr(G0004) for fixed epsilon(n), beta, gamma, mu\"\n      ],\n      \"required_assumptions\": [\n        \"The limit exists and polygamma arguments avoid singularities.\"\n      ],\n      \"rationale\": \"The piecewise diagonal branch is the confluent limit of the m != n branch as epsilon(m) approaches epsilon(n); denominators in G0005 are powers of epsilon(m)-epsilon(n).\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Off-diagonal coefficient kernel K_offdiag(c,b; epsilon_m, epsilon_n) = expression in G0009 before summing.\",\n      \"generic_member\": \"G0009\",\n      \"degenerate_member\": \"G0008\",\n      \"limit_variable\": \"epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0009\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"c\", \"n\", \"m\", \"a\", \"b\"],\n            \"branch_condition\": \"true\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0008\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\", \"h2\"],\n            \"indices\": [\"c\", \"n\", \"m\", \"a\", \"b\"],\n            \"branch_condition\": \"eq_m_n\"\n          }\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0009\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0008\",\n          \"O\": \"limit\"\n        }\n      ],\n      \"proof_obligations\": [\n        \"limit(expr(G0009), epsilon(m), epsilon(n)) == expr(G0008) for fixed epsilon(n), beta, gamma, mu\"\n      ],\n      \"required_assumptions\": [\n        \"The limit exists and polygamma arguments avoid singularities.\"\n      ],\n      \"rationale\": \"The second 2-index family is the b/c-permuted copy of the first, so its diagonal branch is likewise the confluent limit of its off-diagonal branch.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Three-index off-diagonal kernel K3(h1(a,m,n), h1(b,ell,m), h1(c,n,ell)) = expression in G0016 before summing.\",\n      \"generic_member\": \"G0016\",\n      \"degenerate_member\": \"G0012\",\n      \"limit_variable\": \"epsilon(ell) -> epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0016\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"a\", \"m\", \"n\", \"b\", \"ell\", \"m\", \"c\", \"n\", \"ell\"],\n            \"branch_condition\": \"true\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0012\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"a\", \"m\", \"n\", \"b\", \"ell\", \"m\", \"c\", \"n\", \"ell\"],\n            \"branch_condition\": \"eq_ell_m_n\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0013\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"a\", \"m\", \"n\", \"b\", \"ell\", \"m\", \"c\", \"n\", \"ell\"],\n            \"branch_condition\": \"eq_m_n\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0014\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"a\", \"m\", \"n\", \"b\", \"ell\", \"m\", \"c\", \"n\", \"ell\"],\n            \"branch_condition\": \"eq_ell_n\"\n          }\n        },\n        {\n          \"source_node_id\": \"G0015\",\n          \"role\": \"degenerate\",\n          \"source_fingerprint\": {\n            \"functions\": [\"h1\"],\n            \"indices\": [\"a\", \"m\", \"n\", \"b\", \"ell\", \"m\", \"c\", \"n\", \"ell\"],\n            \"branch_condition\": \"eq_ell_m\"\n          }\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0016\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0012\",\n          \"O\": \"limit\"\n        },\n        {\n          \"member\": \"G0013\",\n          \"O\": \"limit\"\n        },\n        {\n          \"member\": \"G0014\",\n          \"O\": \"limit\"\n        },\n        {\n          \"member\": \"G0015\",\n          \"O\": \"limit\"\n        }\n      ],\n      \"proof_obligations\": [\n        \"limit(G0016, epsilon(ell)->epsilon(m), epsilon(m)->epsilon(n)) == G0012\",\n        \"limit(G0016, epsilon(m)->epsilon(n)) == G0013 with epsilon(ell) fixed\",\n        \"limit(G0016, epsilon(ell)->epsilon(n)) == G0014 with epsilon(m) fixed\",\n        \"limit(G0016, epsilon(ell)->epsilon(m)) == G0015 with epsilon(n) fixed\"\n      ],\n      \"required_assumptions\": [\n        \"All identified limits exist and avoid polygamma singularities.\"\n      ],\n      \"rationale\": \"The whole 3-index piecewise branch set is generated by coalescences of the spectral parameters epsilon(ell), epsilon(m), epsilon(n) from the totally non-coincident branch G0016.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"representation_type\": \"confluent_representation\",\n      \"latent_object\": \"Three-index off-diagonal kernel K3_perm(h1(a,m,n), h1(b,n,ell), h1(c,ell,m)) = expression in G0023 before summing.\",\n      \"generic_member\": \"G0023\",\n      \"degenerate_member\": \"G0019\",\n      \"limit_variable\": \"epsilon(ell) -> epsilon(m) -> epsilon(n)\",\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0023\",\n          \"role\": \"generic\",\n          \"source_fingerprint\": {\n            \"functions\": [\"",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "seed": 0,
+  "scores": [
+    {
+      "type": "symmetry_invariant",
+      "parse_status": "OK",
+      "ids": [
+        "G0002",
+        "G0006"
+      ],
+      "layer": "C",
+      "detail": "bound_not_compiled",
+      "verdicts": [],
+      "n_bind": 2
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0005",
+        "G0004"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 2
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0009",
+        "G0008"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 2
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0016",
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 5
+    },
+    {
+      "type": "confluent_representation",
+      "parse_status": "OK",
+      "ids": [
+        "G0023",
+        "G0019",
+        "G0020",
+        "G0021",
+        "G0022"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "verdicts": [
+        "ZERO"
+      ],
+      "n_bind": 5
+    }
+  ],
+  "types_ok": [
+    "symmetry_invariant",
+    "confluent_representation",
+    "confluent_representation",
+    "confluent_representation",
+    "confluent_representation"
+  ],
+  "n_ddcf": 4,
+  "n_zero": 4,
+  "n_nonzero": 0,
+  "n_unknown": 0,
+  "n_gfail": 0
+}

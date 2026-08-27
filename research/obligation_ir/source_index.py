@@ -115,6 +115,17 @@ def build_index(
                     )
             else:
                 add("summand", summand, parent=snode.gid, h=hs)
+        elif isinstance(t, sympy.Piecewise):
+            pnode = add("piecewise", t, h=hs)
+            for arg in t.args:
+                bexpr, bcond = arg
+                add(
+                    "piecewise_branch",
+                    bexpr,
+                    cond=_cond_key(bcond),
+                    parent=pnode.gid,
+                    h=hs,
+                )
         else:
             add("term", t, h=hs)
 
