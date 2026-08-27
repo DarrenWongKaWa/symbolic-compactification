@@ -1,0 +1,907 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "guo-sigma-abc",
+  "seed": 2,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 13975,
+    "completion_tokens": 12122,
+    "total_tokens": 26097,
+    "reasoning_tokens": 7976,
+    "cached_tokens": 13952
+  },
+  "reasoning_tokens": 7976,
+  "latency_s": 166.502,
+  "request_id": "20fa4b23-148b-477f-a423-0876753d6af4",
+  "reasoning_len": 27758,
+  "reasoning_sha": "bca25a58c1fbf23a",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 5,
+  "n_parse_failure": 0,
+  "n_hypotheses": 5,
+  "n_grounded": 5,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "other_explicit",
+      "member_ids": [
+        "G0002",
+        "G0006"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0006": "instance"
+      },
+      "latent_object": "F(b,c)=raw G0002 sum expression with h1(b,n,m)*h2(a,c,m,n) and the Piecewise coefficients exactly as catalog text",
+      "latent_variables": [
+        "a",
+        "b",
+        "c",
+        "beta",
+        "gamma",
+        "mu",
+        "m",
+        "n"
+      ],
+      "nodes": [
+        {
+          "name": "summand",
+          "expression": "Piecewise(eq_m_n_branch, true_branch)*h1(b,n,m)*h2(a,c,m,n)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0006",
+          "kind": "substitution",
+          "args": {
+            "substitution": {
+              "b": "c",
+              "c": "b"
+            }
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "theta": {}
+        },
+        "G0006": {
+          "theta": {
+            "b": "c",
+            "c": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "G0002 = F; G0006 = F with b and c exchanged.",
+      "required_assumptions": [
+        "The piecewise coefficient part is independent of b and c, so only h1/h2 arguments transform under the swap."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002",
+            "G0006"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0006 == G0002 with {b:c, c:b}",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "Two double-sum expressions are structurally identical except for exchange of the h1/h2 function labels b and c, indicating a discrete symmetry of the coefficient template.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "other_explicit",
+      "member_ids": [
+        "G0010",
+        "G0017"
+      ],
+      "member_roles": {
+        "G0010": "generic",
+        "G0017": "instance"
+      },
+      "latent_object": "F(b,c)=raw G0010 triple-sum expression with h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) and the Piecewise coefficients exactly as catalog text",
+      "latent_variables": [
+        "a",
+        "b",
+        "c",
+        "beta",
+        "gamma",
+        "mu",
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "summand",
+          "expression": "Piecewise(eq_ell_m_n_branch, eq_m_n_branch, eq_ell_n_branch, eq_ell_m_branch, true_branch)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0010",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0017",
+          "kind": "substitution",
+          "args": {
+            "substitution": {
+              "b": "c",
+              "c": "b"
+            }
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0010": {
+          "theta": {}
+        },
+        "G0017": {
+          "theta": {
+            "b": "c",
+            "c": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "G0010 = F; G0017 = F with b and c exchanged, using commutativity of multiplication for the h1 product.",
+      "required_assumptions": [
+        "The polygamma-rational coefficient part is independent of b and c.",
+        "Multiplication of scalar h1 factors is commutative."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0010",
+            "G0017"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0017 == G0010 with {b:c, c:b}",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two triple sums are related by exchanging the two h1 factors labeled b and c, leaving the coefficient expression unchanged.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "member_roles": {
+        "G0012": "degenerate",
+        "G0013": "degenerate",
+        "G0014": "degenerate",
+        "G0015": "degenerate",
+        "G0016": "generic"
+      },
+      "latent_object": "F(eps_m,eps_n,eps_ell)=raw G0016 true branch expression with h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) and its rational polygamma coefficient exactly as catalog text",
+      "latent_variables": [
+        "epsilon(m)",
+        "epsilon(n)",
+        "epsilon(ell)",
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "generic_branch",
+          "expression": "C_generic(m,ell,n)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0016",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0013",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(m)",
+            "to": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0014",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0015",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(m)"
+          }
+        },
+        {
+          "member_id": "G0012",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(m)",
+                "to": "epsilon(n)"
+              },
+              {
+                "var": "epsilon(ell)",
+                "to": "epsilon(n)"
+              }
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0016": {
+          "parameters": {
+            "eps_m": "free",
+            "eps_n": "free",
+            "eps_ell": "free"
+          }
+        },
+        "G0013": {
+          "limit": {
+            "var": "epsilon(m)",
+            "to": "epsilon(n)"
+          }
+        },
+        "G0014": {
+          "limit": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(n)"
+          }
+        },
+        "G0015": {
+          "limit": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(m)"
+          }
+        },
+        "G0012": {
+          "limit": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(n)",
+            "second_var": "epsilon(m)",
+            "second_to": "epsilon(n)"
+          }
+        }
+      },
+      "reconstruction_rule": "G0016 is the generic branch F; each degenerate branch is obtained by taking the corresponding epsilon confluence limit of F.",
+      "required_assumptions": [
+        "The singular denominators in F are removable at the degeneracies via the same limit process that defines the piecewise branches.",
+        "h1 factors are sufficiently regular in the epsilon indices."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0016",
+            "G0013"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(m)->epsilon(n)} G0016 == G0013",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0016",
+            "G0014"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(ell)->epsilon(n)} G0016 == G0014",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0016",
+            "G0015"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(ell)->epsilon(m)} G0016 == G0015",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0016",
+            "G0012"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(m)->epsilon(n)} limit_{epsilon(ell)->epsilon(n)} G0016 == G0012",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The piecewise branches of the triple sum form a confluence family: distinct-index degeneracies are limits of the generic branch, matching the removable-singularity structure of the rational polygamma coefficients.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0019",
+        "G0020",
+        "G0021",
+        "G0022",
+        "G0023"
+      ],
+      "member_roles": {
+        "G0019": "degenerate",
+        "G0020": "degenerate",
+        "G0021": "degenerate",
+        "G0022": "degenerate",
+        "G0023": "generic"
+      },
+      "latent_object": "F(eps_m,eps_n,eps_ell)=raw G0023 true branch expression with h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m) and its rational polygamma coefficient exactly as catalog text",
+      "latent_variables": [
+        "epsilon(m)",
+        "epsilon(n)",
+        "epsilon(ell)",
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "generic_branch",
+          "expression": "C_generic(m,ell,n)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0023",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0020",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(m)",
+            "to": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0021",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0022",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(m)"
+          }
+        },
+        {
+          "member_id": "G0019",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(m)",
+                "to": "epsilon(n)"
+              },
+              {
+                "var": "epsilon(ell)",
+                "to": "epsilon(n)"
+              }
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0023": {
+          "parameters": {
+            "eps_m": "free",
+            "eps_n": "free",
+            "eps_ell": "free"
+          }
+        },
+        "G0020": {
+          "limit": {
+            "var": "epsilon(m)",
+            "to": "epsilon(n)"
+          }
+        },
+        "G0021": {
+          "limit": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(n)"
+          }
+        },
+        "G0022": {
+          "limit": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(m)"
+          }
+        },
+        "G0019": {
+          "limit": {
+            "var": "epsilon(ell)",
+            "to": "epsilon(n)",
+            "second_var": "epsilon(m)",
+            "second_to": "epsilon(n)"
+          }
+        }
+      },
+      "reconstruction_rule": "G0023 is the generic branch F; each degenerate branch is obtained by taking the corresponding epsilon confluence limit of F.",
+      "required_assumptions": [
+        "The singular denominators in F are removable at the degeneracies via the same limit process that defines the piecewise branches.",
+        "h1 factors are sufficiently regular in the epsilon indices."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0023",
+            "G0020"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(m)->epsilon(n)} G0023 == G0020",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0023",
+            "G0021"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(ell)->epsilon(n)} G0023 == G0021",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0023",
+            "G0022"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(ell)->epsilon(m)} G0023 == G0022",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0023",
+            "G0019"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(m)->epsilon(n)} limit_{epsilon(ell)->epsilon(n)} G0023 == G0019",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The second triple-sum branch family has the same confluence structure as the first, with distinct-index degeneracies obtained as limits of its generic branch.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0004",
+        "G0005",
+        "G0008",
+        "G0009"
+      ],
+      "member_roles": {
+        "G0004": "degenerate",
+        "G0005": "generic",
+        "G0008": "degenerate",
+        "G0009": "generic"
+      },
+      "latent_object": "F(b,c)=raw G0005 true branch expression with h1(b,n,m)*h2(a,c,m,n) and its rational polygamma coefficient exactly as catalog text",
+      "latent_variables": [
+        "a",
+        "b",
+        "c",
+        "beta",
+        "gamma",
+        "mu",
+        "m",
+        "n"
+      ],
+      "nodes": [
+        {
+          "name": "true_branch",
+          "expression": "C_true(m,n)*h1(b,n,m)*h2(a,c,m,n)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0005",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0004",
+          "kind": "limit",
+          "args": {
+            "var": "epsilon(m)",
+            "to": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0009",
+          "kind": "substitution",
+          "args": {
+            "substitution": {
+              "b": "c",
+              "c": "b"
+            }
+          }
+        },
+        {
+          "member_id": "G0008",
+          "kind": "other",
+          "args": {
+            "compose": [
+              {
+                "kind": "substitution",
+                "args": {
+                  "b": "c",
+                  "c": "b"
+                }
+              },
+              {
+                "kind": "limit",
+                "args": {
+                  "var": "epsilon(m)",
+                  "to": "epsilon(n)"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0005": {
+          "theta": {}
+        },
+        "G0004": {
+          "limit": {
+            "var": "epsilon(m)",
+            "to": "epsilon(n)"
+          }
+        },
+        "G0009": {
+          "theta": {
+            "b": "c",
+            "c": "b"
+          }
+        },
+        "G0008": {
+          "compose": [
+            {
+              "theta": {
+                "b": "c",
+                "c": "b"
+              }
+            },
+            {
+              "limit": {
+                "var": "epsilon(m)",
+                "to": "epsilon(n)"
+              }
+            }
+          ]
+        }
+      },
+      "reconstruction_rule": "G0005 is the generic true branch F; G0004 is obtained by the m->n confluence limit; G0009 is the b<->c swap of F; G0008 is obtained by applying the swap and then the m->n limit.",
+      "required_assumptions": [
+        "The true-branch singularities at m=n are removable and the limit recovers the eq_m_n branch.",
+        "The coefficient part is independent of b and c, so it commutes with the substitution."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0005",
+            "G0004"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(m)->epsilon(n)} G0005 == G0004",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0005",
+            "G0009"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0009 == G0005 with {b:c, c:b}",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0009",
+            "G0008"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{epsilon(m)->epsilon(n)} G0009 == G0008",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The arity-2 double-sum branches also form a confluence family, with an additional discrete b<->c symmetry relating the two parallel double sums.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"other_explicit\",\n      \"member_ids\": [\"G0002\", \"G0006\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0006\": \"instance\"\n      },\n      \"latent_object\": \"F(b,c)=raw G0002 sum expression with h1(b,n,m)*h2(a,c,m,n) and the Piecewise coefficients exactly as catalog text\",\n      \"latent_variables\": [\"a\", \"b\", \"c\", \"beta\", \"gamma\", \"mu\", \"m\", \"n\"],\n      \"nodes\": [\n        {\n          \"name\": \"summand\",\n          \"expression\": \"Piecewise(eq_m_n_branch, true_branch)*h1(b,n,m)*h2(a,c,m,n)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0006\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"substitution\": {\n              \"b\": \"c\",\n              \"c\": \"b\"\n            }\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"theta\": {}\n        },\n        \"G0006\": {\n          \"theta\": {\n            \"b\": \"c\",\n            \"c\": \"b\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0002 = F; G0006 = F with b and c exchanged.\",\n      \"required_assumptions\": [\n        \"The piecewise coefficient part is independent of b and c, so only h1/h2 arguments transform under the swap.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\", \"G0006\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0006 == G0002 with {b:c, c:b}\"\n        }\n      ],\n      \"scientific_rationale\": \"Two double-sum expressions are structurally identical except for exchange of the h1/h2 function labels b and c, indicating a discrete symmetry of the coefficient template.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"other_explicit\",\n      \"member_ids\": [\"G0010\", \"G0017\"],\n      \"member_roles\": {\n        \"G0010\": \"generic\",\n        \"G0017\": \"instance\"\n      },\n      \"latent_object\": \"F(b,c)=raw G0010 triple-sum expression with h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) and the Piecewise coefficients exactly as catalog text\",\n      \"latent_variables\": [\"a\", \"b\", \"c\", \"beta\", \"gamma\", \"mu\", \"m\", \"n\", \"ell\"],\n      \"nodes\": [\n        {\n          \"name\": \"summand\",\n          \"expression\": \"Piecewise(eq_ell_m_n_branch, eq_m_n_branch, eq_ell_n_branch, eq_ell_m_branch, true_branch)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0010\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0017\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"substitution\": {\n              \"b\": \"c\",\n              \"c\": \"b\"\n            }\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0010\": {\n          \"theta\": {}\n        },\n        \"G0017\": {\n          \"theta\": {\n            \"b\": \"c\",\n            \"c\": \"b\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0010 = F; G0017 = F with b and c exchanged, using commutativity of multiplication for the h1 product.\",\n      \"required_assumptions\": [\n        \"The polygamma-rational coefficient part is independent of b and c.\",\n        \"Multiplication of scalar h1 factors is commutative.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0010\", \"G0017\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0017 == G0010 with {b:c, c:b}\"\n        }\n      ],\n      \"scientific_rationale\": \"The two triple sums are related by exchanging the two h1 factors labeled b and c, leaving the coefficient expression unchanged.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0012\", \"G0013\", \"G0014\", \"G0015\", \"G0016\"],\n      \"member_roles\": {\n        \"G0012\": \"degenerate\",\n        \"G0013\": \"degenerate\",\n        \"G0014\": \"degenerate\",\n        \"G0015\": \"degenerate\",\n        \"G0016\": \"generic\"\n      },\n      \"latent_object\": \"F(eps_m,eps_n,eps_ell)=raw G0016 true branch expression with h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell) and its rational polygamma coefficient exactly as catalog text\",\n      \"latent_variables\": [\"epsilon(m)\", \"epsilon(n)\", \"epsilon(ell)\", \"m\", \"n\", \"ell\"],\n      \"nodes\": [\n        {\n          \"name\": \"generic_branch\",\n          \"expression\": \"C_generic(m,ell,n)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0016\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0013\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"var\": \"epsilon(m)\",\n            \"to\": \"epsilon(n)\"\n          }\n        },\n        {\n          \"member_id\": \"G0014\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"var\": \"epsilon(ell)\",\n            \"to\": \"epsilon(n)\"\n          }\n        },\n        {\n          \"member_id\": \"G0015\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"var\": \"epsilon(ell)\",\n            \"to\": \"epsilon(m)\"\n          }\n        },\n        {\n          \"member_id\": \"G0012\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"limits\": [\n              {\n                \"var\": \"epsilon(m)\",\n                \"to\": \"epsilon(n)\"\n              },\n              {\n                \"var\": \"epsilon(ell)\",\n                \"to\": \"epsilon(n)\"\n              }\n            ]\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0016\": {\n          \"parameters\": {\n            \"eps_m\": \"free\",\n            \"eps_n\": \"free\",\n            \"eps_ell\": \"free\"\n          }\n        },\n        \"G0013\": {\n          \"limit\": {\n            \"var\": \"epsilon(m)\",\n            \"to\": \"epsilon(n)\"\n          }\n        },\n        \"G0014\": {\n          \"limit\": {\n            \"var\": \"epsilon(ell)\",\n            \"to\": \"epsilon(n)\"\n          }\n        },\n        \"G0015\": {\n          \"limit\": {\n            \"var\": \"epsilon(ell)\",\n            \"to\": \"epsilon(m)\"\n          }\n        },\n        \"G0012\": {\n          \"limit\": {\n            \"var\": \"epsilon(ell)\",\n            \"to\": \"epsilon(n)\",\n            \"second_var\": \"epsilon(m)\",\n            \"second_to\": \"epsilon(n)\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0016 is the generic branch F; each degenerate branch is obtained by taking the corresponding epsilon confluence limit of F.\",\n      \"required_assumptions\": [\n        \"The singular denominators in F are removable at the degeneracies via the same limit process that defines the piecewise branches.\",\n        \"h1 factors are sufficiently regular in the epsilon indices.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0016\", \"G0013\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit_{epsilon(m)->epsilon(n)} G0016 == G0013\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0016\", \"G0014\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit_{epsilon(ell)->epsilon(n)} G0016 == G0014\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0016\", \"G0015\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit_{epsilon(ell)->epsilon(m)} G0016 == G0015\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0016\", \"G0012\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit_{epsilon(m)->epsilon(n)} limit_{epsilon(ell)->epsilon(n)} G0016 == G0012\"\n        }\n      ],\n      \"scientific_rationale\": \"The piecewise branches of the triple sum form a confluence family: distinct-index degeneracies are limits of the generic branch, matching the removable-singularity structure of the rational polygamma coefficients.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"representation_type\": \"local_confluence\"",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 0,
+  "n_unknown": 0,
+  "n_compile_ok": 0,
+  "compile_status": "COMPILE_FAILURE",
+  "summary": {
+    "item_id": "guo-sigma-abc",
+    "condition": "P2",
+    "seed": 2,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 5,
+    "n_ok": 5,
+    "n_grounded": 5,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_FAILURE",
+    "n_dd_ok": 0,
+    "n_local_confluence": 3,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "other_explicit",
+        "r_hint": null,
+        "member_ids": [
+          "G0002",
+          "G0006"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "other_explicit",
+        "r_hint": null,
+        "member_ids": [
+          "G0010",
+          "G0017"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0012",
+          "G0013",
+          "G0014",
+          "G0015",
+          "G0016"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0019",
+          "G0020",
+          "G0021",
+          "G0022",
+          "G0023"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0004",
+          "G0005",
+          "G0008",
+          "G0009"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

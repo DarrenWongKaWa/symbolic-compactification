@@ -1,0 +1,20 @@
+{
+  "protocol": "verified-representation-invention-v1-dev",
+  "frozen_at": "2026-08-28",
+  "parent_p1": "3fea222",
+  "contract": "45b2b4dc7c823901f4b79713d279c6be7bae2859",
+  "model": "deepseek-v4-pro",
+  "flash_model": "deepseek-v4-flash",
+  "sol": "0a2905b",
+  "prompt": "research/representation_invention/llm/prompts.py",
+  "schema": "research/representation_invention/schema.py",
+  "compiler": "research/representation_invention/obligations/",
+  "bench": "ssc-representation-bench-v0.1",
+  "seeds_flagship": 5,
+  "notes": [
+    "Do not retune SOL ranking.",
+    "Do not mutate frozen P0/P1 runs.",
+    "COMPILE_FAILURE is not UNKNOWN.",
+    "Guo remains DEV; full Guo is not in TEST."
+  ]
+}

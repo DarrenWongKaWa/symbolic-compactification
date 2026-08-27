@@ -1,0 +1,210 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-b-piecewise-dd",
+  "seed": 1,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1559,
+    "completion_tokens": 3532,
+    "total_tokens": 5091,
+    "reasoning_tokens": 2836,
+    "cached_tokens": 1536
+  },
+  "reasoning_tokens": 2836,
+  "latency_s": 55.462,
+  "request_id": "02d3e718-5282-4639-85cc-8e39b32a1ec2",
+  "reasoning_len": 10674,
+  "reasoning_sha": "58d17951527f9ee8",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 2,
+  "hypotheses": [
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0001",
+        "G0002"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "degenerate"
+      },
+      "latent_object": "F(t)=f(t), the common univariate function underlying both members",
+      "latent_variables": [
+        "t"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "y"
+            ]
+          }
+        },
+        {
+          "member_id": "G0002",
+          "kind": "derivative",
+          "args": {
+            "point": "x",
+            "variable": "t"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "theta": {
+            "nodes": [
+              "x",
+              "y"
+            ]
+          }
+        },
+        "G0002": {
+          "theta": {
+            "nodes": [
+              "x",
+              "x"
+            ]
+          }
+        }
+      },
+      "reconstruction_rule": "Each member is recovered from the latent object F by its operator: O_G0001[F]=(F(x)-F(y))/(x-y) and O_G0002[F]=F'(x), the latter being the y->x coalesced-node divided-difference case.",
+      "required_assumptions": [
+        "F(t)=f(t) is the common univariate function",
+        "x and y are symbolic variables; the G0001 branch assumes Ne(x,y)",
+        "G0002 uses the coincident-node/limit case and requires differentiability of f at x"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (F(x)-F(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "DERIVATIVE",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "derivative",
+          "expected": "G0002 == F'(x)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0001",
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{y->x} G0001 == G0002",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two catalog members are structural divided-difference companions: G0001 is the first divided difference at distinct nodes x,y, while G0002 is the derivative at x obtained by coalescing the nodes. They share the same univariate latent function F and differ only by node multiplicity.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0001\", \"G0002\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"degenerate\"\n      },\n      \"latent_object\": \"F(t)=f(t), the common univariate function underlying both members\",\n      \"latent_variables\": [\"t\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"x\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"y\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"nodes\": [\"x\", \"y\"]\n          }\n        },\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"derivative\",\n          \"args\": {\n            \"point\": \"x\",\n            \"variable\": \"t\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\n          \"theta\": {\n            \"nodes\": [\"x\", \"y\"]\n          }\n        },\n        \"G0002\": {\n          \"theta\": {\n            \"nodes\": [\"x\", \"x\"]\n          }\n        }\n      },\n      \"reconstruction_rule\": \"Each member is recovered from the latent object F by its operator: O_G0001[F]=(F(x)-F(y))/(x-y) and O_G0002[F]=F'(x), the latter being the y->x coalesced-node divided-difference case.\",\n      \"required_assumptions\": [\n        \"F(t)=f(t) is the common univariate function\",\n        \"x and y are symbolic variables; the G0001 branch assumes Ne(x,y)\",\n        \"G0002 uses the coincident-node/limit case and requires differentiability of f at x\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (F(x)-F(y))/(x-y)\"\n        },\n        {\n          \"kind\": \"DERIVATIVE\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"derivative\",\n          \"expected\": \"G0002 == F'(x)\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0001\", \"G0002\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit_{y->x} G0001 == G0002\"\n        }\n      ],\n      \"scientific_rationale\": \"The two catalog members are structural divided-difference companions: G0001 is the first divided difference at distinct nodes x,y, while G0002 is the derivative at x obtained by coalescing the nodes. They share the same univariate latent function F and differ only by node multiplicity.\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "NONZERO",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 1,
+      "n_nonzero": 1,
+      "n_unknown": 1
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 1,
+  "n_unknown": 1,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-b-piecewise-dd",
+    "condition": "P2",
+    "seed": 1,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 1,
+    "n_unknown": 1,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 1,
+    "rows": [
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "dd_class": "DD-V0",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 1,
+        "n_unknown": 1
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

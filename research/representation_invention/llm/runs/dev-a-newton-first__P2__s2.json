@@ -1,0 +1,216 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-newton-first",
+  "seed": 2,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1473,
+    "completion_tokens": 3162,
+    "total_tokens": 4635,
+    "reasoning_tokens": 2440,
+    "cached_tokens": 1408
+  },
+  "reasoning_tokens": 2440,
+  "latency_s": 44.824,
+  "request_id": "bb7df890-fff6-4847-ab4b-64d9a8aa927e",
+  "reasoning_len": 9048,
+  "reasoning_sha": "f2624c8e55576cb5",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "instance",
+        "G0003": "instance"
+      },
+      "latent_object": "F(z)=f(z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "x"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "y"
+          }
+        },
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "z": "x"
+        },
+        "G0003": {
+          "z": "y"
+        },
+        "G0001": {
+          "nodes": [
+            "x",
+            "y"
+          ]
+        }
+      },
+      "reconstruction_rule": "Each catalog member is obtained by applying its operator to the latent univariate function F(z)=f(z). G0002 is F evaluated at z=x; G0003 is F evaluated at z=y; G0001 is the first divided difference of F with nodes x,y, giving (F(x)-F(y))/(x-y) = (f(x)-f(y))/(x-y).",
+      "required_assumptions": [
+        "x != y",
+        "f is defined at x and y"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "F(z)|_{z=x} == f(x)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "F(z)|_{z=y} == f(y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "DD[F;x,y] == (f(x)-f(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0002 and G0003 are point evaluations of the same univariate function f, and G0001 is the first Newton divided difference of that function on nodes x and y. This gives a single latent function with explicit evaluation and divided-difference operators.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"instance\",\n        \"G0003\": \"instance\"\n      },\n      \"latent_object\": \"F(z)=f(z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"x\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"y\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"x\"\n          }\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"y\"\n          }\n        },\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"nodes\": [\"x\", \"y\"]\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"z\": \"x\"\n        },\n        \"G0003\": {\n          \"z\": \"y\"\n        },\n        \"G0001\": {\n          \"nodes\": [\"x\", \"y\"]\n        }\n      },\n      \"reconstruction_rule\": \"Each catalog member is obtained by applying its operator to the latent univariate function F(z)=f(z). G0002 is F evaluated at z=x; G0003 is F evaluated at z=y; G0001 is the first divided difference of F with nodes x,y, giving (F(x)-F(y))/(x-y) = (f(x)-f(y))/(x-y).\",\n      \"required_assumptions\": [\n        \"x != y\",\n        \"f is defined at x and y\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"F(z)|_{z=x} == f(x)\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"F(z)|_{z=y} == f(y)\"\n        },\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"DD[F;x,y] == (f(x)-f(y))/(x-y)\"\n        }\n      ],\n      \"scientific_rationale\": \"G0002 and G0003 are point evaluations of the same univariate function f, and G0001 is the first Newton divided difference of that function on nodes x and y. This gives a single latent function with explicit evaluation and divided-difference operators.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "NONZERO",
+        "NONZERO",
+        "ZERO"
+      ],
+      "layer": "V",
+      "detail": "mixed",
+      "n_zero": 1,
+      "n_nonzero": 2,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 2,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-newton-first",
+    "condition": "P2",
+    "seed": 2,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 2,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 1,
+    "rows": [
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-V0",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 2,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

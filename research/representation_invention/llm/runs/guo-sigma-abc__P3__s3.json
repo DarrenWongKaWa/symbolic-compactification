@@ -1,0 +1,577 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P3",
+  "item_id": "guo-sigma-abc",
+  "seed": 3,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12530,
+    "completion_tokens": 12710,
+    "total_tokens": 25240,
+    "reasoning_tokens": 10279,
+    "cached_tokens": 12416
+  },
+  "reasoning_tokens": 10279,
+  "latency_s": 182.352,
+  "request_id": "a085e555-6c7d-44ce-9bf1-e59fec1f5ac7",
+  "reasoning_len": 35368,
+  "reasoning_sha": "16bcdea98ba81abd",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 4,
+  "n_parse_failure": 0,
+  "n_hypotheses": 4,
+  "n_grounded": 4,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "master_function",
+      "member_ids": [
+        "G0002",
+        "G0006"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0006": "instance"
+      },
+      "latent_object": "F(x,y) = Sum_{n=1}^{Nb} Sum_{m=1}^{Nb} Piecewise((K_diag(m,n), Eq(m,n)), (K_off(m,n), True)) * h1(x,n,m) * h2(a,y,m,n), where K_diag and K_off are the shared polygamma coefficient blocks appearing in G0002 and G0006.",
+      "latent_variables": [
+        "x",
+        "y"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "x": "b",
+            "y": "c"
+          }
+        },
+        {
+          "member_id": "G0006",
+          "kind": "substitution",
+          "args": {
+            "x": "c",
+            "y": "b"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "substitution": {
+            "x": "b",
+            "y": "c"
+          }
+        },
+        "G0006": {
+          "substitution": {
+            "x": "c",
+            "y": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "Each member is obtained by substituting the latent label slots (x,y) with the corresponding catalog labels; e.g. G0002 = F(b,c) and G0006 = F(c,b).",
+      "required_assumptions": [
+        "The polygamma coefficient blocks K_diag and K_off are invariant under the label exchange b <-> c.",
+        "Summation indices n,m have the same range for G0002 and G0006."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "PERMUTATION",
+          "member_ids": [
+            "G0006"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0006 == F(c,b) from the latent template F(x,y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0002 and G0006 have identical spectral coefficient structure but differ only in the placement of labels b and c in the external h1/h2 multipliers, suggesting a master template with two permuted label slots.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "master_function",
+      "member_ids": [
+        "G0010",
+        "G0017"
+      ],
+      "member_roles": {
+        "G0010": "generic",
+        "G0017": "instance"
+      },
+      "latent_object": "F(x,y) = Sum_{n=1}^{Nb} Sum_{m=1}^{Nb} Sum_{ell=1}^{Nb} Piecewise(all five shared branch cores) * h1(a,m,n) * h1(x,ell,m) * h1(y,n,ell), where the branch cores are the shared polygamma/rational pieces appearing in G0010 and G0017.",
+      "latent_variables": [
+        "x",
+        "y"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0010",
+          "kind": "substitution",
+          "args": {
+            "x": "b",
+            "y": "c"
+          }
+        },
+        {
+          "member_id": "G0017",
+          "kind": "substitution",
+          "args": {
+            "x": "c",
+            "y": "b"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0010": {
+          "substitution": {
+            "x": "b",
+            "y": "c"
+          }
+        },
+        "G0017": {
+          "substitution": {
+            "x": "c",
+            "y": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "Each member is obtained by substituting the latent label slots (x,y) with the corresponding catalog labels; e.g. G0010 = F(b,c) and G0017 = F(c,b).",
+      "required_assumptions": [
+        "The five branch cores are invariant under the label exchange b <-> c.",
+        "The h1 factors multiply commutatively enough that factor order does not affect the summand identity."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "PERMUTATION",
+          "member_ids": [
+            "G0017"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0017 == F(c,b) from the latent template F(x,y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0010 and G0017 share the same five-branch Piecewise coefficients but differ by swapping the b and c labels attached to the two h1 edge factors, indicating a two-slot master function with permutation symmetry.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "member_roles": {
+        "G0012": "degenerate",
+        "G0013": "degenerate",
+        "G0014": "degenerate",
+        "G0015": "degenerate",
+        "G0016": "generic"
+      },
+      "latent_object": "F(m,n,ell) = h1(a,m,n) * h1(b,ell,m) * h1(c,n,ell) * R(m,n,ell), where R(m,n,ell) is the true-branch polygamma-rational expression of G0016 evaluated for pairwise distinct epsilon(m), epsilon(n), epsilon(ell).",
+      "latent_variables": [
+        "epsilon_m",
+        "epsilon_n",
+        "epsilon_ell"
+      ],
+      "nodes": [
+        {
+          "name": "epsilon_m",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        },
+        {
+          "name": "epsilon_n",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        },
+        {
+          "name": "epsilon_ell",
+          "expression": "epsilon(ell)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0016",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0013",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(m)",
+                "to": "epsilon(n)"
+              }
+            ]
+          }
+        },
+        {
+          "member_id": "G0014",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(ell)",
+                "to": "epsilon(n)"
+              }
+            ]
+          }
+        },
+        {
+          "member_id": "G0015",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(ell)",
+                "to": "epsilon(m)"
+              }
+            ]
+          }
+        },
+        {
+          "member_id": "G0012",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(ell)",
+                "to": "epsilon(m)"
+              },
+              {
+                "var": "epsilon(m)",
+                "to": "epsilon(n)"
+              }
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0016": {
+          "condition": "True"
+        },
+        "G0013": {
+          "condition": "Eq(m,n)"
+        },
+        "G0014": {
+          "condition": "Eq(ell,n)"
+        },
+        "G0015": {
+          "condition": "Eq(ell,m)"
+        },
+        "G0012": {
+          "condition": "Eq(ell,m,n)"
+        }
+      },
+      "reconstruction_rule": "G0016 is the generic true branch; each degenerate branch is recovered by taking the corresponding limit of F as the indicated epsilon indices coalesce.",
+      "required_assumptions": [
+        "The generic true branch is well-defined and smooth enough in the epsilon variables for the required limits to exist.",
+        "The limiting operations commute with the h1 multiplication."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0013",
+            "G0014",
+            "G0015",
+            "G0012"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "Each degenerate member equals the stated limit of the generic true branch G0016 as the repeated epsilon indices coalesce.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The Piecewise branches are distinguished only by equalities among discrete indices m,n,ell, which is the characteristic signature of a confluent/divided-difference family generated from the generic branch by coalescence limits.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0004",
+        "G0005"
+      ],
+      "member_roles": {
+        "G0004": "degenerate",
+        "G0005": "generic"
+      },
+      "latent_object": "F_dyad(m,n) = h1(b,n,m) * h2(a,c,m,n) * R_dyad(m,n), where R_dyad(m,n) is the true-branch polygamma-rational expression of G0005 evaluated for distinct epsilon(m) and epsilon(n).",
+      "latent_variables": [
+        "epsilon_m",
+        "epsilon_n"
+      ],
+      "nodes": [
+        {
+          "name": "epsilon_m",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        },
+        {
+          "name": "epsilon_n",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0005",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0004",
+          "kind": "limit",
+          "args": {
+            "limits": [
+              {
+                "var": "epsilon(m)",
+                "to": "epsilon(n)"
+              }
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0005": {
+          "condition": "True"
+        },
+        "G0004": {
+          "condition": "Eq(m,n)"
+        }
+      },
+      "reconstruction_rule": "G0005 is the generic true branch; G0004 is recovered by taking the limit epsilon(m) -> epsilon(n) of the latent dyadic expression.",
+      "required_assumptions": [
+        "The generic branch is sufficiently regular in the epsilon variables for the coincidence limit to exist.",
+        "The h1 and h2 multipliers are unaffected by the epsilon limiting operation."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0004"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0004 == limit_{epsilon(m)->epsilon(n)} G0005",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two-index Piecewise has only generic and coincident-index branches, so the degenerate branch is naturally explained as the local confluence limit of the generic expression.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"master_function\",\n      \"member_ids\": [\"G0002\", \"G0006\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0006\": \"instance\"\n      },\n      \"latent_object\": \"F(x,y) = Sum_{n=1}^{Nb} Sum_{m=1}^{Nb} Piecewise((K_diag(m,n), Eq(m,n)), (K_off(m,n), True)) * h1(x,n,m) * h2(a,y,m,n), where K_diag and K_off are the shared polygamma coefficient blocks appearing in G0002 and G0006.\",\n      \"latent_variables\": [\"x\", \"y\"],\n      \"nodes\": [\n        {\"name\": \"x\", \"expression\": \"x\", \"multiplicity\": 1},\n        {\"name\": \"y\", \"expression\": \"y\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\"member_id\": \"G0002\", \"kind\": \"substitution\", \"args\": {\"x\": \"b\", \"y\": \"c\"}},\n        {\"member_id\": \"G0006\", \"kind\": \"substitution\", \"args\": {\"x\": \"c\", \"y\": \"b\"}}\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\"substitution\": {\"x\": \"b\", \"y\": \"c\"}},\n        \"G0006\": {\"substitution\": {\"x\": \"c\", \"y\": \"b\"}}\n      },\n      \"reconstruction_rule\": \"Each member is obtained by substituting the latent label slots (x,y) with the corresponding catalog labels; e.g. G0002 = F(b,c) and G0006 = F(c,b).\",\n      \"required_assumptions\": [\n        \"The polygamma coefficient blocks K_diag and K_off are invariant under the label exchange b <-> c.\",\n        \"Summation indices n,m have the same range for G0002 and G0006.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"PERMUTATION\",\n          \"member_ids\": [\"G0006\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0006 == F(c,b) from the latent template F(x,y)\"\n        }\n      ],\n      \"scientific_rationale\": \"G0002 and G0006 have identical spectral coefficient structure but differ only in the placement of labels b and c in the external h1/h2 multipliers, suggesting a master template with two permuted label slots.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"representation_type\": \"master_function\",\n      \"member_ids\": [\"G0010\", \"G0017\"],\n      \"member_roles\": {\n        \"G0010\": \"generic\",\n        \"G0017\": \"instance\"\n      },\n      \"latent_object\": \"F(x,y) = Sum_{n=1}^{Nb} Sum_{m=1}^{Nb} Sum_{ell=1}^{Nb} Piecewise(all five shared branch cores) * h1(a,m,n) * h1(x,ell,m) * h1(y,n,ell), where the branch cores are the shared polygamma/rational pieces appearing in G0010 and G0017.\",\n      \"latent_variables\": [\"x\", \"y\"],\n      \"nodes\": [\n        {\"name\": \"x\", \"expression\": \"x\", \"multiplicity\": 1},\n        {\"name\": \"y\", \"expression\": \"y\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\"member_id\": \"G0010\", \"kind\": \"substitution\", \"args\": {\"x\": \"b\", \"y\": \"c\"}},\n        {\"member_id\": \"G0017\", \"kind\": \"substitution\", \"args\": {\"x\": \"c\", \"y\": \"b\"}}\n      ],\n      \"instance_maps\": {\n        \"G0010\": {\"substitution\": {\"x\": \"b\", \"y\": \"c\"}},\n        \"G0017\": {\"substitution\": {\"x\": \"c\", \"y\": \"b\"}}\n      },\n      \"reconstruction_rule\": \"Each member is obtained by substituting the latent label slots (x,y) with the corresponding catalog labels; e.g. G0010 = F(b,c) and G0017 = F(c,b).\",\n      \"required_assumptions\": [\n        \"The five branch cores are invariant under the label exchange b <-> c.\",\n        \"The h1 factors multiply commutatively enough that factor order does not affect the summand identity.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"PERMUTATION\",\n          \"member_ids\": [\"G0017\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0017 == F(c,b) from the latent template F(x,y)\"\n        }\n      ],\n      \"scientific_rationale\": \"G0010 and G0017 share the same five-branch Piecewise coefficients but differ by swapping the b and c labels attached to the two h1 edge factors, indicating a two-slot master function with permutation symmetry.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0012\", \"G0013\", \"G0014\", \"G0015\", \"G0016\"],\n      \"member_roles\": {\n        \"G0012\": \"degenerate\",\n        \"G0013\": \"degenerate\",\n        \"G0014\": \"degenerate\",\n        \"G0015\": \"degenerate\",\n        \"G0016\": \"generic\"\n      },\n      \"latent_object\": \"F(m,n,ell) = h1(a,m,n) * h1(b,ell,m) * h1(c,n,ell) * R(m,n,ell), where R(m,n,ell) is the true-branch polygamma-rational expression of G0016 evaluated for pairwise distinct epsilon(m), epsilon(n), epsilon(ell).\",\n      \"latent_variables\": [\"epsilon_m\", \"epsilon_n\", \"epsilon_ell\"],\n      \"nodes\": [\n        {\"name\": \"epsilon_m\", \"expression\": \"epsilon(m)\", \"multiplicity\": 1},\n        {\"name\": \"epsilon_n\", \"expression\": \"epsilon(n)\", \"multiplicity\": 1},\n        {\"name\": \"epsilon_ell\", \"expression\": \"epsilon(ell)\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\"member_id\": \"G0016\", \"kind\": \"identity\", \"args\": {}},\n        {\"member_id\": \"G0013\", \"kind\": \"limit\", \"args\": {\"limits\": [{\"var\": \"epsilon(m)\", \"to\": \"epsilon(n)\"}]}},\n        {\"member_id\": \"G0014\", \"kind\": \"limit\", \"args\": {\"limits\": [{\"var\": \"epsilon(ell)\", \"to\": \"epsilon(n)\"}]}},\n        {\"member_id\": \"G0015\", \"kind\": \"limit\", \"args\": {\"limits\": [{\"var\": \"epsilon(ell)\", \"to\": \"epsilon(m)\"}]}},\n        {\"member_id\": \"G0012\", \"kind\": \"limit\", \"args\": {\"limits\": [{\"var\": \"epsilon(ell)\", \"to\": \"epsilon(m)\"}, {\"var\": \"epsilon(m)\", \"to\": \"epsilon(n)\"}]}}\n      ],\n      \"instance_maps\": {\n        \"G0016\": {\"condition\": \"True\"},\n        \"G0013\": {\"condition\": \"Eq(m,n)\"},\n        \"G0014\": {\"condition\": \"Eq(ell,n)\"},\n        \"G0015\": {\"condition\": \"Eq(ell,m)\"},\n        \"G0012\": {\"condition\": \"Eq(ell,m,n)\"}\n      },\n      \"reconstruction_rule\": \"G0016 is the generic true branch; each degenerate branch is recovered by taking the corresponding limit of F as the indicated epsilon indices coalesce.\",\n      \"required_assumptions\": [\n        \"The generic true branch is well-defined and smooth enough in the epsilon variables for the required limits to exist.\",\n        \"The limiting operations commute with the h1 multiplication.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0013\", \"G0014\", \"G0015\", \"G0012\"],\n          \"operator\": \"limit\",\n          \"expected\": \"Each degenerate member equals the stated limit of the generic true branch G0016 as the repeated epsilon indices coalesce.\"\n        }\n      ],\n      \"scientific_rationale\": \"The Piecewise branches are distinguished only by equalities among discrete indices m,n,ell, which is the characteristic signature of a confluent/divided-difference family generated from the generic branch by coalescence limits.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0004\", \"G0005\"],\n      \"member_roles\": {\n        \"G0004\": \"degenerate\",\n        \"G0005\": \"generic\"\n      },\n      \"latent_object\": \"F_dyad(m,n) = h1(b,n,m) * h2(a,c,m,n) * R_dyad(m,n), where R_dyad(m,n) is the true-branch polygamma-rational expression of G0005 evaluated for distinct epsilon(m) and epsilon(n).\",\n      \"latent_variables\": [\"epsilon_m\", \"epsilon_n\"],\n      \"nodes\": [\n        {\"name\": \"epsilon_m\", \"expression\": \"epsilon(m)\", \"multiplicity\": 1},\n        {\"name\": \"epsilon_n\", \"expression\": \"epsilon(n)\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\"member_id\": \"G0005\", \"kind\": \"identity\", \"args\": {}},\n        {\"member_id\": \"G0004\", \"kind\": \"limit\", \"args\": {\"limits\": [{\"var\": \"epsilon(m)\", \"to\": \"epsilon(n)\"}]}}\n      ],\n      \"instance_maps\": {\n        \"G0005\": {\"condition\": \"True\"},\n        \"G0004\": {\"condition\": \"Eq(m,n)\"}\n      },\n      \"reconstruction_rule\": \"G0005 is the generic true branch; G0004 is recovered by taking the limit epsilon(m) -> epsilon(n) of the latent dyadic expression.\",\n      \"required_assumptions\": [\n        \"The generic branch is sufficiently regular in the epsilon variables for the coincidence limit to exist.\",\n        \"The h1 and h2 multipliers are unaffected by the epsilon limiting operation.\"\n      ],\n      \"proof_obligations\": [\n        {\n        ",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 0,
+  "n_unknown": 2,
+  "n_compile_ok": 2,
+  "compile_status": "COMPILE_FAILURE",
+  "summary": {
+    "item_id": "guo-sigma-abc",
+    "condition": "P3",
+    "seed": 3,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 4,
+    "n_ok": 4,
+    "n_grounded": 4,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "compile_status": "COMPILE_FAILURE",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 2,
+    "rows": [
+      {
+        "type": "master_function",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0002",
+          "G0006"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "master_function",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0010",
+          "G0017"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0012",
+          "G0013",
+          "G0014",
+          "G0015",
+          "G0016"
+        ],
+        "dd_class": "DD-VU",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      },
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0004",
+          "G0005"
+        ],
+        "dd_class": "DD-VU",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

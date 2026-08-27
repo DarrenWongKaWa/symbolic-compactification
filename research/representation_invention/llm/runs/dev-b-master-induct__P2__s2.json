@@ -1,0 +1,207 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-b-master-induct",
+  "seed": 2,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1874,
+    "completion_tokens": 2643,
+    "total_tokens": 4517,
+    "reasoning_tokens": 1996,
+    "cached_tokens": 1792
+  },
+  "reasoning_tokens": 1996,
+  "latency_s": 42.414,
+  "request_id": "ad2a4fa8-5497-43ca-a7a1-5e3a243004e6",
+  "reasoning_len": 8238,
+  "reasoning_sha": "46b90f7add569669",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "other_explicit",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "instance",
+        "G0002": "instance",
+        "G0003": "instance"
+      },
+      "latent_object": "G(z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "z",
+          "expression": "z",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0001",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "a"
+          }
+        },
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "b"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "c"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "z": "a"
+        },
+        "G0002": {
+          "z": "b"
+        },
+        "G0003": {
+          "z": "c"
+        }
+      },
+      "reconstruction_rule": "Each member G(arg) is recovered by applying the corresponding argument substitution operator to the latent object G(z).",
+      "required_assumptions": [
+        "G is an uninterpreted function symbol",
+        "a, b, c are declared symbols",
+        "the catalog members are not simplified or rewritten beyond the listed substitutions"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G(a) == substitution(z -> a)[G(z)]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G(b) == substitution(z -> b)[G(z)]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G(c) == substitution(z -> c)[G(z)]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The three catalog expressions are syntactically identical up to the argument of the uninterpreted function G. A single latent template G(z) with explicit substitution operators explains all non-identical members without invoking any physical or hidden object.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"other_explicit\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"instance\",\n        \"G0002\": \"instance\",\n        \"G0003\": \"instance\"\n      },\n      \"latent_object\": \"G(z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"z\",\n          \"expression\": \"z\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"a\"\n          }\n        },\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"b\"\n          }\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"c\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\n          \"z\": \"a\"\n        },\n        \"G0002\": {\n          \"z\": \"b\"\n        },\n        \"G0003\": {\n          \"z\": \"c\"\n        }\n      },\n      \"reconstruction_rule\": \"Each member G(arg) is recovered by applying the corresponding argument substitution operator to the latent object G(z).\",\n      \"required_assumptions\": [\n        \"G is an uninterpreted function symbol\",\n        \"a, b, c are declared symbols\",\n        \"the catalog members are not simplified or rewritten beyond the listed substitutions\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G(a) == substitution(z -> a)[G(z)]\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G(b) == substitution(z -> b)[G(z)]\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G(c) == substitution(z -> c)[G(z)]\"\n        }\n      ],\n      \"scientific_rationale\": \"The three catalog expressions are syntactically identical up to the argument of the uninterpreted function G. A single latent template G(z) with explicit substitution operators explains all non-identical members without invoking any physical or hidden object.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "NONZERO",
+        "NONZERO",
+        "NONZERO"
+      ],
+      "layer": "D",
+      "detail": "wrong_structure",
+      "n_zero": 0,
+      "n_nonzero": 3,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 3,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-b-master-induct",
+    "condition": "P2",
+    "seed": 2,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 0,
+    "n_nonzero": 3,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "other_explicit",
+        "r_hint": null,
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-D",
+        "layer": "D",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 3,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

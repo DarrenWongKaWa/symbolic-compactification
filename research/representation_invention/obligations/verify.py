@@ -96,6 +96,11 @@ def verify_obligation(
             note=obl.compile_error or "compile_failure",
             compile_status=COMPILE_FAILURE,
         )
+    longest = max(len(obl.left or ""), len(obl.right or ""), len(obl.latent or ""))
+    if longest > 800:
+        return VerifyResult(
+            obl.kind, UNKNOWN, "size_guard", "expression_too_large", COMPILE_OK,
+        )
     dispatch = {
         NEWTON_DD: _v_newton,
         HERMITE_DD: _v_hermite,

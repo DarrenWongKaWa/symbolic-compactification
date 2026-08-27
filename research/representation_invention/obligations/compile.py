@@ -16,6 +16,7 @@ from research.llm_abstraction.constructor import (
 )
 from research.representation_invention.obligations.constructors import (
     USED_LOCAL_DD_FALLBACK,
+    LatentTooLarge,
     eval_F,
     hermite_nodes,
     newton_first,
@@ -417,8 +418,26 @@ def _limit_var_point(
         or ""
     )
     args = _op_args(h, member_id)
-    var = str(var or args.get("var") or args.get("from") or "")
-    to = str(to or args.get("to") or args.get("point") or "")
+    var = str(
+        var
+        or args.get("var")
+        or args.get("from")
+        or args.get("source")
+        or args.get("limit_variable")
+        or ""
+    )
+    to = str(
+        to
+        or args.get("to")
+        or args.get("point")
+        or args.get("target")
+        or args.get("value")
+        or ""
+    )
+    if (not var or not to) and isinstance(args.get("source"), str) and "->" in str(args.get("source")):
+        a, b = str(args.get("source")).split("->", 1)
+        var = var or a.strip()
+        to = to or b.strip()
     if (not var or not to) and draft.variables:
         var = var or str(draft.variables.get("var") or "")
         to = to or str(draft.variables.get("to") or "")
@@ -494,7 +513,19 @@ def _compile_draft(
             operator=draft.operator,
             provenance=draft.provenance,
         )
+    huge = [m for m in mids if len(str(catalog.get(m, ""))) > 4000]
+    if huge and kind in {HERMITE_DD, NEWTON_DD, MASTER_INSTANCE}:
+        return _failure(
+            kind, f"member_text_too_large:{huge[0]}",
+            member_ids=mids, latent=h.latent_object or "",
+            assumptions=_assumptions(h, draft),
+            operator=draft.operator,
+            provenance=draft.provenance,
+        )
     exact = {m: catalog[m] for m in mids}
+    for m in list(h.member_ids or []):
+        if m in catalog and m not in exact:
+            exact[m] = catalog[m]
     for mid, text in exact.items():
         if parse_flex(text, symbols, functions) is None:
             return _failure(
@@ -603,7 +634,15 @@ def _build_hermite(
             assumptions=_assumptions(h, draft), operator=draft.operator or "hermite_dd",
             provenance=draft.provenance,
         )
-    cand = hermite_nodes(F, z, parsed)
+    try:
+        cand = hermite_nodes(F, z, parsed)
+    except LatentTooLarge as exc:
+        return _failure(
+            HERMITE_DD, f"latent_too_large:{exc}",
+            member_ids=mids, exact=exact, latent=h.latent_object or "",
+            assumptions=_assumptions(h, draft), operator=draft.operator or "hermite_dd",
+            provenance=draft.provenance,
+        )
     return _ok_base(
         HERMITE_DD, h, draft, mids, exact,
         left=exact[mid],
@@ -682,6 +721,10 @@ def _build_confluence(
 def _build_limit(
     h, draft, mids, exact, symbols, functions,
 ) -> Obligation:
+    if len(mids) < 2:
+        pair = _role_pair(h)
+        if pair and pair[0] in exact and pair[1] in exact:
+            mids = pair
     if len(mids) >= 2:
         return _build_confluence(h, draft, mids, exact, symbols, functions, kind=LIMIT)
     mid = mids[0]

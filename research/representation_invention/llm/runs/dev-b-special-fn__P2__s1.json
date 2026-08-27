@@ -1,0 +1,212 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-b-special-fn",
+  "seed": 1,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1418,
+    "completion_tokens": 2870,
+    "total_tokens": 4288,
+    "reasoning_tokens": 2157,
+    "cached_tokens": 1408
+  },
+  "reasoning_tokens": 2157,
+  "latency_s": 44.09,
+  "request_id": "3270c1f1-5c16-469d-8cc4-1b3748fa6744",
+  "reasoning_len": 7814,
+  "reasoning_sha": "7915d2b3fb564b35",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "instance",
+        "G0003": "instance"
+      },
+      "latent_object": "F(z) = polygamma(0, z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "y"
+            ]
+          }
+        },
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "node": "x"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "substitution",
+          "args": {
+            "node": "y"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "x": "x",
+          "y": "y"
+        },
+        "G0002": {
+          "x": "x"
+        },
+        "G0003": {
+          "y": "y"
+        }
+      },
+      "reconstruction_rule": "A_i = O_i[F]; G0001 = Newton_divided_difference[F; x, y] = (F(x)-F(y))/(x-y); G0002 = F(x); G0003 = F(y).",
+      "required_assumptions": [
+        "F(z) = polygamma(0, z) is defined at z = x and z = y, i.e. x and y are not nonpositive integers.",
+        "For the divided-difference operator used for G0001, x != y."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (F(x)-F(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0002 == F(x)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0003 == F(y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0001 is structurally the first divided difference of the digamma function F(z)=polygamma(0,z) at nodes x and y, while G0002 and G0003 are the corresponding point evaluations of the same latent function at those nodes.",
+      "confidence": 0.95,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"instance\",\n        \"G0003\": \"instance\"\n      },\n      \"latent_object\": \"F(z) = polygamma(0, z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"x\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"y\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"nodes\": [\"x\", \"y\"]\n          }\n        },\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"node\": \"x\"\n          }\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"node\": \"y\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\n          \"x\": \"x\",\n          \"y\": \"y\"\n        },\n        \"G0002\": {\n          \"x\": \"x\"\n        },\n        \"G0003\": {\n          \"y\": \"y\"\n        }\n      },\n      \"reconstruction_rule\": \"A_i = O_i[F]; G0001 = Newton_divided_difference[F; x, y] = (F(x)-F(y))/(x-y); G0002 = F(x); G0003 = F(y).\",\n      \"required_assumptions\": [\n        \"F(z) = polygamma(0, z) is defined at z = x and z = y, i.e. x and y are not nonpositive integers.\",\n        \"For the divided-difference operator used for G0001, x != y.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (F(x)-F(y))/(x-y)\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0002 == F(x)\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0003 == F(y)\"\n        }\n      ],\n      \"scientific_rationale\": \"G0001 is structurally the first divided difference of the digamma function F(z)=polygamma(0,z) at nodes x and y, while G0002 and G0003 are the corresponding point evaluations of the same latent function at those nodes.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "NONZERO",
+        "NONZERO"
+      ],
+      "layer": "V",
+      "detail": "mixed",
+      "n_zero": 1,
+      "n_nonzero": 2,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 2,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-b-special-fn",
+    "condition": "P2",
+    "seed": 1,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 2,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 1,
+    "rows": [
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-V0",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 2,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

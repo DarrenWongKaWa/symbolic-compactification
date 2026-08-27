@@ -1,0 +1,216 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-newton-first",
+  "seed": 0,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1473,
+    "completion_tokens": 4680,
+    "total_tokens": 6153,
+    "reasoning_tokens": 3958,
+    "cached_tokens": 0
+  },
+  "reasoning_tokens": 3958,
+  "latency_s": 66.95,
+  "request_id": "5206675a-b5bc-4eb7-b18a-30561dd421a0",
+  "reasoning_len": 15023,
+  "reasoning_sha": "b884ada4498be28d",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "instance",
+        "G0003": "instance"
+      },
+      "latent_object": "F(z) = f(z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "F",
+          "expression": "f(z)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "x"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "substitution",
+          "args": {
+            "variable": "z",
+            "value": "y"
+          }
+        },
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "points": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "theta": {
+            "z": "x"
+          }
+        },
+        "G0003": {
+          "theta": {
+            "z": "y"
+          }
+        },
+        "G0001": {
+          "theta": {
+            "points": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      },
+      "reconstruction_rule": "A_i = O_i[F] with F(z)=f(z): G0002 = F(z)|_{z=x}, G0003 = F(z)|_{z=y}, G0001 = (F(x)-F(y))/(x-y)",
+      "required_assumptions": [
+        "x != y",
+        "f is a unary function symbol"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0002 == f(x) == F(z)|_{z=x}",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0003 == f(y) == F(z)|_{z=y}",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (f(x)-f(y))/(x-y) == (F(x)-F(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The catalog entries are the zero-order evaluations f(x), f(y) and the first divided difference of the same unary function f. A single latent function F(z)=f(z), with substitutions at x and y and the first Newton divided difference at (x, y), reconstructs all non-identical members without simplifying the original expression.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"instance\",\n        \"G0003\": \"instance\"\n      },\n      \"latent_object\": \"F(z) = f(z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"F\",\n          \"expression\": \"f(z)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"x\"\n          }\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"z\",\n            \"value\": \"y\"\n          }\n        },\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"points\": [\"x\", \"y\"]\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"theta\": {\n            \"z\": \"x\"\n          }\n        },\n        \"G0003\": {\n          \"theta\": {\n            \"z\": \"y\"\n          }\n        },\n        \"G0001\": {\n          \"theta\": {\n            \"points\": [\"x\", \"y\"]\n          }\n        }\n      },\n      \"reconstruction_rule\": \"A_i = O_i[F] with F(z)=f(z): G0002 = F(z)|_{z=x}, G0003 = F(z)|_{z=y}, G0001 = (F(x)-F(y))/(x-y)\",\n      \"required_assumptions\": [\n        \"x != y\",\n        \"f is a unary function symbol\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0002 == f(x) == F(z)|_{z=x}\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0003 == f(y) == F(z)|_{z=y}\"\n        },\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (f(x)-f(y))/(x-y) == (F(x)-F(y))/(x-y)\"\n        }\n      ],\n      \"scientific_rationale\": \"The catalog entries are the zero-order evaluations f(x), f(y) and the first divided difference of the same unary function f. A single latent function F(z)=f(z), with substitutions at x and y and the first Newton divided difference at (x, y), reconstructs all non-identical members without simplifying the original expression.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "ZERO"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 2,
+  "n_nonzero": 0,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-newton-first",
+    "condition": "P2",
+    "seed": 0,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 1,
+    "n_local_confluence": 0,
+    "n_dd_type": 1,
+    "rows": [
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-OK",
+        "layer": "OK",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 2,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

@@ -1,0 +1,208 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-repeated-node",
+  "seed": 3,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1364,
+    "completion_tokens": 3034,
+    "total_tokens": 4398,
+    "reasoning_tokens": 2352,
+    "cached_tokens": 1280
+  },
+  "reasoning_tokens": 2352,
+  "latency_s": 28.31,
+  "request_id": "2e18ebd1-eb9f-41b5-b38a-b5d29bf861c1",
+  "reasoning_len": 9033,
+  "reasoning_sha": "902c1cf2f777939c",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 2,
+  "hypotheses": [
+    {
+      "representation_type": "derivative_family",
+      "member_ids": [
+        "G0001",
+        "G0002"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0001": "instance"
+      },
+      "latent_object": "F(t) = f(t)",
+      "latent_variables": [
+        "t"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "derivative",
+          "args": {
+            "variable": "x",
+            "order": 1,
+            "evaluation_point": "x"
+          }
+        },
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "y"
+            ],
+            "order": 1
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "theta": {
+            "variable": "x"
+          }
+        },
+        "G0001": {
+          "theta": {
+            "nodes": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      },
+      "reconstruction_rule": "Each catalog member A_i is recovered as O_i[F], where F(t)=f(t); G0002 = derivative operator at x, and G0001 = first-order Newton divided difference on nodes x,y.",
+      "required_assumptions": [
+        "f is differentiable at x so that df(x) is defined",
+        "x and y are distinct where the denominator x-y is non-zero"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "DERIVATIVE",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "derivative",
+          "expected": "G0002 == d/dt[f(t)] evaluated at t=x",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (f(x)-f(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0001",
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "lim_{y -> x} (f(x)-f(y))/(x-y) == df(x) under differentiability",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0001 is the first divided difference of f on nodes x and y, while G0002 is the derivative of f at x. They share the same latent function F(t)=f(t) through derivative and Newton divided-difference operators, forming a derivative family instance rather than an exact identity.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"derivative_family\",\n      \"member_ids\": [\"G0001\", \"G0002\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0001\": \"instance\"\n      },\n      \"latent_object\": \"F(t) = f(t)\",\n      \"latent_variables\": [\"t\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"x\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"y\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"derivative\",\n          \"args\": {\n            \"variable\": \"x\",\n            \"order\": 1,\n            \"evaluation_point\": \"x\"\n          }\n        },\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"nodes\": [\"x\", \"y\"],\n            \"order\": 1\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"theta\": {\n            \"variable\": \"x\"\n          }\n        },\n        \"G0001\": {\n          \"theta\": {\n            \"nodes\": [\"x\", \"y\"]\n          }\n        }\n      },\n      \"reconstruction_rule\": \"Each catalog member A_i is recovered as O_i[F], where F(t)=f(t); G0002 = derivative operator at x, and G0001 = first-order Newton divided difference on nodes x,y.\",\n      \"required_assumptions\": [\n        \"f is differentiable at x so that df(x) is defined\",\n        \"x and y are distinct where the denominator x-y is non-zero\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"DERIVATIVE\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"derivative\",\n          \"expected\": \"G0002 == d/dt[f(t)] evaluated at t=x\"\n        },\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (f(x)-f(y))/(x-y)\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0001\", \"G0002\"],\n          \"operator\": \"limit\",\n          \"expected\": \"lim_{y -> x} (f(x)-f(y))/(x-y) == df(x) under differentiability\"\n        }\n      ],\n      \"scientific_rationale\": \"G0001 is the first divided difference of f on nodes x and y, while G0002 is the derivative of f at x. They share the same latent function F(t)=f(t) through derivative and Newton divided-difference operators, forming a derivative family instance rather than an exact identity.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "NONZERO",
+        "ZERO",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 1,
+      "n_nonzero": 1,
+      "n_unknown": 1
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 1,
+  "n_unknown": 1,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-repeated-node",
+    "condition": "P2",
+    "seed": 3,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 1,
+    "n_unknown": 1,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "derivative_family",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 1,
+        "n_unknown": 1
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

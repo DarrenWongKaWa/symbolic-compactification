@@ -1,0 +1,487 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "guo-sigma-abc",
+  "seed": 4,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 13975,
+    "completion_tokens": 10194,
+    "total_tokens": 24169,
+    "reasoning_tokens": 7927,
+    "cached_tokens": 13952
+  },
+  "reasoning_tokens": 7927,
+  "latency_s": 152.05,
+  "request_id": "76fcd246-e958-444b-8cd3-07ab33d37d60",
+  "reasoning_len": 29250,
+  "reasoning_sha": "1b54b8ba8720e1b5",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 3,
+  "n_parse_failure": 0,
+  "n_hypotheses": 3,
+  "n_grounded": 3,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0004",
+        "G0005"
+      ],
+      "member_roles": {
+        "G0005": "generic",
+        "G0004": "degenerate"
+      },
+      "latent_object": "F(x,y) = unmodified catalog expression of G0005 (True branch of the Piecewise in G0002) with epsilon(m) replaced by x and epsilon(n) replaced by y, retaining all polygamma terms, denominator factors, and h1/h2 factors exactly as in the catalog.",
+      "latent_variables": [
+        "x",
+        "y"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0005",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0004",
+          "kind": "limit",
+          "args": {
+            "constraint": "x -> y"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0005": {
+          "theta": {
+            "x": "epsilon(m)",
+            "y": "epsilon(n)"
+          }
+        },
+        "G0004": {
+          "theta": {
+            "x": "epsilon(n)",
+            "y": "epsilon(n)",
+            "limit": "epsilon(m) -> epsilon(n)"
+          }
+        }
+      },
+      "reconstruction_rule": "G0005 = F(epsilon(m), epsilon(n)); G0004 = lim_{epsilon(m)->epsilon(n)} F(epsilon(m), epsilon(n)).",
+      "required_assumptions": [
+        "The limit exists and is finite for the given parameters.",
+        "The degenerate branch G0004 is the confluent limit of the generic branch G0005 as epsilon(m) approaches epsilon(n)."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0004"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0004 == limit_{epsilon(m)->epsilon(n)} G0005",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The Piecewise in G0002 separates the diagonal case Eq(m,n) from the off-diagonal True case. The diagonal branch is the confluent limit of the off-diagonal branch as the two indices coincide, so both branches are generated from one generic meromorphic expression by local confluence.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "member_roles": {
+        "G0016": "generic",
+        "G0013": "degenerate",
+        "G0014": "degenerate",
+        "G0015": "degenerate",
+        "G0012": "degenerate"
+      },
+      "latent_object": "F(x,y,z) = unmodified catalog expression of G0016 (True branch of the Piecewise in G0010) with epsilon(m) replaced by x, epsilon(n) replaced by y, and epsilon(ell) replaced by z, retaining all polygamma terms, denominator factors, and h1 factors exactly as in the catalog.",
+      "latent_variables": [
+        "x",
+        "y",
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        },
+        {
+          "name": "z",
+          "expression": "epsilon(ell)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0016",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0013",
+          "kind": "limit",
+          "args": {
+            "constraint": "x -> y"
+          }
+        },
+        {
+          "member_id": "G0014",
+          "kind": "limit",
+          "args": {
+            "constraint": "z -> y"
+          }
+        },
+        {
+          "member_id": "G0015",
+          "kind": "limit",
+          "args": {
+            "constraint": "z -> x"
+          }
+        },
+        {
+          "member_id": "G0012",
+          "kind": "limit",
+          "args": {
+            "constraint": "x -> y and z -> y"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0016": {
+          "theta": {
+            "x": "epsilon(m)",
+            "y": "epsilon(n)",
+            "z": "epsilon(ell)"
+          }
+        },
+        "G0013": {
+          "theta": {
+            "x": "epsilon(n)",
+            "y": "epsilon(n)",
+            "z": "epsilon(ell)",
+            "limit": "epsilon(m) -> epsilon(n)"
+          }
+        },
+        "G0014": {
+          "theta": {
+            "x": "epsilon(m)",
+            "y": "epsilon(n)",
+            "z": "epsilon(n)",
+            "limit": "epsilon(ell) -> epsilon(n)"
+          }
+        },
+        "G0015": {
+          "theta": {
+            "x": "epsilon(m)",
+            "y": "epsilon(n)",
+            "z": "epsilon(m)",
+            "limit": "epsilon(ell) -> epsilon(m)"
+          }
+        },
+        "G0012": {
+          "theta": {
+            "x": "epsilon(n)",
+            "y": "epsilon(n)",
+            "z": "epsilon(n)",
+            "limit": "epsilon(m) -> epsilon(n), epsilon(ell) -> epsilon(n)"
+          }
+        }
+      },
+      "reconstruction_rule": "G0016 = F(epsilon(m), epsilon(n), epsilon(ell)); G0013 = lim_{epsilon(m)->epsilon(n)} F; G0014 = lim_{epsilon(ell)->epsilon(n)} F; G0015 = lim_{epsilon(ell)->epsilon(m)} F; G0012 = lim_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} F.",
+      "required_assumptions": [
+        "The necessary finite limits exist for the degenerate index configurations.",
+        "Multiple coincident limits commute in the triple-degenerate case."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0013"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0013 == limit_{epsilon(m)->epsilon(n)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0014"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0014 == limit_{epsilon(ell)->epsilon(n)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0015"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0015 == limit_{epsilon(ell)->epsilon(m)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0012"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0012 == limit_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The five branches of the Piecewise in G0010 are the same three-index kernel evaluated at different coincidence patterns of epsilon(m), epsilon(n), epsilon(ell). The generic branch contains all singular denominators; the degenerate branches are its confluent limits, making local confluence the natural latent representation.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "other_explicit",
+      "member_ids": [
+        "G0002",
+        "G0006"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0006": "instance"
+      },
+      "latent_object": "T = unmodified catalog expression of G0002 considered as a template in the labels b and c; the Piecewise core depends only on the shared parameters/mu/epsilon and not on b,c, while the h1/h2 factors carry the b,c labels.",
+      "latent_variables": [],
+      "nodes": [],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0006",
+          "kind": "permutation",
+          "args": {
+            "swap": "b <-> c"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "theta": {}
+        },
+        "G0006": {
+          "theta": {
+            "permutation": "b <-> c"
+          }
+        }
+      },
+      "reconstruction_rule": "G0006 = Permutation(b <-> c) applied to G0002. Under this swap, h1(b,n,m) becomes h1(c,n,m) and h2(a,c,m,n) becomes h2(a,b,m,n); the Piecewise core is unchanged.",
+      "required_assumptions": [
+        "The symbolic labels b and c are interchangeable in the template.",
+        "The Piecewise core has no explicit dependence on b or c."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "PERMUTATION",
+          "member_ids": [
+            "G0006"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "permutation",
+          "expected": "G0006 == Permutation(b <-> c)(G0002)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0002 and G0006 are structurally identical sums with the same spectral kernel, differing only by swapping the labels b and c in the attached h1/h2 functions. This is a label permutation of a single template, not an independent family.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0004\", \"G0005\"],\n      \"member_roles\": {\n        \"G0005\": \"generic\",\n        \"G0004\": \"degenerate\"\n      },\n      \"latent_object\": \"F(x,y) = unmodified catalog expression of G0005 (True branch of the Piecewise in G0002) with epsilon(m) replaced by x and epsilon(n) replaced by y, retaining all polygamma terms, denominator factors, and h1/h2 factors exactly as in the catalog.\",\n      \"latent_variables\": [\"x\", \"y\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"epsilon(m)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"epsilon(n)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0005\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0004\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"constraint\": \"x -> y\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0005\": {\n          \"theta\": {\n            \"x\": \"epsilon(m)\",\n            \"y\": \"epsilon(n)\"\n          }\n        },\n        \"G0004\": {\n          \"theta\": {\n            \"x\": \"epsilon(n)\",\n            \"y\": \"epsilon(n)\",\n            \"limit\": \"epsilon(m) -> epsilon(n)\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0005 = F(epsilon(m), epsilon(n)); G0004 = lim_{epsilon(m)->epsilon(n)} F(epsilon(m), epsilon(n)).\",\n      \"required_assumptions\": [\n        \"The limit exists and is finite for the given parameters.\",\n        \"The degenerate branch G0004 is the confluent limit of the generic branch G0005 as epsilon(m) approaches epsilon(n).\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0004\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0004 == limit_{epsilon(m)->epsilon(n)} G0005\"\n        }\n      ],\n      \"scientific_rationale\": \"The Piecewise in G0002 separates the diagonal case Eq(m,n) from the off-diagonal True case. The diagonal branch is the confluent limit of the off-diagonal branch as the two indices coincide, so both branches are generated from one generic meromorphic expression by local confluence.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0012\", \"G0013\", \"G0014\", \"G0015\", \"G0016\"],\n      \"member_roles\": {\n        \"G0016\": \"generic\",\n        \"G0013\": \"degenerate\",\n        \"G0014\": \"degenerate\",\n        \"G0015\": \"degenerate\",\n        \"G0012\": \"degenerate\"\n      },\n      \"latent_object\": \"F(x,y,z) = unmodified catalog expression of G0016 (True branch of the Piecewise in G0010) with epsilon(m) replaced by x, epsilon(n) replaced by y, and epsilon(ell) replaced by z, retaining all polygamma terms, denominator factors, and h1 factors exactly as in the catalog.\",\n      \"latent_variables\": [\"x\", \"y\", \"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"epsilon(m)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"epsilon(n)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"z\",\n          \"expression\": \"epsilon(ell)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0016\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0013\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"constraint\": \"x -> y\"\n          }\n        },\n        {\n          \"member_id\": \"G0014\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"constraint\": \"z -> y\"\n          }\n        },\n        {\n          \"member_id\": \"G0015\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"constraint\": \"z -> x\"\n          }\n        },\n        {\n          \"member_id\": \"G0012\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"constraint\": \"x -> y and z -> y\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0016\": {\n          \"theta\": {\n            \"x\": \"epsilon(m)\",\n            \"y\": \"epsilon(n)\",\n            \"z\": \"epsilon(ell)\"\n          }\n        },\n        \"G0013\": {\n          \"theta\": {\n            \"x\": \"epsilon(n)\",\n            \"y\": \"epsilon(n)\",\n            \"z\": \"epsilon(ell)\",\n            \"limit\": \"epsilon(m) -> epsilon(n)\"\n          }\n        },\n        \"G0014\": {\n          \"theta\": {\n            \"x\": \"epsilon(m)\",\n            \"y\": \"epsilon(n)\",\n            \"z\": \"epsilon(n)\",\n            \"limit\": \"epsilon(ell) -> epsilon(n)\"\n          }\n        },\n        \"G0015\": {\n          \"theta\": {\n            \"x\": \"epsilon(m)\",\n            \"y\": \"epsilon(n)\",\n            \"z\": \"epsilon(m)\",\n            \"limit\": \"epsilon(ell) -> epsilon(m)\"\n          }\n        },\n        \"G0012\": {\n          \"theta\": {\n            \"x\": \"epsilon(n)\",\n            \"y\": \"epsilon(n)\",\n            \"z\": \"epsilon(n)\",\n            \"limit\": \"epsilon(m) -> epsilon(n), epsilon(ell) -> epsilon(n)\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0016 = F(epsilon(m), epsilon(n), epsilon(ell)); G0013 = lim_{epsilon(m)->epsilon(n)} F; G0014 = lim_{epsilon(ell)->epsilon(n)} F; G0015 = lim_{epsilon(ell)->epsilon(m)} F; G0012 = lim_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} F.\",\n      \"required_assumptions\": [\n        \"The necessary finite limits exist for the degenerate index configurations.\",\n        \"Multiple coincident limits commute in the triple-degenerate case.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0013\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0013 == limit_{epsilon(m)->epsilon(n)} G0016\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0014\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0014 == limit_{epsilon(ell)->epsilon(n)} G0016\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0015\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0015 == limit_{epsilon(ell)->epsilon(m)} G0016\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0012\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0012 == limit_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} G0016\"\n        }\n      ],\n      \"scientific_rationale\": \"The five branches of the Piecewise in G0010 are the same three-index kernel evaluated at different coincidence patterns of epsilon(m), epsilon(n), epsilon(ell). The generic branch contains all singular denominators; the degenerate branches are its confluent limits, making local confluence the natural latent representation.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"representation_type\": \"other_explicit\",\n      \"member_ids\": [\"G0002\", \"G0006\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0006\": \"instance\"\n      },\n      \"latent_object\": \"T = unmodified catalog expression of G0002 considered as a template in the labels b and c; the Piecewise core depends only on the shared parameters/mu/epsilon and not on b,c, while the h1/h2 factors carry the b,c labels.\",\n      \"latent_variables\": [],\n      \"nodes\": [],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0006\",\n          \"kind\": \"permutation\",\n          \"args\": {\n            \"swap\": \"b <-> c\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"theta\": {}\n        },\n        \"G0006\": {\n          \"theta\": {\n            \"permutation\": \"b <-> c\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0006 = Permutation(b <-> c) applied to G0002. Under this swap, h1(b,n,m) becomes h1(c,n,m) and h2(a,c,m,n) becomes h2(a,b,m,n); the Piecewise core is unchanged.\",\n      \"required_assumptions\": [\n        \"The symbolic labels b and c a",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 4
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 0,
+  "n_unknown": 5,
+  "n_compile_ok": 2,
+  "compile_status": "COMPILE_FAILURE",
+  "summary": {
+    "item_id": "guo-sigma-abc",
+    "condition": "P2",
+    "seed": 4,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 3,
+    "n_ok": 3,
+    "n_grounded": 3,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 5,
+    "compile_status": "COMPILE_FAILURE",
+    "n_dd_ok": 0,
+    "n_local_confluence": 2,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0004",
+          "G0005"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0012",
+          "G0013",
+          "G0014",
+          "G0015",
+          "G0016"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 4
+      },
+      {
+        "type": "other_explicit",
+        "r_hint": null,
+        "member_ids": [
+          "G0002",
+          "G0006"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

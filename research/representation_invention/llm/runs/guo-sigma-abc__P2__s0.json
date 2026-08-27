@@ -1,0 +1,594 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "guo-sigma-abc",
+  "seed": 0,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 13975,
+    "completion_tokens": 12197,
+    "total_tokens": 26172,
+    "reasoning_tokens": 9822,
+    "cached_tokens": 896
+  },
+  "reasoning_tokens": 9822,
+  "latency_s": 192.975,
+  "request_id": "7ee10522-f290-4b25-8d92-70e283b07276",
+  "reasoning_len": 35395,
+  "reasoning_sha": "d0cae84fcad84c5b",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 4,
+  "n_parse_failure": 0,
+  "n_hypotheses": 4,
+  "n_grounded": 4,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "other_explicit",
+      "member_ids": [
+        "G0002",
+        "G0006"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0006": "instance"
+      },
+      "latent_object": "F(a,b,c,m,n)=G0002 (2D sum with h1(b,n,m)*h2(a,c,m,n))",
+      "latent_variables": [
+        "a",
+        "b",
+        "c",
+        "m",
+        "n"
+      ],
+      "nodes": [
+        {
+          "name": "m",
+          "expression": "m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "n",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0006",
+          "kind": "substitution",
+          "args": {
+            "b": "c",
+            "c": "b"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "theta": {}
+        },
+        "G0006": {
+          "theta": {
+            "b": "c",
+            "c": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "G0006 is recovered from G0002 by exchanging b and c in the h1/h2 factors while keeping the polygamma kernel fixed.",
+      "required_assumptions": [
+        "The polygamma kernel depends on b and c only through h1/h2 factors."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "PERMUTATION",
+          "member_ids": [
+            "G0006"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0006 == Substitute(b<->c)[G0002]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two 2D sums share the same master summand and differ only by a permutation of the labels b and c.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0004",
+        "G0005"
+      ],
+      "member_roles": {
+        "G0004": "degenerate",
+        "G0005": "generic"
+      },
+      "latent_object": "F(m,n)=G0005 (generic Piecewise branch of G0003 for m != n)",
+      "latent_variables": [
+        "m",
+        "n"
+      ],
+      "nodes": [
+        {
+          "name": "m",
+          "expression": "m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "n",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0005",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0004",
+          "kind": "limit",
+          "args": {
+            "source": "epsilon(m)",
+            "target": "epsilon(n)"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0005": {
+          "theta": {}
+        },
+        "G0004": {
+          "theta": {
+            "m": "n"
+          }
+        }
+      },
+      "reconstruction_rule": "G0004 is the m=n coalescence of G0005, obtained as a regularized limit epsilon(m)->epsilon(n).",
+      "required_assumptions": [
+        "epsilon is analytic and the limit of G0005 at epsilon(m)=epsilon(n) exists and matches the provided branch."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0004"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0004 == limit_{epsilon(m)->epsilon(n)} G0005",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two branches of the piecewise expression are distinguished by the equality constraint m=n; the degenerate branch is the coalescence limit of the generic branch.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0008",
+        "G0009"
+      ],
+      "member_roles": {
+        "G0008": "degenerate",
+        "G0009": "generic"
+      },
+      "latent_object": "F(m,n)=G0009 (generic Piecewise branch of G0007 for m != n)",
+      "latent_variables": [
+        "m",
+        "n"
+      ],
+      "nodes": [
+        {
+          "name": "m",
+          "expression": "m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "n",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0009",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0008",
+          "kind": "limit",
+          "args": {
+            "source": "epsilon(m)",
+            "target": "epsilon(n)"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0009": {
+          "theta": {}
+        },
+        "G0008": {
+          "theta": {
+            "m": "n"
+          }
+        }
+      },
+      "reconstruction_rule": "G0008 is the m=n coalescence of G0009, obtained as a regularized limit epsilon(m)->epsilon(n).",
+      "required_assumptions": [
+        "epsilon is analytic and the limit of G0009 at epsilon(m)=epsilon(n) exists and matches the provided branch."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0008"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0008 == limit_{epsilon(m)->epsilon(n)} G0009",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two branches of the second 2D piecewise sum are distinguished by the equality constraint m=n; the degenerate branch is the coalescence limit of the generic branch.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "member_roles": {
+        "G0012": "degenerate",
+        "G0013": "degenerate",
+        "G0014": "degenerate",
+        "G0015": "degenerate",
+        "G0016": "generic"
+      },
+      "latent_object": "F(m,n,ell)=G0016 (generic Piecewise branch of G0010 for distinct m,n,ell)",
+      "latent_variables": [
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "m",
+          "expression": "m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "n",
+          "multiplicity": 1
+        },
+        {
+          "name": "ell",
+          "expression": "ell",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0016",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0013",
+          "kind": "limit",
+          "args": {
+            "source": "epsilon(m)",
+            "target": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0014",
+          "kind": "limit",
+          "args": {
+            "source": "epsilon(ell)",
+            "target": "epsilon(n)"
+          }
+        },
+        {
+          "member_id": "G0015",
+          "kind": "limit",
+          "args": {
+            "source": "epsilon(ell)",
+            "target": "epsilon(m)"
+          }
+        },
+        {
+          "member_id": "G0012",
+          "kind": "limit",
+          "args": {
+            "source1": "epsilon(m)",
+            "target1": "epsilon(n)",
+            "source2": "epsilon(ell)",
+            "target2": "epsilon(n)"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0016": {
+          "theta": {}
+        },
+        "G0013": {
+          "theta": {
+            "m": "n"
+          }
+        },
+        "G0014": {
+          "theta": {
+            "ell": "n"
+          }
+        },
+        "G0015": {
+          "theta": {
+            "ell": "m"
+          }
+        },
+        "G0012": {
+          "theta": {
+            "ell": "m",
+            "m": "n"
+          }
+        }
+      },
+      "reconstruction_rule": "Degenerate branches are recovered as regularized limits of the generic branch G0016 when the indicated index equalities are imposed.",
+      "required_assumptions": [
+        "epsilon is injective on the relevant index set.",
+        "Limits of G0016 at the stated epsilon coincidences exist and agree with the supplied branch expressions."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0013"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0013 == limit_{epsilon(m)->epsilon(n)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0014"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0014 == limit_{epsilon(ell)->epsilon(n)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0015"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0015 == limit_{epsilon(ell)->epsilon(m)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0012"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0012 == limit_{epsilon(ell)->epsilon(n)} limit_{epsilon(m)->epsilon(n)} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The five branches of the three-index sum G0010 are distinguished only by equality constraints among (m,n,ell); the generic branch is the master branch, and the degenerate branches are coalescence limits.",
+      "confidence": 0.5,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"other_explicit\",\n      \"member_ids\": [\"G0002\", \"G0006\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0006\": \"instance\"\n      },\n      \"latent_object\": \"F(a,b,c,m,n)=G0002 (2D sum with h1(b,n,m)*h2(a,c,m,n))\",\n      \"latent_variables\": [\"a\", \"b\", \"c\", \"m\", \"n\"],\n      \"nodes\": [\n        {\n          \"name\": \"m\",\n          \"expression\": \"m\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"n\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0006\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"b\": \"c\",\n            \"c\": \"b\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"theta\": {}\n        },\n        \"G0006\": {\n          \"theta\": {\n            \"b\": \"c\",\n            \"c\": \"b\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0006 is recovered from G0002 by exchanging b and c in the h1/h2 factors while keeping the polygamma kernel fixed.\",\n      \"required_assumptions\": [\n        \"The polygamma kernel depends on b and c only through h1/h2 factors.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"PERMUTATION\",\n          \"member_ids\": [\"G0006\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0006 == Substitute(b<->c)[G0002]\"\n        }\n      ],\n      \"scientific_rationale\": \"The two 2D sums share the same master summand and differ only by a permutation of the labels b and c.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0004\", \"G0005\"],\n      \"member_roles\": {\n        \"G0004\": \"degenerate\",\n        \"G0005\": \"generic\"\n      },\n      \"latent_object\": \"F(m,n)=G0005 (generic Piecewise branch of G0003 for m != n)\",\n      \"latent_variables\": [\"m\", \"n\"],\n      \"nodes\": [\n        {\n          \"name\": \"m\",\n          \"expression\": \"m\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"n\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0005\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0004\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"source\": \"epsilon(m)\",\n            \"target\": \"epsilon(n)\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0005\": {\n          \"theta\": {}\n        },\n        \"G0004\": {\n          \"theta\": {\n            \"m\": \"n\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0004 is the m=n coalescence of G0005, obtained as a regularized limit epsilon(m)->epsilon(n).\",\n      \"required_assumptions\": [\n        \"epsilon is analytic and the limit of G0005 at epsilon(m)=epsilon(n) exists and matches the provided branch.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0004\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0004 == limit_{epsilon(m)->epsilon(n)} G0005\"\n        }\n      ],\n      \"scientific_rationale\": \"The two branches of the piecewise expression are distinguished by the equality constraint m=n; the degenerate branch is the coalescence limit of the generic branch.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0008\", \"G0009\"],\n      \"member_roles\": {\n        \"G0008\": \"degenerate\",\n        \"G0009\": \"generic\"\n      },\n      \"latent_object\": \"F(m,n)=G0009 (generic Piecewise branch of G0007 for m != n)\",\n      \"latent_variables\": [\"m\", \"n\"],\n      \"nodes\": [\n        {\n          \"name\": \"m\",\n          \"expression\": \"m\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"n\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0009\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0008\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"source\": \"epsilon(m)\",\n            \"target\": \"epsilon(n)\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0009\": {\n          \"theta\": {}\n        },\n        \"G0008\": {\n          \"theta\": {\n            \"m\": \"n\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0008 is the m=n coalescence of G0009, obtained as a regularized limit epsilon(m)->epsilon(n).\",\n      \"required_assumptions\": [\n        \"epsilon is analytic and the limit of G0009 at epsilon(m)=epsilon(n) exists and matches the provided branch.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0008\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0008 == limit_{epsilon(m)->epsilon(n)} G0009\"\n        }\n      ],\n      \"scientific_rationale\": \"The two branches of the second 2D piecewise sum are distinguished by the equality constraint m=n; the degenerate branch is the coalescence limit of the generic branch.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0012\", \"G0013\", \"G0014\", \"G0015\", \"G0016\"],\n      \"member_roles\": {\n        \"G0012\": \"degenerate\",\n        \"G0013\": \"degenerate\",\n        \"G0014\": \"degenerate\",\n        \"G0015\": \"degenerate\",\n        \"G0016\": \"generic\"\n      },\n      \"latent_object\": \"F(m,n,ell)=G0016 (generic Piecewise branch of G0010 for distinct m,n,ell)\",\n      \"latent_variables\": [\"m\", \"n\", \"ell\"],\n      \"nodes\": [\n        {\n          \"name\": \"m\",\n          \"expression\": \"m\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"n\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"ell\",\n          \"expression\": \"ell\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0016\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0013\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"source\": \"epsilon(m)\",\n            \"target\": \"epsilon(n)\"\n          }\n        },\n        {\n          \"member_id\": \"G0014\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"source\": \"epsilon(ell)\",\n            \"target\": \"epsilon(n)\"\n          }\n        },\n        {\n          \"member_id\": \"G0015\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"source\": \"epsilon(ell)\",\n            \"target\": \"epsilon(m)\"\n          }\n        },\n        {\n          \"member_id\": \"G0012\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"source1\": \"epsilon(m)\",\n            \"target1\": \"epsilon(n)\",\n            \"source2\": \"epsilon(ell)\",\n            \"target2\": \"epsilon(n)\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0016\": {\n          \"theta\": {}\n        },\n        \"G0013\": {\n          \"theta\": {\n            \"m\": \"n\"\n          }\n        },\n        \"G0014\": {\n          \"theta\": {\n            \"ell\": \"n\"\n          }\n        },\n        \"G0015\": {\n          \"theta\": {\n            \"ell\": \"m\"\n          }\n        },\n        \"G0012\": {\n          \"theta\": {\n            \"ell\": \"m\",\n            \"m\": \"n\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"Degenerate branches are recovered as regularized limits of the generic branch G0016 when the indicated index equalities are imposed.\",\n      \"required_assumptions\": [\n        \"epsilon is injective on the relevant index set.\",\n        \"Limits of G0016 at the stated epsilon coincidences exist and agree with the supplied branch expressions.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0013\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0013 == limit_{epsi",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 4
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 0,
+  "n_unknown": 6,
+  "n_compile_ok": 3,
+  "compile_status": "COMPILE_FAILURE",
+  "summary": {
+    "item_id": "guo-sigma-abc",
+    "condition": "P2",
+    "seed": 0,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 4,
+    "n_ok": 4,
+    "n_grounded": 4,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 6,
+    "compile_status": "COMPILE_FAILURE",
+    "n_dd_ok": 0,
+    "n_local_confluence": 3,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "other_explicit",
+        "r_hint": null,
+        "member_ids": [
+          "G0002",
+          "G0006"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0004",
+          "G0005"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0008",
+          "G0009"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0012",
+          "G0013",
+          "G0014",
+          "G0015",
+          "G0016"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 4
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

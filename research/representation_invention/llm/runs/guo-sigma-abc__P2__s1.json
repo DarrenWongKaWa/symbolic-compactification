@@ -1,0 +1,724 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "guo-sigma-abc",
+  "seed": 1,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 13975,
+    "completion_tokens": 15971,
+    "total_tokens": 29946,
+    "reasoning_tokens": 12791,
+    "cached_tokens": 13952
+  },
+  "reasoning_tokens": 12791,
+  "latency_s": 229.694,
+  "request_id": "55f9bb68-1874-4439-b815-9193e6e66762",
+  "reasoning_len": 44612,
+  "reasoning_sha": "bd925fc8739476eb",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 4,
+  "n_parse_failure": 0,
+  "n_hypotheses": 4,
+  "n_grounded": 4,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "tensor_generator",
+      "member_ids": [
+        "G0002",
+        "G0006"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0006": "instance"
+      },
+      "latent_object": "K2(p,q; n,m) = A(n,m)*h1(p,n,m)*h2(a,q,m,n), where A(n,m) is the full common polygamma-piecewise coefficient of G0002/G0006",
+      "latent_variables": [
+        "p",
+        "q",
+        "n",
+        "m"
+      ],
+      "nodes": [
+        {
+          "name": "p",
+          "expression": "external label p (b or c)",
+          "multiplicity": 1
+        },
+        {
+          "name": "q",
+          "expression": "external label q (c or b)",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "summation index n",
+          "multiplicity": 1
+        },
+        {
+          "name": "m",
+          "expression": "summation index m",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "p": "b",
+            "q": "c"
+          }
+        },
+        {
+          "member_id": "G0006",
+          "kind": "substitution",
+          "args": {
+            "p": "c",
+            "q": "b"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "theta": {
+            "p": "b",
+            "q": "c"
+          }
+        },
+        "G0006": {
+          "theta": {
+            "p": "c",
+            "q": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "G0002 = K2 with p=b,q=c; G0006 = K2 with p=c,q=b.",
+      "required_assumptions": [
+        "A(n,m) is independent of external labels b and c."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002",
+            "G0006"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0002 == theta_{p=b,q=c}[K2] and G0006 == theta_{p=c,q=b}[K2]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two two-point summands share the same polygamma coefficient and differ only by the ordered assignment of b and c in h1/h2 factors, so a single ordered-label kernel explains both.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "tensor_generator",
+      "member_ids": [
+        "G0010",
+        "G0017"
+      ],
+      "member_roles": {
+        "G0010": "generic",
+        "G0017": "instance"
+      },
+      "latent_object": "K3(p,q; m,n,ell) = B(m,n,ell)*h1(a,m,n)*h1(p,ell,m)*h1(q,n,ell), where B(m,n,ell) is the full common polygamma-piecewise coefficient of G0010/G0017",
+      "latent_variables": [
+        "p",
+        "q",
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "p",
+          "expression": "external label p (b or c)",
+          "multiplicity": 1
+        },
+        {
+          "name": "q",
+          "expression": "external label q (c or b)",
+          "multiplicity": 1
+        },
+        {
+          "name": "m",
+          "expression": "summation index m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "summation index n",
+          "multiplicity": 1
+        },
+        {
+          "name": "ell",
+          "expression": "summation index ell",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0010",
+          "kind": "substitution",
+          "args": {
+            "p": "b",
+            "q": "c"
+          }
+        },
+        {
+          "member_id": "G0017",
+          "kind": "substitution",
+          "args": {
+            "p": "c",
+            "q": "b"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0010": {
+          "theta": {
+            "p": "b",
+            "q": "c"
+          }
+        },
+        "G0017": {
+          "theta": {
+            "p": "c",
+            "q": "b"
+          }
+        }
+      },
+      "reconstruction_rule": "G0010 = K3 with p=b,q=c; G0017 = K3 with p=c,q=b.",
+      "required_assumptions": [
+        "B(m,n,ell) is independent of external labels b and c."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0010",
+            "G0017"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0010 == theta_{p=b,q=c}[K3] and G0017 == theta_{p=c,q=b}[K3]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The three-point summands are the same tensor kernel evaluated at the two ordered assignments of b and c, with the common coefficient invariant under that exchange.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "hermite_divided_difference",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "member_roles": {
+        "G0012": "repeated",
+        "G0013": "degenerate",
+        "G0014": "degenerate",
+        "G0015": "degenerate",
+        "G0016": "generic"
+      },
+      "latent_object": "F(m,n,ell) = B_true(m,n,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell), where B_true(m,n,ell) is the full true-branch coefficient of G0016",
+      "latent_variables": [
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "m",
+          "expression": "summation index m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "summation index n",
+          "multiplicity": 1
+        },
+        {
+          "name": "ell",
+          "expression": "summation index ell",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0016",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0015",
+          "kind": "limit",
+          "args": {
+            "ell": "m"
+          }
+        },
+        {
+          "member_id": "G0014",
+          "kind": "limit",
+          "args": {
+            "ell": "n"
+          }
+        },
+        {
+          "member_id": "G0013",
+          "kind": "limit",
+          "args": {
+            "m": "n"
+          }
+        },
+        {
+          "member_id": "G0012",
+          "kind": "limit",
+          "args": {
+            "ell": "n",
+            "m": "n"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0016": {
+          "theta": {}
+        },
+        "G0015": {
+          "theta": {
+            "ell": "m"
+          }
+        },
+        "G0014": {
+          "theta": {
+            "ell": "n"
+          }
+        },
+        "G0013": {
+          "theta": {
+            "m": "n"
+          }
+        },
+        "G0012": {
+          "theta": {
+            "ell": "n",
+            "m": "n"
+          }
+        }
+      },
+      "reconstruction_rule": "G0016 is the generic branch; the other G0012-G0015 are coalescent limits of F as indicated index pairs become equal.",
+      "required_assumptions": [
+        "The generic branch expression has finite limits when the indicated indices coalesce and those limits match the listed branch formulas."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0015",
+            "G0016"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0015 == lim_{ell->m} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0014",
+            "G0016"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0014 == lim_{ell->n} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0013",
+            "G0016"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0013 == lim_{m->n} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0012",
+            "G0016"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0012 == lim_{ell->n} lim_{m->n} G0016",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The piecewise branches of the cyclic three-point factor form a non-degenerate generic branch plus degeneracies obtained by coalescing summation indices; such coalescent limits are the Hermite-type structure needed for parameter coincidences.",
+      "confidence": 0.6,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "hermite_divided_difference",
+      "member_ids": [
+        "G0019",
+        "G0020",
+        "G0021",
+        "G0022",
+        "G0023"
+      ],
+      "member_roles": {
+        "G0019": "repeated",
+        "G0020": "degenerate",
+        "G0021": "degenerate",
+        "G0022": "degenerate",
+        "G0023": "generic"
+      },
+      "latent_object": "F_rev(m,n,ell) = B_true(m,n,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m), where B_true(m,n,ell) is the full true-branch coefficient of G0023",
+      "latent_variables": [
+        "m",
+        "n",
+        "ell"
+      ],
+      "nodes": [
+        {
+          "name": "m",
+          "expression": "summation index m",
+          "multiplicity": 1
+        },
+        {
+          "name": "n",
+          "expression": "summation index n",
+          "multiplicity": 1
+        },
+        {
+          "name": "ell",
+          "expression": "summation index ell",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0023",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0022",
+          "kind": "limit",
+          "args": {
+            "ell": "m"
+          }
+        },
+        {
+          "member_id": "G0021",
+          "kind": "limit",
+          "args": {
+            "ell": "n"
+          }
+        },
+        {
+          "member_id": "G0020",
+          "kind": "limit",
+          "args": {
+            "m": "n"
+          }
+        },
+        {
+          "member_id": "G0019",
+          "kind": "limit",
+          "args": {
+            "ell": "n",
+            "m": "n"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0023": {
+          "theta": {}
+        },
+        "G0022": {
+          "theta": {
+            "ell": "m"
+          }
+        },
+        "G0021": {
+          "theta": {
+            "ell": "n"
+          }
+        },
+        "G0020": {
+          "theta": {
+            "m": "n"
+          }
+        },
+        "G0019": {
+          "theta": {
+            "ell": "n",
+            "m": "n"
+          }
+        }
+      },
+      "reconstruction_rule": "G0023 is the generic branch; the other G0019-G0022 are coalescent limits of F_rev as indicated index pairs become equal.",
+      "required_assumptions": [
+        "The generic branch expression has finite limits when the indicated indices coalesce and those limits match the listed branch formulas."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0022",
+            "G0023"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0022 == lim_{ell->m} G0023",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0021",
+            "G0023"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0021 == lim_{ell->n} G0023",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0020",
+            "G0023"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0020 == lim_{m->n} G0023",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0019",
+            "G0023"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0019 == lim_{ell->n} lim_{m->n} G0023",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The reversed cyclic three-point branch family has the same Hermite-type degeneracy structure as the forward one, with the generic branch coalescing under equal-index limits.",
+      "confidence": 0.6,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"tensor_generator\",\n      \"member_ids\": [\"G0002\", \"G0006\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0006\": \"instance\"\n      },\n      \"latent_object\": \"K2(p,q; n,m) = A(n,m)*h1(p,n,m)*h2(a,q,m,n), where A(n,m) is the full common polygamma-piecewise coefficient of G0002/G0006\",\n      \"latent_variables\": [\"p\", \"q\", \"n\", \"m\"],\n      \"nodes\": [\n        {\n          \"name\": \"p\",\n          \"expression\": \"external label p (b or c)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"q\",\n          \"expression\": \"external label q (c or b)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"summation index n\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"m\",\n          \"expression\": \"summation index m\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"p\": \"b\",\n            \"q\": \"c\"\n          }\n        },\n        {\n          \"member_id\": \"G0006\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"p\": \"c\",\n            \"q\": \"b\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"theta\": {\n            \"p\": \"b\",\n            \"q\": \"c\"\n          }\n        },\n        \"G0006\": {\n          \"theta\": {\n            \"p\": \"c\",\n            \"q\": \"b\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0002 = K2 with p=b,q=c; G0006 = K2 with p=c,q=b.\",\n      \"required_assumptions\": [\n        \"A(n,m) is independent of external labels b and c.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\", \"G0006\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0002 == theta_{p=b,q=c}[K2] and G0006 == theta_{p=c,q=b}[K2]\"\n        }\n      ],\n      \"scientific_rationale\": \"The two two-point summands share the same polygamma coefficient and differ only by the ordered assignment of b and c in h1/h2 factors, so a single ordered-label kernel explains both.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"representation_type\": \"tensor_generator\",\n      \"member_ids\": [\"G0010\", \"G0017\"],\n      \"member_roles\": {\n        \"G0010\": \"generic\",\n        \"G0017\": \"instance\"\n      },\n      \"latent_object\": \"K3(p,q; m,n,ell) = B(m,n,ell)*h1(a,m,n)*h1(p,ell,m)*h1(q,n,ell), where B(m,n,ell) is the full common polygamma-piecewise coefficient of G0010/G0017\",\n      \"latent_variables\": [\"p\", \"q\", \"m\", \"n\", \"ell\"],\n      \"nodes\": [\n        {\n          \"name\": \"p\",\n          \"expression\": \"external label p (b or c)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"q\",\n          \"expression\": \"external label q (c or b)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"m\",\n          \"expression\": \"summation index m\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"summation index n\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"ell\",\n          \"expression\": \"summation index ell\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0010\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"p\": \"b\",\n            \"q\": \"c\"\n          }\n        },\n        {\n          \"member_id\": \"G0017\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"p\": \"c\",\n            \"q\": \"b\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0010\": {\n          \"theta\": {\n            \"p\": \"b\",\n            \"q\": \"c\"\n          }\n        },\n        \"G0017\": {\n          \"theta\": {\n            \"p\": \"c\",\n            \"q\": \"b\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0010 = K3 with p=b,q=c; G0017 = K3 with p=c,q=b.\",\n      \"required_assumptions\": [\n        \"B(m,n,ell) is independent of external labels b and c.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0010\", \"G0017\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0010 == theta_{p=b,q=c}[K3] and G0017 == theta_{p=c,q=b}[K3]\"\n        }\n      ],\n      \"scientific_rationale\": \"The three-point summands are the same tensor kernel evaluated at the two ordered assignments of b and c, with the common coefficient invariant under that exchange.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"representation_type\": \"hermite_divided_difference\",\n      \"member_ids\": [\"G0012\", \"G0013\", \"G0014\", \"G0015\", \"G0016\"],\n      \"member_roles\": {\n        \"G0012\": \"repeated\",\n        \"G0013\": \"degenerate\",\n        \"G0014\": \"degenerate\",\n        \"G0015\": \"degenerate\",\n        \"G0016\": \"generic\"\n      },\n      \"latent_object\": \"F(m,n,ell) = B_true(m,n,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell), where B_true(m,n,ell) is the full true-branch coefficient of G0016\",\n      \"latent_variables\": [\"m\", \"n\", \"ell\"],\n      \"nodes\": [\n        {\n          \"name\": \"m\",\n          \"expression\": \"summation index m\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"n\",\n          \"expression\": \"summation index n\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"ell\",\n          \"expression\": \"summation index ell\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0016\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0015\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"ell\": \"m\"\n          }\n        },\n        {\n          \"member_id\": \"G0014\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"ell\": \"n\"\n          }\n        },\n        {\n          \"member_id\": \"G0013\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"m\": \"n\"\n          }\n        },\n        {\n          \"member_id\": \"G0012\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"ell\": \"n\",\n            \"m\": \"n\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0016\": {\n          \"theta\": {}\n        },\n        \"G0015\": {\n          \"theta\": {\n            \"ell\": \"m\"\n          }\n        },\n        \"G0014\": {\n          \"theta\": {\n            \"ell\": \"n\"\n          }\n        },\n        \"G0013\": {\n          \"theta\": {\n            \"m\": \"n\"\n          }\n        },\n        \"G0012\": {\n          \"theta\": {\n            \"ell\": \"n\",\n            \"m\": \"n\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0016 is the generic branch; the other G0012-G0015 are coalescent limits of F as indicated index pairs become equal.\",\n      \"required_assumptions\": [\n        \"The generic branch expression has finite limits when the indicated indices coalesce and those limits match the listed branch formulas.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0015\", \"G0016\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0015 == lim_{ell->m} G0016\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0014\", \"G0016\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0014 == lim_{ell->n} G0016\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0013\", \"G0016\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0013 == lim_{m->n} G0016\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0012\", \"G0016\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0012 == lim_{ell->n} lim_{m->n} G0016\"\n        }\n      ],\n      \"scientific_rationale\": \"The piecewise branches of the cyclic three-point factor form a non-degenerate generic branch plus degeneracies obtained by coalescing summation indices; such coalescent limits are the Hermite-type structure needed for parameter coincidences.\",\n      \"confidence\": 0.6\n    },\n    {\n      \"r",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 1
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 0,
+  "n_unknown": 2,
+  "n_compile_ok": 2,
+  "compile_status": "COMPILE_FAILURE",
+  "summary": {
+    "item_id": "guo-sigma-abc",
+    "condition": "P2",
+    "seed": 1,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 4,
+    "n_ok": 4,
+    "n_grounded": 4,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "compile_status": "COMPILE_FAILURE",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 2,
+    "rows": [
+      {
+        "type": "tensor_generator",
+        "r_hint": "R8",
+        "member_ids": [
+          "G0002",
+          "G0006"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      },
+      {
+        "type": "tensor_generator",
+        "r_hint": "R8",
+        "member_ids": [
+          "G0010",
+          "G0017"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 1
+      },
+      {
+        "type": "hermite_divided_difference",
+        "r_hint": "R2",
+        "member_ids": [
+          "G0012",
+          "G0013",
+          "G0014",
+          "G0015",
+          "G0016"
+        ],
+        "dd_class": "DD-C",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "hermite_divided_difference",
+        "r_hint": "R2",
+        "member_ids": [
+          "G0019",
+          "G0020",
+          "G0021",
+          "G0022",
+          "G0023"
+        ],
+        "dd_class": "DD-C",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

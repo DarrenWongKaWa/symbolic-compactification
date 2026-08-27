@@ -1,0 +1,181 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "CAL-G-confluence",
+  "seed": 0,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1563,
+    "completion_tokens": 2405,
+    "total_tokens": 3968,
+    "reasoning_tokens": 1867,
+    "cached_tokens": 0
+  },
+  "reasoning_tokens": 1867,
+  "latency_s": 36.242,
+  "request_id": "23e01055-7625-47fe-b15e-aeffe439e5d4",
+  "reasoning_len": 7371,
+  "reasoning_sha": "a1f2b1ae4d0e7b66",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 2,
+  "hypotheses": [
+    {
+      "representation_type": "other_explicit",
+      "member_ids": [
+        "G0003",
+        "G0004"
+      ],
+      "member_roles": {
+        "G0003": "generic",
+        "G0004": "degenerate"
+      },
+      "latent_object": "F(n,m)=K(n,m)",
+      "latent_variables": [
+        "n",
+        "m"
+      ],
+      "nodes": [
+        {
+          "name": "n",
+          "expression": "n",
+          "multiplicity": 1
+        },
+        {
+          "name": "m",
+          "expression": "m",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0003",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0004",
+          "kind": "substitution",
+          "args": {
+            "variable": "m",
+            "replacement": "n"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0003": {
+          "theta": {}
+        },
+        "G0004": {
+          "theta": {
+            "m": "n"
+          }
+        }
+      },
+      "reconstruction_rule": "G0003 is recovered as identity[F]=K(n,m); G0004 is recovered as substitution[F, m->n]=K(n,n).",
+      "required_assumptions": [
+        "K is a common bivariate applied undefined function symbol in the catalog"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "MASTER_INSTANCE",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "identity",
+          "expected": "K(n, m) == F(n, m)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0004"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "K(n, n) == F(n, n)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "Both catalog members are applications of the same arity-2 undefined function K; the diagonal branch K(n,n) is obtained from K(n,m) by the variable substitution m->n. This is a structural substitution family, not a physical model.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"other_explicit\",\n      \"member_ids\": [\"G0003\", \"G0004\"],\n      \"member_roles\": {\n        \"G0003\": \"generic\",\n        \"G0004\": \"degenerate\"\n      },\n      \"latent_object\": \"F(n,m)=K(n,m)\",\n      \"latent_variables\": [\"n\", \"m\"],\n      \"nodes\": [\n        {\n          \"name\": \"n\",\n          \"expression\": \"n\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"m\",\n          \"expression\": \"m\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0004\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"variable\": \"m\",\n            \"replacement\": \"n\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0003\": {\n          \"theta\": {}\n        },\n        \"G0004\": {\n          \"theta\": {\n            \"m\": \"n\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0003 is recovered as identity[F]=K(n,m); G0004 is recovered as substitution[F, m->n]=K(n,n).\",\n      \"required_assumptions\": [\n        \"K is a common bivariate applied undefined function symbol in the catalog\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"MASTER_INSTANCE\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"identity\",\n          \"expected\": \"K(n, m) == F(n, m)\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0004\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"K(n, n) == F(n, n)\"\n        }\n      ],\n      \"scientific_rationale\": \"Both catalog members are applications of the same arity-2 undefined function K; the diagonal branch K(n,n) is obtained from K(n,m) by the variable substitution m->n. This is a structural substitution family, not a physical model.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0003",
+    "G0004"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "ZERO"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "n_zero": 2,
+      "n_nonzero": 0,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 2,
+  "n_nonzero": 0,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "CAL-G-confluence",
+    "condition": "P2",
+    "seed": 0,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "other_explicit",
+        "r_hint": null,
+        "member_ids": [
+          "G0003",
+          "G0004"
+        ],
+        "dd_class": "DD-D",
+        "layer": "OK",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 2,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

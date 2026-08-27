@@ -1,0 +1,211 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-wrong-sign-dd",
+  "seed": 0,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1473,
+    "completion_tokens": 5110,
+    "total_tokens": 6583,
+    "reasoning_tokens": 4455,
+    "cached_tokens": 896
+  },
+  "reasoning_tokens": 4455,
+  "latency_s": 76.59,
+  "request_id": "f1613a57-ca51-498f-8fe4-58585bf846cb",
+  "reasoning_len": 17434,
+  "reasoning_sha": "a65f81b2deac5d07",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "master_function",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "instance",
+        "G0003": "instance"
+      },
+      "latent_object": "F(t)=f(t)",
+      "latent_variables": [
+        "t"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "variable": "t",
+            "value": "x"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "substitution",
+          "args": {
+            "variable": "t",
+            "value": "y"
+          }
+        },
+        {
+          "member_id": "G0001",
+          "kind": "other",
+          "args": {
+            "template": "(F(x)+F(y))/(x-y)"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "t": "x"
+        },
+        "G0003": {
+          "t": "y"
+        },
+        "G0001": {
+          "x": "x",
+          "y": "y"
+        }
+      },
+      "reconstruction_rule": "G0002 = F(t)[t->x]; G0003 = F(t)[t->y]; G0001 = (F(t)[t->x] + F(t)[t->y])/(x-y).",
+      "required_assumptions": [
+        "x != y",
+        "f is a unary function"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0002 == F(t)[t->x]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0003 == F(t)[t->y]",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "MASTER_INSTANCE",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "other",
+          "expected": "G0001 == (F(t)[t->x] + F(t)[t->y])/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0002 and G0003 are evaluations of the same unary function f at x and y, and G0001 is the sum of those evaluations divided by the coordinate difference. This gives one latent f(t) with explicit substitution and combination operators.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"master_function\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"instance\",\n        \"G0003\": \"instance\"\n      },\n      \"latent_object\": \"F(t)=f(t)\",\n      \"latent_variables\": [\"t\"],\n      \"nodes\": [\n        {\"name\": \"x\", \"expression\": \"x\", \"multiplicity\": 1},\n        {\"name\": \"y\", \"expression\": \"y\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\"variable\": \"t\", \"value\": \"x\"}\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"substitution\",\n          \"args\": {\"variable\": \"t\", \"value\": \"y\"}\n        },\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"other\",\n          \"args\": {\"template\": \"(F(x)+F(y))/(x-y)\"}\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\"t\": \"x\"},\n        \"G0003\": {\"t\": \"y\"},\n        \"G0001\": {\"x\": \"x\", \"y\": \"y\"}\n      },\n      \"reconstruction_rule\": \"G0002 = F(t)[t->x]; G0003 = F(t)[t->y]; G0001 = (F(t)[t->x] + F(t)[t->y])/(x-y).\",\n      \"required_assumptions\": [\"x != y\", \"f is a unary function\"],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0002 == F(t)[t->x]\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0003 == F(t)[t->y]\"\n        },\n        {\n          \"kind\": \"MASTER_INSTANCE\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"other\",\n          \"expected\": \"G0001 == (F(t)[t->x] + F(t)[t->y])/(x-y)\"\n        }\n      ],\n      \"scientific_rationale\": \"G0002 and G0003 are evaluations of the same unary function f at x and y, and G0001 is the sum of those evaluations divided by the coordinate difference. This gives one latent f(t) with explicit substitution and combination operators.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "NONZERO",
+        "NONZERO",
+        "NONZERO"
+      ],
+      "layer": "D",
+      "detail": "wrong_structure",
+      "n_zero": 0,
+      "n_nonzero": 3,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 3,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-wrong-sign-dd",
+    "condition": "P2",
+    "seed": 0,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 0,
+    "n_nonzero": 3,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "master_function",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-D",
+        "layer": "D",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 3,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

@@ -41,6 +41,34 @@ def load_item(item_id: str) -> dict:
     raise SystemExit(f"unknown item: {item_id}")
 
 
+def scoring_catalog(item: dict, entries: list[dict]) -> list[dict]:
+    """Full source texts for the compiler. Proposer still sees truncated entries.
+
+    Only overlay ``SourceIndex`` texts when the catalog was built from that
+    index (Guo DEV). Authored bench catalogs keep their own G#### texts.
+    """
+    if item.get("id") != "guo-sigma-abc":
+        return entries
+    try:
+        idx = _index(item)
+    except Exception:
+        return entries
+    full = {n.gid: n.text for n in idx.nodes}
+    out = []
+    for e in entries:
+        row = dict(e)
+        gid = row.get("source_node_id") or row.get("gid") or row.get("id")
+        if gid and gid in full:
+            row["text"] = full[gid]
+        out.append(row)
+    if not out:
+        return [
+            {"source_node_id": gid, "text": text}
+            for gid, text in full.items()
+        ]
+    return out
+
+
 def run_item(
     item: dict,
     *,
@@ -48,6 +76,7 @@ def run_item(
     seed: int = 0,
     packets_text: Optional[str] = None,
     catalog: Optional[list[dict]] = None,
+    config=None,
 ) -> dict[str, Any]:
     entries = catalog if catalog is not None else catalog_entries(_index(item))
     rec = propose_p2(
@@ -56,11 +85,13 @@ def run_item(
         condition=condition,
         packets_text=packets_text,
         seed=seed,
+        config=config,
     )
+    score_cat = scoring_catalog(item, entries)
     scores = [
         score_hypothesis(
             h,
-            entries,
+            score_cat,
             symbols=item.get("symbols") or [],
             functions=item.get("functions") or [],
         )

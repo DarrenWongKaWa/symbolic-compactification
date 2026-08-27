@@ -42,6 +42,8 @@ def parse_latent(
     raw = (text or "").strip()
     if not raw:
         return None, None, ""
+    if len(raw) > 2500:
+        return None, None, ""
     zname = ""
     m = _F_HEAD.match(raw)
     if m:
@@ -139,8 +141,18 @@ def _group_nodes(nodes: list[Any]) -> list[tuple[sympy.Expr, int]]:
     return grouped
 
 
+class LatentTooLarge(ValueError):
+    """Generic constructor refuses a too-large latent (fail closed, not ZERO)."""
+
+
 def hermite_nodes(F: sympy.Expr, z: sympy.Symbol, nodes: list[Any]) -> sympy.Expr:
     """``nodes`` is either expanded exprs or ``(expr, multiplicity)`` pairs."""
+    try:
+        n_ops = int(sympy.count_ops(F))
+    except Exception:
+        n_ops = 0
+    if n_ops > 120:
+        raise LatentTooLarge(f"hermite_latent_ops={n_ops}")
     grouped = _group_nodes(nodes)
     fn = None
     if _DD_PKG is not None:
@@ -168,15 +180,26 @@ def split_piecewise(expr: sympy.Expr) -> tuple[Optional[sympy.Expr], Optional[sy
 
 
 def take_limit(expr: sympy.Expr, var: sympy.Expr, point: sympy.Expr) -> sympy.Expr:
+    from symbolic_compactification.budgets import run_with_budget
+
     target = var
     body = expr
     if not isinstance(var, sympy.Symbol):
         target = sympy.Dummy("lim_var")
         body = expr.xreplace({var: target})
-    fn = getattr(_DD_PKG, "limit_generic_to_degenerate", None) if _DD_PKG is not None else None
-    if callable(fn):
-        return fn(body, target, point)
-    return sympy.limit(body, target, point)
+    try:
+        ops = int(sympy.count_ops(body))
+    except Exception:
+        ops = 0
+    if ops < 80:
+        return sympy.limit(body, target, point)
+    return run_with_budget(
+        sympy.limit,
+        (body, target, point),
+        seconds=8.0,
+        operation="sympy.limit",
+        mode="process",
+    )
 
 
 

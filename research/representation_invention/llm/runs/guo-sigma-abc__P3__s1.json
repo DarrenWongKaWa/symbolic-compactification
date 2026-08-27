@@ -1,0 +1,672 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P3",
+  "item_id": "guo-sigma-abc",
+  "seed": 1,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12530,
+    "completion_tokens": 15776,
+    "total_tokens": 28306,
+    "reasoning_tokens": 12579,
+    "cached_tokens": 12416
+  },
+  "reasoning_tokens": 12579,
+  "latency_s": 220.407,
+  "request_id": "296e0054-3a34-4ced-8479-be0224382ba8",
+  "reasoning_len": 42179,
+  "reasoning_sha": "d2ec87e53356663b",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 4,
+  "n_parse_failure": 0,
+  "n_hypotheses": 4,
+  "n_grounded": 4,
+  "n_catalog": 18,
+  "hypotheses": [
+    {
+      "representation_type": "master_function",
+      "member_ids": [
+        "G0002",
+        "G0006"
+      ],
+      "member_roles": {
+        "G0002": "generic",
+        "G0006": "generic"
+      },
+      "latent_object": "S2_master[H1,H2] = Sum over n,m of Piecewise((K2_diag(epsilon(n);beta,gamma,mu)*H1*H2, Eq(m,n)), (K2_gen(epsilon(n),epsilon(m);beta,gamma,mu)*H1*H2, True))",
+      "latent_variables": [
+        "n",
+        "m",
+        "H1",
+        "H2"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0006",
+          "kind": "substitution",
+          "args": {
+            "swap": {
+              "b": "c",
+              "c": "b"
+            }
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "H1": "h1(b,n,m)",
+          "H2": "h2(a,c,m,n)"
+        },
+        "G0006": {
+          "H1": "h1(c,n,m)",
+          "H2": "h2(a,b,m,n)"
+        }
+      },
+      "reconstruction_rule": "G0002 is S2_master with H1=h1(b,n,m), H2=h2(a,c,m,n); G0006 is S2_master with b<->c swapped in the H factors.",
+      "required_assumptions": [
+        "K2_diag and K2_gen depend on beta, gamma, mu, epsilon(n), epsilon(m) but not on external labels a, b, c except through H1,H2."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002",
+            "G0006"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0006 equals G0002 after swapping b and c in the coefficient factors H1,H2.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two-index sum families share the same polygamma kernel and differ structurally only by the labels carried by h1 and h2 coefficients.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "master_function",
+      "member_ids": [
+        "G0010",
+        "G0017"
+      ],
+      "member_roles": {
+        "G0010": "generic",
+        "G0017": "generic"
+      },
+      "latent_object": "S3_master[H1,H2,H3] = Sum over n,m,ell of the piecewise three-index kernel K3(epsilon(n),epsilon(m),epsilon(ell);beta,gamma,mu)*H1*H2*H3",
+      "latent_variables": [
+        "n",
+        "m",
+        "ell",
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        },
+        {
+          "name": "z",
+          "expression": "epsilon(ell)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0010",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0017",
+          "kind": "other",
+          "args": {
+            "factor_index_rotation": {
+              "H2": {
+                "from": [
+                  "ell",
+                  "m"
+                ],
+                "to": [
+                  "n",
+                  "ell"
+                ]
+              },
+              "H3": {
+                "from": [
+                  "n",
+                  "ell"
+                ],
+                "to": [
+                  "ell",
+                  "m"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0010": {
+          "H1": "h1(a,m,n)",
+          "H2": "h1(b,ell,m)",
+          "H3": "h1(c,n,ell)"
+        },
+        "G0017": {
+          "H1": "h1(a,m,n)",
+          "H2": "h1(b,n,ell)",
+          "H3": "h1(c,ell,m)"
+        }
+      },
+      "reconstruction_rule": "G0010 is S3_master with H1=h1(a,m,n), H2=h1(b,ell,m), H3=h1(c,n,ell); G0017 is S3_master with the index-rotation in H2 and H3 as specified.",
+      "required_assumptions": [
+        "The three-index kernel K3 is shared between the two orientations of the h1 coefficient factors."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "PERMUTATION",
+          "member_ids": [
+            "G0010",
+            "G0017"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "other",
+          "expected": "G0017 equals G0010 after the specified rotation of the second and third h1 index arguments.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two three-index sum families are the same master sum with different cyclic ordering of the h1 coefficient indices, exposing a discrete orientation symmetry.",
+      "confidence": 0.7,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0004",
+        "G0005",
+        "G0008",
+        "G0009"
+      ],
+      "member_roles": {
+        "G0004": "degenerate",
+        "G0005": "generic",
+        "G0008": "degenerate",
+        "G0009": "generic"
+      },
+      "latent_object": "K2_gen(p,q;H1,H2) = generic two-index branch kernel from G0005/G0009 with distinct nodes p,q and factors H1,H2",
+      "latent_variables": [
+        "p",
+        "q",
+        "H1",
+        "H2"
+      ],
+      "nodes": [
+        {
+          "name": "p",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        },
+        {
+          "name": "q",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0005",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0009",
+          "kind": "substitution",
+          "args": {
+            "swap": {
+              "b": "c",
+              "c": "b"
+            }
+          }
+        },
+        {
+          "member_id": "G0004",
+          "kind": "limit",
+          "args": {
+            "q": "p"
+          }
+        },
+        {
+          "member_id": "G0008",
+          "kind": "limit",
+          "args": {
+            "q": "p"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0005": {
+          "p": "epsilon(n)",
+          "q": "epsilon(m)",
+          "H1": "h1(b,n,m)",
+          "H2": "h2(a,c,m,n)"
+        },
+        "G0009": {
+          "p": "epsilon(n)",
+          "q": "epsilon(m)",
+          "H1": "h1(c,n,m)",
+          "H2": "h2(a,b,m,n)"
+        },
+        "G0004": {
+          "p": "epsilon(n)",
+          "q": "epsilon(n)",
+          "H1": "h1(b,n,m)",
+          "H2": "h2(a,c,m,n)"
+        },
+        "G0008": {
+          "p": "epsilon(n)",
+          "q": "epsilon(n)",
+          "H1": "h1(c,n,m)",
+          "H2": "h2(a,b,m,n)"
+        }
+      },
+      "reconstruction_rule": "G0005 and G0009 are K2_gen evaluated at p=epsilon(n), q=epsilon(m); G0004 and G0008 are the same generic kernel in the limit q->p.",
+      "required_assumptions": [
+        "The diagonal branch arises by confluence of the two nodes epsilon(m) and epsilon(n)."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0004",
+            "G0005"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0004 equals lim_{epsilon(m)->epsilon(n)} G0005 with the same H1,H2.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0008",
+            "G0009"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0008 equals lim_{epsilon(m)->epsilon(n)} G0009 with the same H1,H2.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The piecewise structure separates generic unequal indices from the diagonal confluent case, so the diagonal expressions are naturally local coalescence limits of the generic two-index kernel.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null
+    },
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0012",
+        "G0016",
+        "G0019",
+        "G0023"
+      ],
+      "member_roles": {
+        "G0012": "repeated",
+        "G0016": "generic",
+        "G0019": "repeated",
+        "G0023": "generic"
+      },
+      "latent_object": "K3_gen(p,q,r;H1,H2,H3) = generic three-index branch kernel from G0016/G0023 with distinct nodes p,q,r and factors H1,H2,H3",
+      "latent_variables": [
+        "p",
+        "q",
+        "r",
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "nodes": [
+        {
+          "name": "p",
+          "expression": "epsilon(n)",
+          "multiplicity": 1
+        },
+        {
+          "name": "q",
+          "expression": "epsilon(m)",
+          "multiplicity": 1
+        },
+        {
+          "name": "r",
+          "expression": "epsilon(ell)",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0016",
+          "kind": "identity",
+          "args": {}
+        },
+        {
+          "member_id": "G0023",
+          "kind": "other",
+          "args": {
+            "factor_index_rotation": {
+              "H2": {
+                "from": [
+                  "ell",
+                  "m"
+                ],
+                "to": [
+                  "n",
+                  "ell"
+                ]
+              },
+              "H3": {
+                "from": [
+                  "n",
+                  "ell"
+                ],
+                "to": [
+                  "ell",
+                  "m"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "member_id": "G0012",
+          "kind": "limit",
+          "args": {
+            "q": "p",
+            "r": "p"
+          }
+        },
+        {
+          "member_id": "G0019",
+          "kind": "limit",
+          "args": {
+            "q": "p",
+            "r": "p"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0016": {
+          "p": "epsilon(n)",
+          "q": "epsilon(m)",
+          "r": "epsilon(ell)",
+          "H1": "h1(a,m,n)",
+          "H2": "h1(b,ell,m)",
+          "H3": "h1(c,n,ell)"
+        },
+        "G0023": {
+          "p": "epsilon(n)",
+          "q": "epsilon(m)",
+          "r": "epsilon(ell)",
+          "H1": "h1(a,m,n)",
+          "H2": "h1(b,n,ell)",
+          "H3": "h1(c,ell,m)"
+        },
+        "G0012": {
+          "p": "epsilon(n)",
+          "q": "epsilon(n)",
+          "r": "epsilon(n)",
+          "H1": "h1(a,m,n)",
+          "H2": "h1(b,ell,m)",
+          "H3": "h1(c,n,ell)"
+        },
+        "G0019": {
+          "p": "epsilon(n)",
+          "q": "epsilon(n)",
+          "r": "epsilon(n)",
+          "H1": "h1(a,m,n)",
+          "H2": "h1(b,n,ell)",
+          "H3": "h1(c,ell,m)"
+        }
+      },
+      "reconstruction_rule": "G0016 and G0023 are K3_gen evaluated at p=epsilon(n), q=epsilon(m), r=epsilon(ell); G0012 and G0019 are the limits q->p and r->p of the corresponding generic branches.",
+      "required_assumptions": [
+        "The all-equal branch arises by confluence of the three nodes epsilon(n), epsilon(m), epsilon(ell)."
+      ],
+      "proof_obligations": [
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0012",
+            "G0016"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0012 equals lim_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} G0016 with the same H1,H2,H3.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0019",
+            "G0023"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "G0019 equals lim_{epsilon(m)->epsilon(n), epsilon(ell)->epsilon(n)} G0023 with the same H1,H2,H3.",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The triple-index piecewise branches are organized by repeated nodes: the all-equal piece is the confluent limit of the fully generic three-index branch.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"master_function\",\n      \"member_ids\": [\"G0002\", \"G0006\"],\n      \"member_roles\": {\n        \"G0002\": \"generic\",\n        \"G0006\": \"generic\"\n      },\n      \"latent_object\": \"S2_master[H1,H2] = Sum over n,m of Piecewise((K2_diag(epsilon(n);beta,gamma,mu)*H1*H2, Eq(m,n)), (K2_gen(epsilon(n),epsilon(m);beta,gamma,mu)*H1*H2, True))\",\n      \"latent_variables\": [\"n\", \"m\", \"H1\", \"H2\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"epsilon(n)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"epsilon(m)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0006\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"swap\": {\n              \"b\": \"c\",\n              \"c\": \"b\"\n            }\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"H1\": \"h1(b,n,m)\",\n          \"H2\": \"h2(a,c,m,n)\"\n        },\n        \"G0006\": {\n          \"H1\": \"h1(c,n,m)\",\n          \"H2\": \"h2(a,b,m,n)\"\n        }\n      },\n      \"reconstruction_rule\": \"G0002 is S2_master with H1=h1(b,n,m), H2=h2(a,c,m,n); G0006 is S2_master with b<->c swapped in the H factors.\",\n      \"required_assumptions\": [\n        \"K2_diag and K2_gen depend on beta, gamma, mu, epsilon(n), epsilon(m) but not on external labels a, b, c except through H1,H2.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\", \"G0006\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0006 equals G0002 after swapping b and c in the coefficient factors H1,H2.\"\n        }\n      ],\n      \"scientific_rationale\": \"The two-index sum families share the same polygamma kernel and differ structurally only by the labels carried by h1 and h2 coefficients.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"representation_type\": \"master_function\",\n      \"member_ids\": [\"G0010\", \"G0017\"],\n      \"member_roles\": {\n        \"G0010\": \"generic\",\n        \"G0017\": \"generic\"\n      },\n      \"latent_object\": \"S3_master[H1,H2,H3] = Sum over n,m,ell of the piecewise three-index kernel K3(epsilon(n),epsilon(m),epsilon(ell);beta,gamma,mu)*H1*H2*H3\",\n      \"latent_variables\": [\"n\", \"m\", \"ell\", \"H1\", \"H2\", \"H3\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"epsilon(n)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"epsilon(m)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"z\",\n          \"expression\": \"epsilon(ell)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0010\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0017\",\n          \"kind\": \"other\",\n          \"args\": {\n            \"factor_index_rotation\": {\n              \"H2\": {\n                \"from\": [\"ell\", \"m\"],\n                \"to\": [\"n\", \"ell\"]\n              },\n              \"H3\": {\n                \"from\": [\"n\", \"ell\"],\n                \"to\": [\"ell\", \"m\"]\n              }\n            }\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0010\": {\n          \"H1\": \"h1(a,m,n)\",\n          \"H2\": \"h1(b,ell,m)\",\n          \"H3\": \"h1(c,n,ell)\"\n        },\n        \"G0017\": {\n          \"H1\": \"h1(a,m,n)\",\n          \"H2\": \"h1(b,n,ell)\",\n          \"H3\": \"h1(c,ell,m)\"\n        }\n      },\n      \"reconstruction_rule\": \"G0010 is S3_master with H1=h1(a,m,n), H2=h1(b,ell,m), H3=h1(c,n,ell); G0017 is S3_master with the index-rotation in H2 and H3 as specified.\",\n      \"required_assumptions\": [\n        \"The three-index kernel K3 is shared between the two orientations of the h1 coefficient factors.\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"PERMUTATION\",\n          \"member_ids\": [\"G0010\", \"G0017\"],\n          \"operator\": \"other\",\n          \"expected\": \"G0017 equals G0010 after the specified rotation of the second and third h1 index arguments.\"\n        }\n      ],\n      \"scientific_rationale\": \"The two three-index sum families are the same master sum with different cyclic ordering of the h1 coefficient indices, exposing a discrete orientation symmetry.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0004\", \"G0005\", \"G0008\", \"G0009\"],\n      \"member_roles\": {\n        \"G0004\": \"degenerate\",\n        \"G0005\": \"generic\",\n        \"G0008\": \"degenerate\",\n        \"G0009\": \"generic\"\n      },\n      \"latent_object\": \"K2_gen(p,q;H1,H2) = generic two-index branch kernel from G0005/G0009 with distinct nodes p,q and factors H1,H2\",\n      \"latent_variables\": [\"p\", \"q\", \"H1\", \"H2\"],\n      \"nodes\": [\n        {\n          \"name\": \"p\",\n          \"expression\": \"epsilon(n)\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"q\",\n          \"expression\": \"epsilon(m)\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0005\",\n          \"kind\": \"identity\",\n          \"args\": {}\n        },\n        {\n          \"member_id\": \"G0009\",\n          \"kind\": \"substitution\",\n          \"args\": {\n            \"swap\": {\n              \"b\": \"c\",\n              \"c\": \"b\"\n            }\n          }\n        },\n        {\n          \"member_id\": \"G0004\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"q\": \"p\"\n          }\n        },\n        {\n          \"member_id\": \"G0008\",\n          \"kind\": \"limit\",\n          \"args\": {\n            \"q\": \"p\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0005\": {\n          \"p\": \"epsilon(n)\",\n          \"q\": \"epsilon(m)\",\n          \"H1\": \"h1(b,n,m)\",\n          \"H2\": \"h2(a,c,m,n)\"\n        },\n        \"G0009\": {\n          \"p\": \"epsilon(n)\",\n          \"q\": \"epsilon(m)\",\n          \"H1\": \"h1(c,n,m)\",\n          \"H2\": \"h2(a,b,m,n)\"\n        },\n        \"G0004\": {\n          \"p\": \"epsilon(n)\",\n          \"q\": \"epsilon(n)\",\n          \"H1\": \"h1(b,n,m)\",\n          \"H2\": \"h2(a,c,m,n)\"\n        },\n        \"G0008\": {\n          \"p\": \"epsilon(n)\",\n          \"q\": \"epsilon(n)\",\n          \"H1\": \"h1(c,n,m)\",\n          \"H2\": \"h2(a,b,m,n)\"\n        }\n      },\n      \"reconstruction_rule\": \"G0005 and G0009 are K2_gen evaluated at p=epsilon(n), q=epsilon(m); G0004 and G0008 are the same generic kernel in the limit q->p.\",\n      \"required_assumptions\": [\n        \"The diagonal branch arises by confluence of the two nodes epsilon(m) and epsilon(n).\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0004\", \"G0005\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0004 equals lim_{epsilon(m)->epsilon(n)} G0005 with the same H1,H2.\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0008\", \"G0009\"],\n          \"operator\": \"limit\",\n          \"expected\": \"G0008 equals lim_{epsilon(m)->epsilon(n)} G0009 with the same H1,H2.\"\n        }\n      ],\n      \"scientific_rationale\": \"The piecewise structure separates generic unequal indices from the diagonal confluent case, so the diagonal expressions are naturally local coalescence limits of the generic two-index kernel.\",\n      \"confidence\": 0.85\n    },\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0012\", \"G0016\", \"G0019\", \"G0023\"],\n      \"member_roles\": {\n        \"G0012\": \"repeated\",\n        \"G0016\": \"generic\",\n        \"G0019\": \"repeated\",\n        \"G0023\": \"generic\"\n      },\n      \"latent_object\": \"K3_gen(p,q,r;H1,H2,H3) = generic three-index branch kernel from G0016/G0023 with distinct nodes p,q,r and factors H1,H2,H3\",\n      \"latent_variables\": [\"p\", \"q\", \"r\", \"H1\", \"H2\", \"H3\"],\n      \"nodes\": [\n        {\n          \"name\": \"p\",\n          \"expression\": \"epsilon(n)\",\n          \"multiplicity\": 1\n        },\n        {\n    ",
+  "catalog_ids": [
+    "G0002",
+    "G0004",
+    "G0005",
+    "G0006",
+    "G0008",
+    "G0009",
+    "G0010",
+    "G0012",
+    "G0013",
+    "G0014",
+    "G0015",
+    "G0016",
+    "G0017",
+    "G0019",
+    "G0020",
+    "G0021",
+    "G0022",
+    "G0023"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_FAILURE",
+      "verdicts": [],
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 0,
+      "layer": "C",
+      "detail": "compile_failure"
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2
+    },
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 2
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 0,
+  "n_unknown": 4,
+  "n_compile_ok": 2,
+  "compile_status": "COMPILE_FAILURE",
+  "summary": {
+    "item_id": "guo-sigma-abc",
+    "condition": "P3",
+    "seed": 1,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 4,
+    "n_ok": 4,
+    "n_grounded": 4,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 4,
+    "compile_status": "COMPILE_FAILURE",
+    "n_dd_ok": 0,
+    "n_local_confluence": 2,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "master_function",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0002",
+          "G0006"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "master_function",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0010",
+          "G0017"
+        ],
+        "dd_class": "DD-D",
+        "layer": "C",
+        "compile_status": "COMPILE_FAILURE",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0004",
+          "G0005",
+          "G0008",
+          "G0009"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 2
+      },
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0012",
+          "G0016",
+          "G0019",
+          "G0023"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 0,
+        "n_unknown": 2
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

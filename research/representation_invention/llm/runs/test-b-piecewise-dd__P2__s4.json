@@ -1,0 +1,205 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "test-b-piecewise-dd",
+  "seed": 4,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1559,
+    "completion_tokens": 2761,
+    "total_tokens": 4320,
+    "reasoning_tokens": 2142,
+    "cached_tokens": 1536
+  },
+  "reasoning_tokens": 2142,
+  "latency_s": 39.229,
+  "request_id": "834c1e89-c5f3-4c6c-a87a-2b8709634d76",
+  "reasoning_len": 8505,
+  "reasoning_sha": "3819f917c2696e1a",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 2,
+  "hypotheses": [
+    {
+      "representation_type": "local_confluence",
+      "member_ids": [
+        "G0001",
+        "G0002"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "degenerate"
+      },
+      "latent_object": "F(z)=s(z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "p",
+          "expression": "p",
+          "multiplicity": 1
+        },
+        {
+          "name": "q",
+          "expression": "q",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "points": [
+              "p",
+              "q"
+            ]
+          }
+        },
+        {
+          "member_id": "G0002",
+          "kind": "derivative",
+          "args": {
+            "point": "p"
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "theta": {
+            "points": [
+              "p",
+              "q"
+            ]
+          }
+        },
+        "G0002": {
+          "theta": {
+            "point": "p"
+          }
+        }
+      },
+      "reconstruction_rule": "G0001 = (F(p)-F(q))/(p-q); G0002 = dF/dz evaluated at z=p, with F(z)=s(z)",
+      "required_assumptions": [
+        "s is defined and differentiable at p",
+        "p and q are independent symbolic variables",
+        "ds(p) denotes the derivative of s at p"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (F(p)-F(q))/(p-q)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "DERIVATIVE",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "derivative",
+          "expected": "G0002 == dF/dz evaluated at z=p",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0001",
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit(G0001, q->p) == G0002",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two catalog expressions are the finite difference quotient and derivative of the same underlying function s. The piecewise branch G0002 is the limiting/degenerate case of G0001 as q approaches p.",
+      "confidence": 0.75,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"local_confluence\",\n      \"member_ids\": [\"G0001\", \"G0002\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"degenerate\"\n      },\n      \"latent_object\": \"F(z)=s(z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"p\",\n          \"expression\": \"p\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"q\",\n          \"expression\": \"q\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"points\": [\"p\", \"q\"]\n          }\n        },\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"derivative\",\n          \"args\": {\n            \"point\": \"p\"\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\n          \"theta\": {\n            \"points\": [\"p\", \"q\"]\n          }\n        },\n        \"G0002\": {\n          \"theta\": {\n            \"point\": \"p\"\n          }\n        }\n      },\n      \"reconstruction_rule\": \"G0001 = (F(p)-F(q))/(p-q); G0002 = dF/dz evaluated at z=p, with F(z)=s(z)\",\n      \"required_assumptions\": [\n        \"s is defined and differentiable at p\",\n        \"p and q are independent symbolic variables\",\n        \"ds(p) denotes the derivative of s at p\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (F(p)-F(q))/(p-q)\"\n        },\n        {\n          \"kind\": \"DERIVATIVE\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"derivative\",\n          \"expected\": \"G0002 == dF/dz evaluated at z=p\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0001\", \"G0002\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit(G0001, q->p) == G0002\"\n        }\n      ],\n      \"scientific_rationale\": \"The two catalog expressions are the finite difference quotient and derivative of the same underlying function s. The piecewise branch G0002 is the limiting/degenerate case of G0001 as q approaches p.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "NONZERO",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 1,
+      "n_nonzero": 1,
+      "n_unknown": 1
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 1,
+  "n_unknown": 1,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "test-b-piecewise-dd",
+    "condition": "P2",
+    "seed": 4,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 1,
+    "n_unknown": 1,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 1,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "local_confluence",
+        "r_hint": "R0",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 1,
+        "n_unknown": 1
+      }
+    ]
+  }
+}

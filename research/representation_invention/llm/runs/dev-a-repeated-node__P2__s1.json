@@ -1,0 +1,203 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-repeated-node",
+  "seed": 1,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1364,
+    "completion_tokens": 3151,
+    "total_tokens": 4515,
+    "reasoning_tokens": 2527,
+    "cached_tokens": 1280
+  },
+  "reasoning_tokens": 2527,
+  "latency_s": 42.09,
+  "request_id": "63aaa18c-d507-4197-b7ca-381e6b27d44c",
+  "reasoning_len": 9475,
+  "reasoning_sha": "d512a82268b49856",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 2,
+  "hypotheses": [
+    {
+      "representation_type": "derivative_family",
+      "member_ids": [
+        "G0001",
+        "G0002"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "degenerate"
+      },
+      "latent_object": "F(t)=f(t)",
+      "latent_variables": [
+        "t"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "derivative",
+          "args": {
+            "point": "x",
+            "order": 1
+          }
+        },
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "points": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0002": {
+          "point": "x",
+          "order": 1
+        },
+        "G0001": {
+          "points": [
+            "x",
+            "y"
+          ]
+        }
+      },
+      "reconstruction_rule": "A_i = O_i[F]; G0002 = Derivative[F](x, order=1); G0001 = NewtonDD[F](x,y).",
+      "required_assumptions": [
+        "f is differentiable at x",
+        "x != y for the divided difference G0001"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "DERIVATIVE",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "derivative",
+          "expected": "G0002 == Derivative[F](x, order=1)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == NewtonDD[F](x,y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0001",
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit of G0001 as y -> x equals G0002",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The two catalog members are structurally related through the derivative family: G0001 is the first divided difference of f between x and y, and G0002 is the corresponding derivative of f at x, obtainable as the limit of G0001 when y approaches x.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"derivative_family\",\n      \"member_ids\": [\"G0001\", \"G0002\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"degenerate\"\n      },\n      \"latent_object\": \"F(t)=f(t)\",\n      \"latent_variables\": [\"t\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"x\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"y\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"derivative\",\n          \"args\": {\n            \"point\": \"x\",\n            \"order\": 1\n          }\n        },\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"points\": [\"x\", \"y\"]\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0002\": {\n          \"point\": \"x\",\n          \"order\": 1\n        },\n        \"G0001\": {\n          \"points\": [\"x\", \"y\"]\n        }\n      },\n      \"reconstruction_rule\": \"A_i = O_i[F]; G0002 = Derivative[F](x, order=1); G0001 = NewtonDD[F](x,y).\",\n      \"required_assumptions\": [\n        \"f is differentiable at x\",\n        \"x != y for the divided difference G0001\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"DERIVATIVE\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"derivative\",\n          \"expected\": \"G0002 == Derivative[F](x, order=1)\"\n        },\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == NewtonDD[F](x,y)\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0001\", \"G0002\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit of G0001 as y -> x equals G0002\"\n        }\n      ],\n      \"scientific_rationale\": \"The two catalog members are structurally related through the derivative family: G0001 is the first divided difference of f between x and y, and G0002 is the corresponding derivative of f at x, obtainable as the limit of G0001 when y approaches x.\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "NONZERO",
+        "ZERO",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 1,
+      "n_nonzero": 1,
+      "n_unknown": 1
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 1,
+  "n_unknown": 1,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-repeated-node",
+    "condition": "P2",
+    "seed": 1,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 1,
+    "n_unknown": 1,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "derivative_family",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 1,
+        "n_unknown": 1
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

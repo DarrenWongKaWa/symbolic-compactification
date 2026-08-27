@@ -14,16 +14,24 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from research.grounded_proposer.catalog import catalog_entries
+from research.llm_abstraction.config import FLASH_MODEL, PRIMARY_MODEL, ProposerConfig
 from research.llm_abstraction.secrets import key_length, key_present, sanitize
 from research.llm_abstraction.tasks import load_calibration, load_guo_item
 from research.obligation_ir.source_index import build_index
-from research.representation_invention.bench.loader import load_dev, proposer_view
+from research.representation_invention.bench.loader import load_dev, load_test, proposer_view
 from research.representation_invention.eval.classify import summarize_record
 from research.representation_invention.llm.run_p2 import run_item
 
 OUT = Path(__file__).resolve().parents[1] / "llm" / "runs"
 SUMMARY = Path(__file__).resolve().parents[1] / "RESULTS_DEV.md"
 SUMMARY_JSON = Path(__file__).resolve().parents[1] / "RESULTS_DEV.json"
+
+TEST_BENCH_IDS = (
+    "test-a-newton-first",
+    "test-a-hermite-two",
+    "test-a-wrong-sign-dd",
+    "test-b-piecewise-dd",
+)
 
 DEV_BENCH_IDS = (
     "dev-a-newton-first",
@@ -82,18 +90,21 @@ def run_one(
     seed: int,
     catalog: Optional[list[dict]] = None,
     overwrite: bool = False,
+    model: Optional[str] = None,
 ) -> dict[str, Any]:
-    path = out_path(str(item.get("id")), condition, seed)
+    tag = condition if not model or model == PRIMARY_MODEL else f"{condition}_{model.split('-')[-1]}"
+    path = OUT / f"{item.get('id')}__{tag}__s{seed}.json"
     if path.is_file() and not overwrite:
         return json.loads(path.read_text())
-    rec = run_item(item, condition=condition, seed=seed, catalog=catalog)
+    cfg = ProposerConfig(model=model) if model else None
+    rec = run_item(item, condition=condition, seed=seed, catalog=catalog, config=cfg)
     rec["summary"] = summarize_record(rec)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(sanitize(rec), indent=2, default=str))
     return rec
 
 
-def matrix(flagship_seeds: int = 5) -> list[tuple]:
+def matrix(flagship_seeds: int = 5, *, include_test: bool = False, include_guo: bool = True) -> list[tuple]:
     jobs: list[tuple] = []
     calib = {it["id"]: it for it in load_calibration()}
     if "CAL-G-confluence" in calib:
@@ -105,16 +116,27 @@ def matrix(flagship_seeds: int = 5) -> list[tuple]:
         item, cat = _bench_as_item(bench[tid])
         for seed in range(flagship_seeds):
             jobs.append(("bench", item, "P2", seed, cat))
-    guo = load_guo_item()
-    gcat = catalog_entries(_index(guo))
-    for seed in range(flagship_seeds):
-        jobs.append(("guo", guo, "P2", seed, gcat))
-    for seed in range(flagship_seeds):
-        jobs.append(("guo", guo, "P3", seed, gcat))
+    if include_guo:
+        guo = load_guo_item()
+        gcat = catalog_entries(_index(guo))
+        for seed in range(flagship_seeds):
+            jobs.append(("guo", guo, "P2", seed, gcat))
+        for seed in range(flagship_seeds):
+            jobs.append(("guo", guo, "P3", seed, gcat))
+    if include_test:
+        bench = {t["id"]: t for t in load_test()}
+        for tid in TEST_BENCH_IDS:
+            if tid not in bench:
+                continue
+            item, cat = _bench_as_item(bench[tid])
+            for seed in range(flagship_seeds):
+                jobs.append(("test", item, "P2", seed, cat))
     return jobs
 
 
-def write_summary(records: list[dict[str, Any]]) -> None:
+def write_summary(records: list[dict[str, Any]] | None = None) -> None:
+    if records is None:
+        records = [json.loads(p.read_text()) for p in sorted(OUT.glob("*.json"))]
     rows = [summarize_record(r) if "summary" not in r else r.get("summary") or summarize_record(r) for r in records]
     SUMMARY_JSON.write_text(json.dumps({"n": len(rows), "rows": rows}, indent=2, default=str))
     lines = [
@@ -147,15 +169,16 @@ def main(argv: Optional[list[str]] = None) -> int:
     if not key_present():
         print("EXPERIMENT BLOCKED: no API key")
         return 2
-    jobs = matrix(seeds)
+    jobs = matrix(seeds, include_test="--test" in argv, include_guo="--no-guo" not in argv)
     if only:
         jobs = [j for j in jobs if only in (j[0], j[1].get("id"), j[2])]
+    model = FLASH_MODEL if "--flash" in argv else None
     recs = []
     for i, (fam, item, cond, seed, cat) in enumerate(jobs):
         iid = item.get("id")
-        print(f"[{i+1}/{len(jobs)}] {fam} {iid} {cond} s{seed}", flush=True)
+        print(f"[{i+1}/{len(jobs)}] {fam} {iid} {cond} s{seed} {model or PRIMARY_MODEL}", flush=True)
         try:
-            rec = run_one(item, condition=cond, seed=seed, catalog=cat)
+            rec = run_one(item, condition=cond, seed=seed, catalog=cat, model=model)
         except Exception as exc:
             rec = sanitize({
                 "item_id": iid, "condition": cond, "seed": seed,
@@ -171,7 +194,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             rec.get("error"),
             flush=True,
         )
-    write_summary(recs)
+    write_summary()
     print("wrote", SUMMARY)
     return 0
 

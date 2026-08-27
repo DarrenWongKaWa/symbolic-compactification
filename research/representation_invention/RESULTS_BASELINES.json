@@ -1,0 +1,359 @@
+{
+  "n": 18,
+  "rows": [
+    {
+      "id": "dev-a-deriv-family",
+      "target": "derivative_family",
+      "b9_n": 1,
+      "b9_types": [
+        "derivative_family"
+      ],
+      "b9_n_zero": 1,
+      "b9_explicit_F": false,
+      "lgg_n": 2,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-a-hermite-two",
+      "target": "hermite_divided_difference",
+      "b9_n": 3,
+      "b9_types": [
+        "repeated_kernel",
+        "repeated_kernel",
+        "repeated_kernel"
+      ],
+      "b9_n_zero": 3,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-a-newton-first",
+      "target": "divided_difference",
+      "b9_n": 1,
+      "b9_types": [
+        "divided_difference"
+      ],
+      "b9_n_zero": 2,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": true,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-a-recurrence-family",
+      "target": "recurrence_family",
+      "b9_n": 1,
+      "b9_types": [
+        "master_function"
+      ],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 4,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-a-repeated-node",
+      "target": "hermite_divided_difference",
+      "b9_n": 0,
+      "b9_types": [],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-a-wrong-sign-dd",
+      "target": null,
+      "b9_n": 0,
+      "b9_types": [],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-b-branch-degen",
+      "target": "local_confluence",
+      "b9_n": 1,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 3,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": true,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-b-master-induct",
+      "target": "master_function",
+      "b9_n": 1,
+      "b9_types": [
+        "master_function"
+      ],
+      "b9_n_zero": 1,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-b-nonconfluent-pw",
+      "target": null,
+      "b9_n": 1,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": true,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-b-piecewise-dd",
+      "target": "divided_difference",
+      "b9_n": 1,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": true,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-b-special-fn",
+      "target": "divided_difference",
+      "b9_n": 0,
+      "b9_types": [],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-b-tautological-master",
+      "target": null,
+      "b9_n": 0,
+      "b9_types": [],
+      "b9_n_zero": 0,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-c-green-like",
+      "target": "master_function",
+      "b9_n": 4,
+      "b9_types": [
+        "repeated_kernel",
+        "spectral_family",
+        "spectral_family",
+        "identical_kernel_merge"
+      ],
+      "b9_n_zero": 3,
+      "b9_explicit_F": false,
+      "lgg_n": 3,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-c-nl-response",
+      "target": "master_function",
+      "b9_n": 8,
+      "b9_types": [
+        "repeated_kernel",
+        "permutation_orbit",
+        "permutation_orbit",
+        "repeated_kernel",
+        "repeated_kernel",
+        "repeated_kernel",
+        "repeated_kernel",
+        "repeated_kernel"
+      ],
+      "b9_n_zero": 8,
+      "b9_explicit_F": false,
+      "lgg_n": 1,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-c-pert-denom",
+      "target": "master_function",
+      "b9_n": 3,
+      "b9_types": [
+        "spectral_family",
+        "spectral_family",
+        "identical_kernel_merge"
+      ],
+      "b9_n_zero": 2,
+      "b9_explicit_F": false,
+      "lgg_n": 4,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-c-tensor-family",
+      "target": "tensor_generator",
+      "b9_n": 4,
+      "b9_types": [
+        "repeated_kernel",
+        "repeated_kernel",
+        "permutation_orbit",
+        "symmetry_invariant"
+      ],
+      "b9_n_zero": 6,
+      "b9_explicit_F": false,
+      "lgg_n": 0,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-c-thermal-kernel",
+      "target": "master_function",
+      "b9_n": 1,
+      "b9_types": [
+        "repeated_kernel"
+      ],
+      "b9_n_zero": 2,
+      "b9_explicit_F": false,
+      "lgg_n": 3,
+      "lgg_types": [],
+      "b9_typed_dd_or_confluence": false,
+      "lgg_typed_dd_or_confluence": false,
+      "errors": {
+        "B0": null,
+        "B1": null,
+        "B2": null,
+        "B3": null
+      }
+    },
+    {
+      "id": "dev-guo-pointer",
+      "skipped": true,
+      "reason": "no_current"
+    }
+  ]
+}

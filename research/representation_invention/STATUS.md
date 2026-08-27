@@ -2,31 +2,42 @@
 
 ## DONE
 
-- Branch `research/verified-representation-invention-v1` from `3fea222`.
-- Shared contracts: RepresentationHypothesisV2, R0–R8 ladder, P-D-G-C-V-I labels.
-- Contract tests for catalog IDs / alias PARSE_FAILURE.
+- Branch from `3fea222`; contracts `45b2b4d`.
+- Parallel packages: dd, master, obligations, bench, llm, falsifier, guo, literature.
+- Phase 5 generic DD gate: 12/12, false ZERO = 0.
+- P2 DEV matrix: 5 seeds, DeepSeek-v4-pro, same SOL as P1.
+- Guo P2/P3 5 seeds each (new LLM calls). Full-text rescore; no prompt retune.
 
 ## EVIDENCE
 
-None yet (contracts only). Frozen P1 remains the local-confluence baseline:
-Guo DEV 11/11 ZERO confluence, 0 NONZERO, 0 UNKNOWN, 0 grounding failures.
+- P1 frozen Guo: 11/11 local confluence ZERO (specialized compiler).
+- P2 Newton DEV: 2/5 seeds DD-OK with explicit \(F(z)=f(z)\).
+- P2 polygamma DEV: 1/5 seeds DD-OK; B9/LGG produced no hypothesis.
+- P2 tautological master: 5/5 ABSTAIN.
+- P2 Guo: grounded local_confluence / some hermite types; 0 ZERO (V/C: generic
+  limit/size guard). Discovery present; certification not.
 
 ## FAILED
 
-—
+- Systematic Hermite DD-OK on repeated-node / two-node Hermite controls.
+- Guo Newton/Hermite certification under the generic V2 verifier.
+- Treating B9's typed `divided_difference` label as operational \(H_{\mathrm{repr}}\).
 
 ## OPEN QUESTIONS
 
-- C2: local confluence → explicit Newton/Hermite DD?
-- C3: nontrivial master object under exact certification?
-- C4: SOL help vs anchor for representation search?
-- C5: LLM unique vs frozen symbolic baselines?
+- C2: only partially (seed-dependent Newton; not Hermite).
+- C3: substitution masters exist; not two-operator nontrivial masters.
+- C4: Guo P3 (RAW) parse-failed 1/5; P2 (SOL) 5/5 parse OK. SOL still an
+  observation prior, not proven help for DD.
+- C5: one AI_UNIQUE polygamma seed; Newton is mixed vs B9 naming.
 
 ## NEXT AUTO ACTION
 
-Merge A–H worktrees if contract-compatible and tests pass. Then Phase 5
-generic DD validation (zero false ZERO) before any new Guo LLM calls.
+Stop. Decision E recorded. Do not retune prompts. Do not add Guo ZERO
+rules. Optional later: 10-seed Newton, generic Guo-scale limit without
+Guo-specific identities, or a second model family on the frozen protocol.
 
 ## COMMIT SHA
 
-Contract freeze: `45b2b4dc7c823901f4b79713d279c6be7bae2859`
+Integration + Phase 5: `45f1e46`
+Worktree merges on `research/verified-representation-invention-v1`.

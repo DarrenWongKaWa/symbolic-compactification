@@ -1,0 +1,210 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "test-a-newton-first",
+  "seed": 1,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1473,
+    "completion_tokens": 2864,
+    "total_tokens": 4337,
+    "reasoning_tokens": 2233,
+    "cached_tokens": 1408
+  },
+  "reasoning_tokens": 2233,
+  "latency_s": 39.762,
+  "request_id": "ca40e2d4-a5cc-4422-aa18-e0ede9285457",
+  "reasoning_len": 8564,
+  "reasoning_sha": "fc042a882779825b",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "divided_difference",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "instance",
+        "G0003": "instance"
+      },
+      "latent_object": "F(z)=s(z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "p",
+          "expression": "p",
+          "multiplicity": 1
+        },
+        {
+          "name": "q",
+          "expression": "q",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0002",
+          "kind": "substitution",
+          "args": {
+            "z": "p"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "substitution",
+          "args": {
+            "z": "q"
+          }
+        },
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "p",
+              "q"
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "theta": {}
+        },
+        "G0002": {
+          "theta": {}
+        },
+        "G0003": {
+          "theta": {}
+        }
+      },
+      "reconstruction_rule": "G0002 = F(z) with z=p; G0003 = F(z) with z=q; G0001 = (F(p)-F(q))/(p-q) = first divided difference of F on nodes [p,q].",
+      "required_assumptions": [
+        "s is an uninterpreted function",
+        "p and q are distinct formal symbols / evaluation nodes"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0002 == s(p)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "substitution",
+          "expected": "G0003 == s(q)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (s(p)-s(q))/(p-q)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "The three catalog members are structurally related through the first divided difference of the same latent univariate function F(z)=s(z): G0002 and G0003 are evaluation instances at nodes p and q, while G0001 is their divided difference quotient.",
+      "confidence": 0.8,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"divided_difference\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"instance\",\n        \"G0003\": \"instance\"\n      },\n      \"latent_object\": \"F(z)=s(z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\"name\": \"p\", \"expression\": \"p\", \"multiplicity\": 1},\n        {\"name\": \"q\", \"expression\": \"q\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"substitution\",\n          \"args\": {\"z\": \"p\"}\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"substitution\",\n          \"args\": {\"z\": \"q\"}\n        },\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\"nodes\": [\"p\", \"q\"]}\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\"theta\": {}},\n        \"G0002\": {\"theta\": {}},\n        \"G0003\": {\"theta\": {}}\n      },\n      \"reconstruction_rule\": \"G0002 = F(z) with z=p; G0003 = F(z) with z=q; G0001 = (F(p)-F(q))/(p-q) = first divided difference of F on nodes [p,q].\",\n      \"required_assumptions\": [\n        \"s is an uninterpreted function\",\n        \"p and q are distinct formal symbols / evaluation nodes\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0002 == s(p)\"\n        },\n        {\n          \"kind\": \"SUBSTITUTION\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"substitution\",\n          \"expected\": \"G0003 == s(q)\"\n        },\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (s(p)-s(q))/(p-q)\"\n        }\n      ],\n      \"scientific_rationale\": \"The three catalog members are structurally related through the first divided difference of the same latent univariate function F(z)=s(z): G0002 and G0003 are evaluation instances at nodes p and q, while G0001 is their divided difference quotient.\",\n      \"confidence\": 0.8\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "ZERO",
+        "ZERO"
+      ],
+      "layer": "OK",
+      "detail": "certified",
+      "n_zero": 3,
+      "n_nonzero": 0,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 3,
+  "n_nonzero": 0,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "test-a-newton-first",
+    "condition": "P2",
+    "seed": 1,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 3,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 1,
+    "n_local_confluence": 0,
+    "n_dd_type": 1,
+    "rows": [
+      {
+        "type": "divided_difference",
+        "r_hint": "R1",
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-OK",
+        "layer": "OK",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 3,
+        "n_nonzero": 0,
+        "n_unknown": 0
+      }
+    ]
+  }
+}

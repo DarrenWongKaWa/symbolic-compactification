@@ -102,6 +102,33 @@ def _not_zero(v, label):
 # --------------------------------------------------------------------------- #
 
 
+def test_limit_source_target_args_and_role_pair():
+    h = _hyp(
+        representation_type="local_confluence",
+        member_ids=["G0001", "G0002"],
+        member_roles={"G0001": "generic", "G0002": "degenerate"},
+        operators=[
+            OperatorSpec("G0001", "identity", {}),
+            OperatorSpec("G0002", "limit", {"source": "x", "target": "y"}),
+        ],
+        proof_obligations=[
+            ObligationDraft(
+                kind="LIMIT",
+                member_ids=["G0002"],
+                operator="limit",
+                expected="limit",
+            )
+        ],
+        reconstruction_rule="limit x -> y",
+    )
+    cr, vs = _run(
+        h,
+        {"G0001": "(x**2 - y**2)/(x - y)", "G0002": "2*y"},
+    )
+    assert cr.n_ok >= 1, [o.compile_error for o in cr.obligations]
+    assert any(v.verdict == ZERO for v in vs), [v.to_dict() for v in vs]
+
+
 def test_kinds_match_v2_contract():
     assert KINDS == OBLIGATION_KINDS
     assert "DIVIDED_DIFFERENCE" not in KINDS

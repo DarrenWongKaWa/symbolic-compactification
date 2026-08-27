@@ -1,0 +1,216 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-hermite-two",
+  "seed": 2,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1584,
+    "completion_tokens": 4179,
+    "total_tokens": 5763,
+    "reasoning_tokens": 3504,
+    "cached_tokens": 1536
+  },
+  "reasoning_tokens": 3504,
+  "latency_s": 53.172,
+  "request_id": "4d69d765-53e4-4964-bd95-43c69a43bf45",
+  "reasoning_len": 12602,
+  "reasoning_sha": "f0ee67c81d8dc25f",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 3,
+  "hypotheses": [
+    {
+      "representation_type": "hermite_divided_difference",
+      "member_ids": [
+        "G0001",
+        "G0002",
+        "G0003"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "degenerate",
+        "G0003": "repeated"
+      },
+      "latent_object": "F(z)=f(z)",
+      "latent_variables": [
+        "x",
+        "y"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 2
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "y"
+            ]
+          }
+        },
+        {
+          "member_id": "G0002",
+          "kind": "derivative",
+          "args": {
+            "variable": "x"
+          }
+        },
+        {
+          "member_id": "G0003",
+          "kind": "hermite_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "x",
+              "y"
+            ]
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "theta": {}
+        },
+        "G0002": {
+          "theta": {}
+        },
+        "G0003": {
+          "theta": {}
+        }
+      },
+      "reconstruction_rule": "A_i = O_i[F], where O_G0001[F]=\u0394_{x,y}F, O_G0002[F]=D_xF, O_G0003[F]=(D_xF-\u0394_{x,y}F)/(x-y)",
+      "required_assumptions": [
+        "f is differentiable at x",
+        "x != y for divided-difference expressions"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "G0001 == (f(x)-f(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "DERIVATIVE",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "derivative",
+          "expected": "G0002 == df(x)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "HERMITE_DD",
+          "member_ids": [
+            "G0003"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "hermite_dd",
+          "expected": "G0003 == (df(x) - (f(x)-f(y))/(x-y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "G0001 is the first divided difference of f on nodes x,y; G0002 is the derivative f'(x), interpretable as the first Hermite divided difference on repeated node x; G0003 is the second Hermite divided difference on repeated node x and node y.",
+      "confidence": 0.9,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"hermite_divided_difference\",\n      \"member_ids\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"degenerate\",\n        \"G0003\": \"repeated\"\n      },\n      \"latent_object\": \"F(z)=f(z)\",\n      \"latent_variables\": [\"x\", \"y\"],\n      \"nodes\": [\n        {\"name\": \"x\", \"expression\": \"x\", \"multiplicity\": 2},\n        {\"name\": \"y\", \"expression\": \"y\", \"multiplicity\": 1}\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\"nodes\": [\"x\", \"y\"]}\n        },\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"derivative\",\n          \"args\": {\"variable\": \"x\"}\n        },\n        {\n          \"member_id\": \"G0003\",\n          \"kind\": \"hermite_dd\",\n          \"args\": {\"nodes\": [\"x\", \"x\", \"y\"]}\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\"theta\": {}},\n        \"G0002\": {\"theta\": {}},\n        \"G0003\": {\"theta\": {}}\n      },\n      \"reconstruction_rule\": \"A_i = O_i[F], where O_G0001[F]=\u0394_{x,y}F, O_G0002[F]=D_xF, O_G0003[F]=(D_xF-\u0394_{x,y}F)/(x-y)\",\n      \"required_assumptions\": [\n        \"f is differentiable at x\",\n        \"x != y for divided-difference expressions\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"G0001 == (f(x)-f(y))/(x-y)\"\n        },\n        {\n          \"kind\": \"DERIVATIVE\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"derivative\",\n          \"expected\": \"G0002 == df(x)\"\n        },\n        {\n          \"kind\": \"HERMITE_DD\",\n          \"member_ids\": [\"G0003\"],\n          \"operator\": \"hermite_dd\",\n          \"expected\": \"G0003 == (df(x) - (f(x)-f(y))/(x-y))/(x-y)\"\n        }\n      ],\n      \"scientific_rationale\": \"G0001 is the first divided difference of f on nodes x,y; G0002 is the derivative f'(x), interpretable as the first Hermite divided difference on repeated node x; G0003 is the second Hermite divided difference on repeated node x and node y.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "NONZERO",
+        "NONZERO",
+        "NONZERO"
+      ],
+      "layer": "D",
+      "detail": "wrong_structure",
+      "n_zero": 0,
+      "n_nonzero": 3,
+      "n_unknown": 0
+    }
+  ],
+  "n_zero": 0,
+  "n_nonzero": 3,
+  "n_unknown": 0,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-hermite-two",
+    "condition": "P2",
+    "seed": 2,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 0,
+    "n_nonzero": 3,
+    "n_unknown": 0,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 1,
+    "rows": [
+      {
+        "type": "hermite_divided_difference",
+        "r_hint": "R2",
+        "member_ids": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "dd_class": "DD-V0",
+        "layer": "D",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 0,
+        "n_nonzero": 3,
+        "n_unknown": 0
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}

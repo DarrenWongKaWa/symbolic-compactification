@@ -1,0 +1,209 @@
+{
+  "protocol": "grounded-proposer-v2",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "condition": "P2",
+  "item_id": "dev-a-repeated-node",
+  "seed": 4,
+  "blocked": false,
+  "error": null,
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 1364,
+    "completion_tokens": 2649,
+    "total_tokens": 4013,
+    "reasoning_tokens": 1992,
+    "cached_tokens": 1280
+  },
+  "reasoning_tokens": 1992,
+  "latency_s": 27.948,
+  "request_id": "88464ae1-28be-4444-8a67-a695eb89ccd8",
+  "reasoning_len": 7628,
+  "reasoning_sha": "f54c971703c06981",
+  "parse_status": "OK",
+  "parse_error": null,
+  "n_ok": 1,
+  "n_parse_failure": 0,
+  "n_hypotheses": 1,
+  "n_grounded": 1,
+  "n_catalog": 2,
+  "hypotheses": [
+    {
+      "representation_type": "derivative_family",
+      "member_ids": [
+        "G0001",
+        "G0002"
+      ],
+      "member_roles": {
+        "G0001": "generic",
+        "G0002": "degenerate"
+      },
+      "latent_object": "F(z)=f(z)",
+      "latent_variables": [
+        "z"
+      ],
+      "nodes": [
+        {
+          "name": "x",
+          "expression": "x",
+          "multiplicity": 1
+        },
+        {
+          "name": "y",
+          "expression": "y",
+          "multiplicity": 1
+        }
+      ],
+      "operators": [
+        {
+          "member_id": "G0001",
+          "kind": "newton_dd",
+          "args": {
+            "nodes": [
+              "x",
+              "y"
+            ],
+            "order": 1
+          }
+        },
+        {
+          "member_id": "G0002",
+          "kind": "derivative",
+          "args": {
+            "node": "x",
+            "order": 1
+          }
+        }
+      ],
+      "instance_maps": {
+        "G0001": {
+          "theta": {
+            "nodes": [
+              "x",
+              "y"
+            ],
+            "order": 1
+          }
+        },
+        "G0002": {
+          "theta": {
+            "node": "x",
+            "order": 1
+          }
+        }
+      },
+      "reconstruction_rule": "Each member is recovered by applying its operator to the latent function F: G0001 = Newton divided difference of F on nodes x,y = (F(x)-F(y))/(x-y); G0002 = first derivative of F at x = df(x).",
+      "required_assumptions": [
+        "f is defined at x and y",
+        "f is differentiable at x for G0002"
+      ],
+      "proof_obligations": [
+        {
+          "kind": "NEWTON_DD",
+          "member_ids": [
+            "G0001"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "newton_dd",
+          "expected": "member == (F(x)-F(y))/(x-y)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "DERIVATIVE",
+          "member_ids": [
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "derivative",
+          "expected": "member == df(x)",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        },
+        {
+          "kind": "LIMIT",
+          "member_ids": [
+            "G0001",
+            "G0002"
+          ],
+          "left": "",
+          "right": "",
+          "operator": "limit",
+          "expected": "limit_{y->x} G0001 == G0002",
+          "variables": {},
+          "assumptions": [],
+          "provenance": "proposer"
+        }
+      ],
+      "scientific_rationale": "Both catalog expressions are generated from the same underlying function f by applying either a first-order divided difference on nodes x and y or a first derivative at x. The divided difference is the finite-difference precursor whose limit as y tends to x is the derivative.",
+      "confidence": 0.85,
+      "parse_status": "OK",
+      "parse_error": null
+    }
+  ],
+  "raw_content": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"derivative_family\",\n      \"member_ids\": [\"G0001\", \"G0002\"],\n      \"member_roles\": {\n        \"G0001\": \"generic\",\n        \"G0002\": \"degenerate\"\n      },\n      \"latent_object\": \"F(z)=f(z)\",\n      \"latent_variables\": [\"z\"],\n      \"nodes\": [\n        {\n          \"name\": \"x\",\n          \"expression\": \"x\",\n          \"multiplicity\": 1\n        },\n        {\n          \"name\": \"y\",\n          \"expression\": \"y\",\n          \"multiplicity\": 1\n        }\n      ],\n      \"operators\": [\n        {\n          \"member_id\": \"G0001\",\n          \"kind\": \"newton_dd\",\n          \"args\": {\n            \"nodes\": [\"x\", \"y\"],\n            \"order\": 1\n          }\n        },\n        {\n          \"member_id\": \"G0002\",\n          \"kind\": \"derivative\",\n          \"args\": {\n            \"node\": \"x\",\n            \"order\": 1\n          }\n        }\n      ],\n      \"instance_maps\": {\n        \"G0001\": {\n          \"theta\": {\n            \"nodes\": [\"x\", \"y\"],\n            \"order\": 1\n          }\n        },\n        \"G0002\": {\n          \"theta\": {\n            \"node\": \"x\",\n            \"order\": 1\n          }\n        }\n      },\n      \"reconstruction_rule\": \"Each member is recovered by applying its operator to the latent function F: G0001 = Newton divided difference of F on nodes x,y = (F(x)-F(y))/(x-y); G0002 = first derivative of F at x = df(x).\",\n      \"required_assumptions\": [\n        \"f is defined at x and y\",\n        \"f is differentiable at x for G0002\"\n      ],\n      \"proof_obligations\": [\n        {\n          \"kind\": \"NEWTON_DD\",\n          \"member_ids\": [\"G0001\"],\n          \"operator\": \"newton_dd\",\n          \"expected\": \"member == (F(x)-F(y))/(x-y)\"\n        },\n        {\n          \"kind\": \"DERIVATIVE\",\n          \"member_ids\": [\"G0002\"],\n          \"operator\": \"derivative\",\n          \"expected\": \"member == df(x)\"\n        },\n        {\n          \"kind\": \"LIMIT\",\n          \"member_ids\": [\"G0001\", \"G0002\"],\n          \"operator\": \"limit\",\n          \"expected\": \"limit_{y->x} G0001 == G0002\"\n        }\n      ],\n      \"scientific_rationale\": \"Both catalog expressions are generated from the same underlying function f by applying either a first-order divided difference on nodes x and y or a first derivative at x. The divided difference is the finite-difference precursor whose limit as y tends to x is the derivative.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "catalog_ids": [
+    "G0001",
+    "G0002"
+  ],
+  "abstain": false,
+  "scores": [
+    {
+      "parse_status": "OK",
+      "grounded": true,
+      "compile_status": "COMPILE_OK",
+      "verdicts": [
+        "ZERO",
+        "NONZERO",
+        "UNKNOWN"
+      ],
+      "layer": "V",
+      "detail": "unknown",
+      "n_zero": 1,
+      "n_nonzero": 1,
+      "n_unknown": 1
+    }
+  ],
+  "n_zero": 1,
+  "n_nonzero": 1,
+  "n_unknown": 1,
+  "n_compile_ok": 1,
+  "compile_status": "COMPILE_OK",
+  "summary": {
+    "item_id": "dev-a-repeated-node",
+    "condition": "P2",
+    "seed": 4,
+    "blocked": false,
+    "parse_status": "OK",
+    "n_hypotheses": 1,
+    "n_ok": 1,
+    "n_grounded": 1,
+    "n_zero": 1,
+    "n_nonzero": 1,
+    "n_unknown": 1,
+    "compile_status": "COMPILE_OK",
+    "n_dd_ok": 0,
+    "n_local_confluence": 0,
+    "n_dd_type": 0,
+    "rows": [
+      {
+        "type": "derivative_family",
+        "r_hint": "R6",
+        "member_ids": [
+          "G0001",
+          "G0002"
+        ],
+        "dd_class": "DD-D",
+        "layer": "V",
+        "compile_status": "COMPILE_OK",
+        "n_zero": 1,
+        "n_nonzero": 1,
+        "n_unknown": 1
+      }
+    ]
+  },
+  "rescored": "full_source_texts"
+}
