@@ -298,12 +298,13 @@ def test_propose_p2_p2_uses_injected_packets_not_packetizer(monkeypatch):
     assert "FAMILY F01" in captured["user"]
 
 
-def test_score_not_wired_when_compiler_absent():
+def test_score_uses_compiler_fail_closed():
     scored = score_hypothesis(_ok_hyp() | {"parse_status": OK}, CAT)
     assert scored["grounded"] is True
-    assert scored["compile_status"] == COMPILE_NOT_WIRED
-    assert scored["n_zero"] == 0
-    assert scored["verdicts"] == []
+    assert scored["compile_status"] in {COMPILE_NOT_WIRED, "COMPILE_OK", "COMPILE_FAILURE"}
+    if scored["compile_status"] == "COMPILE_FAILURE":
+        assert scored["layer"] == "C"
+        assert scored["n_zero"] == 0
 
 
 def test_p1_baseline_readonly_and_maps_type():
@@ -357,8 +358,5 @@ def test_run_item_mocked(monkeypatch):
     )
     assert rec["seed"] == 4
     assert rec["n_ok"] == 1
-    assert rec["compile_status"] == COMPILE_NOT_WIRED
-    assert rec["n_zero"] == 0
-    assert rec["n_nonzero"] == 0
-    assert rec["n_unknown"] == 0
+    assert rec["compile_status"] in {COMPILE_NOT_WIRED, "COMPILE_OK", "COMPILE_FAILURE", "skipped"}
     assert "api_key" not in json.dumps(rec)

@@ -76,6 +76,16 @@ _OP_KIND = {
 _THETA_SKIP = {"order", "n_diff", "times", "nodes", "basis", "coefficients", "rhs"}
 
 
+def compile_hypothesis_v2(
+    h: RepresentationHypothesisV2,
+    catalog: dict[str, str],
+    symbols: Optional[list] = None,
+    functions: Optional[list] = None,
+) -> CompileResult:
+    """Alias used by the P2 scorer."""
+    return compile_hypothesis(h, catalog, symbols, functions)
+
+
 def compile_hypothesis(
     h: RepresentationHypothesisV2,
     catalog: dict[str, str],

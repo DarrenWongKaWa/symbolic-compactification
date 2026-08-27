@@ -1,0 +1,105 @@
+{
+  "n_cases": 12,
+  "n_false_zero": 0,
+  "n_missed_positive": 0,
+  "gate_pass": true,
+  "unsupported": [],
+  "rows": [
+    {
+      "id": "pos-newton-z2",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "pos-newton-z3",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "pos-repeated-diagonal",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "pos-hermite-xxy",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "pos-hermite-xxx",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "pos-piecewise-confluence",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "pos-polygamma-newton",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "neg-wrong-sign",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "neg-wrong-denominator",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "neg-wrong-derivative-order",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "neg-wrong-repeated-as-first-dd",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    },
+    {
+      "id": "neg-swapped-limit",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "compile_status": "COMPILE_OK",
+      "notes": []
+    }
+  ]
+}

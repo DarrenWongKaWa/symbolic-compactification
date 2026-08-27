@@ -57,11 +57,10 @@ def run_item(
         packets_text=packets_text,
         seed=seed,
     )
-    cat = catalog_ids(entries)
     scores = [
         score_hypothesis(
             h,
-            cat,
+            entries,
             symbols=item.get("symbols") or [],
             functions=item.get("functions") or [],
         )

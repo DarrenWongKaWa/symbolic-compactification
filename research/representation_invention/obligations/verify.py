@@ -26,6 +26,7 @@ from research.representation_invention.obligations.constructors import (
     take_limit,
 )
 from research.representation_invention.obligations.schema import (
+    CompileResult,
     BASIS_RECONSTRUCTION,
     COMPILE_FAILURE,
     COMPILE_OK,
@@ -50,6 +51,34 @@ from symbolic_compactification import UNKNOWN as ENG_UNKNOWN
 from symbolic_compactification import ZERO as ENG_ZERO
 
 assert ZERO == ENG_ZERO and NONZERO == ENG_NONZERO and UNKNOWN == ENG_UNKNOWN
+
+
+def verify_compiled(
+    compiled: CompileResult,
+    *,
+    symbols: Optional[list] = None,
+    functions: Optional[list] = None,
+) -> list[VerifyResult]:
+    """Verify each obligation. Compile failures keep verdict=None."""
+    return [
+        verify_obligation(o, symbols=symbols, functions=functions)
+        for o in compiled.obligations
+    ]
+
+
+def verify_hypothesis_v2(
+    compiled: CompileResult,
+    *,
+    symbols: Optional[list] = None,
+    functions: Optional[list] = None,
+) -> dict:
+    rows = verify_compiled(compiled, symbols=symbols, functions=functions)
+    return {
+        "compile_status": compiled.compile_status,
+        "obligations": [r.to_dict() for r in rows],
+        "verdicts": [r.verdict for r in rows if r.verdict],
+        "results": rows,
+    }
 
 
 def verify_obligation(

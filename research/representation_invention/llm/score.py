@@ -8,7 +8,13 @@ from __future__ import annotations
 import importlib
 from typing import Any, Callable, Optional
 
-from research.representation_invention.schema import OK, PARSE_FAILURE, is_catalog_id
+from research.representation_invention.schema import (
+    OK,
+    PARSE_FAILURE,
+    RepresentationHypothesisV2,
+    is_catalog_id,
+    parse_hypothesis_v2,
+)
 
 COMPILE_NOT_WIRED = "not_wired"
 COMPILE_OK = "COMPILE_OK"
@@ -16,16 +22,14 @@ COMPILE_FAILURE = "COMPILE_FAILURE"
 COMPILE_SKIPPED = "skipped"
 
 _COMPILE_CANDIDATES = (
-    ("research.representation_invention.obligations.compiler", "compile_hypothesis_v2"),
-    ("research.representation_invention.obligations.compile", "compile_hypothesis_v2"),
     ("research.representation_invention.obligations", "compile_hypothesis_v2"),
-    ("research.representation_invention.obligations.compiler", "compile_v2"),
+    ("research.representation_invention.obligations.compile", "compile_hypothesis"),
+    ("research.representation_invention.obligations", "compile_hypothesis"),
 )
 _VERIFY_CANDIDATES = (
     ("research.representation_invention.obligations.verify", "verify_hypothesis_v2"),
-    ("research.representation_invention.obligations.compiler", "verify_hypothesis_v2"),
     ("research.representation_invention.obligations", "verify_hypothesis_v2"),
-    ("research.representation_invention.obligations.verify", "verify_v2"),
+    ("research.representation_invention.obligations.verify", "verify_compiled"),
 )
 
 
@@ -41,6 +45,43 @@ def _load_optional(candidates: tuple[tuple[str, str], ...]) -> Optional[Callable
     return None
 
 
+def catalog_texts(catalog: Any) -> dict[str, str]:
+    """Normalize catalog to {G####: member_text}."""
+    out: dict[str, str] = {}
+    if catalog is None:
+        return out
+    if isinstance(catalog, dict):
+        for k, v in catalog.items():
+            gid = str(k)
+            if isinstance(v, dict):
+                out[gid] = str(v.get("text") or v.get("expression") or "")
+            else:
+                out[gid] = str(v)
+        return out
+    for e in catalog:
+        if isinstance(e, dict):
+            gid = str(e.get("source_node_id") or e.get("gid") or e.get("id") or "")
+            if gid:
+                out[gid] = str(e.get("text") or e.get("expression") or "")
+        else:
+            out[str(e)] = ""
+    return out
+
+
+def as_hyp_obj(hyp: Any, catalog: set[str]) -> RepresentationHypothesisV2:
+    if isinstance(hyp, RepresentationHypothesisV2):
+        return hyp
+    d = as_hyp_dict(hyp)
+    if d.get("parse_status") == PARSE_FAILURE:
+        return parse_hypothesis_v2(d, catalog) if "member_ids" in d else RepresentationHypothesisV2(
+            representation_type=str(d.get("representation_type") or "other_explicit"),
+            member_ids=[],
+            parse_status=PARSE_FAILURE,
+            parse_error=str(d.get("parse_error") or "parse_failure"),
+        )
+    return parse_hypothesis_v2(d, catalog)
+
+
 def as_hyp_dict(hyp: Any) -> dict[str, Any]:
     if hasattr(hyp, "to_dict"):
         return hyp.to_dict()
@@ -51,13 +92,16 @@ def member_ids_of(hyp: dict) -> list[str]:
     return [str(m) for m in (hyp.get("member_ids") or [])]
 
 
-def is_grounded(hyp: dict, catalog: set[str]) -> bool:
+def is_grounded(hyp: dict, catalog: Any) -> bool:
     if hyp.get("parse_status") == PARSE_FAILURE:
         return False
     mids = member_ids_of(hyp)
     if not mids:
         return False
-    return all(is_catalog_id(m) and m in catalog for m in mids)
+    ids = set(catalog_texts(catalog))
+    if not ids and isinstance(catalog, (set, list, tuple)) and catalog and not isinstance(next(iter(catalog)), dict):
+        ids = {str(x) for x in catalog}
+    return all(is_catalog_id(m) and m in ids for m in mids)
 
 
 def _count_verdicts(verdicts: list[str]) -> dict[str, int]:
@@ -132,6 +176,18 @@ def score_hypothesis(
             "detail": "not_grounded",
         }
 
+    texts = catalog_texts(catalog)
+    ids = set(texts)
+    if isinstance(catalog, (set, list, tuple)):
+        for x in catalog:
+            if isinstance(x, dict):
+                gid = x.get("source_node_id") or x.get("gid") or x.get("id")
+                if gid:
+                    ids.add(str(gid))
+            else:
+                ids.add(str(x))
+    ids = {str(x) for x in ids if is_catalog_id(str(x))} or set(member_ids_of(h))
+
     compile_fn = _load_optional(_COMPILE_CANDIDATES)
     if compile_fn is None:
         return {
@@ -146,13 +202,14 @@ def score_hypothesis(
             "detail": "compiler_not_wired",
         }
 
+    hyp_obj = as_hyp_obj(h, ids if ids else set(texts))
     try:
-        compiled = compile_fn(
-            h, catalog=catalog, symbols=symbols, functions=functions,
-        )
+        compiled = compile_fn(hyp_obj, texts, symbols, functions)
     except TypeError:
         try:
-            compiled = compile_fn(h)
+            compiled = compile_fn(
+                hyp_obj, catalog=texts, symbols=symbols, functions=functions,
+            )
         except Exception as exc:
             return {
                 "parse_status": parse_status,

@@ -4,7 +4,10 @@ COMPILE_FAILURE ≠ UNKNOWN ≠ ZERO. Historical ``research.obligation_ir``
 semantics are not modified.
 """
 
-from research.representation_invention.obligations.compile import compile_hypothesis
+from research.representation_invention.obligations.compile import (
+    compile_hypothesis,
+    compile_hypothesis_v2,
+)
 from research.representation_invention.obligations.schema import (
     BASIS_RECONSTRUCTION,
     COMPILE_FAILURE,
@@ -27,7 +30,11 @@ from research.representation_invention.obligations.schema import (
     Obligation,
     VerifyResult,
 )
-from research.representation_invention.obligations.verify import verify_obligation
+from research.representation_invention.obligations.verify import (
+    verify_compiled,
+    verify_hypothesis_v2,
+    verify_obligation,
+)
 
 __all__ = [
     "BASIS_RECONSTRUCTION",
@@ -51,5 +58,8 @@ __all__ = [
     "Obligation",
     "VerifyResult",
     "compile_hypothesis",
+    "compile_hypothesis_v2",
+    "verify_compiled",
+    "verify_hypothesis_v2",
     "verify_obligation",
 ]
