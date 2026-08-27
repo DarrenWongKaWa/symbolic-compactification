@@ -2,13 +2,13 @@
 
 Branch: `work/representation-guo`
 
-Commit message: `Add Guo DEV catalog and gold-free evaluation queries.`
+Tip SHA: `29594619fae799a9a2b4e526d8d9344810812397`
 
-Identify SHA with:
+Catalog commit: `9a8af1ef7b5677f5294b49f4eacb58bd7f5d7975`
+(`Add Guo DEV catalog and gold-free evaluation queries.`)
 
-```
-git log -1 --format=%H --grep "Add Guo DEV catalog and gold-free evaluation queries."
-```
+A follow-up dropped LLM harness files that had been staged in the same
+index. `1fde151..HEAD` is Guo-owned paths only.
 
 ## Tests
 
