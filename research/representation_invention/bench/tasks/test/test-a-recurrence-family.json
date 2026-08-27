@@ -1,0 +1,93 @@
+{
+  "assumptions": [],
+  "catalog": [
+    {
+      "id": "G0001",
+      "text": "U(k + 1, z)"
+    },
+    {
+      "id": "G0002",
+      "text": "U(k, z)"
+    },
+    {
+      "id": "G0003",
+      "text": "U(k - 1, z)"
+    }
+  ],
+  "current": "U(k + 1, z) - 2*z*U(k, z) + U(k - 1, z)",
+  "difficulty": 2,
+  "domain": "synthetic",
+  "expected_verdict": "ZERO",
+  "family": "recurrence",
+  "functions": [
+    "U"
+  ],
+  "gold_types": [
+    "recurrence_family"
+  ],
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Urec"
+    ]
+  },
+  "hidden_instance_maps": {
+    "G0001": {
+      "shift": 1
+    },
+    "G0002": {
+      "shift": 0
+    },
+    "G0003": {
+      "shift": -1
+    }
+  },
+  "hidden_r_level": "R6",
+  "hidden_target_type": "recurrence_family",
+  "id": "test-a-recurrence-family",
+  "instance_maps": {
+    "G0001": {
+      "shift": 1
+    },
+    "G0002": {
+      "shift": 0
+    },
+    "G0003": {
+      "shift": -1
+    }
+  },
+  "ladder_id": "R6",
+  "license": "author-constructed",
+  "negative_tempting_structures": [],
+  "notes": "Chebyshev-like shift family",
+  "polarity": "positive",
+  "provenance_hidden": "held-out three-term recurrence",
+  "r_level": "R6",
+  "scientific_context": [
+    "Exact source members are listed in the catalog. Cite only G#### ids.",
+    "Propose a complete representation: type, members, latent object, operators, reconstruction, and checkable obligations.",
+    "Do not invent aliases. Do not claim a final compact formula. Do not invent physical names."
+  ],
+  "source_expressions": [
+    "U(k + 1, z) - 2*z*U(k, z) + U(k - 1, z)",
+    "U(k + 1, z)",
+    "U(k, z)",
+    "U(k - 1, z)"
+  ],
+  "source_format": "sympy",
+  "split": "test",
+  "symbols": [
+    {
+      "name": "k",
+      "real": true
+    },
+    {
+      "name": "z",
+      "real": true
+    }
+  ],
+  "target_type": "recurrence_family",
+  "task": "representation_invention",
+  "tier": "A",
+  "version": "ssc-representation-bench-v0.1"
+}
