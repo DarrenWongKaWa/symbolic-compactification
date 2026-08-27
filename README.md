@@ -21,6 +21,12 @@ A **separate** structure-discovery line lives in
 `research/structure_discovery/` (closed v0.1: typed exact-pattern protocol
 works; invention unsolved). Frozen B9 is the Layer-1 baseline.
 
+**Infrastructure (not a paper claim):** a Structural Observation Layer
+(`symbolic-compactification observe` / `ssc observe`) wraps SymPy, optional
+MatchPy/egglog, frozen LGG, and optional Cadabra2/FORM CLIs. It reports
+typed relations with provenance. It does **not** infer Φ_Γ or promote
+state. See `research/preprocessing_integration/SOL_V1.md`.
+
 Layer 2 (`research/abstraction_invention/`): first-order LGG is **closed**
 (`LGG_CLOSED.md`) — it solves substitution-level abstraction (v0.1 TEST
 5/5 vs frozen B9 0/5), not scientific invention in general. Beyond-LGG

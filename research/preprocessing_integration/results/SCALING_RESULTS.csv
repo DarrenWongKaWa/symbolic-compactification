@@ -1,0 +1,4 @@
+n_terms_attempted,n_nodes,n_relations,seconds,backend
+8,9,0,0.0057,sympy
+16,17,0,0.0115,sympy
+32,20,0,0.009,sympy

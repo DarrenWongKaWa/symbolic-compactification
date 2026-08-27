@@ -1,0 +1,7 @@
+backend,IDENTICAL,CSE_SHARED,AC_EQUIVALENT,LGG_FAMILY,PATTERN_MATCH,PERMUTATION_RELATED,DERIVATIVE_RELATED,EGRAPH_EQUIVALENT,SAME_FUNCTION_FAMILY,SAME_POLE_SIGNATURE,SAME_BRANCH_DEPENDENCY,TENSOR_SYMMETRY_RELATED
+sympy,yes,yes,sort_variant,no,no,descriptive,exact_diff,no,descriptive,descriptive,descriptive,no
+matchpy,no,no,descriptive_AC,no,descriptive,no,no,no,no,no,no,no
+egglog,no,no,named_pack,no,no,no,no,yes_named_theory,no,no,no,no
+lgg,no,no,no,candidate,no,no,no,no,no,no,no,no
+cadabra,no,no,no,no,no,no,no,no,no,no,no,optional_unavailable
+form,no,optional,no,no,no,no,no,no,no,no,no,no

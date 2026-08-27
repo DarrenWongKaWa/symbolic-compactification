@@ -75,3 +75,7 @@ ai-v02-dev:
 ai-v02-test:
 	$(PYTHON) -m research.abstraction_invention.beyond.freeze_v02
 	$(PYTHON) -m research.abstraction_invention.beyond.run_v02 test
+
+observe:
+	$(PYTHON) -m symbolic_compactification.cli backends
+	$(PYTHON) -m pytest tests/test_observations_layer.py -q

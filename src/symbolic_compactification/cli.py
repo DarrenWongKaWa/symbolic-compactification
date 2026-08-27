@@ -213,6 +213,43 @@ def _inspect_wolfram(args, raw: bytes, text: str) -> int:
     return EXIT_ZERO
 
 
+def cmd_observe(args) -> int:
+    from .observations.api import observe
+    from .parser import infer_namespace
+    path = Path(args.expr)
+    text = path.read_text()
+    if args.symbols:
+        declared, functions = load_namespace_file(args.symbols)
+    else:
+        declared, functions = infer_namespace(text)
+    spec = args.preset or args.backend
+    if isinstance(spec, str) and "," in spec:
+        spec = [s.strip() for s in spec.split(",") if s.strip()]
+    bundle = observe(text, declared, functions, backends=spec)
+    payload = bundle.to_dict()
+    print(json.dumps(payload, indent=2, default=str))
+    if args.graph:
+        Path(args.graph).write_text(json.dumps({
+            "nodes": payload["nodes"],
+            "relations": payload["relations"],
+            "families": payload["families"],
+        }, indent=2, default=str) + "\n")
+    return EXIT_ZERO
+
+
+def cmd_backends(args) -> int:
+    from .observations.discovery import backend_status, FUTURE_ABSTRACTION
+    st = backend_status()
+    extra = {n: "FUTURE_ABSTRACTION_BACKEND" for n in FUTURE_ABSTRACTION}
+    if args.json:
+        _print_json({**st, **extra})
+        return EXIT_ZERO
+    width = max(len(k) for k in list(st) + list(extra))
+    for k, v in {**st, **extra}.items():
+        print(f"{k:<{width}}  {v}")
+    return EXIT_ZERO
+
+
 def cmd_verify(args) -> int:
     declared, functions = load_namespace_file(args.symbols)
     fns = functions or None
@@ -436,6 +473,24 @@ def build_parser() -> argparse.ArgumentParser:
     p_finalize.add_argument("--json", action="store_true",
                             help="emit one machine-readable JSON object")
     p_finalize.set_defaults(func=cmd_finalize)
+
+    p_obs = sub.add_parser(
+        "observe",
+        help="read-only structural observation layer (no promotion)")
+    p_obs.add_argument("expr", help="expression .txt")
+    p_obs.add_argument("--symbols", help="symbols.json (inferred if omitted)")
+    p_obs.add_argument("--backend", default="auto",
+                       help="backend name, comma list, or preset")
+    p_obs.add_argument("--preset", default=None,
+                       help="minimal|algebra|relations|physics|all_available")
+    p_obs.add_argument("--format", choices=["json"], default="json")
+    p_obs.add_argument("--graph", default=None,
+                       help="write relation graph JSON to this path")
+    p_obs.set_defaults(func=cmd_observe)
+
+    p_be = sub.add_parser("backends", help="list observation-backend status")
+    p_be.add_argument("--json", action="store_true")
+    p_be.set_defaults(func=cmd_backends)
 
     return parser
 
