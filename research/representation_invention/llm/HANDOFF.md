@@ -2,7 +2,8 @@
 
 ## SHA
 
-Pending commit on `work/representation-llm`.
+`c172fe17110eb4bad9c2364cd669e2e71111dbfe` on `work/representation-llm`
+(parent freeze `45b2b4dc7c823901f4b79713d279c6be7bae2859`).
 
 ## Tests
 
