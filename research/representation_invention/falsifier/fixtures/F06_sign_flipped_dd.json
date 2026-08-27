@@ -1,0 +1,102 @@
+{
+  "id": "F06_sign_flipped_dd",
+  "description": "Member is the sign-flipped formula (F(y)-F(x))/(x-y) for F(z)=z**3, claimed as the Newton first DD (F(x)-F(y))/(x-y).",
+  "should_be_zero": false,
+  "expected_audit_class": "WRONG_OPERATOR",
+  "attack_kind": "sign_flipped_dd",
+  "catalog": {
+    "G0001": "(y**3 - x**3)/(x - y)"
+  },
+  "hypothesis": {
+    "representation_type": "divided_difference",
+    "member_ids": [
+      "G0001"
+    ],
+    "member_roles": {
+      "G0001": "generic"
+    },
+    "latent_object": "F(z) = z**3",
+    "latent_variables": [
+      "z"
+    ],
+    "nodes": [
+      {
+        "name": "x",
+        "expression": "x",
+        "multiplicity": 1
+      },
+      {
+        "name": "y",
+        "expression": "y",
+        "multiplicity": 1
+      }
+    ],
+    "operators": [
+      {
+        "member_id": "G0001",
+        "kind": "newton_dd",
+        "args": {
+          "nodes": [
+            "x",
+            "y"
+          ],
+          "sign": -1
+        }
+      }
+    ],
+    "instance_maps": {
+      "G0001": {
+        "theta": {},
+        "nodes": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    "reconstruction_rule": "A = (F(x)-F(y))/(x-y)",
+    "required_assumptions": [],
+    "proof_obligations": [
+      {
+        "kind": "NEWTON_DD",
+        "member_ids": [
+          "G0001"
+        ],
+        "left": "(y**3 - x**3)/(x - y)",
+        "right": "(x**3 - y**3)/(x - y)",
+        "operator": "newton_dd",
+        "expected": "member == newton_first"
+      }
+    ],
+    "scientific_rationale": "DD with swapped numerator sign.",
+    "confidence": 0.82
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "x",
+        "real": true
+      },
+      {
+        "name": "y",
+        "real": true
+      },
+      {
+        "name": "z",
+        "real": true
+      }
+    ],
+    "functions": [],
+    "F": "z**3",
+    "F_var": "z",
+    "node_x": "x",
+    "node_y": "y",
+    "member": "(y**3 - x**3)/(x - y)"
+  },
+  "member_maps": [],
+  "checkable": {
+    "local_residual": true,
+    "structural_audit": false,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "F08_tautological_master",
+  "description": "Master object is F := A used once: a single member, identity operator, latent RHS identical to that member. Residual A-A is trivial zero and must not certify discovery.",
+  "should_be_zero": false,
+  "expected_audit_class": "TAUTOLOGICAL_MASTER",
+  "attack_kind": "tautological_master",
+  "catalog": {
+    "G0001": "x**2 + 1"
+  },
+  "hypothesis": {
+    "representation_type": "master_function",
+    "member_ids": [
+      "G0001"
+    ],
+    "member_roles": {
+      "G0001": "instance"
+    },
+    "latent_object": "F(z) := x**2 + 1",
+    "latent_variables": [
+      "z"
+    ],
+    "nodes": [],
+    "operators": [
+      {
+        "member_id": "G0001",
+        "kind": "identity",
+        "args": {}
+      }
+    ],
+    "instance_maps": {
+      "G0001": {
+        "theta": {}
+      }
+    },
+    "reconstruction_rule": "F := A",
+    "required_assumptions": [],
+    "proof_obligations": [
+      {
+        "kind": "MASTER_INSTANCE",
+        "member_ids": [
+          "G0001"
+        ],
+        "left": "x**2 + 1",
+        "right": "x**2 + 1",
+        "operator": "identity",
+        "expected": "A == F"
+      }
+    ],
+    "scientific_rationale": "One wrapper equal to the only member.",
+    "confidence": 0.9
+  },
+  "math": {
+    "symbols": [
+      {
+        "name": "x",
+        "real": true
+      },
+      {
+        "name": "z",
+        "real": true
+      }
+    ],
+    "functions": [],
+    "member": "x**2 + 1",
+    "latent_rhs": "x**2 + 1"
+  },
+  "member_maps": [],
+  "checkable": {
+    "local_residual": true,
+    "structural_audit": true,
+    "parse": true,
+    "obligations": "if_present"
+  }
+}
