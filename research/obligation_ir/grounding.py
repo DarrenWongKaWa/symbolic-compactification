@@ -22,6 +22,11 @@ NO_BIND = "NO_BIND"
 _H_CALL = re.compile(r"h[12]\([^)]+\)")
 
 
+UNIQUE_BY_EXPLICIT_EXPR = "UNIQUE_BY_EXPLICIT_EXPR"
+UNIQUE_BY_SOL_ID = "UNIQUE_BY_SOL_ID"
+UNIQUE_BY_LOCAL_FINGERPRINT = "UNIQUE_BY_LOCAL_FINGERPRINT"
+
+
 @dataclass
 class Binding:
     alias: str
@@ -33,6 +38,8 @@ class Binding:
     kind: str = ""
     cond: str = ""
     evidence: str = ""
+    unique_kind: str = ""
+    n_candidates: int = 0
     candidate_gids: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -152,7 +159,124 @@ def extract_cond_hint(alias: str, theta: dict) -> str:
     return ""
 
 
-def _one_or_amb(alias: str, hits: list[SourceNode], evidence: str) -> Binding:
+def _sum_h(n: SourceNode) -> frozenset[str]:
+    return frozenset(re.sub(r"\s+", "", h) for h in n.h_factors)
+
+
+def _arity_of_node(n: SourceNode) -> int:
+    blob = " ".join(n.h_factors)
+    return 3 if re.search(r"\bell\b", blob) else 2
+
+
+def hyp_blob(hyp: dict) -> str:
+    """All text belonging to this hypothesis only. No sibling hyps."""
+    parts = [
+        hyp.get("latent_object") or "",
+        hyp.get("rationale") or "",
+        hyp.get("construction_plan") or "",
+        " ".join(hyp.get("proof_obligations") or []),
+        " ".join(hyp.get("target_members") or []),
+    ]
+    for im in hyp.get("instance_maps") or []:
+        if isinstance(im, dict):
+            parts.append(str(im.get("member") or ""))
+            th = im.get("theta") or {}
+            if isinstance(th, dict):
+                parts.append(json_dump_theta(th))
+    return "\n".join(parts)
+
+
+def json_dump_theta(th: dict) -> str:
+    bits = []
+    for k, v in th.items():
+        bits.append(f"{k}={v}")
+    return " ".join(bits)
+
+
+def _arity_from_text(t: str) -> int:
+    t = (t or "").lower()
+    if "three-index" in t or "triple sum" in t or "triple-sum" in t or "epsilon(ell)" in t:
+        return 3
+    if "two-index" in t or "double sum" in t or "double-sum" in t:
+        return 2
+    return 0
+
+
+def _arity_hint(alias: str, theta: dict, blob: str) -> int:
+    nodes = theta.get("nodes")
+    if isinstance(nodes, list):
+        if any("ell" in str(x) for x in nodes):
+            return 3
+        if len(nodes) >= 3:
+            return 3
+        if len(nodes) == 2:
+            return 2
+    local = _arity_from_text(" ".join([alias, str(theta)]))
+    if local:
+        return local
+    return _arity_from_text(blob[:1500])
+
+
+def _label_set(theta: dict, local: str) -> frozenset[str]:
+    labs = set()
+    v = theta.get("external_labels")
+    if isinstance(v, list):
+        labs.update(str(x) for x in v if str(x) in {"b", "c"})
+    return frozenset(labs)
+
+
+def _hsets_mentioned(text: str, index: SourceIndex) -> list[frozenset[str]]:
+    blob = _normalize_h(text)
+    found = []
+    for n in index.nodes:
+        if n.kind != "sum":
+            continue
+        hs = _sum_h(n)
+        if hs and hs <= blob:
+            found.append(hs)
+    # unique
+    uniq = []
+    for hs in found:
+        if hs not in uniq:
+            uniq.append(hs)
+    return uniq
+
+
+def intersect_branches(
+    index: SourceIndex,
+    *,
+    branch: str,
+    arity: int,
+    hset: frozenset[str],
+    labels: frozenset[str],
+) -> list[SourceNode]:
+    if not branch and arity not in {2, 3} and not hset and not labels:
+        return []
+    pool = [n for n in index.nodes if n.kind == "piecewise_branch"]
+    if branch:
+        pool = [n for n in pool if _node_cond_fp(n) == branch]
+    if arity in {2, 3}:
+        pool = [n for n in pool if _arity_of_node(n) == arity]
+    if hset:
+        pool = [n for n in pool if hset <= _sum_h(n) or hset == _sum_h(n)]
+    if labels:
+        pool = [n for n in pool if all(
+            re.search(rf"\b{re.escape(lab)}\b", " ".join(n.h_factors))
+            for lab in labels
+        )]
+    return pool
+
+
+def _unique_kind(evidence: str, h_local: bool, sol: bool) -> str:
+    if sol:
+        return UNIQUE_BY_SOL_ID
+    if h_local or "h_factor" in evidence:
+        return UNIQUE_BY_EXPLICIT_EXPR
+    return UNIQUE_BY_LOCAL_FINGERPRINT
+
+
+def _one_or_amb(alias: str, hits: list[SourceNode], evidence: str, *,
+                unique_kind: str = "") -> Binding:
     if len(hits) == 1:
         n = hits[0]
         return Binding(
@@ -165,6 +289,8 @@ def _one_or_amb(alias: str, hits: list[SourceNode], evidence: str) -> Binding:
             kind=n.kind,
             cond=n.cond,
             evidence=evidence,
+            unique_kind=unique_kind or UNIQUE_BY_LOCAL_FINGERPRINT,
+            n_candidates=1,
         )
     if len(hits) > 1:
         return Binding(
@@ -173,8 +299,9 @@ def _one_or_amb(alias: str, hits: list[SourceNode], evidence: str) -> Binding:
             candidate_gids=[n.gid for n in hits],
             evidence=evidence + f" n={len(hits)}",
             kind=hits[0].kind,
+            n_candidates=len(hits),
         )
-    return Binding(alias=alias, confidence=NO_BIND, evidence=evidence + " none")
+    return Binding(alias=alias, confidence=NO_BIND, evidence=evidence + " none", n_candidates=0)
 
 
 def bind_alias(
@@ -183,10 +310,12 @@ def bind_alias(
     *,
     theta: Optional[dict] = None,
     latent: str = "",
+    hyp: Optional[dict] = None,
     symbols: Optional[list] = None,
     functions: Optional[list] = None,
 ) -> Binding:
     theta = theta or {}
+    blob = hyp_blob(hyp) if hyp else latent
     if re.fullmatch(r"[NG]\d{4}", alias.strip()):
         for n in index.nodes:
             if n.sol_node_id == alias or n.gid == alias:
@@ -194,6 +323,7 @@ def bind_alias(
                     alias=alias, confidence=EXACT_BIND, gid=n.gid,
                     sol_node_id=n.sol_node_id, text=n.text, srepr=n.srepr,
                     kind=n.kind, cond=n.cond, evidence="node_id_exact",
+                    unique_kind=UNIQUE_BY_SOL_ID, n_candidates=1,
                 )
         return Binding(alias=alias, confidence=NO_BIND, evidence="unknown_node_id")
     # 1. exact parse
@@ -207,6 +337,7 @@ def bind_alias(
                 alias=alias, confidence=EXACT_BIND, gid=n.gid,
                 sol_node_id=n.sol_node_id, text=n.text, srepr=n.srepr,
                 kind=n.kind, cond=n.cond, evidence="srepr_exact",
+                unique_kind=UNIQUE_BY_EXPLICIT_EXPR, n_candidates=1,
             )
         if len(hits) > 1:
             return Binding(
@@ -221,43 +352,32 @@ def bind_alias(
                 alias=alias, confidence=EXACT_BIND, gid=n.gid,
                 sol_node_id=n.sol_node_id, text=n.text, srepr=n.srepr,
                 kind=n.kind, evidence="text_exact",
+                unique_kind=UNIQUE_BY_EXPLICIT_EXPR, n_candidates=1,
             )
-    # 2. h-factor unique sum/branch
-    hf = extract_h_fingerprint(alias, theta, latent)
+    # Intra-hyp constraint intersection on Piecewise branches / sums.
+    local = " ".join([alias, json_dump_theta(theta)])
+    local_h = extract_h_fingerprint(alias, theta, "")  # member+map only
+    global_hsets = _hsets_mentioned(blob, index) if blob else []
+    hset = local_h
+    h_local = bool(local_h)
+    if not hset and len(global_hsets) == 1:
+        hset = global_hsets[0]
+        h_local = False
     cond = extract_cond_hint(alias, theta)
-    if hf:
-        def _sum_h(n: SourceNode) -> frozenset[str]:
-            return frozenset(re.sub(r"\s+", "", h) for h in n.h_factors)
-        sums = [n for n in index.nodes if n.kind == "sum" and hf <= _sum_h(n)]
-        exact_sums = [n for n in index.nodes if n.kind == "sum" and _sum_h(n) == hf]
-        if exact_sums:
-            sums = exact_sums
-        if cond:
-            branches = [
-                n for n in index.nodes
-                if n.kind == "piecewise_branch"
-                and _node_cond_fp(n) == cond
-                and n.parent_gid
-            ]
-            # restrict to piecewise children of matching sums
-            pw_of = {}
-            for n in index.nodes:
-                if n.kind == "piecewise":
-                    pw_of[n.gid] = n.parent_gid
-            sum_ids = {s.gid for s in sums} if sums else set()
-            if sum_ids:
-                branches = [b for b in branches if pw_of.get(b.parent_gid) in sum_ids]
-            return _one_or_amb(alias, branches, f"h_factor+cond:{cond}")
-        if sums:
-            return _one_or_amb(alias, sums, "h_factor_unique_sum")
-    # 3. cond-only: unique among ALL branches only if exactly one PW in whole expr
-    if cond:
-        branches = [n for n in index.nodes if n.kind == "piecewise_branch" and _node_cond_fp(n) == cond]
-        pws = [n for n in index.nodes if n.kind == "piecewise"]
-        if len(pws) == 1:
-            return _one_or_amb(alias, branches, f"single_pw+cond:{cond}")
-        return _one_or_amb(alias, branches, f"cond_only:{cond}")
-    return Binding(alias=alias, confidence=NO_BIND, evidence="no_exact_no_fingerprint")
+    arity = _arity_hint(alias, theta, blob)
+    labels = _label_set(theta, local)
+    hits = intersect_branches(
+        index, branch=cond, arity=arity, hset=hset, labels=labels,
+    )
+    if hset and not cond:
+        sums = [n for n in index.nodes if n.kind == "sum" and (hset <= _sum_h(n) or hset == _sum_h(n))]
+        uk = UNIQUE_BY_EXPLICIT_EXPR if h_local else UNIQUE_BY_LOCAL_FINGERPRINT
+        return _one_or_amb(alias, sums, "constraint_sum", unique_kind=uk)
+    ev = f"C_fn={int(bool(hset))}|C_ar={arity}|C_br={cond or '-'}|C_lab={''.join(sorted(labels))}|n0={len(hits)}"
+    uk = UNIQUE_BY_EXPLICIT_EXPR if h_local else UNIQUE_BY_LOCAL_FINGERPRINT
+    if hits or cond or hset or arity or labels:
+        return _one_or_amb(alias, hits, ev, unique_kind=uk)
+    return Binding(alias=alias, confidence=NO_BIND, evidence="no_exact_no_fingerprint", n_candidates=0)
 
 
 def bind_hypothesis_members(
@@ -281,7 +401,7 @@ def bind_hypothesis_members(
         seen.add(alias)
         theta = im.get("theta") if isinstance(im.get("theta"), dict) else {}
         out.append(bind_alias(
-            alias, index, theta=theta, latent=latent,
+            alias, index, theta=theta, latent=latent, hyp=hyp,
             symbols=symbols, functions=functions,
         ))
     for m in members:
@@ -289,7 +409,7 @@ def bind_hypothesis_members(
             continue
         seen.add(m)
         out.append(bind_alias(
-            str(m), index, theta={}, latent=latent,
+            str(m), index, theta={}, latent=latent, hyp=hyp,
             symbols=symbols, functions=functions,
         ))
     return out

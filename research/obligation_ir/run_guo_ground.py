@@ -130,7 +130,17 @@ def main() -> None:
                 "verdicts": "|".join(verdicts) if verdicts else "",
                 "interpretation": interp,
                 "bind_evidence": "; ".join(
-                    f"{b.alias[:40]}:{b.confidence}:{b.evidence}:{b.gid}" for b in binds[:6]
+                    f"{b.alias[:40]}:{b.confidence}:{b.unique_kind or b.evidence}:{b.gid}"
+                    for b in binds[:6]
+                ),
+                "unique_kinds": "|".join(sorted({b.unique_kind for b in binds if b.unique_kind})),
+                "authority": (
+                    "UNIQUE_ZERO" if interp == "old_discovery_real" else
+                    "UNIQUE_NONZERO" if interp == "wrong_abstraction" else
+                    "UNIQUE_UNKNOWN" if interp == "verifier_bottleneck" else
+                    "AMBIGUOUS_OR_NO_BIND" if interp in {"ambiguous_bind", "no_bind"} else
+                    "UNIQUE_BOUND_NOT_COMPILED" if interp == "bound_not_compiled" else
+                    interp
                 ),
             })
     fields = list(rows[0].keys()) if rows else []
@@ -138,57 +148,58 @@ def main() -> None:
         w = csv.DictWriter(fh, fieldnames=fields)
         w.writeheader()
         w.writerows(rows)
-    # markdown table of G1 types DD/confluence/derivative
-    focus = [r for r in rows if r["type"] in {
-        "divided_difference", "confluent_representation", "derivative_family", "master_function",
+    ddcf = [r for r in rows if r["type"] in {
+        "divided_difference", "confluent_representation",
     }]
+    unique = [r for r in ddcf if r["authority"] not in {
+        "AMBIGUOUS_OR_NO_BIND", "ambiguous_bind", "no_bind",
+    }]
+    n_z = sum(1 for r in ddcf if r["authority"] == "UNIQUE_ZERO")
+    n_n = sum(1 for r in ddcf if r["authority"] == "UNIQUE_NONZERO")
+    n_u = sum(1 for r in ddcf if r["authority"] == "UNIQUE_UNKNOWN")
+    n_c = sum(1 for r in ddcf if r["authority"] == "AMBIGUOUS_OR_NO_BIND")
+    n_uniq = n_z + n_n + n_u + sum(1 for r in ddcf if r["authority"] == "UNIQUE_BOUND_NOT_COMPILED")
+    p_z = (n_z / n_uniq) if n_uniq else None
     lines = [
-        "# Frozen Guo source grounding (Track B)",
+        "# Track B authority: frozen Guo DD/confluence",
         "",
-        "No new LLM calls. Frozen `runs/guo` hypotheses only.",
-        "Admissible binds: EXACT_BIND and UNIQUE_STRUCTURAL_BIND.",
-        "AMBIGUOUS_BIND and NO_BIND are not sent to the verifier.",
+        "Intra-hypothesis grounding only. No cross-hyp fingerprint theft.",
+        "No new LLM calls. Frozen raw outputs not mutated.",
         "",
-        f"Source inventory: {len(index.nodes)} nodes "
-        f"({sum(1 for n in index.nodes if n.kind=='sum')} sums, "
-        f"{sum(1 for n in index.nodes if n.kind=='piecewise_branch')} branches).",
+        f"Source: {sum(1 for n in index.nodes if n.kind=='sum')} sums, "
+        f"{sum(1 for n in index.nodes if n.kind=='piecewise_branch')} branches.",
         "",
-        "| cond | type | exact | unique | amb | nobind | DD | conf | deriv | verdicts | interpretation |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|---|---|",
+        f"|C(H)|=1 required for UNIQUE. Gate counts (DD/confluence hyps): "
+        f"N_Z={n_z} N_N={n_n} N_U={n_u} N_C={n_c} "
+        f"P(ZERO|uniquely grounded)={p_z}.",
+        "",
+        "| cond | type | exact | unique | amb | nobind | unique_kind | verdicts | authority |",
+        "|---|---|---:|---:|---:|---:|---|---|---|",
     ]
-    for r in focus:
+    for r in ddcf:
         lines.append(
             f"| {r['condition']}s{r['seed']} | {r['type']} | {r['n_exact']} | {r['n_unique']} | "
-            f"{r['n_ambiguous']} | {r['n_nobind']} | {r['n_dd']} | {r['n_conf']} | {r['n_deriv']} | "
-            f"{r['verdicts'] or '—'} | {r['interpretation']} |"
+            f"{r['n_ambiguous']} | {r['n_nobind']} | {r.get('unique_kinds') or '—'} | "
+            f"{r['verdicts'] or '—'} | {r['authority']} |"
         )
-    c = Counter(r["interpretation"] for r in focus)
     lines += [
         "",
-        "## Interpretation counts (DD / confluence / derivative / master only)",
+        "## Authority classes",
         "",
-    ]
-    for k, v in c.most_common():
-        lines.append(f"- `{k}`: {v}")
-    lines += [
+        "| class | meaning |",
+        "|---|---|",
+        "| UNIQUE_ZERO | old discovery real (C→OK, not new LLM discovery) |",
+        "| UNIQUE_NONZERO | representation hypothesis wrong (D, unmasked) |",
+        "| UNIQUE_UNKNOWN | verifier bottleneck (V) |",
+        "| AMBIGUOUS_OR_NO_BIND | constructor/grounding bottleneck (C) |",
         "",
-        "## What this is allowed to claim",
+        "G1=Y does **not** equal discovery success. Unbound rows stay C, not hallucination.",
         "",
-        "If a row is `old_discovery_real`, that is **compiler/grounding gain** on a",
-        "frozen discovery, not a new DeepSeek success.",
-        "If `wrong_abstraction`, the frozen text used DD/confluence words but the",
-        "bound source branch is not the Newton form (D, previously masked by C).",
-        "If `verifier_bottleneck`, binding and compilation succeeded (V).",
-        "If `no_bind` / `ambiguous_bind`, still C (cannot ground aliases).",
-        "",
-        "T1 A2 = 4/5 D remains a frozen negative: SOL induces an abstraction prior.",
-        "Do not retune SOL to erase it.",
+        "T1 A2=4/5 D remains a frozen negative. Do not retune SOL.",
         "",
     ]
     MD_PATH.write_text("\n".join(lines) + "\n")
-    print("wrote", CSV_PATH, "n", len(rows), "focus", len(focus))
-    print("interp", c)
-    print("conf", Counter((r["n_exact"], r["n_unique"], r["n_ambiguous"], r["n_nobind"]) for r in focus))
+    print("wrote", CSV_PATH, "ddcf", len(ddcf), "NZ", n_z, "NN", n_n, "NU", n_u, "NC", n_c, "P", p_z)
 
 
 if __name__ == "__main__":

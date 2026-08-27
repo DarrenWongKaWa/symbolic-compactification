@@ -218,11 +218,20 @@ def compile_confluence(
                         _add_branch(b, br)
     rows = []
     # pair generic/diag that share piecewise parent
+    seen_parents = set()
     for gb, gn in gen:
         parent = gn.parent_gid
-        ds = [(db, dn) for db, dn in diag if dn.parent_gid == parent]
+        if parent in seen_parents:
+            continue
+        ds = []
+        seen_d = set()
+        for db, dn in diag:
+            if dn.parent_gid == parent and dn.gid not in seen_d:
+                seen_d.add(dn.gid)
+                ds.append((db, dn))
         if len(ds) != 1:
             continue
+        seen_parents.add(parent)
         db, dn = ds[0]
         A = parse_flex(gn.text, symbols, functions)
         D = parse_flex(dn.text, symbols, functions)

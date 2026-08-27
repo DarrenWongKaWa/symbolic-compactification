@@ -2,6 +2,19 @@
 
 Track B only. Frozen outputs. No SOL ranking changes.
 
+## Intra-hypothesis only
+
+Fingerprints may be completed from **this hypothesis’s** latent, maps,
+members, rationale, and obligations. Never from a sibling hypothesis.
+
+UNIQUE evidence (does not change the four-way decision):
+
+- `UNIQUE_BY_EXPLICIT_EXPR` — hyp contains the matching \(h_1 h_2\) product
+- `UNIQUE_BY_SOL_ID` — hyp cites `N####`
+- `UNIQUE_BY_LOCAL_FINGERPRINT` — constraint intersection
+  \(C_{\rm function}\cap C_{\rm indices}\cap C_{\rm branch}\cap C_{\rm symbols}\)
+  has size 1
+
 ## Admissible confidences
 
 | tag | meaning | to verifier? |

@@ -132,6 +132,37 @@ def test_node_id_exact_bind():
     assert b.text == "x + y"
 
 
+def test_intra_hyp_arity_narrows_but_stays_ambiguous():
+    from research.obligation_ir.source_index import build_index
+    from research.obligation_ir.grounding import AMBIGUOUS_BIND, bind_alias
+    expr2 = (
+        "Sum(Piecewise((K(n), Eq(m, n)), (G(m, n)*h1(b, n, m)*h2(a, c, m, n), True)), (n, 1, N), (m, 1, N))"
+        "+ Sum(Piecewise((K(n), Eq(m, n)), (G(m, n)*h1(c, n, m)*h2(a, b, m, n), True)), (n, 1, N), (m, 1, N))"
+        "+ Sum(Piecewise((K(n), Eq(ell, n)), (G(m, n)*h1(a, m, n)*h1(b, ell, m)*h1(c, n, ell), True)), (n, 1, N), (m, 1, N), (ell, 1, N))"
+    )
+    idx2 = build_index(
+        expr2,
+        [{"name": x, "real": True} for x in ("n", "m", "N", "ell", "a", "b", "c")],
+        ["K", "G", "h1", "h2"],
+    )
+    hyp = {
+        "latent_object": "divided difference on two epsilon nodes",
+        "target_members": ["S1_True"],
+        "instance_maps": [{
+            "member": "S1_True",
+            "theta": {"nodes": ["epsilon(m)", "epsilon(n)"], "collision": "True"},
+        }],
+    }
+    b = bind_alias(
+        "S1_True", idx2,
+        theta=hyp["instance_maps"][0]["theta"],
+        hyp=hyp,
+        functions=["K", "G", "h1", "h2"],
+    )
+    assert b.confidence == AMBIGUOUS_BIND, b
+    assert b.n_candidates == 2, b  # two double-sum True branches, not the triple
+
+
 def test_h_factor_unique_bind_and_no_guess_s1():
     from research.obligation_ir.source_index import build_index
     from research.obligation_ir.grounding import (
