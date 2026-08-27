@@ -1,0 +1,42 @@
+{
+  "current": "Piecewise((K(n, m), Ne(n, m)), (K(n, n), True))",
+  "family": "C_confluence",
+  "functions": [
+    "K"
+  ],
+  "gold_members": [
+    "K(n, m)",
+    "K(n, n)"
+  ],
+  "gold_operator": "confluence",
+  "gold_template": "K(n, theta0)",
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Kfam"
+    ]
+  },
+  "id": "C-pos-kernel-degen",
+  "license": "author-constructed",
+  "polarity": "positive",
+  "provenance": "degenerate branch is a specialization, not an equal value",
+  "scientific_context": [
+    "Subexpressions may share a parameterized mathematical object even when they are not syntactically identical.",
+    "Propose a template and instance maps. Do not propose a final compact formula.",
+    "Do not invent a shared object for unrelated terms."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "n",
+      "real": true
+    },
+    {
+      "name": "m",
+      "real": true
+    }
+  ],
+  "task": "abstraction_invention",
+  "version": "ssc-abstraction-bench-v0.1"
+}

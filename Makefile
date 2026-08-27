@@ -1,7 +1,7 @@
 PYTHON ?= .venv/bin/python
 RUNS := research/runs/protocol_v0
 
-.PHONY: venv test benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval sd-test sd-bench sd-dev sd-final sd-cases
+.PHONY: venv test benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval sd-test sd-bench sd-dev sd-final sd-cases ai-test ai-dev ai-final
 
 venv:
 	uv venv .venv --python python3.12
@@ -59,3 +59,12 @@ sd-final:
 
 sd-cases:
 	$(PYTHON) -m research.structure_discovery.prototype.run_case_studies
+
+ai-test:
+	$(PYTHON) -m pytest tests/test_abstraction_invention.py -q
+
+ai-dev:
+	$(PYTHON) -m research.abstraction_invention.prototype.run_dev
+
+ai-final:
+	$(PYTHON) -m research.abstraction_invention.prototype.run_final

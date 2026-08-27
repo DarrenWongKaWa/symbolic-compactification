@@ -1,0 +1,940 @@
+[
+  {
+    "id": "A-neg-unrelated",
+    "method": "M_lgg",
+    "score": {
+      "id": "A-neg-unrelated",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "negative",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": false,
+      "family_cover_certified": false,
+      "n_hypotheses": 0,
+      "n_certified": 0,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "A-neg-unrelated",
+    "method": "B9_frozen",
+    "score": {
+      "id": "A-neg-unrelated",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "negative",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": false,
+      "b9_types": [],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "A-neg-unrelated",
+    "method": "M_llm",
+    "score": {
+      "id": "A-neg-unrelated",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "negative",
+      "family": "A_antiunification",
+      "gold_operator": "antiunification"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "A-pos-born",
+    "method": "M_lgg",
+    "score": {
+      "id": "A-pos-born",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 2,
+      "n_certified": 2,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "A-pos-born",
+    "method": "B9_frozen",
+    "score": {
+      "id": "A-pos-born",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": false,
+      "b9_types": [],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "A-pos-born",
+    "method": "M_llm",
+    "score": {
+      "id": "A-pos-born",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification",
+      "gold_operator": "antiunification"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "A-pos-quad",
+    "method": "M_lgg",
+    "score": {
+      "id": "A-pos-quad",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 5,
+      "n_certified": 5,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "A-pos-quad",
+    "method": "B9_frozen",
+    "score": {
+      "id": "A-pos-quad",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "repeated_kernel",
+        "repeated_kernel"
+      ],
+      "n_zero": 2,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "A-pos-quad",
+    "method": "M_llm",
+    "score": {
+      "id": "A-pos-quad",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification",
+      "gold_operator": "antiunification"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "A-pos-resolvent-weight",
+    "method": "M_lgg",
+    "score": {
+      "id": "A-pos-resolvent-weight",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 4,
+      "n_certified": 4,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "A-pos-resolvent-weight",
+    "method": "B9_frozen",
+    "score": {
+      "id": "A-pos-resolvent-weight",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "spectral_family",
+        "identical_kernel_merge"
+      ],
+      "n_zero": 1,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "A-pos-resolvent-weight",
+    "method": "M_llm",
+    "score": {
+      "id": "A-pos-resolvent-weight",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification",
+      "gold_operator": "antiunification"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "A-pos-three",
+    "method": "M_lgg",
+    "score": {
+      "id": "A-pos-three",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 6,
+      "n_certified": 6,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "A-pos-three",
+    "method": "B9_frozen",
+    "score": {
+      "id": "A-pos-three",
+      "split": "dev",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "master_function",
+        "master_function"
+      ],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "A-pos-three",
+    "method": "M_llm",
+    "score": {
+      "id": "A-pos-three",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification",
+      "gold_operator": "antiunification"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "B-neg-independent",
+    "method": "M_lgg",
+    "score": {
+      "id": "B-neg-independent",
+      "split": "dev",
+      "family": "B_master",
+      "polarity": "negative",
+      "gold_operator": "master_derivative",
+      "invention_success": true,
+      "operator_hit": false,
+      "family_cover_certified": false,
+      "n_hypotheses": 0,
+      "n_certified": 0,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "B-neg-independent",
+    "method": "B9_frozen",
+    "score": {
+      "id": "B-neg-independent",
+      "split": "dev",
+      "family": "B_master",
+      "polarity": "negative",
+      "gold_operator": "master_derivative",
+      "invention_success": true,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": false,
+      "b9_types": [],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "B-neg-independent",
+    "method": "M_llm",
+    "score": {
+      "id": "B-neg-independent",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "negative",
+      "family": "B_master",
+      "gold_operator": "master_derivative"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "B-pos-poly-deriv",
+    "method": "M_lgg",
+    "score": {
+      "id": "B-pos-poly-deriv",
+      "split": "dev",
+      "family": "B_master",
+      "polarity": "positive",
+      "gold_operator": "master_derivative",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 2,
+      "n_certified": 2,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "master_derivative"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "B-pos-poly-deriv",
+    "method": "B9_frozen",
+    "score": {
+      "id": "B-pos-poly-deriv",
+      "split": "dev",
+      "family": "B_master",
+      "polarity": "positive",
+      "gold_operator": "master_derivative",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "derivative_family"
+      ],
+      "n_zero": 1,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "B-pos-poly-deriv",
+    "method": "M_llm",
+    "score": {
+      "id": "B-pos-poly-deriv",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "B_master",
+      "gold_operator": "master_derivative"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "C-neg-unrelated-pw",
+    "method": "M_lgg",
+    "score": {
+      "id": "C-neg-unrelated-pw",
+      "split": "dev",
+      "family": "C_confluence",
+      "polarity": "negative",
+      "gold_operator": "confluence",
+      "invention_success": true,
+      "operator_hit": false,
+      "family_cover_certified": false,
+      "n_hypotheses": 0,
+      "n_certified": 0,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "C-neg-unrelated-pw",
+    "method": "B9_frozen",
+    "score": {
+      "id": "C-neg-unrelated-pw",
+      "split": "dev",
+      "family": "C_confluence",
+      "polarity": "negative",
+      "gold_operator": "confluence",
+      "invention_success": true,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "C-neg-unrelated-pw",
+    "method": "M_llm",
+    "score": {
+      "id": "C-neg-unrelated-pw",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "negative",
+      "family": "C_confluence",
+      "gold_operator": "confluence"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "C-pos-kernel-degen",
+    "method": "M_lgg",
+    "score": {
+      "id": "C-pos-kernel-degen",
+      "split": "dev",
+      "family": "C_confluence",
+      "polarity": "positive",
+      "gold_operator": "confluence",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 3,
+      "n_certified": 2,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "confluence"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "C-pos-kernel-degen",
+    "method": "B9_frozen",
+    "score": {
+      "id": "C-pos-kernel-degen",
+      "split": "dev",
+      "family": "C_confluence",
+      "polarity": "positive",
+      "gold_operator": "confluence",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "C-pos-kernel-degen",
+    "method": "M_llm",
+    "score": {
+      "id": "C-pos-kernel-degen",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "C_confluence",
+      "gold_operator": "confluence"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  },
+  {
+    "id": "D-pos-bilinear",
+    "method": "M_lgg",
+    "score": {
+      "id": "D-pos-bilinear",
+      "split": "dev",
+      "family": "D_basis",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 1,
+      "n_certified": 1,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification"
+      ],
+      "blocked": false
+    },
+    "run_keys": [
+      "method",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion",
+      "adjudications",
+      "best"
+    ]
+  },
+  {
+    "id": "D-pos-bilinear",
+    "method": "B9_frozen",
+    "score": {
+      "id": "D-pos-bilinear",
+      "split": "dev",
+      "family": "D_basis",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "repeated_kernel",
+        "master_function"
+      ],
+      "n_zero": 2,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    },
+    "run_keys": [
+      "architecture",
+      "n_hypotheses",
+      "hypothesis_types",
+      "hypotheses",
+      "n_zero",
+      "n_nonzero",
+      "n_unknown",
+      "false_promotion",
+      "certified_closed",
+      "certified_structured",
+      "certified_definitions",
+      "d_attempted",
+      "d_certified",
+      "graph",
+      "observations_keys",
+      "aggressive",
+      "baseline",
+      "method"
+    ]
+  },
+  {
+    "id": "D-pos-bilinear",
+    "method": "M_llm",
+    "score": {
+      "id": "D-pos-bilinear",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "D_basis",
+      "gold_operator": "antiunification"
+    },
+    "run_keys": [
+      "method",
+      "blocked",
+      "reason",
+      "n_hypotheses",
+      "operators",
+      "n_certified_abstractions",
+      "false_promotion"
+    ]
+  }
+]

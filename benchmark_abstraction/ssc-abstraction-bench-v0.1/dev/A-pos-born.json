@@ -1,0 +1,43 @@
+{
+  "current": "V(p)*G0(p)*V(p) + V(q)*G0(q)*V(q)",
+  "family": "A_antiunification",
+  "functions": [
+    "V",
+    "G0"
+  ],
+  "gold_members": [
+    "V(p)*G0(p)*V(p)",
+    "V(q)*G0(q)*V(q)"
+  ],
+  "gold_operator": "antiunification",
+  "gold_template": "V(theta0)*G0(theta0)*V(theta0)",
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Fborn"
+    ]
+  },
+  "id": "A-pos-born",
+  "license": "author-constructed",
+  "polarity": "positive",
+  "provenance": "Born-like self-energy; DEV miss of structure-discovery v0.1",
+  "scientific_context": [
+    "Subexpressions may share a parameterized mathematical object even when they are not syntactically identical.",
+    "Propose a template and instance maps. Do not propose a final compact formula.",
+    "Do not invent a shared object for unrelated terms."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "p",
+      "real": true
+    },
+    {
+      "name": "q",
+      "real": true
+    }
+  ],
+  "task": "abstraction_invention",
+  "version": "ssc-abstraction-bench-v0.1"
+}

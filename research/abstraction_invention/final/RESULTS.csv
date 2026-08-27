@@ -1,0 +1,25 @@
+b9_types,blocked,exact_pattern_types_emitted,false_promotion,family,family_cover_certified,gold_operator,id,invention_success,method,n_certified,n_hypotheses,n_zero,operator_hit,operators,polarity,split,unsafe_forbidden
+,False,,False,A_antiunification,False,antiunification,T-A-neg-unrelated,True,M_lgg,0,0,,False,[],negative,test,False
+[],,False,False,A_antiunification,,antiunification,T-A-neg-unrelated,True,B9_frozen,,,0,False,,negative,test,
+,True,,,A_antiunification,,,T-A-neg-unrelated,False,M_llm,,,,,,negative,,
+,False,,False,A_antiunification,True,antiunification,T-A-pos-born,True,M_lgg,2,2,,True,"['antiunification', 'antiunification']",positive,test,False
+[],,False,False,A_antiunification,,antiunification,T-A-pos-born,False,B9_frozen,,,0,False,,positive,test,
+,True,,,A_antiunification,,,T-A-pos-born,False,M_llm,,,,,,positive,,
+,False,,False,A_antiunification,True,antiunification,T-A-pos-quad,True,M_lgg,5,5,,True,"['antiunification', 'antiunification', 'antiunification', 'antiunification', 'antiunification']",positive,test,False
+"['repeated_kernel', 'repeated_kernel']",,True,False,A_antiunification,,antiunification,T-A-pos-quad,False,B9_frozen,,,2,False,,positive,test,
+,True,,,A_antiunification,,,T-A-pos-quad,False,M_llm,,,,,,positive,,
+,False,,False,A_antiunification,True,antiunification,T-A-pos-weight,True,M_lgg,4,4,,True,"['antiunification', 'antiunification', 'antiunification', 'antiunification']",positive,test,False
+"['spectral_family', 'identical_kernel_merge']",,True,False,A_antiunification,,antiunification,T-A-pos-weight,False,B9_frozen,,,1,False,,positive,test,
+,True,,,A_antiunification,,,T-A-pos-weight,False,M_llm,,,,,,positive,,
+,False,,False,B_master,False,master_derivative,T-B-neg-indep,True,M_lgg,0,0,,False,[],negative,test,False
+[],,False,False,B_master,,master_derivative,T-B-neg-indep,True,B9_frozen,,,0,False,,negative,test,
+,True,,,B_master,,,T-B-neg-indep,False,M_llm,,,,,,negative,,
+,False,,False,C_confluence,False,confluence,T-C-neg-pw,True,M_lgg,0,0,,False,[],negative,test,False
+['confluent_representation'],,True,False,C_confluence,,confluence,T-C-neg-pw,True,B9_frozen,,,0,False,,negative,test,
+,True,,,C_confluence,,,T-C-neg-pw,False,M_llm,,,,,,negative,,
+,False,,False,C_confluence,True,confluence,T-C-pos-degen,True,M_lgg,2,3,,True,"['antiunification', 'antiunification', 'confluence']",positive,test,False
+['confluent_representation'],,True,False,C_confluence,,confluence,T-C-pos-degen,False,B9_frozen,,,0,False,,positive,test,
+,True,,,C_confluence,,,T-C-pos-degen,False,M_llm,,,,,,positive,,
+,False,,False,D_basis,True,antiunification,T-D-pos-bilin,True,M_lgg,1,1,,True,['antiunification'],positive,test,False
+"['repeated_kernel', 'master_function']",,True,False,D_basis,,antiunification,T-D-pos-bilin,False,B9_frozen,,,2,False,,positive,test,
+,True,,,D_basis,,,T-D-pos-bilin,False,M_llm,,,,,,positive,,

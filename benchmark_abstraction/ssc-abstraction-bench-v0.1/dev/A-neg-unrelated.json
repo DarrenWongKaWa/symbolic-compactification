@@ -1,0 +1,42 @@
+{
+  "current": "V(p)*G0(p)*V(p) + W(q)*H0(q)*W(q)",
+  "family": "A_antiunification",
+  "forbidden_operators": [
+    "antiunification"
+  ],
+  "functions": [
+    "V",
+    "G0",
+    "W",
+    "H0"
+  ],
+  "gold_members": [],
+  "gold_operator": "antiunification",
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": []
+  },
+  "id": "A-neg-unrelated",
+  "license": "author-constructed",
+  "polarity": "negative",
+  "provenance": "different channels; no shared template that keeps function names",
+  "scientific_context": [
+    "Subexpressions may share a parameterized mathematical object even when they are not syntactically identical.",
+    "Propose a template and instance maps. Do not propose a final compact formula.",
+    "Do not invent a shared object for unrelated terms."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "p",
+      "real": true
+    },
+    {
+      "name": "q",
+      "real": true
+    }
+  ],
+  "task": "abstraction_invention",
+  "version": "ssc-abstraction-bench-v0.1"
+}

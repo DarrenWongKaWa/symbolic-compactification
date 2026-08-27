@@ -1,0 +1,47 @@
+{
+  "current": "v(n)/(w - eps(n)) + v(m)/(w - eps(m))",
+  "family": "A_antiunification",
+  "functions": [
+    "v",
+    "eps"
+  ],
+  "gold_members": [
+    "v(n)/(w - eps(n))",
+    "v(m)/(w - eps(m))"
+  ],
+  "gold_operator": "antiunification",
+  "gold_template": "v(theta0)/(w - eps(theta0))",
+  "hidden_from_proposer": true,
+  "hidden_gold": {
+    "aux_names": [
+      "Rweight"
+    ]
+  },
+  "id": "A-pos-resolvent-weight",
+  "license": "author-constructed",
+  "polarity": "positive",
+  "provenance": "weighted resolvent specializations",
+  "scientific_context": [
+    "Subexpressions may share a parameterized mathematical object even when they are not syntactically identical.",
+    "Propose a template and instance maps. Do not propose a final compact formula.",
+    "Do not invent a shared object for unrelated terms."
+  ],
+  "source_format": "sympy",
+  "split": "dev",
+  "symbols": [
+    {
+      "name": "n",
+      "real": true
+    },
+    {
+      "name": "m",
+      "real": true
+    },
+    {
+      "name": "w",
+      "real": true
+    }
+  ],
+  "task": "abstraction_invention",
+  "version": "ssc-abstraction-bench-v0.1"
+}

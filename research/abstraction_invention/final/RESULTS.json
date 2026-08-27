@@ -1,0 +1,435 @@
+[
+  {
+    "id": "T-A-neg-unrelated",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-A-neg-unrelated",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "negative",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": false,
+      "family_cover_certified": false,
+      "n_hypotheses": 0,
+      "n_certified": 0,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-A-neg-unrelated",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-A-neg-unrelated",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "negative",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": false,
+      "b9_types": [],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-A-neg-unrelated",
+    "method": "M_llm",
+    "score": {
+      "id": "T-A-neg-unrelated",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "negative",
+      "family": "A_antiunification"
+    }
+  },
+  {
+    "id": "T-A-pos-born",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-A-pos-born",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 2,
+      "n_certified": 2,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-A-pos-born",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-A-pos-born",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": false,
+      "b9_types": [],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-A-pos-born",
+    "method": "M_llm",
+    "score": {
+      "id": "T-A-pos-born",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification"
+    }
+  },
+  {
+    "id": "T-A-pos-quad",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-A-pos-quad",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 5,
+      "n_certified": 5,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-A-pos-quad",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-A-pos-quad",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "repeated_kernel",
+        "repeated_kernel"
+      ],
+      "n_zero": 2,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-A-pos-quad",
+    "method": "M_llm",
+    "score": {
+      "id": "T-A-pos-quad",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification"
+    }
+  },
+  {
+    "id": "T-A-pos-weight",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-A-pos-weight",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 4,
+      "n_certified": 4,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "antiunification",
+        "antiunification"
+      ],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-A-pos-weight",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-A-pos-weight",
+      "split": "test",
+      "family": "A_antiunification",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "spectral_family",
+        "identical_kernel_merge"
+      ],
+      "n_zero": 1,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-A-pos-weight",
+    "method": "M_llm",
+    "score": {
+      "id": "T-A-pos-weight",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "A_antiunification"
+    }
+  },
+  {
+    "id": "T-B-neg-indep",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-B-neg-indep",
+      "split": "test",
+      "family": "B_master",
+      "polarity": "negative",
+      "gold_operator": "master_derivative",
+      "invention_success": true,
+      "operator_hit": false,
+      "family_cover_certified": false,
+      "n_hypotheses": 0,
+      "n_certified": 0,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-B-neg-indep",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-B-neg-indep",
+      "split": "test",
+      "family": "B_master",
+      "polarity": "negative",
+      "gold_operator": "master_derivative",
+      "invention_success": true,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": false,
+      "b9_types": [],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-B-neg-indep",
+    "method": "M_llm",
+    "score": {
+      "id": "T-B-neg-indep",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "negative",
+      "family": "B_master"
+    }
+  },
+  {
+    "id": "T-C-neg-pw",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-C-neg-pw",
+      "split": "test",
+      "family": "C_confluence",
+      "polarity": "negative",
+      "gold_operator": "confluence",
+      "invention_success": true,
+      "operator_hit": false,
+      "family_cover_certified": false,
+      "n_hypotheses": 0,
+      "n_certified": 0,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-C-neg-pw",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-C-neg-pw",
+      "split": "test",
+      "family": "C_confluence",
+      "polarity": "negative",
+      "gold_operator": "confluence",
+      "invention_success": true,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-C-neg-pw",
+    "method": "M_llm",
+    "score": {
+      "id": "T-C-neg-pw",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "negative",
+      "family": "C_confluence"
+    }
+  },
+  {
+    "id": "T-C-pos-degen",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-C-pos-degen",
+      "split": "test",
+      "family": "C_confluence",
+      "polarity": "positive",
+      "gold_operator": "confluence",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 3,
+      "n_certified": 2,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification",
+        "antiunification",
+        "confluence"
+      ],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-C-pos-degen",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-C-pos-degen",
+      "split": "test",
+      "family": "C_confluence",
+      "polarity": "positive",
+      "gold_operator": "confluence",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "confluent_representation"
+      ],
+      "n_zero": 0,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-C-pos-degen",
+    "method": "M_llm",
+    "score": {
+      "id": "T-C-pos-degen",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "C_confluence"
+    }
+  },
+  {
+    "id": "T-D-pos-bilin",
+    "method": "M_lgg",
+    "score": {
+      "id": "T-D-pos-bilin",
+      "split": "test",
+      "family": "D_basis",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": true,
+      "operator_hit": true,
+      "family_cover_certified": true,
+      "n_hypotheses": 1,
+      "n_certified": 1,
+      "false_promotion": false,
+      "unsafe_forbidden": false,
+      "operators": [
+        "antiunification"
+      ],
+      "blocked": false
+    }
+  },
+  {
+    "id": "T-D-pos-bilin",
+    "method": "B9_frozen",
+    "score": {
+      "id": "T-D-pos-bilin",
+      "split": "test",
+      "family": "D_basis",
+      "polarity": "positive",
+      "gold_operator": "antiunification",
+      "invention_success": false,
+      "operator_hit": false,
+      "exact_pattern_types_emitted": true,
+      "b9_types": [
+        "repeated_kernel",
+        "master_function"
+      ],
+      "n_zero": 2,
+      "false_promotion": false,
+      "method": "B9_frozen"
+    }
+  },
+  {
+    "id": "T-D-pos-bilin",
+    "method": "M_llm",
+    "score": {
+      "id": "T-D-pos-bilin",
+      "method": "M_llm",
+      "blocked": true,
+      "invention_success": false,
+      "polarity": "positive",
+      "family": "D_basis"
+    }
+  }
+]

@@ -18,15 +18,16 @@ the Guo PRB closed form. Publication decision: **E** (more evidence
 needed). No paper snapshot is frozen.
 
 A **separate** structure-discovery line lives in
-`research/structure_discovery/` (branch
-`research/verified-scientific-structure-discovery`). It does not overwrite
-the compactification benches. On a frozen 12-item typed-structure test, a
-deterministic observe→hypothesis→construct→verify pipeline matches gold
-D2–D5 *types* more often than SymPy or Method v2 packaging, with zero
-unsafe merges. It is **not** an LLM scientific-imagination result; Guo
-still yields only D2 CSE kernels. Decision: **E**
-(`research/structure_discovery/PUBLICATION_DECISION.md`). No
-`paper_structure_discovery/`.
+`research/structure_discovery/` (closed v0.1: typed exact-pattern protocol
+works; invention unsolved). Frozen B9 is the Layer-1 baseline.
+
+Layer 2 (`research/abstraction_invention/`, branch
+`research/verified-abstraction-invention`) asks whether a parameterized
+template can be invented from **related but non-identical** subexpressions.
+On a small held-out set, first-order anti-unification (M_lgg) recovers those
+templates where frozen B9 invention-success is 0. That is LGG, not an LLM.
+Guo is still not L4–L7. Decision: **E**. No paper package.
+
 
 The Grok skill is
 [`.grok/skills/symbolic-compactification/`](.grok/skills/symbolic-compactification/SKILL.md).
