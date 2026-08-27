@@ -24,10 +24,9 @@ Guo DEV 11/11 ZERO confluence, 0 NONZERO, 0 UNKNOWN, 0 grounding failures.
 
 ## NEXT AUTO ACTION
 
-Spawn isolated worktrees A–H (DD, master, obligations, bench, LLM,
-falsifier, Guo catalog, literature). Merge only if contract-compatible.
-Then run generic DD validation before any new Guo LLM calls.
+Merge A–H worktrees if contract-compatible and tests pass. Then Phase 5
+generic DD validation (zero false ZERO) before any new Guo LLM calls.
 
 ## COMMIT SHA
 
-Contract freeze: see git log `Freeze RepresentationHypothesisV2 contracts`.
+Contract freeze: `45b2b4dc7c823901f4b79713d279c6be7bae2859`

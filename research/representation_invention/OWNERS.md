@@ -9,7 +9,9 @@ Shared (orchestrator only after the contract commit):
 - `research/representation_invention/PROTOCOL.md`
 - `research/representation_invention/LADDER.md`
 - `research/representation_invention/STATUS.md`
+- `research/representation_invention/eval/`
 - `tests/test_representation_invention_schema.py`
+- `tests/test_representation_integrity.py`
 
 Subagents **must not** edit the shared contract modules.
 They **may** import them.
