@@ -1,0 +1,21 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/flash/CAL-D-perm__A0__deepseek-v4-flash__s0.json",
+    "item_id": "CAL-D-perm",
+    "stage": "flash",
+    "condition": "A0",
+    "seed": 0,
+    "category": "T7",
+    "layer": "D",
+    "layer_detail": "no_proposal",
+    "n_compile_ok": 0,
+    "n_compile_fail": 0,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "types": [],
+    "old_certified": false
+  },
+  "compiles": [],
+  "verifs": []
+}

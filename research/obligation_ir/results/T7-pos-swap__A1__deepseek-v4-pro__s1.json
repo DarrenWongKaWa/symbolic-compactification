@@ -1,0 +1,91 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/dev/T7-pos-swap__A1__deepseek-v4-pro__s1.json",
+    "item_id": "T7-pos-swap",
+    "stage": "dev",
+    "condition": "A1",
+    "seed": 1,
+    "category": "T7",
+    "layer": "OK",
+    "layer_detail": "certified",
+    "n_compile_ok": 2,
+    "n_compile_fail": 0,
+    "n_zero": 2,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "types": [
+      "symmetry_invariant"
+    ],
+    "old_certified": true
+  },
+  "compiles": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "latent_core": "T(x, y)",
+      "n_ok": 2,
+      "n_fail": 0,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "T(i, j)",
+          "right": "T(x, y)|{'x': 'i', 'y': 'j'}",
+          "member": "T(i, j)",
+          "latent": "T(x, y)",
+          "operator": "identity",
+          "theta": {
+            "x": "i",
+            "y": "j"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "PERMUTATION",
+          "left": "T(j, i)",
+          "right": "permute[T(x, y)]",
+          "member": "T(j, i)",
+          "latent": "T(x, y)",
+          "operator": "permute",
+          "theta": {
+            "x": "i",
+            "y": "j"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        }
+      ]
+    }
+  ],
+  "verifs": [
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "ZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "T(i, j)"
+    },
+    {
+      "kind": "PERMUTATION",
+      "verdict": "ZERO",
+      "backend": "sympy_permute",
+      "note": "arg_or_symbol_swap",
+      "compile_status": "COMPILE_OK",
+      "witness": "T(j, i)"
+    }
+  ]
+}

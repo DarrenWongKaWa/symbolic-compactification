@@ -1,0 +1,129 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/dev/T7-pos-swap__A2__deepseek-v4-pro__s3.json",
+    "item_id": "T7-pos-swap",
+    "stage": "dev",
+    "condition": "A2",
+    "seed": 3,
+    "category": "T7",
+    "layer": "OK",
+    "layer_detail": "certified",
+    "n_compile_ok": 3,
+    "n_compile_fail": 0,
+    "n_zero": 3,
+    "n_nonzero": 0,
+    "n_unknown": 0,
+    "types": [
+      "repeated_kernel",
+      "symmetry_invariant"
+    ],
+    "old_certified": true
+  },
+  "compiles": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "latent_core": "T(a, b)",
+      "n_ok": 2,
+      "n_fail": 0,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "T(i, j)",
+          "right": "T(a, b)|{'a': 'i', 'b': 'j'}",
+          "member": "T(i, j)",
+          "latent": "T(a, b)",
+          "operator": "identity",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "PERMUTATION",
+          "left": "T(j, i)",
+          "right": "permute[T(a, b)]",
+          "member": "T(j, i)",
+          "latent": "T(a, b)",
+          "operator": "permute",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "latent_core": "T(a, b) + T(b, a)",
+      "n_ok": 1,
+      "n_fail": 0,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "T(i, j) + T(j, i)",
+          "right": "T(a, b) + T(b, a)|{'a': 'i', 'b': 'j'}",
+          "member": "T(i, j) + T(j, i)",
+          "latent": "T(a, b) + T(b, a)",
+          "operator": "specialize",
+          "theta": {
+            "a": "i",
+            "b": "j"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        }
+      ]
+    }
+  ],
+  "verifs": [
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "ZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "T(i, j)"
+    },
+    {
+      "kind": "PERMUTATION",
+      "verdict": "ZERO",
+      "backend": "sympy_permute",
+      "note": "arg_or_symbol_swap",
+      "compile_status": "COMPILE_OK",
+      "witness": "T(j, i)"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "ZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "T(i, j) + T(j, i)"
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/guo/guo-sigma-abc__A2__deepseek-v4-pro__s1.json",
+    "item_id": "guo-sigma-abc",
+    "stage": "guo",
+    "condition": "A2",
+    "seed": 1,
+    "category": "GUO",
+    "layer": "V",
+    "layer_detail": "partial_zero_rest_unknown",
+    "n_compile_ok": 3,
+    "n_compile_fail": 6,
+    "n_zero": 3,
+    "n_nonzero": 0,
+    "n_unknown": 6,
+    "types": [
+      "parameterized_family",
+      "tensor_generator",
+      "confluent_representation",
+      "repeated_kernel"
+    ],
+    "old_certified": true,
+    "G1": {
+      "pass": true,
+      "types": [
+        "tensor_generator",
+        "confluent_representation"
+      ]
+    },
+    "G2": {
+      "pass": true,
+      "types": [
+        "tensor_generator",
+        "confluent_representation"
+      ]
+    },
+    "G3": {
+      "pass": true,
+      "n_ok": 3,
+      "n_fail": 6
+    },
+    "G4": {
+      "pass": false,
+      "n_zero": 3,
+      "n_nonzero": 0,
+      "n_unknown": 6,
+      "partial_zero": true
+    }
+  },
+  "compiles": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "latent_core": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum(Piecewise((D(n,m)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))",
+          "right": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)|{'p': 'b', 'q': 'c'}",
+          "member": "Sum(Piecewise((D(n,m)*h1(b,n,m)*h2(a,c,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(b,n,m)*h2(a,c,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))",
+          "latent": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)",
+          "operator": "specialize",
+          "theta": {
+            "p": "b",
+            "q": "c"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum(Piecewise((D(n,m)*h1(c,n,m)*h2(a,b,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(c,n,m)*h2(a,b,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))",
+          "right": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)|{'p': 'c', 'q': 'b'}",
+          "member": "Sum(Piecewise((D(n,m)*h1(c,n,m)*h2(a,b,m,n)/(96*pi**4*gamma**2), Eq(m,n)), (O(n,m)*h1(c,n,m)*h2(a,b,m,n)/(8*pi**3*(epsilon(m)-epsilon(n))**3), True)), (n,1,Nb),(m,1,Nb))",
+          "latent": "Sum_{n=1..Nb,m=1..Nb} Piecewise(D(n,m)*h1(p,n,m)*h2(a,q,m,n), Eq(m,n), O(n,m)*h1(p,n,m)*h2(a,q,m,n), True)",
+          "operator": "specialize",
+          "theta": {
+            "p": "c",
+            "q": "b"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "tensor_generator",
+      "latent_core": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)",
+          "right": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)|{'P': 'h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)'}",
+          "member": "Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)",
+          "latent": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)",
+          "operator": "specialize",
+          "theta": {
+            "P": "h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "PERMUTATION",
+          "left": "Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)",
+          "right": "permute[Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)]",
+          "member": "Sum_{n,m,ell=1..Nb} K(n,m,ell)*h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)",
+          "latent": "Sum_{n,m,ell} K(n,m,ell)*P(a,b,c;n,m,ell)",
+          "operator": "permute",
+          "theta": {
+            "P": "h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "confluent_representation",
+      "latent_core": "O(n,m)",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "CONFLUENCE",
+          "left": "diagonal branch of first double sum",
+          "right": "O(n,m)",
+          "member": "diagonal branch of first double sum",
+          "latent": "O(n,m)",
+          "operator": "specialize",
+          "theta": {
+            "epsilon_m": "epsilon_n"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "member_not_in_source",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "off-diagonal branch of first double sum",
+          "right": "O(n,m)|{'epsilon_m': 'epsilon_m', 'epsilon_n': 'epsilon_n'}",
+          "member": "off-diagonal branch of first double sum",
+          "latent": "O(n,m)",
+          "operator": "identity",
+          "theta": {
+            "epsilon_m": "epsilon_m",
+            "epsilon_n": "epsilon_n"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "member_not_in_source",
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "repeated_kernel",
+      "latent_core": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))",
+      "n_ok": 3,
+      "n_fail": 0,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))",
+          "right": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))|{'k': '4', 'sigma': '-1', 'x': 'n'}",
+          "member": "polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))",
+          "latent": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))",
+          "operator": "specialize",
+          "theta": {
+            "k": "4",
+            "sigma": "-1",
+            "x": "n"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))",
+          "right": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))|{'k': '4', 'sigma': '1', 'x': 'n'}",
+          "member": "polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))",
+          "latent": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))",
+          "operator": "specialize",
+          "theta": {
+            "k": "4",
+            "sigma": "1",
+            "x": "n"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "polygamma(0, (beta*gamma - I*beta*mu + I*beta*epsilon(m) + pi)/(2*pi))",
+          "right": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))|{'k': '0', 'sigma': '-1', 'x': 'm'}",
+          "member": "polygamma(0, (beta*gamma - I*beta*mu + I*beta*epsilon(m) + pi)/(2*pi))",
+          "latent": "polygamma(k, (beta*(gamma + sigma*I*mu - sigma*I*epsilon(x)) + pi)/(2*pi))",
+          "operator": "specialize",
+          "theta": {
+            "k": "0",
+            "sigma": "-1",
+            "x": "m"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        }
+      ]
+    }
+  ],
+  "verifs": [
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "PERMUTATION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "CONFLUENCE",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "member_not_in_source",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "member_not_in_source",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "ZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "polygamma(4, (beta*(gamma - I*mu + I*epsilon(n)) + pi)/(2*pi))"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "ZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "polygamma(4, (beta*(gamma + I*mu - I*epsilon(n)) + pi)/(2*pi))"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "ZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "polygamma(0, (beta*(gamma - I*mu + I*epsilon(m)) + pi)/(2*pi))"
+    }
+  ]
+}

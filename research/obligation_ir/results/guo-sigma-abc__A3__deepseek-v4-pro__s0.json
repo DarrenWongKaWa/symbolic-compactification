@@ -1,0 +1,363 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/guo/guo-sigma-abc__A3__deepseek-v4-pro__s0.json",
+    "item_id": "guo-sigma-abc",
+    "stage": "guo",
+    "condition": "A3",
+    "seed": 0,
+    "category": "GUO",
+    "layer": "D",
+    "layer_detail": "wrong_type",
+    "n_compile_ok": 8,
+    "n_compile_fail": 2,
+    "n_zero": 0,
+    "n_nonzero": 8,
+    "n_unknown": 2,
+    "types": [
+      "parameterized_family",
+      "parameterized_family",
+      "repeated_kernel"
+    ],
+    "old_certified": false,
+    "G1": {
+      "pass": false,
+      "types": []
+    },
+    "G2": {
+      "pass": false,
+      "types": []
+    },
+    "G3": {
+      "pass": true,
+      "n_ok": 8,
+      "n_fail": 2
+    },
+    "G4": {
+      "pass": false,
+      "n_zero": 0,
+      "n_nonzero": 8,
+      "n_unknown": 2,
+      "partial_zero": false
+    }
+  },
+  "compiles": [
+    {
+      "hypothesis_type": "parameterized_family",
+      "latent_core": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+      "n_ok": 6,
+      "n_fail": 0,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0014",
+          "right": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a|{'s': '1', 'a': 'pi', 'b': 'beta'}",
+          "member": "N0014",
+          "latent": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+          "operator": "specialize",
+          "theta": {
+            "s": "1",
+            "a": "pi",
+            "b": "beta"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0015",
+          "right": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a|{'s': '1', 'a': '0', 'b': 'beta'}",
+          "member": "N0015",
+          "latent": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+          "operator": "specialize",
+          "theta": {
+            "s": "1",
+            "a": "0",
+            "b": "beta"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0016",
+          "right": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a|{'s': '1', 'a': '0', 'b': '1'}",
+          "member": "N0016",
+          "latent": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+          "operator": "specialize",
+          "theta": {
+            "s": "1",
+            "a": "0",
+            "b": "1"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0023",
+          "right": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a|{'s': '-1', 'a': 'pi', 'b': 'beta'}",
+          "member": "N0023",
+          "latent": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+          "operator": "specialize",
+          "theta": {
+            "s": "-1",
+            "a": "pi",
+            "b": "beta"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0024",
+          "right": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a|{'s': '-1', 'a': '0', 'b': 'beta'}",
+          "member": "N0024",
+          "latent": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+          "operator": "specialize",
+          "theta": {
+            "s": "-1",
+            "a": "0",
+            "b": "beta"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0025",
+          "right": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a|{'s': '-1', 'a': '0', 'b': '1'}",
+          "member": "N0025",
+          "latent": "b*(gamma + s*I*mu - s*I*epsilon(n)) + a",
+          "operator": "specialize",
+          "theta": {
+            "s": "-1",
+            "a": "0",
+            "b": "1"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "parameterized_family",
+      "latent_core": "epsilon(x)",
+      "n_ok": 2,
+      "n_fail": 0,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0019",
+          "right": "epsilon(x)|{'x': 'n'}",
+          "member": "N0019",
+          "latent": "epsilon(x)",
+          "operator": "specialize",
+          "theta": {
+            "x": "n"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0047",
+          "right": "epsilon(x)|{'x': 'm'}",
+          "member": "N0047",
+          "latent": "epsilon(x)",
+          "operator": "specialize",
+          "theta": {
+            "x": "m"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_OK",
+          "compile_error": null,
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "repeated_kernel",
+      "latent_core": "Piecewise((beta*(beta*gamma*(beta*gamma*(psi^{(3)}(z_{-1}) + psi^{(3)}(z_{+1})) - 3*pi*(psi^{(2)}(z_{-1}) + psi^{(2)}(z_{+1})) + ...), condition), ...), where z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi) for s in {+1,-1}; L(w) = Sum(P, (n, ...)) if w=full_sum else P",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0002",
+          "right": "Piecewise((beta*(beta*gamma*(beta*gamma*(psi^{(3)}(z_{-1}) + psi^{(3)}(z_{+1})) - 3*pi*(psi^{(2)}(z_{-1}) + psi^{(2)}(z_{+1})) + ...), condition), ...), where z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi) for s in {+1,-1}; L(w) = Sum(P, (n, ...)) if w=full_sum else P|{'w': 'full_sum'}",
+          "member": "N0002",
+          "latent": "Piecewise((beta*(beta*gamma*(beta*gamma*(psi^{(3)}(z_{-1}) + psi^{(3)}(z_{+1})) - 3*pi*(psi^{(2)}(z_{-1}) + psi^{(2)}(z_{+1})) + ...), condition), ...), where z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi) for s in {+1,-1}; L(w) = Sum(P, (n, ...)) if w=full_sum else P",
+          "operator": "specialize",
+          "theta": {
+            "w": "full_sum"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "N0003",
+          "right": "Piecewise((beta*(beta*gamma*(beta*gamma*(psi^{(3)}(z_{-1}) + psi^{(3)}(z_{+1})) - 3*pi*(psi^{(2)}(z_{-1}) + psi^{(2)}(z_{+1})) + ...), condition), ...), where z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi) for s in {+1,-1}; L(w) = Sum(P, (n, ...)) if w=full_sum else P|{'w': 'piecewise_only'}",
+          "member": "N0003",
+          "latent": "Piecewise((beta*(beta*gamma*(beta*gamma*(psi^{(3)}(z_{-1}) + psi^{(3)}(z_{+1})) - 3*pi*(psi^{(2)}(z_{-1}) + psi^{(2)}(z_{+1})) + ...), condition), ...), where z_s = (beta*(gamma + s*I*mu - s*I*epsilon(n)) + pi)/(2*pi) for s in {+1,-1}; L(w) = Sum(P, (n, ...)) if w=full_sum else P",
+          "operator": "specialize",
+          "theta": {
+            "w": "piecewise_only"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    }
+  ],
+  "verifs": [
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "beta*(gamma + I*mu - I*epsilon(n)) + pi"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "beta*(gamma + I*mu - I*epsilon(n))"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "gamma + I*mu - I*epsilon(n)"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "beta*(gamma - I*mu + I*epsilon(n)) + pi"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "beta*(gamma - I*mu + I*epsilon(n))"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "gamma - I*mu + I*epsilon(n)"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "epsilon(n)"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "NONZERO",
+      "backend": "sympy_identity",
+      "note": "instantiate",
+      "compile_status": "COMPILE_OK",
+      "witness": "epsilon(m)"
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    }
+  ]
+}

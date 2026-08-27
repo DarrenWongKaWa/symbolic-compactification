@@ -1,0 +1,316 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/guo/guo-sigma-abc__A2__deepseek-v4-pro__s2.json",
+    "item_id": "guo-sigma-abc",
+    "stage": "guo",
+    "condition": "A2",
+    "seed": 2,
+    "category": "GUO",
+    "layer": "C",
+    "layer_detail": "compile_failure",
+    "n_compile_ok": 0,
+    "n_compile_fail": 8,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 8,
+    "types": [
+      "repeated_kernel",
+      "repeated_kernel",
+      "derivative_family",
+      "divided_difference"
+    ],
+    "old_certified": false,
+    "G1": {
+      "pass": true,
+      "types": [
+        "derivative_family",
+        "divided_difference"
+      ]
+    },
+    "G2": {
+      "pass": true,
+      "types": [
+        "derivative_family",
+        "divided_difference"
+      ]
+    },
+    "G3": {
+      "pass": false,
+      "n_ok": 0,
+      "n_fail": 8
+    },
+    "G4": {
+      "pass": false,
+      "n_zero": 0,
+      "n_nonzero": 0,
+      "n_unknown": 8,
+      "partial_zero": false
+    }
+  },
+  "compiles": [
+    {
+      "hypothesis_type": "repeated_kernel",
+      "latent_core": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum1(h1(b,n,m)*h2(a,c,m,n))",
+          "right": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)|{'h1_factor': 'h1(b,n,m)', 'h2_factor': 'h2(a,c,m,n)'}",
+          "member": "Sum1(h1(b,n,m)*h2(a,c,m,n))",
+          "latent": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
+          "operator": "specialize",
+          "theta": {
+            "h1_factor": "h1(b,n,m)",
+            "h2_factor": "h2(a,c,m,n)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum2(h1(c,n,m)*h2(a,b,m,n))",
+          "right": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)|{'h1_factor': 'h1(c,n,m)', 'h2_factor': 'h2(a,b,m,n)'}",
+          "member": "Sum2(h1(c,n,m)*h2(a,b,m,n))",
+          "latent": "(beta*gamma*(epsilon(m)-epsilon(n))*(beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_minus[2,n] + beta*(epsilon(m)-epsilon(n))*(2*I*gamma+epsilon(m)-epsilon(n))*P_plus[2,m] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_minus[1,n] + 8*pi*(gamma - I*epsilon(m)+I*epsilon(n))*P_plus[1,m])/(2*gamma - I*epsilon(m)+I*epsilon(n))**2 - 4*I*pi**2*(-P_minus[0,m]+P_minus[0,n]+P_plus[0,m]-P_plus[0,n]))/(8*pi**3*(epsilon(m)-epsilon(n))**3)",
+          "operator": "specialize",
+          "theta": {
+            "h1_factor": "h1(c,n,m)",
+            "h2_factor": "h2(a,b,m,n)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "repeated_kernel",
+      "latent_core": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum3(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))",
+          "right": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)|{'orientation_factor': 'h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)'}",
+          "member": "Sum3(h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell))",
+          "latent": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)",
+          "operator": "specialize",
+          "theta": {
+            "orientation_factor": "h1(a,m,n)*h1(b,ell,m)*h1(c,n,ell)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "SUBSTITUTION",
+          "left": "Sum4(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))",
+          "right": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)|{'orientation_factor': 'h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)'}",
+          "member": "Sum4(h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m))",
+          "latent": "I*beta**4*(P_minus[4,n] - P_plus[4,n])/(768*pi**5)",
+          "operator": "specialize",
+          "theta": {
+            "orientation_factor": "h1(a,m,n)*h1(b,n,ell)*h1(c,ell,m)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "derivative_family",
+      "latent_core": "beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}",
+      "n_ok": 0,
+      "n_fail": 1,
+      "obligations": [
+        {
+          "kind": "DERIVATIVE",
+          "left": "polygamma(k, A_s(x)/(2*pi))",
+          "right": "D^1[beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}]",
+          "member": "polygamma(k, A_s(x)/(2*pi))",
+          "latent": "beta*(gamma + s*I*mu - s*I*epsilon(x)) + pi for s in {+,-}",
+          "operator": "d/dtheta",
+          "theta": {
+            "k": "k",
+            "s": "s",
+            "x": "x"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    },
+    {
+      "hypothesis_type": "divided_difference",
+      "latent_core": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
+      "n_ok": 0,
+      "n_fail": 3,
+      "obligations": [
+        {
+          "kind": "DIVIDED_DIFFERENCE",
+          "left": "two-index off-diagonal True branch",
+          "right": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
+          "member": "two-index off-diagonal True branch",
+          "latent": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
+          "operator": "specialize",
+          "theta": {
+            "F": "polygamma",
+            "x": "epsilon(m)",
+            "y": "epsilon(n)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "DIVIDED_DIFFERENCE",
+          "left": "two-index diagonal Eq(m,n) branch",
+          "right": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
+          "member": "two-index diagonal Eq(m,n) branch",
+          "latent": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
+          "operator": "specialize",
+          "theta": {
+            "F": "polygamma",
+            "x": "epsilon(m)",
+            "y": "epsilon(n)"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "LIMIT",
+          "left": "Check that the two-index Eq(m,n) branch is the limit of the True branch as epsilon(m)->epsilon(n)",
+          "right": "",
+          "member": "Check that the two-index Eq(m,n) branch is the limit of the True branch as epsilon(m)->epsilon(n)",
+          "latent": "A divided-difference kernel D^{(r)}(x,y; F) built from differences of polygamma terms in the epsilon indices",
+          "operator": "identity",
+          "theta": {},
+          "nodes": [],
+          "order": 1,
+          "var": "of the True branch as epsilon(m)",
+          "to": "epsilon(n)",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "limit_sides_not_bound_to_source",
+          "source": "proof_obligation_text"
+        }
+      ]
+    }
+  ],
+  "verifs": [
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "DERIVATIVE",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "DIVIDED_DIFFERENCE",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "DIVIDED_DIFFERENCE",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "LIMIT",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "limit_sides_not_bound_to_source",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    }
+  ]
+}

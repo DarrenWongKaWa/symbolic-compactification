@@ -23,5 +23,15 @@
     "beyond_lgg": "3214a5a"
   },
   "decision": "CASE_A_overall_with_T1_anchoring",
-  "n_scored_runs": 276
+  "n_scored_runs": 276,
+  "line_closed": true,
+  "closed_doc": "research/llm_abstraction/CLOSED.md",
+  "frozen_raw_outputs": "research/llm_abstraction/runs/",
+  "do_not": [
+    "add Cadabra/FORM detectors",
+    "retune SOL ranking",
+    "retune DeepSeek prompts",
+    "tune packet size on TEST",
+    "mutate frozen raw_content or hypotheses"
+  ]
 }

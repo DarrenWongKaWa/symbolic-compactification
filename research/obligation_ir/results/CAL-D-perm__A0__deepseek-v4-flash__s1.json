@@ -1,0 +1,91 @@
+{
+  "rec": {
+    "file": "research/llm_abstraction/runs/flash/CAL-D-perm__A0__deepseek-v4-flash__s1.json",
+    "item_id": "CAL-D-perm",
+    "stage": "flash",
+    "condition": "A0",
+    "seed": 1,
+    "category": "T7",
+    "layer": "C",
+    "layer_detail": "compile_failure",
+    "n_compile_ok": 0,
+    "n_compile_fail": 2,
+    "n_zero": 0,
+    "n_nonzero": 0,
+    "n_unknown": 2,
+    "types": [
+      "symmetry_invariant"
+    ],
+    "old_certified": false
+  },
+  "compiles": [
+    {
+      "hypothesis_type": "symmetry_invariant",
+      "latent_core": "T(\u03b8_a, \u03b8_b)",
+      "n_ok": 0,
+      "n_fail": 2,
+      "obligations": [
+        {
+          "kind": "SUBSTITUTION",
+          "left": "T(i,j)",
+          "right": "T(\u03b8_a, \u03b8_b)|{'\u03b8_a': 'i', '\u03b8_b': 'j'}",
+          "member": "T(i,j)",
+          "latent": "T(\u03b8_a, \u03b8_b)",
+          "operator": "identity",
+          "theta": {
+            "\u03b8_a": "i",
+            "\u03b8_b": "j"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        },
+        {
+          "kind": "PERMUTATION",
+          "left": "T(j,i)",
+          "right": "permute[T(\u03b8_a, \u03b8_b)]",
+          "member": "T(j,i)",
+          "latent": "T(\u03b8_a, \u03b8_b)",
+          "operator": "permute",
+          "theta": {
+            "\u03b8_a": "j",
+            "\u03b8_b": "i"
+          },
+          "nodes": [],
+          "order": 1,
+          "var": "",
+          "to": "",
+          "coefficients": {},
+          "assumptions": [],
+          "compile_status": "COMPILE_FAILURE",
+          "compile_error": "unparseable_latent",
+          "source": "llm_hypothesis"
+        }
+      ]
+    }
+  ],
+  "verifs": [
+    {
+      "kind": "SUBSTITUTION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    },
+    {
+      "kind": "PERMUTATION",
+      "verdict": "UNKNOWN",
+      "backend": "none",
+      "note": "unparseable_latent",
+      "compile_status": "COMPILE_FAILURE",
+      "witness": null
+    }
+  ]
+}
