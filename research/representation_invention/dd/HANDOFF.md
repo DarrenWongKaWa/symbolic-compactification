@@ -79,4 +79,4 @@ Equality uses `research.llm_abstraction.constructor._equal` (imported, not copie
 
 ## COMMIT SHA
 
-COMMIT_SHA=PENDING
+COMMIT_SHA=9b21623042e38e732962fb001d35850f4b8ef852
