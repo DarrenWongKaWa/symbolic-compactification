@@ -140,6 +140,18 @@ def test_cubic_common_linear_factor_splits_with_reconstruction():
         assert out["reduction_ratio_A"] < 1.0
 
 
+def test_spectator_depending_on_degeneration_is_not_peeled():
+    A = y * (y + 3)
+    B = 3 * y
+    peeled = split_edge(A, B)
+    assert peeled["certified"] is True
+    blocked = split_edge(A, B, degeneration=y)
+    assert blocked["certified"] is False
+    assert blocked["note"] == "spectator_depends_on_degeneration"
+    assert _eq(blocked["A_local"], A)
+    assert _eq(blocked["B_local"], B)
+
+
 def test_mul_args_peel_does_not_increase_ops():
     K = x + 1
     L = y + 2

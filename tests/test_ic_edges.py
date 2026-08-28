@@ -93,6 +93,13 @@ def test_cubic_newton_confluence_is_zero():
     assert r.reduction_ratio == pytest.approx(r.local_ops / r.full_ops if r.full_ops else 1.0)
 
 
+def test_degeneration_dependent_spectator_is_not_false_zero():
+    x, y = _xy()
+    r = _edge(y * (y + 3), 3 * y, y, 0, ["x", "y"])
+    assert r.verdict != ZERO, r.to_dict()
+    assert r.verdict in (NONZERO, UNKNOWN)
+
+
 def test_corrupted_cubic_newton_is_nonzero():
     x, y = _xy()
     r = _edge((x**3 - y**3) / (x - y), 4 * x**2, y, x, ["x", "y"])

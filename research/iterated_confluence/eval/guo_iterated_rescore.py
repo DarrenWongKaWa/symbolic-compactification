@@ -118,7 +118,14 @@ def _budgeted(fn, *args) -> dict[str, Any]:
 
 
 def _endpoint_consistency(path_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """PATH_ZERO paths with the same start and end agree at the source end-member."""
+    """Compare covering paths that share start and end.
+
+    Two PATH_ZERO chains to the same source member do **not** prove that
+    iterated limits commute or that a joint limit exists (e.g.
+    ``xy/(x^2+y^2)``). Auto-CONSISTENT_ZERO is forbidden. A PATH_NONZERO
+    path against a claimed common end is INCONSISTENT_NONZERO. Otherwise
+    UNKNOWN until ``check_two_paths`` (or equivalent) decides.
+    """
     by_ends: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for p in path_rows:
         key = (p["start_member"], p["end_member"])
@@ -130,8 +137,6 @@ def _endpoint_consistency(path_rows: list[dict[str, Any]]) -> list[dict[str, Any
         verdicts = [g["path_verdict"] for g in group]
         if any(v == PATH_NONZERO for v in verdicts):
             v = INCONSISTENT_NONZERO
-        elif all(v == PATH_ZERO for v in verdicts):
-            v = CONSISTENT_ZERO
         else:
             v = CONSISTENCY_UNKNOWN
         out.append({

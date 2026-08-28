@@ -12,4 +12,5 @@ pass = True
 | E-hermite-cubic-consistent | FAMILY_ZERO | FAMILY_ZERO | True | Fxx ZERO |
 | F-hidden-pole | not FAMILY_ZERO | FAMILY_NONZERO | True | pole verdict NONZERO |
 | G-spectator-small-kernel | FAMILY_ZERO | FAMILY_ZERO | True | certified=True local=ZERO note=exact_applied_undef_factor |
+| neg-iterated-not-joint | FAMILY_UNKNOWN | FAMILY_UNKNOWN | True |  |
 | neg-majority-unknown | FAMILY_UNKNOWN | FAMILY_UNKNOWN | True |  |

@@ -129,7 +129,7 @@ def _certify(
     )
 
     full_ops = _pair_ops(source, target)
-    work_s, work_t, split_ok = _split_first(source, target, steps)
+    work_s, work_t, split_ok = _split_first(source, target, steps, degeneration=var)
     local_ops = _pair_ops(work_s, work_t)
     ratio = _reduction_ratio(full_ops, local_ops)
 
@@ -185,9 +185,10 @@ def _split_first(
     source: sympy.Expr,
     target: sympy.Expr,
     steps: list[str],
+    degeneration: Any = None,
 ) -> tuple[sympy.Expr, sympy.Expr, bool]:
     """Always attempt spectator split, including when full ops > 250."""
-    payload, name = _split_pair(source, target)
+    payload, name = _split_pair(source, target, degeneration=degeneration)
     if payload is None:
         steps.append("split:unavailable")
         return source, target, False
@@ -205,11 +206,18 @@ def _split_first(
     return a_loc, b_loc, True
 
 
-def _split_pair(source: sympy.Expr, target: sympy.Expr) -> tuple[Optional[dict], str]:
+def _split_pair(
+    source: sympy.Expr,
+    target: sympy.Expr,
+    degeneration: Any = None,
+) -> tuple[Optional[dict], str]:
     splitter = _load_split_edge()
     if splitter is not None:
         try:
-            raw = splitter(source, target)
+            try:
+                raw = splitter(source, target, degeneration=degeneration)
+            except TypeError:
+                raw = splitter(source, target)
             payload = _as_split_payload(raw)
             if payload is not None:
                 return payload, "split_edge"

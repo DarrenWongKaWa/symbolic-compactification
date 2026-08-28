@@ -1,6 +1,6 @@
 {
-  "n": 8,
-  "n_ok": 8,
+  "n": 9,
+  "n_ok": 9,
   "false_FAMILY_ZERO": 0,
   "rows": [
     {
@@ -51,6 +51,13 @@
       "got": "FAMILY_ZERO",
       "ok": true,
       "note": "certified=True local=ZERO note=exact_applied_undef_factor"
+    },
+    {
+      "id": "neg-iterated-not-joint",
+      "expect": "FAMILY_UNKNOWN",
+      "got": "FAMILY_UNKNOWN",
+      "ok": true,
+      "note": ""
     },
     {
       "id": "neg-majority-unknown",

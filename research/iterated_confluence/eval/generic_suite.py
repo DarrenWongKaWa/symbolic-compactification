@@ -164,6 +164,16 @@ def run() -> dict[str, Any]:
         f"certified={sp['certified']} local={local_v} note={sp.get('note')}",
     ))
 
+    # Two PATH_ZERO paths to the same end are not a joint-limit certificate
+    # (xy/(x^2+y^2) iterated limits both 0; joint limit missing).
+    fam_joint = compose_family_verdict(
+        path_verdicts=[PATH_ZERO, PATH_ZERO],
+        consistency_verdicts=[CONSISTENCY_UNKNOWN],
+        reconstruction_verdicts=["ZERO"],
+        require_path_independence=True,
+    )
+    rows.append(_row("neg-iterated-not-joint", FAMILY_UNKNOWN, fam_joint))
+
     # Majority PATH_ZERO + one UNKNOWN is not FAMILY_ZERO
     fam_maj = compose_family_verdict(
         path_verdicts=[PATH_ZERO, PATH_ZERO, PATH_UNKNOWN],

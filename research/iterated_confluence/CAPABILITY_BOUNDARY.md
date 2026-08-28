@@ -31,8 +31,11 @@ sum, not a 176-op two-member kernel.
 
 ## What is not the bottleneck (this track)
 
-- Path independence / noncommuting multivariable limits: never reached,
-  because required local edges stayed UNKNOWN (not I-C).
+- Path independence / noncommuting multivariable limits: never reached
+  on frozen Guo, because required local edges stayed UNKNOWN (not I-C).
+  Reviewer 2: two PATH_ZERO paths to the same source member must **not**
+  auto-promote to CONSISTENT_ZERO (counterexample `xy/(x^2+y^2)`).
+  Rescore now leaves that obligation UNKNOWN until `check_two_paths`.
 - Missing explicit latent F / Hermite recurrence: not discharged, but
   the first blocking obligation is already the one-parameter polygamma
   hop.

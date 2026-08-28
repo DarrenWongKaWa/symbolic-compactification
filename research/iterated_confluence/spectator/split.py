@@ -29,6 +29,7 @@ _NEG_ONE = sympy.Integer(-1)
 
 _NOTE_PRIORITY = (
     "reconstruction_failed",
+    "spectator_depends_on_degeneration",
     "expansion_not_reduction",
     "too_large_for_gcd",
     "gcd_failed",
@@ -67,12 +68,15 @@ def count_ops(expr: Any) -> int:
         return 0
 
 
-def split_edge(A: Any, B: Any) -> SplitEdgeResult:
+def split_edge(A: Any, B: Any, degeneration: Any = None) -> SplitEdgeResult:
     """Factor exact spectator structure of the pair ``(A, B)``.
 
     Multiplicative mode is tried first, then additive. Certified only when
     Track V reports a split **and** reconstruction holds. A failed
     reconstruction discards that kernel (it is not returned for proving).
+
+    ``degeneration`` is the one-parameter limit variable. A spectator that
+    depends on it is not peeled (``lim y*f(y)`` is not ``y * lim f``).
     """
     try:
         a = _to_expr(A)
@@ -80,23 +84,30 @@ def split_edge(A: Any, B: Any) -> SplitEdgeResult:
     except (TypeError, ValueError, sympy.SympifyError) as exc:
         return _none_payload(_ZERO, _ZERO, f"bad_input:{type(exc).__name__}")
 
+    deg = None
+    if degeneration is not None:
+        try:
+            deg = degeneration if isinstance(degeneration, sympy.Basic) else _to_expr(degeneration)
+        except Exception:
+            deg = None
+
     reasons: list[str] = []
 
     undef = _mul_undef_peel(a, b)
-    accepted, reason = _try_mode(undef, MODE_MULTIPLICATIVE, a, b)
+    accepted, reason = _try_mode(undef, MODE_MULTIPLICATIVE, a, b, degeneration=deg)
     if accepted is not None:
         return accepted
     if reason:
         reasons.append(reason)
 
     mul = _call_split(split_multiplicative, a, b, multiplicative=True)
-    accepted, reason = _try_mode(mul, MODE_MULTIPLICATIVE, a, b)
+    accepted, reason = _try_mode(mul, MODE_MULTIPLICATIVE, a, b, degeneration=deg)
     if accepted is not None:
         return accepted
     reasons.append(reason or mul["note"])
 
     add = _call_split(split_additive, a, b, multiplicative=False)
-    accepted, reason = _try_mode(add, MODE_ADDITIVE, a, b)
+    accepted, reason = _try_mode(add, MODE_ADDITIVE, a, b, degeneration=deg)
     if accepted is not None:
         return accepted
     reasons.append(reason or add["note"])
@@ -154,11 +165,21 @@ def _call_split(
     return out
 
 
+def _depends_on_degeneration(S: sympy.Expr, degeneration: Optional[sympy.Expr]) -> bool:
+    if degeneration is None:
+        return False
+    try:
+        return bool(S.has(degeneration))
+    except Exception:
+        return True
+
+
 def _try_mode(
     raw: dict[str, Any],
     mode: str,
     a: sympy.Expr,
     b: sympy.Expr,
+    degeneration: Optional[sympy.Expr] = None,
 ) -> tuple[Optional[SplitEdgeResult], Optional[str]]:
     if not raw.get("certified"):
         return None, None
@@ -174,6 +195,8 @@ def _try_mode(
         return None, "reconstruction_failed"
     if _trivial_spectator(S):
         return None, "unit_or_zero_spectator"
+    if _depends_on_degeneration(S, degeneration):
+        return None, "spectator_depends_on_degeneration"
     if not _reconstruction_ok(mode, S, a_local, b_local, a, b):
         return None, "reconstruction_failed"
     if count_ops(a_local) + count_ops(b_local) > count_ops(a) + count_ops(b):

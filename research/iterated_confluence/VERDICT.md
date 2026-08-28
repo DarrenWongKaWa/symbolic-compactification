@@ -93,7 +93,12 @@ designed to match the 176-op pattern, timeout as UNKNOWN at 25 s and 90 s.
 
 ## 15. False-promotion audit
 
-false FAMILY_ZERO = 0 (generic suite + falsifier 10 cases).
+false FAMILY_ZERO = 0 (generic suite 9 cases + falsifier 10 cases).
+Independent reviews (R1–R6) did not find a live false ZERO on frozen Guo.
+Two holes were patched before they could fire on a later family:
+
+- R2: auto-CONSISTENT_ZERO from shared endpoints (joint-limit gap).
+- R1: peeling a spectator that depends on the degeneration variable.
 
 ## 16. Claims supported
 
@@ -122,6 +127,7 @@ certificates do not exist. No paper directory.
 | V2 freeze | `4dee916` |
 | V2 close | `fe53ebc` |
 | V3 freeze | `dcfb90c` |
+| V3 close | `d977db4` |
 | V3 inputs sha256 | `e1fc6df85b0d293f3251ec87c1827409f402c01752a73251be8899f5b00c41db` |
 | Tag intent | `iterated-confluence-verifier-v1` |
 
