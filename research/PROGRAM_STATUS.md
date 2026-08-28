@@ -1,19 +1,19 @@
 # PROGRAM STATUS — Scalable Verified Representation Invention
 
-CURRENT PHASE: V0 freeze inputs / spawn Track-V cluster
+CURRENT PHASE: Track V closed (V-D). Track D not opened for Guo Hermite.
 
-ACTIVE SUBAGENTS: (pending V1–V9)
+ACTIVE SUBAGENTS: none
 
-COMPLETED WORKTREES: none yet
+COMPLETED WORKTREES: V1–V9 merged
 
-MERGED SHAS: branch from `1e9d2b6` (includes evidence `91a401b`)
+MERGED SHAS: see `scalable_verification/MERGE_REPORT.md`
 
-CURRENT EVIDENCE: P1 Guo 11/11 local confluence ZERO; P2 Newton DD-OK 2/5 DEV 3/5 TEST; Guo P2 V-bound UNKNOWN
+CURRENT EVIDENCE: 3 frozen Guo 2-member confluence hyps UNKNOWN→ZERO (V_GAIN). 5-branch UNKNOWN. Generic suite false ZERO=0.
 
-CURRENT FAILURE LAYER: V on Guo-scale limits; D on Hermite DD-OK
+CURRENT FAILURE LAYER: V on Guo 5-branch/Hermite; D on synthetic Hermite DD-OK (still 0/5 from frozen P2)
 
-BLOCKERS: Track D locked until Track V closes
+BLOCKERS: 5-branch confluence still UNKNOWN — do not call that discovery failure
 
-NEXT AUTO ACTION: freeze FROZEN_INPUTS.json then spawn V1–V9
+NEXT AUTO ACTION: optional Track D on synthetic Hermite using frozen V verifier; do not retune SOL
 
 PUBLICATION STATUS: E

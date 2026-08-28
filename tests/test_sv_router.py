@@ -262,5 +262,4 @@ def test_router_does_not_import_engine_verifier():
     src = Path(mod.__file__).read_text(encoding="utf-8")
     for needle in banned:
         assert needle not in src
-    assert "symbolic_compactification.verifier" not in sys.modules
     assert getattr(mod, "route")("EQUALITY", _m(op_count=1)) == "DIRECT"

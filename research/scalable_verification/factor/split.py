@@ -26,6 +26,65 @@ class SplitResult(TypedDict):
 _ONE = sympy.Integer(1)
 _ZERO = sympy.Integer(0)
 _NEG_ONE = sympy.Integer(-1)
+_GCD_OPS_CAP = 80
+
+
+def _count_ops(expr: sympy.Expr) -> int:
+    try:
+        return int(sympy.count_ops(expr, visual=False))
+    except Exception:
+        return _GCD_OPS_CAP + 1
+
+
+def _peel_applied_undef(expr: sympy.Expr) -> tuple[sympy.Expr, sympy.Expr]:
+    """Exact product of AppliedUndef factors that divide ``expr``."""
+    from sympy.core.function import AppliedUndef
+
+    spectator = _ONE
+    rest = expr
+    for atom in list(expr.atoms(AppliedUndef)):
+        try:
+            quot = sympy.cancel(rest / atom)
+        except Exception:
+            continue
+        if _exact_eq(quot * atom, rest):
+            spectator = spectator * atom
+            rest = quot
+    return spectator, rest
+
+
+def _split_undef(a: sympy.Expr, b: sympy.Expr) -> SplitResult | None:
+    sa, ra = _peel_applied_undef(a)
+    sb, rb = _peel_applied_undef(b)
+    from sympy.core.function import AppliedUndef
+
+    common = []
+    fa = list(sympy.Mul.make_args(sa))
+    fb = list(sympy.Mul.make_args(sb))
+    used_b = [False] * len(fb)
+    for xa in fa:
+        if not isinstance(xa, AppliedUndef) and xa not in (_ONE,):
+            continue
+        for i, xb in enumerate(fb):
+            if used_b[i]:
+                continue
+            if xa == xb:
+                common.append(xa)
+                used_b[i] = True
+                break
+    if not common:
+        return None
+    S = sympy.Mul(*common)
+    if _is_unit(S):
+        return None
+    try:
+        a_local = sympy.cancel(a / S)
+        b_local = sympy.cancel(b / S)
+    except Exception:
+        return None
+    if not (_exact_eq(S * a_local, a) and _exact_eq(S * b_local, b)):
+        return None
+    return _payload(S, a_local, b_local, True, "exact_applied_undef_factor")
 
 
 def split_multiplicative(A: Any, B: Any) -> SplitResult:
@@ -35,6 +94,13 @@ def split_multiplicative(A: Any, B: Any) -> SplitResult:
         b = _to_expr(B)
     except (TypeError, ValueError, sympy.SympifyError) as exc:
         return _uncert_mul(_ZERO, _ZERO, f"bad_input:{type(exc).__name__}")
+
+    undef = _split_undef(a, b)
+    if undef is not None:
+        return undef
+
+    if _count_ops(a) + _count_ops(b) > _GCD_OPS_CAP:
+        return _uncert_mul(a, b, "too_large_for_gcd")
 
     try:
         n_a, d_a = _num_den(a)
