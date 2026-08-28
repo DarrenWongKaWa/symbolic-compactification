@@ -1,0 +1,49 @@
+{
+  "n": 6,
+  "n_false_family_zero": 0,
+  "n_missed_positive": 0,
+  "gate_pass": true,
+  "rows": [
+    {
+      "id": "pos-3branch-confluence",
+      "expect": "FAMILY_ZERO",
+      "got": "FAMILY_ZERO",
+      "ok": true
+    },
+    {
+      "id": "pos-5branch-hermite-cubic",
+      "expect": "FAMILY_ZERO",
+      "got": "FAMILY_ZERO",
+      "note": [
+        "ZERO",
+        "ZERO",
+        "ZERO"
+      ],
+      "ok": true
+    },
+    {
+      "id": "pos-two-paths",
+      "expect": "FAMILY_ZERO",
+      "got": "FAMILY_ZERO",
+      "ok": true
+    },
+    {
+      "id": "neg-corrupted-branch",
+      "expect": "FAMILY_NONZERO",
+      "got": "FAMILY_NONZERO",
+      "ok": true
+    },
+    {
+      "id": "neg-mixed-latent",
+      "expect": "FAMILY_UNKNOWN",
+      "got": "FAMILY_UNKNOWN",
+      "ok": true
+    },
+    {
+      "id": "neg-majority-not-zero",
+      "expect": "FAMILY_UNKNOWN",
+      "got": "FAMILY_UNKNOWN",
+      "ok": true
+    }
+  ]
+}

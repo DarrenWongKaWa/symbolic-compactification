@@ -1,0 +1,8 @@
+family_id,n_members,n_edges,n_zero_edges,n_nonzero_edges,n_unknown_edges,recurrence,family_verdict,connected,bottleneck
+guo-p2-s0-i3,5,4,0,0,4,UNKNOWN,FAMILY_UNKNOWN,True,V
+guo-p2-s1-i2,5,4,0,0,4,UNKNOWN,FAMILY_UNKNOWN,True,V
+guo-p2-s1-i3,5,4,0,0,4,UNKNOWN,FAMILY_UNKNOWN,True,V
+guo-p2-s2-i2,5,4,0,0,4,UNKNOWN,FAMILY_UNKNOWN,True,V
+guo-p2-s2-i3,5,4,0,0,4,UNKNOWN,FAMILY_UNKNOWN,True,V
+guo-p2-s2-i4,4,3,2,0,1,n/a,FAMILY_UNKNOWN,True,V
+guo-p2-s4-i1,5,4,0,0,4,UNKNOWN,FAMILY_UNKNOWN,True,V

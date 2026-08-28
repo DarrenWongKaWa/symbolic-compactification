@@ -1,21 +1,21 @@
 # PROGRAM STATUS V2
 
-CURRENT TRACK: V2 multi-branch / Hermite certification
+CURRENT TRACK: V2 closed (CASE H-C)
 
-CURRENT PHASE: freeze + spawn V2-A..J
+CURRENT PHASE: V2 close; Track D2 LOCKED
 
-ACTIVE SUBAGENTS: pending
+ACTIVE SUBAGENTS: none
 
-COMPLETED WORKTREES: none
+COMPLETED WORKTREES: V2-A..J merged
 
-MERGED SHAS: branch from `38d6d4a`
+MERGED SHAS: see git log on research/multibranch-hermite-verification-v1
 
-FROZEN AUTHORITIES: 329c49c, 38d6d4a, 91a401b, 3fea222
+FROZEN AUTHORITIES: 38d6d4a, 4dee916
 
-CURRENT EVIDENCE: Track V 3/8 two-member confluence ZERO; 5 multi-branch UNKNOWN + 2 Hermite-typed UNKNOWN frozen here (n=7)
+CURRENT EVIDENCE: 7/7 Guo 5-branch/Hermite families FAMILY_UNKNOWN; toy FAMILY_ZERO sound (false FAMILY_ZERO=0)
 
-CURRENT BOTTLENECK: V on 5-branch families
+CURRENT BOTTLENECK: V on 5-branch / repeated-node (ops, missing explicit F)
 
-NEXT AUTO ACTION: spawn V2-A..J after this freeze commit
+NEXT AUTO ACTION: do not open Track D2; reduce 5-branch kernels to iterated 1-parameter edges
 
 PUBLICATION STATUS: E
