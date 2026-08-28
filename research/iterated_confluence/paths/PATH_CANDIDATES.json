@@ -1,0 +1,1906 @@
+{
+  "track": "V3",
+  "agent": "V3-B",
+  "evaluation_only": true,
+  "does_not_adjudicate": true,
+  "no_llm_calls": true,
+  "source_frozen": "research/iterated_confluence/FROZEN_INPUTS_V3.json",
+  "n_families": 7,
+  "family_ids": [
+    "guo-p2-s0-i3",
+    "guo-p2-s1-i2",
+    "guo-p2-s1-i3",
+    "guo-p2-s2-i2",
+    "guo-p2-s2-i3",
+    "guo-p2-s2-i4",
+    "guo-p2-s4-i1"
+  ],
+  "ranking": [
+    "n_steps_ascending",
+    "max_source_target_ops_ascending",
+    "certified_true_eq_mn_shape",
+    "path_id_lexicographic"
+  ],
+  "families": [
+    {
+      "family_id": "guo-p2-s0-i3",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s0-i3:G0013->G0012",
+          "start_member": "G0013",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0014->G0012",
+          "start_member": "G0014",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0015->G0012",
+          "start_member": "G0015",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0016->G0013",
+          "start_member": "G0016",
+          "end_member": "G0013",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0016->G0013:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0016->G0014",
+          "start_member": "G0016",
+          "end_member": "G0014",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0016->G0014:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0016->G0015",
+          "start_member": "G0016",
+          "end_member": "G0015",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0016->G0015:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0016->G0013->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0016->G0013:one_parameter_confluence"
+            },
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0016->G0014->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0016->G0014:one_parameter_confluence"
+            },
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s0-i3:G0016->G0015->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0016->G0015:one_parameter_confluence"
+            },
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s0-i3:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [
+        {
+          "source": "G0016",
+          "target": "G0012",
+          "relation": "repeated_node_confluence",
+          "variable": "epsilon(ell),epsilon(m)",
+          "target_value": "epsilon(n),epsilon(n)",
+          "reason": "not_one_parameter",
+          "n_parameters": 2
+        }
+      ],
+      "substitutions": []
+    },
+    {
+      "family_id": "guo-p2-s1-i2",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s1-i2:G0013->G0012",
+          "start_member": "G0013",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0014->G0012",
+          "start_member": "G0014",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0015->G0012",
+          "start_member": "G0015",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0016->G0013",
+          "start_member": "G0016",
+          "end_member": "G0013",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0016->G0013:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0016->G0014",
+          "start_member": "G0016",
+          "end_member": "G0014",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0016->G0014:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0016->G0015",
+          "start_member": "G0016",
+          "end_member": "G0015",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0016->G0015:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0016->G0013->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0016->G0013:one_parameter_confluence"
+            },
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0016->G0014->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0016->G0014:one_parameter_confluence"
+            },
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i2:G0016->G0015->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0016->G0015:one_parameter_confluence"
+            },
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i2:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [
+        {
+          "source": "G0016",
+          "target": "G0012",
+          "relation": "repeated_node_confluence",
+          "variable": "epsilon(ell),epsilon(m)",
+          "target_value": "epsilon(n),epsilon(n)",
+          "reason": "not_one_parameter",
+          "n_parameters": 2
+        }
+      ],
+      "substitutions": []
+    },
+    {
+      "family_id": "guo-p2-s1-i3",
+      "member_ids": [
+        "G0019",
+        "G0020",
+        "G0021",
+        "G0022",
+        "G0023"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s1-i3:G0020->G0019",
+          "start_member": "G0020",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0020",
+              "target": "G0019",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0020->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0021->G0019",
+          "start_member": "G0021",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0021",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0021->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0022->G0019",
+          "start_member": "G0022",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0022",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0022->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0023->G0020",
+          "start_member": "G0023",
+          "end_member": "G0020",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0020",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0023->G0020:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0023->G0021",
+          "start_member": "G0023",
+          "end_member": "G0021",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0021",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0023->G0021:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0023->G0022",
+          "start_member": "G0023",
+          "end_member": "G0022",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0022",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0023->G0022:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0023->G0020->G0019",
+          "start_member": "G0023",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0020",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0023->G0020:one_parameter_confluence"
+            },
+            {
+              "source": "G0020",
+              "target": "G0019",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0020->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0023->G0021->G0019",
+          "start_member": "G0023",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0021",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0023->G0021:one_parameter_confluence"
+            },
+            {
+              "source": "G0021",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0021->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s1-i3:G0023->G0022->G0019",
+          "start_member": "G0023",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0022",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0023->G0022:one_parameter_confluence"
+            },
+            {
+              "source": "G0022",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s1-i3:G0022->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [
+        {
+          "source": "G0023",
+          "target": "G0019",
+          "relation": "repeated_node_confluence",
+          "variable": "epsilon(ell),epsilon(m)",
+          "target_value": "epsilon(n),epsilon(n)",
+          "reason": "not_one_parameter",
+          "n_parameters": 2
+        }
+      ],
+      "substitutions": []
+    },
+    {
+      "family_id": "guo-p2-s2-i2",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s2-i2:G0013->G0012",
+          "start_member": "G0013",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0014->G0012",
+          "start_member": "G0014",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0015->G0012",
+          "start_member": "G0015",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0016->G0013",
+          "start_member": "G0016",
+          "end_member": "G0013",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0016->G0013:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0016->G0014",
+          "start_member": "G0016",
+          "end_member": "G0014",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0016->G0014:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0016->G0015",
+          "start_member": "G0016",
+          "end_member": "G0015",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0016->G0015:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0016->G0013->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0016->G0013:one_parameter_confluence"
+            },
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0016->G0014->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0016->G0014:one_parameter_confluence"
+            },
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i2:G0016->G0015->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0016->G0015:one_parameter_confluence"
+            },
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i2:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [
+        {
+          "source": "G0016",
+          "target": "G0012",
+          "relation": "repeated_node_confluence",
+          "variable": "epsilon(ell),epsilon(m)",
+          "target_value": "epsilon(n),epsilon(n)",
+          "reason": "not_one_parameter",
+          "n_parameters": 2
+        }
+      ],
+      "substitutions": []
+    },
+    {
+      "family_id": "guo-p2-s2-i3",
+      "member_ids": [
+        "G0019",
+        "G0020",
+        "G0021",
+        "G0022",
+        "G0023"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s2-i3:G0020->G0019",
+          "start_member": "G0020",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0020",
+              "target": "G0019",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0020->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0021->G0019",
+          "start_member": "G0021",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0021",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0021->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0022->G0019",
+          "start_member": "G0022",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0022",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0022->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0023->G0020",
+          "start_member": "G0023",
+          "end_member": "G0020",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0020",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0023->G0020:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0023->G0021",
+          "start_member": "G0023",
+          "end_member": "G0021",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0021",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0023->G0021:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0023->G0022",
+          "start_member": "G0023",
+          "end_member": "G0022",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0022",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0023->G0022:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0023->G0020->G0019",
+          "start_member": "G0023",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0020",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0023->G0020:one_parameter_confluence"
+            },
+            {
+              "source": "G0020",
+              "target": "G0019",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0020->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0023->G0021->G0019",
+          "start_member": "G0023",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0021",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0023->G0021:one_parameter_confluence"
+            },
+            {
+              "source": "G0021",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0021->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i3:G0023->G0022->G0019",
+          "start_member": "G0023",
+          "end_member": "G0019",
+          "steps": [
+            {
+              "source": "G0023",
+              "target": "G0022",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0023->G0022:one_parameter_confluence"
+            },
+            {
+              "source": "G0022",
+              "target": "G0019",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i3:G0022->G0019:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [
+        {
+          "source": "G0023",
+          "target": "G0019",
+          "relation": "repeated_node_confluence",
+          "variable": "epsilon(ell),epsilon(m)",
+          "target_value": "epsilon(n),epsilon(n)",
+          "reason": "not_one_parameter",
+          "n_parameters": 2
+        }
+      ],
+      "substitutions": []
+    },
+    {
+      "family_id": "guo-p2-s2-i4",
+      "member_ids": [
+        "G0004",
+        "G0005",
+        "G0008",
+        "G0009"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s2-i4:G0005->G0004",
+          "start_member": "G0005",
+          "end_member": "G0004",
+          "steps": [
+            {
+              "source": "G0005",
+              "target": "G0004",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i4:G0005->G0004:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s2-i4:G0009->G0008",
+          "start_member": "G0009",
+          "end_member": "G0008",
+          "steps": [
+            {
+              "source": "G0009",
+              "target": "G0008",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s2-i4:G0009->G0008:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [],
+      "substitutions": [
+        {
+          "source": "G0005",
+          "target": "G0009",
+          "variable": "b",
+          "target_value": "c",
+          "spectator_map": {},
+          "local_kernel_id": "",
+          "old_ops": null,
+          "local_ops": null,
+          "verdict": "UNKNOWN",
+          "provenance": "operator:substitution",
+          "relation": "substitution",
+          "obligation_id": ""
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s4-i1",
+      "member_ids": [
+        "G0012",
+        "G0013",
+        "G0014",
+        "G0015",
+        "G0016"
+      ],
+      "paths": [
+        {
+          "path_id": "guo-p2-s4-i1:G0013->G0012",
+          "start_member": "G0013",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0014->G0012",
+          "start_member": "G0014",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0015->G0012",
+          "start_member": "G0015",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0016->G0013",
+          "start_member": "G0016",
+          "end_member": "G0013",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0016->G0013:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0016->G0014",
+          "start_member": "G0016",
+          "end_member": "G0014",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0016->G0014:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0016->G0015",
+          "start_member": "G0016",
+          "end_member": "G0015",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0016->G0015:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0016->G0013->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0013",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0016->G0013:one_parameter_confluence"
+            },
+            {
+              "source": "G0013",
+              "target": "G0012",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0013->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0016->G0014->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0014",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0016->G0014:one_parameter_confluence"
+            },
+            {
+              "source": "G0014",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0014->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        },
+        {
+          "path_id": "guo-p2-s4-i1:G0016->G0015->G0012",
+          "start_member": "G0016",
+          "end_member": "G0012",
+          "steps": [
+            {
+              "source": "G0016",
+              "target": "G0015",
+              "variable": "epsilon(ell)",
+              "target_value": "epsilon(m)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0016->G0015:one_parameter_confluence"
+            },
+            {
+              "source": "G0015",
+              "target": "G0012",
+              "variable": "epsilon(m)",
+              "target_value": "epsilon(n)",
+              "spectator_map": {},
+              "local_kernel_id": "",
+              "old_ops": null,
+              "local_ops": null,
+              "verdict": "UNKNOWN",
+              "provenance": "cond",
+              "relation": "one_parameter_confluence",
+              "obligation_id": "guo-p2-s4-i1:G0015->G0012:one_parameter_confluence"
+            }
+          ],
+          "path_verdict": "PATH_UNKNOWN",
+          "provenance": [
+            "existing_members_only",
+            "one_parameter_covering"
+          ]
+        }
+      ],
+      "rejected_multi_parameter": [
+        {
+          "source": "G0016",
+          "target": "G0012",
+          "relation": "repeated_node_confluence",
+          "variable": "epsilon(ell),epsilon(m)",
+          "target_value": "epsilon(n),epsilon(n)",
+          "reason": "not_one_parameter",
+          "n_parameters": 2
+        }
+      ],
+      "substitutions": []
+    }
+  ]
+}
