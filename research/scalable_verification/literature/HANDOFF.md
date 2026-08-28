@@ -5,9 +5,7 @@ Branch: `work/v-literature`
 
 ## SHA
 
-`729307560cdd7a348023f73bbc751c0c6dabb095`
-
-After this file is amended onto the literature commit, resolve the live SHA with `git rev-parse work/v-literature`.
+`388522a05e83d6cd6b0db8c3bcbb108006c9d362`
 
 ## Files (owned: `research/scalable_verification/literature/**`)
 
@@ -73,8 +71,3 @@ Frozen run trees were not edited. SOL was not retuned.
 - Treat this documentation as a method result or as Track-V closed.
 - Convert timeout to ZERO.
 - Open Track D until `TRACK_V_CLOSED.md` exists.
-
-## COMMIT SHA
-
-COMMIT_SHA=d4556192e1670e3608c11b68f9b66680b522d62e
-FILES=research/scalable_verification/literature/README.md research/scalable_verification/literature/METHODS.md research/scalable_verification/literature/CLASSIFICATION.md research/scalable_verification/literature/REFERENCES.bib research/scalable_verification/literature/HANDOFF.md research/scalable_verification/literature/__init__.py
