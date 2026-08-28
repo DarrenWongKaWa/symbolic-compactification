@@ -1,19 +1,15 @@
 # PROGRAM STATUS V5
 
-CURRENT TRACK: V5 coefficient-space Laurent
+CURRENT TRACK: V5 closed (CASE L-D)
 
-CURRENT PHASE: freeze + schema (pre-method)
+CURRENT PHASE: coefficient-space Laurent; D2 LOCKED; STOP
 
-ACTIVE SUBAGENTS: none yet
+FROZEN AUTHORITIES: 248d247, 7102e8a, d2752f9, fe53ebc
 
-FROZEN AUTHORITIES: 248d247, d2752f9, fe53ebc, 38d6d4a
+CURRENT EVIDENCE: 18/18 generic→diagonal hops UNKNOWN; LEVEL B on m→n negatives; no LEVEL C
 
-CURRENT EVIDENCE: inherited V4 J-C; G0016→G0013 UNKNOWN
+CURRENT BOTTLENECK: C_0 vs G0013 exact identity (990 vs 327 ops)
 
-CURRENT BOTTLENECK: 27k-op together on generic→diagonal
-
-NEXT AUTO ACTION: freeze commit; spawn V5-A..M
-
-TRACK D2: LOCKED
+NEXT AUTO ACTION: do not open D2; do not start V6 by default
 
 PUBLICATION STATUS: E

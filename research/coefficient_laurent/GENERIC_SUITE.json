@@ -1,0 +1,35 @@
+{
+  "n": 4,
+  "false_ZERO": 0,
+  "pass": true,
+  "rows": [
+    {
+      "id": "B-full-cancel",
+      "expect": "ZERO",
+      "got": "ZERO",
+      "ok": true,
+      "note": ""
+    },
+    {
+      "id": "C-surviving-pole",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "note": ""
+    },
+    {
+      "id": "E-wrong-order",
+      "expect": "NONZERO",
+      "got": "NONZERO",
+      "ok": true,
+      "note": ""
+    },
+    {
+      "id": "A-atoms-only-not-zero",
+      "expect": "UNKNOWN",
+      "got": "UNKNOWN",
+      "ok": true,
+      "note": ""
+    }
+  ]
+}
