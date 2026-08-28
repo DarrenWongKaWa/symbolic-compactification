@@ -5,7 +5,8 @@ Branch: `work/v-literature`
 
 ## SHA
 
-`388522a05e83d6cd6b0db8c3bcbb108006c9d362`
+Parent `329c49c22c7d68d0192a59f04bf3ba8ad12c9b48`.
+Live tip: `git rev-parse work/v-literature`.
 
 ## Files (owned: `research/scalable_verification/literature/**`)
 
