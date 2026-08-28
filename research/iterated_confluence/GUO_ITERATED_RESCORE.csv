@@ -1,0 +1,8 @@
+family_id,n_members,n_paths,n_covering_paths,n_zero_edges,n_nonzero_edges,n_unknown_edges,n_path_zero,n_path_nonzero,consistency,family_verdict,require_path_independence,claimed_type
+guo-p2-s0-i3,5,9,3,0,0,6,0,0,UNKNOWN,FAMILY_UNKNOWN,True,local_confluence
+guo-p2-s1-i2,5,9,3,0,0,6,0,0,UNKNOWN,FAMILY_UNKNOWN,True,hermite_divided_difference
+guo-p2-s1-i3,5,9,3,0,0,6,0,0,UNKNOWN,FAMILY_UNKNOWN,True,hermite_divided_difference
+guo-p2-s2-i2,5,9,3,0,0,6,0,0,UNKNOWN,FAMILY_UNKNOWN,True,local_confluence
+guo-p2-s2-i3,5,9,3,0,0,6,0,0,UNKNOWN,FAMILY_UNKNOWN,True,local_confluence
+guo-p2-s2-i4,4,2,2,2,0,1,2,0,n/a,FAMILY_UNKNOWN,False,local_confluence
+guo-p2-s4-i1,5,9,3,0,0,6,0,0,UNKNOWN,FAMILY_UNKNOWN,True,local_confluence

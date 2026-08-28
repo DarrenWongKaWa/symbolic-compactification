@@ -140,6 +140,18 @@ def test_cubic_common_linear_factor_splits_with_reconstruction():
         assert out["reduction_ratio_A"] < 1.0
 
 
+def test_mul_args_peel_does_not_increase_ops():
+    K = x + 1
+    L = y + 2
+    A = h1(m) * h2(n) * K
+    B = h1(m) * h2(n) * L
+    out = split_edge(A, B)
+    assert out["certified"] is True
+    assert out["note"] == "exact_applied_undef_mul_args"
+    assert out["local_ops_A"] <= out["full_ops_A"]
+    assert out["local_ops_B"] <= out["full_ops_B"]
+
+
 def test_applied_undef_h1_h2_peels_with_reconstruction():
     K = x + 1
     L = y + 2

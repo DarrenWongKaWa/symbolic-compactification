@@ -6,4 +6,5 @@ No LLM. Track D2 locked until `FAMILY_ZERO` or `FAMILY_NONZERO`.
 `PATH_ZERO` is not `FAMILY_ZERO`. Iterated limit is not joint limit
 unless path consistency is certified.
 
-See `PROTOCOL.md`, `schema.py`, `FROZEN_INPUTS_V3.json`.
+Closed **I-D**. Track D2 locked. See `TRACK_V3_CLOSED.md`, `VERDICT.md`,
+`CAPABILITY_BOUNDARY.md`.

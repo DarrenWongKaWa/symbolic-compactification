@@ -143,13 +143,13 @@ def test_timeout_is_unknown_never_zero(monkeypatch):
     assert "timeout" in r.provenance or any("timeout" in s for s in r.steps)
 
 
-def test_size_guard_monkeypatch_is_unknown_never_zero(monkeypatch):
+def test_size_guard_does_not_block_check_limit(monkeypatch):
+    """V2 OPS_CAP=200 must not skip Track V check_limit (series)."""
     monkeypatch.setattr(cert_mod, "_ops_too_large_local", lambda *_e: True)
     x, y = _xy()
     r = _edge((x**3 - y**3) / (x - y), 3 * x**2, y, x, ["x", "y"])
-    assert r.verdict == UNKNOWN, r.to_dict()
-    assert r.verdict != ZERO
-    assert r.provenance == "size_guard"
+    assert r.verdict == ZERO, r.to_dict()
+    assert "check_limit" in r.provenance or any("check_limit" in s for s in r.steps)
 
 
 def test_huge_unsplit_expr_is_unknown_never_zero():

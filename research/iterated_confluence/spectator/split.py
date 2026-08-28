@@ -15,6 +15,7 @@ from __future__ import annotations
 from typing import Any, Optional, TypedDict
 
 import sympy
+from sympy.core.function import AppliedUndef
 
 from research.scalable_verification.factor import split_additive, split_multiplicative
 
@@ -28,6 +29,7 @@ _NEG_ONE = sympy.Integer(-1)
 
 _NOTE_PRIORITY = (
     "reconstruction_failed",
+    "expansion_not_reduction",
     "too_large_for_gcd",
     "gcd_failed",
     "pole_mismatch",
@@ -79,6 +81,13 @@ def split_edge(A: Any, B: Any) -> SplitEdgeResult:
         return _none_payload(_ZERO, _ZERO, f"bad_input:{type(exc).__name__}")
 
     reasons: list[str] = []
+
+    undef = _mul_undef_peel(a, b)
+    accepted, reason = _try_mode(undef, MODE_MULTIPLICATIVE, a, b)
+    if accepted is not None:
+        return accepted
+    if reason:
+        reasons.append(reason)
 
     mul = _call_split(split_multiplicative, a, b, multiplicative=True)
     accepted, reason = _try_mode(mul, MODE_MULTIPLICATIVE, a, b)
@@ -167,6 +176,8 @@ def _try_mode(
         return None, "unit_or_zero_spectator"
     if not _reconstruction_ok(mode, S, a_local, b_local, a, b):
         return None, "reconstruction_failed"
+    if count_ops(a_local) + count_ops(b_local) > count_ops(a) + count_ops(b):
+        return None, "expansion_not_reduction"
     note = raw.get("note") if isinstance(raw.get("note"), str) and raw.get("note") else "exact_common_factor"
     return (
         _payload(
@@ -237,6 +248,58 @@ def _ratio(local: int, full: int) -> Optional[float]:
     if full > 0:
         return local / full
     return None
+
+
+def _drop_mul_factors(expr: sympy.Expr, factors: list[sympy.Expr]) -> Optional[sympy.Expr]:
+    remaining = list(sympy.Mul.make_args(expr))
+    for factor in factors:
+        try:
+            remaining.remove(factor)
+        except ValueError:
+            return None
+    if not remaining:
+        return _ONE
+    return sympy.Mul(*remaining)
+
+
+def _mul_undef_peel(a: sympy.Expr, b: sympy.Expr) -> dict[str, Any]:
+    """Common AppliedUndef factors from Mul.args. No cancel expansion."""
+    fa = [x for x in sympy.Mul.make_args(a) if isinstance(x, AppliedUndef)]
+    fb = [x for x in sympy.Mul.make_args(b) if isinstance(x, AppliedUndef)]
+    common: list[sympy.Expr] = []
+    fb_left = list(fb)
+    for xa in fa:
+        for i, xb in enumerate(fb_left):
+            if xa == xb:
+                common.append(xa)
+                fb_left.pop(i)
+                break
+    if not common:
+        return {
+            "S": _ONE,
+            "A_local": a,
+            "B_local": b,
+            "certified": False,
+            "note": "no_exact_common_factor",
+        }
+    S = sympy.Mul(*common) if len(common) > 1 else common[0]
+    a_local = _drop_mul_factors(a, common)
+    b_local = _drop_mul_factors(b, common)
+    if a_local is None or b_local is None:
+        return {
+            "S": _ONE,
+            "A_local": a,
+            "B_local": b,
+            "certified": False,
+            "note": "reconstruction_failed",
+        }
+    return {
+        "S": S,
+        "A_local": a_local,
+        "B_local": b_local,
+        "certified": True,
+        "note": "exact_applied_undef_mul_args",
+    }
 
 
 def _payload(

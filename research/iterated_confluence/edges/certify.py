@@ -140,13 +140,6 @@ def _certify(
             source, target, var, point, False,
         )
 
-    if _ops_too_large_local(work_s, work_t):
-        steps.append("size_guard")
-        return _result(
-            UNKNOWN, "size_guard", full_ops, local_ops, ratio, steps,
-            source, target, var, point, split_ok,
-        )
-
     got = _step_special(work_s, work_t, var, point, steps)
     if got is not None:
         return _finish(
@@ -154,6 +147,9 @@ def _certify(
             source, target, var, point, split_ok,
         )
 
+    # Track V check_limit (series / valuation) is the scientific cascade.
+    # Do not skip it at V2 certify_edge OPS_CAP=200: that cap blocked the
+    # already-certified ~176-op Guo pairs after cancel expansion.
     if var is not None and point is not None:
         got = _step_check_limit(work_s, work_t, var, point, steps)
         if got is not None:
@@ -161,6 +157,13 @@ def _certify(
                 got, full_ops, local_ops, ratio, steps,
                 source, target, var, point, split_ok,
             )
+
+    if _ops_too_large_local(work_s, work_t):
+        steps.append("size_guard")
+        return _result(
+            UNKNOWN, "size_guard", full_ops, local_ops, ratio, steps,
+            source, target, var, point, split_ok,
+        )
 
     got = _step_certify_edge(
         work_s, work_t, var, point, declared, funcs, steps,
