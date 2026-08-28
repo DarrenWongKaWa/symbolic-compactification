@@ -1,0 +1,657 @@
+{
+  "track": "V3",
+  "agent": "V3-A",
+  "evaluation_only": true,
+  "does_not_adjudicate": true,
+  "no_llm_calls": true,
+  "source_frozen": "research/iterated_confluence/FROZEN_INPUTS_V3.json",
+  "n_families": 7,
+  "linear_dependence_note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+  "families": [
+    {
+      "family_id": "guo-p2-s0-i3",
+      "coordinates": [
+        "{ell,m}",
+        "{ell,n}",
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(ell)-epsilon(m)",
+        "epsilon(ell)-epsilon(n)",
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{ell,m}": [
+          "cond",
+          "operator"
+        ],
+        "{ell,n}": [
+          "cond",
+          "operator"
+        ],
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": {
+        "note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+        "implied": "{ell,m}",
+        "by": [
+          "{ell,n}",
+          "{m,n}"
+        ]
+      },
+      "substitution_operators": [],
+      "members": [
+        {
+          "member_id": "G0012",
+          "cond": "And(Equality(Symbol('ell', real=True), Symbol('m', real=True)), Equality(Symbol('m', real=True), Symbol('n', real=True)))",
+          "role": "higher-degeneracy",
+          "active_equalities": [
+            "{ell,m}",
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0013",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}"
+          ]
+        },
+        {
+          "member_id": "G0014",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0015",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('m', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,m}"
+          ],
+          "free_coordinates": [
+            "{ell,n}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0016",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}",
+            "{m,n}"
+          ]
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s1-i2",
+      "coordinates": [
+        "{ell,m}",
+        "{ell,n}",
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(ell)-epsilon(m)",
+        "epsilon(ell)-epsilon(n)",
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{ell,m}": [
+          "cond",
+          "operator"
+        ],
+        "{ell,n}": [
+          "cond",
+          "operator"
+        ],
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": {
+        "note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+        "implied": "{ell,m}",
+        "by": [
+          "{ell,n}",
+          "{m,n}"
+        ]
+      },
+      "substitution_operators": [],
+      "members": [
+        {
+          "member_id": "G0012",
+          "cond": "And(Equality(Symbol('ell', real=True), Symbol('m', real=True)), Equality(Symbol('m', real=True), Symbol('n', real=True)))",
+          "role": "higher-degeneracy",
+          "active_equalities": [
+            "{ell,m}",
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0013",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}"
+          ]
+        },
+        {
+          "member_id": "G0014",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0015",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('m', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,m}"
+          ],
+          "free_coordinates": [
+            "{ell,n}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0016",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}",
+            "{m,n}"
+          ]
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s1-i3",
+      "coordinates": [
+        "{ell,m}",
+        "{ell,n}",
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(ell)-epsilon(m)",
+        "epsilon(ell)-epsilon(n)",
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{ell,m}": [
+          "cond",
+          "operator"
+        ],
+        "{ell,n}": [
+          "cond",
+          "operator"
+        ],
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": {
+        "note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+        "implied": "{ell,m}",
+        "by": [
+          "{ell,n}",
+          "{m,n}"
+        ]
+      },
+      "substitution_operators": [],
+      "members": [
+        {
+          "member_id": "G0019",
+          "cond": "And(Equality(Symbol('ell', real=True), Symbol('m', real=True)), Equality(Symbol('m', real=True), Symbol('n', real=True)))",
+          "role": "higher-degeneracy",
+          "active_equalities": [
+            "{ell,m}",
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0020",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}"
+          ]
+        },
+        {
+          "member_id": "G0021",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0022",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('m', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,m}"
+          ],
+          "free_coordinates": [
+            "{ell,n}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0023",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}",
+            "{m,n}"
+          ]
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s2-i2",
+      "coordinates": [
+        "{ell,m}",
+        "{ell,n}",
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(ell)-epsilon(m)",
+        "epsilon(ell)-epsilon(n)",
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{ell,m}": [
+          "cond",
+          "operator"
+        ],
+        "{ell,n}": [
+          "cond",
+          "operator"
+        ],
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": {
+        "note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+        "implied": "{ell,m}",
+        "by": [
+          "{ell,n}",
+          "{m,n}"
+        ]
+      },
+      "substitution_operators": [],
+      "members": [
+        {
+          "member_id": "G0012",
+          "cond": "And(Equality(Symbol('ell', real=True), Symbol('m', real=True)), Equality(Symbol('m', real=True), Symbol('n', real=True)))",
+          "role": "higher-degeneracy",
+          "active_equalities": [
+            "{ell,m}",
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0013",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}"
+          ]
+        },
+        {
+          "member_id": "G0014",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0015",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('m', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,m}"
+          ],
+          "free_coordinates": [
+            "{ell,n}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0016",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}",
+            "{m,n}"
+          ]
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s2-i3",
+      "coordinates": [
+        "{ell,m}",
+        "{ell,n}",
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(ell)-epsilon(m)",
+        "epsilon(ell)-epsilon(n)",
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{ell,m}": [
+          "cond",
+          "operator"
+        ],
+        "{ell,n}": [
+          "cond",
+          "operator"
+        ],
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": {
+        "note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+        "implied": "{ell,m}",
+        "by": [
+          "{ell,n}",
+          "{m,n}"
+        ]
+      },
+      "substitution_operators": [],
+      "members": [
+        {
+          "member_id": "G0019",
+          "cond": "And(Equality(Symbol('ell', real=True), Symbol('m', real=True)), Equality(Symbol('m', real=True), Symbol('n', real=True)))",
+          "role": "higher-degeneracy",
+          "active_equalities": [
+            "{ell,m}",
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0020",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}"
+          ]
+        },
+        {
+          "member_id": "G0021",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0022",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('m', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,m}"
+          ],
+          "free_coordinates": [
+            "{ell,n}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0023",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}",
+            "{m,n}"
+          ]
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s2-i4",
+      "coordinates": [
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": null,
+      "substitution_operators": [
+        {
+          "member_id": "G0009",
+          "kind": "substitution",
+          "map": {
+            "b": "c",
+            "c": "b"
+          },
+          "note": "substitution is not a degeneracy coordinate"
+        },
+        {
+          "member_id": "G0008",
+          "kind": "substitution",
+          "map": {
+            "b": "c",
+            "c": "b"
+          },
+          "note": "substitution is not a degeneracy coordinate",
+          "nested_under": "other"
+        }
+      ],
+      "members": [
+        {
+          "member_id": "G0004",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0005",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0008",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0009",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{m,n}"
+          ]
+        }
+      ]
+    },
+    {
+      "family_id": "guo-p2-s4-i1",
+      "coordinates": [
+        "{ell,m}",
+        "{ell,n}",
+        "{m,n}"
+      ],
+      "operator_epsilon_pairs": [
+        "epsilon(ell)-epsilon(m)",
+        "epsilon(ell)-epsilon(n)",
+        "epsilon(m)-epsilon(n)"
+      ],
+      "coordinate_sources": {
+        "{ell,m}": [
+          "cond",
+          "operator"
+        ],
+        "{ell,n}": [
+          "cond",
+          "operator"
+        ],
+        "{m,n}": [
+          "cond",
+          "operator"
+        ]
+      },
+      "linear_dependence": {
+        "note": "(ell=m) follows from (ell=n and m=n). The three pairwise equalities are linearly dependent; dependence is not a new representation.",
+        "implied": "{ell,m}",
+        "by": [
+          "{ell,n}",
+          "{m,n}"
+        ]
+      },
+      "substitution_operators": [],
+      "members": [
+        {
+          "member_id": "G0012",
+          "cond": "And(Equality(Symbol('ell', real=True), Symbol('m', real=True)), Equality(Symbol('m', real=True), Symbol('n', real=True)))",
+          "role": "higher-degeneracy",
+          "active_equalities": [
+            "{ell,m}",
+            "{m,n}"
+          ],
+          "free_coordinates": []
+        },
+        {
+          "member_id": "G0013",
+          "cond": "Equality(Symbol('m', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{m,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}"
+          ]
+        },
+        {
+          "member_id": "G0014",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('n', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,n}"
+          ],
+          "free_coordinates": [
+            "{ell,m}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0015",
+          "cond": "Equality(Symbol('ell', real=True), Symbol('m', real=True))",
+          "role": "diagonal",
+          "active_equalities": [
+            "{ell,m}"
+          ],
+          "free_coordinates": [
+            "{ell,n}",
+            "{m,n}"
+          ]
+        },
+        {
+          "member_id": "G0016",
+          "cond": "True",
+          "role": "generic",
+          "active_equalities": [],
+          "free_coordinates": [
+            "{ell,m}",
+            "{ell,n}",
+            "{m,n}"
+          ]
+        }
+      ]
+    }
+  ]
+}
