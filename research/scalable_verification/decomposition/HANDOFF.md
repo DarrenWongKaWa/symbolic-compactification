@@ -2,6 +2,7 @@
 
 Parent: `329c49c22c7d68d0192a59f04bf3ba8ad12c9b48`
 Branch: `work/v-proof-decomposition`
+Commit: `39a053da27a575a4e1270e74b0cb4a2903e0b26a`
 Owned: `research/scalable_verification/decomposition/**`, `tests/test_sv_decomposition.py`
 
 ## What was implemented
@@ -40,4 +41,4 @@ LIMIT path.
 
 ## COMMIT SHA
 
-(pending)
+`39a053da27a575a4e1270e74b0cb4a2903e0b26a` on `work/v-proof-decomposition` (parent `329c49c22c7d68d0192a59f04bf3ba8ad12c9b48`).
