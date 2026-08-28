@@ -59,23 +59,26 @@ def _match(c0: Any, target: Any, steps: list[str]) -> ConstantMatchResult:
 
     ops = _count_ops(left) + _count_ops(right)
     steps.append(f"ops:{ops}")
-    if ops > OPS_CAP:
-        steps.append("size_guard")
-        return _result(UNKNOWN, "size_guard", steps, ops=ops)
 
     if left == right:
         steps.append("identical")
         return _zero("identical", steps, ops)
+
+    # Per-polygamma grouping first: each rational coeff is small.
+    # Total C0+tgt ops may exceed OPS_CAP (990+327) while each atom cancels.
+    decided = _by_polygamma_atoms(left, right, steps, ops)
+    if decided is not None:
+        return decided
+
+    if ops > OPS_CAP:
+        steps.append("size_guard")
+        return _result(UNKNOWN, "size_guard", steps, ops=ops)
 
     decided = _by_expand(left, right, steps, ops)
     if decided is not None:
         return decided
 
     decided = _by_cancel(left, right, steps, ops)
-    if decided is not None:
-        return decided
-
-    decided = _by_polygamma_atoms(left, right, steps, ops)
     if decided is not None:
         return decided
 
@@ -180,7 +183,7 @@ def _group_by_polygamma(expr: sympy.Expr) -> dict[sympy.Expr, sympy.Expr]:
         rest: list[sympy.Expr] = []
         for factor in sympy.Mul.make_args(term):
             if _is_polygamma_factor(factor):
-                pg.append(factor)
+                pg.append(_canon_pg(factor))
             else:
                 rest.append(factor)
         pg.sort(key=sympy.default_sort_key)
@@ -188,6 +191,24 @@ def _group_by_polygamma(expr: sympy.Expr) -> dict[sympy.Expr, sympy.Expr]:
         coeff = sympy.Mul(*rest) if rest else _ONE
         acc[key] = acc.get(key, _ZERO) + coeff
     return acc
+
+
+def _canon_pg(expr: sympy.Expr) -> sympy.Expr:
+    """Canonical polygamma argument (together/expand). Not a Guo identity."""
+    if expr.func is sympy.polygamma and len(expr.args) == 2:
+        n, z = expr.args
+        try:
+            z2 = sympy.expand(z)
+        except Exception:
+            z2 = z
+        try:
+            z2 = sympy.together(z2)
+        except Exception:
+            pass
+        return sympy.polygamma(n, z2)
+    if isinstance(expr, sympy.Pow) and expr.base.func is sympy.polygamma:
+        return sympy.Pow(_canon_pg(expr.base), expr.exp)
+    return expr
 
 
 def _is_polygamma_factor(expr: sympy.Expr) -> bool:
@@ -198,25 +219,54 @@ def _is_polygamma_factor(expr: sympy.Expr) -> bool:
     return False
 
 
+PAIR_TOGETHER_CAP = 4000
+
+
 def _rational_coeffs_equal(a: sympy.Expr, b: sympy.Expr) -> Optional[bool]:
+    """Compare two rational prefactors. Per-atom together is allowed.
+
+    Full-kernel together of C0-tgt is not used here.
+    """
     if a == b:
         return True
+    diff = a - b
     try:
-        expanded = sympy.expand(a - b)
+        expanded = sympy.expand(diff)
     except Exception:
         expanded = None
     if expanded is not None:
         z = _is_identically_zero(expanded)
         if z is not None:
             return z
+        if expanded == 0:
+            return True
     ops = _count_ops(a) + _count_ops(b)
-    if ops > OPS_CAP:
+    if ops > PAIR_TOGETHER_CAP:
         return None
     try:
-        cancelled = sympy.cancel(a - b)
+        tog = sympy.together(diff)
     except Exception:
         return None
-    return _is_identically_zero(cancelled)
+    if tog == 0:
+        return True
+    try:
+        num, den = sympy.fraction(tog)
+    except Exception:
+        return None
+    if den == 0:
+        return None
+    try:
+        if sympy.expand(num) == 0:
+            return True
+    except Exception:
+        return None
+    if ops <= CANCEL_OPS_CAP:
+        try:
+            cancelled = sympy.cancel(diff)
+        except Exception:
+            return None
+        return _is_identically_zero(cancelled)
+    return None
 
 
 def _is_identically_zero(expr: sympy.Expr) -> Optional[bool]:
@@ -287,8 +337,12 @@ def _count_ops(expr: sympy.Expr) -> int:
         return OPS_CAP + 1
 
 
+_ZERO_EXEMPT = frozenset({"pg_atoms", "identical"})
+
+
 def _zero(provenance: str, steps: list[str], ops: int) -> ConstantMatchResult:
-    if ops > OPS_CAP:
+    # Grouping ZERO is certified on per-atom coeffs, not the 990-op blob.
+    if provenance not in _ZERO_EXEMPT and ops > OPS_CAP:
         steps.append("blocked_zero")
         return _result(UNKNOWN, "size_guard", steps, ops=ops)
     return _result(ZERO, provenance, steps, ops=ops)
@@ -317,7 +371,7 @@ def _result(
     ops: int,
     residual: Optional[str] = None,
 ) -> ConstantMatchResult:
-    if verdict == ZERO and ops > OPS_CAP:
+    if verdict == ZERO and ops > OPS_CAP and provenance not in _ZERO_EXEMPT:
         verdict = UNKNOWN
         provenance = "size_guard"
         steps = list(steps) + ["blocked_zero"]

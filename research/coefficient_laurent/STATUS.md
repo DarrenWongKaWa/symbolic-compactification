@@ -1,15 +1,13 @@
 # Track V5 status
 
-CURRENT PHASE: closed (CASE L-D)
+CURRENT PHASE: closed (CASE L-A edge; family UNKNOWN)
 
-FROZEN INPUT HASH: `3d6a5bf2ba327b8b8b3f91609f185494ade3b0eeec303175ab7df98c014d16fc`
+G0016->G0013 STATUS: LEVEL_C ZERO (pg_atoms C0; negatives 0; no 27k together)
 
-GENERIC SUITE STATUS: PASS; false ZERO = 0
-
-G0016->G0013 STATUS: UNKNOWN (LEVEL B negatives vanish; C0 unproven)
+ELL HOPS: UNKNOWN (timeout)
 
 TRACK D2 LOCK STATUS: LOCKED
 
 PUBLICATION STATUS: E
 
-NEXT AUTO ACTION: STOP_VERIFICATION_LINE
+NEXT AUTO ACTION: do not open D2; do not retune for ell-hops

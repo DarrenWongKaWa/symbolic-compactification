@@ -8,6 +8,7 @@ import sympy
 from sympy.core.function import AppliedUndef
 
 from research.coefficient_laurent.cache import certificate_key, sha256_text
+from research.coefficient_laurent.c0 import match_constant
 from research.coefficient_laurent.schema import (
     LEVEL_A,
     METHOD_VERSION,
@@ -140,13 +141,9 @@ def sparse_laurent_limit(
         cert.summed_coefficients = summed
         c0 = acc[0]
         summed["0"] = f"ops:{_ops(c0)}"
-        eq = _is_zero(c0 - work_t)
-        if eq is True:
-            c0v = ZERO
-        elif eq is False:
-            c0v = NONZERO
-        else:
-            c0v = UNKNOWN
+        c0_match = match_constant(c0, work_t)
+        steps.append("c0:" + c0_match.provenance)
+        c0v = c0_match.verdict
         cert.constant_term_verdict = c0v
         # Affine polygamma arguments at t=0 are not nonpositive integers
         # for the frozen Guo kernels (energy arguments ~ 1/2 + i E). Remainder
