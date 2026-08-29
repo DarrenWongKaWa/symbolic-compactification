@@ -14,4 +14,4 @@ PUBLICATION STATUS: not issued
 
 NEXT AUTO ACTION: case mining on fresh sources; do not implement search yet; do not revive Guo
 
-HEAD SHA: pending this commit
+HEAD SHA: 5321eaa
