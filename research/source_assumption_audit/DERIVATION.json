@@ -1,0 +1,117 @@
+{
+  "n_atoms": 14,
+  "n_unique_z0": 4,
+  "unique_z0": [
+    "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(ell)/(2*pi) + 1/2",
+    "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(n)/(2*pi) + 1/2",
+    "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(ell)/(2*pi) + 1/2",
+    "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(n)/(2*pi) + 1/2"
+  ],
+  "frozen_real_only": [
+    {
+      "z0": "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(ell)/(2*pi) + 1/2",
+      "re": "(beta*gamma + beta*im(epsilon(ell)) + pi)/(2*pi)",
+      "im": "beta*(mu - re(epsilon(ell)))/(2*pi)",
+      "ask_re_positive": null,
+      "ask_im_nonzero": null,
+      "ask_not_zero": null
+    },
+    {
+      "z0": "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(n)/(2*pi) + 1/2",
+      "re": "(beta*gamma + beta*im(epsilon(n)) + pi)/(2*pi)",
+      "im": "beta*(mu - re(epsilon(n)))/(2*pi)",
+      "ask_re_positive": null,
+      "ask_im_nonzero": null,
+      "ask_not_zero": null
+    },
+    {
+      "z0": "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(ell)/(2*pi) + 1/2",
+      "re": "(beta*gamma - beta*im(epsilon(ell)) + pi)/(2*pi)",
+      "im": "beta*(-mu + re(epsilon(ell)))/(2*pi)",
+      "ask_re_positive": null,
+      "ask_im_nonzero": null,
+      "ask_not_zero": null
+    },
+    {
+      "z0": "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(n)/(2*pi) + 1/2",
+      "re": "(beta*gamma - beta*im(epsilon(n)) + pi)/(2*pi)",
+      "im": "beta*(-mu + re(epsilon(n)))/(2*pi)",
+      "ask_re_positive": null,
+      "ask_im_nonzero": null,
+      "ask_not_zero": null
+    }
+  ],
+  "derived_from_frozen_assumptions": false,
+  "pole_witness_under_frozen_reals": {
+    "beta": 1,
+    "gamma": "-pi",
+    "mu": 0,
+    "epsilon(n)": 0,
+    "z0_at_n_plus": "0",
+    "is_polygamma_pole": true,
+    "note": "z0=0 in Z_<=0. Frozen real-only assumptions allow this point."
+  },
+  "if_beta_and_gamma_positive": [
+    {
+      "z0": "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(ell)/(2*pi) + 1/2",
+      "re": "(beta*gamma + beta*im(epsilon(ell)) + pi)/(2*pi)",
+      "ask_re_positive": null,
+      "blocked_by_complex_epsilon": true
+    },
+    {
+      "z0": "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(n)/(2*pi) + 1/2",
+      "re": "(beta*gamma + beta*im(epsilon(n)) + pi)/(2*pi)",
+      "ask_re_positive": null,
+      "blocked_by_complex_epsilon": true
+    },
+    {
+      "z0": "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(ell)/(2*pi) + 1/2",
+      "re": "(beta*gamma - beta*im(epsilon(ell)) + pi)/(2*pi)",
+      "ask_re_positive": null,
+      "blocked_by_complex_epsilon": true
+    },
+    {
+      "z0": "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(n)/(2*pi) + 1/2",
+      "re": "(beta*gamma - beta*im(epsilon(n)) + pi)/(2*pi)",
+      "ask_re_positive": null,
+      "blocked_by_complex_epsilon": true
+    }
+  ],
+  "derived_if_beta_and_gamma_positive": false,
+  "if_beta_gamma_positive_and_epsilon_real": [
+    {
+      "z0": "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(ell)/(2*pi) + 1/2",
+      "re_if_epsilon_real": "(beta*gamma + pi)/(2*pi)",
+      "extra_re": "beta*gamma/(2*pi)",
+      "extra_is_beta_gamma_over_2pi": true,
+      "re_gt_half_under_positive_beta_gamma": true
+    },
+    {
+      "z0": "beta*gamma/(2*pi) + I*beta*mu/(2*pi) - I*beta*epsilon(n)/(2*pi) + 1/2",
+      "re_if_epsilon_real": "(beta*gamma + pi)/(2*pi)",
+      "extra_re": "beta*gamma/(2*pi)",
+      "extra_is_beta_gamma_over_2pi": true,
+      "re_gt_half_under_positive_beta_gamma": true
+    },
+    {
+      "z0": "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(ell)/(2*pi) + 1/2",
+      "re_if_epsilon_real": "(beta*gamma + pi)/(2*pi)",
+      "extra_re": "beta*gamma/(2*pi)",
+      "extra_is_beta_gamma_over_2pi": true,
+      "re_gt_half_under_positive_beta_gamma": true
+    },
+    {
+      "z0": "beta*gamma/(2*pi) - I*beta*mu/(2*pi) + I*beta*epsilon(n)/(2*pi) + 1/2",
+      "re_if_epsilon_real": "(beta*gamma + pi)/(2*pi)",
+      "extra_re": "beta*gamma/(2*pi)",
+      "extra_is_beta_gamma_over_2pi": true,
+      "re_gt_half_under_positive_beta_gamma": true
+    }
+  ],
+  "derived_if_beta_gamma_positive_and_epsilon_real": true,
+  "minimal_sufficient_predicate": "beta*gamma > -pi  (equivalently Re(z0)>0), or Im(z0)!=0",
+  "strong_sufficient_predicate": "beta>0 and gamma>0  (Re(z0)=1/2+beta*gamma/(2*pi)>1/2)",
+  "gamma_zero_is_not_a_pole": "gamma=0 => z0=1/2 or 1/2+i..., never in Z_<=0",
+  "verdict": "TRULY_ADDITIONAL",
+  "no_llm": true
+}

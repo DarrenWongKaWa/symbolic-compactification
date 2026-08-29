@@ -1,0 +1,181 @@
+{
+  "source_path": "examples/long/Guo_Sigma_abc_dc_exact.txt",
+  "source_sha256_documented": "63742cc4e6bf401dd48e258ecb86676b0d7570cc075cae38b91dc188652afc44",
+  "headers": [
+    "CANONICAL GUO RAW SIGMA_ABC EXACT DC ARTIFACT\n   Authority: Guo Appendix A (A-3)--(A-12), Appendix B (B-1)--(B-6)\n   Gamma treatment: exact finite Gamma; no small-Gamma expansion\n   Index coincidences: explicit removable-limit branches\n   Anan dependency: none"
+  ],
+  "header_mentions_beta_positive": false,
+  "header_mentions_gamma_positive": false,
+  "finite_gamma_phrase": true,
+  "symbols_json": {
+    "Nb": {
+      "name": "Nb",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "a": {
+      "name": "a",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "b": {
+      "name": "b",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "c": {
+      "name": "c",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "beta": {
+      "name": "beta",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "gamma": {
+      "name": "gamma",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "mu": {
+      "name": "mu",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "n": {
+      "name": "n",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "m": {
+      "name": "m",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "ell": {
+      "name": "ell",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    }
+  },
+  "load_guo_item_symbols": {
+    "Nb": {
+      "name": "Nb",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "a": {
+      "name": "a",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "b": {
+      "name": "b",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "beta": {
+      "name": "beta",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "c": {
+      "name": "c",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "gamma": {
+      "name": "gamma",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "mu": {
+      "name": "mu",
+      "real": true,
+      "nonzero": false,
+      "positive": null,
+      "integer": null
+    },
+    "n": {
+      "name": "n",
+      "real": true,
+      "nonzero": null,
+      "positive": null,
+      "integer": null
+    },
+    "m": {
+      "name": "m",
+      "real": true,
+      "nonzero": null,
+      "positive": null,
+      "integer": null
+    },
+    "ell": {
+      "name": "ell",
+      "real": true,
+      "nonzero": null,
+      "positive": null,
+      "integer": null
+    }
+  },
+  "load_guo_item_required_assumptions": null,
+  "positive_declared": [],
+  "nonzero_declared": [],
+  "beta_json": {
+    "name": "beta",
+    "real": true,
+    "nonzero": false,
+    "positive": null,
+    "integer": null
+  },
+  "gamma_json": {
+    "name": "gamma",
+    "real": true,
+    "nonzero": false,
+    "positive": null,
+    "integer": null
+  },
+  "mu_json": {
+    "name": "mu",
+    "real": true,
+    "nonzero": false,
+    "positive": null,
+    "integer": null
+  },
+  "ingestion_default": "Wolfram translator: symbols real unless listed complex; nonzero only if passed in nonzero_symbols (empty at load_guo_item).",
+  "denominator_gamma_is_not_a_declaration": true,
+  "no_llm": true
+}
