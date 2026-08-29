@@ -1,0 +1,109 @@
+{
+  "case_id": "ac-t-pauli-completeness",
+  "title": "Pauli-matrix completeness / SU(2) Fierz generator relation",
+  "domain": "tensor",
+  "expression_sketch": "Explicit generators: sigma_1 = [[0,1],[1,0]], sigma_2 = [[0,-I],[I,0]], sigma_3 = [[1,0],[0,-1]], sigma_0 = [[1,0],[0,1]].  Product law: sigma_i*sigma_j = delta(i,j)*sigma_0 + I*epsilon(i,j,k)*sigma_k for i,j,k in {1,2,3}.  Completeness (spinor indices alpha,beta,gamma,delta in {1,2}): Sum_{k=1}^{3} sigma_k(alpha,beta)*sigma_k(gamma,delta) == 2*delta(alpha,delta)*delta(beta,gamma) - delta(alpha,beta)*delta(gamma,delta).  Including identity: Sum_{k=0}^{3} sigma_k(alpha,beta)*sigma_k(gamma,delta) == 2*delta(alpha,delta)*delta(beta,gamma).  Trace form of the same reconstruction: 2*M(alpha,beta) = delta(alpha,beta)*Tr(M) + Sum_k sigma_k(alpha,beta)*Tr(sigma_k*M).",
+  "latent_structure": "Tensor generators of su(2)/Hermitian 2x2 matrices: the Pauli basis reconstructs the index-swap operator (Fierz) as an invariant bilinear in the generators. Completeness is a BASIS_RECONSTRUCTION obligation, not a dummy-index rename.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "alpha": {
+        "integer": true,
+        "range": [
+          1,
+          2
+        ]
+      },
+      "beta": {
+        "integer": true,
+        "range": [
+          1,
+          2
+        ]
+      },
+      "gamma": {
+        "integer": true,
+        "range": [
+          1,
+          2
+        ]
+      },
+      "delta": {
+        "integer": true,
+        "range": [
+          1,
+          2
+        ]
+      },
+      "i": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "j": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "k": {
+        "integer": true,
+        "range": [
+          0,
+          3
+        ]
+      },
+      "I": {
+        "imaginary_unit": true,
+        "I**2": -1
+      }
+    },
+    "function_domains": {
+      "sigma": "The three Pauli matrices plus optional sigma_0=Id as explicit 2x2 complex matrices (Wikipedia Pauli matrices).",
+      "delta": "Kronecker delta on the indicated finite index set.",
+      "epsilon": "3D Levi-Civita symbol with epsilon(1,2,3)=+1.",
+      "Tr": "Matrix trace on 2x2 matrices, Tr(Id)=2."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [
+      "delta",
+      "epsilon"
+    ],
+    "analytic_domains": [],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Pauli_matrices (product law; completeness relation with spinor indices)",
+      "C. C. Nishi, Simple derivation of general Fierz-type identities, hep-ph/0408004, eq. (20)",
+      "https://en.wikipedia.org/wiki/Fierz_identity"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "sigma_k are traceless Hermitian involutions: Tr(sigma_k)=0, sigma_k**2 = Id for k=1,2,3.",
+        "label": "DECLARED",
+        "source": "Wikipedia Pauli matrices, algebraic properties"
+      },
+      {
+        "statement": "The four matrices {sigma_0,...,sigma_3} are a C-basis of M_2(C) and an R-basis of Hermitian 2x2 matrices.",
+        "label": "DECLARED",
+        "source": "Wikipedia Pauli matrices, Hilbert-Schmidt basis paragraph"
+      },
+      {
+        "statement": "Completeness is the component form of M = (1/2)Tr(M) Id + (1/2) Sum_k Tr(sigma_k M) sigma_k.",
+        "label": "DERIVED",
+        "source": "Wikipedia completeness paragraph; Nishi eq. (17)--(20)"
+      }
+    ]
+  },
+  "public_source": "Wikipedia Pauli matrices completeness; Nishi hep-ph/0408004 eq. (20)",
+  "why_not_cse_lgg": "The left-hand side is a sum of three Kronecker products of Pauli components; the right-hand side is a linear combination of Kronecker deltas on swapped spinor indices. CSE cannot invent the su(2) generator basis. LGG has no 2x2 matrix-algebra constructor.",
+  "proposer_leak_risk": "Hide Fierz, completeness, su(2), Clifford, quaternion. Do not name Pauli in the proposer-visible catalog if the gold is the swap reconstruction.",
+  "notes": "Finite matrix identity over C. No quantum-mechanical interpretation is required for verification. sigma_y uses the imaginary unit; that is in the explicit matrix, not an undeclared branch.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

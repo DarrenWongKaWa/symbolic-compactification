@@ -1,0 +1,105 @@
+{
+  "case_id": "ac-t-weyl-su2-char",
+  "title": "Algebraic SU(2) Weyl character versus weight-orbit geometric sum",
+  "domain": "tensor",
+  "expression_sketch": "Irrep of SU(2) of dimension m+1, m a nonnegative integer. Maximal torus diag(z, z^{-1}) with z = exp(I*theta).  Weight-orbit sum (character as trace on weight spaces): chi_m(z) = Sum_{k=0}^{m} z**(m-2*k)  = z**m + z**(m-2) + ... + z**(-m).  Weyl character formula (W = {1,s}, two terms): chi_m(z) = (z**(m+1) - z**(-(m+1))) / (z - z**(-1)) = sin((m+1)*theta)/sin(theta).  Division-free polynomial form (multiply by z**(m+1)): z**(2*m+2) - 1 == (z**2 - 1)*Sum_{k=0}^{m} z**(2*k).  Equivalent cancellation identity cited by Hall/Wikipedia: chi_m(z)*(z - z**(-1)) == z**(m+1) - z**(-(m+1)).",
+  "latent_structure": "Weyl character as an alternating Weyl-group orbit sum in the numerator divided by the Weyl denominator, equal to the geometric series over the weight orbit {m, m-2, ..., -m}. Algebraic (Laurent polynomial) identity; the representation is the orbit reconstruction, not a special-function name.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "m": {
+        "integer": true,
+        "nonnegative": true
+      },
+      "k": {
+        "integer": true,
+        "nonnegative": true
+      },
+      "theta": {
+        "real": true
+      },
+      "z": {
+        "complex": true,
+        "nonzero": true
+      },
+      "I": {
+        "imaginary_unit": true
+      }
+    },
+    "function_domains": {
+      "chi_m": "Character of the (m+1)-dimensional irrep of SU(2), as a class function on the maximal torus.",
+      "exp": "Complex exponential; on iR it is entire.",
+      "sin": "Entire sine; used only in the trigonometric writing of the same Laurent identity."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "z != 0, so z**(-1) exists in the Laurent form.",
+        "label": "DECLARED",
+        "source": "z = exp(I theta) lies on C^x; Wikipedia SU(2) torus diag(e^{i theta}, e^{-i theta})"
+      },
+      {
+        "statement": "Quotient form requires z - z**(-1) != 0, i.e. z**2 != 1 (equivalently sin(theta) != 0).",
+        "label": "DECLARED",
+        "source": "Wikipedia Weyl character formula, SU(2) case denominator e^{i theta}-e^{-i theta}; Hall 2015 Example 12.23"
+      }
+    ],
+    "positivity_conditions": [
+      {
+        "statement": "m is a nonnegative integer so that the irrep dimension m+1 is a positive integer and the weight sum is finite.",
+        "label": "DECLARED",
+        "source": "Wikipedia Weyl character formula, SU(2) case: irrep of dimension m+1"
+      }
+    ],
+    "real_valued_functions": [
+      "chi_m"
+    ],
+    "analytic_domains": [
+      {
+        "statement": "The division-free identity z**(2*m+2)-1 = (z**2-1)*Sum_{k=0}^m z**(2*k) holds as an identity of polynomials on all of C.",
+        "label": "DECLARED",
+        "source": "finite geometric series; Wikipedia notes the SU(2) character is a geometric series"
+      },
+      {
+        "statement": "On the torus z=exp(I*theta), chi_m is the restriction of that Laurent polynomial; no additional cut is required for the polynomial form.",
+        "label": "DECLARED",
+        "source": "Wikipedia SU(2) case, explicit weight sum"
+      }
+    ],
+    "branch_conventions": [
+      "Negative powers of z mean z**(-n) = 1/z**n in C^x, not a multi-valued root.",
+      "sin is the entire sine; not a branched inverse."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The dimension m+1 is the theta->0 limit of sin((m+1)theta)/sin(theta) by L'H\u00f4pital; this limit is not required to verify the polynomial identity.",
+        "label": "DECLARED",
+        "source": "Wikipedia Weyl dimension formula discussion for SU(2); Hall 2015 \u00a710.5"
+      }
+    ],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Weyl_character_formula (SU(2) case; geometric-series cancellation)",
+      "Hermann Weyl, Math. Z. 23 (1925) 271-309; 24 (1926) 328-376, 377-395.",
+      "Hall, Lie Groups, Lie Algebras, and Representations, 2nd ed., Example 12.23 and Theorem 10.14.",
+      "Fulton and Harris, Representation Theory, GTM 129."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Weyl group of SU(2) has two elements, so numerator and denominator each have two exponential terms, matching the displayed quotient.",
+        "label": "DECLARED",
+        "source": "Wikipedia SU(2) case: both numerator and denominator have two terms"
+      },
+      {
+        "statement": "At z^2=1 the quotient is removable and equals m+1, which is the polynomial value Sum_k 1 = m+1.",
+        "label": "DERIVED",
+        "source": "geometric series at z=\u00b11; Wikipedia dimension via L'H\u00f4pital"
+      }
+    ]
+  },
+  "public_source": "Wikipedia Weyl character formula, SU(2) case; Hall 2015 Example 12.23; Weyl 1925/26",
+  "why_not_cse_lgg": "The weight sum is a long Laurent polynomial; CSE can factor z**(-m) but does not produce the two-term Weyl numerator/denominator. LGG cannot invent a Weyl-group alternating orbit. The compact form is an orbit generating function, not a shared kernel.",
+  "proposer_leak_risk": "Hide Weyl character, Weyl group, Weyl denominator, highest weight. A proposer-visible catalog should list the expanded geometric sum, not the closed quotient.",
+  "notes": "Mission-listed algebraic Weyl character. Prefer the polynomial identity for assumption-complete verification (no poles). Trigonometric writing is equivalent on the torus away from sin(theta)=0. Not a divided-difference task.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
