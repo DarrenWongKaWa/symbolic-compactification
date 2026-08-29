@@ -1,0 +1,580 @@
+{
+  "task_id": "sciml-deq-ift-01",
+  "public_id": "H03",
+  "structural_cluster_id": "IFT_SCALAR",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P2",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "749cdfe3f3bae5aec34473a3de94a05b4f54f1c78dfc0b5376eb5becf3ffb7a5",
+  "input_sha256": "a257e7b37ec2b80d2cb83c1fe3aeb57ed5e070915cae91712f7741a6a6776381",
+  "sol_packet_sha256": "5e35df26919f64e658516b9e53075008ac495cadea24cdeb404ce42995173098",
+  "latency_s": 114.82,
+  "usage": {
+    "prompt_tokens": 1169,
+    "completion_tokens": 7990,
+    "total_tokens": 9159,
+    "reasoning_tokens": 6654,
+    "cached_tokens": 640
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 3,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"rational_transform\",\n      \"latent_object\": \"F(t)=t/(1 - w*t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/cosh(w*z + x)**2\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"1/cosh(w*z + x)**2\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0003 = F(G0002), i.e. substitute t = 1/cosh(w*z + x)**2 into F(t)=t/(1 - w*t).\",\n      \"required_assumptions\": [\n        \"cosh(w*z + x)**2 != w\"\n      ],\n      \"proof_obligations\": [\n        \"1/(cosh(w*z + x)**2 - w) - (1/cosh(w*z + x)**2)/(1 - w*(1/cosh(w*z + x)**2)) = 0\"\n      ],\n      \"rationale\": \"Structural rational transform of the reciprocal of cosh^2 into the reciprocal of cosh^2 - w.\",\n      \"confidence\": 0.98\n    },\n    {\n      \"representation_type\": \"implicit_derivative_reciprocal\",\n      \"latent_object\": \"F(w,z,x)=tanh(w*z + x) - z\",\n      \"variables\": [\"w\", \"z\", \"x\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"tanh(w*z + x) - z\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [],\n      \"reconstruction_rule\": \"G0001 = F(w,z,x). G0003 = -(partial F / partial x)/(partial F / partial z), evaluated at (w,z,x).\",\n      \"required_assumptions\": [\n        \"cosh(w*z + x)**2 != w\"\n      ],\n      \"proof_obligations\": [\n        \"F(w,z,x)=tanh(w*z+x)-z\",\n        \"partial F / partial x = 1/cosh(w*z+x)**2\",\n        \"partial F / partial z = w/cosh(w*z+x)**2 - 1\",\n        \"-(partial F / partial x)/(partial F / partial z) = 1/(cosh(w*z+x)**2 - w)\"\n      ],\n      \"rationale\": \"Structural implicit differentiation of the scalar implicit equation G0001 produces the reciprocal denominator expression G0003.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"single_variable_composite_and_derivative\",\n      \"latent_object\": \"F(t)=tanh(t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"tanh(w*z + x) - z\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"1/cosh(w*z + x)**2\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"d/dtheta\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"w*z + x\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"w*z + x\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"w*z + x\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Let F(t)=tanh(t). Then G0001 = F(w*z + x) - z, G0002 = F'(w*z + x), and G0003 = 1/(1/F'(w*z + x) - w).\",\n      \"required_assumptions\": [\n        \"cosh(w*z + x)**2 != w\"\n      ],\n      \"proof_obligations\": [\n        \"F'(t)=1/cosh(t)**2\",\n        \"G0001 = F(w*z + x) - z\",\n        \"G0002 = F'(w*z + x)\",\n        \"G0003 = 1/(1/F'(w*z + x) - w)\"\n      ],\n      \"rationale\": \"All three catalog nodes are compositions or derivative transforms of the same single-variable function tanh.\",\n      \"confidence\": 0.98\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "rational_transform",
+        "latent_object": "F(t)=t/(1 - w*t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/cosh(w*z + x)**2"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0002",
+            "O": "identity"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "1/cosh(w*z + x)**2"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0003 = F(G0002), i.e. substitute t = 1/cosh(w*z + x)**2 into F(t)=t/(1 - w*t).",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "1/(cosh(w*z + x)**2 - w) - (1/cosh(w*z + x)**2)/(1 - w*(1/cosh(w*z + x)**2)) = 0"
+        ],
+        "rationale": "Structural rational transform of the reciprocal of cosh^2 into the reciprocal of cosh^2 - w.",
+        "confidence": 0.98
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "implicit_derivative_reciprocal",
+        "latent_object": "F(w,z,x)=tanh(w*z + x) - z",
+        "variables": [
+          "w",
+          "z",
+          "x"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "tanh(w*z + x) - z"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "identity"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [],
+        "reconstruction_rule": "G0001 = F(w,z,x). G0003 = -(partial F / partial x)/(partial F / partial z), evaluated at (w,z,x).",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "F(w,z,x)=tanh(w*z+x)-z",
+          "partial F / partial x = 1/cosh(w*z+x)**2",
+          "partial F / partial z = w/cosh(w*z+x)**2 - 1",
+          "-(partial F / partial x)/(partial F / partial z) = 1/(cosh(w*z+x)**2 - w)"
+        ],
+        "rationale": "Structural implicit differentiation of the scalar implicit equation G0001 produces the reciprocal denominator expression G0003.",
+        "confidence": 0.9
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "single_variable_composite_and_derivative",
+        "latent_object": "F(t)=tanh(t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "tanh(w*z + x) - z"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "1/cosh(w*z + x)**2"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0002",
+            "O": "d/dtheta"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "w*z + x"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "w*z + x"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "w*z + x"
+            }
+          }
+        ],
+        "reconstruction_rule": "Let F(t)=tanh(t). Then G0001 = F(w*z + x) - z, G0002 = F'(w*z + x), and G0003 = 1/(1/F'(w*z + x) - w).",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "F'(t)=1/cosh(t)**2",
+          "G0001 = F(w*z + x) - z",
+          "G0002 = F'(w*z + x)",
+          "G0003 = 1/(1/F'(w*z + x) - w)"
+        ],
+        "rationale": "All three catalog nodes are compositions or derivative transforms of the same single-variable function tanh.",
+        "confidence": 0.98
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 3,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "rational_transform",
+          "latent_object": "F(t)=t/(1 - w*t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/cosh(w*z + x)**2"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "1/cosh(w*z + x)**2"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0003 = F(G0002), i.e. substitute t = 1/cosh(w*z + x)**2 into F(t)=t/(1 - w*t).",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "1/(cosh(w*z + x)**2 - w) - (1/cosh(w*z + x)**2)/(1 - w*(1/cosh(w*z + x)**2)) = 0"
+          ],
+          "rationale": "Structural rational transform of the reciprocal of cosh^2 into the reciprocal of cosh^2 - w.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "t/(-t*w + 1)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "1/(cosh(w*z + x)**2 - w) - (1/cosh(w*z + x)**2)/(1 - w*(1/cosh(w*z + x)**2)) = 0",
+              "expanded": "1/(cosh(w*z + x)**2 - w) - (1/cosh(w*z + x)**2)/(1 - w*(1/cosh(w*z + x)**2)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "implicit_derivative_reciprocal",
+          "latent_object": "F(w,z,x)=tanh(w*z + x) - z",
+          "variables": [
+            "w",
+            "z",
+            "x"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "tanh(w*z + x) - z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [],
+          "reconstruction_rule": "G0001 = F(w,z,x). G0003 = -(partial F / partial x)/(partial F / partial z), evaluated at (w,z,x).",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "F(w,z,x)=tanh(w*z+x)-z",
+            "partial F / partial x = 1/cosh(w*z+x)**2",
+            "partial F / partial z = w/cosh(w*z+x)**2 - 1",
+            "-(partial F / partial x)/(partial F / partial z) = 1/(cosh(w*z+x)**2 - w)"
+          ],
+          "rationale": "Structural implicit differentiation of the scalar implicit equation G0001 produces the reciprocal denominator expression G0003.",
+          "confidence": 0.9
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "-z + tanh(w*z + x)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "obligations": [
+            {
+              "text": "F(w,z,x)=tanh(w*z+x)-z",
+              "expanded": "(-z + tanh(w*z + x)) = tanh(w*z+x)-z",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "partial F / partial x = 1/cosh(w*z+x)**2",
+              "expanded": "partial F / partial x = 1/cosh(w*z+x)**2",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "partial F / partial z = w/cosh(w*z+x)**2 - 1",
+              "expanded": "partial F / partial z = w/cosh(w*z+x)**2 - 1",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "-(partial F / partial x)/(partial F / partial z) = 1/(cosh(w*z+x)**2 - w)",
+              "expanded": "-(partial F / partial x)/(partial F / partial z) = 1/(cosh(w*z+x)**2 - w)",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "single_variable_composite_and_derivative",
+          "latent_object": "F(t)=tanh(t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "tanh(w*z + x) - z"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "1/cosh(w*z + x)**2"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0002",
+              "O": "d/dtheta"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "w*z + x"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "w*z + x"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "w*z + x"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let F(t)=tanh(t). Then G0001 = F(w*z + x) - z, G0002 = F'(w*z + x), and G0003 = 1/(1/F'(w*z + x) - w).",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "F'(t)=1/cosh(t)**2",
+            "G0001 = F(w*z + x) - z",
+            "G0002 = F'(w*z + x)",
+            "G0003 = 1/(1/F'(w*z + x) - w)"
+          ],
+          "rationale": "All three catalog nodes are compositions or derivative transforms of the same single-variable function tanh.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "tanh(t)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "obligations": [
+            {
+              "text": "F'(t)=1/cosh(t)**2",
+              "expanded": "F'(t) = 1/cosh(t)**2",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0001 = F(w*z + x) - z",
+              "expanded": "(tanh(w*z + x) - z) = (tanh(w*z + x)) - z",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 = F'(w*z + x)",
+              "expanded": "(1/cosh(w*z + x)**2) = F'(w*z + x)",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0003 = 1/(1/F'(w*z + x) - w)",
+              "expanded": "(1/(cosh(w*z + x)**2 - w)) = 1/(1/F'(w*z + x) - w)",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": null,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}

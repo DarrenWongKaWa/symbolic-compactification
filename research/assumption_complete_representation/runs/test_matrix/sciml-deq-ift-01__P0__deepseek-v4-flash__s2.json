@@ -1,0 +1,290 @@
+{
+  "task_id": "sciml-deq-ift-01",
+  "public_id": "H03",
+  "structural_cluster_id": "IFT_SCALAR",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P0",
+  "seed": 2,
+  "model": "deepseek-v4-flash",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "db4ac2f61e882eef204b52d0bc7a93d60149a8d75941518b5540296821840fac",
+  "input_sha256": "727aafb381559380e3cfd9d09482794f550838fd440abb83b0d0be67ae45227b",
+  "sol_packet_sha256": null,
+  "latency_s": 69.36,
+  "usage": {
+    "prompt_tokens": 1006,
+    "completion_tokens": 8428,
+    "total_tokens": 9434,
+    "reasoning_tokens": 7667,
+    "cached_tokens": 896
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"implicit_function_derivative_ratio\",\n      \"latent_object\": \"F(w,z,x) = tanh(w*z+x) - z\",\n      \"variables\": [\"w\", \"z\", \"x\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"tanh(w*z + x) - z\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/cosh(w*z + x)**2\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"identity\",\n          \"expr\": \"F\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit\",\n          \"expr\": \"dF/dx\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\",\n          \"expr\": \"-(dF/dx)/(dF/dz)\"\n        }\n      ],\n      \"instance_maps\": [\n        {\"member\": \"G0001\", \"theta\": {\"w\": \"w\", \"z\": \"z\", \"x\": \"x\"}},\n        {\"member\": \"G0002\", \"theta\": {\"w\": \"w\", \"z\": \"z\", \"x\": \"x\"}},\n        {\"member\": \"G0003\", \"theta\": {\"w\": \"w\", \"z\": \"z\", \"x\": \"x\"}}\n      ],\n      \"reconstruction_rule\": \"G0001 is the residual F(w,z,x)=tanh(w*z+x)-z. G0002 is the partial derivative of F with respect to x, which equals 1/cosh(w*z+x)^2. G0003 is the negative ratio of the x-derivative to the z-derivative of F, yielding the implicit derivative dz/dx = 1/(cosh(w*z+x)^2 - w).\",\n      \"required_assumptions\": [\"cosh(w*z + x)**2 != w\"],\n      \"proof_obligations\": [\n        \"G0001 - F(w,z,x) = 0\",\n        \"G0002 - d/dx F(w,z,x) = 0\",\n        \"G0003 - (- (d/dx F) / (d/dz F)) = 0, with d/dz F = w*sech(w*z+x)^2 - 1\"\n      ],\n      \"rationale\": \"The implicit equation G0001 defines z as a function of x and w. Differentiating G0001 with respect to x gives F_x + F_z * dz/dx = 0, so dz/dx = -F_x/F_z. Here F_x = 1/cosh(w*z+x)^2 (which is G0002) and F_z = w/cosh(w*z+x)^2 - 1. Therefore -F_x/F_z = 1/(cosh(w*z+x)^2 - w), exactly G0003. The assumption cosh(w*z+x)^2 != w ensures F_z is nonzero.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "implicit_function_derivative_ratio",
+        "latent_object": "F(w,z,x) = tanh(w*z+x) - z",
+        "variables": [
+          "w",
+          "z",
+          "x"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "tanh(w*z + x) - z"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/cosh(w*z + x)**2"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "identity",
+            "expr": "F"
+          },
+          {
+            "member": "G0002",
+            "O": "other_explicit",
+            "expr": "dF/dx"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit",
+            "expr": "-(dF/dx)/(dF/dz)"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "w": "w",
+              "z": "z",
+              "x": "x"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "w": "w",
+              "z": "z",
+              "x": "x"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "w": "w",
+              "z": "z",
+              "x": "x"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0001 is the residual F(w,z,x)=tanh(w*z+x)-z. G0002 is the partial derivative of F with respect to x, which equals 1/cosh(w*z+x)^2. G0003 is the negative ratio of the x-derivative to the z-derivative of F, yielding the implicit derivative dz/dx = 1/(cosh(w*z+x)^2 - w).",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "G0001 - F(w,z,x) = 0",
+          "G0002 - d/dx F(w,z,x) = 0",
+          "G0003 - (- (d/dx F) / (d/dz F)) = 0, with d/dz F = w*sech(w*z+x)^2 - 1"
+        ],
+        "rationale": "The implicit equation G0001 defines z as a function of x and w. Differentiating G0001 with respect to x gives F_x + F_z * dz/dx = 0, so dz/dx = -F_x/F_z. Here F_x = 1/cosh(w*z+x)^2 (which is G0002) and F_z = w/cosh(w*z+x)^2 - 1. Therefore -F_x/F_z = 1/(cosh(w*z+x)^2 - w), exactly G0003. The assumption cosh(w*z+x)^2 != w ensures F_z is nonzero.",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "implicit_function_derivative_ratio",
+          "latent_object": "F(w,z,x) = tanh(w*z+x) - z",
+          "variables": [
+            "w",
+            "z",
+            "x"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "tanh(w*z + x) - z"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/cosh(w*z + x)**2"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "identity",
+              "expr": "F"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit",
+              "expr": "dF/dx"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit",
+              "expr": "-(dF/dx)/(dF/dz)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "w": "w",
+                "z": "z",
+                "x": "x"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "w": "w",
+                "z": "z",
+                "x": "x"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "w": "w",
+                "z": "z",
+                "x": "x"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 is the residual F(w,z,x)=tanh(w*z+x)-z. G0002 is the partial derivative of F with respect to x, which equals 1/cosh(w*z+x)^2. G0003 is the negative ratio of the x-derivative to the z-derivative of F, yielding the implicit derivative dz/dx = 1/(cosh(w*z+x)^2 - w).",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "G0001 - F(w,z,x) = 0",
+            "G0002 - d/dx F(w,z,x) = 0",
+            "G0003 - (- (d/dx F) / (d/dz F)) = 0, with d/dz F = w*sech(w*z+x)^2 - 1"
+          ],
+          "rationale": "The implicit equation G0001 defines z as a function of x and w. Differentiating G0001 with respect to x gives F_x + F_z * dz/dx = 0, so dz/dx = -F_x/F_z. Here F_x = 1/cosh(w*z+x)^2 (which is G0002) and F_z = w/cosh(w*z+x)^2 - 1. Therefore -F_x/F_z = 1/(cosh(w*z+x)^2 - w), exactly G0003. The assumption cosh(w*z+x)^2 != w ensures F_z is nonzero.",
+          "confidence": 0.75
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "-z + tanh(w*z + x)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "G0001 - F(w,z,x) = 0",
+              "expanded": "(tanh(w*z + x) - z) - (-z + tanh(w*z + x)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - d/dx F(w,z,x) = 0",
+              "expanded": "(1/cosh(w*z + x)**2) - d/dx (-z + tanh(w*z + x)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (- (d/dx F) / (d/dz F)) = 0, with d/dz F = w*sech(w*z+x)^2 - 1",
+              "expanded": "(1/(cosh(w*z + x)**2 - w)) - (- (d/dx F) / (d/dz F)) = 0, with d/dz F = w*sech(w*z+x)^2 - 1",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}

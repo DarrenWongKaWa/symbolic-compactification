@@ -1,0 +1,308 @@
+{
+  "task_id": "sciml-tweedie-gauss-01",
+  "public_id": "H01",
+  "structural_cluster_id": "GAUSS_CONJUGATE",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P0",
+  "seed": 4,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "97f3c78d83a11ae409afd4d89953e8ffc3d23b18fd60094b3f84305adadee00b",
+  "input_sha256": "741f6ef417762b921e277a728367dde625063e2d2dbec1c4f966adb9108b8d96",
+  "sol_packet_sha256": null,
+  "latency_s": 120.89,
+  "usage": {
+    "prompt_tokens": 1082,
+    "completion_tokens": 8792,
+    "total_tokens": 9874,
+    "reasoning_tokens": 7933,
+    "cached_tokens": 1024
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"weighted_average_affine_update\",\n      \"latent_object\": \"F(t) = (tau2*y + t*m)/(tau2 + t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"(tau2*y + sig2*m)/(tau2 + sig2)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"generic\",\n          \"text\": \"-(y - m)/(sig2 + tau2)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"degenerate\",\n          \"text\": \"y + sig2*(-(y - m)/(sig2 + tau2))\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"target\",\n          \"text\": \"(tau2*y + sig2*m)/(tau2 + sig2) - (y + sig2*(-(y - m)/(sig2 + tau2)))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"sig2\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"sig2\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"sig2\"\n          }\n        },\n        {\n          \"member\": \"G0004\",\n          \"theta\": {\n            \"t\": \"sig2\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"With F(t)=(tau2*y + t*m)/(tau2 + t): G0001 = F(sig2); G0002 = (F(sig2) - y)/sig2; G0003 = y + sig2*((F(sig2) - y)/sig2) = F(sig2); G0004 = G0001 - G0003.\",\n      \"required_assumptions\": [\n        \"sig2 > 0\",\n        \"sig2 + tau2 != 0\"\n      ],\n      \"proof_obligations\": [\n        \"F(sig2) - G0001 = (tau2*y + sig2*m)/(tau2 + sig2) - G0001 = 0\",\n        \"((F(sig2) - y)/sig2) - G0002 = ((m - y)/(sig2 + tau2)) + ((y - m)/(sig2 + tau2)) = 0\",\n        \"G0003 - F(sig2) = (y + sig2*(-(y - m)/(sig2 + tau2))) - ((tau2*y + sig2*m)/(sig2 + tau2)) = 0\",\n        \"G0004 - (G0001 - G0003) = 0\"\n      ],\n      \"rationale\": \"F(t) is a one-parameter weighted average. G0001 is F at t=sig2. G0002 is the normalized increment (F(sig2)-y)/sig2. G0003 applies the affine update y + sig2*G0002 and equals F(sig2), so G0004 is the zero difference under the denominator assumptions.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "weighted_average_affine_update",
+        "latent_object": "F(t) = (tau2*y + t*m)/(tau2 + t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "(tau2*y + sig2*m)/(tau2 + sig2)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "generic",
+            "text": "-(y - m)/(sig2 + tau2)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "degenerate",
+            "text": "y + sig2*(-(y - m)/(sig2 + tau2))"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "target",
+            "text": "(tau2*y + sig2*m)/(tau2 + sig2) - (y + sig2*(-(y - m)/(sig2 + tau2)))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "specialize"
+          },
+          {
+            "member": "G0002",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0004",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "sig2"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "sig2"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "sig2"
+            }
+          },
+          {
+            "member": "G0004",
+            "theta": {
+              "t": "sig2"
+            }
+          }
+        ],
+        "reconstruction_rule": "With F(t)=(tau2*y + t*m)/(tau2 + t): G0001 = F(sig2); G0002 = (F(sig2) - y)/sig2; G0003 = y + sig2*((F(sig2) - y)/sig2) = F(sig2); G0004 = G0001 - G0003.",
+        "required_assumptions": [
+          "sig2 > 0",
+          "sig2 + tau2 != 0"
+        ],
+        "proof_obligations": [
+          "F(sig2) - G0001 = (tau2*y + sig2*m)/(tau2 + sig2) - G0001 = 0",
+          "((F(sig2) - y)/sig2) - G0002 = ((m - y)/(sig2 + tau2)) + ((y - m)/(sig2 + tau2)) = 0",
+          "G0003 - F(sig2) = (y + sig2*(-(y - m)/(sig2 + tau2))) - ((tau2*y + sig2*m)/(sig2 + tau2)) = 0",
+          "G0004 - (G0001 - G0003) = 0"
+        ],
+        "rationale": "F(t) is a one-parameter weighted average. G0001 is F at t=sig2. G0002 is the normalized increment (F(sig2)-y)/sig2. G0003 applies the affine update y + sig2*G0002 and equals F(sig2), so G0004 is the zero difference under the denominator assumptions.",
+        "confidence": 0.97
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "weighted_average_affine_update",
+          "latent_object": "F(t) = (tau2*y + t*m)/(tau2 + t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "(tau2*y + sig2*m)/(tau2 + sig2)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "generic",
+              "text": "-(y - m)/(sig2 + tau2)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "degenerate",
+              "text": "y + sig2*(-(y - m)/(sig2 + tau2))"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "target",
+              "text": "(tau2*y + sig2*m)/(tau2 + sig2) - (y + sig2*(-(y - m)/(sig2 + tau2)))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "specialize"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "sig2"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "sig2"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "sig2"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "t": "sig2"
+              }
+            }
+          ],
+          "reconstruction_rule": "With F(t)=(tau2*y + t*m)/(tau2 + t): G0001 = F(sig2); G0002 = (F(sig2) - y)/sig2; G0003 = y + sig2*((F(sig2) - y)/sig2) = F(sig2); G0004 = G0001 - G0003.",
+          "required_assumptions": [
+            "sig2 > 0",
+            "sig2 + tau2 != 0"
+          ],
+          "proof_obligations": [
+            "F(sig2) - G0001 = (tau2*y + sig2*m)/(tau2 + sig2) - G0001 = 0",
+            "((F(sig2) - y)/sig2) - G0002 = ((m - y)/(sig2 + tau2)) + ((y - m)/(sig2 + tau2)) = 0",
+            "G0003 - F(sig2) = (y + sig2*(-(y - m)/(sig2 + tau2))) - ((tau2*y + sig2*m)/(sig2 + tau2)) = 0",
+            "G0004 - (G0001 - G0003) = 0"
+          ],
+          "rationale": "F(t) is a one-parameter weighted average. G0001 is F at t=sig2. G0002 is the normalized increment (F(sig2)-y)/sig2. G0003 applies the affine update y + sig2*G0002 and equals F(sig2), so G0004 is the zero difference under the denominator assumptions.",
+          "confidence": 0.97
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "(m*t + tau2*y)/(t + tau2)",
+          "n_zero": 4,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "F(sig2) - G0001 = (tau2*y + sig2*m)/(tau2 + sig2) - G0001 = 0",
+              "expanded": "((m*sig2 + tau2*y)/(sig2 + tau2)) - ((tau2*y + sig2*m)/(tau2 + sig2)) = (tau2*y + sig2*m)/(tau2 + sig2) - ((tau2*y + sig2*m)/(tau2 + sig2)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "((F(sig2) - y)/sig2) - G0002 = ((m - y)/(sig2 + tau2)) + ((y - m)/(sig2 + tau2)) = 0",
+              "expanded": "((((m*sig2 + tau2*y)/(sig2 + tau2)) - y)/sig2) - (-(y - m)/(sig2 + tau2)) = ((m - y)/(sig2 + tau2)) + ((y - m)/(sig2 + tau2)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - F(sig2) = (y + sig2*(-(y - m)/(sig2 + tau2))) - ((tau2*y + sig2*m)/(sig2 + tau2)) = 0",
+              "expanded": "(y + sig2*(-(y - m)/(sig2 + tau2))) - ((m*sig2 + tau2*y)/(sig2 + tau2)) = (y + sig2*(-(y - m)/(sig2 + tau2))) - ((tau2*y + sig2*m)/(sig2 + tau2)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - (G0001 - G0003) = 0",
+              "expanded": "((tau2*y + sig2*m)/(tau2 + sig2) - (y + sig2*(-(y - m)/(sig2 + tau2)))) - (((tau2*y + sig2*m)/(tau2 + sig2)) - (y + sig2*(-(y - m)/(sig2 + tau2)))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "ZERO",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 4,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": null,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": null,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}

@@ -1,0 +1,382 @@
+{
+  "task_id": "sciml-ou-mehler-01",
+  "public_id": "H02",
+  "structural_cluster_id": "OU_KERNEL",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P0",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "dcd04ecc8d5c9ea2a6d8ea0a783a96633fa2229008671348314482527da74d3f",
+  "input_sha256": "6c28f55bbe7d7e8911f341367c50e92ca6739fedc6ed2a9c95cb723864da8ca0",
+  "sol_packet_sha256": null,
+  "latency_s": 117.308,
+  "usage": {
+    "prompt_tokens": 1080,
+    "completion_tokens": 8175,
+    "total_tokens": 9255,
+    "reasoning_tokens": 7066,
+    "cached_tokens": 1024
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"scaled base exponential with time scaling, cumulative integration, and two-point absolute composition\",\n      \"latent_object\": \"F(t)=exp(-t)\",\n      \"variables\": [\"t\", \"s\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"y*exp(-theta*t)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"(sigma**2/(2*theta))*(1 - exp(-2*theta*t))\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"(sigma**2/(2*theta))*exp(-theta*Abs(s - t))\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"instance\",\n          \"text\": \"x0*exp(-beta*t/2)\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"instance\",\n          \"text\": \"1 - exp(-beta*t)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit\",\n          \"definition\": \"S[F](t)=F(theta*t), then multiply by y\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit\",\n          \"definition\": \"I[F](t)=sigma**2*integral_0^t F(2*theta*u) du\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\",\n          \"definition\": \"P[F](s,t)=(sigma**2/(2*theta))*F(theta*Abs(s-t))\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"other_explicit\",\n          \"definition\": \"S[F](t)=F(beta*t/2), then multiply by x0\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"other_explicit\",\n          \"definition\": \"I[F](t)=beta*integral_0^t F(beta*u) du\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"parameters\": {\n            \"time_scale\": \"theta\",\n            \"scale\": \"y\"\n          },\n          \"point\": \"t\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"parameters\": {\n            \"time_scale\": \"2*theta\",\n            \"coefficient\": \"sigma**2\"\n          },\n          \"point\": \"t\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"parameters\": {\n            \"time_scale\": \"theta\",\n            \"coefficient\": \"sigma**2/(2*theta)\"\n          },\n          \"point\": \"Abs(s-t)\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"parameters\": {\n            \"time_scale\": \"beta/2\",\n            \"scale\": \"x0\"\n          },\n          \"point\": \"t\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"parameters\": {\n            \"time_scale\": \"beta\",\n            \"coefficient\": \"beta\"\n          },\n          \"point\": \"t\"\n        }\n      ],\n      \"reconstruction_rule\": \"For F(t)=exp(-t), reconstruct G0001 = y*F(theta*t); G0002 = sigma**2*integral_0^t F(2*theta*u) du; G0003 = (sigma**2/(2*theta))*F(theta*Abs(s-t)); G0004 = x0*F(beta*t/2); G0005 = beta*integral_0^t F(beta*u) du.\",\n      \"required_assumptions\": [\n        \"theta > 0\",\n        \"sigma > 0\",\n        \"beta > 0\",\n        \"t > 0 when using G0002\"\n      ],\n      \"proof_obligations\": [\n        \"G0001 - y*F(theta*t) = 0\",\n        \"G0002 - sigma**2*integral_0^t F(2*theta*u) du = 0\",\n        \"G0003 - (sigma**2/(2*theta))*F(theta*Abs(s-t)) = 0\",\n        \"G0004 - x0*F(beta*t/2) = 0\",\n        \"G0005 - beta*integral_0^t F(beta*u) du = 0\"\n      ],\n      \"rationale\": \"All cited catalog expressions are generated from the single base F(t)=exp(-t) by time scaling and either direct scaling, cumulative integration, or two-point absolute composition. This is an operational structural representation, not a physical identification.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "scaled base exponential with time scaling, cumulative integration, and two-point absolute composition",
+        "latent_object": "F(t)=exp(-t)",
+        "variables": [
+          "t",
+          "s"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "y*exp(-theta*t)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "(sigma**2/(2*theta))*(1 - exp(-2*theta*t))"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "(sigma**2/(2*theta))*exp(-theta*Abs(s - t))"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "instance",
+            "text": "x0*exp(-beta*t/2)"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "instance",
+            "text": "1 - exp(-beta*t)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit",
+            "definition": "S[F](t)=F(theta*t), then multiply by y"
+          },
+          {
+            "member": "G0002",
+            "O": "other_explicit",
+            "definition": "I[F](t)=sigma**2*integral_0^t F(2*theta*u) du"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit",
+            "definition": "P[F](s,t)=(sigma**2/(2*theta))*F(theta*Abs(s-t))"
+          },
+          {
+            "member": "G0004",
+            "O": "other_explicit",
+            "definition": "S[F](t)=F(beta*t/2), then multiply by x0"
+          },
+          {
+            "member": "G0005",
+            "O": "other_explicit",
+            "definition": "I[F](t)=beta*integral_0^t F(beta*u) du"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "parameters": {
+              "time_scale": "theta",
+              "scale": "y"
+            },
+            "point": "t"
+          },
+          {
+            "member": "G0002",
+            "parameters": {
+              "time_scale": "2*theta",
+              "coefficient": "sigma**2"
+            },
+            "point": "t"
+          },
+          {
+            "member": "G0003",
+            "parameters": {
+              "time_scale": "theta",
+              "coefficient": "sigma**2/(2*theta)"
+            },
+            "point": "Abs(s-t)"
+          },
+          {
+            "member": "G0004",
+            "parameters": {
+              "time_scale": "beta/2",
+              "scale": "x0"
+            },
+            "point": "t"
+          },
+          {
+            "member": "G0005",
+            "parameters": {
+              "time_scale": "beta",
+              "coefficient": "beta"
+            },
+            "point": "t"
+          }
+        ],
+        "reconstruction_rule": "For F(t)=exp(-t), reconstruct G0001 = y*F(theta*t); G0002 = sigma**2*integral_0^t F(2*theta*u) du; G0003 = (sigma**2/(2*theta))*F(theta*Abs(s-t)); G0004 = x0*F(beta*t/2); G0005 = beta*integral_0^t F(beta*u) du.",
+        "required_assumptions": [
+          "theta > 0",
+          "sigma > 0",
+          "beta > 0",
+          "t > 0 when using G0002"
+        ],
+        "proof_obligations": [
+          "G0001 - y*F(theta*t) = 0",
+          "G0002 - sigma**2*integral_0^t F(2*theta*u) du = 0",
+          "G0003 - (sigma**2/(2*theta))*F(theta*Abs(s-t)) = 0",
+          "G0004 - x0*F(beta*t/2) = 0",
+          "G0005 - beta*integral_0^t F(beta*u) du = 0"
+        ],
+        "rationale": "All cited catalog expressions are generated from the single base F(t)=exp(-t) by time scaling and either direct scaling, cumulative integration, or two-point absolute composition. This is an operational structural representation, not a physical identification.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "scaled base exponential with time scaling, cumulative integration, and two-point absolute composition",
+          "latent_object": "F(t)=exp(-t)",
+          "variables": [
+            "t",
+            "s"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "y*exp(-theta*t)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(sigma**2/(2*theta))*(1 - exp(-2*theta*t))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "(sigma**2/(2*theta))*exp(-theta*Abs(s - t))"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "x0*exp(-beta*t/2)"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "instance",
+              "text": "1 - exp(-beta*t)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit",
+              "definition": "S[F](t)=F(theta*t), then multiply by y"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit",
+              "definition": "I[F](t)=sigma**2*integral_0^t F(2*theta*u) du"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit",
+              "definition": "P[F](s,t)=(sigma**2/(2*theta))*F(theta*Abs(s-t))"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit",
+              "definition": "S[F](t)=F(beta*t/2), then multiply by x0"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit",
+              "definition": "I[F](t)=beta*integral_0^t F(beta*u) du"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "parameters": {
+                "time_scale": "theta",
+                "scale": "y"
+              },
+              "point": "t"
+            },
+            {
+              "member": "G0002",
+              "parameters": {
+                "time_scale": "2*theta",
+                "coefficient": "sigma**2"
+              },
+              "point": "t"
+            },
+            {
+              "member": "G0003",
+              "parameters": {
+                "time_scale": "theta",
+                "coefficient": "sigma**2/(2*theta)"
+              },
+              "point": "Abs(s-t)"
+            },
+            {
+              "member": "G0004",
+              "parameters": {
+                "time_scale": "beta/2",
+                "scale": "x0"
+              },
+              "point": "t"
+            },
+            {
+              "member": "G0005",
+              "parameters": {
+                "time_scale": "beta",
+                "coefficient": "beta"
+              },
+              "point": "t"
+            }
+          ],
+          "reconstruction_rule": "For F(t)=exp(-t), reconstruct G0001 = y*F(theta*t); G0002 = sigma**2*integral_0^t F(2*theta*u) du; G0003 = (sigma**2/(2*theta))*F(theta*Abs(s-t)); G0004 = x0*F(beta*t/2); G0005 = beta*integral_0^t F(beta*u) du.",
+          "required_assumptions": [
+            "theta > 0",
+            "sigma > 0",
+            "beta > 0",
+            "t > 0 when using G0002"
+          ],
+          "proof_obligations": [
+            "G0001 - y*F(theta*t) = 0",
+            "G0002 - sigma**2*integral_0^t F(2*theta*u) du = 0",
+            "G0003 - (sigma**2/(2*theta))*F(theta*Abs(s-t)) = 0",
+            "G0004 - x0*F(beta*t/2) = 0",
+            "G0005 - beta*integral_0^t F(beta*u) du = 0"
+          ],
+          "rationale": "All cited catalog expressions are generated from the single base F(t)=exp(-t) by time scaling and either direct scaling, cumulative integration, or two-point absolute composition. This is an operational structural representation, not a physical identification.",
+          "confidence": 0.9
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(-t)",
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "G0001 - y*F(theta*t) = 0",
+              "expanded": "(y*exp(-theta*t)) - y*(exp(-t*theta)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - sigma**2*integral_0^t F(2*theta*u) du = 0",
+              "expanded": "((sigma**2/(2*theta))*(1 - exp(-2*theta*t))) - sigma**2*integral_0^t (exp(-2*theta*u)) du = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0003 - (sigma**2/(2*theta))*F(theta*Abs(s-t)) = 0",
+              "expanded": "((sigma**2/(2*theta))*exp(-theta*Abs(s - t))) - (sigma**2/(2*theta))*(exp(-theta*Abs(s - t))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - x0*F(beta*t/2) = 0",
+              "expanded": "(x0*exp(-beta*t/2)) - x0*(exp(-beta*t/2)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - beta*integral_0^t F(beta*u) du = 0",
+              "expanded": "(1 - exp(-beta*t)) - beta*integral_0^t (exp(-beta*u)) du = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": null,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": null,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}

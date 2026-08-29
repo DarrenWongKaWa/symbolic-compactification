@@ -1,0 +1,284 @@
+{
+  "task_id": "sciml-deq-ift-01",
+  "public_id": "H03",
+  "structural_cluster_id": "IFT_SCALAR",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P0",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "db4ac2f61e882eef204b52d0bc7a93d60149a8d75941518b5540296821840fac",
+  "input_sha256": "727aafb381559380e3cfd9d09482794f550838fd440abb83b0d0be67ae45227b",
+  "sol_packet_sha256": null,
+  "latency_s": 86.517,
+  "usage": {
+    "prompt_tokens": 1006,
+    "completion_tokens": 5952,
+    "total_tokens": 6958,
+    "reasoning_tokens": 5305,
+    "cached_tokens": 896
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"implicit_residual_derivative_rational_transform\",\n      \"latent_object\": \"F(t)=tanh(t)-z\",\n      \"variables\": [\"t\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"tanh(w*z + x) - z\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/cosh(w*z + x)**2\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"specialize\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"d/dt\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"w*z + x\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"w*z + x\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"w*z + x\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"For G0001: F(t) evaluated at t=w*z+x. For G0002: F'(t) evaluated at t=w*z+x. For G0003: F'(t)/(1 - w*F'(t)) evaluated at t=w*z+x.\",\n      \"required_assumptions\": [\n        \"cosh(w*z + x)**2 != w\"\n      ],\n      \"proof_obligations\": [\n        \"specialize(F(t), t=w*z+x) - (tanh(w*z+x)-z) = 0\",\n        \"specialize(d/dt F(t), t=w*z+x) - 1/cosh(w*z+x)**2 = 0\",\n        \"specialize(F'(t)/(1 - w*F'(t)), t=w*z+x) - 1/(cosh(w*z+x)**2 - w) = 0\",\n        \"F'(t) = 1/cosh(t)**2\"\n      ],\n      \"rationale\": \"F is the residual of the declared implicit map; its derivative is sech^2, and the reciprocal member is exactly the derivative quotient F'/(1 - w F').\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "implicit_residual_derivative_rational_transform",
+        "latent_object": "F(t)=tanh(t)-z",
+        "variables": [
+          "t"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "tanh(w*z + x) - z"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/cosh(w*z + x)**2"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "specialize"
+          },
+          {
+            "member": "G0002",
+            "O": "d/dt"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "w*z + x"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "w*z + x"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "w*z + x"
+            }
+          }
+        ],
+        "reconstruction_rule": "For G0001: F(t) evaluated at t=w*z+x. For G0002: F'(t) evaluated at t=w*z+x. For G0003: F'(t)/(1 - w*F'(t)) evaluated at t=w*z+x.",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "specialize(F(t), t=w*z+x) - (tanh(w*z+x)-z) = 0",
+          "specialize(d/dt F(t), t=w*z+x) - 1/cosh(w*z+x)**2 = 0",
+          "specialize(F'(t)/(1 - w*F'(t)), t=w*z+x) - 1/(cosh(w*z+x)**2 - w) = 0",
+          "F'(t) = 1/cosh(t)**2"
+        ],
+        "rationale": "F is the residual of the declared implicit map; its derivative is sech^2, and the reciprocal member is exactly the derivative quotient F'/(1 - w F').",
+        "confidence": 0.85
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "implicit_residual_derivative_rational_transform",
+          "latent_object": "F(t)=tanh(t)-z",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "tanh(w*z + x) - z"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/cosh(w*z + x)**2"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "specialize"
+            },
+            {
+              "member": "G0002",
+              "O": "d/dt"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "w*z + x"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "w*z + x"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "w*z + x"
+              }
+            }
+          ],
+          "reconstruction_rule": "For G0001: F(t) evaluated at t=w*z+x. For G0002: F'(t) evaluated at t=w*z+x. For G0003: F'(t)/(1 - w*F'(t)) evaluated at t=w*z+x.",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "specialize(F(t), t=w*z+x) - (tanh(w*z+x)-z) = 0",
+            "specialize(d/dt F(t), t=w*z+x) - 1/cosh(w*z+x)**2 = 0",
+            "specialize(F'(t)/(1 - w*F'(t)), t=w*z+x) - 1/(cosh(w*z+x)**2 - w) = 0",
+            "F'(t) = 1/cosh(t)**2"
+          ],
+          "rationale": "F is the residual of the declared implicit map; its derivative is sech^2, and the reciprocal member is exactly the derivative quotient F'/(1 - w F').",
+          "confidence": 0.85
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "-z + tanh(t)",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "obligations": [
+            {
+              "text": "specialize(F(t), t=w*z+x) - (tanh(w*z+x)-z) = 0",
+              "expanded": "specialize((-z + tanh(t)), t=w*z+x) - (tanh(w*z+x)-z) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "specialize(d/dt F(t), t=w*z+x) - 1/cosh(w*z+x)**2 = 0",
+              "expanded": "specialize(d/dt (-z + tanh(t)), t=w*z+x) - 1/cosh(w*z+x)**2 = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "specialize(F'(t)/(1 - w*F'(t)), t=w*z+x) - 1/(cosh(w*z+x)**2 - w) = 0",
+              "expanded": "specialize(F'(t)/(1 - w*F'(t)), t=w*z+x) - 1/(cosh(w*z+x)**2 - w) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "F'(t) = 1/cosh(t)**2",
+              "expanded": "F'(t) = 1/cosh(t)**2",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "SHALLOW_REPACKAGING",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": true,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "SHALLOW_REPACKAGING",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": null,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": null,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}

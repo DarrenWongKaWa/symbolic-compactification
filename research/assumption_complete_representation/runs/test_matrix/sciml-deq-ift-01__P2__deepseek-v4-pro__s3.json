@@ -1,0 +1,469 @@
+{
+  "task_id": "sciml-deq-ift-01",
+  "public_id": "H03",
+  "structural_cluster_id": "IFT_SCALAR",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P2",
+  "seed": 3,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "749cdfe3f3bae5aec34473a3de94a05b4f54f1c78dfc0b5376eb5becf3ffb7a5",
+  "input_sha256": "a257e7b37ec2b80d2cb83c1fe3aeb57ed5e070915cae91712f7741a6a6776381",
+  "sol_packet_sha256": "5e35df26919f64e658516b9e53075008ac495cadea24cdeb404ce42995173098",
+  "latency_s": 166.193,
+  "usage": {
+    "prompt_tokens": 1169,
+    "completion_tokens": 11022,
+    "total_tokens": 12191,
+    "reasoning_tokens": 9917,
+    "cached_tokens": 1152
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 2,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"implicit_scalar_root_derivative\",\n      \"latent_object\": \"F(t)=tanh(w*t+x)-t\",\n      \"variables\": [\"t\", \"x\", \"w\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"tanh(w*z + x) - z\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/cosh(w*z + x)**2\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"d/dx\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\"t\": \"z\", \"x\": \"x\", \"w\": \"w\"}\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\"t\": \"z\", \"x\": \"x\", \"w\": \"w\"}\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\"t\": \"z\", \"x\": \"x\", \"w\": \"w\"}\n        }\n      ],\n      \"reconstruction_rule\": \"Let F(t)=tanh(w*t+x)-t. G0001 is the specialization F(t) at t=z. G0002 is dF/dx evaluated at t=z. G0003 is the x-derivative of the implicit root z defined by F(z)=0, computed as -(dF/dx)/(dF/dt) evaluated at t=z; algebraically this equals 1/(cosh(w*z+x)^2 - w).\",\n      \"required_assumptions\": [\"cosh(w*z + x)**2 != w\"],\n      \"proof_obligations\": [\n        \"F(t)[t:=z] - G0001 = 0\",\n        \"1/cosh(w*z+x)**2 - G0002 = 0\",\n        \"[-(1/cosh(w*z+x)**2)/(w/cosh(w*z+x)**2 - 1)] - G0003 = 0\"\n      ],\n      \"rationale\": \"G0001 defines an implicit scalar relation; G0002 is the x-derivative of the nonlinear term; G0003 is the implicit derivative of the root.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"representation_type\": \"algebraic_reciprocal_from_input\",\n      \"latent_object\": \"F(u)=u/(1-w*u)\",\n      \"variables\": [\"u\", \"w\"],\n      \"nodes\": [\"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/cosh(w*z + x)**2\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"1/(cosh(w*z + x)**2 - w)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"specialize\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\"u\": \"1/cosh(w*z + x)**2\", \"w\": \"w\"}\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\"u\": \"1/cosh(w*z + x)**2\", \"w\": \"w\"}\n        }\n      ],\n      \"reconstruction_rule\": \"Let F(u)=u/(1-w*u). G0002 supplies the input u=1/cosh(w*z+x)^2; G0003 is F(u) evaluated at that input.\",\n      \"required_assumptions\": [\"cosh(w*z + x)**2 != w\"],\n      \"proof_obligations\": [\n        \"F(u)[u:=1/cosh(w*z+x)**2] - G0003 = 0\",\n        \"1/cosh(w*z+x)**2/(1 - w/cosh(w*z+x)**2) - 1/(cosh(w*z+x)**2 - w) = 0\"\n      ],\n      \"rationale\": \"Direct algebraic relation: the reciprocal of a shifted square is expressed as a self-referential ratio.\",\n      \"confidence\": 0.9\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "implicit_scalar_root_derivative",
+        "latent_object": "F(t)=tanh(w*t+x)-t",
+        "variables": [
+          "t",
+          "x",
+          "w"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "tanh(w*z + x) - z"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/cosh(w*z + x)**2"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "identity"
+          },
+          {
+            "member": "G0002",
+            "O": "d/dx"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z",
+              "x": "x",
+              "w": "w"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "z",
+              "x": "x",
+              "w": "w"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "z",
+              "x": "x",
+              "w": "w"
+            }
+          }
+        ],
+        "reconstruction_rule": "Let F(t)=tanh(w*t+x)-t. G0001 is the specialization F(t) at t=z. G0002 is dF/dx evaluated at t=z. G0003 is the x-derivative of the implicit root z defined by F(z)=0, computed as -(dF/dx)/(dF/dt) evaluated at t=z; algebraically this equals 1/(cosh(w*z+x)^2 - w).",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "F(t)[t:=z] - G0001 = 0",
+          "1/cosh(w*z+x)**2 - G0002 = 0",
+          "[-(1/cosh(w*z+x)**2)/(w/cosh(w*z+x)**2 - 1)] - G0003 = 0"
+        ],
+        "rationale": "G0001 defines an implicit scalar relation; G0002 is the x-derivative of the nonlinear term; G0003 is the implicit derivative of the root.",
+        "confidence": 0.8
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "algebraic_reciprocal_from_input",
+        "latent_object": "F(u)=u/(1-w*u)",
+        "variables": [
+          "u",
+          "w"
+        ],
+        "nodes": [
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/cosh(w*z + x)**2"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "1/(cosh(w*z + x)**2 - w)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0002",
+            "O": "identity"
+          },
+          {
+            "member": "G0003",
+            "O": "specialize"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0002",
+            "theta": {
+              "u": "1/cosh(w*z + x)**2",
+              "w": "w"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "u": "1/cosh(w*z + x)**2",
+              "w": "w"
+            }
+          }
+        ],
+        "reconstruction_rule": "Let F(u)=u/(1-w*u). G0002 supplies the input u=1/cosh(w*z+x)^2; G0003 is F(u) evaluated at that input.",
+        "required_assumptions": [
+          "cosh(w*z + x)**2 != w"
+        ],
+        "proof_obligations": [
+          "F(u)[u:=1/cosh(w*z+x)**2] - G0003 = 0",
+          "1/cosh(w*z+x)**2/(1 - w/cosh(w*z+x)**2) - 1/(cosh(w*z+x)**2 - w) = 0"
+        ],
+        "rationale": "Direct algebraic relation: the reciprocal of a shifted square is expressed as a self-referential ratio.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "implicit_scalar_root_derivative",
+          "latent_object": "F(t)=tanh(w*t+x)-t",
+          "variables": [
+            "t",
+            "x",
+            "w"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "tanh(w*z + x) - z"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/cosh(w*z + x)**2"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0002",
+              "O": "d/dx"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z",
+                "x": "x",
+                "w": "w"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z",
+                "x": "x",
+                "w": "w"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z",
+                "x": "x",
+                "w": "w"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let F(t)=tanh(w*t+x)-t. G0001 is the specialization F(t) at t=z. G0002 is dF/dx evaluated at t=z. G0003 is the x-derivative of the implicit root z defined by F(z)=0, computed as -(dF/dx)/(dF/dt) evaluated at t=z; algebraically this equals 1/(cosh(w*z+x)^2 - w).",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "F(t)[t:=z] - G0001 = 0",
+            "1/cosh(w*z+x)**2 - G0002 = 0",
+            "[-(1/cosh(w*z+x)**2)/(w/cosh(w*z+x)**2 - 1)] - G0003 = 0"
+          ],
+          "rationale": "G0001 defines an implicit scalar relation; G0002 is the x-derivative of the nonlinear term; G0003 is the implicit derivative of the root.",
+          "confidence": 0.8
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "-t + tanh(t*w + x)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "F(t)[t:=z] - G0001 = 0",
+              "expanded": "(-t + tanh(t*w + x))[t:=z] - (tanh(w*z + x) - z) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "1/cosh(w*z+x)**2 - G0002 = 0",
+              "expanded": "1/cosh(w*z+x)**2 - (1/cosh(w*z + x)**2) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "[-(1/cosh(w*z+x)**2)/(w/cosh(w*z+x)**2 - 1)] - G0003 = 0",
+              "expanded": "[-(1/cosh(w*z+x)**2)/(w/cosh(w*z+x)**2 - 1)] - (1/(cosh(w*z + x)**2 - w)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "algebraic_reciprocal_from_input",
+          "latent_object": "F(u)=u/(1-w*u)",
+          "variables": [
+            "u",
+            "w"
+          ],
+          "nodes": [
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/cosh(w*z + x)**2"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "1/(cosh(w*z + x)**2 - w)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "specialize"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "u": "1/cosh(w*z + x)**2",
+                "w": "w"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "u": "1/cosh(w*z + x)**2",
+                "w": "w"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let F(u)=u/(1-w*u). G0002 supplies the input u=1/cosh(w*z+x)^2; G0003 is F(u) evaluated at that input.",
+          "required_assumptions": [
+            "cosh(w*z + x)**2 != w"
+          ],
+          "proof_obligations": [
+            "F(u)[u:=1/cosh(w*z+x)**2] - G0003 = 0",
+            "1/cosh(w*z+x)**2/(1 - w/cosh(w*z+x)**2) - 1/(cosh(w*z+x)**2 - w) = 0"
+          ],
+          "rationale": "Direct algebraic relation: the reciprocal of a shifted square is expressed as a self-referential ratio.",
+          "confidence": 0.9
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "u/(-u*w + 1)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "F(u)[u:=1/cosh(w*z+x)**2] - G0003 = 0",
+              "expanded": "(u/(-u*w + 1))[u:=1/cosh(w*z+x)**2] - (1/(cosh(w*z + x)**2 - w)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "1/cosh(w*z+x)**2/(1 - w/cosh(w*z+x)**2) - 1/(cosh(w*z+x)**2 - w) = 0",
+              "expanded": "1/cosh(w*z+x)**2/(1 - w/cosh(w*z+x)**2) - 1/(cosh(w*z+x)**2 - w) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}

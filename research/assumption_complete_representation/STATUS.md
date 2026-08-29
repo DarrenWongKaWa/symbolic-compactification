@@ -1,33 +1,33 @@
 # STATUS
 
-CURRENT PHASE: Phase III execution — DEV freeze written; CORE_COMPARABLE n=6; PACKAGING_GAP n=8; TEST not frozen
+CURRENT PHASE: Phase III complete — held-out verdict issued
 
-DEV TASK COUNT: 14 (0 TRIVIAL, 4 SHALLOW, 9 NONTRIVIAL, 1 CHALLENGE)
+DEV TASK COUNT: 14 (CORE_COMPARABLE 6, PACKAGING_GAP 8)
 
-TEST FREEZE STATUS: not frozen
+TEST FREEZE STATUS: frozen (`cff6763`; CORE n=4, headline n=10)
 
-ACTIVE BASELINE JOBS: none (complete)
+ACTIVE BASELINE JOBS: none
 
-ACTIVE LLM JOBS: Waves 1–3 (P0 then P1+P2 then P3+P4) running; compiler v1.1 rescored seed-0 P0
+ACTIVE LLM JOBS: none
 
-BASELINE COMPLETE: yes (TYPE_ONLY / UNPARSEABLE; operational_baseline=0/14; comparable only on 6)
+BASELINE COMPLETE: yes (DEV 0/14 operational; TEST CORE 0/4 operational)
 
-LLM DEV COMPLETE: P0 1-seed smoke only; 5-seed matrix starting after DEV_EXECUTION_FREEZE
+LLM DEV COMPLETE: yes (135 runs)
 
-AI_UNIQUE_CANDIDATES: 0
+AI_UNIQUE_CANDIDATES: 1 cluster (resolvent R2)
 
-CERTIFIED AI_UNIQUE_SUCCESS: 0
+CERTIFIED AI_UNIQUE_SUCCESS: 0 (Auditor B FAIL)
 
-HIGHEST CERTIFIED R LEVEL: none
+HIGHEST CERTIFIED R LEVEL: R2 (DEV only; TEST none)
 
-CURRENT BOTTLENECK: 5-seed P0–P3 (and predeclared P4) on 6 CORE_COMPARABLE tasks; do not count PACKAGING_GAP as AI_UNIQUE
+CURRENT BOTTLENECK: R3+ certification; SYSTEM_V1 type-name leakage; packaging gap
 
-TEST STATUS: not started
+TEST STATUS: complete (40 pro + 12 flash; operational 0)
 
-REVIEW STATUS: not started
+REVIEW STATUS: Auditor A/B/C + R6 skeptic complete
 
-PUBLICATION STATUS: E
+PUBLICATION STATUS: F
 
-NEXT AUTO ACTION: Wave 1 P0 five-seed on CORE_COMPARABLE; then Wave 2 P1+P2; then Wave 3 P3+P4; do not open TEST; do not revive Guo; do not extend parser
+NEXT AUTO ACTION: stop. Do not start a V2 proposer, parser extension, or Guo rescue automatically.
 
-HEAD SHA: pending freeze commit
+HEAD SHA: pending this commit

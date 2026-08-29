@@ -1,0 +1,628 @@
+{
+  "task_id": "sciml-ou-mehler-01",
+  "public_id": "H02",
+  "structural_cluster_id": "OU_KERNEL",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P2",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "9b80d5b56695fcb4e1c0b00a15acda86939edae1498972f45a9ee65f2de9e85f",
+  "input_sha256": "af4e3a886fdc9fcc0bf663e9712e2125cfab38a9173c2a0af1d31deaea706344",
+  "sol_packet_sha256": "5d05e244a926e3265092026dc5850a02141b7107b79425a36e11ee92cf372885",
+  "latency_s": 98.165,
+  "usage": {
+    "prompt_tokens": 1243,
+    "completion_tokens": 7061,
+    "total_tokens": 8304,
+    "reasoning_tokens": 5553,
+    "cached_tokens": 640
+  },
+  "parse_status": "OK",
+  "n_hypotheses": 3,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"scaled_exponential_decay_kernel\",\n      \"latent_object\": \"F(t)=exp(-theta*t)\",\n      \"variables\": [\"t\", \"s\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"y*exp(-theta*t)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"(sigma**2/(2*theta))*(1 - exp(-2*theta*t))\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"(sigma**2/(2*theta))*exp(-theta*Abs(s - t))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"t\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"2*t\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"Abs(s - t)\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0001 is y*F(t). G0002 is (sigma**2/(2*theta))*(1 - F(2*t)). G0003 is (sigma**2/(2*theta))*F(Abs(s - t)).\",\n      \"required_assumptions\": [\"theta > 0\", \"t > 0\"],\n      \"proof_obligations\": [\n        \"G0001 - y*F(t) = 0\",\n        \"G0002 - (sigma**2/(2*theta))*(1 - F(2*t)) = 0\",\n        \"G0003 - (sigma**2/(2*theta))*F(Abs(s - t)) = 0\"\n      ],\n      \"rationale\": \"All three catalog expressions contain an exponential factor whose exponent is linear in theta and in a time argument; G0002 is an affine function of the same exponential, and G0003 is the same exponential evaluated at an absolute time difference.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"representation_type\": \"affine_exponential_decay_pair\",\n      \"latent_object\": \"F(t)=exp(-beta*t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [\"G0004\", \"G0005\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"instance\",\n          \"text\": \"x0*exp(-beta*t/2)\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"instance\",\n          \"text\": \"1 - exp(-beta*t)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0004\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0004\",\n          \"theta\": {\n            \"t\": \"t/2\"\n          }\n        },\n        {\n          \"member\": \"G0005\",\n          \"theta\": {\n            \"t\": \"t\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0004 is x0*F(t/2). G0005 is 1 - F(t).\",\n      \"required_assumptions\": [\"beta > 0\"],\n      \"proof_obligations\": [\n        \"G0004 - x0*F(t/2) = 0\",\n        \"G0005 - (1 - F(t)) = 0\"\n      ],\n      \"rationale\": \"G0004 and G0005 both contain exp(-beta*t) up to a linear time rescaling and an affine offset, so they can be represented as instances of the same exponential decay object.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"representation_type\": \"prefactor_scaled_exponential_kernel\",\n      \"latent_object\": \"F(t)=(sigma**2/(2*theta))*exp(-theta*t)\",\n      \"variables\": [\"t\", \"s\"],\n      \"nodes\": [\"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"(sigma**2/(2*theta))*(1 - exp(-2*theta*t))\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"(sigma**2/(2*theta))*exp(-theta*Abs(s - t))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"2*t\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"Abs(s - t)\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0003 is F(Abs(s - t)). G0002 is (sigma**2/(2*theta)) - F(2*t), since F(2*t)=(sigma**2/(2*theta))*exp(-2*theta*t).\",\n      \"required_assumptions\": [\"theta > 0\", \"sigma > 0\", \"t > 0\"],\n      \"proof_obligations\": [\n        \"G0003 - F(Abs(s - t)) = 0\",\n        \"G0002 - ((sigma**2/(2*theta)) - F(2*t)) = 0\"\n      ],\n      \"rationale\": \"G0003 and G0002 share the prefactor sigma^2/(2*theta) and differ only in the exponential evaluation: G0003 is the prefactor-scaled exponential at absolute lag, while G0002 is the same prefactor minus the same prefactor-scaled exponential with doubled time argument.\",\n      \"confidence\": 0.85\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "scaled_exponential_decay_kernel",
+        "latent_object": "F(t)=exp(-theta*t)",
+        "variables": [
+          "t",
+          "s"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "y*exp(-theta*t)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "(sigma**2/(2*theta))*(1 - exp(-2*theta*t))"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "(sigma**2/(2*theta))*exp(-theta*Abs(s - t))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0002",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "t"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "2*t"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "Abs(s - t)"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0001 is y*F(t). G0002 is (sigma**2/(2*theta))*(1 - F(2*t)). G0003 is (sigma**2/(2*theta))*F(Abs(s - t)).",
+        "required_assumptions": [
+          "theta > 0",
+          "t > 0"
+        ],
+        "proof_obligations": [
+          "G0001 - y*F(t) = 0",
+          "G0002 - (sigma**2/(2*theta))*(1 - F(2*t)) = 0",
+          "G0003 - (sigma**2/(2*theta))*F(Abs(s - t)) = 0"
+        ],
+        "rationale": "All three catalog expressions contain an exponential factor whose exponent is linear in theta and in a time argument; G0002 is an affine function of the same exponential, and G0003 is the same exponential evaluated at an absolute time difference.",
+        "confidence": 0.75
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "affine_exponential_decay_pair",
+        "latent_object": "F(t)=exp(-beta*t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [
+          "G0004",
+          "G0005"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0004",
+            "role": "instance",
+            "text": "x0*exp(-beta*t/2)"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "instance",
+            "text": "1 - exp(-beta*t)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0004",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0005",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0004",
+            "theta": {
+              "t": "t/2"
+            }
+          },
+          {
+            "member": "G0005",
+            "theta": {
+              "t": "t"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0004 is x0*F(t/2). G0005 is 1 - F(t).",
+        "required_assumptions": [
+          "beta > 0"
+        ],
+        "proof_obligations": [
+          "G0004 - x0*F(t/2) = 0",
+          "G0005 - (1 - F(t)) = 0"
+        ],
+        "rationale": "G0004 and G0005 both contain exp(-beta*t) up to a linear time rescaling and an affine offset, so they can be represented as instances of the same exponential decay object.",
+        "confidence": 0.8
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "prefactor_scaled_exponential_kernel",
+        "latent_object": "F(t)=(sigma**2/(2*theta))*exp(-theta*t)",
+        "variables": [
+          "t",
+          "s"
+        ],
+        "nodes": [
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "(sigma**2/(2*theta))*(1 - exp(-2*theta*t))"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "(sigma**2/(2*theta))*exp(-theta*Abs(s - t))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0002",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "2*t"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "Abs(s - t)"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0003 is F(Abs(s - t)). G0002 is (sigma**2/(2*theta)) - F(2*t), since F(2*t)=(sigma**2/(2*theta))*exp(-2*theta*t).",
+        "required_assumptions": [
+          "theta > 0",
+          "sigma > 0",
+          "t > 0"
+        ],
+        "proof_obligations": [
+          "G0003 - F(Abs(s - t)) = 0",
+          "G0002 - ((sigma**2/(2*theta)) - F(2*t)) = 0"
+        ],
+        "rationale": "G0003 and G0002 share the prefactor sigma^2/(2*theta) and differ only in the exponential evaluation: G0003 is the prefactor-scaled exponential at absolute lag, while G0002 is the same prefactor minus the same prefactor-scaled exponential with doubled time argument.",
+        "confidence": 0.85
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 3,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "scaled_exponential_decay_kernel",
+          "latent_object": "F(t)=exp(-theta*t)",
+          "variables": [
+            "t",
+            "s"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "y*exp(-theta*t)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(sigma**2/(2*theta))*(1 - exp(-2*theta*t))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "(sigma**2/(2*theta))*exp(-theta*Abs(s - t))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "t"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "2*t"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "Abs(s - t)"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 is y*F(t). G0002 is (sigma**2/(2*theta))*(1 - F(2*t)). G0003 is (sigma**2/(2*theta))*F(Abs(s - t)).",
+          "required_assumptions": [
+            "theta > 0",
+            "t > 0"
+          ],
+          "proof_obligations": [
+            "G0001 - y*F(t) = 0",
+            "G0002 - (sigma**2/(2*theta))*(1 - F(2*t)) = 0",
+            "G0003 - (sigma**2/(2*theta))*F(Abs(s - t)) = 0"
+          ],
+          "rationale": "All three catalog expressions contain an exponential factor whose exponent is linear in theta and in a time argument; G0002 is an affine function of the same exponential, and G0003 is the same exponential evaluated at an absolute time difference.",
+          "confidence": 0.75
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(-t*theta)",
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0001 - y*F(t) = 0",
+              "expanded": "(y*exp(-theta*t)) - y*(exp(-t*theta)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - (sigma**2/(2*theta))*(1 - F(2*t)) = 0",
+              "expanded": "((sigma**2/(2*theta))*(1 - exp(-2*theta*t))) - (sigma**2/(2*theta))*(1 - (exp(-2*t*theta))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (sigma**2/(2*theta))*F(Abs(s - t)) = 0",
+              "expanded": "((sigma**2/(2*theta))*exp(-theta*Abs(s - t))) - (sigma**2/(2*theta))*(exp(-theta*Abs(s - t))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "affine_exponential_decay_pair",
+          "latent_object": "F(t)=exp(-beta*t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0004",
+            "G0005"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "x0*exp(-beta*t/2)"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "instance",
+              "text": "1 - exp(-beta*t)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0004",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0004",
+              "theta": {
+                "t": "t/2"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "t": "t"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0004 is x0*F(t/2). G0005 is 1 - F(t).",
+          "required_assumptions": [
+            "beta > 0"
+          ],
+          "proof_obligations": [
+            "G0004 - x0*F(t/2) = 0",
+            "G0005 - (1 - F(t)) = 0"
+          ],
+          "rationale": "G0004 and G0005 both contain exp(-beta*t) up to a linear time rescaling and an affine offset, so they can be represented as instances of the same exponential decay object.",
+          "confidence": 0.8
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(-beta*t)",
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0004 - x0*F(t/2) = 0",
+              "expanded": "(x0*exp(-beta*t/2)) - x0*(exp(-beta*t/2)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - (1 - F(t)) = 0",
+              "expanded": "(1 - exp(-beta*t)) - (1 - (exp(-beta*t))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "prefactor_scaled_exponential_kernel",
+          "latent_object": "F(t)=(sigma**2/(2*theta))*exp(-theta*t)",
+          "variables": [
+            "t",
+            "s"
+          ],
+          "nodes": [
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(sigma**2/(2*theta))*(1 - exp(-2*theta*t))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "(sigma**2/(2*theta))*exp(-theta*Abs(s - t))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "2*t"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "Abs(s - t)"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0003 is F(Abs(s - t)). G0002 is (sigma**2/(2*theta)) - F(2*t), since F(2*t)=(sigma**2/(2*theta))*exp(-2*theta*t).",
+          "required_assumptions": [
+            "theta > 0",
+            "sigma > 0",
+            "t > 0"
+          ],
+          "proof_obligations": [
+            "G0003 - F(Abs(s - t)) = 0",
+            "G0002 - ((sigma**2/(2*theta)) - F(2*t)) = 0"
+          ],
+          "rationale": "G0003 and G0002 share the prefactor sigma^2/(2*theta) and differ only in the exponential evaluation: G0003 is the prefactor-scaled exponential at absolute lag, while G0002 is the same prefactor minus the same prefactor-scaled exponential with doubled time argument.",
+          "confidence": 0.85
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "sigma**2*exp(-t*theta)/(2*theta)",
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0003 - F(Abs(s - t)) = 0",
+              "expanded": "((sigma**2/(2*theta))*exp(-theta*Abs(s - t))) - (sigma**2*exp(-theta*Abs(s - t))/(2*theta)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - ((sigma**2/(2*theta)) - F(2*t)) = 0",
+              "expanded": "((sigma**2/(2*theta))*(1 - exp(-2*theta*t))) - ((sigma**2/(2*theta)) - (sigma**2*exp(-2*t*theta)/(2*theta))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": null,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": null,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "guo": false,
+  "split": "TEST",
+  "GENERAL_FINAL": "P0"
+}
