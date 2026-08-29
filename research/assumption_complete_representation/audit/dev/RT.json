@@ -1,0 +1,422 @@
+{
+  "meta": {
+    "agent": "DEV-RT",
+    "slice": "tensor_response",
+    "parent": "c02348e",
+    "branch": "work/ac-dev-audit-rt",
+    "method_version": "ac-repr-1",
+    "llm": false,
+    "guo_admitted": false,
+    "guo_sealed": true,
+    "hop_authority": "G0016 -> G0013 = UNKNOWN LEVEL_B",
+    "source_assumption_audit": "9fc3c8a",
+    "keep_even_if_easy": true,
+    "inspected_hold_or_test_for_prompt_design": false,
+    "n_tasks": 4,
+    "n_keep": 4,
+    "n_drop": 0,
+    "n_trivial": 0,
+    "n_shallow": 2,
+    "n_nontrivial": 2,
+    "n_challenge": 0,
+    "n_near_duplicate": 1,
+    "policy": "DEV audit of the four remaining DEV_proposal tasks (tensor + response). Assumptions taken from miner dossiers plus A1–A4. DECLARED/DERIVED only for verifier domains. Forbidden-import NOT_DECLARED items (Im k>0, thermal positivity) are not used. Guo is sealed and not a case. A task stays DEV even if easy. B0 residual ZERO is not representation discovery. Do not count a near-duplicate pair as two independent AI_UNIQUE_SUCCESS events.",
+    "tag_vocabulary": [
+      "TRIVIAL",
+      "SHALLOW",
+      "NONTRIVIAL",
+      "CHALLENGE"
+    ],
+    "operator_families": [
+      "SUBSTITUTION",
+      "DERIVATIVE",
+      "SHIFT",
+      "RECURRENCE",
+      "NEWTON_DD",
+      "HERMITE_DD",
+      "PERMUTATION",
+      "BASIS_RECONSTRUCTION",
+      "FUNCTIONAL_CALCULUS",
+      "OTHER_EXPLICIT"
+    ],
+    "audit_fields": [
+      "scientific_source",
+      "domain",
+      "assumption_contract",
+      "source_expressions",
+      "source_catalog",
+      "hidden_target_representation",
+      "representation_level",
+      "operator_family",
+      "expected_proof_obligations",
+      "verifier_route",
+      "proposer_visible_leak",
+      "syntax_exposes_answer",
+      "b0_residual_makes_representation_trivial",
+      "scientific_vs_toy",
+      "tag",
+      "near_duplicate"
+    ],
+    "finite_checks": {
+      "ac-r01_scalar_residual": "ZERO (sympy simplify of (1/(a-z)-1/(a-w))/(z-w) - 1/((a-z)*(a-w)))",
+      "mp-resolvent-dd-01_b0_residual": "ZERO (same algebra, opposite resolvent convention)",
+      "ac-t-eps-delta_81_index_tuples": "0 mismatches",
+      "ac-t-young-s3_c_squared": "c_(2,1)**2 == 3*c_(2,1) in Q[S_3]"
+    }
+  },
+  "summary": {
+    "keep": [
+      "ac-t-eps-delta",
+      "ac-t-young-s3",
+      "ac-r01-resolvent-hilbert-identity",
+      "ac-r03-helmholtz-outgoing-green"
+    ],
+    "tags": {
+      "ac-t-eps-delta": "SHALLOW",
+      "ac-t-young-s3": "NONTRIVIAL",
+      "ac-r01-resolvent-hilbert-identity": "SHALLOW",
+      "ac-r03-helmholtz-outgoing-green": "NONTRIVIAL"
+    },
+    "near_duplicates": [
+      {
+        "case_id": "ac-r01-resolvent-hilbert-identity",
+        "peer": "mp-resolvent-dd-01",
+        "peer_slice": "mathphys",
+        "flag": true
+      }
+    ],
+    "pack_warnings": [
+      "All four sketches currently name the hidden target or write the gold identity. Strip gold wording before any proposer view.",
+      "ac-r01 is the same Hilbert first-resolvent identity as mp-resolvent-dd-01 with the opposite resolvent convention; keep both, do not double-count.",
+      "ac-r03 sketch writes n in {2,3} but the displayed kernel is the 3D formula; freeze n=3."
+    ]
+  },
+  "cases": {
+    "ac-t-eps-delta": {
+      "case_id": "ac-t-eps-delta",
+      "path": "cases/tensor/ac-t-eps-delta.json",
+      "keep": true,
+      "is_guo": false,
+      "tag": "SHALLOW",
+      "scientific_source": "Wikipedia Levi-Civita symbol (3D product and contracted epsilon–delta identities); D. C. Kay, Tensor Calculus, Schaum 1988; Riley–Hobson–Bence, Mathematical Methods for Physics and Engineering.",
+      "domain": "tensor",
+      "assumption_contract": {
+        "declared_or_derived_only": true,
+        "a2_verdict": "OK",
+        "a3_faithful": true,
+        "a4_status": "CLEAN",
+        "not_declared_underspecified": [],
+        "not_declared_forbidden_import": [],
+        "notes": "Finite-index algebra on {1,2,3}. analytic_domains empty is correct (A2 N_A). No positivity folklore. Einstein summation and Z-polynomial character are DERIVED."
+      },
+      "source_expressions": "Sum_{i=1}^{3} epsilon(i,j,k)*epsilon(i,m,n) == delta(j,m)*delta(k,n) - delta(j,n)*delta(k,m), with j,k,m,n in {1,2,3}. Uncontracted generator: epsilon(i,j,k)*epsilon(l,m,n) == det(Delta). Further contractions: Sum_{i,j} epsilon(i,j,k)*epsilon(i,j,n) == 2*delta(k,n); Sum_{i,j,k} epsilon(i,j,k)*epsilon(i,j,k) == 6.",
+      "source_catalog": {
+        "needs": [
+          "Show only the summed epsilon product as a source member; do not ship the Kronecker RHS in proposer-visible text.",
+          "Optional further members: the two-index contraction and the full scalar contraction, as instances of the same SO(3) pairing, not as a second F."
+        ],
+        "member_ids_to_invent": [
+          {
+            "id": "TE0001",
+            "role": "generic_contracted_product",
+            "text": "Sum_i epsilon(i,j,k)*epsilon(i,m,n)"
+          },
+          {
+            "id": "TE0002",
+            "role": "double_contraction",
+            "text": "Sum_{i,j} epsilon(i,j,k)*epsilon(i,j,n)"
+          },
+          {
+            "id": "TE0003",
+            "role": "full_contraction",
+            "text": "Sum_{i,j,k} epsilon(i,j,k)*epsilon(i,j,k)"
+          }
+        ]
+      },
+      "hidden_target_representation": "SO(3) isotropic rank-4 basis reconstruction: the contracted Levi-Civita product equals the unique (up to the generalized Kronecker) antisymmetric pairing in the delta⊗delta basis, coefficients +1, −1.",
+      "representation_level": "R8",
+      "operator_family": "BASIS_RECONSTRUCTION",
+      "expected_proof_obligations": [
+        "TE0001 reconstruction: Sum_i epsilon(i,j,k)*epsilon(i,m,n) - (delta(j,m)*delta(k,n) - delta(j,n)*delta(k,m)) = 0 on {1,2,3}^4",
+        "TE0002 instance: Sum_{i,j} epsilon(i,j,k)*epsilon(i,j,n) - 2*delta(k,n) = 0",
+        "TE0003 instance: Sum_{i,j,k} epsilon(i,j,k)*epsilon(i,j,k) - 6 = 0",
+        "No analytic continuation; finite sum over Z"
+      ],
+      "verifier_route": "Finite enumeration / sympy residual of a polynomial identity on integer indices (81 tuples for the rank-4 contraction). Not a meromorphic remainder. Independent check this audit: 81/81 match; double contraction and full contraction 6 also match.",
+      "proposer_visible_leak": {
+        "leaks": true,
+        "sketch_already_names_newton_hermite_dd": false,
+        "needles_in_sketch": [
+          "full gold identity with == and Kronecker RHS",
+          "det(Delta) Leibniz expansion",
+          "further contractions written as equalities"
+        ],
+        "strip_before_proposer": [
+          "isotropic",
+          "Levi-Civita",
+          "permutation tensor",
+          "generalized Kronecker",
+          "invariant basis",
+          "the Kronecker RHS of the identity"
+        ],
+        "notes": "Dossier proposer_leak_risk hides names but the expression_sketch already writes the target equality. Packing must show only the LHS product."
+      },
+      "syntax_exposes_answer": true,
+      "b0_residual_makes_representation_trivial": true,
+      "scientific_vs_toy": "scientific",
+      "near_duplicate": null,
+      "notes": "Not CSE (LHS and RHS use different generating tensors); C6 did not fire TRIVIAL_CSE. Textbook 3D identity; finite check. Stay DEV. Discovery of the delta-basis rewrite from an unlabelled LHS is the only non-trivial content, and the present sketch already hands over the RHS."
+    },
+    "ac-t-young-s3": {
+      "case_id": "ac-t-young-s3",
+      "path": "cases/tensor/ac-t-young-s3.json",
+      "keep": true,
+      "is_guo": false,
+      "tag": "NONTRIVIAL",
+      "scientific_source": "Wikipedia Young symmetrizer (S_3 example c_(2,1)=e_123+e_213-e_321-e_312; alpha=n!/dim); Fulton–Harris, Representation Theory, GTM 129, Theorem 4.3; Fulton, Young Tableaux; Sagan, The Symmetric Group; Cvitanovic, Group Theory, hep-th/0307186.",
+      "domain": "tensor",
+      "assumption_contract": {
+        "declared_or_derived_only": true,
+        "a2_verdict": "OK",
+        "a3_faithful": true,
+        "a4_status": "CLEAN",
+        "not_declared_underspecified": [],
+        "not_declared_forbidden_import": [],
+        "notes": "char 0 (3 and 6 invertible) DECLARED from representations over Q. Idempotent scaling alpha_(2,1)=3, central character projectors, and dim-4 (2,1)-isotypic are DERIVED. Algebraic over Q; no meromorphic poles."
+      },
+      "source_expressions": "Group algebra of S_3 on three tensor factors. e_123=id, e_213=(1 2), e_321=(1 3), e_132=(2 3), e_231=(1 2 3), e_312=(1 3 2). c_(2,1) = e_123 + e_213 - e_321 - e_312. Idempotent: c_(2,1)**2 = 3*c_(2,1), primitive projector e_(2,1)=c_(2,1)/3. P_(3)=(1/6)*Sum_g g. P_(1^3)=(1/6)*Sum_g sgn(g)*g. P_(2,1)_iso = id - P_(3) - P_(1^3). Three orthogonal idempotents summing to id.",
+      "source_catalog": {
+        "needs": [
+          "Six permutation-basis elements of Q[S_3] as the source universe.",
+          "Do not pre-label Young/Specht/tableau/hook/isotypic/symmetrizer in proposer view.",
+          "Equal-weight orbit-sum P_(3) is a tempting wrong structure (rejected sibling ac-t-rej-index-rename)."
+        ],
+        "member_ids_to_invent": [
+          {
+            "id": "TY0001",
+            "role": "hook_symmetrizer",
+            "text": "e_123 + e_213 - e_321 - e_312"
+          },
+          {
+            "id": "TY0002",
+            "role": "trivial_isotypic",
+            "text": "Sum_{g in S_3} g"
+          },
+          {
+            "id": "TY0003",
+            "role": "sign_isotypic",
+            "text": "Sum_g sgn(g)*g"
+          },
+          {
+            "id": "TY0004",
+            "role": "complement_in_group_algebra",
+            "text": "id"
+          }
+        ]
+      },
+      "hidden_target_representation": "Young projectors / Specht modules for S_3: signed row/column symmetrizers as symmetry-adapted generators of the GL(V) decomposition of V^{⊗3} into (3), (1^3), (2,1).",
+      "representation_level": "R8",
+      "operator_family": "PERMUTATION",
+      "expected_proof_obligations": [
+        "c_(2,1)**2 - 3*c_(2,1) = 0 in Q[S_3]",
+        "e_(2,1)**2 = e_(2,1) with e=c/3",
+        "P_(3)**2 = P_(3), P_(1^3)**2 = P_(1^3)",
+        "P_(3)*P_(1^3)=0 and both orthogonal to P_(2,1)_iso",
+        "P_(3)+P_(1^3)+P_(2,1)_iso = id",
+        "char 0 so 3,6 invertible"
+      ],
+      "verifier_route": "Finite group-algebra multiplication in the 6-dimensional regular representation (or 6x6 permutation matrices). Independent check this audit: c**2=3c, (Sum g)**2=6 Sum g, (Sum sgn g)**2=6 Sum sgn g, and (Sum g)*(Sum sgn g)=0. Not a sympy meromorphic residual.",
+      "proposer_visible_leak": {
+        "leaks": true,
+        "sketch_already_names_newton_hermite_dd": false,
+        "needles_in_sketch": [
+          "Young symmetrizer",
+          "c_(2,1)",
+          "isotypic projector",
+          "mixed representation",
+          "GL(V) Young projectors",
+          "explicit coefficient lists for all three projectors"
+        ],
+        "strip_before_proposer": [
+          "Young",
+          "Specht",
+          "tableau",
+          "hook",
+          "isotypic",
+          "symmetrizer",
+          "precomputed projector formulae"
+        ],
+        "notes": "Intended proposer view is six permuted tensors with numerical coefficients only (dossier proposer_leak_risk). Current sketch is a gold dump."
+      },
+      "syntax_exposes_answer": true,
+      "b0_residual_makes_representation_trivial": false,
+      "scientific_vs_toy": "scientific",
+      "near_duplicate": null,
+      "notes": "Finite S_3 makes verification easy once the projectors are named; inventing the signed Young combination and the three-irrep split from an unlabelled permutation orbit is not CSE/LGG and is not a one-line rearrange. Stay DEV. Do not leak Young names into the catalog text."
+    },
+    "ac-r01-resolvent-hilbert-identity": {
+      "case_id": "ac-r01-resolvent-hilbert-identity",
+      "path": "cases/response/dossiers/ac-r01-resolvent-hilbert-identity.json",
+      "keep": true,
+      "is_guo": false,
+      "tag": "SHALLOW",
+      "scientific_source": "Wikipedia, Resolvent formalism, Resolvent identity; Dunford–Schwartz, Linear Operators I, Lemma 6 p. 568; Kato, Perturbation Theory for Linear Operators, 2nd ed. 1980; Fredholm, Acta Math. 27 (1903).",
+      "domain": "green",
+      "assumption_contract": {
+        "declared_or_derived_only": true,
+        "a2_verdict": "OK",
+        "a3_faithful": true,
+        "a4_status": "CLEAN",
+        "not_declared_underspecified": [],
+        "not_declared_forbidden_import": [
+          "beta>0 / gamma>0 / thermal positivity"
+        ],
+        "notes": "z,w in rho(A) DECLARED (invertibility of A-zI and A-wI). Holomorphy of R off the spectrum DECLARED. Newton/Hermite z->w limit DERIVED from that holomorphy. Convention (A-zI)^{-1} vs (zI-A)^{-1} is a branch choice, not a domain gap. No thermal folklore."
+      },
+      "source_expressions": "Convention (Wikipedia): R(z, A) = (A - z*I)**(-1). Identity on the resolvent set: R(z, A) - R(w, A) - (z - w)*R(z, A)*R(w, A) = 0. Newton quotient: (R(z, A) - R(w, A))/(z - w) = R(z, A)*R(w, A). Scalar check (A -> a): ((1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))). Confluent node: diff(R(z, A), z) = R(z, A)**2.",
+      "source_catalog": {
+        "needs": [
+          "Two resolvent evaluations R(z,A), R(w,A) as members of one F = R(·,A), plus optional scalar 1/(a-z).",
+          "Do not print Newton / divided difference / F[z,w] in proposer context.",
+          "Hilbert / first resolvent identity may appear as a public source name; strip if used as a gold target label.",
+          "Keep Dunford vs Wikipedia sign convention out of the gold channel."
+        ],
+        "member_ids_to_invent": [
+          {
+            "id": "RH0001",
+            "role": "generic_z",
+            "text": "R(z, A) = (A - z I)**(-1), z in rho(A)"
+          },
+          {
+            "id": "RH0002",
+            "role": "generic_w",
+            "text": "R(w, A) = (A - w I)**(-1), w in rho(A)"
+          },
+          {
+            "id": "RH0003",
+            "role": "scalar_check",
+            "text": "1/(a - z)"
+          }
+        ]
+      },
+      "hidden_target_representation": "First Newton divided difference of the resolvent (Green operator) in the spectral parameter: F[z,w] = R(z,A) R(w,A) in the Wikipedia (A-zI)^{-1} convention. Repeated-node / Hermite member is dR/dz = R^2 on rho(A). Same master F = R(·,A).",
+      "representation_level": "R2",
+      "operator_family": "NEWTON_DD",
+      "expected_proof_obligations": [
+        "Hilbert identity on rho(A): R(z)-R(w)-(z-w) R(z) R(w) = 0 (Wikipedia convention)",
+        "Newton reconstruction: (R(z)-R(w))/(z-w) = R(z) R(w) for z!=w in rho(A)",
+        "Confluent / Hermite: dR/dz = R^2 on rho(A) (DERIVED from holomorphy)",
+        "Scalar: (1/(a-z)-1/(a-w))/(z-w) - 1/((a-z)*(a-w)) = 0 for z,w != a and z!=w"
+      ],
+      "verifier_route": "Scalar specialization is a one-line sympy residual (B0 path used on mp-resolvent-dd-01; this audit: simplify -> 0). Operator identity is a Banach-algebra / matrix identity under z,w in rho(A), not a meromorphic remainder disk about the spectrum. Do not insert a holomorphy disk that contains sigma(A).",
+      "proposer_visible_leak": {
+        "leaks": true,
+        "sketch_already_names_newton_hermite_dd": true,
+        "needles_in_sketch": [
+          "Newton quotient",
+          "(R(z,A)-R(w,A))/(z-w) = R(z,A)*R(w,A)",
+          "Confluent node: diff(R(z,A), z) = R(z,A)**2",
+          "title names Newton divided difference"
+        ],
+        "strip_before_proposer": [
+          "Newton",
+          "divided difference",
+          "confluent node",
+          "Hermite",
+          "F[z,w]",
+          "explicit quotient = product formula"
+        ],
+        "notes": "This is the leak the parent flag warned about. If the sketch is shown, the R2 target is already written."
+      },
+      "syntax_exposes_answer": true,
+      "b0_residual_makes_representation_trivial": true,
+      "scientific_vs_toy": "scientific",
+      "near_duplicate": {
+        "flag": true,
+        "peer": "mp-resolvent-dd-01",
+        "peer_path": "cases/mathphys/mp-resolvent-dd-01.json",
+        "peer_slice": "mathphys",
+        "same_object": "Hilbert first resolvent identity as Newton first DD of R(·,A), with holomorphic confluent node on rho(A).",
+        "convention_split": "ac-r01 uses Wikipedia R=(A-zI)^{-1} so (R(z)-R(w))/(z-w)=R(z)R(w) and R'=R^2. mp-resolvent-dd-01 uses Higham/Glück R=(zI-A)^{-1} so (R(lam)-R(mu))/(lam-mu)=-R(lam)R(mu) and R'=-R^2. Mixing the two formulae without translating the sign is a branch error, not a second identity.",
+        "scalar_equivalence": "ac-r01 scalar residual (1/(a-z)-1/(a-w))/(z-w)-1/((a-z)*(a-w)) is the same algebra as mp-resolvent-dd-01 B0 (1/(lam-a)-1/(mu-a))/(lam-mu)+1/((lam-a)*(mu-a)), opposite resolvent convention. Both simplify to 0.",
+        "extra_in_peer": "mp-resolvent-dd-01 also has the two-operator identity R(z,A)-R(z,B)=R(z,A)(B-A)R(z,B) (Müger Ex. 13.29). ac-r01 has no second operator.",
+        "sources_differ": "ac-r01: Wikipedia / Dunford–Schwartz / Kato 1980. mp-resolvent-dd-01: Glück Prop. 2.2.9, Müger Ex. 13.29, Higham Def. 1.11, Kato 1982 Ch. I.",
+        "recommendation": "Keep both in DEV (do not drop). Do not score two AI_UNIQUE_SUCCESS events for one Newton-DD-of-resolvent discovery. Prefer one packed source expression with a frozen convention. Strip Newton/DD wording on both."
+      },
+      "notes": "Operator Hilbert identity is genuine functional analysis, but the scalar B0 identity is a one-line rearrange and the sketch already names Newton DD. Same scientific object as mp-resolvent-dd-01. Stay DEV as a shallow calibration item, flagged near-duplicate."
+    },
+    "ac-r03-helmholtz-outgoing-green": {
+      "case_id": "ac-r03-helmholtz-outgoing-green",
+      "path": "cases/response/dossiers/ac-r03-helmholtz-outgoing-green.json",
+      "keep": true,
+      "is_guo": false,
+      "tag": "NONTRIVIAL",
+      "scientific_source": "Wikipedia, Sommerfeld radiation condition; Sommerfeld, Partial Differential Equations in Physics, Academic Press 1949; Jackson, Classical Electrodynamics (outgoing Helmholtz Green G_k = exp(i k |x-x'|)/(4*pi*|x-x'|)).",
+      "domain": "green",
+      "assumption_contract": {
+        "declared_or_derived_only": true,
+        "a2_verdict": "OK",
+        "a3_faithful": true,
+        "a4_status": "CLEAN",
+        "not_declared_underspecified": [],
+        "not_declared_forbidden_import": [
+          "Im k > 0 (limiting absorption)"
+        ],
+        "notes": "k>0 is a quoted Wikipedia sentence (A3 gold-standard DECLARED positivity). R!=0 is the written point-source denominator. Euclidean |x-x0| nonnegative root DECLARED. Time-harmonic exp(-i omega t) and Sommerfeld (d/d|x|-i k) DECLARED. Do not insert limiting absorption to rescue uniqueness."
+      },
+      "source_expressions": "R = sqrt((x-x0)**2+(y-y0)**2+(z-z0)**2); u_plus = exp(I*k*R)/(4*pi*R); u_minus = exp(-I*k*R)/(4*pi*R); general combination u = c*u_plus+(1-c)*u_minus. Only u_plus satisfies Sommerfeld: limit(|x|->oo, |x|**((n-1)/2)*(diff(u,|x|)-I*k*u))=0 for exp(-I*omega*t), n=3, k>0.",
+      "source_catalog": {
+        "needs": [
+          "Two spherical-wave members of one master exp(s*k*R)/(4*pi*R) with s = ± I.",
+          "Freeze n=3: the written kernel is the 3D formula; the n=2 outgoing Green is a Hankel function, not this expression.",
+          "Do not plant Sommerfeld / outgoing / Hankel as gold target wording in proposer view."
+        ],
+        "member_ids_to_invent": [
+          {
+            "id": "HG0001",
+            "role": "outgoing_candidate",
+            "text": "exp(I*k*R)/(4*pi*R)"
+          },
+          {
+            "id": "HG0002",
+            "role": "incoming_candidate",
+            "text": "exp(-I*k*R)/(4*pi*R)"
+          }
+        ]
+      },
+      "hidden_target_representation": "Two specializations of the spherical-wave master F(s)=exp(s*k*R)/(4*pi*R), s=±I. Sommerfeld radiation (outgoing vs incoming) selects s=+I for the exp(-i omega t) convention. R=0 is the source point, not a CSE of the denominator.",
+      "representation_level": "R5",
+      "operator_family": "SUBSTITUTION",
+      "expected_proof_obligations": [
+        "For R!=0, (nabla^2 + k^2) u_plus = 0 and (nabla^2 + k^2) u_minus = 0 (homogeneous Helmholtz away from the source)",
+        "k>0, R!=0, n=3, Euclidean nonnegative square root",
+        "Sommerfeld: |x|^{(n-1)/2} (d/d|x| - i k) u_plus -> 0 as |x|->oo uniformly in direction; the same operator on u_minus does not vanish",
+        "Family u = c u_plus + (1-c) u_minus is radiating iff c=1 under the declared Sommerfeld sign",
+        "Do not use Im k>0"
+      ],
+      "verifier_route": "Helmholtz residual of each spherical wave for R!=0 is a closed-form differential identity (sympy / PDE). Sommerfeld selection is an |x|->oo limit, not a one-line algebraic residual; the current residual engine may return UNKNOWN on that obligation without treating UNKNOWN as hop ZERO. Uniqueness is the declared radiation condition, not limiting absorption.",
+      "proposer_visible_leak": {
+        "leaks": true,
+        "sketch_already_names_newton_hermite_dd": false,
+        "needles_in_sketch": [
+          "Sommerfeld",
+          "Only u_plus satisfies Sommerfeld",
+          "explicit u_plus / u_minus formulae and the radiation limit"
+        ],
+        "strip_before_proposer": [
+          "Sommerfeld",
+          "outgoing",
+          "incoming",
+          "Hankel",
+          "the sentence that only u_plus satisfies the radiation condition"
+        ],
+        "notes": "If both members and the selection sentence are shown, the R5 target is named. Pack the two kernels without the selection label."
+      },
+      "syntax_exposes_answer": true,
+      "b0_residual_makes_representation_trivial": false,
+      "scientific_vs_toy": "scientific",
+      "near_duplicate": null,
+      "notes": "Genuine Helmholtz Green / radiation-condition science. Not CSE (LGG only antiunifies a sign hole). Not a B0 one-line rearrange. n=2 vs n=3 is a formula mismatch if left open; freeze n=3 when packing. Stay DEV. Sommerfeld limit may stay UNKNOWN at V; that is not PROBLEM_UNDERSPECIFIED (the limit is DECLARED) and is not a license to insert Im k>0."
+    }
+  }
+}
