@@ -1,0 +1,16 @@
+{
+  "track": "remainder-certification",
+  "not_v6": true,
+  "no_llm_calls": true,
+  "no_guo_identity_table": true,
+  "d2_locked": true,
+  "parent_v5_failclose": "84b412d",
+  "parent_v5_reviews": "9bff79b",
+  "retracted_level_c": "fb3b929",
+  "problem_freeze": "9da52fb",
+  "ir_freeze": "adbfd9f",
+  "method_version": "rc-remainder-cert-1",
+  "primary_hop": "guo-p2-s0-i3:G0016->G0013",
+  "primary_hop_status": "UNKNOWN LEVEL_B",
+  "do_not_rerun_ell_hops": true
+}
