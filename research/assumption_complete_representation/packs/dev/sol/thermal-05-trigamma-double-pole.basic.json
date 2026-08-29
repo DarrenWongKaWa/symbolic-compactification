@@ -1,0 +1,18 @@
+{
+  "count_ops": 6,
+  "free_symbols": [
+    "z"
+  ],
+  "functions": [
+    "polygamma"
+  ],
+  "indexed_calls": 1,
+  "indexed_names": [
+    "polygamma"
+  ],
+  "n_branches": 0,
+  "n_piecewise": 0,
+  "n_sums": 1,
+  "ops": 6,
+  "raw_chars": 47
+}

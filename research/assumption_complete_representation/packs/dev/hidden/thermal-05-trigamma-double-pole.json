@@ -1,0 +1,29 @@
+{
+  "F_variable": "z",
+  "case_id": "thermal-05-trigamma-double-pole",
+  "gold_members": [
+    "G0001",
+    "G0002"
+  ],
+  "ladder": "R5",
+  "ladder_n": 5,
+  "latent_F": "polygamma(1, z)",
+  "leak_tokens": [
+    "Hurwitz",
+    "Hermite",
+    "Matsubara"
+  ],
+  "nodes": [],
+  "nontrivial": false,
+  "note": "Defining series: restating G0001=G0002 is SHALLOW_REPACKAGING, not AI_UNIQUE.",
+  "operator_family": "RECURRENCE",
+  "reconstruction": "polygamma(1,z)=Sum 1/(z+k)**2",
+  "representation_family": [
+    "special_function",
+    "series",
+    "trigamma",
+    "polygamma",
+    "hurwitz"
+  ],
+  "tag": "SHALLOW"
+}

@@ -1,0 +1,28 @@
+{
+  "F_variable": "y",
+  "case_id": "thermal-01-fermi-im-digamma",
+  "gold_members": [
+    "G0001",
+    "G0002"
+  ],
+  "ladder": "R5",
+  "ladder_n": 5,
+  "latent_F": "polygamma(0, Rational(1,2) + I*y)",
+  "leak_tokens": [
+    "Fermi-Dirac",
+    "Matsubara",
+    "occupation"
+  ],
+  "nodes": [],
+  "nontrivial": true,
+  "operator_family": "OTHER_EXPLICIT",
+  "reconstruction": "Im psi(1/2+I y) = (pi/2) tanh(pi y)",
+  "representation_family": [
+    "special_function",
+    "digamma",
+    "polygamma",
+    "tanh",
+    "dlmf"
+  ],
+  "tag": "NONTRIVIAL"
+}

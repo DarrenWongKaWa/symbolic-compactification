@@ -1,0 +1,10 @@
+CONDITION: P0_RAW
+
+Input: source expressions, explicit assumption contract, scientific
+context, grounded source catalog. No structural-observation packets.
+No extra interpretation.
+
+Propose operational H = (R, {A_i}, {O_i}, F) that could explain
+non-identical catalog members. Identify members by catalog IDs.
+Define F when the representation uses a latent object. Give operators,
+instance maps, reconstruction, and exact proof obligations.

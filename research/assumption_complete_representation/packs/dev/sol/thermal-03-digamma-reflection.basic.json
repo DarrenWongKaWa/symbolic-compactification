@@ -1,0 +1,20 @@
+{
+  "count_ops": 8,
+  "free_symbols": [
+    "z"
+  ],
+  "functions": [
+    "polygamma",
+    "tan"
+  ],
+  "indexed_calls": 3,
+  "indexed_names": [
+    "polygamma",
+    "tan"
+  ],
+  "n_branches": 0,
+  "n_piecewise": 0,
+  "n_sums": 0,
+  "ops": 8,
+  "raw_chars": 52
+}

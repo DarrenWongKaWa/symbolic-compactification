@@ -1,0 +1,51 @@
+CONDITION: P4_COALESCENCE_SPECIALIST
+
+Same source data as RAW. You may reason about:
+
+- parameter coalescence (distinct parameters becoming equal)
+- repeated evaluation nodes
+- functional differences of one object at two arguments
+- derivatives as limits of those differences
+
+You are not told a hidden target type. Do not invent names from
+outside the catalog. Still return operational H with catalog IDs,
+explicit F, operators, reconstruction, and proof obligations.
+Do not claim ZERO.
+
+PUBLIC_TASK_ID: T01
+Do not use an external name for this task.
+
+DECLARED SYMBOLS:
+['lam', 'mu', 'a']
+DECLARED FUNCTIONS:
+[]
+ASSUMPTION CONTRACT (use only these; do not add undeclared domains):
+- lam, mu, a are real parameters
+- lam != mu
+- lam != a
+- mu != a
+- the map t |-> 1/(t - a) is defined for t != a
+
+SCIENTIFIC CONTEXT:
+- Scalar model of a resolvent kernel 1/(t-a) evaluated at two spectral parameters.
+- Source family: first resolvent identity (Higham/Glück convention).
+- Do not invent physical names.
+
+SOURCE CATALOG — cite these source_node_id values only.
+IDs are local to this task. Do not invent aliases.
+
+G0001  kind=expr
+  text: 1/(lam - a)
+G0002  kind=expr
+  text: 1/(mu - a)
+G0003  kind=expr
+  text: (1/(lam - a) - 1/(mu - a))/(lam - mu)
+G0004  kind=expr
+  text: 1/((lam - a)*(mu - a))
+G0005  kind=expr
+  text: (1/(lam - a) - 1/(mu - a))/(lam - mu) + 1/((lam - a)*(mu - a))
+
+SOURCE EXPRESSIONS / CURRENT:
+(1/(lam - a) - 1/(mu - a))/(lam - mu) + 1/((lam - a)*(mu - a))
+
+Respond with JSON only.

@@ -1,0 +1,47 @@
+CONDITION: P3_GROUNDED_REPRESENTATION_SPECIALIST
+
+Same source data as RAW. Emphasis:
+
+- operational representation, not a type slogan
+- every member is a catalog source_node_id
+- latent object F is explicit and symbolic when used
+- operators and instance maps are explicit
+- reconstruction is executable
+- proof obligations are exact identities
+
+Do not name a hidden target. Do not invent physical names.
+A type name without F, members, and reconstruction is incomplete.
+
+PUBLIC_TASK_ID: T04
+Do not use an external name for this task.
+
+DECLARED SYMBOLS:
+['z']
+DECLARED FUNCTIONS:
+['polygamma', 'tan']
+ASSUMPTION CONTRACT (use only these; do not add undeclared domains):
+- z is not an integer
+- z and 1-z avoid the polygamma(0, ·) poles at nonpositive integers
+- tan(pi*z) != 0 on the same set (equivalently z not integer)
+
+SCIENTIFIC CONTEXT:
+- Three meromorphic expressions in z: polygamma at z, polygamma at 1-z, and pi/tan(pi z).
+- Source: NIST DLMF 5.5.4, written with pi/tan rather than cot.
+- Do not invent physical names.
+
+SOURCE CATALOG — cite these source_node_id values only.
+IDs are local to this task. Do not invent aliases.
+
+G0001  kind=expr
+  text: polygamma(0, z)
+G0002  kind=expr
+  text: polygamma(0, 1 - z)
+G0003  kind=expr
+  text: pi/tan(pi*z)
+G0004  kind=expr
+  text: polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)
+
+SOURCE EXPRESSIONS / CURRENT:
+polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)
+
+Respond with JSON only.

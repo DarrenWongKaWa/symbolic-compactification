@@ -1,0 +1,13 @@
+CONDITION: P3_GROUNDED_REPRESENTATION_SPECIALIST
+
+Same source data as RAW. Emphasis:
+
+- operational representation, not a type slogan
+- every member is a catalog source_node_id
+- latent object F is explicit and symbolic when used
+- operators and instance maps are explicit
+- reconstruction is executable
+- proof obligations are exact identities
+
+Do not name a hidden target. Do not invent physical names.
+A type name without F, members, and reconstruction is incomplete.

@@ -1,0 +1,51 @@
+{
+  "assumptions": [
+    "z is not a nonpositive integer",
+    "k runs over nonnegative integers in the sum"
+  ],
+  "catalog": [
+    {
+      "kind": "expr",
+      "ops_hint": null,
+      "source_node_id": "G0001",
+      "text": "polygamma(1, z)"
+    },
+    {
+      "kind": "expr",
+      "ops_hint": null,
+      "source_node_id": "G0002",
+      "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+    },
+    {
+      "kind": "expr",
+      "ops_hint": null,
+      "source_node_id": "G0003",
+      "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+    }
+  ],
+  "cluster_id": "THERMAL_05_TRIGAMMA_SERIES",
+  "current": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))",
+  "domain": "thermal",
+  "functions": [
+    "polygamma"
+  ],
+  "public_id": "T05",
+  "scientific_context": [
+    "Named special function polygamma(1, z) and an infinite sum of squared reciprocals.",
+    "Source: NIST DLMF 5.15.1.",
+    "Do not invent physical names."
+  ],
+  "split": "DEV",
+  "stratum": "CORE_COMPARABLE",
+  "symbols": [
+    {
+      "name": "z",
+      "real": true
+    },
+    {
+      "integer": true,
+      "name": "k",
+      "nonnegative": true
+    }
+  ]
+}

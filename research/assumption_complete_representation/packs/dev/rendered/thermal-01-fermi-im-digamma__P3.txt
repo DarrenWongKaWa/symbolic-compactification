@@ -1,0 +1,45 @@
+CONDITION: P3_GROUNDED_REPRESENTATION_SPECIALIST
+
+Same source data as RAW. Emphasis:
+
+- operational representation, not a type slogan
+- every member is a catalog source_node_id
+- latent object F is explicit and symbolic when used
+- operators and instance maps are explicit
+- reconstruction is executable
+- proof obligations are exact identities
+
+Do not name a hidden target. Do not invent physical names.
+A type name without F, members, and reconstruction is incomplete.
+
+PUBLIC_TASK_ID: T03
+Do not use an external name for this task.
+
+DECLARED SYMBOLS:
+['y']
+DECLARED FUNCTIONS:
+['im', 'polygamma', 'tanh']
+ASSUMPTION CONTRACT (use only these; do not add undeclared domains):
+- y is a real variable
+- 1/2 + I*y is not a nonpositive integer (so polygamma(0, ·) is defined)
+- tanh has no poles on the real axis
+
+SCIENTIFIC CONTEXT:
+- Identity relating Im polygamma(0, 1/2 + I y) to tanh(pi y) (NIST DLMF 5.4.17).
+- y real; y = 0 is allowed.
+- Do not invent physical names.
+
+SOURCE CATALOG — cite these source_node_id values only.
+IDs are local to this task. Do not invent aliases.
+
+G0001  kind=expr
+  text: im(polygamma(0, Rational(1, 2) + I*y))
+G0002  kind=expr
+  text: (pi/2)*tanh(pi*y)
+G0003  kind=expr
+  text: im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)
+
+SOURCE EXPRESSIONS / CURRENT:
+im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)
+
+Respond with JSON only.

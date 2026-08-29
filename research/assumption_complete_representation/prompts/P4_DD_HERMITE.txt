@@ -1,0 +1,13 @@
+CONDITION: P4_COALESCENCE_SPECIALIST
+
+Same source data as RAW. You may reason about:
+
+- parameter coalescence (distinct parameters becoming equal)
+- repeated evaluation nodes
+- functional differences of one object at two arguments
+- derivatives as limits of those differences
+
+You are not told a hidden target type. Do not invent names from
+outside the catalog. Still return operational H with catalog IDs,
+explicit F, operators, reconstruction, and proof obligations.
+Do not claim ZERO.

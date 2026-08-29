@@ -1,0 +1,49 @@
+{
+  "assumptions": [
+    "y is a real variable",
+    "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+    "tanh has no poles on the real axis"
+  ],
+  "catalog": [
+    {
+      "kind": "expr",
+      "ops_hint": null,
+      "source_node_id": "G0001",
+      "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+    },
+    {
+      "kind": "expr",
+      "ops_hint": null,
+      "source_node_id": "G0002",
+      "text": "(pi/2)*tanh(pi*y)"
+    },
+    {
+      "kind": "expr",
+      "ops_hint": null,
+      "source_node_id": "G0003",
+      "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+    }
+  ],
+  "cluster_id": "THERMAL_01_FERMI_DIGAMMA",
+  "current": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)",
+  "domain": "thermal",
+  "functions": [
+    "im",
+    "polygamma",
+    "tanh"
+  ],
+  "public_id": "T03",
+  "scientific_context": [
+    "Identity relating Im polygamma(0, 1/2 + I y) to tanh(pi y) (NIST DLMF 5.4.17).",
+    "y real; y = 0 is allowed.",
+    "Do not invent physical names."
+  ],
+  "split": "DEV",
+  "stratum": "CORE_COMPARABLE",
+  "symbols": [
+    {
+      "name": "y",
+      "real": true
+    }
+  ]
+}

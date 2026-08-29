@@ -1,0 +1,56 @@
+CONDITION: P1_RAW_BASIC
+
+Same as RAW, plus a BASIC STRUCTURAL SUMMARY: free symbols, function
+inventory, index inventory, branch count, expression sizes.
+
+The summary is inventory, not an interpretation, not a type name,
+and not a proof.
+
+PUBLIC_TASK_ID: T02
+Do not use an external name for this task.
+
+DECLARED SYMBOLS:
+['a', 'z', 'w']
+DECLARED FUNCTIONS:
+[]
+ASSUMPTION CONTRACT (use only these; do not add undeclared domains):
+- z != w
+- a != z
+- a != w
+- the map t |-> 1/(a - t) is defined for t != a
+
+SCIENTIFIC CONTEXT:
+- Scalar model of a resolvent kernel 1/(a-t) at two spectral parameters z and w.
+- Convention: (A - zeta I)^{-1} (opposite sign relative to (zeta I - A)^{-1}).
+- Do not invent physical names.
+
+SOURCE CATALOG — cite these source_node_id values only.
+IDs are local to this task. Do not invent aliases.
+
+G0001  kind=expr
+  text: 1/(a - z)
+G0002  kind=expr
+  text: 1/(a - w)
+G0003  kind=expr
+  text: (1/(a - z) - 1/(a - w))/(z - w)
+G0004  kind=expr
+  text: 1/((a - z)*(a - w))
+G0005  kind=expr
+  text: (1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))
+
+SOURCE EXPRESSIONS / CURRENT:
+(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))
+
+BASIC STRUCTURAL SUMMARY (inventory, not an interpretation):
+- ops: 12
+- count_ops: 12
+- free_symbols: ['a', 'w', 'z']
+- functions: []
+- n_piecewise: 0
+- n_branches: 0
+- indexed_names: []
+- n_sums: 0
+- raw_chars: 53
+- indexed_calls: 0
+
+Respond with JSON only.

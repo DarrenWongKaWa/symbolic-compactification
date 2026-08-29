@@ -1,0 +1,9 @@
+CONDITION: P2_FROZEN_SOL
+
+Same source data as RAW, plus frozen Structural Observation Layer
+packets. Packets are relations reported by existing symbolic backends.
+They are observations, not scientific names, and not proofs.
+
+Do not treat packet labels as the representation.
+Still propose operational H with catalog member IDs, F, operators,
+reconstruction, and proof obligations.

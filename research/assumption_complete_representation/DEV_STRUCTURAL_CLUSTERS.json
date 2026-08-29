@@ -1,0 +1,103 @@
+{
+  "version": "ac-eval-v1",
+  "parent_head": "54d0392",
+  "method": "source provenance + formula structure + identity family + R-level; no model performance",
+  "keep_all_dev_tasks": true,
+  "cluster_weighted_unit": "near-duplicate identity clusters; singletons otherwise",
+  "clusters": [
+    {
+      "cluster_id": "RESOLVENT_CLUSTER",
+      "relation": "NEAR_DUPLICATE",
+      "members": [
+        "mp-resolvent-dd-01",
+        "ac-r01-resolvent-hilbert-identity"
+      ],
+      "note": "Same first resolvent identity; opposite conventions (zI-A)^{-1} vs (A-zI)^{-1}. Do not count two AI_UNIQUE_SUCCESS."
+    },
+    {
+      "cluster_id": "DALECKII_KREIN_CLUSTER",
+      "relation": "NEAR_DUPLICATE",
+      "members": [
+        "mp-daleckii-krein-01",
+        "sciml-daleckii-krein-01"
+      ],
+      "note": "Same Loewner/Hadamard kernel; distinct packaging. Both PACKAGING_GAP."
+    },
+    {
+      "cluster_id": "MP_HERMITE_FA",
+      "relation": "SINGLETON",
+      "members": ["mp-hermite-fA-01"],
+      "note": "Hermite interpolant f(A). Related-not-duplicate to sciml-phi (different F and nodes)."
+    },
+    {
+      "cluster_id": "MP_CAUCHY_DUNFORD",
+      "relation": "SINGLETON",
+      "members": ["mp-cauchy-dunford-01"],
+      "note": "Contour functional calculus. Related-not-duplicate to Van Loan."
+    },
+    {
+      "cluster_id": "THERMAL_01_FERMI_DIGAMMA",
+      "relation": "SINGLETON",
+      "members": ["thermal-01-fermi-im-digamma"],
+      "note": "DLMF 5.4.17. Same polygamma toolkit as thermal-03/05 but a distinct identity, not a rename."
+    },
+    {
+      "cluster_id": "THERMAL_03_DIGAMMA_REFLECTION",
+      "relation": "SINGLETON",
+      "members": ["thermal-03-digamma-reflection"],
+      "note": "DLMF 5.5.4. Distinct from thermal-01/05."
+    },
+    {
+      "cluster_id": "THERMAL_05_TRIGAMMA_SERIES",
+      "relation": "SINGLETON",
+      "members": ["thermal-05-trigamma-double-pole"],
+      "note": "DLMF 5.15.1 defining series. Distinct identity."
+    },
+    {
+      "cluster_id": "SCIML_PHI_EXP_FAMILY",
+      "relation": "SINGLETON",
+      "members": ["sciml-phi-hermite-01"],
+      "note": "phi_k of exp. Related-not-duplicate to mp-hermite-fA and to Van Loan phi block."
+    },
+    {
+      "cluster_id": "SCIML_VANLOAN",
+      "relation": "SINGLETON",
+      "members": ["sciml-vanloan-blockexp-01"],
+      "note": "Block-triangular exp. Related-not-duplicate to HOLD mp-mathias-block-01."
+    },
+    {
+      "cluster_id": "TENSOR_EPS_DELTA",
+      "relation": "SINGLETON",
+      "members": ["ac-t-eps-delta"]
+    },
+    {
+      "cluster_id": "TENSOR_YOUNG_S3",
+      "relation": "SINGLETON",
+      "members": ["ac-t-young-s3"]
+    },
+    {
+      "cluster_id": "HELMHOLTZ_OUTGOING_GREEN",
+      "relation": "SINGLETON",
+      "members": ["ac-r03-helmholtz-outgoing-green"]
+    }
+  ],
+  "n_clusters": 12,
+  "n_near_duplicate_clusters": 2,
+  "task_weighted_n": 14,
+  "cluster_weighted_n": 12,
+  "families_not_clusters": {
+    "THERMAL_POLYGAMMA_TOOLKIT": [
+      "thermal-01-fermi-im-digamma",
+      "thermal-03-digamma-reflection",
+      "thermal-05-trigamma-double-pole"
+    ],
+    "MATRIX_FUNCTION_DD": [
+      "mp-resolvent-dd-01",
+      "mp-daleckii-krein-01",
+      "mp-hermite-fA-01",
+      "sciml-daleckii-krein-01",
+      "sciml-phi-hermite-01"
+    ],
+    "note": "Families are for domain-robustness reporting only. They do not merge cluster-weighted denominators."
+  }
+}

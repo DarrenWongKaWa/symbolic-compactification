@@ -1,0 +1,7 @@
+CONDITION: P1_RAW_BASIC
+
+Same as RAW, plus a BASIC STRUCTURAL SUMMARY: free symbols, function
+inventory, index inventory, branch count, expression sizes.
+
+The summary is inventory, not an interpretation, not a type name,
+and not a proof.

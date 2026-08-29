@@ -1,0 +1,34 @@
+{
+  "F_variable": "t",
+  "case_id": "mp-resolvent-dd-01",
+  "gold_members": [
+    "G0001",
+    "G0002",
+    "G0003",
+    "G0004"
+  ],
+  "ladder": "R2",
+  "ladder_n": 2,
+  "latent_F": "1/(t - a)",
+  "leak_tokens": [
+    "divided difference",
+    "Newton",
+    "Hermite",
+    "F[z,w]"
+  ],
+  "nodes": [
+    "lam",
+    "mu"
+  ],
+  "nontrivial": true,
+  "operator_family": "NEWTON_DD",
+  "reconstruction": "G0003 = (F(lam)-F(mu))/(lam-mu); G0004 = -G0003 under lam!=mu, lam!=a, mu!=a",
+  "representation_family": [
+    "divided_difference",
+    "newton_dd",
+    "first_newton_dd",
+    "difference_quotient",
+    "newton"
+  ],
+  "tag": "SHALLOW"
+}
