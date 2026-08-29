@@ -1,0 +1,62 @@
+{
+  "case_id": "mx-kronecker-exp-01",
+  "title": "Exponential of a Kronecker sum factors as a Kronecker product of exponentials",
+  "domain": "matrix",
+  "expression_sketch": "Let A lie in C^{m x m} and B in C^{n x n}. Write I_k for the k x k identity and define the Kronecker sum A oplus B := A tensor I_n + I_m tensor B. Then\n  exp(A tensor I_n + I_m tensor B) = exp(A) tensor exp(B).\nSibling trigonometric identities on the same generator (Higham Theorem 12.2):\n  sin(A oplus B) = sin(A) tensor cos(B) + cos(A) tensor sin(B),\n  cos(A oplus B) = cos(A) tensor cos(B) - sin(A) tensor sin(B).\nThe factorisation uses that A tensor I_n and I_m tensor B commute, so the exponential of their sum is the product of exponentials, which then mixed-multiplies to exp(A) tensor exp(B). No spectral restriction: exp is entire.",
+  "latent_structure": "One MATRIX_FUNCTION master, the exponential (or sine/cosine) of a Kronecker sum, factors as a tensor product of the same function on the summands. The commuting pair (A tensor I, I tensor B) is the generator; mixed-product reconstruction recovers the tensor identity. The trigonometric pair is the same master applied to the even/odd parts of exp(iZ).",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "m": {"integer": true, "positive": true},
+      "n": {"integer": true, "positive": true},
+      "A": {"type": "matrix", "space": "C^{m x m}"},
+      "B": {"type": "matrix", "space": "C^{n x n}"}
+    },
+    "function_domains": {
+      "exp": "Entire on C; primary matrix exponential defined for every square complex matrix by the power series (Higham Chapter 10, definition of e^A).",
+      "sin": "Entire on C; primary matrix sine (Higham Chapter 12).",
+      "cos": "Entire on C; primary matrix cosine (Higham Chapter 12)."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "The identity exp(A tensor I_n + I_m tensor B) = exp(A) tensor exp(B) holds for all A in C^{m x m} and all B in C^{n x n}; exp is entire so there is no spectral restriction (Higham Theorem 10.9).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 10.9"
+      },
+      {
+        "statement": "The identities sin(A oplus B) = sin(A) tensor cos(B) + cos(A) tensor sin(B) and cos(A oplus B) = cos(A) tensor cos(B) - sin(A) tensor sin(B) hold for all square complex A, B of compatible size (Higham Theorem 12.2).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 12.2"
+      }
+    ],
+    "branch_conventions": [
+      "Primary matrix exponential, sine, and cosine via power series; not entrywise transcendental functions.",
+      "Kronecker product is the standard block embedding (A tensor B)_{ij} = a_{ij} B; Kronecker sum is A tensor I_n + I_m tensor B, not the direct sum diag(A,B)."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "N. J. Higham, Functions of Matrices: Theory and Computation, SIAM, 2008, Theorem 10.9 and Theorem 12.2. DOI 10.1137/1.9780898717778",
+      "M. Benzi, V. Simoncini, Approximation of functions of large matrices with Kronecker structure, Numer. Math. 135 (2017) 1-26, arXiv:1503.02615, equation (6) citing Higham Theorem 10.9",
+      "https://ar5iv.labs.arxiv.org/html/1503.02615",
+      "https://arxiv.org/abs/1503.02615",
+      "R. A. Horn, C. R. Johnson, Topics in Matrix Analysis, Cambridge University Press, 1991/1994, p. 208 (Kronecker-sum exponential)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "A tensor I_n and I_m tensor B commute, because (A tensor I_n)(I_m tensor B) = A tensor B = (I_m tensor B)(A tensor I_n). Hence exp(X+Y)=exp(X)exp(Y) applies to X = A tensor I_n and Y = I_m tensor B (Higham Theorem 10.2 / handbook Fact 1 of the exponential section).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 10.9 (standard proof via commuting exponentials); Higham handbook chapter, exponential Fact 1"
+      }
+    ]
+  },
+  "public_source": "N. J. Higham, Functions of Matrices, SIAM 2008, Theorem 10.9 and Theorem 12.2, DOI 10.1137/1.9780898717778. Restatement: Benzi--Simoncini, arXiv:1503.02615, eq. (6). Horn--Johnson, Topics in Matrix Analysis, p. 208.",
+  "why_not_cse_lgg": "The left-hand side is the exponential of an mn x mn sum of Kronecker embeddings; the right-hand side is a tensor of two smaller exponentials. CSE will not factor that sum through the mixed-product identity. LGG will not invent Kronecker sum as a generator whose exponential is a tensor product, nor produce the sine/cosine addition formulae on the same generator.",
+  "proposer_leak_risk": "Hide Kronecker sum, mixed-product, commuting embeddings. Catalog members are the expanded operators A tensor I + I tensor B, exp(A) tensor exp(B), and the two trigonometric expansions.",
+  "notes": "Do not insert self-adjointness, stability, or a Lyapunov/Sylvester equation; the identity is an equality of matrix functions, not a linear matrix equation. Do not confuse Kronecker sum with the direct sum diag(A,B). Do not insert a spectral gap. Theorem 10.9 is unrestricted because exp is entire.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

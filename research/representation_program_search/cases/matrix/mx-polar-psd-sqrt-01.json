@@ -1,0 +1,79 @@
+{
+  "case_id": "mx-polar-psd-sqrt-01",
+  "title": "Polar factorisation via the unique PSD square root of A-star A, unique iff full rank",
+  "domain": "matrix",
+  "expression_sketch": "Let A lie in C^{m x n} with m >= n. There exist U in C^{m x n} with orthonormal columns and a unique Hermitian positive semidefinite H in C^{n x n} such that A = U H. The Hermitian factor is H = (A^* A)^{1/2}, the unique positive semidefinite square root of A^* A. If rank(A) = n then H is positive definite and U = A H^{-1} is unique. If rank(A) = r < n and A = P diag(Sigma_r, 0) Q^* is an SVD, then every admissible U has the form\n  U = P [[I_r, 0], [0, W]] Q^*\nwith W in C^{(m-r) x (n-r)} having orthonormal columns, so U is not unique. When A is square and nonsingular the left polar form A = H_L U with H_L = (A A^*)^{1/2} is the companion identity.",
+  "latent_structure": "One MATRIX_FUNCTION master, the unique PSD square root of A^* A, produces the Hermitian polar factor for every A; the partial isometry U is then recovered from A H^+. Full rank versus rank drop is one polar identity with two strata: unique U when H is invertible, a Stiefel fibre of U when H is singular.",
+  "proposed_ladder": "R4_piecewise_unification",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "m": {"integer": true, "positive": true},
+      "n": {"integer": true, "positive": true, "note": "m >= n in Theorem 8.1"},
+      "A": {"type": "matrix", "space": "C^{m x n}"},
+      "H": {"type": "matrix", "space": "C^{n x n}", "hermitian_positive_semidefinite": true},
+      "U": {"type": "matrix", "space": "C^{m x n}"},
+      "r": {"integer": true, "nonnegative": true, "note": "rank(A)"}
+    },
+    "function_domains": {
+      "psd_square_root": "Unique Hermitian positive semidefinite square root of a Hermitian positive semidefinite matrix (Higham Corollary 1.30 for the definite case; Theorem 8.1 writes H = (A^* A)^{1/2} including the semidefinite case)."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "U is unique if and only if A has full rank, equivalently rank(A) = n, equivalently H is positive definite (Higham Theorem 8.1 uniqueness clause; Higham 1986 Theorem 1.1: 'If rank(A)=n then H is positive definite and U is uniquely determined').",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 8.1; Higham, SIAM J. Sci. Stat. Comput. 7 (1986), Theorem 1.1"
+      }
+    ],
+    "positivity_conditions": [
+      {
+        "statement": "H is Hermitian positive semidefinite, and is the unique such factor (Higham Theorem 8.1).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 8.1"
+      }
+    ],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "A is an arbitrary matrix in C^{m x n} (or R^{m x n}) with m >= n. The polar decomposition A = U H exists with U having orthonormal columns and H unique Hermitian positive semidefinite (Higham Theorem 8.1).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 8.1; Higham, SIAM J. Sci. Stat. Comput. 7 (1986), Theorem 1.1"
+      },
+      {
+        "statement": "A^* A is always Hermitian positive semidefinite, so the unique PSD square root (A^* A)^{1/2} is defined with no extra cut hypothesis (Higham Theorem 8.1: 'The matrix H is given by (A^* A)^{1/2}').",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 8.1"
+      }
+    ],
+    "branch_conventions": [
+      "The square root in H = (A^* A)^{1/2} is the unique Hermitian positive semidefinite square root, not an arbitrary primary square root of A^* A.",
+      "U has orthonormal columns (U^* U = I_n); if m = n then U is unitary. For real A the factors may be taken real, with U orthogonal when m = n."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The uniqueness stratum is rank(A) = n. The non-uniqueness stratum is rank(A) = r < n, with W an arbitrary matrix of orthonormal columns of size (m-r) x (n-r) (Higham Theorem 8.1; Higham 1986 Theorem 1.1 uniqueness clause).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 8.1; Higham, SIAM J. Sci. Stat. Comput. 7 (1986), Theorem 1.1"
+      }
+    ],
+    "source_provenance": [
+      "N. J. Higham, Functions of Matrices: Theory and Computation, SIAM, 2008, Theorem 8.1. DOI 10.1137/1.9780898717778.ch8",
+      "N. J. Higham, Computing the polar decomposition with applications, SIAM J. Sci. Stat. Comput. 7 (1986) 1160-1174, Theorem 1.1, DOI 10.1137/0907079",
+      "https://nhigham.com/2020/07/28/what-is-the-polar-decomposition/",
+      "N. J. Higham, C. Mehl, F. Tisseur, The canonical generalized polar decomposition, SIAM J. Matrix Anal. Appl. 31 (2010) 2163-2180, Theorem 1.1 (restates Higham 2008 Theorem 8.1)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "A^* A = H U^* U H = H^2, so H is a Hermitian PSD square root of A^* A; uniqueness of that square root forces H = (A^* A)^{1/2} (Higham Theorem 8.1 and the uniqueness argument in Higham 1986 Lemma 2.1(i)).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 8.1; Higham, SIAM J. Sci. Stat. Comput. 7 (1986), Lemma 2.1(i)"
+      }
+    ]
+  },
+  "public_source": "N. J. Higham, Functions of Matrices, SIAM 2008, Theorem 8.1, DOI 10.1137/1.9780898717778.ch8. Higham, SIAM J. Sci. Stat. Comput. 7 (1986) 1160-1174, Theorem 1.1, DOI 10.1137/0907079. https://nhigham.com/2020/07/28/what-is-the-polar-decomposition/",
+  "why_not_cse_lgg": "The identity A = U (A^* A)^{1/2} looks like a product; CSE will not identify H as the unique PSD square root, nor treat rank drop as a change from a unique U to a Stiefel fibre. LGG will not invent polar factorisation as a representation that covers both full-rank and rank-deficient strata.",
+  "proposer_leak_risk": "Hide polar, partial isometry, SVD, unitary factor. Catalog members are A = U H, H = (A^* A)^{1/2}, and the two uniqueness statements (full rank vs W free).",
+  "notes": "Do not insert that A is square, Hermitian, or invertible unless working on a stated special case. Do not insert a principal-square-root cut R- for A itself; the square root is of the PSD matrix A^* A. Rank deficiency is written in Theorem 8.1, not a limit of the invertible formula inside that theorem. Do not identify U with sign(A) unless A is Hermitian nonsingular, which the source does not assume here.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

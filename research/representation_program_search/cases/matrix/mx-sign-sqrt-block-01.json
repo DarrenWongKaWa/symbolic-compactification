@@ -1,0 +1,85 @@
+{
+  "case_id": "mx-sign-sqrt-block-01",
+  "title": "Matrix sign of a zero-diagonal block recovers the principal square root",
+  "domain": "matrix",
+  "expression_sketch": "Let A, B lie in C^{n x n} and suppose AB (equivalently BA) has no eigenvalues on the closed negative real axis R-. Then the 2n x 2n block P = [[0, A], [B, 0]] has no pure imaginary eigenvalues, and\n  sign(P) = [[0, C], [C^{-1}, 0]],    C = A (BA)^{-1/2},\nwhere (BA)^{-1/2} is the principal inverse square root. The special case B = I and A with no eigenvalues on R- is\n  sign([[0, A], [I, 0]]) = [[0, A^{1/2}], [A^{-1/2}, 0]].\nOn a single matrix with no pure imaginary eigenvalues the same square-root representation collapses to the concise identity sign(A) = A (A^2)^{-1/2}, equivalently the Roberts integral\n  sign(A) = (2/pi) A Integral((t^2 I + A^2)^{-1}, (t, 0, infinity)).\nWhen AB meets R- the block P meets iR and sign(P) is not defined.",
+  "latent_structure": "One MATRIX_FUNCTION master, the primary sign of a 2n block with zero diagonal blocks, produces principal square roots of BA (and of A when B = I) as off-diagonal blocks. The scalar kernel z |-> z/(z^2)^{1/2} on the spectrum of A is the same object. The undefined stratum is imaginary-axis spectrum of P, equivalently negative-real spectrum of AB.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {"integer": true, "positive": true},
+      "A": {"type": "matrix", "space": "C^{n x n}"},
+      "B": {"type": "matrix", "space": "C^{n x n}"},
+      "P": {"type": "matrix", "space": "C^{2n x 2n}", "block_form": "[[0, A], [B, 0]]"},
+      "t": {"real": true, "note": "dummy of the Roberts integral on [0, infinity)"}
+    },
+    "function_domains": {
+      "sign": "Primary matrix sign, defined precisely when the argument has no pure imaginary eigenvalues (Higham Ch. 5 opening paragraph and Theorem 5.1).",
+      "principal_square_root": "For a matrix with no eigenvalues on R-, the unique square root whose spectrum lies in the open right half-plane (Higham Theorem 1.29). Written X^{1/2}."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "A having no pure imaginary eigenvalues implies A is nonsingular (Higham Ch. 5, paragraph before (5.1)).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Chapter 5, paragraph before (5.1) and Theorem 5.1"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "A in C^{n x n} has no pure imaginary eigenvalues whenever sign(A) is invoked (Higham Theorem 5.1 hypothesis).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 5.1 and equations (5.1)--(5.3)"
+      },
+      {
+        "statement": "A, B in C^{n x n} and AB (hence also BA) has no eigenvalues on R- (Higham Theorem 5.2 hypothesis). Then P = [[0, A], [B, 0]] has no pure imaginary eigenvalues, so sign(P) is defined.",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 5.2; Higham, Mackey, Mackey, Tisseur, SIAM J. Matrix Anal. Appl. 26 (2005)"
+      },
+      {
+        "statement": "A having no pure imaginary eigenvalues is equivalent to A^2 having no eigenvalues on R-, so the principal inverse square root (A^2)^{-1/2} in sign(A) = A (A^2)^{-1/2} is defined (Higham, text between (5.2) and (5.3)).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, text between (5.2) and (5.3)"
+      }
+    ],
+    "branch_conventions": [
+      "Principal square root: unique primary square root with spectrum in the open right half-plane (Higham Theorem 1.29).",
+      "Scalar sign: sign(z) = 1 if Re z > 0 and sign(z) = -1 if Re z < 0; undefined on iR (Higham Ch. 5 opening display).",
+      "sign(A) is a primary matrix function of A, hence a polynomial in A, but it is in general a nonprimary square root of I (Higham, paragraph after Theorem 5.1)."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The Roberts integral parameter t runs over the improper interval [0, infinity). The integrand (t^2 I + A^2)^{-1} is defined for all t >= 0 precisely because A^2 has no eigenvalues on R- (Higham (5.3) and Problem 5.3).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, equation (5.3) and Problem 5.3"
+      }
+    ],
+    "source_provenance": [
+      "N. J. Higham, Functions of Matrices: Theory and Computation, SIAM, 2008, Theorem 5.1, Theorem 5.2, equations (5.1)--(5.4). DOI 10.1137/1.9780898717778.ch5",
+      "https://eprints.maths.manchester.ac.uk/1067/1/OT104HighamChapter5.pdf",
+      "N. J. Higham, D. S. Mackey, N. Mackey, F. Tisseur, Functions preserving matrix groups and iterations for the matrix square root, SIAM J. Matrix Anal. Appl. 26 (2005) 849-877, DOI 10.1137/040608899",
+      "https://eprints.maths.manchester.ac.uk/636/1/hmmt05f.pdf",
+      "J. D. Roberts, Linear model reduction and solution of the algebraic Riccati equation by use of the sign function, Internat. J. Control 32 (1980) 677-687, DOI 10.1080/00207178008922881"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "If P = [[0, A], [B, 0]] had a pure imaginary eigenvalue then P^2 = diag(AB, BA) would have an eigenvalue on R-; the Theorem 5.2 hypothesis on AB therefore implies sign(P) is defined (Higham, proof of Theorem 5.2).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 5.2 proof"
+      },
+      {
+        "statement": "C D = I in the block formula, so the lower-left block of sign(P) is C^{-1} (Higham, proof of Theorem 5.2, using S^2 = I from Theorem 5.1(a)).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 5.1(a) and Theorem 5.2 proof"
+      }
+    ]
+  },
+  "public_source": "N. J. Higham, Functions of Matrices, SIAM 2008, Theorems 5.1--5.2 and (5.2)--(5.4), https://eprints.maths.manchester.ac.uk/1067/1/OT104HighamChapter5.pdf. Higham--Mackey--Mackey--Tisseur, SIAM J. Matrix Anal. Appl. 26 (2005), DOI 10.1137/040608899. Roberts, Internat. J. Control 32 (1980), DOI 10.1080/00207178008922881.",
+  "why_not_cse_lgg": "The block identity equates a 2n primary sign evaluation to a pair of n x n principal roots. CSE will not invent that the off-diagonal blocks of sign(P) are C and C^{-1}. LGG will not identify sign of a zero-diagonal block as a master for square roots, nor treat the AB-meets-R- stratum as a change of representation rather than an undefined evaluation.",
+  "proposer_leak_risk": "Hide sign, csgn, principal square root, Roberts integral, involutory. Catalog members are the expanded block array of sign(P), the formula A (A^2)^{-1/2}, and the real-line integral kernel (t^2 I + A^2)^{-1}.",
+  "notes": "Do not insert self-adjointness or positive-definiteness of A or B; Theorem 5.2 is for general complex A, B. Do not replace the real-line integral (5.3) by a closed-contour calculus of a general f. Do not replace the principal square root by an arbitrary square root of BA. Imaginary-axis eigenvalues are excluded by the cited hypotheses, not by folklore broadening.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

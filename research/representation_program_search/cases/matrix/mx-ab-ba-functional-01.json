@@ -1,0 +1,76 @@
+{
+  "case_id": "mx-ab-ba-functional-01",
+  "title": "Primary f of alpha I + AB reconstructed from f of alpha I + BA",
+  "domain": "matrix",
+  "expression_sketch": "Let A lie in C^{m x n} and B in C^{n x m}, with m >= n, and assume BA is nonsingular. Let f be defined on the spectrum of alpha I_m + AB, and if m = n let f also be defined at alpha. Then (Higham Theorem 1.35)\n  f(alpha I_m + AB) = f(alpha) I_m + A (BA)^{-1} ( f(alpha I_n + BA) - f(alpha) I_n ) B.\nThe n = 1 special case recovers a rank-one update formula for f(alpha I + u v^*). The inverse special case f(t) = 1/t, alpha = 1, rearranges to (I + AB)^{-1} = I - A (I + BA)^{-1} B. When BA is singular the displayed inverse (BA)^{-1} is unavailable; Higham notes separately that AB then has a zero eigenvalue of geometric multiplicity at least m-n (m > n).",
+  "latent_structure": "One FUNCTION_1 f, evaluated at the two related matrices alpha I + AB and alpha I + BA, is linked by the first Newton divided difference g(t) = f[alpha + t, alpha] = (f(alpha+t) - f(alpha))/t via the identity f(alpha I + AB) = f(alpha) I + A g(BA) B. Nonsingular BA keeps the nodes alpha and alpha+t distinct on spec(BA). Singular BA is the confluent/degenerate stratum where that quotient form is not the stated theorem.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "m": {"integer": true, "positive": true},
+      "n": {"integer": true, "positive": true, "note": "m >= n in Theorem 1.35"},
+      "A": {"type": "matrix", "space": "C^{m x n}"},
+      "B": {"type": "matrix", "space": "C^{n x m}"},
+      "alpha": {"type": "complex"}
+    },
+    "function_domains": {
+      "f": "Defined on the spectrum of alpha I_m + AB, and if m = n also defined at alpha (Higham Theorem 1.35 hypothesis). No holomorphy is assumed: 'Theorem 1.35 does not require analyticity.'"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "BA is nonsingular (Higham Theorem 1.35: 'assume that BA is nonsingular'), so (BA)^{-1} exists and 0 is not an eigenvalue of BA.",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 1.35"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "f is defined on the spectrum of alpha I_m + AB; if m = n, f is also defined at alpha (Higham Theorem 1.35). Then f is automatically defined on the spectrum of alpha I_n + BA and at alpha (Higham, first sentence of the proof, citing Theorem 1.32).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 1.35 and Theorem 1.32"
+      },
+      {
+        "statement": "No holomorphy, Cauchy-integral, or C^k hypothesis is imposed on f beyond being defined on the stated spectra (Higham: 'Theorem 1.35 does not require analyticity').",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, paragraph after (1.31)"
+      }
+    ],
+    "branch_conventions": [
+      "f(alpha I + AB) and f(alpha I + BA) are primary matrix functions in the sense of Higham Chapter 1 (defined on the spectrum).",
+      "If f is multivalued, the same branch is used at corresponding eigenvalues of alpha I + AB and alpha I + BA as granted by Theorem 1.32."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The displayed formula uses (BA)^{-1}, so it is not claimed when BA is singular. That singular stratum is excluded by the hypothesis, not taken as a limit inside Theorem 1.35.",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 1.35"
+      }
+    ],
+    "source_provenance": [
+      "N. J. Higham, Functions of Matrices: Theory and Computation, SIAM, 2008, Theorem 1.35 and equation (1.31); discussion after (1.31). DOI 10.1137/1.9780898717778",
+      "https://doi.org/10.1137/1.9780898717778",
+      "N. J. Higham, Functions of Matrices, SIAM 2008, Theorems 1.32 and 1.34 (AB/BA spectral relation used in the proof)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "The proof introduces g(t) = f[alpha + t, alpha] = t^{-1}(f(alpha+t) - f(alpha)), so f(alpha+t) = f(alpha) + t g(t), and invokes Corollary 1.34 to replace g(AB) by transport through A, B (Higham, proof of Theorem 1.35).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 1.35 proof and Corollary 1.34"
+      },
+      {
+        "statement": "If m > n then AB has a zero eigenvalue of geometric multiplicity at least m-n, because Bx = 0 implies ABx = 0 and B has nullity at least m-n (Higham, discussion of AB versus BA before Theorem 1.35).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, discussion preceding Theorem 1.35"
+      }
+    ]
+  },
+  "public_source": "N. J. Higham, Functions of Matrices, SIAM 2008, Theorem 1.35 and (1.31), DOI 10.1137/1.9780898717778. Proof uses Corollary 1.34 and the Newton quotient g(t) = f[alpha+t, alpha].",
+  "why_not_cse_lgg": "The two evaluations f(alpha I_m + AB) and f(alpha I_n + BA) are different-sized matrices. CSE will not reconstruct the larger from the smaller via A (BA)^{-1} (f_small - f(alpha) I) B. LGG will not invent the Newton quotient g of f at {alpha, alpha+t} as the kernel that intertwines AB and BA, nor treat singular BA as a different stratum.",
+  "proposer_leak_risk": "Hide divided difference, Newton quotient, Sherman--Morrison--Woodbury, primary matrix function. Catalog members are the two evaluations f(alpha I + AB), f(alpha I + BA) and the displayed reconstruction (1.31).",
+  "notes": "Do not insert holomorphy or a closed contour integral of a general f; Higham states the theorem does not require analyticity. Do not insert self-adjointness. Do not run (BA)^{-1} when BA is singular, and do not claim the singular case as a limit identity without a separate confluence statement. This is not the general interpolating-polynomial definition of f(M).",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

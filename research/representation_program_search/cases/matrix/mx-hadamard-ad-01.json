@@ -1,0 +1,67 @@
+{
+  "case_id": "mx-hadamard-ad-01",
+  "title": "Conjugation by an exponential is the exponential of the adjoint operator",
+  "domain": "matrix",
+  "expression_sketch": "Let X, Y lie in C^{n x n}. Write ad_X for the linear operator on C^{n x n} given by ad_X(Y) = [X, Y] = X Y - Y X. Then for every such X, Y\n  e^X Y e^{-X} = e^{ad_X}(Y) = Sum_{k = 0}^{infinity} (1/k!) (ad_X)^k (Y),\ni.e.\n  e^X Y e^{-X} = Y + [X, Y] + (1/2!) [X, [X, Y]] + (1/3!) [X, [X, [X, Y]]] + ....\nEquivalently, the curve t |-> e^{t X} Y e^{-t X} has derivative ad_X at t = 0 and equals e^{t ad_X}(Y) for all real t. No spectral restriction: both matrix exponentials are entire series.",
+  "latent_structure": "One MATRIX_FUNCTION master, the exponential of the adjoint operator ad_X acting on M_n(C), reconstructs conjugation by e^X. Nested commutators are VALUE of that exponential, not an independent expansion. The identity is unrestricted; there is no degenerate-eigenvalue cut, only the algebraic generator ad.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {"integer": true, "positive": true},
+      "X": {"type": "matrix", "space": "C^{n x n}"},
+      "Y": {"type": "matrix", "space": "C^{n x n}"},
+      "t": {"real": true, "note": "parameter of the one-parameter conjugation curve in Hall"}
+    },
+    "function_domains": {
+      "exp": "Entire on C; primary matrix exponential on M_n(C) and, separately, the exponential of the linear operator ad_X in End(M_n(C)), both by power series (Hall Proposition 2.25).",
+      "ad": "The linear map ad_X : M_n(C) -> M_n(C), ad_X(Y) = [X, Y], defined for every X (Hall Proposition 2.24--2.25)."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "X and Y are arbitrary matrices in M_n(C). Then e^X Y e^{-X} = e^{ad_X}(Y) (Hall Proposition 2.25: 'For any X in M_n(C), let ad_X : M_n(C) -> M_n(C) be given by ad_X Y = [X, Y]. Then, for any Y in M_n(C), we have' the conjugation identity).",
+        "label": "DECLARED",
+        "source": "B. C. Hall, Lie Groups, Lie Algebras, and Representations, Springer GTM 222, 1st ed. 2003, Proposition 2.25"
+      },
+      {
+        "statement": "Both power series (matrix exponential of X, and operator exponential of ad_X) converge everywhere; no restriction on the spectrum of X is imposed (Hall, definition of the matrix exponential by power series and Proposition 2.25).",
+        "label": "DECLARED",
+        "source": "B. C. Hall, Lie Groups, Lie Algebras, and Representations, Springer GTM 222, 1st ed. 2003, Proposition 2.25 and the matrix-exponential series in Chapter 2"
+      }
+    ],
+    "branch_conventions": [
+      "exp denotes the entire exponential series, not a principal logarithm inverse.",
+      "ad_X is the commutator operator on M_n(C), not an entrywise operation.",
+      "e^{-X} is the multiplicative inverse of e^X, which always exists (Hall: e^X is invertible with inverse e^{-X})."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The identity is an equality of entire series, valid for all X, Y; no limiting regime is required (Hall Proposition 2.25).",
+        "label": "DECLARED",
+        "source": "B. C. Hall, Lie Groups, Lie Algebras, and Representations, Springer GTM 222, 1st ed. 2003, Proposition 2.25"
+      }
+    ],
+    "source_provenance": [
+      "B. C. Hall, Lie Groups, Lie Algebras, and Representations: An Elementary Introduction, Springer GTM 222, 1st ed. 2003, Propositions 2.24 and 2.25. ISBN 978-0-387-40122-8",
+      "B. C. Hall, Lie Groups, Lie Algebras, and Representations, 2nd ed., Springer GTM 222, 2015, DOI 10.1007/978-3-319-13467-3",
+      "B. C. Hall, An Elementary Introduction to Groups and Representations, arXiv:math-ph/0005032, https://arxiv.org/abs/math-ph/0005032",
+      "https://doi.org/10.48550/arXiv.math-ph/0005032"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Differentiating t |-> e^{t X} Y e^{-t X} at t = 0 yields [X, Y] = ad_X(Y) (Hall Proposition 2.24), which is the infinitesimal form of Proposition 2.25.",
+        "label": "DERIVED",
+        "source": "B. C. Hall, Lie Groups, Lie Algebras, and Representations, Springer GTM 222, 1st ed. 2003, Proposition 2.24"
+      }
+    ]
+  },
+  "public_source": "B. C. Hall, Lie Groups, Lie Algebras, and Representations, Springer GTM 222, 1st ed. 2003, Proposition 2.25; 2nd ed. 2015, DOI 10.1007/978-3-319-13467-3. Public notes: arXiv:math-ph/0005032, https://arxiv.org/abs/math-ph/0005032.",
+  "why_not_cse_lgg": "The left-hand side is a product of three matrices; the right-hand side is an infinite nested-commutator series. CSE will not identify that series as the exponential of ad_X, nor treat ad_X as a master linear operator on M_n whose exponential is conjugation. LGG will not invent ad.",
+  "proposer_leak_risk": "Hide adjoint representation, Hadamard lemma, Baker--Campbell--Hausdorff, Ad, ad. Catalog members are the expanded conjugation e^X Y e^{-X} and the nested commutator sum.",
+  "notes": "Do not insert a smallness hypothesis on X or Y; Hall Proposition 2.25 is for arbitrary matrices in M_n(C). Do not insert self-adjointness. Do not replace the identity by the BCH series for log(e^X e^Y), which is a different theorem. Do not insert a spectral gap or a principal-logarithm strip.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
