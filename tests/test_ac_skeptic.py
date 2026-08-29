@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from cases.skeptic.check import (  # noqa: E402
+from research.assumption_complete_representation.cases.skeptic.check import (  # noqa: E402
     GUO_RESCUE,
     OBVIOUS_LGG,
     REASON_CODES,
@@ -27,7 +27,7 @@ from research.assumption_complete_representation.schema import (  # noqa: E402
     NOT_DECLARED,
 )
 
-SKEPTIC = ROOT / "cases" / "skeptic"
+SKEPTIC = ROOT / "research" / "assumption_complete_representation" / "cases" / "skeptic"
 TAXONOMY = SKEPTIC / "REJECTION_TAXONOMY.md"
 NEGATIVE = SKEPTIC / "negative"
 

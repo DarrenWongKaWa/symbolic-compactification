@@ -1,12 +1,12 @@
 # STATUS
 
-CURRENT PHASE: contracts frozen; C1–C6 case discovery
+CURRENT PHASE: C1–C6 merged; assumption audit A1–A4 next
 
-ACTIVE SUBAGENTS: C1–C6 (pending spawn)
+ACTIVE SUBAGENTS: A1–A4 (pending)
 
-CANDIDATE CASES: 0
+CANDIDATE CASES: 40 miner dossiers (22 skeptic-clean keepers, 15 skeptic-flagged, 3 miner-rejected)
 
-REJECTED CASES: 0
+REJECTED CASES: 3 miner-rejected + 6 negative controls (Guo included as control only)
 
 ADMITTED DEV CASES: 0
 
@@ -20,7 +20,7 @@ AI_UNIQUE_SUCCESS COUNT: 0
 
 CURRENT BOTTLENECK: need assumption-complete scientific cases, not Guo
 
-MERGED SHAS: parent `9fc3c8a`
+MERGED SHAS: contracts `1075d80`; C-cluster merge `00054fd`
 
 PUBLICATION STATUS: E
 
