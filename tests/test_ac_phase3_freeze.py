@@ -132,6 +132,43 @@ def test_compiler_expands_catalog_and_F_calls():
     assert verdicts["G0001 - F(lam) = 0"] == "ZERO"
     assert verdicts["G0003 - ((F(lam)-F(mu))/(lam-mu)) = 0"] == "ZERO"
     assert verdicts["G0004 - (F(lam)*F(mu)) = 0"] == "ZERO"
+    from research.assumption_complete_representation.eval.ac_score import score_hypothesis
+    from research.assumption_complete_representation.eval.pack_data import HIDDEN
+    hyp["representation_type"] = "divided_difference"
+    sc = score_hypothesis(hyp, pack, HIDDEN["mp-resolvent-dd-01"], c)
+    assert sc["operational_success"] is True
+    assert sc["Q"] == "OPERATIONAL_CORRECT"
+
+
+def test_specialization_only_is_not_operational_success():
+    from research.assumption_complete_representation.eval.ac_compile import compile_and_verify
+    from research.assumption_complete_representation.eval.ac_score import score_hypothesis
+    from research.assumption_complete_representation.eval.pack_data import HIDDEN, PUBLIC_PACKS
+    pack = PUBLIC_PACKS["thermal-03-digamma-reflection"]
+    hidden = HIDDEN["thermal-03-digamma-reflection"]
+    hyp = {
+        "parse_status": "OK",
+        "representation_type": "special_function",
+        "latent_object": "F(t)=polygamma(0,t)",
+        "variables": ["t"],
+        "nodes": [],
+        "member_maps": [
+            {"source_node_id": "G0001", "role": "instance"},
+            {"source_node_id": "G0002", "role": "instance"},
+        ],
+        "operators": [{"member": "G0001", "O": "specialize"},
+                      {"member": "G0002", "O": "specialize"}],
+        "reconstruction_rule": "G0001=F(z); G0002=F(1-z)",
+        "required_assumptions": [],
+        "proof_obligations": [
+            "polygamma(0,z) - F(z) = 0",
+            "polygamma(0,1-z) - F(1-z) = 0",
+        ],
+    }
+    compiled = compile_and_verify(hyp, pack)
+    sc = score_hypothesis(hyp, pack, hidden, compiled)
+    assert sc["operational_success"] is False
+    assert sc["Q"] in {"TAUTOLOGICAL", "SHALLOW_REPACKAGING", "VERIFIER_UNKNOWN"}
 
 
 def test_execution_freeze_exists_and_locks_p4():

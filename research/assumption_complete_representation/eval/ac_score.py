@@ -12,6 +12,7 @@ from research.assumption_complete_representation.eval.ac_compile import (
 from research.assumption_complete_representation.eval.pack_data import R_LEVEL
 
 _GID = re.compile(r"G\d{4}")
+SCORER_VERSION = "ac-score-v1.2"
 
 TYPE_TO_R = [
     (tuple("hermite repeated_node repeated-node confluent multiplicity".split()), 3),
@@ -89,6 +90,49 @@ def grounded(hyp: dict, pack: dict) -> str:
     return "G_OK"
 
 
+def residual_ids(pack: dict) -> set[str]:
+    cur = "".join((pack.get("current") or "").split())
+    out = set()
+    if not cur:
+        return out
+    for e in pack.get("catalog") or []:
+        if "".join((e.get("text") or "").split()) == cur:
+            out.add(e["source_node_id"])
+    return out
+
+
+def n_nontrivial_zero(compiled: dict, pack: dict) -> int:
+    """ZERO obligations that are not F-specialization renames or residual restatements."""
+    residual = residual_ids(pack)
+    n = 0
+    for o in compiled.get("obligations") or []:
+        if o.get("verdict") != "ZERO" or o.get("note") != "parsed_eq":
+            continue
+        text = o.get("text") or ""
+        gids = set(_GID.findall(text))
+        if gids and gids <= residual:
+            continue
+        if gids & residual:
+            continue
+        nF = len(re.findall(r"\bF\s*\(", text))
+        nG = len(_GID.findall(text))
+        if nF >= 2:
+            n += 1
+            continue
+        if nG >= 2:
+            n += 1
+            continue
+        if nF >= 1 and ("/" in text or "*" in text):
+            n += 1
+            continue
+        # raw special-function identity with two distinct heads, e.g. psi vs tanh
+        # counted only when not a single F(arg) rename
+        if nF <= 1 and nG <= 1 and "/" not in text and "*" not in text:
+            continue
+        n += 1
+    return n
+
+
 def _tautological(hyp: dict, pack: dict) -> bool:
     maps = hyp.get("member_maps") or []
     F = (hyp.get("latent_object") or "").strip()
@@ -149,6 +193,9 @@ def score_hypothesis(hyp: dict, pack: dict, hidden: dict, compiled: dict) -> dic
 
     taut = _tautological(hyp, pack)
     shallow = _shallow_repack(hyp, pack, hidden)
+    n_ntz = n_nontrivial_zero(compiled, pack)
+    if n_zero > 0 and n_ntz == 0:
+        taut = True
 
     if hyp.get("parse_status") != "OK":
         d = "D_WRONG"
@@ -202,7 +249,13 @@ def score_hypothesis(hyp: dict, pack: dict, hidden: dict, compiled: dict) -> dic
         and not taut
         and hidden.get("nontrivial", True)
         and op
+        and n_ntz > 0
     )
+    if hidden.get("nontrivial") is False:
+        operational_success = False
+        if q == "OPERATIONAL_CORRECT":
+            q = "SHALLOW_REPACKAGING"
+            d = "D_SHALLOW"
     return {
         "D": d,
         "G": g,
@@ -219,7 +272,9 @@ def score_hypothesis(hyp: dict, pack: dict, hidden: dict, compiled: dict) -> dic
         "n_zero": n_zero,
         "n_nonzero": n_nz,
         "n_unknown": n_unk,
+        "n_zero_nontrivial": n_ntz,
         "F_parsed": bool(compiled.get("F_parsed")),
+        "scorer_version": SCORER_VERSION,
     }
 
 
