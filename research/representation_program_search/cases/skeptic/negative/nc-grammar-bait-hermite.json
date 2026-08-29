@@ -1,0 +1,56 @@
+{
+  "case_id": "nc-grammar-bait-hermite",
+  "title": "Coincident-node interpolant of a scalar jet",
+  "domain": "matrix",
+  "expression_sketch": "Catalog members: A0 = f(a), A1 = df/dz at a, A2 = f(b). One polynomial p of degree less than 3 with p(a)=f(a), p'(a)=f'(a), p(b)=f(b). Nodes as the multiset {a, a, b}. Reconstruct A0, A1, A2 from a single generating f.",
+  "latent_structure": "Shared generating object with a coincident node of multiplicity two and one simple node.",
+  "proposed_ladder": "R3_hermite_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "a": {"complex": true},
+      "b": {"complex": true}
+    },
+    "function_domains": {
+      "f": "scalar function with value and first derivative at a, value at b"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "a != b",
+        "label": "DECLARED",
+        "source": "sketch"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "f holomorphic in a disk containing a and b",
+        "label": "DECLARED",
+        "source": "notes"
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "negative-control construction; grammar-bait is the point"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "none — negative control",
+  "why_not_cse_lgg": "Not CSE/LGG; selected to fit RepresentationGrammarV1 HERMITE_DD as a primitive.",
+  "proposer_leak_risk": "low in the sketch; selection is the defect",
+  "notes": "Task chosen specifically to fit RepresentationGrammarV1 (NEWTON_DD/HERMITE_DD bait). G_FULL will succeed by emitting the named HERMITE_DD primitive. Causal outcome CASE C bait, not synthesis. G_NO_HERMITE / G_PRIMITIVE exist so this cannot be sold as invention.",
+  "selection_reason": "grammar-bait: HERMITE_DD is already a RepresentationGrammarV1 operator",
+  "historical_parent": "",
+  "grammar_bait": true,
+  "synthetic": false,
+  "gold_operators": ["HERMITE_DD"],
+  "rejected": true,
+  "reject_reason": "GRAMMAR_BAIT",
+  "reject_reasons": ["GRAMMAR_BAIT"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": false,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

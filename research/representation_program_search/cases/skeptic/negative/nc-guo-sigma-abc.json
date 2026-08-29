@@ -1,0 +1,47 @@
+{
+  "case_id": "nc-guo-sigma-abc",
+  "title": "Guo sigma_abc as representation-program-search DEV",
+  "domain": "thermal",
+  "expression_sketch": "Sum(DC_abc[n, m, ell], coincident-index limits)",
+  "latent_structure": "repeated-node divided difference of a thermal kernel",
+  "proposed_ladder": "R3_hermite_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "beta": {"real": true, "nonzero": false},
+      "gamma": {"real": true, "nonzero": false}
+    },
+    "function_domains": {},
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "symbols real as in frozen symbols.json",
+        "label": "DECLARED",
+        "source": "examples/long/symbols.json"
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "examples/long/Guo_Sigma_abc_dc_exact.txt",
+      "sha256:63742cc4e6bf401dd48e258ecb86676b0d7570cc075cae38b91dc188652afc44"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "examples/long/",
+  "why_not_cse_lgg": "Sealed hop G0016 to G0013 is UNKNOWN LEVEL_B; not a new case.",
+  "proposer_leak_risk": "high",
+  "notes": "Negative control: miner attempting Guo rescue into DEV/TEST. Do not run new Guo search. Do not add physical assumptions.",
+  "historical_parent": "",
+  "grammar_bait": false,
+  "synthetic": false,
+  "rejected": true,
+  "reject_reason": "GUO_SEALED",
+  "reject_reasons": ["GUO_SEALED", "RENAMED_OLD_DEV_TEST"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": true,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

@@ -1,0 +1,57 @@
+{
+  "case_id": "nc-renamed-resolvent",
+  "title": "Two-point Loewner kernel of a generator (claimed fresh)",
+  "domain": "matrix",
+  "expression_sketch": "Write G(z, H) = (H - z I)^{-1}. For spectral parameters x, y off the spectrum, G(x, H) - G(y, H) = (x - y) G(x, H) G(y, H). The first difference quotient is (G(x, H) - G(y, H))/(x - y) = G(x, H) G(y, H); when x = y the same object is G(x, H)^2.",
+  "latent_structure": "First difference quotient of a resolvent in the spectral parameter, with the coincident node given by holomorphy on the resolvent set.",
+  "proposed_ladder": "R2_newton_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "H": {"type": "element of a unital Banach algebra"},
+      "x": {"complex": true},
+      "y": {"complex": true},
+      "z": {"complex": true}
+    },
+    "function_domains": {
+      "G": "G(·, H): rho(H) -> algebra, G(z, H) = (H - z I)^{-1}"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "x, y belong to rho(H)",
+        "label": "DECLARED",
+        "source": "same identity as mp-resolvent-dd-01 / ac-r01, opposite convention"
+      }
+    ],
+    "branch_conventions": [
+      "Working resolvent G(z, H) := (H - z I)^{-1} (opposite of Higham/Glueck (z I - H)^{-1})."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "HISTORICAL_DIAGNOSTIC: mp-resolvent-dd-01 with renamed symbols H, x, y and opposite resolvent convention",
+      "ac-r01-resolvent-hilbert-identity is the same identity"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "none — negative control; renamed AC DEV",
+  "why_not_cse_lgg": "Algebraic rearrangement is not the defect; the case is a renamed old DEV identity.",
+  "proposer_leak_risk": "low if names are hidden; still HISTORICAL_DIAGNOSTIC",
+  "notes": "Same identity as mp-resolvent-dd-01 and ac-r01-resolvent-hilbert-identity: renamed symbols and opposite resolvent convention. Forbidden as headline DEV/TEST.",
+  "historical_parent": "mp-resolvent-dd-01",
+  "historical_ids": [
+    "mp-resolvent-dd-01",
+    "ac-r01-resolvent-hilbert-identity"
+  ],
+  "grammar_bait": false,
+  "synthetic": false,
+  "rejected": true,
+  "reject_reason": "RENAMED_OLD_DEV_TEST",
+  "reject_reasons": ["RENAMED_OLD_DEV_TEST"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": false,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

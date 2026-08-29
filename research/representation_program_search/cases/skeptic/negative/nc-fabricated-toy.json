@@ -1,0 +1,48 @@
+{
+  "case_id": "nc-fabricated-toy",
+  "title": "Cubic polynomial submitted as a thermal Green function",
+  "domain": "thermal",
+  "expression_sketch": "K(x) = x**3 + 2*x + 1, claimed as a Matsubara kernel",
+  "latent_structure": "a generating polynomial with no scientific members",
+  "proposed_ladder": "R2_newton_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "x": {"real": true}
+    },
+    "function_domains": {
+      "K": "claimed thermal kernel"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": ["K"],
+    "analytic_domains": [
+      {
+        "statement": "x real",
+        "label": "DECLARED",
+        "source": "symbols"
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "negative-control construction; fabrication is the point"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "none — negative control",
+  "why_not_cse_lgg": "Polynomial shape is not the defect; there is no scientific source.",
+  "proposer_leak_risk": "none",
+  "notes": "Author-constructed toy polynomial disguised as a thermal Green function. Fabricated to look like physics; no paper.",
+  "historical_parent": "",
+  "grammar_bait": false,
+  "synthetic": true,
+  "license": "author-constructed",
+  "rejected": true,
+  "reject_reason": "FABRICATED_TOY",
+  "reject_reasons": ["FABRICATED_TOY"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": false,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

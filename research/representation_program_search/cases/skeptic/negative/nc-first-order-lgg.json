@@ -1,0 +1,48 @@
+{
+  "case_id": "nc-first-order-lgg",
+  "title": "Two shifted evaluations as a parameterized family",
+  "domain": "response",
+  "expression_sketch": "Catalog members: A0 = f(x), A1 = f(x+a).",
+  "latent_structure": "first-order LGG / least-general generalization of f(x), f(x+a) with a substitution hole",
+  "proposed_ladder": "R1_parameterized_family",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "x": {"complex": true},
+      "a": {"complex": true}
+    },
+    "function_domains": {
+      "f": "univariate placeholder"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "f entire",
+        "label": "DECLARED",
+        "source": "sketch"
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "negative-control construction; first-order LGG is the point"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "none — negative control",
+  "why_not_cse_lgg": "Frozen LGG already solves this class; beyond-LGG exists because LGG is not invention.",
+  "proposer_leak_risk": "none",
+  "notes": "Negative control: first-order LGG-only. Closed by efc0924, not an R3+ search case.",
+  "historical_parent": "",
+  "grammar_bait": false,
+  "synthetic": false,
+  "rejected": true,
+  "reject_reason": "FIRST_ORDER_LGG_ONLY",
+  "reject_reasons": ["FIRST_ORDER_LGG_ONLY"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": false,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

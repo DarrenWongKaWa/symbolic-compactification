@@ -1,0 +1,54 @@
+{
+  "case_id": "nc-leaked-hermite-sketch",
+  "title": "Gold HERMITE_DD named in the proposer-visible sketch",
+  "domain": "matrix",
+  "expression_sketch": "Recover every catalog member by HERMITE_DD(F, NODES[x, x, y]); the gold program is VALUE plus Hermite interpolant on the repeated-node object. Target representation type: hermite_divided_difference.",
+  "latent_structure": "Coincident-node interpolant of a scalar jet at a twice and b once.",
+  "proposed_ladder": "R3_hermite_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "x": {"complex": true},
+      "y": {"complex": true}
+    },
+    "function_domains": {
+      "F": "scalar function with values and first derivative at x, value at y"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "x != y",
+        "label": "DECLARED",
+        "source": "sketch"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "F holomorphic in a disk containing x and y",
+        "label": "DECLARED",
+        "source": "notes"
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "negative-control construction; leak is the point"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "none — negative control",
+  "why_not_cse_lgg": "Leak of HERMITE_DD / Hermite interpolant / gold program in the sketch is the defect.",
+  "proposer_leak_risk": "certain",
+  "notes": "Negative control: syntax revealing target. Heuristic must not see HERMITE_DD, gold program, or target representation type.",
+  "historical_parent": "",
+  "grammar_bait": false,
+  "synthetic": false,
+  "rejected": true,
+  "reject_reason": "SYNTAX_REVEALS_TARGET",
+  "reject_reasons": ["SYNTAX_REVEALS_TARGET"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": false,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

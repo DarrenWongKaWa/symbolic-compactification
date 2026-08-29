@@ -1,0 +1,45 @@
+{
+  "case_id": "nc-unverifiable-domain",
+  "title": "Contour integral whose disk and source are missing",
+  "domain": "response",
+  "expression_sketch": "Integral(f(z) / (z - a), z) on an unspecified contour",
+  "latent_structure": "Cauchy integral of a meromorphic density",
+  "proposed_ladder": "R5_special_function",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "a": {"complex": true}
+    },
+    "function_domains": {
+      "f": "claimed meromorphic"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "a is not a pole of f",
+        "label": "NOT_DECLARED",
+        "source": ""
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [],
+    "derived_conditions": []
+  },
+  "public_source": "",
+  "why_not_cse_lgg": "Special-function shape is not the issue; the domain cannot be checked.",
+  "proposer_leak_risk": "low",
+  "notes": "Negative control: empty source_provenance and analytic_domains labeled NOT_DECLARED is unverifiable domain / PROBLEM_UNDERSPECIFIED.",
+  "historical_parent": "",
+  "grammar_bait": false,
+  "synthetic": false,
+  "rejected": true,
+  "reject_reason": "UNVERIFIABLE_DOMAIN",
+  "reject_reasons": ["UNVERIFIABLE_DOMAIN"],
+  "admitted": false,
+  "split": "negative",
+  "is_guo": false,
+  "contracts_sha": "5321eaa",
+  "owner": "C6 skeptic"
+}

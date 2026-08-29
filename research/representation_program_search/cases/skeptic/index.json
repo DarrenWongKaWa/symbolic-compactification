@@ -1,0 +1,91 @@
+{
+  "owner": "C6 skeptic",
+  "contracts_sha": "5321eaa",
+  "method_version": "rps-1",
+  "parent": "0cdde49",
+  "admitted": false,
+  "must_reject": true,
+  "is_guo": false,
+  "split": "negative",
+  "search_implemented": false,
+  "positive_cases": false,
+  "taxonomy_file": "REJECTION_TAXONOMY.md",
+  "taxonomy": [
+    "RENAMED_OLD_DEV_TEST",
+    "SYNTAX_REVEALS_TARGET",
+    "TRIVIAL_CSE",
+    "FIRST_ORDER_LGG_ONLY",
+    "UNVERIFIABLE_DOMAIN",
+    "FABRICATED_TOY",
+    "GRAMMAR_BAIT",
+    "GUO_SEALED"
+  ],
+  "count": 8,
+  "dossiers": [
+    {
+      "case_id": "nc-renamed-resolvent",
+      "title": "Two-point Loewner kernel of a generator (claimed fresh)",
+      "json": "negative/nc-renamed-resolvent.json",
+      "reject_reason": "RENAMED_OLD_DEV_TEST",
+      "historical_parent": "mp-resolvent-dd-01",
+      "admitted": false,
+      "is_guo": false
+    },
+    {
+      "case_id": "nc-leaked-hermite-sketch",
+      "title": "Gold HERMITE_DD named in the proposer-visible sketch",
+      "json": "negative/nc-leaked-hermite-sketch.json",
+      "reject_reason": "SYNTAX_REVEALS_TARGET",
+      "admitted": false,
+      "is_guo": false
+    },
+    {
+      "case_id": "nc-trivial-cse",
+      "title": "Repeated susceptibility written twice",
+      "json": "negative/nc-trivial-cse.json",
+      "reject_reason": "TRIVIAL_CSE",
+      "admitted": false,
+      "is_guo": false
+    },
+    {
+      "case_id": "nc-grammar-bait-hermite",
+      "title": "Coincident-node interpolant of a scalar jet",
+      "json": "negative/nc-grammar-bait-hermite.json",
+      "reject_reason": "GRAMMAR_BAIT",
+      "admitted": false,
+      "is_guo": false
+    },
+    {
+      "case_id": "nc-guo-sigma-abc",
+      "title": "Guo sigma_abc as representation-program-search DEV",
+      "json": "negative/nc-guo-sigma-abc.json",
+      "reject_reason": "GUO_SEALED",
+      "admitted": false,
+      "is_guo": true
+    },
+    {
+      "case_id": "nc-first-order-lgg",
+      "title": "Two shifted evaluations as a parameterized family",
+      "json": "negative/nc-first-order-lgg.json",
+      "reject_reason": "FIRST_ORDER_LGG_ONLY",
+      "admitted": false,
+      "is_guo": false
+    },
+    {
+      "case_id": "nc-unverifiable-domain",
+      "title": "Contour integral whose disk and source are missing",
+      "json": "negative/nc-unverifiable-domain.json",
+      "reject_reason": "UNVERIFIABLE_DOMAIN",
+      "admitted": false,
+      "is_guo": false
+    },
+    {
+      "case_id": "nc-fabricated-toy",
+      "title": "Cubic polynomial submitted as a thermal Green function",
+      "json": "negative/nc-fabricated-toy.json",
+      "reject_reason": "FABRICATED_TOY",
+      "admitted": false,
+      "is_guo": false
+    }
+  ]
+}
