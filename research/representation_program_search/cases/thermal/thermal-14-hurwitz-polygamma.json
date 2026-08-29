@@ -1,0 +1,85 @@
+{
+  "case_id": "thermal-14-hurwitz-polygamma",
+  "title": "Hurwitz zeta as polygamma master: zeta(n+1, a) = (-1)^{n+1} psi^{(n)}(a) / n!",
+  "domain": "thermal",
+  "expression_sketch": "zeta(n + 1, a) - (-1)**(n + 1) * polygamma(n, a) / factorial(n)  ==  0",
+  "latent_structure": "One meromorphic master (Hurwitz zeta in the a-plane, or equivalently polygamma) generates the whole tower of thermal pole sums of order n+1. The identity is the special-value bridge 25.11.12, not the trigamma series 5.15.1 (which is the n=1 expansion of the same master). Reconstruction: scale by n! and a sign.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "a": {
+        "real": null,
+        "integer": false,
+        "positive": null,
+        "nonzero": null,
+        "complex": true
+      },
+      "n": {
+        "real": true,
+        "integer": true,
+        "positive": true,
+        "nonzero": true
+      }
+    },
+    "function_domains": {
+      "zeta": "Hurwitz zeta zeta(s,a): series for Re s>1 and a != 0,-1,-2,... (DLMF 25.11.1); meromorphic continuation in s with only a simple pole at s=1; analytic in Re a>0 at fixed s != 1",
+      "polygamma": "psi^{(n)} meromorphic; poles of order n+1 at nonpositive integers (DLMF 5.15)"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "n = 1,2,3,... (so n! != 0 and s=n+1 != 1)",
+        "label": "DECLARED",
+        "source": "DLMF 25.11.12: n=1,2,3,..."
+      }
+    ],
+    "positivity_conditions": [
+      {
+        "statement": "Re a > 0",
+        "label": "DECLARED",
+        "source": "DLMF 25.11(v): 'Throughout this subsection Re a > 0'"
+      }
+    ],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "Re a > 0",
+        "label": "DECLARED",
+        "source": "DLMF 25.11.12 lives in 25.11(v) with the written half-plane"
+      },
+      {
+        "statement": "a is not a nonpositive integer",
+        "label": "DERIVED",
+        "source": "nonpositive integers have Re a <= 0; also DLMF 25.11.1 series condition a != 0,-1,-2,..."
+      },
+      {
+        "statement": "the s-argument n+1 is not the Hurwitz pole s=1",
+        "label": "DERIVED",
+        "source": "n>=1 implies n+1>=2"
+      }
+    ],
+    "branch_conventions": [
+      "principal factorial n! for positive integers; no extra branch of zeta(s,a) on Re a>0, s=n+1>=2"
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "NIST DLMF 25.11.12 https://dlmf.nist.gov/25.11.E12",
+      "NIST DLMF 25.11(v) https://dlmf.nist.gov/25.11.v",
+      "NIST DLMF 25.11.1 https://dlmf.nist.gov/25.11.E1",
+      "Erdelyi et al. HTF I (1.11.8)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "n! is a positive integer",
+        "label": "DERIVED",
+        "source": "n=1,2,3,... written on 25.11.12"
+      }
+    ]
+  },
+  "public_source": "NIST DLMF 25.11.12 (https://dlmf.nist.gov/25.11.E12)",
+  "why_not_cse_lgg": "Hurwitz zeta and polygamma are different named heads. CSE cannot identify zeta(n+1,a) with a scaled psi^{(n)}(a). The latent is a single master with an n-family of reconstructions, not a local rewrite.",
+  "proposer_leak_risk": "Source names zeta and psi^{(n)}. Do not leak 'Hurwitz master', 'thermal pole tower', or 'same as 5.15.1' in proposer context. Keep the two-head residual only.",
+  "notes": "zeta and polygamma are both special functions; n=1 is psi'(a)=zeta(2,a), which is equivalent to summing 5.15.1 only after using 25.11.1. The packaged identity here is the master bridge with Re a>0 written, not the trigamma series. Distinct from thermal-05 and thermal-06.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

@@ -1,0 +1,88 @@
+{
+  "owner": "C2 thermal / special",
+  "parent": "5321eaa",
+  "count": 8,
+  "is_guo": false,
+  "domain": "thermal",
+  "excluded_historical": [
+    "thermal-01-fermi-im-digamma",
+    "thermal-02-bose-im-digamma",
+    "thermal-03-digamma-reflection",
+    "thermal-04-coth-matsubara",
+    "thermal-05-trigamma-double-pole",
+    "thermal-06-fermi-dirac-polylog",
+    "thermal-07-green-spectral-hilbert",
+    "thermal-08-matsubara-newton-dd-underspecified",
+    "DLMF 5.4.16",
+    "DLMF 5.4.17",
+    "DLMF 5.15.1",
+    "DLMF 4.36.3",
+    "DLMF 25.12.14-16"
+  ],
+  "dossiers": [
+    {
+      "case_id": "thermal-09-digamma-recurrence",
+      "title": "Digamma recurrence: psi(z+1) = psi(z) + 1/z",
+      "domain": "thermal",
+      "proposed_ladder": "R2_newton_dd",
+      "public_source": "NIST DLMF 5.5.2 (https://dlmf.nist.gov/5.5.E2); A&S 6.3.5",
+      "json": "thermal-09-digamma-recurrence.json"
+    },
+    {
+      "case_id": "thermal-10-polygamma-recurrence",
+      "title": "Polygamma recurrence: psi^{(n)}(z+1) = psi^{(n)}(z) + (-1)^n n! z^{-n-1}",
+      "domain": "thermal",
+      "proposed_ladder": "R3_hermite_dd",
+      "public_source": "NIST DLMF 5.15.5 (https://dlmf.nist.gov/5.15.E5); A&S 6.4.6",
+      "json": "thermal-10-polygamma-recurrence.json"
+    },
+    {
+      "case_id": "thermal-11-gauss-multiplication-psi",
+      "title": "Gauss multiplication for digamma: psi(n z) = (1/n) Sum_{k=0}^{n-1} psi(z+k/n) + ln n",
+      "domain": "thermal",
+      "proposed_ladder": "R7_master_library",
+      "public_source": "NIST DLMF 5.5.9 (https://dlmf.nist.gov/5.5.E9); domain line at 5.5.6 / 5.5(iii)",
+      "json": "thermal-11-gauss-multiplication-psi.json"
+    },
+    {
+      "case_id": "thermal-12-bose-kernel-integral",
+      "title": "Digamma as Bose kernel integral: psi(z) = Integral (e^{-t}/t - e^{-z t}/(1-e^{-t})) dt, Re z>0",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function",
+      "public_source": "NIST DLMF 5.9.12 (https://dlmf.nist.gov/5.9.E12); A&S 6.3.21",
+      "json": "thermal-12-bose-kernel-integral.json"
+    },
+    {
+      "case_id": "thermal-13-alternating-fermi-series",
+      "title": "Alternating Fermi series: psi((z+1)/2) - psi(z/2) = 2 Sum_{k=0}^oo (-1)^k/(k+z)",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function",
+      "public_source": "NIST DLMF 5.7.7 (https://dlmf.nist.gov/5.7.E7)",
+      "json": "thermal-13-alternating-fermi-series.json"
+    },
+    {
+      "case_id": "thermal-14-hurwitz-polygamma",
+      "title": "Hurwitz zeta as polygamma master: zeta(n+1, a) = (-1)^{n+1} psi^{(n)}(a) / n!",
+      "domain": "thermal",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "NIST DLMF 25.11.12 (https://dlmf.nist.gov/25.11.E12)",
+      "json": "thermal-14-hurwitz-polygamma.json"
+    },
+    {
+      "case_id": "thermal-15-theta-modular-heat",
+      "title": "Jacobi theta modular inversion: heat kernel T <-> 1/T duality",
+      "domain": "thermal",
+      "proposed_ladder": "R8_invariant_generator",
+      "public_source": "NIST DLMF 20.7.32 (https://dlmf.nist.gov/20.7.E32); heat-kernel reading DLMF 20.13.4",
+      "json": "thermal-15-theta-modular-heat.json"
+    },
+    {
+      "case_id": "thermal-16-gamma-cosh-modulus",
+      "title": "Fermi sech modulus: |Gamma(1/2 + i y)|^2 = pi / cosh(pi y)",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function",
+      "public_source": "NIST DLMF 5.4.4 (https://dlmf.nist.gov/5.4.E4); A&S 6.1.30",
+      "json": "thermal-16-gamma-cosh-modulus.json"
+    }
+  ]
+}

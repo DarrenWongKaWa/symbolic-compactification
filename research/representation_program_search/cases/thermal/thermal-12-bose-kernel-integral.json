@@ -1,0 +1,79 @@
+{
+  "case_id": "thermal-12-bose-kernel-integral",
+  "title": "Digamma as Bose kernel integral: psi(z) = Integral (e^{-t}/t - e^{-z t}/(1-e^{-t})) dt, Re z>0",
+  "domain": "thermal",
+  "expression_sketch": "polygamma(0, z) - Integral(exp(-t)/t - exp(-z*t)/(1 - exp(-t)), (t, 0, oo))  ==  0",
+  "latent_structure": "The Bose occupation kernel 1/(1-e^{-t}) is the integral master for psi on Re z>0. The combination e^{-t}/t - e^{-z t}/(1-e^{-t}) is integrable at t=0 (removable). This is the thermal generating representation of digamma, not a series of poles and not the Im-psi hyperbolic identities.",
+  "proposed_ladder": "R5_special_function",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "z": {
+        "real": null,
+        "integer": false,
+        "positive": null,
+        "nonzero": null,
+        "complex": true
+      },
+      "t": {
+        "real": true,
+        "integer": false,
+        "positive": true,
+        "nonzero": true
+      }
+    },
+    "function_domains": {
+      "polygamma": "psi meromorphic; poles at nonpositive integers (DLMF 5.2.2); on Re z>0 those poles are absent",
+      "exp": "entire"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [
+      {
+        "statement": "Re z > 0",
+        "label": "DECLARED",
+        "source": "DLMF 5.9(ii): 'For Re z > 0' immediately before 5.9.12"
+      }
+    ],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "Re z > 0",
+        "label": "DECLARED",
+        "source": "DLMF 5.9.12 domain line at 5.9(ii)"
+      },
+      {
+        "statement": "z is not a nonpositive integer",
+        "label": "DERIVED",
+        "source": "nonpositive integers have Re z <= 0, excluded by Re z>0"
+      }
+    ],
+    "branch_conventions": [
+      "the integrand is the continuous limit at t=0 of the written combination (removable singularity of 1/(1-e^{-t}))"
+    ],
+    "limit_domains": [
+      {
+        "statement": "t-integration is along (0, oo)",
+        "label": "DECLARED",
+        "source": "DLMF 5.9.12 Integral from 0 to infinity"
+      }
+    ],
+    "source_provenance": [
+      "NIST DLMF 5.9.12 https://dlmf.nist.gov/5.9.E12",
+      "NIST DLMF 5.9(ii) https://dlmf.nist.gov/5.9.ii",
+      "A&S 6.3.21"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "1-exp(-t) != 0 for t>0",
+        "label": "DERIVED",
+        "source": "exp(-t)=1 iff t=0 for real t; t=0 is an endpoint, not an interior pole"
+      }
+    ]
+  },
+  "public_source": "NIST DLMF 5.9.12 (https://dlmf.nist.gov/5.9.E12); A&S 6.3.21",
+  "why_not_cse_lgg": "An integral against the Bose factor 1/(1-e^{-t}) is a named special-function representation of psi, not a common subexpression. LGG does not invent that kernel.",
+  "proposer_leak_risk": "Source writes the integral and psi. Do not leak 'Bose occupation', 'Matsubara generating integral', or 'thermal master kernel' as gold names.",
+  "notes": "Integral is not in PARSE_POLICY; this is a representation identity. Distinct from thermal-06 (Fermi-Dirac polylog 25.12.14-16) and from thermal-02 (Im psi = coth). T>0 is not imported: the source is Re z>0.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
