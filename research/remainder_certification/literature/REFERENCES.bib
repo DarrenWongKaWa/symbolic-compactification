@@ -1,0 +1,372 @@
+% Remainder-certification literature pack (2026-08-29).
+% Compactification proposer-verifier bib: research/literature/references.bib
+% Track V bib: research/scalable_verification/literature/REFERENCES.bib
+% Track V3 bib: research/iterated_confluence/literature/REFERENCES.bib
+% Track V5 bib: research/coefficient_laurent/literature/REFERENCES.bib
+% Taylor remainder, Cauchy estimates, and polygamma poles are
+% standard mathematics, not remainder-line novelty.
+
+% --- Taylor remainder / Cauchy estimates (not novelty) ---
+
+@book{taylor1715methodus,
+  author = {Taylor, Brook},
+  title = {Methodus Incrementorum Directa et Inversa},
+  publisher = {Innys},
+  address = {London},
+  year = {1715},
+  note = {Real finite-difference origin of Taylor polynomials. Not a holomorphic remainder theorem. Not novelty}
+}
+
+@book{lagrange1797theorie,
+  author = {Lagrange, Joseph-Louis},
+  title = {Th{\'e}orie des fonctions analytiques},
+  publisher = {Imprimerie de la R{\'e}publique},
+  address = {Paris},
+  year = {1797},
+  note = {Lagrange form of the real Taylor remainder. Wrong primary object when poles may lie off a real path. Not novelty}
+}
+
+@book{cauchy1821cours,
+  author = {Cauchy, Augustin-Louis},
+  title = {Cours d'analyse de l'{\'E}cole Royale Polytechnique},
+  publisher = {Debure},
+  address = {Paris},
+  year = {1821},
+  note = {Foundational real/complex analysis. Integral formula and estimates are the textbook source of holomorphic remainder bounds. Not novelty}
+}
+
+@book{ahlfors1979complex,
+  author = {Ahlfors, Lars V.},
+  title = {Complex Analysis},
+  edition = {3},
+  publisher = {McGraw-Hill},
+  year = {1979},
+  note = {Textbook Cauchy integral formula, Taylor/Laurent series, Cauchy estimates, Riemann removable singularities. Not novelty}
+}
+
+@book{conway1978functions,
+  author = {Conway, John B.},
+  title = {Functions of One Complex Variable},
+  edition = {2},
+  publisher = {Springer},
+  year = {1978},
+  note = {Textbook holomorphic Taylor remainder and isolated singularities}
+}
+
+@book{rudin1987rca,
+  author = {Rudin, Walter},
+  title = {Real and Complex Analysis},
+  edition = {3},
+  publisher = {McGraw-Hill},
+  year = {1987},
+  note = {Textbook residues, holomorphic continuation, Cauchy estimates}
+}
+
+@article{laurent1843cr,
+  author = {Laurent, Pierre Alphonse},
+  title = {Extension du th{\'e}or{\`e}me de {M} {Cauchy} relatif {\`a} la convergence du d{\'e}veloppement d'une fonction suivant les puissances ascendantes de la variable},
+  journal = {Comptes rendus hebdomadaires des s{\'e}ances de l'Acad{\'e}mie des sciences},
+  volume = {17},
+  pages = {348--349},
+  year = {1843},
+  note = {Announcement; Cauchy's report of the memoir is CR 17 (1843) 938--940. Laurent series, not remainder novelty}
+}
+
+@phdthesis{riemann1851grundlagen,
+  author = {Riemann, Bernhard},
+  title = {Grundlagen f{\"u}r eine allgemeine Theorie der Functionen einer ver{\"a}nderlichen complexen Gr{\"o}sse},
+  school = {Universit{\"a}t G{\"o}ttingen},
+  year = {1851},
+  note = {Removable singularities in one complex variable. Inherited from Track V3/V5; not remainder novelty}
+}
+
+@article{hartogs1906,
+  author = {Hartogs, Fritz},
+  title = {Zur {T}heorie der analytischen {F}unktionen mehrerer unabh{\"a}ngiger {V}er{\"a}nderlichen, insbesondere {\"u}ber die {D}arstellung derselben durch {R}eihen, welche nach {P}otenzen einer {V}er{\"a}nderlichen fortschreiten},
+  journal = {Mathematische Annalen},
+  volume = {62},
+  pages = {1--88},
+  year = {1906},
+  note = {Hartogs extension: isolated singularities in C^n, n>=2, are removable for holomorphic functions. Wrong object for real Piecewise polygamma; do not cite to skip polar checks}
+}
+
+% --- polygamma (not novelty) ---
+
+@incollection{dlmf515,
+  author = {Askey, Richard A. and Roy, Ranjan},
+  title = {Polygamma Functions},
+  booktitle = {{NIST} Handbook of Mathematical Functions},
+  editor = {Olver, Frank W. J. and Lozier, Daniel W. and Boisvert, Ronald F. and Clark, Charles W.},
+  publisher = {Cambridge University Press},
+  year = {2010},
+  note = {{DLMF} Chapter 5, \S5.15 (https://dlmf.nist.gov/5.15). Derivative identity, recurrence, polar behaviour, large-z asymptotics. Not remainder-line novelty}
+}
+
+@incollection{dlmf52,
+  author = {Askey, Richard A. and Roy, Ranjan},
+  title = {Gamma Function: Definitions},
+  booktitle = {{NIST} Handbook of Mathematical Functions},
+  editor = {Olver, Frank W. J. and Lozier, Daniel W. and Boisvert, Ronald F. and Clark, Charles W.},
+  publisher = {Cambridge University Press},
+  year = {2010},
+  note = {{DLMF} \S5.2 psi/digamma; poles of gamma at nonpositive integers. Not novelty}
+}
+
+@book{abramowitz1964handbook,
+  author = {Abramowitz, Milton and Stegun, Irene A.},
+  title = {Handbook of Mathematical Functions},
+  publisher = {National Bureau of Standards},
+  year = {1964},
+  note = {Chapter 6 / \S6.4.1: polygamma poles of order n+1 at nonpositive integers. Not novelty}
+}
+
+@book{nielsen1906gamma,
+  author = {Nielsen, Niels},
+  title = {Handbuch der {T}heorie der {G}ammafunktion},
+  publisher = {Teubner},
+  year = {1906},
+  note = {Classical gamma/psi handbook cited by DLMF Ch.~5}
+}
+
+@book{whittaker1927modern,
+  author = {Whittaker, E. T. and Watson, G. N.},
+  title = {A Course of Modern Analysis},
+  edition = {4},
+  publisher = {Cambridge University Press},
+  year = {1927},
+  note = {Classical gamma-function chapter}
+}
+
+% --- CAS series / symbolic asymptotics (not novelty) ---
+
+@phdthesis{gruntz1996limits,
+  author = {Gruntz, Dominik},
+  title = {On Computing Limits in a Symbolic Manipulation System},
+  school = {{ETH} Z{\"u}rich},
+  year = {1996},
+  type = {Diss. {ETH} No. 11432},
+  doi = {10.3929/ethz-a-001631582},
+  note = {Hierarchical MRV series. Complete for a stated exp-log class, not for arbitrary polygamma kernels. O token is not a remainder certificate}
+}
+
+@inproceedings{gonnet1988limits,
+  author = {Gonnet, Gaston H. and Gruntz, Dominik},
+  title = {A New Algorithm for Computing Symbolic Limits Using Hierarchical Series},
+  booktitle = {Symbolic and Algebraic Computation ({ISSAC} '88)},
+  series = {Lecture Notes in Computer Science},
+  volume = {358},
+  pages = {490--495},
+  year = {1988},
+  doi = {10.1007/3-540-51084-2_47}
+}
+
+@article{shackell1990growth,
+  author = {Shackell, John},
+  title = {Growth Estimates for Exp-Log Functions},
+  journal = {Journal of Symbolic Computation},
+  volume = {10},
+  pages = {611--632},
+  year = {1990},
+  note = {Asymptotics of exp-log functions; analytic neighbor of Gruntz}
+}
+
+@book{geddes1992algorithms,
+  author = {Geddes, Keith O. and Czapor, Stephen R. and Labahn, George},
+  title = {Algorithms for Computer Algebra},
+  publisher = {Kluwer Academic Publishers},
+  year = {1992},
+  doi = {10.1007/b102438},
+  note = {Ch.~2--4: polynomial, rational, and power-series arithmetic, including truncated series. Not remainder-line novelty}
+}
+
+@book{knuth1997taocp2,
+  author = {Knuth, Donald E.},
+  title = {The Art of Computer Programming, Volume 2: Seminumerical Algorithms},
+  edition = {3},
+  publisher = {Addison-Wesley},
+  year = {1997},
+  note = {Power-series manipulation as a standard algorithm. Not novelty}
+}
+
+@article{davenport2002equality,
+  author = {Davenport, James H.},
+  title = {Equality in Computer Algebra and Beyond},
+  journal = {Journal of Symbolic Computation},
+  volume = {34},
+  number = {4},
+  pages = {259--270},
+  year = {2002},
+  note = {CAS equality is engine semantics, not a complete theory. Aligns with CERTIFICATION_SCOPE.md}
+}
+
+@article{richardson1968undecidable,
+  author = {Richardson, Daniel},
+  title = {Some Undecidable Problems Involving Elementary Functions of a Real Variable},
+  journal = {The Journal of Symbolic Logic},
+  volume = {33},
+  number = {4},
+  pages = {514--520},
+  year = {1968},
+  doi = {10.2307/2271358}
+}
+
+% --- interval / ball arithmetic / numeric certified series (not novelty) ---
+
+@book{moore1966interval,
+  author = {Moore, Ramon E.},
+  title = {Interval Analysis},
+  publisher = {Prentice-Hall},
+  year = {1966},
+  note = {Foundational interval arithmetic. Range enclosure on numeric boxes, not symbolic affine remainder certificates}
+}
+
+@book{moore2009introduction,
+  author = {Moore, Ramon E. and Kearfott, R. Baker and Cloud, Michael J.},
+  title = {Introduction to Interval Analysis},
+  publisher = {{SIAM}},
+  year = {2009},
+  doi = {10.1137/1.9780898717716}
+}
+
+@unpublished{vanderhoeven2009ball,
+  author = {van der Hoeven, Joris},
+  title = {Ball arithmetic},
+  year = {2009},
+  note = {HAL 00432152. Midpoint-radius arithmetic; serial balls; Cauchy tail bounds on a numeric disk. Mathemagix. Not a symbolic-\(\alpha\) remainder certificate},
+  url = {https://hal.science/hal-00432152}
+}
+
+@article{johansson2017arb,
+  author = {Johansson, Fredrik},
+  title = {Arb: Efficient Arbitrary-Precision Midpoint-Radius Interval Arithmetic},
+  journal = {{IEEE} Transactions on Computers},
+  volume = {66},
+  number = {8},
+  pages = {1281--1292},
+  year = {2017},
+  doi = {10.1109/TC.2017.2690633},
+  note = {Complex balls; power series; gamma/polygamma/Hurwitz zeta with rigorous numeric error bounds. Wrong object for symbolic affine \(\alpha_0\)}
+}
+
+@article{makino2003taylor,
+  author = {Makino, Kyoko and Berz, Martin},
+  title = {Taylor Models and Other Validated Functional Inclusion Methods},
+  journal = {International Journal of Pure and Applied Mathematics},
+  volume = {4},
+  number = {4},
+  pages = {379--456},
+  year = {2003},
+  note = {Polynomial plus remainder interval on a real box. COSY Infinity. Wrong primary object for complex meromorphic polygamma with symbolic argument}
+}
+
+@book{tucker2011validated,
+  author = {Tucker, Warwick},
+  title = {Validated Numerics: A Short Introduction to Rigorous Computations},
+  publisher = {Princeton University Press},
+  year = {2011},
+  note = {Survey of interval/validated methods. Not symbolic remainder certificates}
+}
+
+% --- holonomic / D-finite (standard CAS; wrong object for polygamma in z) ---
+
+@article{stanley1980dfinite,
+  author = {Stanley, Richard P.},
+  title = {Differentially Finite Generating Functions},
+  journal = {European Journal of Combinatorics},
+  volume = {1},
+  number = {2},
+  pages = {175--188},
+  year = {1980},
+  doi = {10.1016/S0195-6698(80)80051-5},
+  note = {D-finite germs have finitely many singularities. Polygamma(n,z) has infinitely many poles, hence is not D-finite in z}
+}
+
+@article{zeilberger1990holonomic,
+  author = {Zeilberger, Doron},
+  title = {A Holonomic Systems Approach to Special Functions Identities},
+  journal = {Journal of Computational and Applied Mathematics},
+  volume = {32},
+  number = {3},
+  pages = {321--368},
+  year = {1990},
+  note = {Holonomic certificates for identities. Wrong object for Taylor remainder of polygamma(k, alpha_0+c t)}
+}
+
+@article{salvy1994gfun,
+  author = {Salvy, Bruno and Zimmermann, Paul},
+  title = {{GFUN}: A {Maple} Package for the Manipulation of Generating and Holonomic Functions in One Variable},
+  journal = {{ACM} Transactions on Mathematical Software},
+  volume = {20},
+  number = {2},
+  pages = {163--177},
+  year = {1994},
+  note = {Generating-function / holonomic series package. Wrong object for Guo Piecewise polygamma}
+}
+
+@inproceedings{mezzarobba2010numgfun,
+  author = {Mezzarobba, Marc},
+  title = {{NumGfun}: a Package for Numerical and Analytic Computation with {D}-finite Functions},
+  booktitle = {Proceedings of the 2010 International Symposium on Symbolic and Algebraic Computation ({ISSAC})},
+  pages = {139--146},
+  year = {2010},
+  doi = {10.1145/1837934.1837965},
+  note = {D-finite evaluation and bounds. Relevant to generic entire/rational controls; wrong object for polygamma in z}
+}
+
+@article{mezzarobba2019truncation,
+  author = {Mezzarobba, Marc},
+  title = {Truncation Bounds for Differentially Finite Series},
+  journal = {Annales Henri Lebesgue},
+  volume = {2},
+  pages = {99--148},
+  year = {2019},
+  doi = {10.5802/ahl.17},
+  note = {Published holonomic tail bounds. Not a polygamma-in-z remainder method}
+}
+
+@article{mezzarobba2010precursive,
+  author = {Mezzarobba, Marc and Salvy, Bruno},
+  title = {Effective Bounds for {P}-Recursive Sequences},
+  journal = {Journal of Symbolic Computation},
+  volume = {45},
+  number = {10},
+  pages = {1075--1096},
+  year = {2010},
+  doi = {10.1016/j.jsc.2010.06.024}
+}
+
+% --- certificates as a slogan (not a new calculus) ---
+
+@article{wilf1990rational,
+  author = {Wilf, Herbert S. and Zeilberger, Doron},
+  title = {Rational Functions Certify Combinatorial Identities},
+  journal = {Journal of the American Mathematical Society},
+  volume = {3},
+  number = {1},
+  pages = {147--158},
+  year = {1990},
+  note = {WZ certificates: right slogan (small witness), wrong object (hypergeometric sums)}
+}
+
+% --- PIT / numerics (forbidden CERTIFIED path) ---
+
+@article{schwartz1980fast,
+  author = {Schwartz, Jacob T.},
+  title = {Fast Probabilistic Algorithms for Verification of Polynomial Identities},
+  journal = {Journal of the {ACM}},
+  volume = {27},
+  number = {4},
+  pages = {701--717},
+  year = {1980},
+  note = {PIT. Must not become a CERTIFIED or hop ZERO path}
+}
+
+% --- formal kernels (textbook analysis encoded; unavailable here) ---
+
+@misc{isabelle-hol-complex-analysis,
+  author = {{Isabelle/HOL}},
+  title = {{HOL-Complex\_Analysis}: {Cauchy}'s Integral Formula},
+  year = {2024},
+  note = {Theory Cauchy_Integral_Formula.thy in the Isabelle library. Formalization of textbook Cauchy/Taylor facts. Not this engine's RemainderCertificate; CERTIFICATION_SCOPE forbids claiming Lean/Isabelle ZERO},
+  url = {https://isabelle.in.tum.de/library/HOL/HOL-Complex_Analysis/Cauchy_Integral_Formula.html}
+}
