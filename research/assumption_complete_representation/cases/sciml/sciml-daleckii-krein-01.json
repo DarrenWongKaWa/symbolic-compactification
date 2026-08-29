@@ -1,0 +1,102 @@
+{
+  "case_id": "sciml-daleckii-krein-01",
+  "title": "Fr\u00e9chet derivative of a primary matrix function as Loewner first divided differences",
+  "domain": "sciml",
+  "expression_sketch": "Let A = Z*diag(lam_1,...,lam_n)*Z**(-1) in C**(n,n) be diagonalizable and let f be C^1 on an open set containing {lam_i}. The Fr\u00e9chet derivative of the primary matrix function at A in direction E is\n  L_f(A, E) = Z * (F o (Z**(-1)*E*Z)) * Z**(-1),\nwhere o is the Hadamard product and F is the Loewner matrix of first divided differences of the scalar germ f:\n  F_ij = (f(lam_i) - f(lam_j))/(lam_i - lam_j)  if lam_i != lam_j,\n  F_ii = f'(lam_i).\nTwo-node scalar members (SymPy-checkable):\n  (f(x) - f(y))/(x - y)     for x != y,\n  f'(x)                     at a repeated node.\nSpecialization f(z) = 1/z on invertible A (0 not in spec(A)):\n  F_ij = -1/(lam_i*lam_j),\n  L_{inv}(A, E) = -A**(-1)*E*A**(-1).\nSpecialization f(z) = exp(z) (entire; no spectral restriction):\n  F_ij = (exp(lam_i) - exp(lam_j))/(lam_i - lam_j),\n  F_ii = exp(lam_i).\n2x2 diagonal probe: A = diag(x, y), E = [[e00, e01], [e10, e11]] gives off-diagonal L_01 = e01*(exp(x)-exp(y))/(x-y) for x != y, and e01*exp(x) when x = y.",
+  "latent_structure": "Hidden Newton divided difference of a scalar germ f, with the diagonal of the Loewner table equal to the confluent (Hermite) node f'(lam_i). The matrix Fr\u00e9chet derivative is not a new function: it is the Hadamard action of that table in an eigenbasis. Master object F is the scalar f; operators are Newton DD (distinct eigenvalues) and Hermite DD (repeated eigenvalues), then a similarity/Hadamard reconstruction. Autodiff of expm/logm/inv/sqrtm in scientific ML is this table, not a numerical fit.",
+  "proposed_ladder": "R3_hermite_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {
+        "integer": true,
+        "positive": true
+      },
+      "lam_i": {
+        "complex": true
+      },
+      "x": {
+        "complex": true
+      },
+      "y": {
+        "complex": true
+      }
+    },
+    "function_domains": {
+      "f": "C^1 on an open set D subset C containing spec(A)",
+      "exp": "entire on C; primary matrix exponential defined on all C**(n,n)",
+      "inv": "z |-> 1/z meromorphic on C, holomorphic on C\\{0}"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "Z is invertible (A is diagonalizable: A = Z D Z**(-1))",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      },
+      {
+        "statement": "lam_i - lam_j != 0 on off-diagonal Loewner entries; the diagonal uses f'",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      },
+      {
+        "statement": "For the inverse specialization, 0 not in spec(A) (A invertible)",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "spec(A) subset D, where f is C^1 on the open set D",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      },
+      {
+        "statement": "For f = exp, D = C (entire); no cut is required",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      },
+      {
+        "statement": "For f(z)=1/z, D = C\\{0} and spec(A) subset D",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      }
+    ],
+    "branch_conventions": [
+      "Primary matrix function via interpolation/Jordan calculus (Higham 2008 Ch. 1); not an entrywise scalar map.",
+      "For a future log specialization, use the principal logarithm with spec(A) in C minus (-oo, 0]; that specialization is not required for the exp/inv members."
+    ],
+    "limit_domains": [
+      {
+        "statement": "Confluent Loewner diagonal F_ii = f'(lam_i) is the limit of (f(lam_i+h)-f(lam_i))/h as h->0 inside D",
+        "label": "DECLARED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      }
+    ],
+    "source_provenance": [
+      "https://doi.org/10.1137/16M1072851",
+      "https://eprints.maths.manchester.ac.uk/2462/1/gendk.pdf",
+      "Higham, Functions of Matrices, SIAM 2008, Chapter 3",
+      "Daleckii and Krein, Amer. Math. Soc. Transl. Ser. 2, 47 (1965), 1-30"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "If A is diagonalizable and 0 not in spec(A), then A is invertible and the inverse specialization is defined",
+        "label": "DERIVED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      },
+      {
+        "statement": "If f is C^1 on D containing spec(A), the first divided difference f[lam_i, lam_j] exists (Newton for i!=j, Hermite for i=j)",
+        "label": "DERIVED",
+        "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3"
+      }
+    ]
+  },
+  "public_source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+  "why_not_cse_lgg": "CSE can share f(lam_i) leaves but will not invent a Loewner table or identify off-diagonal difference quotients with the diagonal derivative as one divided-difference object. LGG anti-unifies first-order syntax; it does not emit Newton/Hermite nodes, Hadamard reconstruction, or the eigenbasis intertwiner. The compact object is L_f(A,E) = Ad_Z (F o Ad_{Z^{-1}} E), which is a representation change, not common-subexpression elimination.",
+  "proposer_leak_risk": "Hide: Daleckii-Krein, Loewner, divided difference, Hermite, Fr\u00e9chet, primary matrix function. Show only expanded component formulae in an eigenbasis (difference quotients plus diagonal f') and the inverse/exp specializations as separate catalog members. Do not print gold names or the reconstruction L_f = Z (F o ...) Z^{-1} in proposer-visible context.",
+  "notes": "SciML role: reverse-mode sensitivity of expm/logm/inv/sqrtm. Catalog sketch: G0001 = (f(x)-f(y))/(x-y); G0002 = f'(x); G0003 = -A**(-1)*E*A**(-1); G0004 = 2x2 diagonal exp off-diagonal. F(z)=f(z). Operators: newton_dd at {x,y}; hermite_dd at {x,x}. Reconstruction: Loewner Hadamard in eigenbasis. SymPy: (1/lam-1/mu)/(lam-mu) + 1/(lam*mu) == 0. Not a numerical Jacobian fit.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

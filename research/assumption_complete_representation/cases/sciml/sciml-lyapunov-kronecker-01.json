@@ -1,0 +1,92 @@
+{
+  "case_id": "sciml-lyapunov-kronecker-01",
+  "title": "Lyapunov/Sylvester solver as Kronecker-sum inversion; Gramian as Van Loan integral",
+  "domain": "sciml",
+  "expression_sketch": "Sylvester equation A*X + X*B = C (A in C**(n,n), B in C**(m,m), X, C in C**(n,m)). Vectorization identity:\n  vec(A*X + X*B) = (kron(I_m, A) + kron(B.T, I_n)) * vec(X).\nReal Lyapunov A*X + X*A.T = Q (Q = Q.T):\n  (kron(I, A) + kron(A, I)) * vec(X) = vec(Q).\nUnique solution iff spec(A) intersect spec(-B) is empty (Lyapunov: lam_i(A) + lam_j(A) != 0 for all i, j).\nIf additionally Re(lam_i(A)) < 0 for all i and Q = Q.T, the unique solution is the Gramian integral\n  X = Integral(exp(t*A)*Q*exp(t*A.T), (t, 0, oo)).\nVan Loan: that integral is a block of the exponential of a block-triangular matrix built from A and Q.\n1x1 SymPy member: 2*a*x = q, x = q/(2*a) for a != 0.\nDifferentiated Lyapunov (sensitivity): dA*X + A*dX + dX*A.T + X*dA.T = dQ, so dX solves another Lyapunov equation with the same Kronecker-sum operator.",
+  "latent_structure": "Master linear operator: the Kronecker sum I\u2297A + A\u2297I (Lyapunov) / I\u2297A + B^T\u2297I (Sylvester). The algebraic solver, the infinite-horizon Gramian integral, the Van Loan block exponential, and the sensitivity equation for dX are four members of that one operator. Autodiff through a Lyapunov/Gramian solver is inversion of the same master, not a new fit.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {
+        "integer": true,
+        "positive": true
+      },
+      "m": {
+        "integer": true,
+        "positive": true
+      },
+      "a": {
+        "complex": true,
+        "nonzero": true
+      },
+      "t": {
+        "real": true
+      }
+    },
+    "function_domains": {
+      "exp": "entire; matrix exponential of any square matrix",
+      "vec": "column-stacking isomorphism C**(n,m) -> C**(n*m)"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "Unique algebraic solution: spec(A) cap spec(-B) = empty (Lyapunov: lam_i(A) + lam_j(A) != 0 for all i,j)",
+        "label": "DECLARED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      },
+      {
+        "statement": "1x1 probe: a != 0, equivalently 2a != 0",
+        "label": "DECLARED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "Kronecker identity is polynomial (entire) in the entries; no cut",
+        "label": "DECLARED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      },
+      {
+        "statement": "Gramian integral representation additionally requires Re(lam_i(A)) < 0 for all i so that ||exp(t A)|| decays and the integral over [0, oo) converges",
+        "label": "DECLARED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      }
+    ],
+    "branch_conventions": [
+      "Real Lyapunov uses A.T; complex Lyapunov uses A.H (conjugate transpose). This dossier uses the real form A X + X A.T = Q unless noted."
+    ],
+    "limit_domains": [
+      {
+        "statement": "Gramian: t from 0 to +oo along the positive real axis; convergence uses Re spec(A) < 0, not a principal-value contour",
+        "label": "DECLARED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      }
+    ],
+    "source_provenance": [
+      "Lancaster, SIAM Review 12 (1970), 544-566",
+      "Horn and Johnson, Topics in Matrix Analysis, Cambridge University Press, 1991, Chapter 4",
+      "https://doi.org/10.1109/TAC.1978.1101743",
+      "Van Loan, IEEE TAC 23 (1978), 395-404"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Re(lam_i(A)) < 0 for all i implies lam_i(A)+lam_j(A) != 0, hence unique algebraic solution",
+        "label": "DERIVED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      },
+      {
+        "statement": "Differentiating A X + X A.T = Q in (A,Q) yields a Lyapunov equation for dX with the same Kronecker-sum operator, provided uniqueness",
+        "label": "DERIVED",
+        "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential"
+      }
+    ]
+  },
+  "public_source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+  "why_not_cse_lgg": "Expanded n^2 scalar equations of A X + X A.T = Q look like a generic linear system. CSE will not pack them as (I\u2297A+A\u2297I) vec(X). LGG will not identify the Gramian integral and the algebraic solver as instances of one Kronecker-sum master, nor see that autodiff of the solver reuses that operator. This is an operator-level representation, not CSE.",
+  "proposer_leak_risk": "Hide: Lyapunov, Sylvester, Kronecker sum, Gramian, Van Loan, vec. Show the expanded 2x2 entrywise linear system and the 1x1 quotient q/(2a) as members. Do not name the Kronecker sum in proposer context.",
+  "notes": "SciML role: differentiable control / covariance / Neural ODE linear sensitivity; autodiff through lyap/sylvester solvers. Catalog: G0001 = 2*a*x - q; G0002 = vec(A*X+X*A.T) - (kron(I,A)+kron(A,I))*vec(X); G0003 = Integral(exp(t*A)*Q*exp(t*A.T),(t,0,oo)). F = Kronecker-sum operator. Not a numerical Lyapunov fit.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
