@@ -30,4 +30,4 @@ PUBLICATION STATUS: F
 
 NEXT AUTO ACTION: stop. Do not start a V2 proposer, parser extension, or Guo rescue automatically.
 
-HEAD SHA: bc06e73
+HEAD SHA: bc7cf38
