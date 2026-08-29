@@ -1,0 +1,62 @@
+{
+  "case_id": "thermal-05-trigamma-double-pole",
+  "title": "Trigamma as summed double poles (higher Matsubara kernel)",
+  "domain": "thermal",
+  "expression_sketch": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))  ==  0",
+  "latent_structure": "psi'(z) is the generating function of double poles at nonpositive integers. This is the n=2 bosonic Matsubara sum and the first polygamma; equivalently Hurwitz zeta: psi'(z) = zeta(2,z). Repeated-node / derivative of the digamma series.",
+  "proposed_ladder": "R5_special_function",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "z": {
+        "real": null,
+        "integer": false,
+        "positive": null,
+        "nonzero": null,
+        "complex": true
+      },
+      "k": {
+        "real": true,
+        "integer": true,
+        "positive": null,
+        "nonzero": null,
+        "nonnegative": true
+      }
+    },
+    "function_domains": {
+      "polygamma": "psi^{(n)} meromorphic; poles of order n+1 at z=0,-1,-2,..."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "z != 0, -1, -2, ...",
+        "label": "DECLARED",
+        "source": "DLMF 5.15.1: z \u2260 0, \u22121, \u22122, \u2026"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "z not a nonpositive integer",
+        "label": "DECLARED",
+        "source": "DLMF 5.15.1 written under the equation"
+      }
+    ],
+    "branch_conventions": [
+      "polygamma(1,z) is the trigamma psi'(z); no branch cut, only poles"
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "NIST DLMF 5.15.1 https://dlmf.nist.gov/5.15.E1",
+      "Wikipedia Polygamma function (corroboration): series holds for integer m>0 and complex z not a negative integer, https://en.wikipedia.org/wiki/Polygamma_function"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "NIST DLMF 5.15.1 (https://dlmf.nist.gov/5.15.E1)",
+  "why_not_cse_lgg": "Infinite sum of 1/(k+z)^2 vs a named special function. CSE cannot perform the zeta-like summation. Hermite/repeated-node reading is available (derivative of digamma) but the source identity is already the summed special function.",
+  "proposer_leak_risk": "polygamma and the pole set appear in the source. Do not leak 'Hurwitz zeta', 'Hermite DD', or 'Matsubara double pole' as gold names.",
+  "notes": "Fully SymPy-writable (polygamma, Sum). Pole exclusion is written on the same equation, unlike folklore T>0 insertions. Wikipedia states the general-m series with the same pole set; primary citation is DLMF.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false,
+  "method_version": "ac-repr-1"
+}

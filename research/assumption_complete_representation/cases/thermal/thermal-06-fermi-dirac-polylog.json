@@ -1,0 +1,101 @@
+{
+  "case_id": "thermal-06-fermi-dirac-polylog",
+  "title": "Fermi-Dirac / Bose-Einstein integrals as polylogarithms",
+  "domain": "thermal",
+  "expression_sketch": "F_s(x) = 1/gamma(s+1) * Integral(t**s / (exp(t-x)+1), (t, 0, oo)) = -polylog(s+1, -exp(x));  G_s(x) = 1/gamma(s+1) * Integral(t**s / (exp(t-x)-1), (t, 0, oo)) = polylog(s+1, exp(x))",
+  "latent_structure": "One-parameter family of Fermi/Bose integrals is the polylogarithm evaluated at \u00b1exp(x). Master object Li_{s+1}. Also the recurrence dF_s/dx = F_{s-1} (Wikipedia complete Fermi-Dirac integral) makes a derivative family. Not CSE of the integrand.",
+  "proposed_ladder": "R1_parameterized_family",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "s": {
+        "real": true,
+        "integer": false,
+        "positive": null,
+        "nonzero": null
+      },
+      "x": {
+        "real": true,
+        "integer": false,
+        "positive": null,
+        "nonzero": null
+      },
+      "t": {
+        "real": true,
+        "integer": false,
+        "positive": true,
+        "nonzero": null
+      }
+    },
+    "function_domains": {
+      "gamma": "Gamma(s+1) for s>-1 so Re(s+1)>0 (DLMF 5.2.1 Euler integral; here s>-1 is written)",
+      "polylog": "Li_s(z)=Sum_{n>=1} z^n/n^s analytic for |z|<1; |z|=1 if Re s>1; otherwise analytic continuation (DLMF 25.12.10 paragraph)",
+      "exp": "entire"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [
+      {
+        "statement": "s > -1 for F_s(x)",
+        "label": "DECLARED",
+        "source": "DLMF 25.12.14: s > \u22121 written under the Fermi-Dirac integral"
+      },
+      {
+        "statement": "s > -1 and x < 0, or s > 0 and x <= 0, for G_s(x)",
+        "label": "DECLARED",
+        "source": "DLMF 25.12.15: s > \u22121, x < 0 ; or s > 0, x \u2264 0"
+      }
+    ],
+    "real_valued_functions": [
+      "F_s",
+      "G_s"
+    ],
+    "analytic_domains": [
+      {
+        "statement": "Fermi-Dirac integral F_s(x) defined for s>-1 (x real)",
+        "label": "DECLARED",
+        "source": "DLMF 25.12.14"
+      },
+      {
+        "statement": "Bose-Einstein integral G_s(x) defined for (s>-1 and x<0) or (s>0 and x<=0)",
+        "label": "DECLARED",
+        "source": "DLMF 25.12.15"
+      },
+      {
+        "statement": "Li_s(z) series for |z|<1, continuation otherwise",
+        "label": "DECLARED",
+        "source": "DLMF 25.12.10 after the series definition"
+      },
+      {
+        "statement": "principal branch of Li: cut on [1,oo) as for Li_2 in 25.12(i); 25.12.16 uses continuation",
+        "label": "DECLARED",
+        "source": "DLMF 25.12.10 analytic continuation sentence; Li_2 cut [1,oo) in 25.12.2"
+      }
+    ],
+    "branch_conventions": [
+      "principal polylog; for F_s, argument -exp(x) in (-oo,0] when x real, off the cut [1,oo)",
+      "for G_s with x<0, exp(x) in (0,1), inside the series disk"
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "NIST DLMF 25.12.14 https://dlmf.nist.gov/25.12.E14",
+      "NIST DLMF 25.12.15 https://dlmf.nist.gov/25.12.E15",
+      "NIST DLMF 25.12.16 https://dlmf.nist.gov/25.12.E16",
+      "NIST DLMF 25.12.10 https://dlmf.nist.gov/25.12.E10",
+      "Wikipedia Complete Fermi-Dirac integral (matches DLMF, j>-1) https://en.wikipedia.org/wiki/Complete_Fermi%E2%80%93Dirac_integral"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Gamma(s+1) has no poles for s>-1",
+        "label": "DERIVED",
+        "source": "Gamma poles at nonpositive integers; s+1>0"
+      }
+    ]
+  },
+  "public_source": "NIST DLMF 25.12.14\u201325.12.16 (https://dlmf.nist.gov/25.12#iii)",
+  "why_not_cse_lgg": "The integral kernel 1/(e^{t-x}\u00b11) is rewritten as a polylog. That is a named special-function family, not a common subexpression. Parameter s makes an R1 family.",
+  "proposer_leak_risk": "Fermi-Dirac / Bose-Einstein / polylog names are in the source title. Proposer context should keep the integral vs Li equality without gold compact names. polylog and Integral are not in PARSE_POLICY; series form Sum((-exp(x))**n / n**(s+1), (n,1,oo)) is writable for x<0.",
+  "notes": "25.12.16 does not restated the (s,x) domain on the equation line; the domains are those of 25.12.14\u201315 plus polylog continuation 25.12.10, same subsection/section. Wikipedia F_0(x)=ln(1+exp(x)) is the s=0 closed form (j>-1 for the integral definition). T>0 is not used.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false,
+  "method_version": "ac-repr-1"
+}
