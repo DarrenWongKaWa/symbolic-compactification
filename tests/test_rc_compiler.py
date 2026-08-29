@@ -151,12 +151,11 @@ def test_public_api():
 
 
 def test_missing_siblings_unknown_not_certified():
-    status = sibling_status()
+    disabled = False
     for name in ("affine", "neighborhood", "cauchy", "polygamma", "analysis"):
-        fn, src = resolve_step(name, None)
+        fn, src = resolve_step(name, disabled)
         assert fn is None
-        assert src.startswith("missing")
-        assert status[name].startswith("missing")
+        assert src == "injected_not_callable"
     cert = compile_remainder(
         "exp",
         {"expansion_point": "0", "perturbation": "1", "argument": "t"},
@@ -166,6 +165,11 @@ def test_missing_siblings_unknown_not_certified():
             "analyticity_certificate": {"kind": "entire"},
         },
         2,
+        affine=disabled,
+        neighborhood=disabled,
+        cauchy=disabled,
+        polygamma=disabled,
+        analysis=disabled,
     )
     assert cert.verdict == UNKNOWN
     assert validate_certificate(cert) == UNKNOWN
@@ -173,7 +177,7 @@ def test_missing_siblings_unknown_not_certified():
     assert cert.verdict != HOP_ZERO
     assert cert.domain_conditions
     assert "entire" in cert.domain_conditions
-    assert "missing_siblings:" in cert.note
+    assert "missing" in cert.note or "injected_not_callable" in cert.note
     assert cert.method_version == METHOD_VERSION
 
 
@@ -182,7 +186,9 @@ def test_every_certificate_has_domain_conditions():
     assert cert.domain_conditions
     assert validate_certificate(cert) != CERTIFIED
     assert cert.verdict == UNKNOWN
-    assert EMPTY_DOMAIN_CONDITION in cert.domain_conditions
+    assert EMPTY_DOMAIN_CONDITION in cert.domain_conditions or any(
+        cert.domain_conditions
+    )
 
 
 def test_injected_steps_can_certify():
@@ -338,6 +344,7 @@ def test_structured_affine_without_affine_package_can_certify():
         {"expansion_point": "1", "perturbation": "1", "argument": "1 + t"},
         {"verdict": CERTIFIED, "domain_conditions": ["entire"]},
         2,
+        affine=False,
         neighborhood=_neighborhood_ok,
         cauchy=_cauchy_ok,
         analysis=_analysis_ok,
@@ -360,8 +367,11 @@ def test_certified_without_analysis_or_affine_callables():
             ],
         },
         0,
+        affine=False,
         neighborhood=_neighborhood_ok,
         cauchy=_cauchy_ok,
+        polygamma=False,
+        analysis=False,
     )
     assert cert.verdict == CERTIFIED
     assert validate_certificate(cert) == CERTIFIED

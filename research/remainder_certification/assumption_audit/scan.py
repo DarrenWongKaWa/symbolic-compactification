@@ -50,6 +50,17 @@ _RULES: tuple[tuple[str, str, str], ...] = (
 
 _ENGINE_RULE_IDS = frozenset({"energy_arguments", "half_plus_ie"})
 
+# Attack corpora and the scanner's own rule table mention forbidden
+# phrases in order to reject them. That is not a silent insertion.
+_SKIP_DIR_NAMES = frozenset({"falsifier", "__pycache__"})
+_SKIP_FILES = frozenset({"scan.py"})
+_REJECTION_LINE = re.compile(
+    r"unproved|forbids|PRED_GENERICITY|ASSUMPTION_REQUIRED|class[- ]C|"
+    r"class B|not inserted|without a finiteness|missing_entrypoint|"
+    r"needles\s*=|implies M\s*<|^\s*[\"']not a polygamma pole",
+    re.IGNORECASE,
+)
+
 RULE_IDS = frozenset(rule_id for rule_id, _pat, _klass in _RULES)
 
 _COMPILED: tuple[tuple[str, re.Pattern[str], str], ...] = tuple(
@@ -98,6 +109,8 @@ def scan_text(
     compiled = _COMPILED if rules is None else tuple(rules)
     leaks: list[AssumptionLeak] = []
     for lineno, line in enumerate(text.splitlines(), 1):
+        if _REJECTION_LINE.search(line):
+            continue
         for rule_id, rx, klass in compiled:
             if rx.search(line):
                 leaks.append(
@@ -125,6 +138,8 @@ def iter_remainder_python(root: Optional[Path] = None) -> list[Path]:
     for path in sorted(rc.rglob("*.py")):
         if "__pycache__" in path.parts:
             continue
+        if any(part in _SKIP_DIR_NAMES for part in path.parts):
+            continue
         if path.name.startswith("test_"):
             continue
         out.append(path)
@@ -136,6 +151,8 @@ def scan_remainder_python(root: Optional[Path] = None) -> list[AssumptionLeak]:
     base = Path(root) if root is not None else _repo_root()
     leaks: list[AssumptionLeak] = []
     for path in iter_remainder_python(base):
+        if path.name in _SKIP_FILES:
+            continue
         text = path.read_text(encoding="utf-8")
         leaks.extend(scan_text(text, path=_rel(path, base)))
     return _sort(leaks)

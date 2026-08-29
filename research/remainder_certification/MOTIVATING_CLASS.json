@@ -1,0 +1,16 @@
+{
+  "form": "1/2 + beta*(gamma \u00b1 I*(mu-epsilon))/(2*pi) + c*t",
+  "undeclared_verdict": "ASSUMPTION_REQUIRED",
+  "undeclared_missing": [
+    {
+      "class": "C_GENERICITY",
+      "predicate": "z0 not in Z_<=0"
+    }
+  ],
+  "declared_pole_exclusion_verdict": "CERTIFIED",
+  "certified_without_extra_assumption": false,
+  "human_required": true,
+  "human_required_predicate": "z0 not in {0,-1,-2,...}",
+  "no_guo_atoms": true,
+  "no_llm": true
+}

@@ -1,0 +1,106 @@
+{
+  "n": 12,
+  "false_CERTIFIED": 0,
+  "falsifier_false_CERTIFIED": 0,
+  "pass": true,
+  "rows": [
+    {
+      "id": "A-exp",
+      "expect": "CERTIFIED",
+      "got": "CERTIFIED",
+      "ok": true,
+      "note": "O(t^4)+cauchy_integral",
+      "not_hop_zero": true
+    },
+    {
+      "id": "B-log",
+      "expect": "CERTIFIED",
+      "got": "CERTIFIED",
+      "ok": true,
+      "note": "disk |z-2|<1 excludes 0",
+      "not_hop_zero": true
+    },
+    {
+      "id": "C-rational",
+      "expect": "CERTIFIED",
+      "got": "CERTIFIED",
+      "ok": true,
+      "note": "disk |z-1|<1/2",
+      "not_hop_zero": true
+    },
+    {
+      "id": "D-pg-safe",
+      "expect": "CERTIFIED",
+      "got": "CERTIFIED",
+      "ok": true,
+      "note": "z0=1",
+      "not_hop_zero": true
+    },
+    {
+      "id": "E-pg-declared",
+      "expect": "CERTIFIED",
+      "got": "CERTIFIED",
+      "ok": true,
+      "note": "declared pole-exclusion",
+      "not_hop_zero": true
+    },
+    {
+      "id": "F-prefactor",
+      "expect": "vanishes",
+      "got": "vanishes",
+      "ok": true,
+      "note": "",
+      "not_hop_zero": true
+    },
+    {
+      "id": "nA-pole",
+      "expect": "NONANALYTIC",
+      "got": "NONANALYTIC",
+      "ok": true,
+      "note": "z0=0",
+      "not_hop_zero": true
+    },
+    {
+      "id": "nB-symbolic",
+      "expect": "ASSUMPTION_REQUIRED",
+      "got": "ASSUMPTION_REQUIRED",
+      "ok": true,
+      "note": "no exclusion",
+      "not_hop_zero": true
+    },
+    {
+      "id": "nC-cross",
+      "expect": "CERTIFIED",
+      "got": "CERTIFIED",
+      "ok": true,
+      "note": "z0=1/2 is off Z_<=0; small-t path stays off isolated poles",
+      "not_hop_zero": true
+    },
+    {
+      "id": "nD-short",
+      "expect": "does_not_vanish",
+      "got": "does_not_vanish",
+      "ok": true,
+      "note": "",
+      "not_hop_zero": true
+    },
+    {
+      "id": "nE-hidden",
+      "expect": "NONANALYTIC",
+      "got": "NONANALYTIC",
+      "ok": true,
+      "note": "rho=0 disk",
+      "not_hop_zero": true
+    },
+    {
+      "id": "nF-unprovable",
+      "expect": "not CERTIFIED",
+      "got": "ASSUMPTION_REQUIRED",
+      "ok": true,
+      "note": "self-consistent unproved/assumption class",
+      "not_hop_zero": true
+    }
+  ],
+  "no_llm": true,
+  "no_guo_atoms": true
+}
