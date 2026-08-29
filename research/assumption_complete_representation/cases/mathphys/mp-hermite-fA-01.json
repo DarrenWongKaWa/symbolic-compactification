@@ -1,0 +1,77 @@
+{
+  "case_id": "mp-hermite-fA-01",
+  "title": "Primary matrix function as Hermite interpolant at Jordan data",
+  "domain": "mathphys",
+  "expression_sketch": "Let A in C^{n x n} have distinct eigenvalues l_1..l_s with indices n_i (size of the largest Jordan block for l_i). The expanded form of f(A) changes with the Jordan data: if all n_i=1 and s=2, f(A) = f(l_1)*(A-l_2 I)/(l_1-l_2) + f(l_2)*(A-l_1 I)/(l_2-l_1); if a single Jordan block J_k(l) of size m, the strictly upper diagonals of f(J_k) are f^{(j)}(l)/j! for j=1..m-1. The scientific target is one polynomial p of degree < sum_i n_i with p^{(j)}(l_i)=f^{(j)}(l_i) for j=0..n_i-1 and f(A)=p(A), valid on both the distinct-eigenvalue and repeated-node strata.",
+  "latent_structure": "Hermite interpolation definition of the primary matrix function: f(A):=p(A) where p is the unique Hermite interpolant of f on the spectrum of A with multiplicities equal to the Jordan indices. Equivalent to the Jordan-form definition (Higham Thm. 1.12) without a holomorphy hypothesis. Repeated eigenvalues are the same object (osculatory nodes), not a separate Piecewise branch.",
+  "proposed_ladder": "R3_hermite_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "A": {
+        "type": "matrix",
+        "space": "C^{n x n}"
+      },
+      "n": {
+        "integer": true,
+        "positive": true
+      },
+      "s": {
+        "integer": true,
+        "positive": true,
+        "note": "number of distinct eigenvalues of A"
+      },
+      "lambda_i": {
+        "type": "complex",
+        "note": "distinct eigenvalues of A, i=1:s"
+      },
+      "n_i": {
+        "integer": true,
+        "positive": true,
+        "note": "index of lambda_i = order of largest Jordan block"
+      }
+    },
+    "function_domains": {
+      "f": "Defined on the spectrum of A in the sense of Higham Definition 1.4: the values f^{(j)}(lambda_i) exist for j=0:n_i-1 and i=1:s. Holomorphy is not part of this definition.",
+      "p": "Unique polynomial of degree less than sum_i n_i = deg(psi), psi the minimal polynomial of A, matching those jet data."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "f is defined on the spectrum of A: the derivatives f^{(j)}(lambda_i) exist for j=0:n_i-1, i=1:s (Higham: 'f is said to be defined on the spectrum of A').",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham\u2013Lin, A Schur\u2013Pad\u00e9 algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)"
+      },
+      {
+        "statement": "A belongs to C^{n x n}.",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham\u2013Lin, A Schur\u2013Pad\u00e9 algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)"
+      }
+    ],
+    "branch_conventions": [
+      "Primary matrix function: the same branch of f and of its derivatives is taken at every occurrence of an eigenvalue (Higham\u2013Al-Mohy, Computing matrix functions, \u00a72.1; Higham 2008, \u00a71.4). Non-primary functions are a different object."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham\u2013Lin, A Schur\u2013Pad\u00e9 algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)",
+      "DOI 10.1137/1.9780898717778",
+      "https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+      "https://epubs.siam.org/doi/10.1137/1.9780898717778"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "There is a unique such interpolating polynomial p (stated in Higham Definition 1.4, not an extra hypothesis).",
+        "label": "DERIVED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham\u2013Lin, A Schur\u2013Pad\u00e9 algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)"
+      }
+    ]
+  },
+  "public_source": "N. J. Higham, Functions of Matrices: Theory and Computation, SIAM, 2008, Definitions 1.4 and 1.2, Theorem 1.12. Survey: Higham\u2013Al-Mohy, Acta Numerica 2010, Definition 2.2. Public PDF of the Schur\u2013Pad\u00e9 companion: https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+  "why_not_cse_lgg": "CSE can cancel repeated scalar factors but cannot invent the interpolating polynomial whose jet data are the Jordan indices. LGG anti-unifies first-order syntax; the distinct-eigenvalue Lagrange form and the repeated-node Taylor block are different trees, so LGG does not emit a single osculatory interpolant.",
+  "proposer_leak_risk": "Keep Hermite, osculatory, Newton form, divided difference, primary matrix function, and Higham out of proposer-visible text. Show only the expanded piecewise formulae in A and the jet data f^{(j)}(l_i).",
+  "notes": "Do not insert holomorphy of f on a neighbourhood of Lambda(A): that hypothesis belongs to Higham Definition 1.11 (Cauchy), which Theorem 1.12 invokes only for equivalence with the integral definition. Do not insert A Hermitian, A diagonalizable, or a preferred branch of sqrt/log unless a later admitted instance names that f and copies Higham's branch sentence. Higham's running square-root example uses the principal branch with Re t^{1/2} >= 0; that convention is not declared for a general f.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
