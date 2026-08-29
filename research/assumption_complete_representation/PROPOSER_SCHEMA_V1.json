@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required": ["abstain", "hypotheses"],
+  "properties": {
+    "abstain": {"type": "boolean"},
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "representation_type",
+          "latent_object",
+          "member_maps",
+          "operators",
+          "reconstruction_rule",
+          "required_assumptions",
+          "proof_obligations"
+        ]
+      }
+    }
+  }
+}

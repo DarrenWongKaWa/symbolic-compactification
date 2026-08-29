@@ -1,27 +1,33 @@
 # STATUS
 
-CURRENT PHASE: DEV admission after A1–A4; B0 smoke only; TEST not frozen; LLM not started
+CURRENT PHASE: DEV audited; frozen B0–B5 recorded; proposer config frozen; TEST not frozen; LLM DEV not started
 
-ACTIVE SUBAGENTS: none
+DEV TASK COUNT: 14 (0 TRIVIAL, 4 SHALLOW, 9 NONTRIVIAL, 1 CHALLENGE)
 
-CANDIDATE CASES: 40 screened
+TEST FREEZE STATUS: not frozen
 
-REJECTED CASES: 8 (assumption gap / witness / unfaithful / miner reject). Guo is a negative control only.
+ACTIVE BASELINE JOBS: none (complete)
 
-ADMITTED DEV CASES: 32 assumption-complete dossiers; 14 proposed as DEV_proposal in ADMITTED.json; 4 executable smoke identities
+ACTIVE LLM JOBS: none
 
-FROZEN TEST CASES: none
+BASELINE COMPLETE: yes (TYPE_ONLY / UNPARSEABLE; operational_baseline=0)
 
-ASSUMPTION_COMPLETENESS: admitted cases have DECLARED/DERIVED verifier domains; 8 rejected as PROBLEM_UNDERSPECIFIED (not DISCOVERY_FAILURE)
+LLM DEV COMPLETE: no
 
-CURRENT BEST REPRESENTATION: none (B0 residual ZERO ≠ discovery)
+AI_UNIQUE_CANDIDATES: 0
 
-AI_UNIQUE_SUCCESS COUNT: 0
+CERTIFIED AI_UNIQUE_SUCCESS: 0
 
-CURRENT BOTTLENECK: freeze DEV expressions + run frozen B1–B5 and grounded proposers; no Guo rescue
+HIGHEST CERTIFIED R LEVEL: none
 
-MERGED SHAS: contracts `1075d80`; C-merge `00054fd`; screen `f987fcc`; A-merge `fa2894b`
+CURRENT BOTTLENECK: LLM 1-seed schema smoke on DEV then 5-seed P0–P3; 8/14 unparseable on frozen whitelist
+
+TEST STATUS: not started
+
+REVIEW STATUS: not started
 
 PUBLICATION STATUS: E
 
-NEXT AUTO ACTION: pack DEV source texts; frozen symbolic baselines; freeze prompts before TEST. Do not revive Guo G3.
+NEXT AUTO ACTION: 1-seed P0 smoke on parseable DEV tasks; do not open TEST; do not revive Guo
+
+HEAD SHA: pending this commit

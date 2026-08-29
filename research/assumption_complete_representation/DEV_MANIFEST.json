@@ -1,0 +1,258 @@
+{
+  "partition": "DEV",
+  "n": 14,
+  "not_test_freeze": true,
+  "guo_in_dev_or_test": false,
+  "parent": "c02348e",
+  "tasks": [
+    {
+      "case_id": "mp-resolvent-dd-01",
+      "tag": "SHALLOW",
+      "stay_dev": true,
+      "ladder": "R2",
+      "operator_family": "NEWTON_DD",
+      "domain": "mathphys",
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "mp-daleckii-krein-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R3",
+      "operator_family": "HERMITE_DD",
+      "domain": "mathphys",
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "mp-hermite-fA-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R3",
+      "operator_family": "HERMITE_DD",
+      "domain": "mathphys",
+      "leak_if_raw_sketch": true,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "mp-cauchy-dunford-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R6",
+      "operator_family": "FUNCTIONAL_CALCULUS",
+      "domain": "mathphys",
+      "leak_if_raw_sketch": true,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "thermal-01-fermi-im-digamma",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R5",
+      "operator_family": "OTHER_EXPLICIT",
+      "domain": {
+        "cluster": "C2_thermal",
+        "symbols": {
+          "y": "real; integers allowed (y=0 finite)"
+        },
+        "analytic": [
+          {
+            "statement": "y real",
+            "label": "DECLARED"
+          },
+          {
+            "statement": "1/2 + I y not in Z_<=0 (Re=1/2)",
+            "label": "DERIVED"
+          }
+        ],
+        "a2_verdict": "OK",
+        "a4_status": "CLEAN",
+        "a4_headline_clean": true,
+        "gap_predicates": [],
+        "not_imported": [
+          "T>0",
+          "beta>0",
+          "Guo pole-exclusion"
+        ]
+      },
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "thermal-03-digamma-reflection",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R5",
+      "operator_family": "RECURRENCE",
+      "domain": {
+        "cluster": "C2_thermal",
+        "symbols": {
+          "z": "complex, not an integer"
+        },
+        "analytic": [
+          {
+            "statement": "z != 0, +/-1, +/-2, ...",
+            "label": "DECLARED"
+          },
+          {
+            "statement": "z and 1-z avoid psi poles Z_<=0",
+            "label": "DERIVED"
+          },
+          {
+            "statement": "tan(pi z) != 0 on the same set",
+            "label": "DERIVED"
+          }
+        ],
+        "a2_verdict": "OK",
+        "a4_status": "CLEAN",
+        "gap_predicates": [],
+        "contract_nit": "symbol_assumptions.z.nonzero=true is weaker than z not integer; labeled analytic_domains supply the integer exclusion (A4 blocks z=1). Catalog must expose z not in Z, not merely nonzero.",
+        "not_imported": [
+          "Guo pole-exclusion beyond integers written in 5.5.4",
+          "T>0",
+          "beta>0"
+        ]
+      },
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "thermal-05-trigamma-double-pole",
+      "tag": "SHALLOW",
+      "stay_dev": true,
+      "ladder": "R5",
+      "operator_family": "RECURRENCE",
+      "domain": {
+        "cluster": "C2_thermal",
+        "symbols": {
+          "z": "complex, not a nonpositive integer",
+          "k": "dummy of Sum_{k=0}^oo; nonnegative integer, not a wave number"
+        },
+        "analytic": [
+          {
+            "statement": "z != 0,-1,-2,...",
+            "label": "DECLARED"
+          }
+        ],
+        "a2_verdict": "OK",
+        "a4_status": "CLEAN",
+        "screening": "flagged SILENT_PHYSICS_POSITIVITY",
+        "a3_classification": "skeptic_denial_note_false_positive",
+        "a3_faithful": true,
+        "gap_predicates": [],
+        "not_imported": [
+          "T>0",
+          "beta>0",
+          "Guo pole-exclusion"
+        ]
+      },
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "sciml-phi-hermite-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R3",
+      "operator_family": "HERMITE_DD",
+      "domain": "sciml",
+      "leak_if_raw_sketch": true,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "sciml-vanloan-blockexp-01",
+      "tag": "CHALLENGE",
+      "stay_dev": true,
+      "ladder": "R6",
+      "operator_family": "FUNCTIONAL_CALCULUS",
+      "domain": "sciml",
+      "leak_if_raw_sketch": true,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "sciml-daleckii-krein-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R3",
+      "operator_family": "HERMITE_DD",
+      "domain": "sciml",
+      "leak_if_raw_sketch": true,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "ac-t-eps-delta",
+      "tag": "SHALLOW",
+      "stay_dev": true,
+      "ladder": "R8",
+      "operator_family": "BASIS_RECONSTRUCTION",
+      "domain": "tensor",
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "ac-t-young-s3",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R8",
+      "operator_family": "PERMUTATION",
+      "domain": "tensor",
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "ac-r01-resolvent-hilbert-identity",
+      "tag": "SHALLOW",
+      "stay_dev": true,
+      "ladder": "R2",
+      "operator_family": "NEWTON_DD",
+      "domain": "green",
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    },
+    {
+      "case_id": "ac-r03-helmholtz-outgoing-green",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "ladder": "R5",
+      "operator_family": "SUBSTITUTION",
+      "domain": "green",
+      "leak_if_raw_sketch": false,
+      "b0_zero_not_discovery": true,
+      "guo": false
+    }
+  ],
+  "duplicates": [
+    {
+      "a": "mp-resolvent-dd-01",
+      "b": "ac-r01-resolvent-hilbert-identity",
+      "note": "same first resolvent identity; opposite (zI-A)^{-1} vs (A-zI)^{-1}"
+    },
+    {
+      "a": "mp-daleckii-krein-01",
+      "b": "sciml-daleckii-krein-01",
+      "note": "same Loewner/Hadamard kernel; keep both with distinct packaging"
+    }
+  ],
+  "tag_counts": {
+    "TRIVIAL": 0,
+    "SHALLOW": 4,
+    "NONTRIVIAL": 9,
+    "CHALLENGE": 1
+  },
+  "eval_stages": "EVAL_STAGES.md",
+  "note": "Easy tasks stay DEV. TYPE_ONLY baseline is not operational success."
+}
