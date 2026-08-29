@@ -1,6 +1,6 @@
 # STATUS
 
-CURRENT PHASE: DEV audited; frozen B0–B5 recorded; proposer config frozen; TEST not frozen; LLM DEV not started
+CURRENT PHASE: DEV audited; B0–B5 frozen; P0 1-seed smoke OK; TEST not frozen
 
 DEV TASK COUNT: 14 (0 TRIVIAL, 4 SHALLOW, 9 NONTRIVIAL, 1 CHALLENGE)
 
@@ -12,7 +12,7 @@ ACTIVE LLM JOBS: none
 
 BASELINE COMPLETE: yes (TYPE_ONLY / UNPARSEABLE; operational_baseline=0)
 
-LLM DEV COMPLETE: no
+LLM DEV COMPLETE: P0 1-seed smoke only (schema OK; no 5-seed matrix)
 
 AI_UNIQUE_CANDIDATES: 0
 

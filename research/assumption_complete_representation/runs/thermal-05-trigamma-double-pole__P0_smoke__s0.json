@@ -1,0 +1,24 @@
+{
+  "blocked": false,
+  "error": null,
+  "content": "{\n  \"representation_type\": \"series_of_shifted_double_poles\",\n  \"latent_object\": \"double_pole_lattice_sum_over_nonnegative_integer_offsets\",\n  \"member_maps\": [\n    {\n      \"source_node_id\": \"G0001\",\n      \"role\": \"trigamma_catalog_expression\"\n    }\n  ],\n  \"operators\": [\n    {\n      \"id\": \"shift_by_n\",\n      \"action\": \"z -> z + n\"\n    },\n    {\n      \"id\": \"reciprocal_square\",\n      \"action\": \"w -> 1/w^2\"\n    },\n    {\n      \"id\": \"sum_over_offsets\",\n      \"action\": \"sum n=0 to infinity\"\n    }\n  ],\n  \"reconstruction_rule\": \"G0001(z) = sum_{n=0}^{\\\\infty} reciprocal_square(shift_by_n(z))\",\n  \"required_assumptions\": \"z is not a non-positive integer; for the series form, Re(z) > 0 or analytic continuation from the right half-plane\",\n  \"proof_obligations\": [\n    \"show the series converges locally uniformly on the assumed domain\",\n    \"show the reconstructed function has double poles at non-positive integers\",\n    \"show the reconstructed function satisfies the recurrence relation for polygamma(1, z)\",\n    \"show agreement with G0001 by uniqueness of analytic continuation\"\n  ]\n}",
+  "reasoning_len": 11533,
+  "reasoning_sha": "03c493cfa74df28e",
+  "reasoning_tail": "  \"show the reconstructed function has double poles at non-positive integers\",\n    \"show the reconstructed function satisfies the recurrence relation for polygamma(1, z)\",\n    \"show agreement with G0001 by uniqueness of analytic continuation\"\n  ]\n}\n\nNeed maybe include \"source_node_id\": \"G0001\" in member_maps. Good.\n\nCould there be need for \"member_maps\" to include role \"source_node_id\" as key? The prompt says \"member_maps (source_node_id+role)\". So field name source_node_id. Good.\n\nLet's output.",
+  "usage": {
+    "prompt_tokens": 372,
+    "completion_tokens": 3292,
+    "total_tokens": 3664,
+    "reasoning_tokens": 2990,
+    "cached_tokens": 256
+  },
+  "latency_s": 66.19,
+  "request_id": "241ebfc3-74ce-441b-b6db-8ff646f00db2",
+  "model": "deepseek-v4-pro",
+  "attempt": 0,
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "task_id": "thermal-05-trigamma-double-pole",
+  "condition": "P0_smoke",
+  "seed": 0,
+  "prompt_sha256": "a4d51d691d9c127df9559762837bf023f0cabcf93f5e3705f911aa8c747f5a44"
+}
