@@ -1,0 +1,2539 @@
+{
+  "audit_id": "ac-a-domain-1",
+  "agent": "A2",
+  "parent": "f987fcc",
+  "branch": "work/ac-a-domain",
+  "owns": "research/assumption_complete_representation/audit/domain/",
+  "guo": {
+    "sealed": true,
+    "authority": "9fc3c8a",
+    "hop": "G0016 -> G0013 = UNKNOWN LEVEL_B",
+    "note": "Guo is not a C1-C5 case. Do not insert beta>0, gamma>0, or real epsilon. Pole-exclusion missing on Guo remains the sealed insufficiency control, not a new scientific case."
+  },
+  "remainder_invariant": {
+    "statement": "neg ZERO + C0 ZERO + rem UNKNOWN != hop ZERO",
+    "also": [
+      "domain CERTIFIED is not remainder CERTIFIED",
+      "remainder CERTIFIED is not hop ZERO (H8)",
+      "ASSUMPTION_GAP / NOT_DECLARED analytic-domain => PROBLEM_UNDERSPECIFIED, not DISCOVERY_FAILURE, and cannot mint hop ZERO"
+    ]
+  },
+  "label_policy": {
+    "DECLARED": "Labeled DECLARED on nonzero/positivity/analytic/limit predicates, or written as the function_domains string for that head's polar/cut set.",
+    "DERIVED": "Labeled DERIVED on analytic_domains, derived_conditions, or limit_domains, proved from class A without class C/D insertion.",
+    "NOT_DECLARED": "Explicit NOT_DECLARED label in the contract (miner already recorded the hole).",
+    "MISSING": "Verifier needs this pole-exclusion/cut/holomorphy hypothesis; it is absent from labeled predicates and from function_domains.",
+    "N_A": "Not required for the claimed identity (entire family; algebraic tensor; distributional/boundary-value statement whose holomorphic remainder would be H7 NONANALYTIC; or a hypothesis the dossier forbids inserting).",
+    "ASSUMPTION_GAP": "A pole-exclusion (or equivalent classical excluded point / resolvent-set membership) needed to certify a holomorphic remainder or ZERO residual is not DECLARED and not DERIVED.",
+    "function_domains_vs_predicates": "function_domains records the polar set of the head. Argument pole-exclusion is a separate labeled predicate. A formula for n_F without 'exp(beta z) != -1' is not pole-exclusion (Guo lesson)."
+  },
+  "verifier": {
+    "remainder_policy": "research/remainder_certification/ASSUMPTION_POLICY.md",
+    "theorems": "research/remainder_certification/analysis/THEOREMS.md",
+    "hypotheses": "research/remainder_certification/analysis/hypotheses.py",
+    "polygamma_domain": "research/remainder_certification/polygamma/domain.py",
+    "ac_contract": "research/assumption_complete_representation/ASSUMPTION_CONTRACT.md",
+    "admission": "research/assumption_complete_representation/ADMISSION_GATE.md",
+    "parse_policy": "src/symbolic_compactification/parser.py PARSE_POLICY",
+    "entire_families": [
+      "exp",
+      "sin",
+      "cos",
+      "sinh",
+      "cosh",
+      "entire",
+      "polynomial",
+      "poly",
+      "id",
+      "identity"
+    ],
+    "classical_excluded_points": {
+      "log": [
+        0
+      ],
+      "sqrt": [
+        0
+      ],
+      "inv": [
+        0
+      ]
+    },
+    "h1": "H1_holomorphic_disk: positive-radius disk DECLARED (A) or DERIVED from certified distance (B); genericity cannot CERTIFY",
+    "h5": "H5_no_class_cd: undeclared genericity / physics positivity => ASSUMPTION_REQUIRED, never CERTIFIED",
+    "h7": "H7_singularity_at_expansion: d=0 or rho=0 => NONANALYTIC, not hop ZERO",
+    "h8": "H8_not_hop_zero: remainder verdict is never hop ZERO",
+    "pg_poles": "polygamma(k,z) for integer k>=-1 meromorphic with poles Z_<=0 (DLMF 5.15.1 / 5.2); k<=-2 entire (SymPy Espinosa-Moll). Not-identically-a-pole is not pole-exclusion.",
+    "remainder_invariant": "neg ZERO + C0 ZERO + rem UNKNOWN != hop ZERO"
+  },
+  "special_functions": {
+    "resolvent": {
+      "heads": [
+        "R",
+        "R(z,A)",
+        "(zI-A)^{-1}",
+        "(A-zI)^{-1}",
+        "G0"
+      ],
+      "holomorphy": "holomorphic on the resolvent set rho(A) = C \\ sigma(A)",
+      "poles": "spectrum sigma(A); reduced resolvent additionally poles at the complementary eigenvalues",
+      "cuts": "none beyond the spectrum (finite-dim spectrum is a finite pole set)",
+      "verifier_requires": [
+        "spectral parameter in rho(A) (pole-exclusion of sigma(A))",
+        "holomorphy of z |-> R(z,A) on rho(A) for confluent / derivative identities"
+      ],
+      "entire": false,
+      "parse_policy": "not a builtin; scalar model 1/(a-z) uses inv",
+      "references": [
+        "THEOREMS T1/T6/T7",
+        "Higham Def. 1.11",
+        "Glueck Prop. 2.2.9"
+      ]
+    },
+    "inv_1_over_z": {
+      "heads": [
+        "1/z",
+        "inv",
+        "1/(x +/- i epsilon)"
+      ],
+      "holomorphy": "holomorphic on C \\ {0}",
+      "poles": "{0}",
+      "cuts": "none (meromorphic); distributional boundary values on R use P + delta",
+      "verifier_requires": [
+        "argument != 0 for a holomorphic evaluation / remainder disk (CLASSICAL_EXCLUDED_POINTS['inv'])",
+        "if the identity is a real-line boundary value, epsilon -> 0+ and the evaluation is NOT a holomorphic disk about 0 (H7 NONANALYTIC at 0)"
+      ],
+      "entire": false,
+      "parse_policy": "rational; no named head",
+      "references": [
+        "hypotheses.py CLASSICAL_EXCLUDED_POINTS inv",
+        "Sokhotski-Plemelj"
+      ]
+    },
+    "exp": {
+      "heads": [
+        "exp",
+        "expm",
+        "matrix exponential"
+      ],
+      "holomorphy": "entire on C (primary matrix exponential entire in the scalar germ)",
+      "poles": "empty",
+      "cuts": "none",
+      "verifier_requires": [
+        "H1 via named entire family; rho = +oo; no pole-exclusion lemma"
+      ],
+      "entire": true,
+      "parse_policy": "allowed",
+      "references": [
+        "THEOREMS T7 entire families",
+        "ENTIRE_FAMILIES"
+      ]
+    },
+    "log": {
+      "heads": [
+        "log",
+        "logm",
+        "ln"
+      ],
+      "holomorphy": "principal logarithm holomorphic on C \\ (-oo, 0]",
+      "poles": "none (logarithmic singularity at 0)",
+      "cuts": "principal cut (-oo, 0]; 0 is a classical excluded point",
+      "verifier_requires": [
+        "argument != 0 (CLASSICAL_EXCLUDED_POINTS['log'])",
+        "declared branch (principal vs real log on (0, oo))",
+        "open disk used for remainder must not contain 0 (H7)"
+      ],
+      "entire": false,
+      "parse_policy": "allowed",
+      "references": [
+        "hypotheses.py CLASSICAL_EXCLUDED_POINTS log",
+        "THEOREMS T7 named branch"
+      ]
+    },
+    "sqrt": {
+      "heads": [
+        "sqrt"
+      ],
+      "holomorphy": "principal square root holomorphic on C \\ (-oo, 0]",
+      "poles": "none (branch point at 0)",
+      "cuts": "principal cut (-oo, 0]; 0 excluded",
+      "verifier_requires": [
+        "argument != 0 unless the identity is algebraic at 0",
+        "declared branch (principal nonnegative on (0, oo) vs complex principal)"
+      ],
+      "entire": false,
+      "parse_policy": "allowed",
+      "references": [
+        "hypotheses.py CLASSICAL_EXCLUDED_POINTS sqrt"
+      ]
+    },
+    "polygamma": {
+      "heads": [
+        "polygamma",
+        "PolyGamma",
+        "psi",
+        "digamma",
+        "trigamma"
+      ],
+      "holomorphy": "meromorphic for integer k >= -1; entire for integer k <= -2",
+      "poles": "Z_<=0 = {0,-1,-2,...} of the argument when k >= -1 (order k+1); empty when k <= -2",
+      "cuts": "none (poles only) for integer order",
+      "verifier_requires": [
+        "pole-exclusion: argument not in Z_<=0 when k >= -1 (DECLARED A or DERIVED B: Im identically nonzero, z0>0, or certified dist>0)",
+        "not-identically-a-pole is insufficient (class C genericity forbidden)",
+        "physics positivity beta>0 / gamma>0 is class D unless declared"
+      ],
+      "entire": false,
+      "parse_policy": "polygamma allowed; digamma/trigamma are aliases of polygamma(0/1,·) in research special classifiers, not PARSE_POLICY names",
+      "references": [
+        "rc-pg-domain-1",
+        "DLMF 5.15.1",
+        "DLMF 5.2"
+      ]
+    },
+    "tanh": {
+      "heads": [
+        "tanh"
+      ],
+      "holomorphy": "meromorphic on C",
+      "poles": "i*(n+1/2)*pi, n in Z (none on the real axis)",
+      "cuts": "none",
+      "verifier_requires": [
+        "argument not equal to i*(n+1/2)*pi",
+        "real argument => pole-exclusion DERIVED"
+      ],
+      "entire": false,
+      "parse_policy": "allowed",
+      "references": [
+        "DLMF 4.21 poles of tanh"
+      ]
+    },
+    "coth": {
+      "heads": [
+        "coth",
+        "cosh/sinh"
+      ],
+      "holomorphy": "meromorphic on C",
+      "poles": "n*pi*I, n in Z (zeros of sinh)",
+      "cuts": "none",
+      "verifier_requires": [
+        "z != n*pi*I for all n in Z (pole-exclusion)",
+        "engine rewrite: coth not in PARSE_POLICY; use cosh/sinh, then sinh != 0"
+      ],
+      "entire": false,
+      "parse_policy": "coth not allowed; cosh,sinh allowed",
+      "references": [
+        "DLMF 4.36"
+      ]
+    },
+    "cot_tan": {
+      "heads": [
+        "cot",
+        "tan",
+        "1/tan"
+      ],
+      "holomorphy": "meromorphic on C",
+      "poles": "tan: pi*(n+1/2); cot: n*pi",
+      "cuts": "none",
+      "verifier_requires": [
+        "z not an integer for cot(pi z) / 1/tan(pi z)"
+      ],
+      "entire": false,
+      "parse_policy": "tan allowed; cot not named (use 1/tan)",
+      "references": [
+        "DLMF 4.21 / 5.5.4"
+      ]
+    },
+    "gamma": {
+      "heads": [
+        "gamma",
+        "Gamma"
+      ],
+      "holomorphy": "meromorphic on C",
+      "poles": "Z_<=0",
+      "cuts": "none",
+      "verifier_requires": [
+        "argument not a nonpositive integer"
+      ],
+      "entire": false,
+      "parse_policy": "not in default PARSE_POLICY",
+      "references": [
+        "DLMF 5.2.1"
+      ]
+    },
+    "Li_s": {
+      "heads": [
+        "polylog",
+        "Li_s",
+        "Li_{s+1}"
+      ],
+      "holomorphy": "series holomorphic for |z|<1; analytic continuation off the principal cut",
+      "poles": "none for fixed s (branch point at z=1)",
+      "cuts": "principal cut [1, +oo) (as for Li_2 in DLMF 25.12(i))",
+      "verifier_requires": [
+        "declared (s,x) domain of F_s / G_s",
+        "argument of Li off the cut [1,oo) or a declared continuation",
+        "Gamma(s+1) pole-exclusion when written as a prefactor (s>-1 => DERIVED)"
+      ],
+      "entire": false,
+      "parse_policy": "polylog not in PARSE_POLICY; series Sum writable for |z|<1",
+      "references": [
+        "DLMF 25.12.10-16"
+      ]
+    },
+    "n_F": {
+      "heads": [
+        "n_F",
+        "n_eta (eta=-1)",
+        "Fermi-Dirac occupation"
+      ],
+      "holomorphy": "meromorphic in z; n_F(z)=(exp(beta z)+1)^{-1}",
+      "poles": "beta z = (2n+1) pi I, n in Z  (fermionic Matsubara points in z, scaled by 1/beta)",
+      "cuts": "none (meromorphic); real-line restriction is real-analytic if beta real and z real (poles off R)",
+      "verifier_requires": [
+        "pole-exclusion: exp(beta z) != -1",
+        "beta != 0 to locate poles; beta>0 is class D unless declared or derived from a declared interval (0,beta)",
+        "T=0 Heaviside is not this meromorphic germ (no holomorphic disk at the jump)"
+      ],
+      "entire": false,
+      "parse_policy": "exp allowed; n_F is a rational function of exp",
+      "references": [
+        "Matsubara table",
+        "DLMF 5.4.17 Fermi translation"
+      ]
+    },
+    "n_B": {
+      "heads": [
+        "n_B",
+        "n_eta (eta=+1)",
+        "Bose-Einstein occupation"
+      ],
+      "holomorphy": "meromorphic; n_B(z)=(exp(beta z)-1)^{-1}",
+      "poles": "beta z = 2 n pi I, n in Z (includes z=0)",
+      "cuts": "none",
+      "verifier_requires": [
+        "pole-exclusion: exp(beta z) != 1, including z != 0 when beta finite",
+        "beta != 0; beta>0 class D unless declared/derived"
+      ],
+      "entire": false,
+      "parse_policy": "exp allowed",
+      "references": [
+        "Matsubara table",
+        "DLMF 5.4.16 Bose translation"
+      ]
+    },
+    "matrix_fA": {
+      "heads": [
+        "f(A)",
+        "primary matrix function"
+      ],
+      "holomorphy": "depends on the definition in force: Hermite jet on the spectrum (no neighborhood holomorphy); Cauchy-Dunford requires f analytic on and inside a contour about Lambda(A); Fréchet/Mathias require C^{2n-1} on an open D containing spec(X)",
+      "poles": "poles of the scalar germ that meet the spectrum, plus resolvent poles on Gamma if Cauchy-Dunford is used",
+      "cuts": "branch of the scalar germ (primary: one branch at every occurrence of an eigenvalue)",
+      "verifier_requires": [
+        "do not silently upgrade Hermite 'defined on the spectrum' to holomorphy (Higham 1.4 vs 1.11)",
+        "Cauchy: Gamma disjoint from Lambda(A) (resolvent pole-exclusion) and f holomorphic on/inside Gamma",
+        "Fréchet: spec subset D with the stated smoothness, not an inserted holomorphic disk"
+      ],
+      "entire": false,
+      "parse_policy": "not a scalar builtin",
+      "references": [
+        "Higham 2008 Def. 1.4, 1.11, Thm 1.12, 3.6, 3.11"
+      ]
+    },
+    "helmholtz_green": {
+      "heads": [
+        "u_+",
+        "G_Helmholtz",
+        "exp(I k R)/(4 pi R)"
+      ],
+      "holomorphy": "in the field point, meromorphic/singular at R=0; exp entire in k R",
+      "poles": "R = |x-x0| = 0 (fundamental-solution pole)",
+      "cuts": "R is the Euclidean (nonnegative) square root on R^n; complexification of R would introduce the sqrt cut, which the source does not take",
+      "verifier_requires": [
+        "R != 0",
+        "k > 0 as written (Sommerfeld uniqueness)",
+        "declared time-harmonic / outgoing sign; limiting absorption Im k>0 is NOT to be inserted",
+        "sqrt branch: nonnegative Euclidean distance"
+      ],
+      "entire": false,
+      "parse_policy": "exp, sqrt allowed",
+      "references": [
+        "Sommerfeld radiation condition"
+      ]
+    },
+    "hilbert_lehmann": {
+      "heads": [
+        "G(k,z)",
+        "Hilbert transform of rho",
+        "Lehmann spectral representation"
+      ],
+      "holomorphy": "holomorphic off the real spectral support of rho; G_R (G_A) has poles/discontinuities in the lower (upper) half-plane",
+      "poles": "support of rho on R, approached as z -> omega + i0+/-; free specialization poles at z = xi",
+      "cuts": "real-axis spectral cut",
+      "verifier_requires": [
+        "evaluation point not on supp rho for an interior holomorphic remainder disk",
+        "retarded i0+ / eta -> 0+ declared if a boundary value is claimed",
+        "remainder CERTIFIED at a real omega is H7 NONANALYTIC unless a positive Im is declared and kept"
+      ],
+      "entire": false,
+      "parse_policy": "Integral not in PARSE_POLICY; scalar 1/(-z+xi) is rational",
+      "references": [
+        "Wikipedia many-body Green, Hilbert transform"
+      ]
+    },
+    "phi_k": {
+      "heads": [
+        "phi_k",
+        "phi_1=(e^z-1)/z"
+      ],
+      "holomorphy": "entire on C for each k>=0 (entire continuation of the Newton quotient of exp)",
+      "poles": "empty (removable at z=0; phi_k(0)=1/k!)",
+      "cuts": "none; (e^z-1)/z is not a principal-value cut",
+      "verifier_requires": [
+        "named entire family: no pole-exclusion",
+        "Newton-quotient writing uses z!=0 as a separate member, then entire continuation"
+      ],
+      "entire": true,
+      "parse_policy": "exp allowed; Integral representation not in PARSE_POLICY",
+      "references": [
+        "Hochbruck-Ostermann (2.10)",
+        "THEOREMS T7 entire"
+      ]
+    },
+    "mehler_ou": {
+      "heads": [
+        "OU/Mehler kernel",
+        "Gaussian transition",
+        "exp(-theta |s-t|)"
+      ],
+      "holomorphy": "transition density entire of Gaussian type in (x,y) for each fixed t>0; covariance C^0 in (s,t)",
+      "poles": "none; Gaussian density requires v_t != 0",
+      "cuts": "Abs(s-t) is real absolute value (nondifferentiable on s=t, not a complex cut)",
+      "verifier_requires": [
+        "t>0 and theta>0 => v_t>0 so (2 pi v_t)^{-1/2} uses the positive real sqrt (sqrt excluded point 0 avoided)",
+        "exp entire"
+      ],
+      "entire": false,
+      "parse_policy": "exp, Abs, sqrt allowed",
+      "references": [
+        "Oksendal OU",
+        "Mehler 1866"
+      ]
+    },
+    "sin": {
+      "heads": [
+        "sin"
+      ],
+      "holomorphy": "entire",
+      "poles": "empty",
+      "cuts": "none",
+      "verifier_requires": [
+        "named entire family; zeros of sin in a denominator are a separate inv pole-exclusion"
+      ],
+      "entire": true,
+      "parse_policy": "allowed",
+      "references": [
+        "ENTIRE_FAMILIES"
+      ]
+    },
+    "Heaviside": {
+      "heads": [
+        "Heaviside",
+        "Theta"
+      ],
+      "holomorphy": "not holomorphic (jump)",
+      "poles": "none; jump discontinuity at 0",
+      "cuts": "n/a",
+      "verifier_requires": [
+        "no holomorphic remainder disk through the jump",
+        "do not treat T=0 occupation as the meromorphic n_F germ"
+      ],
+      "entire": false,
+      "parse_policy": "not in PARSE_POLICY",
+      "references": [
+        "Lindhard T=0"
+      ]
+    }
+  },
+  "n_candidates": 40,
+  "n_assumption_gaps": 5,
+  "assumption_gap_case_ids": [
+    "ac-r04-lindhard-occupation-dd",
+    "ac-r06-matsubara-pole-family",
+    "ac-r07-lippmann-schwinger-iepsilon",
+    "ac-r08-kubo-frequency-underspecified",
+    "thermal-08-matsubara-newton-dd-underspecified"
+  ],
+  "candidates": [
+    {
+      "case_id": "ac-r01-resolvent-hilbert-identity",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r01-resolvent-hilbert-identity.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "resolvent",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "resolvent",
+          "predicate": "z,w in rho(A); first resolvent identity on the resolvent set",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": "Wikipedia / Kato"
+        },
+        {
+          "function": "resolvent",
+          "predicate": "R holomorphic on rho(A)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "dR/dz = R^2 (Wikipedia convention) from holomorphy",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "scalar poles z=a excluded by z in rho(A) ~ a not a spectral value",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "z->w limit inside rho(A)",
+          "status": "DERIVED",
+          "where": "limit_domains",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-r02-sokhotski-plemelj-boundary",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r02-sokhotski-plemelj-boundary.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "epsilon -> 0+ (boundary approach, not a holomorphic disk about 0)",
+          "status": "DECLARED",
+          "where": "positivity_conditions+limit_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "Cauchy integral not evaluated for z on C (interior/exterior holomorphic)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "real-line version makes no use of analyticity of f",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "holomorphic remainder disk about x=0",
+          "status": "N_A",
+          "where": "n/a",
+          "notes": "identity is distributional H7 NONANALYTIC at 0; not a missing pole-exclusion"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-r03-helmholtz-outgoing-green",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r03-helmholtz-outgoing-green.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "helmholtz_green",
+        "exp",
+        "sqrt",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "exp",
+          "predicate": "entire (no pole-exclusion)",
+          "status": "DECLARED",
+          "where": "function_domains implicit / entire family",
+          "notes": "Sommerfeld page uses exp(+/- i k R)"
+        },
+        {
+          "function": "helmholtz_green",
+          "predicate": "R = |x-x0| != 0",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "helmholtz_green",
+          "predicate": "k > 0",
+          "status": "DECLARED",
+          "where": "positivity_conditions+symbol_assumptions",
+          "notes": ""
+        },
+        {
+          "function": "sqrt",
+          "predicate": "nonnegative Euclidean square root",
+          "status": "DECLARED",
+          "where": "branch_conventions",
+          "notes": ""
+        },
+        {
+          "function": "helmholtz_green",
+          "predicate": "Sommerfeld outgoing selection / exp(-i omega t) convention",
+          "status": "DECLARED",
+          "where": "analytic_domains+branch_conventions",
+          "notes": ""
+        },
+        {
+          "function": "helmholtz_green",
+          "predicate": "Im k > 0 limiting absorption",
+          "status": "N_A",
+          "where": "n/a",
+          "notes": "explicitly not written; must not be inserted"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-r04-lindhard-occupation-dd",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r04-lindhard-occupation-dd.json",
+      "screening": "flagged:TRIVIAL_CSE,SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "n_F",
+        "Heaviside",
+        "inv_1_over_z",
+        "log"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "retarded denom hbar*(omega+i delta)+E(k+q)-E(k) with delta a positive infinitesimal",
+          "status": "DECLARED",
+          "where": "analytic_domains+positivity_conditions",
+          "notes": ""
+        },
+        {
+          "function": "n_F",
+          "predicate": "T>0 so n_F is C^infty / meromorphic on a neighborhood of real E (needed for holomorphic confluence remainder of occupation)",
+          "status": "MISSING",
+          "where": "notes explicitly do not insert T>0",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "n_F",
+          "predicate": "occupation poles exp(beta E)=-1 excluded",
+          "status": "MISSING",
+          "where": "beta is not a symbol; pole set not in function_domains",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "static generic pole-exclusion E(k+q) != E(k) after omega+i delta -> 0",
+          "status": "MISSING",
+          "where": "nonzero_conditions names the denom but does not exclude its vanishing",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "Heaviside",
+          "predicate": "T=0 occupation is a jump, not a holomorphic germ",
+          "status": "DECLARED",
+          "where": "analytic_domains T=0 Theta",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "T=0 log-abs Lindhard closed form / complex log branch",
+          "status": "N_A",
+          "where": "branch_conventions",
+          "notes": "explicitly not the candidate"
+        }
+      ],
+      "flags": [
+        "ASSUMPTION_GAP"
+      ],
+      "verdict": "ASSUMPTION_GAP",
+      "gap_predicates": [
+        {
+          "function": "n_F",
+          "predicate": "T>0 so n_F is C^infty / meromorphic on a neighborhood of real E (needed for holomorphic confluence remainder of occupation)",
+          "status": "MISSING",
+          "where": "notes explicitly do not insert T>0"
+        },
+        {
+          "function": "n_F",
+          "predicate": "occupation poles exp(beta E)=-1 excluded",
+          "status": "MISSING",
+          "where": "beta is not a symbol; pole set not in function_domains"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "static generic pole-exclusion E(k+q) != E(k) after omega+i delta -> 0",
+          "status": "MISSING",
+          "where": "nonzero_conditions names the denom but does not exclude its vanishing"
+        }
+      ]
+    },
+    {
+      "case_id": "ac-r05-lehmann-spectral-master",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r05-lehmann-spectral-master.json",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "hilbert_lehmann",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "G_R poles/discontinuities in LHP; G_A in UHP",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "G_M poles/discontinuities on the imaginary omega_n axis",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "master G Hilbert transform; G_M=G(i omega_n), G_R=G(omega+i eta)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "eta -> 0+",
+          "status": "DECLARED",
+          "where": "limit_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "0 < tau < beta imaginary-time interval",
+          "status": "DECLARED",
+          "where": "positivity_conditions",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "free 1/(-i omega_n + xi) and 1/(-(omega+i eta)+xi)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "interior holomorphic remainder at real omega",
+          "status": "N_A",
+          "where": "n/a",
+          "notes": "declared cut; H7 NONANALYTIC on the real axis, fail-closed not a missing declaration"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-r06-matsubara-pole-family",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r06-matsubara-pole-family.json",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "n_F",
+        "n_B",
+        "inv_1_over_z",
+        "exp"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "Matsubara frequencies omega_n = 2n pi/beta (B) and (2n+1)pi/beta (F)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "poles of g distinct from Matsubara poles of h_eta (contour deformation)",
+          "status": "DECLARED",
+          "where": "function_domains[g]",
+          "notes": "prose in function_domains, not a labeled analytic_domains predicate"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "two-pole row xi1 != xi2 (denom xi1-xi2; repeated-pole rows separate)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "n_F",
+          "predicate": "occupancy poles exp(beta z) != -1",
+          "status": "MISSING",
+          "where": "function_domains[n_F] is the formula only; no pole set; xi complex unconstrained",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "n_B",
+          "predicate": "occupancy poles exp(beta z) != 1, including z != 0",
+          "status": "MISSING",
+          "where": "function_domains[n_B] is the formula only",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "n_F",
+          "predicate": "beta != 0 / beta>0 to locate Matsubara and occupancy poles",
+          "status": "MISSING",
+          "where": "symbol beta real only; T>0 not inserted; 0<tau<beta is only the Green weighting paragraph",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "exp",
+          "predicate": "entire",
+          "status": "N_A",
+          "where": "entire family",
+          "notes": ""
+        }
+      ],
+      "flags": [
+        "ASSUMPTION_GAP"
+      ],
+      "verdict": "ASSUMPTION_GAP",
+      "gap_predicates": [
+        {
+          "function": "n_F",
+          "predicate": "occupancy poles exp(beta z) != -1",
+          "status": "MISSING",
+          "where": "function_domains[n_F] is the formula only; no pole set; xi complex unconstrained"
+        },
+        {
+          "function": "n_B",
+          "predicate": "occupancy poles exp(beta z) != 1, including z != 0",
+          "status": "MISSING",
+          "where": "function_domains[n_B] is the formula only"
+        },
+        {
+          "function": "n_F",
+          "predicate": "beta != 0 / beta>0 to locate Matsubara and occupancy poles",
+          "status": "MISSING",
+          "where": "symbol beta real only; T>0 not inserted; 0<tau<beta is only the Green weighting paragraph"
+        }
+      ]
+    },
+    {
+      "case_id": "ac-r07-lippmann-schwinger-iepsilon",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r07-lippmann-schwinger-iepsilon.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [
+        "resolvent",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "resolvent",
+          "predicate": "naive 1/(E-H0) is singular because E is an eigenvalue of H0",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "denominator made slightly complex: E-H0 +/- i epsilon",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "i epsilon required for causality / limiting absorption (half-plane contour)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "epsilon != 0 (pole-exclusion of the regularized denominator when E=E_beta)",
+          "status": "MISSING",
+          "where": "symbol epsilon has no positivity/nonzero; notes: epsilon>0 not inserted",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "sign of Im(epsilon) selecting in vs out",
+          "status": "DECLARED",
+          "where": "branch_conventions",
+          "notes": "written as +/- i epsilon labels"
+        }
+      ],
+      "flags": [
+        "ASSUMPTION_GAP"
+      ],
+      "verdict": "ASSUMPTION_GAP",
+      "gap_predicates": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "epsilon != 0 (pole-exclusion of the regularized denominator when E=E_beta)",
+          "status": "MISSING",
+          "where": "symbol epsilon has no positivity/nonzero; notes: epsilon>0 not inserted"
+        }
+      ]
+    },
+    {
+      "case_id": "ac-r08-kubo-frequency-underspecified",
+      "cluster": "C1_response",
+      "path": "cases/response/dossiers/ac-r08-kubo-frequency-underspecified.json",
+      "screening": "miner_rejected",
+      "rejected": true,
+      "reject_reason": "PROBLEM_UNDERSPECIFIED",
+      "functions": [
+        "inv_1_over_z",
+        "exp"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "retarded frequency-domain response analytic in Im omega > 0",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "i0+ / omega+i eta, eta->0+ prescription for the Fourier transform of the causal commutator",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "Fourier transform of the causal commutator to retarded chi(omega)",
+          "status": "NOT_DECLARED",
+          "where": "limit_domains",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "exp",
+          "predicate": "equilibrium rho_0 = exp(-beta H0) entire in the usual functional calculus",
+          "status": "DECLARED",
+          "where": "expression_sketch",
+          "notes": "time-domain object; not the missing frequency pole"
+        }
+      ],
+      "flags": [
+        "ASSUMPTION_GAP",
+        "PROBLEM_UNDERSPECIFIED"
+      ],
+      "verdict": "ASSUMPTION_GAP",
+      "gap_predicates": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "retarded frequency-domain response analytic in Im omega > 0",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "i0+ / omega+i eta, eta->0+ prescription for the Fourier transform of the causal commutator",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "Fourier transform of the causal commutator to retarded chi(omega)",
+          "status": "NOT_DECLARED",
+          "where": "limit_domains"
+        }
+      ]
+    },
+    {
+      "case_id": "thermal-01-fermi-im-digamma",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-01-fermi-im-digamma.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "polygamma",
+        "tanh",
+        "n_F"
+      ],
+      "requirements": [
+        {
+          "function": "polygamma",
+          "predicate": "y real",
+          "status": "DECLARED",
+          "where": "analytic_domains+symbol_assumptions",
+          "notes": ""
+        },
+        {
+          "function": "polygamma",
+          "predicate": "1/2+I y not a nonpositive integer (psi defined)",
+          "status": "DERIVED",
+          "where": "analytic_domains+derived_conditions",
+          "notes": "Re=1/2"
+        },
+        {
+          "function": "tanh",
+          "predicate": "poles i(n+1/2)pi none on real axis for real y",
+          "status": "DECLARED",
+          "where": "function_domains[tanh]",
+          "notes": ""
+        },
+        {
+          "function": "n_F",
+          "predicate": "Fermi translation is commentary, not an extra undeclared domain",
+          "status": "N_A",
+          "where": "notes",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-02-bose-im-digamma",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-02-bose-im-digamma.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "polygamma",
+        "coth",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "polygamma",
+          "predicate": "y real",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "polygamma",
+          "predicate": "y != 0 so psi(I y) defined and 1/(2y) finite",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "polygamma",
+          "predicate": "I y not a negative integer",
+          "status": "DERIVED",
+          "where": "analytic_domains",
+          "notes": "real y hits Z_<=0 only at 0"
+        },
+        {
+          "function": "coth",
+          "predicate": "coth(pi y) has no real poles except possibly y=0",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-03-digamma-reflection",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-03-digamma-reflection.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "polygamma",
+        "cot_tan"
+      ],
+      "requirements": [
+        {
+          "function": "cot_tan",
+          "predicate": "z != 0, +/-1, +/-2, ... (DLMF 5.5.4)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "polygamma",
+          "predicate": "z and 1-z avoid psi pole set Z_<=0",
+          "status": "DERIVED",
+          "where": "analytic_domains",
+          "notes": "non-integer z"
+        },
+        {
+          "function": "cot_tan",
+          "predicate": "tan(pi z) != 0 on the same set",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-04-coth-matsubara",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-04-coth-matsubara.json",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "coth"
+      ],
+      "requirements": [
+        {
+          "function": "coth",
+          "predicate": "z != n pi I for all integers n (DLMF 4.36)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "coth",
+          "predicate": "sinh(z) != 0",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "coth",
+          "predicate": "T>0 / beta>0 thermal reading",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "source is a complex-function identity; folklore not imported"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-05-trigamma-double-pole",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-05-trigamma-double-pole.json",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "polygamma"
+      ],
+      "requirements": [
+        {
+          "function": "polygamma",
+          "predicate": "z != 0,-1,-2,... (DLMF 5.15.1 written under the equation)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "polygamma",
+          "predicate": "trigamma meromorphic, poles of order 2, no branch cut",
+          "status": "DECLARED",
+          "where": "function_domains+branch_conventions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-06-fermi-dirac-polylog",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-06-fermi-dirac-polylog.json",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "Li_s",
+        "gamma",
+        "exp",
+        "n_F",
+        "n_B"
+      ],
+      "requirements": [
+        {
+          "function": "Li_s",
+          "predicate": "F_s defined for s>-1 (x real)",
+          "status": "DECLARED",
+          "where": "positivity_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "Li_s",
+          "predicate": "G_s defined for (s>-1 and x<0) or (s>0 and x<=0)",
+          "status": "DECLARED",
+          "where": "positivity_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "Li_s",
+          "predicate": "series |z|<1, continuation otherwise; principal cut [1,oo)",
+          "status": "DECLARED",
+          "where": "analytic_domains+branch_conventions",
+          "notes": ""
+        },
+        {
+          "function": "gamma",
+          "predicate": "Gamma(s+1) has no poles for s>-1",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "entire",
+          "status": "DECLARED",
+          "where": "function_domains[exp]",
+          "notes": ""
+        },
+        {
+          "function": "Li_s",
+          "predicate": "F_s argument -exp(x) in (-oo,0] off the cut when x real",
+          "status": "DECLARED",
+          "where": "branch_conventions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-07-green-spectral-hilbert",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-07-green-spectral-hilbert.json",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "functions": [
+        "hilbert_lehmann",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "imaginary-time in [0,beta] and 0<tau<beta",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "G_R poles/discontinuities in LHP; G_A in UHP",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "retarded G(k, omega+i eta) with eta->0+",
+          "status": "DECLARED",
+          "where": "analytic_domains+limit_domains+positivity_conditions",
+          "notes": ""
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "beta finite positive as integration endpoint",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": "from declared [0,beta], not T>0 folklore"
+        },
+        {
+          "function": "hilbert_lehmann",
+          "predicate": "further restriction of supp rho / extra pole-exclusion",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "source does not restrict spectral support; interior remainder on the cut is H7, not a missing A predicate"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "thermal-08-matsubara-newton-dd-underspecified",
+      "cluster": "C2_thermal",
+      "path": "cases/thermal/thermal-08-matsubara-newton-dd-underspecified.json",
+      "screening": "miner_rejected",
+      "rejected": true,
+      "reject_reason": "PROBLEM_UNDERSPECIFIED: verifier-needed predicates xi1!=xi2 and exclusion of Matsubara poles of g are NOT_DECLARED",
+      "functions": [
+        "n_F",
+        "n_B",
+        "inv_1_over_z",
+        "exp"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "xi1 != xi2 so the Newton quotient is defined",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains+nonzero_conditions",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "xi1, xi2 not equal to any Matsubara frequency i*omega_n",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains+nonzero_conditions",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "n_F",
+          "predicate": "xi avoid occupancy poles exp(beta xi)=eta",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "n_F",
+          "predicate": "beta > 0",
+          "status": "NOT_DECLARED",
+          "where": "positivity_conditions",
+          "notes": "",
+          "gap": true
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "0<tau<beta (weighting-function paragraph only)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": "not attached to the table row"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "g(z) tends to 0 faster than 1/z",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        }
+      ],
+      "flags": [
+        "ASSUMPTION_GAP",
+        "PROBLEM_UNDERSPECIFIED"
+      ],
+      "verdict": "ASSUMPTION_GAP",
+      "gap_predicates": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "xi1 != xi2 so the Newton quotient is defined",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains+nonzero_conditions"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "xi1, xi2 not equal to any Matsubara frequency i*omega_n",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains+nonzero_conditions"
+        },
+        {
+          "function": "n_F",
+          "predicate": "xi avoid occupancy poles exp(beta xi)=eta",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains"
+        },
+        {
+          "function": "n_F",
+          "predicate": "beta > 0",
+          "status": "NOT_DECLARED",
+          "where": "positivity_conditions"
+        }
+      ]
+    },
+    {
+      "case_id": "mp-cauchy-dunford-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-cauchy-dunford-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "matrix_fA",
+        "resolvent"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "f analytic on and inside Gamma enclosing Lambda(A)",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "Gamma disjoint from Lambda(A) so (zI-A)^{-1} is defined on Gamma",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "equivalence with Jordan/Hermite requires f analytic (Higham 1.12)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "primary branch of f on and inside Gamma",
+          "status": "DECLARED",
+          "where": "branch_conventions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-daleckii-krein-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-daleckii-krein-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "matrix_fA"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "D open in R or C",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "f is C^{2n-1} on D (not silently holomorphic)",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "spec(X) subset D",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "f' on the spectrum from C^{2n-1}",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "A Hermitian (1965 paper)",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "Higham statement used here is not Hermitian; must not insert"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-hermite-fA-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-hermite-fA-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "matrix_fA"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "f defined on the spectrum: jets f^{(j)}(lambda_i) exist (Higham 1.4)",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "holomorphy of f on a neighbourhood of Lambda(A)",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "belongs to Def. 1.11 Cauchy, must not be inserted for this candidate"
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "primary branch at every occurrence of an eigenvalue",
+          "status": "DECLARED",
+          "where": "branch_conventions",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "preferred branch of sqrt/log",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "not this f"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-kato-simple-ev-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-kato-simple-ev-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "resolvent",
+        "matrix_fA"
+      ],
+      "requirements": [
+        {
+          "function": "resolvent",
+          "predicate": "lambda0 simple eigenvalue of A0 (isolates the reduced-resolvent pole)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "A(tau) analytic near tau0",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "simple eigenvalue isolated in finite dimension",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "isolating contour Gamma subset rho(A0)",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "not inserted unless the contour form of Pi is taken from Kato"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-mathias-block-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-mathias-block-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "matrix_fA"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "f C^{2n-1} on open D; spec(X) subset D",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "path form: spec(A(t)) stays in D near t=0 (no silent small-t)",
+          "status": "DECLARED",
+          "where": "analytic_domains+limit_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "holomorphy of f",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "Mathias/Higham require C^{2n-1}, not analyticity"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-opitz-dd-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-opitz-dd-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "matrix_fA"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "polynomial p: no holomorphy (de Boor Prop. 25)",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "off polynomials: Hermite interpolant exists (Kowalewski smoothness)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "entire-ness of non-polynomial f",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "must not import Cauchy-contour holomorphy from de Boor §9"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-parlett-schur-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-parlett-schur-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "matrix_fA",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "f defined on spec(T); T upper triangular",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "scalar Parlett: T_ii != T_jj (division by T_ii-T_jj)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "block form: no two diagonal blocks share an eigenvalue",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "matrix_fA",
+          "predicate": "holomorphy of f",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "must not insert"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "mp-resolvent-dd-01",
+      "cluster": "C3_mathphys",
+      "path": "cases/mathphys/mp-resolvent-dd-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "resolvent"
+      ],
+      "requirements": [
+        {
+          "function": "resolvent",
+          "predicate": "lambda, mu in rho(A)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "R holomorphic on rho(A), R' = -R^2 (Glueck/Higham convention)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "two-operator: z in rho(A) cap rho(B)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "repeated-node limit inside rho(A)",
+          "status": "DECLARED",
+          "where": "limit_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "rho(A) open (Neumann)",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "holomorphy disk containing the spectrum",
+          "status": "N_A",
+          "where": "notes",
+          "notes": "identity is off the spectrum"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-clebsch-half",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-clebsch-half.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "sqrt"
+      ],
+      "requirements": [
+        {
+          "function": "sqrt",
+          "predicate": "positive real square root of 2 (ket normalization only)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+positivity_conditions+branch_conventions",
+          "notes": ""
+        },
+        {
+          "function": "sqrt",
+          "predicate": "complex principal cut",
+          "status": "N_A",
+          "where": "n/a",
+          "notes": "only sqrt(2) on (0,oo); projector identities are algebraic without sqrt"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-eps-delta",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-eps-delta.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "no meromorphic special function; finite integer identity",
+          "status": "N_A",
+          "where": "derived_conditions",
+          "notes": "analytic_domains empty is correct"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-iso4-projectors",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-iso4-projectors.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "dim=3 != 0 so 1/3 in Q",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": "algebraic, not a complex pole"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-pauli-completeness",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-pauli-completeness.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "finite 2x2 matrix identity over C; no branch",
+          "status": "N_A",
+          "where": "notes",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-rej-index-rename",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-rej-index-rename.json",
+      "screening": "miner_rejected",
+      "rejected": true,
+      "reject_reason": "index renaming, not a tensor generator",
+      "functions": [],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "no analytic-domain obligation (anti-pattern)",
+          "status": "N_A",
+          "where": "n/a",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-ricci-weyl",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-ricci-weyl.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "n=4 so n(n-1) and n-2 invertible in Q",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "sqrt",
+          "predicate": "no square roots / volume-form Levi-Civita",
+          "status": "N_A",
+          "where": "branch_conventions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-weyl-su2-char",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-weyl-su2-char.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "exp",
+        "sin",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "z != 0 so z^{-1} exists",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+symbol_assumptions",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "quotient form: z - z^{-1} != 0 i.e. z^2 != 1 / sin(theta) != 0",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "division-free polynomial identity on all of C (preferred verification path)",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "at z^2=1 the quotient is removable and equals m+1",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "entire on iR",
+          "status": "DECLARED",
+          "where": "function_domains[exp]",
+          "notes": ""
+        },
+        {
+          "function": "sin",
+          "predicate": "entire sine, not a branched inverse",
+          "status": "DECLARED",
+          "where": "function_domains+branch_conventions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "ac-t-young-s3",
+      "cluster": "C4_tensor",
+      "path": "cases/tensor/ac-t-young-s3.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "3 and 6 invertible (char 0)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": "algebraic over Q, not a complex pole"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-adjoint-linear-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-adjoint-linear-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "exp"
+      ],
+      "requirements": [
+        {
+          "function": "exp",
+          "predicate": "entire; matrix exponential of t A for all real t; no finite-time blowup",
+          "status": "DECLARED",
+          "where": "function_domains+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "adjoint ODE likewise entire in t on [0,T]",
+          "status": "DECLARED",
+          "where": "analytic_domains+limit_domains",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "T>0 interval length",
+          "status": "DECLARED",
+          "where": "positivity_conditions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-daleckii-krein-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-daleckii-krein-01.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [
+        "matrix_fA",
+        "exp",
+        "inv_1_over_z",
+        "log"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "f C^1 on open D containing spec(A)",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "inverse specialization: 0 not in spec(A)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "D=C entire; no cut",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "lam_i != lam_j on off-diagonal Loewner entries",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "principal logarithm / spec in C minus (-oo,0]",
+          "status": "N_A",
+          "where": "branch_conventions",
+          "notes": "log specialization not required for exp/inv members"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-deq-ift-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-deq-ift-01.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [
+        "resolvent",
+        "tanh"
+      ],
+      "requirements": [
+        {
+          "function": "resolvent",
+          "predicate": "D_z g = D_z f - I invertible at equilibrium (IFT nondegeneracy)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "tanh",
+          "predicate": "entire as C->C; real-analytic on R",
+          "status": "DECLARED",
+          "where": "function_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "scalar probe 1 - w sech^2 != 0",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "Neumann member: spectral radius of J_f < 1",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "resolvent",
+          "predicate": "rho(J)<1 => I-J invertible and Neumann = resolvent",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-lyapunov-kronecker-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-lyapunov-kronecker-01.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [
+        "exp",
+        "inv_1_over_z"
+      ],
+      "requirements": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "unique solution: spec(A) cap spec(-B) empty (Kronecker-sum invertibility)",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "1x1 probe a != 0",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "entire matrix exponential",
+          "status": "DECLARED",
+          "where": "function_domains",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "Gramian integral: Re spec(A) < 0 so the [0,oo) integral converges",
+          "status": "DECLARED",
+          "where": "analytic_domains+limit_domains",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "Re spec<0 implies lam_i+lam_j != 0",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-ou-mehler-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-ou-mehler-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "exp",
+        "sqrt",
+        "mehler_ou"
+      ],
+      "requirements": [
+        {
+          "function": "exp",
+          "predicate": "entire; restricted to real theta t, beta t",
+          "status": "DECLARED",
+          "where": "function_domains",
+          "notes": ""
+        },
+        {
+          "function": "mehler_ou",
+          "predicate": "theta>0, t>0, beta>0 (VP), v_t>0",
+          "status": "DECLARED",
+          "where": "positivity_conditions",
+          "notes": ""
+        },
+        {
+          "function": "sqrt",
+          "predicate": "positive real square root of v_t>0 (excluded point 0 avoided)",
+          "status": "DECLARED",
+          "where": "branch_conventions+derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "mehler_ou",
+          "predicate": "transition density entire of Gaussian type for t>0; no poles",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "no log branch",
+          "status": "N_A",
+          "where": "branch_conventions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-phi-hermite-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-phi-hermite-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "phi_k",
+        "exp"
+      ],
+      "requirements": [
+        {
+          "function": "exp",
+          "predicate": "entire on C",
+          "status": "DECLARED",
+          "where": "function_domains+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "phi_k",
+          "predicate": "phi_k entire on C; phi_k(0)=1/k!",
+          "status": "DECLARED",
+          "where": "function_domains+analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "phi_k",
+          "predicate": "Newton quotient uses z!=0; value at 0 is a separate member",
+          "status": "DECLARED",
+          "where": "nonzero_conditions",
+          "notes": ""
+        },
+        {
+          "function": "phi_k",
+          "predicate": "entire continuation => piecewise quotient/value is one holomorphic function",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "pole of (e^z-1)/z at 0",
+          "status": "N_A",
+          "where": "branch_conventions",
+          "notes": "removable; not a principal-value cut"
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-tweedie-gauss-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-tweedie-gauss-01.json",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "functions": [
+        "log",
+        "exp"
+      ],
+      "requirements": [
+        {
+          "function": "log",
+          "predicate": "real logarithm on (0,oo) applied to f(y)>0",
+          "status": "DECLARED",
+          "where": "function_domains+branch_conventions",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "f(y)>0 for all real y (Gaussian marginal never vanishes; excluded point 0 avoided)",
+          "status": "DECLARED",
+          "where": "positivity_conditions",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "log f C^infty on R; conjugate identities rational/entire on sig2>0, tau2>0; no cut",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "log",
+          "predicate": "sigma>0, tau>0",
+          "status": "DECLARED",
+          "where": "positivity_conditions",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    },
+    {
+      "case_id": "sciml-vanloan-blockexp-01",
+      "cluster": "C5_sciml",
+      "path": "cases/sciml/sciml-vanloan-blockexp-01.json",
+      "screening": "keeper",
+      "rejected": false,
+      "functions": [
+        "exp",
+        "phi_k",
+        "matrix_fA"
+      ],
+      "requirements": [
+        {
+          "function": "matrix_fA",
+          "predicate": "general f: spec(X) subset D, f of class C^{2n-1}",
+          "status": "DECLARED",
+          "where": "analytic_domains+function_domains",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "no spectral restriction; entire so the block identity holds for all square A,E",
+          "status": "DECLARED",
+          "where": "analytic_domains",
+          "notes": ""
+        },
+        {
+          "function": "exp",
+          "predicate": "C^{2n-1} hypothesis satisfied on D=C for f=exp",
+          "status": "DERIVED",
+          "where": "derived_conditions",
+          "notes": ""
+        },
+        {
+          "function": "phi_k",
+          "predicate": "(e^z-1)/z entire continuation (value 1 at 0)",
+          "status": "DECLARED",
+          "where": "branch_conventions+limit_domains",
+          "notes": ""
+        }
+      ],
+      "flags": [],
+      "verdict": "OK",
+      "gap_predicates": []
+    }
+  ],
+  "assumption_gaps": [
+    {
+      "case_id": "ac-r04-lindhard-occupation-dd",
+      "cluster": "C1_response",
+      "screening": "flagged:TRIVIAL_CSE,SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "reject_reason": "",
+      "predicates": [
+        {
+          "function": "n_F",
+          "predicate": "T>0 so n_F is C^infty / meromorphic on a neighborhood of real E (needed for holomorphic confluence remainder of occupation)",
+          "status": "MISSING",
+          "where": "notes explicitly do not insert T>0"
+        },
+        {
+          "function": "n_F",
+          "predicate": "occupation poles exp(beta E)=-1 excluded",
+          "status": "MISSING",
+          "where": "beta is not a symbol; pole set not in function_domains"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "static generic pole-exclusion E(k+q) != E(k) after omega+i delta -> 0",
+          "status": "MISSING",
+          "where": "nonzero_conditions names the denom but does not exclude its vanishing"
+        }
+      ],
+      "why": "Occupation Newton/Hermite remainder needs a holomorphic n_F germ (T>0) and, after the declared static limit omega+i delta->0, E(k+q)!=E(k). Neither pole-exclusion is DECLARED/DERIVED. T=0 Heaviside is a jump (H7), not a meromorphic occupation."
+    },
+    {
+      "case_id": "ac-r06-matsubara-pole-family",
+      "cluster": "C1_response",
+      "screening": "flagged:SILENT_PHYSICS_POSITIVITY",
+      "rejected": false,
+      "reject_reason": "",
+      "predicates": [
+        {
+          "function": "n_F",
+          "predicate": "occupancy poles exp(beta z) != -1",
+          "status": "MISSING",
+          "where": "function_domains[n_F] is the formula only; no pole set; xi complex unconstrained"
+        },
+        {
+          "function": "n_B",
+          "predicate": "occupancy poles exp(beta z) != 1, including z != 0",
+          "status": "MISSING",
+          "where": "function_domains[n_B] is the formula only"
+        },
+        {
+          "function": "n_F",
+          "predicate": "beta != 0 / beta>0 to locate Matsubara and occupancy poles",
+          "status": "MISSING",
+          "where": "symbol beta real only; T>0 not inserted; 0<tau<beta is only the Green weighting paragraph"
+        }
+      ],
+      "why": "Same Wikipedia table as thermal-08. g-vs-Matsubara disjointness is only function_domains prose. Occupancy poles of n_F/n_B and beta!=0 are not labeled. xi is complex unconstrained, so exp(beta xi)=eta is not excluded from A/B."
+    },
+    {
+      "case_id": "ac-r07-lippmann-schwinger-iepsilon",
+      "cluster": "C1_response",
+      "screening": "flagged:TRIVIAL_CSE",
+      "rejected": false,
+      "reject_reason": "",
+      "predicates": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "epsilon != 0 (pole-exclusion of the regularized denominator when E=E_beta)",
+          "status": "MISSING",
+          "where": "symbol epsilon has no positivity/nonzero; notes: epsilon>0 not inserted"
+        }
+      ],
+      "why": "Naive pole at E in spec(H0) is DECLARED. Regularized 1/(E-E_beta +/- i epsilon) still needs epsilon!=0 to miss that pole. epsilon has no nonzero/positive flag; epsilon>0 is not inserted."
+    },
+    {
+      "case_id": "ac-r08-kubo-frequency-underspecified",
+      "cluster": "C1_response",
+      "screening": "miner_rejected",
+      "rejected": true,
+      "reject_reason": "PROBLEM_UNDERSPECIFIED",
+      "predicates": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "retarded frequency-domain response analytic in Im omega > 0",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "i0+ / omega+i eta, eta->0+ prescription for the Fourier transform of the causal commutator",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "Fourier transform of the causal commutator to retarded chi(omega)",
+          "status": "NOT_DECLARED",
+          "where": "limit_domains"
+        }
+      ],
+      "why": "Frequency-domain 1/omega i0+ / UHP analyticity are labeled NOT_DECLARED. Miner already rejected PROBLEM_UNDERSPECIFIED."
+    },
+    {
+      "case_id": "thermal-08-matsubara-newton-dd-underspecified",
+      "cluster": "C2_thermal",
+      "screening": "miner_rejected",
+      "rejected": true,
+      "reject_reason": "PROBLEM_UNDERSPECIFIED: verifier-needed predicates xi1!=xi2 and exclusion of Matsubara poles of g are NOT_DECLARED",
+      "predicates": [
+        {
+          "function": "inv_1_over_z",
+          "predicate": "xi1 != xi2 so the Newton quotient is defined",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains+nonzero_conditions"
+        },
+        {
+          "function": "inv_1_over_z",
+          "predicate": "xi1, xi2 not equal to any Matsubara frequency i*omega_n",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains+nonzero_conditions"
+        },
+        {
+          "function": "n_F",
+          "predicate": "xi avoid occupancy poles exp(beta xi)=eta",
+          "status": "NOT_DECLARED",
+          "where": "analytic_domains"
+        },
+        {
+          "function": "n_F",
+          "predicate": "beta > 0",
+          "status": "NOT_DECLARED",
+          "where": "positivity_conditions"
+        }
+      ],
+      "why": "Miner-preserved underspecified twin: xi1!=xi2, Matsubara-pole exclusion, occupancy poles, and beta>0 are NOT_DECLARED."
+    }
+  ],
+  "cluster_summary": {
+    "C1_response": {
+      "n": 8,
+      "gaps": 4,
+      "ok": 4,
+      "rejected": 1
+    },
+    "C2_thermal": {
+      "n": 8,
+      "gaps": 1,
+      "ok": 7,
+      "rejected": 1
+    },
+    "C3_mathphys": {
+      "n": 8,
+      "gaps": 0,
+      "ok": 8,
+      "rejected": 0
+    },
+    "C4_tensor": {
+      "n": 8,
+      "gaps": 0,
+      "ok": 8,
+      "rejected": 1
+    },
+    "C5_sciml": {
+      "n": 8,
+      "gaps": 0,
+      "ok": 8,
+      "rejected": 0
+    }
+  },
+  "parse_policy_note": "PARSE_POLICY allows sin,cos,tan,exp,log,sqrt,Abs,conjugate,re,im,sinh,cosh,tanh,asin,acos,atan,atan2,Rational,polygamma. coth, cot, polylog, gamma, Integral, Sum, DiracDelta, Heaviside, matrix expm are not default builtins. That is engine admissibility, not an analytic-domain ASSUMPTION_GAP. Sketches already rewrite coth as cosh/sinh.",
+  "c6_contrast": {
+    "note": "C6 negative control nc-not-declared-analytic is the schema picture of ASSUMPTION_GAP: 'a is not a pole of f' labeled NOT_DECLARED. It is not a C1-C5 scientific case.",
+    "not_audited_as_candidate": true
+  },
+  "functions_used": [
+    "Heaviside",
+    "Li_s",
+    "cot_tan",
+    "coth",
+    "exp",
+    "gamma",
+    "helmholtz_green",
+    "hilbert_lehmann",
+    "inv_1_over_z",
+    "log",
+    "matrix_fA",
+    "mehler_ou",
+    "n_B",
+    "n_F",
+    "phi_k",
+    "polygamma",
+    "resolvent",
+    "sin",
+    "sqrt",
+    "tanh"
+  ]
+}
