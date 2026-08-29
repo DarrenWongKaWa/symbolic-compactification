@@ -1,0 +1,2842 @@
+{
+  "meta": {
+    "agent": "A1",
+    "parent": "f987fcc",
+    "branch": "work/ac-a-extract",
+    "method_version": "ac-repr-1",
+    "n_miner_candidates": 40,
+    "n_in_extract": 40,
+    "n_keepers": 22,
+    "n_flagged": 15,
+    "n_miner_rejected": 3,
+    "n_declared_statements": 224,
+    "n_derived_statements": 52,
+    "n_not_declared_statements": 67,
+    "n_not_declared_analytic": 27,
+    "guo_admitted": false,
+    "admitted_dev": [],
+    "admitted_test": [],
+    "policy": "Assumptions are taken literally from each miner dossier's source_provenance and quoted source sentences. DECLARED = the cited source writes it. DERIVED = follows from DECLARED predicates in the same dossier (class B). NOT_DECLARED = verifier-needed or folklore, not written by the source. Physical folklore T>0, broadening>0, energies real is NOT_DECLARED unless the provenance quote already states it. Guo is not admitted. Skeptic negatives are controls only. This file does not admit DEV/TEST.",
+    "labels": [
+      "DECLARED",
+      "DERIVED",
+      "NOT_DECLARED"
+    ]
+  },
+  "cases": {
+    "mp-cauchy-dunford-01": {
+      "declared": [
+        {
+          "statement": "f is analytic on and inside a closed contour Gamma that encloses Lambda(A) (Higham Definition 1.11; Higham–Lin Definition 3.3 uses the same wording).",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham–Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The integrand contains the resolvent (zI-A)^{-1}, which is defined on Gamma since Gamma is disjoint from the spectrum of A (Higham Definition 1.11, sentence after display (1.12)).",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham–Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "If the Cauchy definition is claimed equivalent to the Jordan and Hermite definitions, f is analytic (Higham Theorem 1.12: 'If f is analytic then Definition 1.11 is equivalent to Definitions 1.2 and 1.4').",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham–Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Positive orientation of Gamma (standard Cauchy integral; Higham writes the factor 1/(2πi) as in the scalar Cauchy formula).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Primary matrix function: one branch of f on and inside Gamma.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "de Boor/Frobenius disk of radius rho with contour in the annulus rho'<rho, interpolation nodes not in the annulus",
+          "source": "dossier notes: do not import those disk/annulus hypotheses into Higham Definition 1.11; do not certify de Boor (51) from Higham's wording alone",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Higham Def. 1.11: f analytic on and inside a closed contour enclosing Lambda(A), resolvent defined on Gamma. Equivalence to Jordan/Hermite needs that analyticity (Thm 1.12). de Boor disk/annulus list is NOT_DECLARED here.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham–Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+        "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, §9 Contour integral, display (51), attributing the formula to Frobenius 1871",
+        "DOI 10.1137/1.9780898717778",
+        "https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+        "https://arxiv.org/abs/math/0502036",
+        "Horn–Johnson, Topics in Matrix Analysis, 1991, Theorem 6.2.28 (cited by Higham for the Cauchy equivalence)"
+      ],
+      "public_source": "Higham 2008, Definition 1.11 and Theorem 1.12. Higham–Lin, https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf, Definition 3.3. Related contour DD: de Boor, arXiv:math/0502036, §9.",
+      "domain": "mathphys",
+      "proposed_ladder": "R6_master_object"
+    },
+    "mp-daleckii-krein-01": {
+      "declared": [
+        {
+          "statement": "Z is invertible (X = Z D Z^{-1} in Corollary 3.12).",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "D is an open subset of R or of C (Higham §3.2 opening sentence for the Fréchet-derivative section).",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "f is 2n-1 times continuously differentiable on D (Higham Theorem 3.11 and Corollary 3.12).",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The spectrum of X lies in D, and for Theorem 3.11 the matrix is diagonal with every diagonal entry in D; Corollary 3.12 extends to diagonalizable X = Z D Z^{-1} with that spectrum.",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The equal-eigenvalue clause f[l,l] = f'(l) is the definition Higham records, not an extra limit to be taken in the verifier; C^{2n-1} on D supplies f'.",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+          "kind": "limit"
+        },
+        {
+          "statement": "Divided difference as in Higham before Theorem 3.9: f[l,m] = (f(l)-f(m))/(l-m) if l != m, and f[l,l] = f'(l). No further branch of f is named in Theorem 3.11.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "Existence of f' on the spectrum follows from the declared C^{2n-1} regularity on an open set containing the spectrum.",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "f holomorphic on a neighbourhood of the spectrum",
+          "source": "dossier notes: do not silently replace Higham C^{2n-1} smoothness by holomorphy",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "X Hermitian",
+          "source": "dossier notes: 1965 Daleckii-Krein paper is Hermitian, but Higham Theorem 3.11 / Corollary 3.12 used here is not; do not insert A Hermitian",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "Noferini C^1 mixed with Higham C^{2n-1}",
+          "source": "dossier notes: mixing the two hypothesis lists is forbidden",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Working contract is Higham Thm 3.11 / Cor. 3.12: C^{2n-1} on open D containing the spectrum, diagonalizable. Hermitian-1965, holomorphy, and Noferini C^1 are NOT_DECLARED for this wording. f' on the spectrum is DERIVED from C^{2n-1}.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition recalled immediately before Theorem 3.9",
+        "Noferini, A Daleckii–Krein formula for the Fréchet derivative of a generalized matrix function, MIMS EPrint 2016.24, Theorem 2.10, citing Daleckii–Krein, Amer. Math. Soc. Transl. Ser. 2, 47 (1965) 1–30",
+        "DOI 10.1137/1.9780898717778",
+        "https://eprints.maths.manchester.ac.uk/2462/1/gendk.pdf",
+        "Daleckii Yu. L., Krein S. G., Integration and differentiation of functions of Hermitian operators and applications to the theory of perturbations, Amer. Math. Soc. Transl. Ser. 2 47 (1965) 1–30"
+      ],
+      "public_source": "Higham 2008, Theorem 3.11 and Corollary 3.12. Classical source: Daleckii–Krein, AMS Transl. Ser. 2 47 (1965). Restatement for diagonalizable (not necessarily Hermitian) matrices with C^1 on the spectrum: Noferini, MIMS EPrint 2016.24, Theorem 2.10, https://eprints.maths.manchester.ac.uk/2462/1/gendk.pdf",
+      "domain": "mathphys",
+      "proposed_ladder": "R3_hermite_dd"
+    },
+    "mp-hermite-fA-01": {
+      "declared": [
+        {
+          "statement": "f is defined on the spectrum of A: the derivatives f^{(j)}(lambda_i) exist for j=0:n_i-1, i=1:s (Higham: 'f is said to be defined on the spectrum of A').",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham–Lin, A Schur–Padé algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "A belongs to C^{n x n}.",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham–Lin, A Schur–Padé algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Primary matrix function: the same branch of f and of its derivatives is taken at every occurrence of an eigenvalue (Higham–Al-Mohy, Computing matrix functions, §2.1; Higham 2008, §1.4). Non-primary functions are a different object.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "There is a unique such interpolating polynomial p (stated in Higham Definition 1.4, not an extra hypothesis).",
+          "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham–Lin, A Schur–Padé algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "holomorphy of f on a neighbourhood of Lambda(A)",
+          "source": "dossier notes: that hypothesis belongs to Higham Definition 1.11 (Cauchy), not Definition 1.4",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "A Hermitian",
+          "source": "dossier notes: do not insert A Hermitian",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "A diagonalizable",
+          "source": "dossier notes: do not insert A diagonalizable",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "preferred branch of sqrt/log for a general f",
+          "source": "dossier notes: Higham's running square-root example uses Re t^{1/2}>=0; that convention is not declared for a general f",
+          "kind": "branch",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Higham Def. 1.4: f defined on the spectrum (jets through Jordan index). Uniqueness of p is DERIVED as stated in that definition. Holomorphy, Hermitian, diagonalizable, and a general sqrt/log branch are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (matrix function via Hermite interpolation) and Theorem 1.12; Higham–Lin, A Schur–Padé algorithm for fractional powers of a matrix, Def. 3.2 (eprints.maths.manchester.ac.uk/2067/1/paper.pdf)",
+        "DOI 10.1137/1.9780898717778",
+        "https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+        "https://epubs.siam.org/doi/10.1137/1.9780898717778"
+      ],
+      "public_source": "N. J. Higham, Functions of Matrices: Theory and Computation, SIAM, 2008, Definitions 1.4 and 1.2, Theorem 1.12. Survey: Higham–Al-Mohy, Acta Numerica 2010, Definition 2.2. Public PDF of the Schur–Padé companion: https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+      "domain": "mathphys",
+      "proposed_ladder": "R3_hermite_dd"
+    },
+    "mp-kato-simple-ev-01": {
+      "declared": [
+        {
+          "statement": "x0 != 0 and y0 != 0, with A0 x0 = lambda0 x0 and y0* A0 = lambda0 y0* (Assumption 1).",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Normalization y0* x0 = 1 is declared in Assumption 1.",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "lambda0 is a simple eigenvalue of A0 (Greenbaum–Li–Overton Assumption 1).",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "A(tau) is analytic in a neighbourhood of tau0 (Assumption 1: each entry analytic / complex differentiable / holomorphic near tau0).",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Theorems 1–3 then give unique lambda(tau), and some x(tau), y(tau)*, Pi(tau), analytic in a neighbourhood of tau0.",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Neighbourhood of tau0 in which the analytic branches exist is the neighbourhood granted by Theorems 1–3; no explicit radius is stated in those theorems.",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "limit"
+        },
+        {
+          "statement": "Left eigenvectors are written with conjugate transpose y* (Greenbaum–Li–Overton Remark 1: a convention, not forced). y(tau)* , not y(tau), is analytic in the complex parameter.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Eigenvector scale: y(tau)* x(tau) = 1 together with y0* x'(tau0)=0 and (y*)'(tau0) x0 = 0 in Theorem 2; other normalizations are a different theorem in that paper §3.4.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "y0* x0 != 0, so the normalization y0* x0 = 1 is always possible: 'the right and left eigenvector corresponding to a simple eigenvalue cannot be orthogonal' (Greenbaum–Li–Overton Remark 1).",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "derived"
+        },
+        {
+          "statement": "In finite dimension, a simple eigenvalue is isolated (spectrum of A0 in C^{n x n} is finite). Isolation is not an extra hypothesis beyond Assumption 1's matrix setting.",
+          "source": "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "self-adjointness of A0 / A(tau)",
+          "source": "dossier notes: do not insert self-adjointness",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "Rellich convergent power series for multiple eigenvalues",
+          "source": "dossier notes: Greenbaum-Li-Overton §1 and §4; multiple eigenvalues break Assumption 1",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "isolating contour Gamma subset rho(A0) enclosing only lambda0",
+          "source": "dossier notes: do not insert an isolating contour unless the contour form of Pi is taken from Kato and then DECLARED from Kato, not from Assumption 1",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "'sufficiently small tau' beyond the neighbourhood Theorems 1-3 already grant",
+          "source": "dossier notes: do not insert extra smallness",
+          "kind": "limit",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Greenbaum-Li-Overton Assumption 1: simple eigenvalue, analytic A(tau), x0,y0 nonzero, y0* x0=1. Non-orthogonality and isolation in finite dimension are DERIVED. Self-adjointness, Rellich multiple-ev, and an isolating contour not in Assumption 1 are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Greenbaum, Li, Overton, First-order perturbation theory for eigenvalues and eigenvectors, arXiv:1903.00785, Assumption 1 and Theorems 1–3",
+        "Kato, Perturbation Theory for Linear Operators, Springer, finite-dimensional edition 1982, Chapter II (cited throughout Greenbaum–Li–Overton; reduced resolvent at I.5.28 and II.2.11; eigenprojector derivative at II.2.13)",
+        "https://ar5iv.labs.arxiv.org/html/1903.00785",
+        "https://arxiv.org/abs/1903.00785"
+      ],
+      "public_source": "A. Greenbaum, R.-C. Li, M. L. Overton, arXiv:1903.00785, Assumption 1 and Theorems 1–3. Kato 1982, Chapters I–II (reduced resolvent, eigenprojector).",
+      "domain": "mathphys",
+      "proposed_ladder": "R2_newton_dd"
+    },
+    "mp-mathias-block-01": {
+      "declared": [
+        {
+          "statement": "f is 2n-1 times continuously differentiable on D, where D is an open subset of R or C (Higham Theorem 3.6; Al-Mohy–Higham Theorem 2.1: 'Let f be 2n-1 times continuously differentiable on D and let the spectrum of X lie in D').",
+          "source": "Mathias, A chain rule for matrix functions and applications, SIAM J. Matrix Anal. Appl. 17 (1996) 610–620, Theorem 2.1 / Lemma 1.1; Higham 2008, Theorem 3.6 (Mathias); Higham–Relton, Higher order Fréchet derivatives of matrix functions, SIMAX 35 (2014) 1019–1037, Theorem 3.3 quoting Mathias; Al-Mohy–Higham, Computing the Fréchet derivative of the matrix exponential, Theorem 2.1",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The spectrum of X lies in D (same theorem statements).",
+          "source": "Mathias, A chain rule for matrix functions and applications, SIAM J. Matrix Anal. Appl. 17 (1996) 610–620, Theorem 2.1 / Lemma 1.1; Higham 2008, Theorem 3.6 (Mathias); Higham–Relton, Higher order Fréchet derivatives of matrix functions, SIMAX 35 (2014) 1019–1037, Theorem 3.3 quoting Mathias; Al-Mohy–Higham, Computing the Fréchet derivative of the matrix exponential, Theorem 2.1",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Mathias 1996 also records: if A(t) is differentiable at t=0 and the spectrum of A(t) is contained in D for all t in some neighbourhood of 0, then the t-derivative of f(A(t)) at 0 is the (1,2) block of f of the block triangular matrix with A(0) on the diagonal and A'(0) in the corner (Higham Theorem 3.6).",
+          "source": "Mathias, A chain rule for matrix functions and applications, SIAM J. Matrix Anal. Appl. 17 (1996) 610–620, Theorem 2.1 / Lemma 1.1; Higham 2008, Theorem 3.6 (Mathias); Higham–Relton, Higher order Fréchet derivatives of matrix functions, SIMAX 35 (2014) 1019–1037, Theorem 3.3 quoting Mathias; Al-Mohy–Higham, Computing the Fréchet derivative of the matrix exponential, Theorem 2.1",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "For the path form (Higham Thm 3.6): spectrum of A(t) stays in D for all t in some neighbourhood of 0 (stated in the theorem; not a silent 'sufficiently small t' without that neighbourhood clause).",
+          "source": "Mathias, A chain rule for matrix functions and applications, SIAM J. Matrix Anal. Appl. 17 (1996) 610–620, Theorem 2.1 / Lemma 1.1; Higham 2008, Theorem 3.6 (Mathias); Higham–Relton, Higher order Fréchet derivatives of matrix functions, SIMAX 35 (2014) 1019–1037, Theorem 3.3 quoting Mathias; Al-Mohy–Higham, Computing the Fréchet derivative of the matrix exponential, Theorem 2.1",
+          "kind": "limit"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "holomorphy of f",
+          "source": "dossier notes: Mathias/Higham require C^{2n-1}, not analyticity; Najfeld-Havel analyticity is a different citation",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "X Hermitian",
+          "source": "dossier notes: do not insert X Hermitian",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "X diagonalizable",
+          "source": "dossier notes: do not insert X diagonalizable",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "C^{2n-1} on open D containing spec(X), and for the path form spec(A(t)) stays in D near 0, are quoted. Holomorphy, Hermitian, and diagonalizable are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Mathias, A chain rule for matrix functions and applications, SIAM J. Matrix Anal. Appl. 17 (1996) 610–620, Theorem 2.1 / Lemma 1.1; Higham 2008, Theorem 3.6 (Mathias); Higham–Relton, Higher order Fréchet derivatives of matrix functions, SIMAX 35 (2014) 1019–1037, Theorem 3.3 quoting Mathias; Al-Mohy–Higham, Computing the Fréchet derivative of the matrix exponential, Theorem 2.1",
+        "DOI 10.1137/S0895479895284634",
+        "DOI 10.1137/130945259",
+        "DOI 10.1137/1.9780898717778"
+      ],
+      "public_source": "R. Mathias, SIAM J. Matrix Anal. Appl. 17 (1996) 610–620, Theorem 2.1. Higham 2008, Theorem 3.6. Al-Mohy–Higham, Theorem 2.1 (Fréchet derivative of the matrix exponential paper).",
+      "domain": "mathphys",
+      "proposed_ladder": "R6_master_object"
+    },
+    "mp-opitz-dd-01": {
+      "declared": [
+        {
+          "statement": "Proposition 25 is stated for any polynomial p in Π (de Boor, display (26)). Continuity of Delta(t_{1:j}) in the nodes (Proposition 21) is used in the proof to pass from distinct t_i to coincident nodes.",
+          "source": "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, Proposition 25 (Opitz formula) and Definition 37 (Kowalewski extension from polynomials to functions for which the Hermite interpolant exists)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Off polynomials, Definition 37 requires f smooth enough that the derivatives in (36) make sense, equivalently that the Hermite interpolant of f at t_{1:n} exists (de Boor §7, citing Kowalewski 1932).",
+          "source": "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, Proposition 25 (Opitz formula) and Definition 37 (Kowalewski extension from polynomials to functions for which the Hermite interpolant exists)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Coincident nodes are included: de Boor notes that Opitz originally excluded coincident t_j, and that continuity of the divided difference (Proposition 21) extends the identity to repeated nodes. The repeated-node rule Delta(tau[n+1]) p = D^n p(tau)/n! is Example 4 / (14).",
+          "source": "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, Proposition 25 (Opitz formula) and Definition 37 (Kowalewski extension from polynomials to functions for which the Hermite interpolant exists)",
+          "kind": "limit"
+        },
+        {
+          "statement": "IF is R or C as in de Boor §1. No branch of a multi-valued f is named.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "For polynomials, the identity at coincident nodes follows from the distinct-node case plus continuity of Delta (de Boor Proposition 21), which de Boor records as the justification for dropping Opitz's distinctness ban.",
+          "source": "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, Proposition 25 (Opitz formula) and Definition 37 (Kowalewski extension from polynomials to functions for which the Hermite interpolant exists)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "holomorphy / entire-ness imported from de Boor §9 contour paragraph",
+          "source": "dossier notes: do not import holomorphy from the Cauchy/Frobenius contour paragraph into Proposition 25",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "distinct nodes (Opitz's original restriction)",
+          "source": "dossier notes: Opitz excluded coincident t_j; de Boor removes that ban via continuity of Delta",
+          "kind": "nonzero",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "f entire, for the non-polynomial (Kowalewski) extension",
+          "source": "dossier notes: Kowalewski only needs the Hermite jet to exist",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Prop. 25 is for polynomials; coincident nodes via continuity of Delta; Kowalewski needs the Hermite jet. Contour holomorphy, Opitz's distinct-node ban, and entire-ness off polynomials are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, Proposition 25 (Opitz formula) and Definition 37 (Kowalewski extension from polynomials to functions for which the Hermite interpolant exists)",
+        "https://arxiv.org/abs/math/0502036",
+        "Opitz G., Steigungsmatrizen, ZAMM 44 (1964) T52–T54 (as cited by de Boor; Opitz excluded coincident nodes)"
+      ],
+      "public_source": "C. de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, Proposition 25 and Definition 37. Original: G. Opitz, ZAMM 44 (1964).",
+      "domain": "mathphys",
+      "proposed_ladder": "R3_hermite_dd"
+    },
+    "mp-parlett-schur-01": {
+      "declared": [
+        {
+          "statement": "Scalar Parlett recurrence (Algorithm 4.2): T has distinct diagonal elements, so T_ii - T_jj != 0 in every division.",
+          "source": "Parlett, A recurrence among the elements of functions of triangular matrices, Linear Algebra Appl. 14 (1976) 117–121; Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2 (scalar Parlett recurrence) and 4.3 (block Parlett recurrence); Higham 2008, Chapter 9 (Schur–Parlett)",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Scalar algorithm: T upper triangular in C^{n x n} with distinct diagonal elements, and f defined on the spectrum of T (Higham–Al-Mohy Algorithm 4.2).",
+          "source": "Parlett, A recurrence among the elements of functions of triangular matrices, Linear Algebra Appl. 14 (1976) 117–121; Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2 (scalar Parlett recurrence) and 4.3 (block Parlett recurrence); Higham 2008, Chapter 9 (Schur–Parlett)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Block algorithm: T upper triangular, partitioned in block m x m form with no two diagonal blocks having an eigenvalue in common, and f defined on the spectrum of T (Higham–Al-Mohy Algorithm 4.3).",
+          "source": "Parlett, A recurrence among the elements of functions of triangular matrices, Linear Algebra Appl. 14 (1976) 117–121; Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2 (scalar Parlett recurrence) and 4.3 (block Parlett recurrence); Higham 2008, Chapter 9 (Schur–Parlett)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The scalar recurrence is not defined when t_ii = t_jj; that degeneracy is the block recurrence's hypothesis ('no two diagonal blocks having an eigenvalue in common'), not a limit of the scalar formula inside Algorithm 4.2.",
+          "source": "Parlett, A recurrence among the elements of functions of triangular matrices, Linear Algebra Appl. 14 (1976) 117–121; Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2 (scalar Parlett recurrence) and 4.3 (block Parlett recurrence); Higham 2008, Chapter 9 (Schur–Parlett)",
+          "kind": "limit"
+        },
+        {
+          "statement": "Primary matrix function of a triangular matrix: F is upper triangular with diagonal f(t_ii), using one branch of f at each eigenvalue (Higham–Al-Mohy, facts after Definition 2.2).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "F = f(T) commutes with T because f(T) is a polynomial in T when f is defined on the spectrum (Higham Theorem 1.13 / Higham–Al-Mohy Theorem 2.3), which is the source of FT=TF used to derive the recurrence.",
+          "source": "Parlett, A recurrence among the elements of functions of triangular matrices, Linear Algebra Appl. 14 (1976) 117–121; Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2 (scalar Parlett recurrence) and 4.3 (block Parlett recurrence); Higham 2008, Chapter 9 (Schur–Parlett)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "holomorphy of f",
+          "source": "dossier notes: do not insert holomorphy; scalar Algorithm 4.2 requires f defined on the spectrum",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "block Parlett recurrence as a limit identity of the scalar recurrence when diagonals coincide",
+          "source": "dossier notes: do not claim the block form as a limit identity without a separate confluence theorem",
+          "kind": "limit",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Scalar Algorithm 4.2: distinct diagonals and f defined on the spectrum. Block Algorithm 4.3: spectral disjointness of diagonal blocks. FT=TF is DERIVED from f(T) a polynomial in T. Holomorphy and treating the block form as a scalar-recurrence limit are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Parlett, A recurrence among the elements of functions of triangular matrices, Linear Algebra Appl. 14 (1976) 117–121; Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2 (scalar Parlett recurrence) and 4.3 (block Parlett recurrence); Higham 2008, Chapter 9 (Schur–Parlett)",
+        "https://eprints.maths.manchester.ac.uk/1451/1/paper8.pdf",
+        "DOI 10.1016/0024-3795(76)90061-5"
+      ],
+      "public_source": "B. N. Parlett, Linear Algebra Appl. 14 (1976) 117–121. Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Algorithms 4.2–4.3, https://eprints.maths.manchester.ac.uk/1451/1/paper8.pdf. Higham 2008, Chapter 9.",
+      "domain": "mathphys",
+      "proposed_ladder": "R4_piecewise_unification"
+    },
+    "mp-resolvent-dd-01": {
+      "declared": [
+        {
+          "statement": "lambda, mu belong to rho(A) (Glück Proposition 2.2.9: the resolvent identity holds for all lambda, mu in rho(a)).",
+          "source": "Glück, Functional Analysis 1 lecture notes, Proposition 2.2.9 (resolvent identity) and Example 2.3.2 (resolvent is holomorphic on rho(a) with R'(lambda,a) = -R(lambda,a)^2); Kato, Perturbation Theory for Linear Operators, Ch. I (finite-dimensional edition, 1982), resolvent identity",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The map rho(A) -> algebra, lambda |-> R(lambda,A), is holomorphic, and R'(lambda,A) = -R(lambda,A)^2 for each lambda in rho(A) (Glück Example 2.3.2).",
+          "source": "Glück, Functional Analysis 1 lecture notes, Proposition 2.2.9 (resolvent identity) and Example 2.3.2 (resolvent is holomorphic on rho(a) with R'(lambda,a) = -R(lambda,a)^2); Kato, Perturbation Theory for Linear Operators, Ch. I (finite-dimensional edition, 1982), resolvent identity",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "For the two-operator identity: z belongs to rho(A) ∩ rho(B) (Müger Exercise 13.29, with that source's resolvent convention recorded under branch_conventions).",
+          "source": "Müger, Functional Analysis notes, Exercise 13.29: first identity R_a(s)-R_a(t)=(s-t) R_a(s) R_a(t) for s,t in F\\sigma(a), and second identity R_a(s)-R_b(s)=R_a(s)(b-a)R_b(s) for s in F\\(σ(a)∪σ(b)), with R_a(λ)=(a-λ1)^{-1} in that source",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The repeated-node limit mu -> lambda is taken inside rho(A): Glück Example 2.3.2 states holomorphy on rho(A), so the difference quotient converges to R' on that open set.",
+          "source": "Glück, Functional Analysis 1 lecture notes, Proposition 2.2.9 (resolvent identity) and Example 2.3.2 (resolvent is holomorphic on rho(a) with R'(lambda,a) = -R(lambda,a)^2); Kato, Perturbation Theory for Linear Operators, Ch. I (finite-dimensional edition, 1982), resolvent identity",
+          "kind": "limit"
+        },
+        {
+          "statement": "Working resolvent: R(z,A) := (z I - A)^{-1} as in Higham Definition 1.11 and Glück Proposition 2.2.9. Then R(lam,A)-R(mu,A)=(mu-lam) R(lam,A) R(mu,A) and R'(lam,A)=-R(lam,A)^2.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Müger Exercise 13.29 uses the opposite convention R_a(λ)=(a-λ1)^{-1}, which flips the sign of (s-t). Do not mix the two formulae without translating conventions.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "rho(A) is open (standard consequence of the Neumann series for the resolvent; used by Glück after Prop. 2.2.9).",
+          "source": "Glück, Functional Analysis 1 lecture notes, Proposition 2.2.9 (resolvent identity) and Example 2.3.2 (resolvent is holomorphic on rho(a) with R'(lambda,a) = -R(lambda,a)^2); Kato, Perturbation Theory for Linear Operators, Ch. I (finite-dimensional edition, 1982), resolvent identity",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "holomorphy disk that contains the spectrum",
+          "source": "dossier notes: the cited identity is on rho(A), i.e. off the spectrum",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "A self-adjoint",
+          "source": "dossier notes: do not insert A self-adjoint",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "z not real / dissipativity",
+          "source": "dossier notes: do not insert z not real, or dissipativity",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "lambda,mu in rho(A), holomorphy of R on rho(A), and R'=-R^2 are quoted (Higham/Glück convention). rho(A) open is DERIVED. A disk around the spectrum, self-adjointness, z not real, and dissipativity are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Glück, Functional Analysis 1 lecture notes, Proposition 2.2.9 (resolvent identity) and Example 2.3.2 (resolvent is holomorphic on rho(a) with R'(lambda,a) = -R(lambda,a)^2); Kato, Perturbation Theory for Linear Operators, Ch. I (finite-dimensional edition, 1982), resolvent identity",
+        "Müger, Functional Analysis notes, Exercise 13.29: first identity R_a(s)-R_a(t)=(s-t) R_a(s) R_a(t) for s,t in F\\sigma(a), and second identity R_a(s)-R_b(s)=R_a(s)(b-a)R_b(s) for s in F\\(σ(a)∪σ(b)), with R_a(λ)=(a-λ1)^{-1} in that source",
+        "Higham 2008 Definition 1.11 convention R(z)=(zI-A)^{-1}; the same convention is used in Glück (R(λ,a)=(λ-a)^{-1})",
+        "https://fan.uni-wuppertal.de/fileadmin/mathe/reine_mathematik/funktionalanalysis/glueck/Manuskripte/Lecture_Notes__Functional_Analysis_1.pdf",
+        "https://www.math.ru.nl/~mueger/functionalanalysis.pdf",
+        "Kato, Perturbation Theory for Linear Operators, Springer, finite-dimensional edition 1982, Chapter I"
+      ],
+      "public_source": "Glück, Functional Analysis 1, Prop. 2.2.9 and Example 2.3.2. Two-operator form: Müger, Functional Analysis, Exercise 13.29. Textbook: Kato 1982, Chapter I. Convention (zI-A)^{-1}: Higham 2008, Definition 1.11.",
+      "domain": "mathphys",
+      "proposed_ladder": "R2_newton_dd"
+    },
+    "ac-r01-resolvent-hilbert-identity": {
+      "declared": [
+        {
+          "statement": "(A - z I) is invertible, i.e. z belongs to rho(A)",
+          "source": "Wikipedia Resolvent formalism, Resolvent identity: 'For all z, w in rho(A)'",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "(A - w I) is invertible, i.e. w belongs to rho(A)",
+          "source": "Wikipedia Resolvent formalism, Resolvent identity: 'For all z, w in rho(A)'",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "z and w lie in the resolvent set rho(A); the first resolvent identity holds there",
+          "source": "Wikipedia Resolvent formalism: 'For all z, w in rho(A), the first resolvent identity (also called Hilbert's identity) holds'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The resolvent is an analytic (holomorphic-calculus) function of z off the spectrum",
+          "source": "Wikipedia Resolvent formalism: resolvent 'captures the spectral properties of an operator in the analytic structure of the functional'; holomorphic functional calculus",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Wikipedia defines R(z; A) = (A - z I)**(-1). Dunford-Schwartz (cited there) use (z I - A)**(-1), which flips the sign of Hilbert's identity. Keep one convention.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "The z -> w limit of the Newton quotient is taken with z, w in rho(A) and equals the z-derivative of R",
+          "source": "Holomorphy of R on rho(A) (declared) implies the difference quotient has a holomorphic continuation through z = w",
+          "kind": "limit"
+        },
+        {
+          "statement": "On rho(A), dR/dz = R(z, A)**2 in the Wikipedia (A - z I)**(-1) convention",
+          "source": "Divide Hilbert's identity by (z - w) and take z -> w using holomorphy on rho(A)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "beta>0 / gamma>0 / thermal positivity (not a hypothesis of this identity)",
+          "source": "dossier notes: no beta/gamma positivity is used or inserted; not written in the resolvent-identity citations",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Quoted Wikipedia resolvent identity: z,w in rho(A). Holomorphy off the spectrum is DECLARED; the Newton/Hermite limit is DERIVED from that holomorphy. No thermal folklore. Convention split (A-zI)^{-1} vs (zI-A)^{-1} is a branch/convention, not a domain gap.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Resolvent_formalism",
+        "Dunford, N. and Schwartz, J. T., Linear Operators, Part I General Theory, Wiley-Interscience, 1988, Lemma 6, p. 568",
+        "Kato, T., Perturbation Theory for Linear Operators, 2nd ed., Springer, 1980, ISBN 0-387-07558-5",
+        "Fredholm, E. I., Acta Mathematica 27 (1903) 365-390, doi:10.1007/bf02421317"
+      ],
+      "public_source": "Wikipedia, Resolvent formalism, section Resolvent identity (https://en.wikipedia.org/wiki/Resolvent_formalism); Dunford-Schwartz Vol. I Lemma 6 p. 568; Kato, Perturbation Theory for Linear Operators (1980).",
+      "domain": "green",
+      "proposed_ladder": "R2_newton_dd"
+    },
+    "ac-r03-helmholtz-outgoing-green": {
+      "declared": [
+        {
+          "statement": "Classical pointwise formula is written with |x - x0| in the denominator (R != 0)",
+          "source": "Wikipedia Sommerfeld radiation condition: u_pm(x) = exp(+/- i k |x-x0|)/(4*pi*|x-x0|)",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Wave number k > 0",
+          "source": "Wikipedia Sommerfeld radiation condition: 'k > 0 is a constant, called the wave number'",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Inhomogeneous Helmholtz (nabla^2 + k^2) u = -f in R^n for n = 2, 3, with f of compact support",
+          "source": "Wikipedia Sommerfeld radiation condition, Formulation",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Radiating solutions satisfy the Sommerfeld radiation condition uniformly in direction x/|x|",
+          "source": "Wikipedia Sommerfeld radiation condition: lim_{|x|->oo} |x|^{(n-1)/2} (d/d|x| - i k) u(x) = 0",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Time-harmonic convention is exp(-i omega t); the opposite convention replaces -i by +i in Sommerfeld",
+          "source": "Wikipedia Sommerfeld radiation condition, Formulation, last paragraph",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Of the family u = c u_+ + (1-c) u_-, only u_+ is radiating for the stated Sommerfeld sign",
+          "source": "Wikipedia Sommerfeld radiation condition: 'Of all these solutions, only u_+ satisfies the Sommerfeld radiation condition'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "|x| -> infinity uniformly in all directions, with the Sommerfeld operator (d/d|x| - i k)",
+          "source": "Wikipedia Sommerfeld radiation condition: limit as |x| -> oo uniformly in direction",
+          "kind": "limit"
+        },
+        {
+          "statement": "|x - x0| is the Euclidean distance (nonnegative square root).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Outgoing spherical wave is exp(+i k R) for the exp(-i omega t) convention.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "Im k > 0 (limiting absorption)",
+          "source": "dossier notes: not written on the cited Sommerfeld Wikipedia page and not inserted",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "k>0 is a quoted Wikipedia sentence, hence DECLARED. Limiting absorption Im k>0 is NOT_DECLARED. R!=0 is the written point-source denominator, not inserted positivity.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Sommerfeld_radiation_condition",
+        "Sommerfeld, A., Partial Differential Equations in Physics, Academic Press, 1949",
+        "Jackson, J. D., Classical Electrodynamics, outgoing Helmholtz Green function G_k = exp(i k |x-x'|)/(4*pi*|x-x'|)"
+      ],
+      "public_source": "Wikipedia, Sommerfeld radiation condition (https://en.wikipedia.org/wiki/Sommerfeld_radiation_condition); Sommerfeld, Partial Differential Equations in Physics (1949).",
+      "domain": "green",
+      "proposed_ladder": "R5_special_function"
+    },
+    "sciml-adjoint-linear-01": {
+      "declared": [
+        {
+          "statement": "T > 0 (forward integration interval length; Chen et al. t0 < t1)",
+          "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Linear ODE with constant A: solutions exist globally on R and are entire in t via exp(t A); no finite-time blowup",
+          "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Adjoint ODE a' = -A.T a is likewise entire in t; run backward from t=T to t=0 along the real interval",
+          "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "t runs over the compact real interval [0, T]; endpoints included; no contour deformation",
+          "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+          "kind": "limit"
+        },
+        {
+          "statement": "Matrix exponential is the primary entire function; no branch.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "The integral is an ordinary real integral on the compact interval [0, T].",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "x(t)=exp(t A) x0 and a(t)=exp((T-t) A.T) a(T) solve the forward and adjoint linear ODEs with the stated endpoint data",
+          "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+          "kind": "derived"
+        },
+        {
+          "statement": "For the scalar quadratic terminal loss, the adjoint integral equals the direct derivative of L because both equal x0**2 T exp(2 alpha T)",
+          "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "Lipschitz folklore / finite-time existence for a nonlinear Neural ODE",
+          "source": "dossier notes: restricted to linear constant-A; no Lipschitz folklore beyond the declared linear structure. T is terminal time, not temperature.",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "T>0 is the forward integration length (Chen t0<t1), not temperature; quoted as interval length (DECLARED). Linear constant-A entire solutions on the compact interval [0,T] are DECLARED. Nonlinear Neural-ODE Lipschitz folklore is NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://arxiv.org/abs/1806.07366",
+        "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, equations (4)-(5), Appendix B",
+        "Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes, 1962"
+      ],
+      "public_source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+      "domain": "sciml",
+      "proposed_ladder": "R6_master_object"
+    },
+    "sciml-ou-mehler-01": {
+      "declared": [
+        {
+          "statement": "theta != 0 (written as mean-reversion coefficient; source takes theta > 0)",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "sigma != 0 so the diffusion is nondegenerate",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "v_t != 0 for t > 0, equivalently 1 - exp(-2*theta*t) != 0",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "theta > 0 (mean reversion; needed for a unique invariant Gaussian)",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "positivity"
+        },
+        {
+          "statement": "t > 0 for the transition density (the t=0 law is a Dirac mass)",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "positivity"
+        },
+        {
+          "statement": "beta > 0 in the VP-SDE specialization (Song et al. Appendix A, beta schedule positive)",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "positivity"
+        },
+        {
+          "statement": "v_t > 0 for t > 0, so the Gaussian density is defined",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Transition density as a function of x,y is entire of Gaussian type for each fixed t>0; poles are absent",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Covariance k(s,t) is defined for all real s,t; the only nondifferentiable locus of Abs(s-t) is the diagonal s=t, where k remains C^0 but not C^1",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "t -> 0+ of the transition is in the sense of distributions: p -> Dirac_y; the mean/variance formulae extend continuously to t=0 (mean y, variance 0)",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "limit"
+        },
+        {
+          "statement": "t -> +oo: mean -> 0 and variance -> sigma**2/(2*theta) along the positive real axis (theta > 0)",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "limit"
+        },
+        {
+          "statement": "sqrt in (2*pi*v_t)**(-1/2) is the positive real square root (v_t > 0).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Abs(s-t) is the real absolute value, not a complex modulus continuation.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "No log branch appears.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "theta>0 and t>0 imply v_t = (sigma**2/(2*theta))*(1-exp(-2*theta*t)) > 0",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "derived"
+        },
+        {
+          "statement": "VP-SDE constant-beta formulae equal OU with theta=beta/2 and sigma**2=beta",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "derived"
+        },
+        {
+          "statement": "Stationary covariance of OU is the exponential kernel (Matern nu=1/2) with length 1/theta",
+          "source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [],
+      "notes": "theta>0, t>0, beta>0 (VP schedule), sigma!=0, and v_t>0 are written as source specializations in the dossier quotes (DECLARED). v_t>0 from theta>0,t>0 is also DERIVED. These are OU/VP parameters, not thermal T>0 folklore, and are not extra-inserted.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://arxiv.org/abs/2011.13456",
+        "Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press, 2006, Sec. 4.2.1",
+        "Oksendal, Stochastic Differential Equations, Springer",
+        "Mehler, Journal fur die reine und angewandte Mathematik 66 (1866), 161-176"
+      ],
+      "public_source": "Oksendal, Stochastic Differential Equations, Springer (OU SDE and Gaussian transition); Rasmussen and Williams, Gaussian Processes for Machine Learning, MIT Press 2006, Sec. 4.2.1 (exponential / Matern nu=1/2 covariance); Song, Sohl-Dickstein, Kingma, Kumar, Ermon, Poole, ICLR 2021, arXiv:2011.13456, Appendix A (VP-SDE); Mehler, J. Reine Angew. Math. 66 (1866), 161-176",
+      "domain": "sciml",
+      "proposed_ladder": "R6_master_object"
+    },
+    "sciml-phi-hermite-01": {
+      "declared": [
+        {
+          "statement": "The Newton quotient form uses z != 0; the value at 0 is the separate member phi_k(0)=1/k!",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Integral parameter theta ranges over the compact interval [0, 1]",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "positivity"
+        },
+        {
+          "statement": "phi_k is entire on C (Hochbruck-Ostermann: entire functions (2.10))",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "exp is entire, so the Hermite DD exp[0^{(k)}, z] exists for all z in C",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "z -> 0 is an unrestricted complex limit; phi_k(z) -> 1/k!",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "limit"
+        },
+        {
+          "statement": "Integral (theta, 0, 1) is a compact real interval, no endpoint convention beyond the closed interval",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "limit"
+        },
+        {
+          "statement": "No branch: exp and phi_k are entire. The symbol (e^z-1)/z is the entire continuation, not a principal-value cut.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "The recurrence phi_k(z)=(phi_{k-1}(z)-1/(k-1)!)/z together with phi_k(0)=1/k! is the Newton/Hermite DD recurrence for F=exp at nodes 0^{(k)}, z",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "derived"
+        },
+        {
+          "statement": "Entire continuation implies the piecewise quotient/value pair is a single holomorphic function on C",
+          "source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [],
+      "notes": "phi_k entire, exp entire, z->0 unrestricted in C, theta in [0,1] are quoted. The quotient uses z!=0 with value 1/k! at 0; entire continuation unifies them (DERIVED). k>=0 is the family index in the cited eqs. (2.10)-(2.11).",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://doi.org/10.1017/S0962492910000048",
+        "https://eprints.maths.manchester.ac.uk/1591/1/alhi11.pdf",
+        "Hochbruck and Ostermann, Acta Numerica 19 (2010), eqs. (2.10)-(2.11)"
+      ],
+      "public_source": "Hochbruck and Ostermann, Acta Numerica 19 (2010), 209-286, eqs. (2.10)-(2.11); Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), 488-511, Sec. 2 (MIMS EPrint 2010.30)",
+      "domain": "sciml",
+      "proposed_ladder": "R3_hermite_dd"
+    },
+    "sciml-vanloan-blockexp-01": {
+      "declared": [
+        {
+          "statement": "Duhamel / phi integral parameter s (or theta) ranges over the compact interval [0, 1]",
+          "source": "Mathias, SIAM J. Matrix Anal. Appl. 17 (1996), Theorem 2.1; Al-Mohy and Higham, SIAM J. Matrix Anal. Appl. 30 (2009), Theorem 2.1 (MIMS EPrint 2008.26); Higham, Functions of Matrices, SIAM 2008, Sec. 3.1",
+          "kind": "positivity"
+        },
+        {
+          "statement": "For general f: spec(X) subset D with f of class C^{2n-1} on D (Mathias / Al-Mohy-Higham Thm 2.1)",
+          "source": "Mathias, SIAM J. Matrix Anal. Appl. 17 (1996), Theorem 2.1; Al-Mohy and Higham, SIAM J. Matrix Anal. Appl. 30 (2009), Theorem 2.1 (MIMS EPrint 2008.26); Higham, Functions of Matrices, SIAM 2008, Sec. 3.1",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "For f = exp: no spectral restriction; exp is entire so the block identity holds for all square A, E",
+          "source": "Van Loan, IEEE Trans. Automat. Control 23 (1978), 395-404, Theorem 1; Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), Theorem 2.1; Sidje, ACM TOMS 24 (1998), Theorem 1; Saad, SIAM J. Numer. Anal. 29 (1992), Prop. 1",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "s in [0, 1] compact; no improper endpoint. z -> 0 in the 2x2 probe is unrestricted in C",
+          "source": "Van Loan, IEEE Trans. Automat. Control 23 (1978), 395-404, Theorem 1; Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), Theorem 2.1; Sidje, ACM TOMS 24 (1998), Theorem 1; Saad, SIAM J. Numer. Anal. 29 (1992), Prop. 1",
+          "kind": "limit"
+        },
+        {
+          "statement": "Primary matrix function of the 2n x 2n block matrix; not an entrywise exponential.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "The (1,2) scalar entry (e^z-1)/z is the entire continuation (value 1 at 0).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "exp entire implies Mathias's C^{2n-1} hypothesis is satisfied on D=C for f=exp",
+          "source": "Mathias, SIAM J. Matrix Anal. Appl. 17 (1996), Theorem 2.1; Al-Mohy and Higham, SIAM J. Matrix Anal. Appl. 30 (2009), Theorem 2.1 (MIMS EPrint 2008.26); Higham, Functions of Matrices, SIAM 2008, Sec. 3.1",
+          "kind": "derived"
+        },
+        {
+          "statement": "The (1,2) block of exp([[A,c],[0,0]]) equals phi_1(A)*c by comparing Taylor series of the block exponential with the series of phi_1",
+          "source": "Van Loan, IEEE Trans. Automat. Control 23 (1978), 395-404, Theorem 1; Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), Theorem 2.1; Sidje, ACM TOMS 24 (1998), Theorem 1; Saad, SIAM J. Numer. Anal. 29 (1992), Prop. 1",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [],
+      "notes": "Mathias C^{2n-1} on D containing spec(X) for general f; no spectral restriction for f=exp (entire). s in [0,1] compact. Entire-ness of exp implying Mathias for f=exp, and the phi_1 block identification, are DERIVED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://doi.org/10.1137/080716426",
+        "https://eprints.maths.manchester.ac.uk/1218/1/alhi09.pdf",
+        "https://eprints.maths.manchester.ac.uk/1591/1/alhi11.pdf",
+        "https://doi.org/10.1109/TAC.1978.1101743",
+        "Van Loan, IEEE TAC 23 (1978), 395-404"
+      ],
+      "public_source": "Van Loan, IEEE Trans. Automat. Control 23 (1978), 395-404, Theorem 1; Al-Mohy and Higham, SIAM J. Sci. Comput. 33 (2011), Theorem 2.1; Sidje, ACM TOMS 24 (1998), Theorem 1; Saad, SIAM J. Numer. Anal. 29 (1992), Prop. 1; Mathias, SIAM J. Matrix Anal. Appl. 17 (1996), Theorem 2.1; Al-Mohy and Higham, SIAM J. Matrix Anal. Appl. 30 (2009), Theorem 2.1 (MIMS EPrint 2008.26); Higham, Functions of Matrices, SIAM 2008, Sec. 3.1",
+      "domain": "sciml",
+      "proposed_ladder": "R6_master_object"
+    },
+    "ac-t-clebsch-half": {
+      "declared": [
+        {
+          "statement": "sqrt(2) is the positive real square root, used only in the ket normalization of the m=0 states.",
+          "source": "Wikipedia Triplet state, displayed CG kets with 1/sqrt(2)",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "The ket factor 1/sqrt(2) uses the positive square root.",
+          "source": "Wikipedia Triplet state",
+          "kind": "positivity"
+        },
+        {
+          "statement": "sqrt denotes the principal nonnegative real square root on (0,oo); only sqrt(2) appears.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "S_tot^2 = S1^2+S2^2+2 S1·S2 with S_a^2 = (3/4) Id on each factor, so S1·S2 = (1/2)(s(s+1)-3/2) Id on a definite-s subspace.",
+          "source": "standard angular-momentum addition; Wikipedia Total angular momentum quantum number",
+          "kind": "derived"
+        },
+        {
+          "statement": "Hence sigma1·sigma2 = 4 S1·S2 equals +1 on s=1 and -3 on s=0, which produces the displayed P_0, P_1.",
+          "source": "S = sigma/2 and the eigenvalues of S_tot^2",
+          "kind": "derived"
+        },
+        {
+          "statement": "P_0,P_1 are polynomials in the commuting SU(2)-invariant sigma1·sigma2, hence they commute with the diagonal SU(2) action.",
+          "source": "projector formulae",
+          "kind": "derived"
+        },
+        {
+          "statement": "(sigma1·sigma2)^2 = 3 Id⊗Id - 2 sigma1·sigma2 follows from Pauli products and implies P_0**2=P_0 and P_1**2=P_1 over Q.",
+          "source": "Pauli product law",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "identical-particle antisymmetrization of the two spin-1/2 factors",
+          "source": "dossier notes: distinguishable tensor factors (not identical-particle antisymmetrization) are the CG setting",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "1/sqrt(2) as the positive square root is quoted from the CG kets. Projector algebra is DERIVED from angular-momentum addition plus Pauli products. Identical-particle antisymmetrization is NOT_DECLARED. hbar=1 is a source convention.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Triplet_state (explicit 1/2 ⊗ 1/2 CG kets)",
+        "https://en.wikipedia.org/wiki/Clebsch-Gordan_coefficients",
+        "https://en.wikipedia.org/wiki/Pauli_matrices (sigma product / completeness used to build sigma1·sigma2)",
+        "Sakurai, Modern Quantum Mechanics, addition of two spin-1/2 angular momenta."
+      ],
+      "public_source": "Wikipedia Triplet state CG kets; Clebsch-Gordan coefficients; Sakurai addition of angular momenta",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "ac-t-eps-delta": {
+      "declared": [
+        {
+          "statement": "epsilon is the 3D Levi-Civita symbol on {1,2,3}^3 with epsilon(1,2,3)=+1, -1 on odd permutations, 0 on repeats",
+          "source": "Wikipedia Levi-Civita symbol; dossier function_domains: Source sets epsilon(1,2,3)=+1",
+          "kind": "function_domain"
+        },
+        {
+          "statement": "delta is the Kronecker delta on {1,2,3}",
+          "source": "Wikipedia Levi-Civita symbol / Kay Tensor Calculus; dossier function_domains",
+          "kind": "function_domain"
+        },
+        {
+          "statement": "indices i,j,k,l,m,n range over {1,2,3}",
+          "source": "3D product identities as quoted on the Wikipedia Levi-Civita page",
+          "kind": "symbol"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "The identity is a finite sum of integers in {-1,0,1}; it is polynomial over Z and needs no analytic continuation.",
+          "source": "Leibniz expansion of det(delta) on a 3x3 index matrix; Wikipedia product section",
+          "kind": "derived"
+        },
+        {
+          "statement": "Einstein summation on a repeated Latin index is the explicit finite sum over {1,2,3}.",
+          "source": "Wikipedia Levi-Civita symbol, Einstein-notation paragraph before the 3D identities",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [],
+      "notes": "Finite-index algebraic identity; no analytic continuation. DERIVED from the det(delta) Leibniz expansion and Einstein summation over {1,2,3} as written. No positivity folklore.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Levi-Civita_symbol (3D product and contracted epsilon identity; Kay, Tensor Calculus, Schaum 1988; Tyldesley 1973)",
+        "D. C. Kay, Tensor Calculus, Schaum's Outlines, McGraw-Hill, 1988 (epsilon-delta product and contractions).",
+        "Riley, Hobson, Bence, Mathematical Methods for Physics and Engineering, CUP."
+      ],
+      "public_source": "Wikipedia Levi-Civita symbol; Kay Tensor Calculus; Riley-Hobson-Bence",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "ac-t-ricci-weyl": {
+      "declared": [
+        {
+          "statement": "n=4, hence n != 0, n-1 != 0, n-2 != 0, so the displayed denominators n(n-1) and n-2 are invertible in Q.",
+          "source": "Wikipedia Ricci decomposition: n-manifold; irreducible split stated for n >= 4",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "g is nondegenerate, so g^{ij} exists and is used to raise indices and form traces.",
+          "source": "Wikipedia: Riemannian or pseudo-Riemannian n-manifold",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "The Wikipedia Ricci-decomposition page uses the less common Ricci-sign convention (contract first and last index of that Riemann); the S,E,W formulae are tied to that choice.",
+          "source": "Wikipedia Ricci decomposition, definition section note on sign convention",
+          "kind": "algebraic"
+        },
+        {
+          "statement": "S,E,W each have Riemann algebraic symmetries because they are Kulkarni-Nomizu products (or the complementary Weyl remainder).",
+          "source": "Wikipedia Ricci decomposition, properties of the pieces",
+          "kind": "algebraic"
+        },
+        {
+          "statement": "Orthogonality <S,E>=<S,W>=<E,W>=0 is with respect to the metric-induced inner product on (0,4) tensors.",
+          "source": "Wikipedia Ricci decomposition, properties of the decomposition",
+          "kind": "algebraic"
+        },
+        {
+          "statement": "No square roots: the volume-form Levi-Civita tensor is not used. Index raising uses g^{-1} only.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "n=4 is a specialization of the general-n formulae; coefficients 1/12 and 1/2 are n(n-1)=12 and n-2=2.",
+          "source": "substitute n=4 into Wikipedia S,E",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "PDE / analytic continuation of curvature",
+          "source": "dossier notes: pointwise algebraic identity; no PDE, no analytic continuation",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "physical reading (gravitational waves vs matter)",
+          "source": "dossier notes: not required for the tensor identity",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "n=4 (hence n(n-1) and n-2 invertible in Q) and g nondegenerate are DECLARED. Sign convention, algebraic symmetries, and orthogonality of S,E,W are source properties (DECLARED). n=4 coefficients 1/12 and 1/2 are DERIVED. PDE/analytic continuation and the physical Weyl reading are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Ricci_decomposition (S,E,W formulae; orthogonality; irrep split)",
+        "https://en.wikipedia.org/wiki/Weyl_tensor (component formula; Ricci decomposition as O(n) irreps)",
+        "Besse, Einstein Manifolds, Ergebnisse 10, Springer 1987, Chapter 1 §G.",
+        "Singer and Thorpe, The curvature of 4-dimensional Einstein spaces, 1969.",
+        "Wald, General Relativity, Chicago 1984, p. 40 (physics Weyl formula)."
+      ],
+      "public_source": "Wikipedia Ricci decomposition and Weyl tensor; Besse 1987; Singer-Thorpe 1969",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "ac-t-weyl-su2-char": {
+      "declared": [
+        {
+          "statement": "z != 0, so z**(-1) exists in the Laurent form.",
+          "source": "z = exp(I theta) lies on C^x; Wikipedia SU(2) torus diag(e^{i theta}, e^{-i theta})",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Quotient form requires z - z**(-1) != 0, i.e. z**2 != 1 (equivalently sin(theta) != 0).",
+          "source": "Wikipedia Weyl character formula, SU(2) case denominator e^{i theta}-e^{-i theta}; Hall 2015 Example 12.23",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "m is a nonnegative integer so that the irrep dimension m+1 is a positive integer and the weight sum is finite.",
+          "source": "Wikipedia Weyl character formula, SU(2) case: irrep of dimension m+1",
+          "kind": "positivity"
+        },
+        {
+          "statement": "The division-free identity z**(2*m+2)-1 = (z**2-1)*Sum_{k=0}^m z**(2*k) holds as an identity of polynomials on all of C.",
+          "source": "finite geometric series; Wikipedia notes the SU(2) character is a geometric series",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "On the torus z=exp(I*theta), chi_m is the restriction of that Laurent polynomial; no additional cut is required for the polynomial form.",
+          "source": "Wikipedia SU(2) case, explicit weight sum",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The dimension m+1 is the theta->0 limit of sin((m+1)theta)/sin(theta) by L'Hôpital; this limit is not required to verify the polynomial identity.",
+          "source": "Wikipedia Weyl dimension formula discussion for SU(2); Hall 2015 §10.5",
+          "kind": "limit"
+        },
+        {
+          "statement": "Weyl group of SU(2) has two elements, so numerator and denominator each have two exponential terms, matching the displayed quotient.",
+          "source": "Wikipedia SU(2) case: both numerator and denominator have two terms",
+          "kind": "algebraic"
+        },
+        {
+          "statement": "Negative powers of z mean z**(-n) = 1/z**n in C^x, not a multi-valued root.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "sin is the entire sine; not a branched inverse.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "At z^2=1 the quotient is removable and equals m+1, which is the polynomial value Sum_k 1 = m+1.",
+          "source": "geometric series at z=±1; Wikipedia dimension via L'Hôpital",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "sin(theta) != 0 required to verify the polynomial identity z**(2*m+2)-1 = (z**2-1)*Sum z**(2*k)",
+          "source": "dossier notes: prefer the polynomial identity (no poles); trigonometric writing is equivalent on the torus away from sin(theta)=0",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "z!=0, z^2!=1 for the quotient form, m nonnegative integer, and the division-free polynomial identity on C are DECLARED. Removable value m+1 at z^2=1 is DERIVED. sin(theta)!=0 is not required to verify the polynomial form.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Weyl_character_formula (SU(2) case; geometric-series cancellation)",
+        "Hermann Weyl, Math. Z. 23 (1925) 271-309; 24 (1926) 328-376, 377-395.",
+        "Hall, Lie Groups, Lie Algebras, and Representations, 2nd ed., Example 12.23 and Theorem 10.14.",
+        "Fulton and Harris, Representation Theory, GTM 129."
+      ],
+      "public_source": "Wikipedia Weyl character formula, SU(2) case; Hall 2015 Example 12.23; Weyl 1925/26",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "ac-t-young-s3": {
+      "declared": [
+        {
+          "statement": "The scalars 3 and 6 are invertible in the coefficient field (char 0, or char not 2 or 3).",
+          "source": "Wikipedia Young symmetrizer: representations defined over Q; alpha_lambda = n!/dim V_lambda",
+          "kind": "nonzero"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "alpha_(2,1) = 3! / dim S^{(2,1)} = 6/2 = 3, hence c**2 = 3 c and e=c/3 is idempotent.",
+          "source": "Wikipedia Young symmetrizer; Fulton-Harris Thm 4.3",
+          "kind": "derived"
+        },
+        {
+          "statement": "P_(3) and P_(1^3) are the images of the trivial and sign characters, hence central orthogonal idempotents.",
+          "source": "character projectors (1/|G|) Sum chi(g^{-1}) g with |S_3|=6",
+          "kind": "derived"
+        },
+        {
+          "statement": "dim of the (2,1) isotypic component in C[S_3] is 2^2=4, matching two primitive tableaux; P_(2,1)_iso is the complementary central idempotent.",
+          "source": "S_3 character table / |G|=sum dim^2",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [],
+      "notes": "Representations over Q and alpha=n!/dim are quoted; 3 and 6 invertible in char 0 (not 2 or 3) is DECLARED. Idempotent scaling, central projectors, and dim 4 of the (2,1) isotypic are DERIVED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Young_symmetrizer (definition; S_3 example c_(2,1)=e_123+e_213-e_321-e_312; alpha=n!/dim)",
+        "Fulton and Harris, Representation Theory: A First Course, GTM 129, Theorem 4.3 (idempotent multiple), Lecture 4.",
+        "William Fulton, Young Tableaux, CUP 1997.",
+        "Bruce Sagan, The Symmetric Group, Springer 2001.",
+        "Cvitanovic, Group Theory, hep-th/0307186 (Young projection operators, idempotency/orthogonality/completeness)."
+      ],
+      "public_source": "Wikipedia Young symmetrizer S_3 example; Fulton-Harris Thm 4.3",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "thermal-01-fermi-im-digamma": {
+      "declared": [
+        {
+          "statement": "y is a real variable",
+          "source": "DLMF 5.4.17 symbol table: y: real variable",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "principal imaginary part Im; DLMF writes ℑ psi(1/2 + i y)",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "1/2 + I*y is not a nonpositive integer (so psi is defined)",
+          "source": "DLMF 5.2.2: psi(z) defined for z != 0,-1,-2,...; Re(1/2+I*y)=1/2 for real y",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "psi(1/2 + i y) has no poles for real y",
+          "source": "poles of psi are z in {0,-1,-2,...}; Re(1/2+iy)=1/2",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [],
+      "notes": "DLMF 5.4.17 symbol table: y real (DECLARED). Pole-freeness of psi(1/2+iy) is DERIVED from DLMF 5.2.2 plus Re=1/2. Fermi occupation wording is commentary. No T>0 in the cited identity.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "NIST DLMF 5.4.17 https://dlmf.nist.gov/5.4.E17",
+        "NIST DLMF 5.2.2 https://dlmf.nist.gov/5.2.E2 (psi pole set, used only as DERIVED)",
+        "A&S 6.3.12"
+      ],
+      "public_source": "NIST DLMF 5.4.17 (https://dlmf.nist.gov/5.4.E17)",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function"
+    },
+    "thermal-02-bose-im-digamma": {
+      "declared": [
+        {
+          "statement": "y != 0",
+          "source": "DLMF 5.2.2: psi(z) undefined at z=0, and z=I*y=0 iff y=0 for real y; also 1/(2y) in 5.4.16",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "y is a real variable",
+          "source": "DLMF 5.4.16 symbol table: y: real variable",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "y != 0 so that psi(I*y) is defined and 1/(2y) is finite",
+          "source": "DLMF 5.2.2 z != 0,-1,-2,... together with 5.4.16 which writes 1/(2y)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "principal imaginary part Im",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "I*y is not a negative integer",
+          "source": "for real y, I*y in {0,-1,-2,...} only at y=0",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "coth(pi*y) has no real poles except possibly y=0",
+          "source": "coth poles at n*I, not on R\\{0}",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "extra pole exclusions beyond y != 0",
+          "source": "dossier notes: do not import extra pole exclusions beyond co-located 1/(2y) plus DLMF 5.2.2",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "y real is DECLARED. y!=0 is taken from the co-located 1/(2y) term plus DLMF 5.2.2 (same chapter), labeled DECLARED rather than folklore. Extra pole exclusions beyond that pair are NOT_DECLARED.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "NIST DLMF 5.4.16 https://dlmf.nist.gov/5.4.E16",
+        "NIST DLMF 5.2.2 https://dlmf.nist.gov/5.2.E2",
+        "A&S 6.3.11"
+      ],
+      "public_source": "NIST DLMF 5.4.16 (https://dlmf.nist.gov/5.4.E16)",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function"
+    },
+    "thermal-03-digamma-reflection": {
+      "declared": [
+        {
+          "statement": "z != 0, ±1, ±2, ...",
+          "source": "DLMF 5.5.4 written condition: z ≠ 0, ±1, …",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "z not an integer",
+          "source": "DLMF 5.5.4: z ≠ 0, ±1, …",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "cot = 1/tan; DLMF writes -pi/tan(pi z) equivalently -pi cot(pi z)",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "z and 1-z avoid the psi pole set {0,-1,-2,...}",
+          "source": "if z not integer then neither z nor 1-z is a nonpositive integer",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "tan(pi*z) != 0 on the same set (cot poles = integers)",
+          "source": "tan(pi z)=0 iff z integer, excluded by 5.5.4",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "pole-exclusion imported from Guo / extra poles beyond integers",
+          "source": "dossier notes: DLMF 5.5.4 writes z != 0, +/-1, ...; no Guo pole-exclusion import",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "DLMF 5.5.4 writes z != 0, +/-1, ... (DECLARED). Avoidance of psi poles at z and 1-z, and tan(pi z)!=0, are DERIVED from that integer exclusion. No Guo import.",
+      "screening": "keeper",
+      "skeptic": [],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "NIST DLMF 5.5.4 https://dlmf.nist.gov/5.5.E4",
+        "A&S 6.3.7 (DLMF notes A&S omitted the condition on z; DLMF supplies it)"
+      ],
+      "public_source": "NIST DLMF 5.5.4 (https://dlmf.nist.gov/5.5.E4)",
+      "domain": "thermal",
+      "proposed_ladder": "R6_master_object"
+    },
+    "ac-r02-sokhotski-plemelj-boundary": {
+      "declared": [
+        {
+          "statement": "The approximating imaginary part tends to zero from above: epsilon -> 0+",
+          "source": "Wikipedia Sokhotski-Plemelj theorem, Version for the real line: lim_{epsilon -> 0+} 1/(x +/- i epsilon)",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Integration limits satisfy a < 0 < b",
+          "source": "Wikipedia Sokhotski-Plemelj theorem: 'a and b be real constants with a < 0 < b'",
+          "kind": "positivity"
+        },
+        {
+          "statement": "The Cauchy integral phi(z) = (1/(2*pi*I))*Integral(phi(zeta)/(zeta - z), C) is not evaluated for z on C; it defines analytic functions phi_i inside C and phi_e outside C",
+          "source": "Wikipedia Sokhotski-Plemelj theorem, Statement of the theorem",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Real-line formulae are distributional/integral identities; the real-line version makes no use of analyticity of f",
+          "source": "Wikipedia Sokhotski-Plemelj theorem: 'Note that this version makes no use of analyticity.'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "epsilon -> 0+ in the distributional sense against continuous f on [a, b]",
+          "source": "Wikipedia Sokhotski-Plemelj theorem, real-line integral equalities",
+          "kind": "limit"
+        },
+        {
+          "statement": "Interior and exterior limits w -> z with z on C of phi_i and phi_e",
+          "source": "Wikipedia Sokhotski-Plemelj theorem, plane version: lim_{w -> z} phi_i(w) and phi_e(w)",
+          "kind": "limit"
+        },
+        {
+          "statement": "P denotes Cauchy principal value.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Upper-half-plane boundary value of 1/z corresponds to 1/(x + i0+); lower to 1/(x - i0+).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [],
+      "notes": "Real-line version quotes epsilon->0+ and a<0<b. Continuity of f is in the function-domain quote; analyticity of f is explicitly not used. Standing epsilon>0 is not a separate source inequality beyond the one-sided limit.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Sokhotski%E2%80%93Plemelj_theorem",
+        "Sochocki, J. (1868); Plemelj, J. (1908), Riemann-Hilbert problem"
+      ],
+      "public_source": "Wikipedia, Sokhotski-Plemelj theorem, real-line version (https://en.wikipedia.org/wiki/Sokhotski%E2%80%93Plemelj_theorem).",
+      "domain": "response",
+      "proposed_ladder": "R4_piecewise_unification"
+    },
+    "ac-r04-lindhard-occupation-dd": {
+      "declared": [
+        {
+          "statement": "Generic summand denominator hbar*(omega + i delta) + E(k+q) - E(k); static omega + i delta -> 0 leaves E(k+q) - E(k)",
+          "source": "Wikipedia Lindhard theory, Lindhard function and Static limit",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "delta is a positive infinitesimal constant",
+          "source": "Wikipedia Lindhard theory: 'delta is a positive infinitesimal constant'",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Retarded frequency argument is written as omega + i delta with delta a positive infinitesimal",
+          "source": "Wikipedia Lindhard theory: chi(q, omega) has hbar (omega + i delta) in the denominator",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "At T = 0, f_k = Theta(kF - |k|); the sum is then evaluated 'in the continuous limit using analytic continuation'",
+          "source": "Wikipedia Lindhard theory, Zero temperature functions",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Long-wavelength limit q -> 0 with f_{k+q} - f_k ~ q · nabla_k f_k and E_{k+q} - E_k ~ hbar^2 k·q / m, then delta -> 0",
+          "source": "Wikipedia Lindhard theory, Long wavelength limit / Derivation in 3D",
+          "kind": "limit"
+        },
+        {
+          "statement": "Static limit written as omega + i delta -> 0",
+          "source": "Wikipedia Lindhard theory, Static limit: 'Consider the static limit (omega + i delta -> 0)'",
+          "kind": "limit"
+        },
+        {
+          "statement": "Candidate expression is the k-sum kernel, not the T = 0 closed form F(x) with log|...|. That closed form uses absolute values (real restriction); a complex log branch is not taken from the source.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "In the q -> 0 static stratum the occupation quotient becomes a derivative of f (repeated energy node)",
+          "source": "Declared Taylor replacements f_{k+q}-f_k ~ q·nabla_k f and E_{k+q}-E_k ~ hbar^2 k·q / m",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "T > 0",
+          "source": "dossier notes: T>0 is not written as an inequality on the general kernel and is not inserted",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "m > 0",
+          "source": "dossier notes: electron mass appears in E_k = hbar^2 k^2 / 2m; positivity not added",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "complex logarithm branch of the T=0 closed form F(x) with log|...|",
+          "source": "dossier branch_conventions / notes: candidate is the k-sum kernel; a complex log branch is not taken from the source",
+          "kind": "branch",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "delta is a quoted 'positive infinitesimal constant' (DECLARED). T>0, m>0, and a complex log branch of the T=0 closed form are NOT_DECLARED. Occupied-energy reality is not written as a folklore inequality.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE",
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Lindhard_theory",
+        "Lindhard, J., On the properties of a gas of charged particles, Kgl. Danske Videnskab. Selskab, Mat.-Fys. Medd. 28, no. 8 (1954)"
+      ],
+      "public_source": "Wikipedia, Lindhard theory (https://en.wikipedia.org/wiki/Lindhard_theory); Lindhard, Mat.-Fys. Medd. Dan. Vid. Selsk. 28, 8 (1954).",
+      "domain": "response",
+      "proposed_ladder": "R2_newton_dd"
+    },
+    "ac-r05-lehmann-spectral-master": {
+      "declared": [
+        {
+          "statement": "Imaginary-time arguments of the thermal Green function lie in the interval from 0 to beta",
+          "source": "Wikipedia Green's function (many-body theory): tau_j 'are restricted to the range from 0 to the inverse temperature beta = 1/k_B T'",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Antiperiodicity/periodicity is stated for 0 < tau < beta",
+          "source": "Wikipedia Green's function (many-body theory): G(tau - beta) = zeta G(tau) for 0 < tau < beta",
+          "kind": "positivity"
+        },
+        {
+          "statement": "G_R(omega) has all poles and discontinuities in the lower half-plane; G_A in the upper half-plane",
+          "source": "Wikipedia Green's function (many-body theory), Spectral representation",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Thermal propagator G(omega_n) has all poles and discontinuities on the imaginary omega_n axis",
+          "source": "Wikipedia Green's function (many-body theory), Spectral representation",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Master G(k, z) is the Hilbert transform of rho; G_M = G(k, i omega_n) and G_R = G(k, omega + i eta)",
+          "source": "Wikipedia Green's function (many-body theory), Hilbert transform",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Free two-point functions are G_M = 1/(-i omega_n + xi_k) and G_R = 1/(-(omega + i eta) + xi_k)",
+          "source": "Wikipedia Green's function (many-body theory), Basic definitions, sign/normalization note",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "rho(k, omega) = 2 Im G_R(k, omega) via Sokhotski-Weierstrass as quoted on the page",
+          "source": "Wikipedia Green's function (many-body theory), Spectral representation, Sokhatsky-Weierstrass citation",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "eta -> 0+ is implied in the retarded spectral integral",
+          "source": "Wikipedia Green's function (many-body theory): 'the limit as eta -> 0+ is implied'",
+          "kind": "limit"
+        },
+        {
+          "statement": "omega_n = [2 n + theta(-zeta)] * pi / beta (Matsubara frequency as written on the page).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "zeta = +1 bosons, -1 fermions.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Source sign: denominators are (-i omega_n + xi) and (-(omega + i eta) + xi), not the (i omega_n - xi) convention.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "T > 0",
+          "source": "dossier notes: T>0 is not inserted; beta appears as inverse temperature and as the length of the declared tau-interval",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "eta > 0 as a standing inequality (beyond eta -> 0+)",
+          "source": "dossier notes: eta>0 is not inserted beyond the declared eta -> 0+",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "energies real",
+          "source": "not written in the cited Wikipedia spectral/Hilbert paragraphs; not inserted",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "0<=tau<=beta and 0<tau<beta (anti)periodicity, half-plane pole locations, Hilbert master, and eta->0+ are quoted. T>0, standing eta>0, and energies real are NOT_DECLARED. Interval length is not a T>0 insertion.",
+      "screening": "flagged",
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Green%27s_function_(many-body_theory)"
+      ],
+      "public_source": "Wikipedia, Green's function (many-body theory), sections Basic definitions, Imaginary-time ordering and beta-periodicity, Spectral representation, Hilbert transform (https://en.wikipedia.org/wiki/Green%27s_function_(many-body_theory)).",
+      "domain": "green",
+      "proposed_ladder": "R6_master_object"
+    },
+    "ac-r06-matsubara-pole-family": {
+      "declared": [
+        {
+          "statement": "Two-pole table row is written with denominator (xi1 - xi2); the repeated-pole rows are listed separately",
+          "source": "Wikipedia Matsubara summation, Table of Matsubara frequency summations",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "For Green-function applications, 0 < tau < beta is used to choose the weighting function that controls left-half-plane convergence",
+          "source": "Wikipedia Matsubara summation, Choice of Matsubara weighting function: 'g(z) = G(z) exp(-z tau), which diverges in the left half plane given 0 < tau < beta'",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Bosonic frequencies omega_n = 2 n pi / beta and fermionic omega_n = (2 n + 1) pi / beta, n in Z, enforce periodic/antiperiodic boundary conditions on phi(tau)",
+          "source": "Wikipedia Matsubara summation, opening definition",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "The sum is replaced by a contour integral against h_eta that has simple poles at z = i omega_n; the contour is then deformed to the poles of g",
+          "source": "Wikipedia Matsubara summation, General formalism (Fig. 1 and Fig. 2)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "h_B^{(1)} controls convergence in Re z < 0; h_B^{(2)} in Re z > 0 (and analogously for fermions)",
+          "source": "Wikipedia Matsubara summation, Choice of Matsubara weighting function",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Summation converges if g(z = i omega) tends to 0 as z -> oo faster than z**(-1); otherwise the result may depend on the weighting-function choice (table notes)",
+          "source": "Wikipedia Matsubara summation, opening paragraph and table footnote 1",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Zero-temperature limit is written as beta -> oo, converting the Matsubara sum into an imaginary-frequency integral",
+          "source": "Wikipedia Matsubara summation, Zero temperature limit: 'In this limit beta -> oo'",
+          "kind": "limit"
+        },
+        {
+          "statement": "eta = +1 bosons, eta = -1 fermions.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "Occupation n_eta is n_B for eta = +1 and n_F for eta = -1 as in the table.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "The (i omega - xi)**(-2) row is the xi1 -> xi2 confluent limit of the two-pole Newton quotient of n_eta",
+          "source": "Table lists both 1/((i omega-xi1)(i omega-xi2)) and (i omega-xi)**(-2) with S = -eta n_eta'(xi)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "T > 0",
+          "source": "dossier notes: T>0 is not inserted; 0<tau<beta is the declared interval",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "xi / xi1 / xi2 real",
+          "source": "dossier symbol notes: pole location of g; reality not extra-inserted",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Frequencies, contour weighting, 0<tau<beta, and beta->oo are quoted. T>0 and reality of xi are NOT_DECLARED. Two-pole denominator (xi1-xi2) is written as a table row with a separate repeated-pole row.",
+      "screening": "flagged",
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Matsubara_frequency",
+        "https://en.wikipedia.org/wiki/Matsubara_summation"
+      ],
+      "public_source": "Wikipedia, Matsubara summation (redirect from Matsubara frequency), sections Summation formalism and Table of Matsubara frequency summations (https://en.wikipedia.org/wiki/Matsubara_frequency).",
+      "domain": "response",
+      "proposed_ladder": "R3_hermite_dd"
+    },
+    "ac-r07-lippmann-schwinger-iepsilon": {
+      "declared": [
+        {
+          "statement": "E - H0 is singular because E is an eigenvalue of H0; the naive resolvent 1/(E - H0) is not used",
+          "source": "Wikipedia Lippmann-Schwinger equation, Derivation: 'However E - H0 is singular since E is an eigenvalue of H0'",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "The singularity is eliminated in two ways by making the denominator slightly complex: E - H0 +/- i epsilon",
+          "source": "Wikipedia Lippmann-Schwinger equation, Derivation",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "i epsilon is required for causality, ensuring scattered waves consist only of outgoing waves; made rigorous by the limiting absorption principle",
+          "source": "Wikipedia Lippmann-Schwinger equation, opening definition paragraph",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "psi^(+) is the in state (matches free data in the infinite past); psi^(-) is the out state (infinite future). Energy-contour for wavepackets: late-time contour closed in the lower half-plane; early-time in the upper half-plane",
+          "source": "Wikipedia Lippmann-Schwinger equation, Interpretation as in and out states / A contour integral",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Wave-packet identification psi^{-}=phi at t -> +oo and psi^{+}=phi at t -> -oo uses contours closed according to exp(-i E t)",
+          "source": "Wikipedia Lippmann-Schwinger equation, A contour integral",
+          "kind": "limit"
+        },
+        {
+          "statement": "Plus i epsilon vs minus i epsilon labels in vs out states as written: psi^(+/-) = phi + 1/(E - H0 +/- i epsilon) V psi^(+/-).",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "+i epsilon in the Lippmann-Schwinger kernel is the outgoing/causal choice in the page's opening formula.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "epsilon > 0 as a standalone inequality",
+          "source": "dossier notes: epsilon>0 is not inserted; the source writes +/- i epsilon and 'slightly complex' plus limiting absorption",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Singularity of E-H0 and +/- i epsilon / limiting absorption are quoted. epsilon>0 as a standalone inequality is NOT_DECLARED.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Lippmann%E2%80%93Schwinger_equation",
+        "Lippmann, B. A. and Schwinger, J., Phys. Rev. 79, 469 (1950), doi:10.1103/PhysRev.79.469"
+      ],
+      "public_source": "Wikipedia, Lippmann-Schwinger equation (https://en.wikipedia.org/wiki/Lippmann%E2%80%93Schwinger_equation); Lippmann and Schwinger, Phys. Rev. 79, 469 (1950), doi:10.1103/PhysRev.79.469.",
+      "domain": "perturbation",
+      "proposed_ladder": "R6_master_object"
+    },
+    "sciml-daleckii-krein-01": {
+      "declared": [
+        {
+          "statement": "Z is invertible (A is diagonalizable: A = Z D Z**(-1))",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "lam_i - lam_j != 0 on off-diagonal Loewner entries; the diagonal uses f'",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "For the inverse specialization, 0 not in spec(A) (A invertible)",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "spec(A) subset D, where f is C^1 on the open set D",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "For f = exp, D = C (entire); no cut is required",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "For f(z)=1/z, D = C\\{0} and spec(A) subset D",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Confluent Loewner diagonal F_ii = f'(lam_i) is the limit of (f(lam_i+h)-f(lam_i))/h as h->0 inside D",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "limit"
+        },
+        {
+          "statement": "Primary matrix function via interpolation/Jordan calculus (Higham 2008 Ch. 1); not an entrywise scalar map.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "For a future log specialization, use the principal logarithm with spec(A) in C minus (-oo, 0]; that specialization is not required for the exp/inv members.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "If A is diagonalizable and 0 not in spec(A), then A is invertible and the inverse specialization is defined",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "derived"
+        },
+        {
+          "statement": "If f is C^1 on D containing spec(A), the first divided difference f[lam_i, lam_j] exists (Newton for i!=j, Hermite for i=j)",
+          "source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "principal logarithm branch for a general f (log specialization)",
+          "source": "dossier branch_conventions: for a future log specialization, spec(A) in C minus (-oo,0]; that specialization is not required for the exp/inv members",
+          "kind": "branch",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Diagonalizable, C^1 on open D containing spec(A), exp entire, inv off 0. Distinct-eigenvalue Loewner denominators and the confluent f' diagonal are DECLARED. Inverse specialization invertibility is DERIVED. Principal-log branch is NOT_DECLARED unless a log member is taken.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://doi.org/10.1137/16M1072851",
+        "https://eprints.maths.manchester.ac.uk/2462/1/gendk.pdf",
+        "Higham, Functions of Matrices, SIAM 2008, Chapter 3",
+        "Daleckii and Krein, Amer. Math. Soc. Transl. Ser. 2, 47 (1965), 1-30"
+      ],
+      "public_source": "Daleckii and Krein, AMS Transl. Ser. 2, 47 (1965), 1-30; Noferini, SIAM J. Matrix Anal. Appl. 38 (2017), Theorem 2.10 (MIMS EPrint 2016.24); Higham, Functions of Matrices, SIAM 2008, Ch. 3",
+      "domain": "sciml",
+      "proposed_ladder": "R3_hermite_dd"
+    },
+    "sciml-deq-ift-01": {
+      "declared": [
+        {
+          "statement": "D_z g(z_star, x) = D_z f(z_star, x) - I is invertible (Bai et al. Thm 1; IFT nondegeneracy)",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Scalar probe: 1 - w*sech(w*z+x)**2 != 0 at the root",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "f is C^1 on an open neighborhood of the equilibrium (z_star, x); the IFT then yields a unique C^1 local solution z(x)",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Neumann series member additionally requires spectral radius of D_z f(z_star, x) strictly less than 1",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Neumann series is the limit of partial sums Sum_{k=0}^N J^k as N->oo in operator norm, under rho(J)<1",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "limit"
+        },
+        {
+          "statement": "Real IFT in the DEQ paper; the scalar tanh probe is the real restriction of an entire function.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "The inverse (I-J)^{-1} is the resolvent at 1, not a principal logarithm.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "g = f - id implies -J_g^{-1} = (I - J_f)^{-1} when either inverse exists",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "derived"
+        },
+        {
+          "statement": "rho(J_f)<1 implies I-J_f is invertible and the Neumann series equals the resolvent",
+          "source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "global uniqueness of the DEQ root / contractivity of f beyond the local IFT neighbourhood",
+          "source": "Bai et al. Thm 1 is a local IFT; spectral-radius <1 is declared only for the Neumann-series member",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "IFT nondegeneracy D_z g invertible, C^1 neighbourhood, and rho(J)<1 only for the Neumann member are DECLARED. g=f-id algebra and Neumann=resolvent under rho<1 are DERIVED. Global DEQ uniqueness is NOT_DECLARED.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://arxiv.org/abs/1909.01377",
+        "https://doi.org/10.48550/arXiv.1909.01377",
+        "Krantz and Parks, The Implicit Function Theorem, Birkhauser, 2002"
+      ],
+      "public_source": "Bai, Kolter and Koltun, NeurIPS 2019, arXiv:1909.01377v2, Theorem 1 and Appendix A; Krantz and Parks, The Implicit Function Theorem, Birkhauser 2002",
+      "domain": "sciml",
+      "proposed_ladder": "R6_master_object"
+    },
+    "sciml-lyapunov-kronecker-01": {
+      "declared": [
+        {
+          "statement": "Unique algebraic solution: spec(A) cap spec(-B) = empty (Lyapunov: lam_i(A) + lam_j(A) != 0 for all i,j)",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "1x1 probe: a != 0, equivalently 2a != 0",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "Kronecker identity is polynomial (entire) in the entries; no cut",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Gramian integral representation additionally requires Re(lam_i(A)) < 0 for all i so that ||exp(t A)|| decays and the integral over [0, oo) converges",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Gramian: t from 0 to +oo along the positive real axis; convergence uses Re spec(A) < 0, not a principal-value contour",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "limit"
+        },
+        {
+          "statement": "Real Lyapunov uses A.T; complex Lyapunov uses A.H (conjugate transpose). This dossier uses the real form A X + X A.T = Q unless noted.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "Re(lam_i(A)) < 0 for all i implies lam_i(A)+lam_j(A) != 0, hence unique algebraic solution",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "derived"
+        },
+        {
+          "statement": "Differentiating A X + X A.T = Q in (A,Q) yields a Lyapunov equation for dX with the same Kronecker-sum operator, provided uniqueness",
+          "source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "Re spec(A) < 0 as a hypothesis of the algebraic Kronecker-sum identity",
+          "source": "dossier analytic_domains: Hurwitz stability is declared only for the Gramian integral representation, not for the polynomial Kronecker identity",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "spec(A) cap spec(-B) empty (unique algebraic solution) is DECLARED. Re spec(A)<0 is DECLARED only for the Gramian integral, and DERIVED uniqueness from Hurwitz is class B for that member. Do not attach Hurwitz to the polynomial Kronecker identity.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Lancaster, SIAM Review 12 (1970), 544-566",
+        "Horn and Johnson, Topics in Matrix Analysis, Cambridge University Press, 1991, Chapter 4",
+        "https://doi.org/10.1109/TAC.1978.1101743",
+        "Van Loan, IEEE TAC 23 (1978), 395-404"
+      ],
+      "public_source": "Lancaster, SIAM Review 12 (1970), 544-566; Horn and Johnson, Topics in Matrix Analysis, CUP 1991, Ch. 4 (Kronecker products); Van Loan, IEEE TAC 23 (1978) for the Gramian integral via block exponential",
+      "domain": "sciml",
+      "proposed_ladder": "R6_master_object"
+    },
+    "sciml-tweedie-gauss-01": {
+      "declared": [
+        {
+          "statement": "sigma != 0 and tau != 0 (written as positive standard deviations)",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "sigma**2 + tau**2 != 0 (sum of variances)",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "sigma > 0 (Gaussian channel noise std; Tweedie scale)",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "positivity"
+        },
+        {
+          "statement": "tau > 0 (Gaussian prior std in the conjugate specialization)",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "positivity"
+        },
+        {
+          "statement": "f(y) > 0 for all real y (Gaussian marginal never vanishes)",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "positivity"
+        },
+        {
+          "statement": "log f is C^infty on R because f is a nonvanishing Gaussian density",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "All identities in the conjugate case are rational/entire in (y,m,sig2,tau2) on sig2>0, tau2>0; no branch cut",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "No limit interchange is required for the conjugate residual; it is an algebraic identity on tau>0, sigma>0",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "limit"
+        },
+        {
+          "statement": "Real log of a positive density; no complex logarithm.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "The general-prior Tweedie formula requires domination to differentiate under the integral (Efron/Robbins). This dossier uses only the conjugate Gaussian case, where the identity is algebraic and that domination is not an extra undeclared hypothesis.",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "sigma>0, tau>0 imply the marginal variance sigma**2+tau**2 > 0 and f>0 on R",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "derived"
+        },
+        {
+          "statement": "Completing the square in the joint Gaussian (mu, Y) yields the displayed posterior mean and score, hence Tweedie holds algebraically",
+          "source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "domination lemma to differentiate under the integral for a general prior (Efron/Robbins)",
+          "source": "dossier branch_conventions: this dossier uses only the conjugate Gaussian case, where the identity is algebraic",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "sigma>0, tau>0, f>0, and C^infty of log f on R are DECLARED for the conjugate Gaussian restriction. Marginal variance >0 and completing-the-square Tweedie are DERIVED. General-prior domination is NOT_DECLARED.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614",
+        "https://doi.org/10.1198/jasa.2011.tm11181",
+        "Robbins, Proc. Third Berkeley Symposium on Mathematical Statistics and Probability, Vol. 1 (1956), 157-163"
+      ],
+      "public_source": "Robbins, Proc. 3rd Berkeley Symp. Math. Statist. Probab. 1 (1956), 157-163; Efron, J. Amer. Statist. Assoc. 106 (2011), 1602-1614, Tweedie's formula; restricted here to the Gaussian-Gaussian conjugate case with an explicit closed form",
+      "domain": "sciml",
+      "proposed_ladder": "R6_master_object"
+    },
+    "ac-t-iso4-projectors": {
+      "declared": [
+        {
+          "statement": "dim = 3 is nonzero, so the coefficient 1/3 in P_vol is defined in Q.",
+          "source": "3D Cartesian tensor analysis (Jeffreys; DAMTP NST MMII handout 15; LibreTexts C.5)",
+          "kind": "nonzero"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "I_s : I_s = I_s on symmetric arguments because I_s is the identity of Sym^2.",
+          "source": "definition of the symmetric fourth-order identity",
+          "kind": "derived"
+        },
+        {
+          "statement": "P_vol and P_dev are complementary: P_vol + P_dev = I_s follows by subtracting the two displayed formulae.",
+          "source": "deal.II / standard continuum-mechanics split",
+          "kind": "derived"
+        },
+        {
+          "statement": "Elasticity minor symmetries force nu=mu, reducing the 3-dimensional isotropic basis to two Lame generators.",
+          "source": "DAMTP handout 15 elasticity paragraph; conservation of angular momentum (symmetric stress)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "positivity of bulk/shear moduli K>0, G>0",
+          "source": "dossier notes: K,G are free scalars; positivity of bulk/shear moduli is physical folklore and is not used",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "dim=3 nonzero (1/3 defined in Q) is DECLARED from the 3D Cartesian setting. Projector algebra is DERIVED. K>0, G>0 moduli positivity is NOT_DECLARED folklore.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "H. Jeffreys and B. S. Jeffreys, Methods of Mathematical Physics, 3rd ed., §3.03 Isotropic Tensors.",
+        "DAMTP NST MMII handout 15, isotropic rank-4 form λ δij δkl + μ δik δjl + ν δil δjk: https://www.damtp.cam.ac.uk/user/reh10/lectures/nst-mmii-handout15.pdf",
+        "Engineering LibreTexts 14.5, 4th-order isotropic tensors, Aris 1962: https://eng.libretexts.org/Bookshelves/Civil_Engineering/All_Things_Flow_-_Fluid_Mechanics_for_the_Natural_Sciences_(Smyth)/14%3A_Appendix_C-_Isotropic_Tensors/14.05%3A_C.5_4th-order_isotropic_tensors",
+        "Wolfram MathWorld, Isotropic Tensor: https://mathworld.wolfram.com/IsotropicTensor.html",
+        "deal.II Physics::Elasticity::StandardTensors, dev_P = I_sym - (1/dim) I⊗I: https://www.dealii.org/current/doxygen/deal.II/classPhysics_1_1Elasticity_1_1StandardTensors.html"
+      ],
+      "public_source": "Jeffreys §3.03; DAMTP MMII handout 15; LibreTexts C.5; deal.II StandardTensors",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "ac-t-pauli-completeness": {
+      "declared": [
+        {
+          "statement": "sigma_k are traceless Hermitian involutions: Tr(sigma_k)=0, sigma_k**2 = Id for k=1,2,3.",
+          "source": "Wikipedia Pauli matrices, algebraic properties",
+          "kind": "algebraic"
+        },
+        {
+          "statement": "The four matrices {sigma_0,...,sigma_3} are a C-basis of M_2(C) and an R-basis of Hermitian 2x2 matrices.",
+          "source": "Wikipedia Pauli matrices, Hilbert-Schmidt basis paragraph",
+          "kind": "algebraic"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "Completeness is the component form of M = (1/2)Tr(M) Id + (1/2) Sum_k Tr(sigma_k M) sigma_k.",
+          "source": "Wikipedia completeness paragraph; Nishi eq. (17)--(20)",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "quantum-mechanical interpretation of Pauli matrices",
+          "source": "dossier notes: no quantum-mechanical interpretation is required for verification",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Traceless Hermitian involutions and the 4-matrix basis are source algebraic properties (DECLARED even though filed under derived_conditions). Completeness as the component form of the Hilbert-Schmidt expansion is DERIVED. QM interpretation is NOT_DECLARED.",
+      "screening": "flagged",
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Pauli_matrices (product law; completeness relation with spinor indices)",
+        "C. C. Nishi, Simple derivation of general Fierz-type identities, hep-ph/0408004, eq. (20)",
+        "https://en.wikipedia.org/wiki/Fierz_identity"
+      ],
+      "public_source": "Wikipedia Pauli matrices completeness; Nishi hep-ph/0408004 eq. (20)",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "thermal-04-coth-matsubara": {
+      "declared": [
+        {
+          "statement": "z != n*pi*I for all integers n",
+          "source": "DLMF 4.36: 'When z ≠ n π i, n ∈ ℤ' immediately before 4.36.3–4.36.5",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "z not an integer multiple of pi*I",
+          "source": "DLMF 4.36.3 domain line",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "coth z = cosh(z)/sinh(z); principal entire sinh, cosh",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "sinh(z) != 0",
+          "source": "sinh zeros are exactly z = n*pi*I",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "T > 0 / beta > 0",
+          "source": "dossier notes: thermal reading T>0 / beta>0 is NOT imported; source is a complex-function identity with explicit pole exclusion",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "summation index n > 0 as a domain restriction",
+          "source": "DLMF 4.36 writes n in Z in 'z != n pi i, n in Z'; miner symbol_assumptions n.positive=true is a half-sum sketch convention, not a source positivity declaration",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "DLMF 4.36 writes z != n pi i, n in Z (DECLARED). sinh(z)!=0 is DERIVED. T>0/beta>0 is NOT_DECLARED. Miner symbol n.positive is a half-sum sketch convention, not a source positivity declaration.",
+      "screening": "flagged",
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "NIST DLMF 4.36.3 https://dlmf.nist.gov/4.36.E3",
+        "NIST DLMF 4.36 https://dlmf.nist.gov/4.36 (domain line covers 4.36.3–4.36.5)"
+      ],
+      "public_source": "NIST DLMF 4.36.3 (https://dlmf.nist.gov/4.36.E3)",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function"
+    },
+    "thermal-05-trigamma-double-pole": {
+      "declared": [
+        {
+          "statement": "z != 0, -1, -2, ...",
+          "source": "DLMF 5.15.1: z ≠ 0, −1, −2, …",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "z not a nonpositive integer",
+          "source": "DLMF 5.15.1 written under the equation",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "polygamma(1,z) is the trigamma psi'(z); no branch cut, only poles",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "T > 0 / beta > 0",
+          "source": "dossier notes: pole exclusion is written on DLMF 5.15.1; unlike folklore T>0 insertions",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "DLMF 5.15.1 writes z != 0,-1,-2,... under the equation (DECLARED). T>0 is NOT_DECLARED.",
+      "screening": "flagged",
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "NIST DLMF 5.15.1 https://dlmf.nist.gov/5.15.E1",
+        "Wikipedia Polygamma function (corroboration): series holds for integer m>0 and complex z not a negative integer, https://en.wikipedia.org/wiki/Polygamma_function"
+      ],
+      "public_source": "NIST DLMF 5.15.1 (https://dlmf.nist.gov/5.15.E1)",
+      "domain": "thermal",
+      "proposed_ladder": "R5_special_function"
+    },
+    "thermal-06-fermi-dirac-polylog": {
+      "declared": [
+        {
+          "statement": "s > -1 for F_s(x)",
+          "source": "DLMF 25.12.14: s > −1 written under the Fermi-Dirac integral",
+          "kind": "positivity"
+        },
+        {
+          "statement": "s > -1 and x < 0, or s > 0 and x <= 0, for G_s(x)",
+          "source": "DLMF 25.12.15: s > −1, x < 0 ; or s > 0, x ≤ 0",
+          "kind": "positivity"
+        },
+        {
+          "statement": "Fermi-Dirac integral F_s(x) defined for s>-1 (x real)",
+          "source": "DLMF 25.12.14",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Bose-Einstein integral G_s(x) defined for (s>-1 and x<0) or (s>0 and x<=0)",
+          "source": "DLMF 25.12.15",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "Li_s(z) series for |z|<1, continuation otherwise",
+          "source": "DLMF 25.12.10 after the series definition",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "principal branch of Li: cut on [1,oo) as for Li_2 in 25.12(i); 25.12.16 uses continuation",
+          "source": "DLMF 25.12.10 analytic continuation sentence; Li_2 cut [1,oo) in 25.12.2",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "principal polylog; for F_s, argument -exp(x) in (-oo,0] when x real, off the cut [1,oo)",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "for G_s with x<0, exp(x) in (0,1), inside the series disk",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "integration variable t ranges over (0, oo) in the Fermi-Dirac / Bose-Einstein integral representations",
+          "source": "DLMF 25.12.14-15 write the integrals from 0 to infinity (dossier expression_sketch)",
+          "kind": "limit"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "Gamma(s+1) has no poles for s>-1",
+          "source": "Gamma poles at nonpositive integers; s+1>0",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "T > 0",
+          "source": "dossier notes: T>0 is not used; domains are those of DLMF 25.12.14-16",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "s>-1 and the G_s (s,x) pairs are written under DLMF 25.12.14-15 (DECLARED). Polylog series disk and principal cut are DECLARED from 25.12.10. Gamma(s+1) pole-free for s>-1 is DERIVED. T>0 is NOT_DECLARED. t in (0,oo) is the written integral, not extra folklore.",
+      "screening": "flagged",
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "NIST DLMF 25.12.14 https://dlmf.nist.gov/25.12.E14",
+        "NIST DLMF 25.12.15 https://dlmf.nist.gov/25.12.E15",
+        "NIST DLMF 25.12.16 https://dlmf.nist.gov/25.12.E16",
+        "NIST DLMF 25.12.10 https://dlmf.nist.gov/25.12.E10",
+        "Wikipedia Complete Fermi-Dirac integral (matches DLMF, j>-1) https://en.wikipedia.org/wiki/Complete_Fermi%E2%80%93Dirac_integral"
+      ],
+      "public_source": "NIST DLMF 25.12.14–25.12.16 (https://dlmf.nist.gov/25.12#iii)",
+      "domain": "thermal",
+      "proposed_ladder": "R1_parameterized_family"
+    },
+    "thermal-07-green-spectral-hilbert": {
+      "declared": [
+        {
+          "statement": "eta -> 0+",
+          "source": "Wikipedia Green's function (many-body theory), Spectral representation: 'the limit as η → 0+ is implied'",
+          "kind": "positivity"
+        },
+        {
+          "statement": "imaginary-time arguments restricted to the range from 0 to beta",
+          "source": "Wikipedia: 'The imaginary-time variables τ_j are restricted to the range from 0 to the inverse temperature β = 1/(k_B T)'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "0 < tau < beta for (anti)periodicity G(tau-beta) = zeta G(tau)",
+          "source": "Wikipedia: 'for 0 < τ < β'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "G_R has all poles and discontinuities in the lower half-plane",
+          "source": "Wikipedia: 'the former (latter) has all its poles and discontinuities in the lower (upper) half-plane'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "G_A has all poles and discontinuities in the upper half-plane",
+          "source": "same sentence",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "retarded evaluation is G(k, omega + i eta) with eta->0+",
+          "source": "Wikipedia: G^R(k, ω) = G(k, ω + iη)",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "eta approaches 0 from above",
+          "source": "η → 0+ written in the retarded formula",
+          "kind": "limit"
+        },
+        {
+          "statement": "retarded i0+ / advanced i0- (Sokhotski–Weierstrass: lim η→0+ 1/(x±iη) = P(1/x) ∓ i π δ(x))",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        },
+        {
+          "statement": "zeta = +1 bosons, -1 fermions (source)",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [
+        {
+          "statement": "beta is a finite positive integration endpoint",
+          "source": "source uses integrals from 0 to beta and Fourier factor 1/beta; T=0 is not this formula",
+          "kind": "derived"
+        }
+      ],
+      "not_declared": [
+        {
+          "statement": "T > 0",
+          "source": "dossier notes: not written as an inequality; not a license from physical folklore",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "beta > 0 as a standalone source inequality (distinct from the declared 0<tau<beta interval)",
+          "source": "dossier notes: beta>0 is not written as an inequality; miner symbol_assumptions.beta.positive=true is not a source declaration",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "further restriction of the spectral support of rho / Guo-style pole-exclusion import",
+          "source": "dossier notes: spectral support of rho is not further restricted by the source",
+          "kind": "analytic_domain",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "energies real",
+          "source": "not written in the cited spectral/Hilbert paragraphs; not inserted",
+          "kind": "symbol",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Same Wikipedia Green page as ac-r05: 0 to beta, 0<tau<beta, half-plane poles, eta->0+ are quoted. beta as a finite positive endpoint is DERIVED from the declared interval, not from T>0. Miner symbol_assumptions.positive=true for beta/eta is not promoted to DECLARED. T>0, energies real, and extra rho support restrictions are NOT_DECLARED.",
+      "screening": "flagged",
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": false,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Wikipedia: Green's function (many-body theory), sections Two-point functions / Imaginary-time ordering and β-periodicity / Spectral representation / Hilbert transform, https://en.wikipedia.org/wiki/Green%27s_function_(many-body_theory)"
+      ],
+      "public_source": "https://en.wikipedia.org/wiki/Green%27s_function_(many-body_theory)",
+      "domain": "thermal",
+      "proposed_ladder": "R6_master_object"
+    },
+    "ac-r08-kubo-frequency-underspecified": {
+      "declared": [
+        {
+          "statement": "The perturbation is switched on after t0 via Heaviside theta(t - t0)",
+          "source": "Wikipedia Kubo formula: H(t) = H0 + V(t) theta(t - t0)",
+          "kind": "positivity"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "Retarded frequency-domain response analytic in Im omega > 0",
+          "source": "Wikipedia Kubo formula (general Kubo formula section) does not state a half-plane analyticity condition on chi(omega)",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        },
+        {
+          "statement": "i0+ (or omega + i eta, eta -> 0+) prescription for the Fourier transform of the causal commutator",
+          "source": "Wikipedia Kubo formula general formula remains an integral over t' in [t0, t]; no Sokhotski/i0+ identity is declared there",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        },
+        {
+          "statement": "Fourier transform of the causal commutator to a retarded chi(omega)",
+          "source": "Not stated in the Wikipedia general Kubo formula section used as the source",
+          "kind": "limit",
+          "role": "underspecified"
+        },
+        {
+          "statement": "T > 0",
+          "source": "dossier notes: T>0 is not inserted; beta=1/k_B T is written only as the equilibrium-trace name",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        }
+      ],
+      "notes": "Time-domain Heaviside causality is DECLARED. Half-plane analyticity of chi(omega), i0+, and the Fourier map to retarded chi(omega) are NOT_DECLARED in the cited general Kubo formula section. Miner-rejected PROBLEM_UNDERSPECIFIED. T>0 not inserted. Miner rejected: PROBLEM_UNDERSPECIFIED",
+      "screening": "miner_rejected",
+      "skeptic": [
+        "UNDER_SPECIFIED",
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": true,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "https://en.wikipedia.org/wiki/Kubo_formula",
+        "Kubo, R., Statistical-Mechanical Theory of Irreversible Processes. I, J. Phys. Soc. Jpn. 12, 570-586 (1957), doi:10.1143/JPSJ.12.570"
+      ],
+      "public_source": "Wikipedia, Kubo formula, General Kubo formula (https://en.wikipedia.org/wiki/Kubo_formula); Kubo, J. Phys. Soc. Jpn. 12, 570 (1957), doi:10.1143/JPSJ.12.570.",
+      "domain": "response",
+      "proposed_ladder": "R6_master_object"
+    },
+    "ac-t-rej-index-rename": {
+      "declared": [],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "scientific identity / analytic-domain hypotheses",
+          "source": "provenance is an in-repo anti-pattern, not a scientific source identity",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        }
+      ],
+      "notes": "Miner-rejected notation anti-pattern. No scientific source identity. No DECLARED analytic-domain predicate. Miner rejected: The two summands are the same Einstein contraction after dummy-index relabeling. An equal-weight swap orbit is notation, not an invariant basis, Young projector, Clebsch-Gordan reduction, or tensor generator.",
+      "screening": "miner_rejected",
+      "skeptic": [],
+      "rejected": true,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Author-constructed anti-pattern matching frozen representation-bench tensor-family tasks (dev-c-tensor-family / S2-pos-tensor-orbit), which this line rejects as representation."
+      ],
+      "public_source": "in-repo anti-pattern (representation-bench tensor-family); not a scientific identity",
+      "domain": "tensor",
+      "proposed_ladder": "R8_invariant_generator"
+    },
+    "thermal-08-matsubara-newton-dd-underspecified": {
+      "declared": [
+        {
+          "statement": "0 < tau < beta (Green's function weighting-function paragraph only)",
+          "source": "Wikipedia: 'which diverges in the left half plane given 0<τ<β' — not attached to the table row",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "g(z) tends to 0 faster than 1/z at infinity for convergence",
+          "source": "Wikipedia: 'The summation will converge if g(z=iω) tends to 0 in z→∞ limit in a manner faster than z^{-1}'",
+          "kind": "analytic_domain"
+        },
+        {
+          "statement": "eta = +1 bosons, -1 fermions (statistical sign, source)",
+          "source": "dossier branch_conventions (source convention as written in the dossier)",
+          "kind": "branch"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "xi1 != xi2",
+          "source": "Wikipedia Matsubara summation table writes (n(xi1)-n(xi2))/(xi1-xi2) with no xi1≠xi2",
+          "kind": "nonzero",
+          "role": "underspecified"
+        },
+        {
+          "statement": "xi1, xi2 not equal to any Matsubara frequency i*omega_n",
+          "source": "table does not exclude poles of g(z)",
+          "kind": "nonzero",
+          "role": "underspecified"
+        },
+        {
+          "statement": "beta > 0",
+          "source": "page writes β = ℏ/k_B T and a separate T=0 limit, but the table identities do not write β>0",
+          "kind": "positivity",
+          "role": "forbidden_import"
+        },
+        {
+          "statement": "xi1 != xi2 so the Newton quotient is defined",
+          "source": "",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        },
+        {
+          "statement": "poles of g disjoint from the Matsubara set {i omega_n}",
+          "source": "",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        },
+        {
+          "statement": "xi1, xi2 avoid occupancy poles exp(beta*xi)=eta",
+          "source": "",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        },
+        {
+          "statement": "repeated-node limit xi1 -> xi2 of the same table row",
+          "source": "confluence to (iω-ξ)^{-2} is a separate table row, still without pole exclusion",
+          "kind": "limit",
+          "role": "underspecified"
+        }
+      ],
+      "notes": "Miner-rejected PROBLEM_UNDERSPECIFIED. Table writes the Newton quotient without xi1!=xi2 and without excluding Matsubara poles of g. beta>0 is NOT_DECLARED (page writes beta=hbar/k_B T and a T=0 limit, but the table identities do not write beta>0). 0<tau<beta is quoted only in the weighting-function paragraph, not attached to the table row. Miner rejected: PROBLEM_UNDERSPECIFIED: verifier-needed predicates xi1≠xi2 and exclusion of Matsubara poles of g are NOT_DECLARED in the cited table. Physical folklore T>0/beta>0 is not a license to complete the domain.",
+      "screening": "miner_rejected",
+      "skeptic": [
+        "UNDER_SPECIFIED",
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "rejected": true,
+      "is_guo": false,
+      "admitted": false,
+      "source_provenance": [
+        "Wikipedia: Matsubara summation (redirect from Matsubara frequency), Table of Matsubara frequency summations, https://en.wikipedia.org/wiki/Matsubara_frequency"
+      ],
+      "public_source": "https://en.wikipedia.org/wiki/Matsubara_frequency",
+      "domain": "thermal",
+      "proposed_ladder": "R2_newton_dd"
+    }
+  },
+  "controls": {
+    "nc-empty-provenance": {
+      "role": "skeptic_negative_control",
+      "admitted": false,
+      "is_guo": false,
+      "declared": [
+        {
+          "statement": "z != w",
+          "source": "sketch",
+          "kind": "nonzero"
+        },
+        {
+          "statement": "z, w off the spectrum of the generator",
+          "source": "claimed in title only",
+          "kind": "analytic_domain"
+        }
+      ],
+      "derived": [],
+      "not_declared": [],
+      "notes": "Negative control: empty source_provenance is unverifiable.",
+      "source_provenance": []
+    },
+    "nc-guo-sigma-abc": {
+      "role": "skeptic_negative_control",
+      "admitted": false,
+      "is_guo": true,
+      "declared": [
+        {
+          "statement": "symbols real as in frozen symbols.json",
+          "source": "examples/long/symbols.json",
+          "kind": "analytic_domain"
+        }
+      ],
+      "derived": [],
+      "not_declared": [],
+      "notes": "Negative control: miner attempting Guo rescue into DEV/TEST.",
+      "source_provenance": [
+        "examples/long/Guo_Sigma_abc_dc_exact.txt",
+        "sha256:63742cc4e6bf401dd48e258ecb86676b0d7570cc075cae38b91dc188652afc44"
+      ]
+    },
+    "nc-leaked-master": {
+      "role": "skeptic_negative_control",
+      "admitted": false,
+      "is_guo": false,
+      "declared": [
+        {
+          "statement": "z in a simply connected disk avoiding poles",
+          "source": "notes",
+          "kind": "analytic_domain"
+        }
+      ],
+      "derived": [],
+      "not_declared": [],
+      "notes": "the master function is Phi_Gamma; Hermite-on-Guo wording is also leaked here.",
+      "source_provenance": [
+        "negative-control construction; leak is the point"
+      ]
+    },
+    "nc-not-declared-analytic": {
+      "role": "skeptic_negative_control",
+      "admitted": false,
+      "is_guo": false,
+      "declared": [],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "a is not a pole of f",
+          "source": "",
+          "kind": "analytic_domain",
+          "role": "underspecified"
+        }
+      ],
+      "notes": "Negative control: analytic_domains labeled NOT_DECLARED is PROBLEM_UNDERSPECIFIED.",
+      "source_provenance": [
+        "arXiv:0000.00000 (placeholder citation; analytic disk absent from source)"
+      ]
+    },
+    "nc-silent-positivity": {
+      "role": "skeptic_negative_control",
+      "admitted": false,
+      "is_guo": false,
+      "declared": [
+        {
+          "statement": "omega real",
+          "source": "symbols",
+          "kind": "analytic_domain"
+        }
+      ],
+      "derived": [],
+      "not_declared": [
+        {
+          "statement": "T>0",
+          "source": "physical folklore",
+          "kind": "positivity",
+          "role": "underspecified"
+        }
+      ],
+      "notes": "Physical folklore T>0, broadening>0, energies real — not written by the source.",
+      "source_provenance": [
+        "negative-control construction; folklore positivity is the point"
+      ]
+    },
+    "nc-trivial-cse": {
+      "role": "skeptic_negative_control",
+      "admitted": false,
+      "is_guo": false,
+      "declared": [
+        {
+          "statement": "chi0 is a scalar placeholder",
+          "source": "sketch",
+          "kind": "analytic_domain"
+        }
+      ],
+      "derived": [],
+      "not_declared": [],
+      "notes": "Negative control: single Add of a repeated term is trivial CSE.",
+      "source_provenance": [
+        "author sketch; no scientific source required for this control"
+      ]
+    }
+  }
+}
