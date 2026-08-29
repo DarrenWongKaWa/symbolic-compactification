@@ -1,0 +1,2596 @@
+{
+  "method": "ac-a4-witness-1",
+  "parent": "f987fcc",
+  "branch": "work/ac-a-falsify",
+  "headline_clean": "thermal-01-fermi-im-digamma",
+  "guo_analogue": {
+    "used_as_candidate": false,
+    "atoms_loaded": false,
+    "note": "Sealed source-assumption audit 9fc3c8a: frozen real-only beta, gamma allow beta=1, gamma=-pi, mu=0, epsilon(n)=0, hence z0=0 in Z_<=0. That is the pattern (declared symbol/positivity too weak for a required pole/cut/div0 predicate). This falsifier does not ingest Guo atoms or the G0016 table."
+  },
+  "pool": {
+    "n_screening": 40,
+    "n_scanned": 37,
+    "n_clean": 31,
+    "n_disqualified": 5,
+    "n_gap_only": 1,
+    "n_skipped_rejected": 3,
+    "n_skipped_guo": 0,
+    "disqualified_ids": [
+      "ac-r04-lindhard-occupation-dd",
+      "ac-r05-lehmann-spectral-master",
+      "ac-r06-matsubara-pole-family",
+      "ac-r07-lippmann-schwinger-iepsilon",
+      "thermal-07-green-spectral-hilbert"
+    ],
+    "gap_only_ids": [
+      "ac-r02-sokhotski-plemelj-boundary"
+    ],
+    "headline_clean_status": "CLEAN"
+  },
+  "probe_failures": [],
+  "cases": [
+    {
+      "case_id": "mp-cauchy-dunford-01",
+      "path": "mathphys/mp-cauchy-dunford-01.json",
+      "bucket": "keepers",
+      "title": "Cauchy\u2013Dunford integral of the resolvent as master for f(A)",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 3,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "A": {
+          "type": "matrix",
+          "space": "C^{n x n}"
+        },
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "Gamma": {
+          "type": "closed contour in C",
+          "note": "encloses Lambda(A); disjoint from Lambda(A)"
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "f analytic on and inside Gamma, and Gamma disjoint from Lambda(A), are DECLARED (Higham Def. 1.11). That is the resolvent pole set.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-daleckii-krein-01",
+      "path": "mathphys/mp-daleckii-krein-01.json",
+      "bucket": "keepers",
+      "title": "Fr\u00e9chet derivative of f at a diagonalizable matrix as Loewner kernel",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "Z is invertible (X = Z D Z^{-1} in Corollary 3.12)."
+      ],
+      "n_declared_analytic": 3,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "X": {
+          "type": "matrix",
+          "space": "C^{n x n}",
+          "diagonalizable": true
+        },
+        "D": {
+          "type": "matrix",
+          "diagonal": true,
+          "space": "C^{n x n}"
+        },
+        "Z": {
+          "type": "matrix",
+          "invertible": true,
+          "space": "C^{n x n}"
+        },
+        "E": {
+          "type": "matrix",
+          "space": "C^{n x n}"
+        },
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "lambda_i": {
+          "type": "complex",
+          "note": "eigenvalues of X, i=1:n"
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "C^{2n-1} on an open D containing the spectrum, Z invertible, and the equal-eigenvalue clause as a definition (not a 0/0 to take) are DECLARED.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-hermite-fA-01",
+      "path": "mathphys/mp-hermite-fA-01.json",
+      "bucket": "keepers",
+      "title": "Primary matrix function as Hermite interpolant at Jordan data",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "A": {
+          "type": "matrix",
+          "space": "C^{n x n}"
+        },
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "s": {
+          "integer": true,
+          "positive": true,
+          "note": "number of distinct eigenvalues of A"
+        },
+        "lambda_i": {
+          "type": "complex",
+          "note": "distinct eigenvalues of A, i=1:s"
+        },
+        "n_i": {
+          "integer": true,
+          "positive": true,
+          "note": "index of lambda_i = order of largest Jordan block"
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "f defined on the spectrum (jets exist) is DECLARED. Holomorphy is correctly not inserted. No hidden pole of a named f.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-kato-simple-ev-01",
+      "path": "mathphys/mp-kato-simple-ev-01.json",
+      "bucket": "keepers",
+      "title": "First-order perturbation of a simple eigenvalue via reduced resolvent",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "x0 != 0 and y0 != 0, with A0 x0 = lambda0 x0 and y0* A0 = lambda0 y0* (Assumption 1).",
+        "Normalization y0* x0 = 1 is declared in Assumption 1."
+      ],
+      "n_declared_analytic": 3,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "A0": {
+          "type": "matrix",
+          "space": "C^{n x n}"
+        },
+        "tau0": {
+          "type": "complex"
+        },
+        "lambda0": {
+          "type": "complex",
+          "simple_eigenvalue_of": "A0"
+        },
+        "x0": {
+          "type": "vector in C^n",
+          "nonzero": true
+        },
+        "y0": {
+          "type": "vector in C^n",
+          "nonzero": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Simple eigenvalue, analytic family, and y0* x0=1 are DECLARED. A multiple eigenvalue is excluded by Assumption 1, not a witness.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-mathias-block-01",
+      "path": "mathphys/mp-mathias-block-01.json",
+      "bucket": "keepers",
+      "title": "Fr\u00e9chet derivative as the off-diagonal block of f of a 2n triangular matrix",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 3,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "X": {
+          "type": "matrix",
+          "space": "C^{n x n}"
+        },
+        "E": {
+          "type": "matrix",
+          "space": "C^{n x n}"
+        },
+        "n": {
+          "integer": true,
+          "positive": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "C^{2n-1} on D containing spec(X), and spec(A(t)) stays in D near 0, are DECLARED.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-opitz-dd-01",
+      "path": "mathphys/mp-opitz-dd-01.json",
+      "bucket": "keepers",
+      "title": "Opitz formula: matrix function of the Newton bidiagonal is the DD table",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "t_j": {
+          "type": "scalar in IF",
+          "note": "IF = R or C as in de Boor \u00a71; nodes may coincide"
+        },
+        "A_n_t": {
+          "type": "matrix",
+          "space": "IF^{n x n}",
+          "note": "bidiagonal: diagonal t_1..t_n, subdiagonal ones"
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Polynomial identity, or Hermite jet existence for non-polynomials, DECLARED. Repeated nodes are in-scope, not poles.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-parlett-schur-01",
+      "path": "mathphys/mp-parlett-schur-01.json",
+      "bucket": "keepers",
+      "title": "Parlett recurrence on a triangular factor: generic quotient vs block degeneracy",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "Scalar Parlett recurrence (Algorithm 4.2): T has distinct diagonal elements, so T_ii - T_jj != 0 in every division."
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "T": {
+          "type": "matrix",
+          "space": "C^{n x n}",
+          "upper_triangular": true
+        },
+        "n": {
+          "integer": true,
+          "positive": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Scalar recurrence requires distinct diagonals DECLARED; the equal-diagonal 0/0 is the block/Sylvester stratum, also DECLARED.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "mp-resolvent-dd-01",
+      "path": "mathphys/mp-resolvent-dd-01.json",
+      "bucket": "keepers",
+      "title": "Resolvent identities as Newton difference quotients",
+      "domain": "mathphys",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 3,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "A": {
+          "type": "element of a unital Banach algebra",
+          "note": "Gl\u00fcck Prop. 2.2.9; matrices C^{n x n} are the intended instance"
+        },
+        "B": {
+          "type": "element of the same unital Banach algebra",
+          "note": "needed only for the two-operator identity"
+        },
+        "lambda": {
+          "type": "complex"
+        },
+        "mu": {
+          "type": "complex"
+        },
+        "z": {
+          "type": "complex"
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "lambda, mu in rho(A) and z in rho(A)\u2229rho(B) DECLARED. Spectrum is the pole set of R, and it is excluded.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-r01-resolvent-hilbert-identity",
+      "path": "response/dossiers/ac-r01-resolvent-hilbert-identity.json",
+      "bucket": "keepers",
+      "title": "Hilbert first resolvent identity as Newton divided difference of the Green's operator",
+      "domain": "green",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "(A - z I) is invertible, i.e. z belongs to rho(A)",
+        "(A - w I) is invertible, i.e. w belongs to rho(A)"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "z": {
+          "complex": true
+        },
+        "w": {
+          "complex": true
+        },
+        "a": {
+          "complex": true,
+          "notes": "scalar model of a spectral value of A"
+        },
+        "A": {
+          "type": "closed operator / Banach-space operator"
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "z,w in rho(A) DECLARED, which is invertibility of (A-z I) and (A-w I). The product form of Hilbert's identity has no extra (z-w) pole; the Newton quotient's z=w point is a declared holomorphic continuation.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-r03-helmholtz-outgoing-green",
+      "path": "response/dossiers/ac-r03-helmholtz-outgoing-green.json",
+      "bucket": "keepers",
+      "title": "3D outgoing Helmholtz Green function selected by the Sommerfeld radiation condition",
+      "domain": "green",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "Wave number k > 0"
+      ],
+      "declared_nonzero": [
+        "Classical pointwise formula is written with |x - x0| in the denominator (R != 0)"
+      ],
+      "n_declared_analytic": 4,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "k": {
+          "real": true,
+          "positive": true
+        },
+        "n": {
+          "integer": true
+        },
+        "x": {
+          "real_vector": true,
+          "dimension": "n"
+        },
+        "x0": {
+          "real_vector": true,
+          "dimension": "n"
+        },
+        "c": {
+          "complex": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [
+        "n is an integer with analytic_domains n in {2,3}, while the written kernel is the 3D formula exp(I*k*R)/(4*pi*R). Wrong-n is a formula mismatch, not a pole witness. R=0 is DECLARED excluded; k>0 DECLARED; Euclidean |x-x0| has no cut on real vectors."
+      ],
+      "why_clean": "k>0 DECLARED, R!=0 DECLARED, |x-x0| the Euclidean (nonnegative) root on real vectors. The only elementary pole is R=0, already excluded.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "k": 1,
+              "R": 1
+            },
+            "probe": {
+              "expr": "exp(I*k*R)/(4*pi*R)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "exp(I)/(4*pi)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "k": 1,
+              "R": 0
+            },
+            "probe": {
+              "expr": "exp(I*k*R)/(4*pi*R)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED R != 0",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-adjoint-linear-01",
+      "path": "sciml/sciml-adjoint-linear-01.json",
+      "bucket": "keepers",
+      "title": "Continuous adjoint of a linear ODE as Green's formula; scalar residual is exact",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "T > 0 (forward integration interval length; Chen et al. t0 < t1)"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 2,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "T": {
+          "real": true,
+          "positive": true
+        },
+        "t": {
+          "real": true
+        },
+        "alpha": {
+          "complex": true
+        },
+        "x0": {
+          "complex": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Linear constant-coefficient ODE: exp(t A) is entire. T>0 DECLARED. No pole.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-ou-mehler-01",
+      "path": "sciml/sciml-ou-mehler-01.json",
+      "bucket": "keepers",
+      "title": "OU / VP-SDE Gaussian transition (Mehler kernel) and exponential GP covariance",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "theta > 0 (mean reversion; needed for a unique invariant Gaussian)",
+        "t > 0 for the transition density (the t=0 law is a Dirac mass)",
+        "beta > 0 in the VP-SDE specialization (Song et al. Appendix A, beta schedule positive)",
+        "v_t > 0 for t > 0, so the Gaussian density is defined"
+      ],
+      "declared_nonzero": [
+        "theta != 0 (written as mean-reversion coefficient; source takes theta > 0)",
+        "sigma != 0 so the diffusion is nondegenerate",
+        "v_t != 0 for t > 0, equivalently 1 - exp(-2*theta*t) != 0"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 3,
+      "symbol_assumptions": {
+        "theta": {
+          "real": true,
+          "positive": true,
+          "nonzero": true
+        },
+        "sigma": {
+          "real": true,
+          "nonzero": true
+        },
+        "beta": {
+          "real": true,
+          "positive": true,
+          "nonzero": true
+        },
+        "t": {
+          "real": true,
+          "positive": true
+        },
+        "s": {
+          "real": true
+        },
+        "x": {
+          "real": true
+        },
+        "y": {
+          "real": true
+        },
+        "x0": {
+          "real": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [
+        "DERIVED text says theta>0 and t>0 imply v_t>0, omitting the declared sigma!=0 in that sentence. Under all DECLARED flags (sigma real nonzero) the implication holds; no witness."
+      ],
+      "why_clean": "theta>0, t>0, sigma!=0, beta>0 DECLARED. Then v_t>0 and the real square root is defined. Gaussian density has no poles for t>0.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-phi-hermite-01",
+      "path": "sciml/sciml-phi-hermite-01.json",
+      "bucket": "keepers",
+      "title": "Exponential-integrator phi functions as Hermite divided differences of exp at repeated 0",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "Integral parameter theta ranges over the compact interval [0, 1]"
+      ],
+      "declared_nonzero": [
+        "The Newton quotient form uses z != 0; the value at 0 is the separate member phi_k(0)=1/k!"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "k": {
+          "integer": true,
+          "positive": true
+        },
+        "z": {
+          "complex": true
+        },
+        "theta": {
+          "real": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [
+        "Newton quotient (exp(z)-1)/z at z=0 is 0/0, but the contract declares phi_k entire with value 1/k! at 0. Removable, not a pole."
+      ],
+      "why_clean": "phi_k entire on C DECLARED. Quotient z!=0 is a presentation, not a domain hole; z=0 is the declared value 1/k!.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "z": 1
+            },
+            "probe": {
+              "expr": "(exp(z) - 1)/z",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "-1 + E",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "z": 0
+            },
+            "probe": {
+              "expr": "(exp(z) - 1)/z",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED entire continuation phi_1(0)=1; raw quotient is 0/0, not a pole",
+            "sympy": {
+              "value": "nan",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-vanloan-blockexp-01",
+      "path": "sciml/sciml-vanloan-blockexp-01.json",
+      "bucket": "keepers",
+      "title": "Block-triangular exponential as master object for Fr\u00e9chet exp and phi actions",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "Duhamel / phi integral parameter s (or theta) ranges over the compact interval [0, 1]"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 2,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "p": {
+          "integer": true,
+          "positive": true
+        },
+        "s": {
+          "real": true
+        },
+        "z": {
+          "complex": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [
+        "Scalar (exp(z)-1)/z at z=0 is the same removable point; entire continuation is DECLARED."
+      ],
+      "why_clean": "exp entire, so the block identity has no spectral restriction. Scalar (e^z-1)/z uses the declared entire continuation.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-clebsch-half",
+      "path": "tensor/ac-t-clebsch-half.json",
+      "bucket": "keepers",
+      "title": "Clebsch-Gordan reduction of 1/2 \u2297 1/2 via singlet/triplet projectors",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "The ket factor 1/sqrt(2) uses the positive square root."
+      ],
+      "declared_nonzero": [
+        "sqrt(2) is the positive real square root, used only in the ket normalization of the m=0 states."
+      ],
+      "n_declared_analytic": 0,
+      "n_derived": 4,
+      "symbol_assumptions": {
+        "k": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "hbar": {
+          "value": 1,
+          "declared_units": "set to 1"
+        },
+        "I": {
+          "imaginary_unit": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Finite Pauli algebra; 1/sqrt(2) uses the declared positive real root. No meromorphic poles.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-eps-delta",
+      "path": "tensor/ac-t-eps-delta.json",
+      "bucket": "keepers",
+      "title": "Contracted Levi-Civita product as isotropic Kronecker basis",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 0,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "i": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "j": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "k": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "l": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "m": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "n": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Levi-Civita / Kronecker identities on {1,2,3}. Polynomial, no poles.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-ricci-weyl",
+      "path": "tensor/ac-t-ricci-weyl.json",
+      "bucket": "keepers",
+      "title": "Ricci/Weyl orthogonal decomposition of an algebraic curvature tensor",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "n=4, hence n != 0, n-1 != 0, n-2 != 0, so the displayed denominators n(n-1) and n-2 are invertible in Q.",
+        "g is nondegenerate, so g^{ij} exists and is used to raise indices and form traces."
+      ],
+      "n_declared_analytic": 0,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "value": 4,
+          "geq": 4
+        },
+        "Scal": {
+          "scalar": true
+        },
+        "i": {
+          "integer": true,
+          "tensor_index": true
+        },
+        "j": {
+          "integer": true,
+          "tensor_index": true
+        },
+        "k": {
+          "integer": true,
+          "tensor_index": true
+        },
+        "l": {
+          "integer": true,
+          "tensor_index": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "n=4 DECLARED, hence n(n-1) and n-2 invertible; g nondegenerate DECLARED so g^{-1} exists.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-weyl-su2-char",
+      "path": "tensor/ac-t-weyl-su2-char.json",
+      "bucket": "keepers",
+      "title": "Algebraic SU(2) Weyl character versus weight-orbit geometric sum",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "m is a nonnegative integer so that the irrep dimension m+1 is a positive integer and the weight sum is finite."
+      ],
+      "declared_nonzero": [
+        "z != 0, so z**(-1) exists in the Laurent form.",
+        "Quotient form requires z - z**(-1) != 0, i.e. z**2 != 1 (equivalently sin(theta) != 0)."
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "m": {
+          "integer": true,
+          "nonnegative": true
+        },
+        "k": {
+          "integer": true,
+          "nonnegative": true
+        },
+        "theta": {
+          "real": true
+        },
+        "z": {
+          "complex": true,
+          "nonzero": true
+        },
+        "I": {
+          "imaginary_unit": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "z!=0 DECLARED; quotient form z**2!=1 (sin theta !=0) DECLARED. Division-free polynomial identity holds on all of C.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "z": 2
+            },
+            "probe": {
+              "expr": "(z**2 - 1)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "3",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "z": 1
+            },
+            "probe": {
+              "expr": "1/(z - 1/z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z**2 != 1 for the quotient form",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-young-s3",
+      "path": "tensor/ac-t-young-s3.json",
+      "bucket": "keepers",
+      "title": "Young symmetrizers of S_3 as symmetry-adapted tensor projectors",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "The scalars 3 and 6 are invertible in the coefficient field (char 0, or char not 2 or 3)."
+      ],
+      "n_declared_analytic": 0,
+      "n_derived": 3,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "value": 3
+        },
+        "dim_hook": {
+          "integer": true,
+          "value": 2
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Scalars 3 and 6 invertible (char 0) DECLARED. Group-algebra polynomials, no poles.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-01-fermi-im-digamma",
+      "path": "thermal/thermal-01-fermi-im-digamma.json",
+      "bucket": "keepers",
+      "title": "Fermi kernel: Im psi(1/2 + i y) = (pi/2) tanh(pi y)",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 1,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "y": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "DLMF 5.4.17 with y a declared real variable. psi poles are Z_<=0 (DLMF 5.2.2). Re(1/2+I*y)=1/2 for real y, so 1/2+I*y never in Z_<=0 (DERIVED). tanh has no real poles. y=0 is allowed and both sides vanish. No extra z not-in-Z declaration is needed; the declared real line already misses the pole set.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "y": 0
+            },
+            "probe": {
+              "expr": "polygamma(0, Rational(1,2) + I*y)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "-log(4) - EulerGamma",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "y": 1
+            },
+            "probe": {
+              "expr": "polygamma(0, Rational(1,2) + I*y)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "polygamma(0, 1/2 + I)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "y": -1
+            },
+            "probe": {
+              "expr": "polygamma(0, Rational(1,2) + I*y)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "polygamma(0, 1/2 - I)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "y": 0
+            },
+            "probe": {
+              "expr": "(pi/2)*tanh(pi*y)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "0",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-02-bose-im-digamma",
+      "path": "thermal/thermal-02-bose-im-digamma.json",
+      "bucket": "keepers",
+      "title": "Bose kernel: Im psi(i y) = 1/(2 y) + (pi/2) coth(pi y)",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "y != 0"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "y": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "DLMF 5.4.16. y real and y!=0 are DECLARED (1/(2y) and psi(I*y) at 0). For real y, I*y in Z_<=0 only at y=0. coth(pi*y) poles are imaginary except that same point. No remaining witness.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "y": 1
+            },
+            "probe": {
+              "expr": "polygamma(0, I*y)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "polygamma(0, I)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "y": -2
+            },
+            "probe": {
+              "expr": "cosh(pi*y)/sinh(pi*y)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "-1/tanh(2*pi)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "y": 0
+            },
+            "probe": {
+              "expr": "polygamma(0, I*y)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED y != 0",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "y": 0
+            },
+            "probe": {
+              "expr": "Rational(1,2)/y",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED y != 0",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-03-digamma-reflection",
+      "path": "thermal/thermal-03-digamma-reflection.json",
+      "bucket": "keepers",
+      "title": "Digamma reflection: psi(z)-psi(1-z) = -pi cot(pi z)",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "z != 0, \u00b11, \u00b12, ..."
+      ],
+      "n_declared_analytic": 1,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "z": {
+          "real": null,
+          "integer": false,
+          "positive": null,
+          "nonzero": true,
+          "complex": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "DLMF 5.5.4 writes z != 0, \u00b11, \u2026 (z not an integer) DECLARED. That is exactly the cot(pi z) pole set and implies z and 1-z avoid the psi pole set. Assignment z=1 hits polygamma(0,1) is finite but polygamma(0,0) and 1/tan(pi) are singular; it is blocked by the declared integer exclusion. Expected clean DLMF z not-in-Z case.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "z": "Rational(1,2)"
+            },
+            "probe": {
+              "expr": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "0",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "z": 0
+            },
+            "probe": {
+              "expr": "polygamma(0, z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not an integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": 1
+            },
+            "probe": {
+              "expr": "polygamma(0, 1 - z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not an integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": 1
+            },
+            "probe": {
+              "expr": "1/tan(pi*z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not an integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": -1
+            },
+            "probe": {
+              "expr": "polygamma(0, z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not an integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-r02-sokhotski-plemelj-boundary",
+      "path": "response/dossiers/ac-r02-sokhotski-plemelj-boundary.json",
+      "bucket": "flagged",
+      "title": "Sokhotski-Plemelj retarded and advanced boundary values of 1/z",
+      "domain": "response",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "GAP",
+      "declared_positivity": [
+        "The approximating imaginary part tends to zero from above: epsilon -> 0+",
+        "Integration limits satisfy a < 0 < b"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 2,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "x": {
+          "real": true
+        },
+        "epsilon": {
+          "real": true
+        },
+        "a": {
+          "real": true
+        },
+        "b": {
+          "real": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [
+        "epsilon is real with no positive/nonzero flag; positivity only writes the limit epsilon->0+. The identity is that distributional limit, so epsilon=0 is the boundary rather than an interior parameter. Interior 1/(x+I*epsilon) for epsilon!=0 is holomorphic on real x. Encoding gap, not a Guo-style interior witness."
+      ],
+      "why_clean": null,
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-r04-lindhard-occupation-dd",
+      "path": "response/dossiers/ac-r04-lindhard-occupation-dd.json",
+      "bucket": "flagged",
+      "title": "Lindhard density-response kernel as Fermi-Dirac Newton divided difference",
+      "domain": "response",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE",
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "DISQUALIFIED",
+      "declared_positivity": [
+        "delta is a positive infinitesimal constant"
+      ],
+      "declared_nonzero": [
+        "Generic summand denominator hbar*(omega + i delta) + E(k+q) - E(k); static omega + i delta -> 0 leaves E(k+q) - E(k)"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "hbar": {
+          "real": true,
+          "notes": "appears as written in the kernel"
+        },
+        "omega": {
+          "real": true,
+          "notes": "frequency argument of chi; i delta is written separately"
+        },
+        "delta": {
+          "real": true,
+          "positive": true,
+          "infinitesimal": true
+        },
+        "m": {
+          "real": true,
+          "notes": "electron mass as written in E_k = hbar^2 k^2 / 2m; positivity not added"
+        },
+        "kF": {
+          "real": true,
+          "notes": "Fermi wave vector in the T = 0 section"
+        }
+      },
+      "witnesses": [
+        {
+          "witness_id": "ac-r04-hbar-zero",
+          "assignment": {
+            "hbar": 0,
+            "m": 1,
+            "delta": 1,
+            "omega": 1,
+            "k": 1,
+            "q": 1
+          },
+          "kind": "division_by_zero",
+          "predicate": "Lindhard denominator hbar*(omega+I*delta)+(E(k+q)-E(k)) with E=hbar**2 k**2/(2m) vanishes identically when hbar=0",
+          "declared_ok": [
+            "hbar real, no nonzero/positive flag",
+            "m real; positivity not declared",
+            "delta>0 DECLARED",
+            "omega real"
+          ],
+          "probe": {
+            "expr": "1/(hbar*(omega + I*delta) + (hbar**2/(2*m))*((k+q)**2 - k**2))",
+            "expect_singular": true
+          },
+          "fix": "Declare hbar != 0 in the problem statement (and typically m != 0).",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        },
+        {
+          "witness_id": "ac-r04-m-zero",
+          "assignment": {
+            "hbar": 1,
+            "m": 0,
+            "k": 1
+          },
+          "kind": "division_by_zero",
+          "predicate": "Kinetic energy E(k)=hbar**2 k**2/(2m) is undefined at m=0",
+          "declared_ok": [
+            "m real; notes say m>0 is not inserted",
+            "hbar real"
+          ],
+          "probe": {
+            "expr": "hbar**2 * k**2 / (2*m)",
+            "expect_singular": true
+          },
+          "fix": "Declare m != 0 (or m>0) in the problem statement.",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        }
+      ],
+      "gaps": [],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": true,
+      "problem": "PROBLEM_UNDERSPECIFIED until the problem statement is fixed"
+    },
+    {
+      "case_id": "ac-r05-lehmann-spectral-master",
+      "path": "response/dossiers/ac-r05-lehmann-spectral-master.json",
+      "bucket": "flagged",
+      "title": "Lehmann Hilbert-transform master unifying Matsubara and retarded Green functions",
+      "domain": "green",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "DISQUALIFIED",
+      "declared_positivity": [
+        "Imaginary-time arguments of the thermal Green function lie in the interval from 0 to beta",
+        "Antiperiodicity/periodicity is stated for 0 < tau < beta"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 5,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "beta": {
+          "real": true,
+          "notes": "inverse temperature beta = 1/k_B T as written; T>0 is not inserted"
+        },
+        "eta": {
+          "real": true
+        },
+        "omega": {
+          "real": true
+        },
+        "zeta": {
+          "integer": true,
+          "notes": "+1 bosons, -1 fermions as written"
+        },
+        "tau": {
+          "real": true
+        }
+      },
+      "witnesses": [
+        {
+          "witness_id": "ac-r05-bose-zero-mode",
+          "assignment": {
+            "omega_n": 0,
+            "xi": 0,
+            "beta": 2,
+            "tau": 1,
+            "zeta": 1,
+            "eta": 1
+          },
+          "kind": "division_by_zero",
+          "predicate": "Free Matsubara specialization G_M=1/(-I*omega_n+xi) at bosonic n=0 and xi=0 is 1/0; omega_n=0 is allowed by omega_n=[2n+theta(-zeta)]*pi/beta with zeta=+1, n=0",
+          "declared_ok": [
+            "zeta integer (bosons +1)",
+            "0<tau<beta DECLARED (tau=1, beta=2)",
+            "eta real; not used in this Matsubara probe",
+            "xi is written in the free specialization and not excluded from 0"
+          ],
+          "probe": {
+            "expr": "1/(-I*omega_n + xi)",
+            "expect_singular": true
+          },
+          "fix": "Declare fermionic Matsubara frequencies, or omega_n != 0, or xi not on the real-axis evaluation point (z not in supp rho).",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        },
+        {
+          "witness_id": "ac-r05-retarded-eta-zero",
+          "assignment": {
+            "omega": 0,
+            "eta": 0,
+            "xi": 0,
+            "beta": 2,
+            "tau": 1
+          },
+          "kind": "pole",
+          "predicate": "Retarded free kernel 1/(-(omega+I*eta)+xi) at eta=0, omega=xi is 1/0. eta is real with no positive flag; eta->0+ is only a limit_domain sentence",
+          "declared_ok": [
+            "eta real, no positive/nonzero symbol flag",
+            "omega real",
+            "0<tau<beta DECLARED"
+          ],
+          "probe": {
+            "expr": "1/(-(omega + I*eta) + xi)",
+            "expect_singular": true
+          },
+          "fix": "Declare eta>0 (or eta != 0) as a symbol/positivity flag, not only eta->0+.",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        }
+      ],
+      "gaps": [
+        "beta has no positive symbol flag; positivity is the tau-interval 0<tau<beta. Enforcing that interval derives beta>0 and blocks beta=0 in 1/beta and omega_n ~ 1/beta. Remaining witnesses are the bosonic zero mode and eta=0 (catalogued as DISQUALIFIED)."
+      ],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": true,
+      "problem": "PROBLEM_UNDERSPECIFIED until the problem statement is fixed"
+    },
+    {
+      "case_id": "ac-r06-matsubara-pole-family",
+      "path": "response/dossiers/ac-r06-matsubara-pole-family.json",
+      "bucket": "flagged",
+      "title": "Matsubara sums of simple and repeated Green poles as an occupation Newton/Hermite family",
+      "domain": "response",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "DISQUALIFIED",
+      "declared_positivity": [
+        "For Green-function applications, 0 < tau < beta is used to choose the weighting function that controls left-half-plane convergence"
+      ],
+      "declared_nonzero": [
+        "Two-pole table row is written with denominator (xi1 - xi2); the repeated-pole rows are listed separately"
+      ],
+      "n_declared_analytic": 4,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "beta": {
+          "real": true,
+          "notes": "period of imaginary time; beta = hbar / k_B T as written; T>0 not inserted"
+        },
+        "n": {
+          "integer": true
+        },
+        "eta": {
+          "integer": true,
+          "notes": "statistical sign +1 boson / -1 fermion as written"
+        },
+        "xi": {
+          "complex": true,
+          "notes": "pole location of g; reality not extra-inserted"
+        },
+        "xi1": {
+          "complex": true
+        },
+        "xi2": {
+          "complex": true
+        },
+        "tau": {
+          "real": true
+        }
+      },
+      "witnesses": [
+        {
+          "witness_id": "ac-r06-bose-occupancy-pole",
+          "assignment": {
+            "beta": 1,
+            "xi": 0,
+            "eta": 1,
+            "tau": "Rational(1,2)"
+          },
+          "kind": "pole",
+          "predicate": "Bosonic occupancy n_B(xi)=1/(exp(beta*xi)-1) has a pole at xi=0, which is also the n=0 Matsubara frequency. thermal-08 recorded this exclusion as NOT_DECLARED; ac-r06 still omits it",
+          "declared_ok": [
+            "eta integer +1 (bosons)",
+            "xi complex, reality not extra-inserted",
+            "0<tau<beta DECLARED (Green-function interval; does not exclude xi=0)",
+            "two-pole nonzero_condition is xi1 != xi2 only"
+          ],
+          "probe": {
+            "expr": "1/(exp(beta*xi) - 1)",
+            "expect_singular": true
+          },
+          "fix": "Declare occupancy-pole exclusion exp(beta*xi) != eta, and that poles of g are disjoint from {I*omega_n}, as thermal-08 listed.",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        }
+      ],
+      "gaps": [
+        "0<tau<beta is scoped to Green-function weighting, not to the frequency table S=(1/beta)*Sum. beta=0 is a 1/beta division by zero if that positivity is not applied to the table. The xi=0 bosonic occupancy pole survives even with 0<tau<beta."
+      ],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": true,
+      "problem": "PROBLEM_UNDERSPECIFIED until the problem statement is fixed"
+    },
+    {
+      "case_id": "ac-r07-lippmann-schwinger-iepsilon",
+      "path": "response/dossiers/ac-r07-lippmann-schwinger-iepsilon.json",
+      "bucket": "flagged",
+      "title": "Lippmann-Schwinger perturbative resolvent with causal plus/minus i epsilon",
+      "domain": "perturbation",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "DISQUALIFIED",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "E - H0 is singular because E is an eigenvalue of H0; the naive resolvent 1/(E - H0) is not used"
+      ],
+      "n_declared_analytic": 3,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "E": {
+          "real": true,
+          "notes": "eigenvalue of H0 as written"
+        },
+        "epsilon": {
+          "notes": "appears as +/- i epsilon in the resolvent; positivity inequality not extra-inserted"
+        },
+        "H0": {
+          "type": "free Hamiltonian with known eigenvectors"
+        },
+        "V": {
+          "type": "interaction / scattering potential"
+        }
+      },
+      "witnesses": [
+        {
+          "witness_id": "ac-r07-epsilon-zero",
+          "assignment": {
+            "E": 0,
+            "E_beta": 0,
+            "epsilon": 0
+          },
+          "kind": "division_by_zero",
+          "predicate": "E is declared an eigenvalue of H0, so the naive resolvent is singular. Causal kernel 1/(E-E_beta+I*epsilon) at epsilon=0 is 1/0. epsilon has no positive/nonzero flag; positivity_conditions are empty. 'Slightly complex' is source prose, not epsilon>0",
+          "declared_ok": [
+            "E real (eigenvalue of H0 as written)",
+            "epsilon unconstrained in symbol_assumptions",
+            "no DECLARED positivity inequality epsilon>0"
+          ],
+          "probe": {
+            "expr": "1/(E - E_beta + I*epsilon)",
+            "expect_singular": true
+          },
+          "fix": "Declare epsilon>0 (or epsilon != 0) in the problem statement.",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        }
+      ],
+      "gaps": [],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": true,
+      "problem": "PROBLEM_UNDERSPECIFIED until the problem statement is fixed"
+    },
+    {
+      "case_id": "sciml-daleckii-krein-01",
+      "path": "sciml/sciml-daleckii-krein-01.json",
+      "bucket": "flagged",
+      "title": "Fr\u00e9chet derivative of a primary matrix function as Loewner first divided differences",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "Z is invertible (A is diagonalizable: A = Z D Z**(-1))",
+        "lam_i - lam_j != 0 on off-diagonal Loewner entries; the diagonal uses f'",
+        "For the inverse specialization, 0 not in spec(A) (A invertible)"
+      ],
+      "n_declared_analytic": 3,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "lam_i": {
+          "complex": true
+        },
+        "x": {
+          "complex": true
+        },
+        "y": {
+          "complex": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "spec(A) subset D, Z invertible, off-diagonal lam_i!=lam_j, and 0 not in spec(A) for the inverse specialization, all DECLARED.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-deq-ift-01",
+      "path": "sciml/sciml-deq-ift-01.json",
+      "bucket": "flagged",
+      "title": "Implicit-layer / DEQ gradient as resolvent of (I - D_z f) via the implicit function theorem",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "D_z g(z_star, x) = D_z f(z_star, x) - I is invertible (Bai et al. Thm 1; IFT nondegeneracy)",
+        "Scalar probe: 1 - w*sech(w*z+x)**2 != 0 at the root"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "d": {
+          "integer": true,
+          "positive": true
+        },
+        "w": {
+          "real": true
+        },
+        "x": {
+          "real": true
+        },
+        "z": {
+          "real": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "I-D_z f invertible DECLARED (scalar 1-w*sech**2 != 0). Neumann member separately requires rho(J)<1, also DECLARED.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-lyapunov-kronecker-01",
+      "path": "sciml/sciml-lyapunov-kronecker-01.json",
+      "bucket": "flagged",
+      "title": "Lyapunov/Sylvester solver as Kronecker-sum inversion; Gramian as Van Loan integral",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "Unique algebraic solution: spec(A) cap spec(-B) = empty (Lyapunov: lam_i(A) + lam_j(A) != 0 for all i,j)",
+        "1x1 probe: a != 0, equivalently 2a != 0"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "n": {
+          "integer": true,
+          "positive": true
+        },
+        "m": {
+          "integer": true,
+          "positive": true
+        },
+        "a": {
+          "complex": true,
+          "nonzero": true
+        },
+        "t": {
+          "real": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "spec(A)\u2229spec(-B) empty DECLARED for uniqueness; Re spec(A)<0 DECLARED for the Gramian integral. 1x1 probe a!=0 DECLARED.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "sciml-tweedie-gauss-01",
+      "path": "sciml/sciml-tweedie-gauss-01.json",
+      "bucket": "flagged",
+      "title": "Tweedie identity for Gaussian noise: posterior mean equals observation plus variance times score",
+      "domain": "sciml",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "sigma > 0 (Gaussian channel noise std; Tweedie scale)",
+        "tau > 0 (Gaussian prior std in the conjugate specialization)",
+        "f(y) > 0 for all real y (Gaussian marginal never vanishes)"
+      ],
+      "declared_nonzero": [
+        "sigma != 0 and tau != 0 (written as positive standard deviations)",
+        "sigma**2 + tau**2 != 0 (sum of variances)"
+      ],
+      "n_declared_analytic": 2,
+      "n_derived": 2,
+      "symbol_assumptions": {
+        "y": {
+          "real": true
+        },
+        "m": {
+          "real": true
+        },
+        "mu": {
+          "real": true
+        },
+        "sigma": {
+          "real": true,
+          "positive": true,
+          "nonzero": true
+        },
+        "tau": {
+          "real": true,
+          "positive": true,
+          "nonzero": true
+        },
+        "sig2": {
+          "real": true,
+          "positive": true,
+          "nonzero": true
+        },
+        "tau2": {
+          "real": true,
+          "positive": true,
+          "nonzero": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "sigma>0, tau>0 DECLARED imply marginal variance >0 and f>0, so real log f has no cut.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-iso4-projectors",
+      "path": "tensor/ac-t-iso4-projectors.json",
+      "bucket": "flagged",
+      "title": "SO(3) isotropic rank-4 basis and volumetric/deviatoric projectors",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "dim = 3 is nonzero, so the coefficient 1/3 in P_vol is defined in Q."
+      ],
+      "n_declared_analytic": 0,
+      "n_derived": 3,
+      "symbol_assumptions": {
+        "i": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "j": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "k": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "l": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "p": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "q": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "lam": {
+          "scalar": true
+        },
+        "mu": {
+          "scalar": true
+        },
+        "nu": {
+          "scalar": true
+        },
+        "K": {
+          "scalar": true
+        },
+        "G": {
+          "scalar": true
+        },
+        "dim": {
+          "integer": true,
+          "value": 3,
+          "nonzero": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "dim=3 nonzero DECLARED. Kronecker projectors; 1/3 is in Q.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-pauli-completeness",
+      "path": "tensor/ac-t-pauli-completeness.json",
+      "bucket": "flagged",
+      "title": "Pauli-matrix completeness / SU(2) Fierz generator relation",
+      "domain": "tensor",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "TRIVIAL_CSE"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 0,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "alpha": {
+          "integer": true,
+          "range": [
+            1,
+            2
+          ]
+        },
+        "beta": {
+          "integer": true,
+          "range": [
+            1,
+            2
+          ]
+        },
+        "gamma": {
+          "integer": true,
+          "range": [
+            1,
+            2
+          ]
+        },
+        "delta": {
+          "integer": true,
+          "range": [
+            1,
+            2
+          ]
+        },
+        "i": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "j": {
+          "integer": true,
+          "range": [
+            1,
+            3
+          ]
+        },
+        "k": {
+          "integer": true,
+          "range": [
+            0,
+            3
+          ]
+        },
+        "I": {
+          "imaginary_unit": true,
+          "I**2": -1
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "Explicit 2x2 Pauli products and completeness. Algebraic, no poles.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-04-coth-matsubara",
+      "path": "thermal/thermal-04-coth-matsubara.json",
+      "bucket": "flagged",
+      "title": "Bosonic Matsubara partial fractions of coth",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "z != n*pi*I for all integers n"
+      ],
+      "n_declared_analytic": 1,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "z": {
+          "real": null,
+          "integer": false,
+          "positive": null,
+          "nonzero": true,
+          "complex": true
+        },
+        "n": {
+          "real": true,
+          "integer": true,
+          "positive": true,
+          "nonzero": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "DLMF 4.36 writes z != n*pi*I DECLARED. Those are exactly the poles of coth/sinh. z=0 is the n=0 point and is excluded.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "z": 1
+            },
+            "probe": {
+              "expr": "cosh(z)/sinh(z)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "1/tanh(1)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": "pi"
+            },
+            "probe": {
+              "expr": "cosh(z)/sinh(z)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "1/tanh(pi)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "z": 0
+            },
+            "probe": {
+              "expr": "cosh(z)/sinh(z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z != n*pi*I",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": "I*pi"
+            },
+            "probe": {
+              "expr": "cosh(z)/sinh(z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z != n*pi*I",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-05-trigamma-double-pole",
+      "path": "thermal/thermal-05-trigamma-double-pole.json",
+      "bucket": "flagged",
+      "title": "Trigamma as summed double poles (higher Matsubara kernel)",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [],
+      "declared_nonzero": [
+        "z != 0, -1, -2, ..."
+      ],
+      "n_declared_analytic": 1,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "z": {
+          "real": null,
+          "integer": false,
+          "positive": null,
+          "nonzero": null,
+          "complex": true
+        },
+        "k": {
+          "real": true,
+          "integer": true,
+          "positive": null,
+          "nonzero": null,
+          "nonnegative": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "DLMF 5.15.1 writes z != 0,-1,-2,\u2026 DECLARED, matching trigamma poles. z=1 is a positive integer, allowed, and psi'(1)=pi**2/6 is finite.",
+      "probes": {
+        "finite": [
+          {
+            "assignment": {
+              "z": 1
+            },
+            "probe": {
+              "expr": "polygamma(1, z)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "pi**2/6",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": "Rational(1,2)"
+            },
+            "probe": {
+              "expr": "polygamma(1, z)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "pi**2/2",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": "I"
+            },
+            "probe": {
+              "expr": "polygamma(1, z)",
+              "expect_singular": false
+            },
+            "sympy": {
+              "value": "polygamma(1, I)",
+              "singular": false,
+              "expect_singular": false,
+              "confirmed": true
+            }
+          }
+        ],
+        "blocked": [
+          {
+            "assignment": {
+              "z": 0
+            },
+            "probe": {
+              "expr": "polygamma(1, z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not a nonpositive integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": -1
+            },
+            "probe": {
+              "expr": "polygamma(1, z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not a nonpositive integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          },
+          {
+            "assignment": {
+              "z": -2
+            },
+            "probe": {
+              "expr": "polygamma(1, z)",
+              "expect_singular": true
+            },
+            "declared_blocks": true,
+            "blocked_by": "DECLARED z not a nonpositive integer",
+            "sympy": {
+              "value": "zoo",
+              "singular": true,
+              "expect_singular": true,
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-06-fermi-dirac-polylog",
+      "path": "thermal/thermal-06-fermi-dirac-polylog.json",
+      "bucket": "flagged",
+      "title": "Fermi-Dirac / Bose-Einstein integrals as polylogarithms",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "CLEAN",
+      "declared_positivity": [
+        "s > -1 for F_s(x)",
+        "s > -1 and x < 0, or s > 0 and x <= 0, for G_s(x)"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 4,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "s": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        },
+        "x": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        },
+        "t": {
+          "real": true,
+          "integer": false,
+          "positive": true,
+          "nonzero": null
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": "F_s: s>-1 DECLARED; argument -exp(x) lies in (-oo,0] for real x, off the polylog cut [1,oo). G_s domain (s>-1 and x<0) or (s>0 and x<=0) DECLARED; x=0 is on the branch point only when s>0, where Li_{s+1}(1)=zeta(s+1) is finite. Gamma(s+1) poles are DERIVED-excluded by s>-1.",
+      "probes": {
+        "finite": [],
+        "blocked": []
+      },
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-07-green-spectral-hilbert",
+      "path": "thermal/thermal-07-green-spectral-hilbert.json",
+      "bucket": "flagged",
+      "title": "Lehmann spectral / Hilbert representation of thermal Green functions",
+      "domain": "thermal",
+      "rejected": false,
+      "is_guo": false,
+      "skeptic": [
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "DISQUALIFIED",
+      "declared_positivity": [
+        "eta -> 0+"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 5,
+      "n_derived": 1,
+      "symbol_assumptions": {
+        "beta": {
+          "real": true,
+          "integer": false,
+          "positive": true,
+          "nonzero": true
+        },
+        "eta": {
+          "real": true,
+          "integer": false,
+          "positive": true,
+          "nonzero": true
+        },
+        "tau": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        },
+        "omega": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        },
+        "omega_n": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        }
+      },
+      "witnesses": [
+        {
+          "witness_id": "thermal-07-omega-n-zero",
+          "assignment": {
+            "omega_n": 0,
+            "x": 0,
+            "beta": 1,
+            "eta": 1,
+            "tau": "Rational(1,2)"
+          },
+          "kind": "pole",
+          "predicate": "Hilbert integrand rho(x)/(-z+x) with z=I*omega_n at omega_n=0 places z on the real axis. x=0 is then a pole. Spectral support of rho is not restricted; omega_n is real with no nonzero flag. eta>0 and beta>0 (declared) do not exclude the bosonic zero mode",
+          "declared_ok": [
+            "beta positive and eta positive in symbol_assumptions",
+            "0<tau<beta DECLARED",
+            "omega_n real, no nonzero flag",
+            "analytic_domains do not exclude omega_n=0"
+          ],
+          "probe": {
+            "expr": "1/(-I*omega_n + x)",
+            "expect_singular": true
+          },
+          "fix": "Declare omega_n != 0, or restrict to fermionic Matsubara frequencies (2n+1)*pi/beta, or exclude 0 from supp rho.",
+          "sympy": {
+            "value": "zoo",
+            "singular": true,
+            "expect_singular": true,
+            "confirmed": true
+          }
+        }
+      ],
+      "gaps": [],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": true,
+      "problem": "PROBLEM_UNDERSPECIFIED until the problem statement is fixed"
+    },
+    {
+      "case_id": "ac-r08-kubo-frequency-underspecified",
+      "path": "response/dossiers/ac-r08-kubo-frequency-underspecified.json",
+      "bucket": "miner_rejected",
+      "title": "Kubo linear-response commutator (frequency-domain analyticity not declared)",
+      "domain": "response",
+      "rejected": true,
+      "is_guo": false,
+      "skeptic": [
+        "UNDER_SPECIFIED",
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "SKIPPED_REJECTED",
+      "declared_positivity": [
+        "The perturbation is switched on after t0 via Heaviside theta(t - t0)"
+      ],
+      "declared_nonzero": [],
+      "n_declared_analytic": 0,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "t": {
+          "real": true
+        },
+        "t0": {
+          "real": true
+        },
+        "beta": {
+          "real": true,
+          "notes": "beta = 1/k_B T as written in the equilibrium trace; T>0 not inserted"
+        },
+        "hbar": {
+          "real": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": false
+    },
+    {
+      "case_id": "ac-t-rej-index-rename",
+      "path": "tensor/ac-t-rej-index-rename.json",
+      "bucket": "miner_rejected",
+      "title": "Rejected: dummy-index swap orbit is not a tensor generator",
+      "domain": "tensor",
+      "rejected": true,
+      "is_guo": false,
+      "skeptic": [],
+      "status": "SKIPPED_REJECTED",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 0,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "i": {
+          "dummy_index": true
+        },
+        "j": {
+          "dummy_index": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": false
+    },
+    {
+      "case_id": "thermal-08-matsubara-newton-dd-underspecified",
+      "path": "thermal/thermal-08-matsubara-newton-dd-underspecified.json",
+      "bucket": "miner_rejected",
+      "title": "Matsubara two-pole sum as occupancy Newton quotient (underspecified)",
+      "domain": "thermal",
+      "rejected": true,
+      "is_guo": false,
+      "skeptic": [
+        "UNDER_SPECIFIED",
+        "SILENT_PHYSICS_POSITIVITY"
+      ],
+      "status": "SKIPPED_REJECTED",
+      "declared_positivity": [],
+      "declared_nonzero": [],
+      "n_declared_analytic": 2,
+      "n_derived": 0,
+      "symbol_assumptions": {
+        "beta": {
+          "real": true,
+          "integer": false,
+          "positive": null,
+          "nonzero": null
+        },
+        "eta": {
+          "real": true,
+          "integer": true,
+          "positive": null,
+          "nonzero": true
+        },
+        "xi1": {
+          "real": null,
+          "integer": false,
+          "positive": null,
+          "nonzero": null,
+          "complex": true
+        },
+        "xi2": {
+          "real": null,
+          "integer": false,
+          "positive": null,
+          "nonzero": null,
+          "complex": true
+        }
+      },
+      "witnesses": [],
+      "gaps": [],
+      "why_clean": null,
+      "probes": {},
+      "disqualifies": false
+    }
+  ]
+}
