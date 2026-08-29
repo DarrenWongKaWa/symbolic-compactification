@@ -2,11 +2,13 @@
 
 CURRENT TRACK: assumption-complete verified representation discovery
 
-CURRENT PHASE: contracts; case mining C1–C6
+CURRENT PHASE: 32 cases admitted; B0 smoke ZERO on 4 identities; LLM/TEST not started
 
 FROZEN GUO: G0016→G0013 UNKNOWN LEVEL_B (sealed `9fc3c8a`)
 
-NEXT AUTO ACTION: mine assumption-complete cases; do not revive Guo G3
+SCREENED: 40. REJECTED: 8 PROBLEM_UNDERSPECIFIED. DEV_proposal: 14.
+
+NEXT AUTO ACTION: DEV catalog + frozen baselines B1–B5; then prompt freeze; then P0–P5. Do not revive Guo.
 
 PUBLICATION STATUS: E
 

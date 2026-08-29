@@ -1,0 +1,141 @@
+{
+  "n_screened": 40,
+  "n_admitted": 32,
+  "n_rejected": 8,
+  "guo_in_dev_or_test": false,
+  "admitted": [
+    "mp-cauchy-dunford-01",
+    "mp-daleckii-krein-01",
+    "mp-hermite-fA-01",
+    "mp-kato-simple-ev-01",
+    "mp-mathias-block-01",
+    "mp-opitz-dd-01",
+    "mp-parlett-schur-01",
+    "mp-resolvent-dd-01",
+    "ac-r01-resolvent-hilbert-identity",
+    "ac-r03-helmholtz-outgoing-green",
+    "sciml-adjoint-linear-01",
+    "sciml-ou-mehler-01",
+    "sciml-phi-hermite-01",
+    "sciml-vanloan-blockexp-01",
+    "ac-t-clebsch-half",
+    "ac-t-eps-delta",
+    "ac-t-ricci-weyl",
+    "ac-t-weyl-su2-char",
+    "ac-t-young-s3",
+    "thermal-01-fermi-im-digamma",
+    "thermal-02-bose-im-digamma",
+    "thermal-03-digamma-reflection",
+    "ac-r02-sokhotski-plemelj-boundary",
+    "sciml-daleckii-krein-01",
+    "sciml-deq-ift-01",
+    "sciml-lyapunov-kronecker-01",
+    "sciml-tweedie-gauss-01",
+    "ac-t-iso4-projectors",
+    "ac-t-pauli-completeness",
+    "thermal-04-coth-matsubara",
+    "thermal-05-trigamma-double-pole",
+    "thermal-06-fermi-dirac-polylog"
+  ],
+  "rejected": [
+    {
+      "case_id": "ac-r04-lindhard-occupation-dd",
+      "reasons": [
+        "A2_ASSUMPTION_GAP",
+        "A4_WITNESS"
+      ],
+      "a4_status": "DISQUALIFIED"
+    },
+    {
+      "case_id": "ac-r05-lehmann-spectral-master",
+      "reasons": [
+        "A4_WITNESS"
+      ],
+      "a4_status": "DISQUALIFIED"
+    },
+    {
+      "case_id": "ac-r06-matsubara-pole-family",
+      "reasons": [
+        "A2_ASSUMPTION_GAP",
+        "A4_WITNESS"
+      ],
+      "a4_status": "DISQUALIFIED"
+    },
+    {
+      "case_id": "ac-r07-lippmann-schwinger-iepsilon",
+      "reasons": [
+        "A2_ASSUMPTION_GAP",
+        "A4_WITNESS"
+      ],
+      "a4_status": "DISQUALIFIED"
+    },
+    {
+      "case_id": "thermal-07-green-spectral-hilbert",
+      "reasons": [
+        "A3_UNFAITHFUL",
+        "A4_WITNESS"
+      ],
+      "a4_status": "DISQUALIFIED"
+    },
+    {
+      "case_id": "ac-r08-kubo-frequency-underspecified",
+      "reasons": [
+        "MINER_REJECTED",
+        "A2_ASSUMPTION_GAP"
+      ],
+      "a4_status": "SKIPPED_REJECTED"
+    },
+    {
+      "case_id": "ac-t-rej-index-rename",
+      "reasons": [
+        "MINER_REJECTED"
+      ],
+      "a4_status": "SKIPPED_REJECTED"
+    },
+    {
+      "case_id": "thermal-08-matsubara-newton-dd-underspecified",
+      "reasons": [
+        "MINER_REJECTED",
+        "A2_ASSUMPTION_GAP"
+      ],
+      "a4_status": "SKIPPED_REJECTED"
+    }
+  ],
+  "DEV_proposal": [
+    "mp-resolvent-dd-01",
+    "mp-daleckii-krein-01",
+    "mp-hermite-fA-01",
+    "mp-cauchy-dunford-01",
+    "thermal-01-fermi-im-digamma",
+    "thermal-03-digamma-reflection",
+    "thermal-05-trigamma-double-pole",
+    "sciml-phi-hermite-01",
+    "sciml-vanloan-blockexp-01",
+    "sciml-daleckii-krein-01",
+    "ac-t-eps-delta",
+    "ac-t-young-s3",
+    "ac-r01-resolvent-hilbert-identity",
+    "ac-r03-helmholtz-outgoing-green"
+  ],
+  "HOLD_for_TEST_or_CHALLENGE": [
+    "mp-kato-simple-ev-01",
+    "mp-mathias-block-01",
+    "mp-opitz-dd-01",
+    "mp-parlett-schur-01",
+    "sciml-adjoint-linear-01",
+    "sciml-ou-mehler-01",
+    "ac-t-clebsch-half",
+    "ac-t-ricci-weyl",
+    "ac-t-weyl-su2-char",
+    "thermal-02-bose-im-digamma",
+    "ac-r02-sokhotski-plemelj-boundary",
+    "sciml-deq-ift-01",
+    "sciml-lyapunov-kronecker-01",
+    "sciml-tweedie-gauss-01",
+    "ac-t-iso4-projectors",
+    "ac-t-pauli-completeness",
+    "thermal-04-coth-matsubara",
+    "thermal-06-fermi-dirac-polylog"
+  ],
+  "note": "DEV proposal is not a TEST freeze. No Guo. Remainder invariant unchanged."
+}

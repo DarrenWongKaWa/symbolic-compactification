@@ -1,0 +1,39 @@
+{
+  "partition": "DEV_SMOKE",
+  "not_test_freeze": true,
+  "guo_excluded": true,
+  "tasks": [
+    {
+      "id": "thermal-01-fermi-im-digamma",
+      "ladder": "R5",
+      "declared": ["y real", "Re(1/2+I y)=1/2 not in Z_<=0"],
+      "expr": "im(polygamma(0, 1/2 + I*y)) - (pi/2)*tanh(pi*y)",
+      "expect": "ZERO",
+      "point": {"y": 1}
+    },
+    {
+      "id": "thermal-03-digamma-reflection",
+      "ladder": "R6",
+      "declared": ["z not integer"],
+      "expr": "polygamma(0, z) - polygamma(0, 1-z) + pi*cot(pi*z)",
+      "expect": "ZERO",
+      "point": {"z": "1/3"}
+    },
+    {
+      "id": "sciml-phi-hermite-01",
+      "ladder": "R3",
+      "declared": ["z != 0 for the Newton form; z=0 is the declared Hermite value 1"],
+      "expr": "(exp(z)-1)/z - phi1_series",
+      "expect": "ZERO",
+      "point": {"z": 1}
+    },
+    {
+      "id": "mp-resolvent-dd-01",
+      "ladder": "R2",
+      "declared": ["lambda != mu, both off the pole"],
+      "expr": "(1/(lam-a) - 1/(mu-a))/(lam-mu) + 1/((lam-a)*(mu-a))",
+      "expect": "ZERO",
+      "point": {"lam": 3, "mu": 2, "a": 0}
+    }
+  ]
+}
