@@ -1,0 +1,89 @@
+{
+  "case_id": "sciml-adjoint-linear-01",
+  "title": "Continuous adjoint of a linear ODE as Green's formula; scalar residual is exact",
+  "domain": "sciml",
+  "expression_sketch": "Linear IVP: x'(t) = A * x(t) for t in [0, T], x(0) = x0, A constant n x n. Terminal loss L = L(x(T)). Chen et al. adjoint (Pontryagin):\n  a(T) = dL/dx(T),\n  a'(t) = - A.T * a(t),\n  dL/dA = Integral(a(t) * x(t).T, (t, 0, T)).\nState transition / Green's function: x(t) = exp(t*A)*x0, a(t) = exp((T-t)*A.T)*a(T).\nScalar fully closed member (SymPy):\n  x' = alpha * x,   L = (1/2)*x(T)**2,   x(0)=x0.\n  x(t) = x0 * exp(alpha*t),\n  a(t) = x(T) * exp(alpha*(T-t)),\n  Integral(a(t)*x(t), (t,0,T)) = x0**2 * T * exp(2*alpha*T),\n  dL/d alpha = d/d alpha [ (1/2)*x0**2*exp(2*alpha*T) ] = same quantity.\nResidual of adjoint integral minus the direct derivative is identically zero.",
+  "latent_structure": "Master object: the fundamental matrix Phi(t,s) = exp((t-s)A) of the linear ODE (Green's function of d/dt - A). The forward state, the backward adjoint, and the parameter sensitivity are three operators on Phi. Variation of constants / Green's formula is the reconstruction. Neural ODE adjoint is this identity; in the linear constant-A case it is an exact matrix-exponential calculus identity, not a numerical ODE fit.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {
+        "integer": true,
+        "positive": true
+      },
+      "T": {
+        "real": true,
+        "positive": true
+      },
+      "t": {
+        "real": true
+      },
+      "alpha": {
+        "complex": true
+      },
+      "x0": {
+        "complex": true
+      }
+    },
+    "function_domains": {
+      "exp": "entire; matrix exponential of t*A for all real t",
+      "L": "C^1 in the terminal state x(T)"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [
+      {
+        "statement": "T > 0 (forward integration interval length; Chen et al. t0 < t1)",
+        "label": "DECLARED",
+        "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text"
+      }
+    ],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "Linear ODE with constant A: solutions exist globally on R and are entire in t via exp(t A); no finite-time blowup",
+        "label": "DECLARED",
+        "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text"
+      },
+      {
+        "statement": "Adjoint ODE a' = -A.T a is likewise entire in t; run backward from t=T to t=0 along the real interval",
+        "label": "DECLARED",
+        "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text"
+      }
+    ],
+    "branch_conventions": [
+      "Matrix exponential is the primary entire function; no branch.",
+      "The integral is an ordinary real integral on the compact interval [0, T]."
+    ],
+    "limit_domains": [
+      {
+        "statement": "t runs over the compact real interval [0, T]; endpoints included; no contour deformation",
+        "label": "DECLARED",
+        "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text"
+      }
+    ],
+    "source_provenance": [
+      "https://arxiv.org/abs/1806.07366",
+      "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, equations (4)-(5), Appendix B",
+      "Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes, 1962"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "x(t)=exp(t A) x0 and a(t)=exp((T-t) A.T) a(T) solve the forward and adjoint linear ODEs with the stated endpoint data",
+        "label": "DERIVED",
+        "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text"
+      },
+      {
+        "statement": "For the scalar quadratic terminal loss, the adjoint integral equals the direct derivative of L because both equal x0**2 T exp(2 alpha T)",
+        "label": "DERIVED",
+        "source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text"
+      }
+    ]
+  },
+  "public_source": "Chen, Rubanova, Bettencourt, Duvenaud, NeurIPS 2018, arXiv:1806.07366v5, eqs. (4)-(5) and Appendix B; Pontryagin, Boltyanskii, Gamkrelidze, Mishchenko, The Mathematical Theory of Optimal Processes (1962); linear variation-of-constants / Green's formula in any standard ODE text",
+  "why_not_cse_lgg": "The forward exponential, the backward exponential, and the integral of their product are three syntactically different expressions. CSE will not identify the integral with dL/d alpha. LGG will not invent the Green's function / fundamental matrix as a latent object that produces state, adjoint, and sensitivity. Representation is operator-level.",
+  "proposer_leak_risk": "Hide: adjoint, Pontryagin, Neural ODE, Green's function, fundamental matrix, variation of constants. Show the scalar forward closed form, the scalar backward closed form, and the direct dL/d alpha as unlabeled members; do not name the integral reconstruction.",
+  "notes": "SciML role: Neural ODE / differentiable physics adjoint. Restricted to linear constant-A so the identity is algebraic in exp and a definite integral, writable in SymPy, with no Lipschitz folklore beyond the declared linear structure. Catalog: G0001 = x0*exp(alpha*t); G0002 = xT*exp(alpha*(T-t)); G0003 = (1/2)*x0**2*exp(2*alpha*T). F = exp((t-s)*alpha). Residual Integral(a x) - dL/dalpha == 0.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

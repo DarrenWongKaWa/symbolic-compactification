@@ -1,0 +1,115 @@
+{
+  "case_id": "thermal-07-green-spectral-hilbert",
+  "title": "Lehmann spectral / Hilbert representation of thermal Green functions",
+  "domain": "thermal",
+  "expression_sketch": "G(k, z) = Integral(rho(k, x)/(-z + x), (x, -oo, oo))/(2*pi);  G_R(k, omega) = G(k, omega + I*eta)  with eta -> 0+;  G(k, omega_n) = G(k, I*omega_n)",
+  "latent_structure": "A single Cauchy/Hilbert master object G(k,z) interpolates the Matsubara propagator (z = i omega_n) and the retarded propagator (z = omega + i eta, eta->0+). Spectral density rho is the jump. Not CSE of G_R vs G_M components.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "beta": {
+        "real": true,
+        "integer": false,
+        "positive": true,
+        "nonzero": true
+      },
+      "eta": {
+        "real": true,
+        "integer": false,
+        "positive": true,
+        "nonzero": true
+      },
+      "tau": {
+        "real": true,
+        "integer": false,
+        "positive": null,
+        "nonzero": null
+      },
+      "omega": {
+        "real": true,
+        "integer": false,
+        "positive": null,
+        "nonzero": null
+      },
+      "omega_n": {
+        "real": true,
+        "integer": false,
+        "positive": null,
+        "nonzero": null
+      }
+    },
+    "function_domains": {
+      "G": "Hilbert transform of rho; meromorphic/holomorphic off the real spectral support",
+      "G_R": "retarded: poles and discontinuities in the lower half-plane",
+      "G_A": "advanced: poles and discontinuities in the upper half-plane",
+      "rho": "real spectral density (Lehmann weight)"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [
+      {
+        "statement": "eta -> 0+",
+        "label": "DECLARED",
+        "source": "Wikipedia Green's function (many-body theory), Spectral representation: 'the limit as \u03b7 \u2192 0+ is implied'"
+      }
+    ],
+    "real_valued_functions": [
+      "rho"
+    ],
+    "analytic_domains": [
+      {
+        "statement": "imaginary-time arguments restricted to the range from 0 to beta",
+        "label": "DECLARED",
+        "source": "Wikipedia: 'The imaginary-time variables \u03c4_j are restricted to the range from 0 to the inverse temperature \u03b2 = 1/(k_B T)'"
+      },
+      {
+        "statement": "0 < tau < beta for (anti)periodicity G(tau-beta) = zeta G(tau)",
+        "label": "DECLARED",
+        "source": "Wikipedia: 'for 0 < \u03c4 < \u03b2'"
+      },
+      {
+        "statement": "G_R has all poles and discontinuities in the lower half-plane",
+        "label": "DECLARED",
+        "source": "Wikipedia: 'the former (latter) has all its poles and discontinuities in the lower (upper) half-plane'"
+      },
+      {
+        "statement": "G_A has all poles and discontinuities in the upper half-plane",
+        "label": "DECLARED",
+        "source": "same sentence"
+      },
+      {
+        "statement": "retarded evaluation is G(k, omega + i eta) with eta->0+",
+        "label": "DECLARED",
+        "source": "Wikipedia: G^R(k, \u03c9) = G(k, \u03c9 + i\u03b7)"
+      }
+    ],
+    "branch_conventions": [
+      "retarded i0+ / advanced i0- (Sokhotski\u2013Weierstrass: lim \u03b7\u21920+ 1/(x\u00b1i\u03b7) = P(1/x) \u2213 i \u03c0 \u03b4(x))",
+      "zeta = +1 bosons, -1 fermions (source)"
+    ],
+    "limit_domains": [
+      {
+        "statement": "eta approaches 0 from above",
+        "label": "DECLARED",
+        "source": "\u03b7 \u2192 0+ written in the retarded formula"
+      }
+    ],
+    "source_provenance": [
+      "Wikipedia: Green's function (many-body theory), sections Two-point functions / Imaginary-time ordering and \u03b2-periodicity / Spectral representation / Hilbert transform, https://en.wikipedia.org/wiki/Green%27s_function_(many-body_theory)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "beta is a finite positive integration endpoint",
+        "label": "DERIVED",
+        "source": "source uses integrals from 0 to beta and Fourier factor 1/beta; T=0 is not this formula"
+      }
+    ]
+  },
+  "public_source": "https://en.wikipedia.org/wiki/Green%27s_function_(many-body_theory)",
+  "why_not_cse_lgg": "Three presentations (Matsubara, retarded, advanced) of one Hilbert transform. CSE sees different denominators -i omega_n + omega' vs -(omega+i eta)+omega'; it does not invent the master G(z). LGG does not unify half-plane evaluations.",
+  "proposer_leak_risk": "Lehmann, retarded, Matsubara, Hilbert names are in the source. Hide gold wording 'master analytic object' / 'unify G_R and G_M'. Integral is not in PARSE_POLICY; this is a representation identity, not a closed elementary form.",
+  "notes": "beta>0 is not written as an inequality; it is the length of the declared imaginary-time interval [0,beta]. Labeled DERIVED from that interval, not from physical folklore T>0. Spectral support of rho is not further restricted by the source (no extra pole-exclusion import).",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false,
+  "method_version": "ac-repr-1"
+}

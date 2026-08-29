@@ -1,0 +1,39 @@
+{
+  "case_id": "nc-not-declared-analytic",
+  "title": "Contour integral whose disk is folklore",
+  "domain": "mathphys",
+  "expression_sketch": "Integral(f(z) / (z - a), z) on an unspecified contour",
+  "latent_structure": "Cauchy integral of a meromorphic density",
+  "proposed_ladder": "R5_special_function",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "a": {"complex": true}
+    },
+    "function_domains": {
+      "f": "claimed meromorphic"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "a is not a pole of f",
+        "label": "NOT_DECLARED",
+        "source": ""
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "arXiv:0000.00000 (placeholder citation; analytic disk absent from source)"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "arXiv:0000.00000",
+  "why_not_cse_lgg": "Special-function shape is not the issue; the disk is missing.",
+  "proposer_leak_risk": "low",
+  "notes": "Negative control: analytic_domains labeled NOT_DECLARED is PROBLEM_UNDERSPECIFIED.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

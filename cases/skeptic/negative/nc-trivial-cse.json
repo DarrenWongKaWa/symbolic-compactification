@@ -1,0 +1,37 @@
+{
+  "case_id": "nc-trivial-cse",
+  "title": "Repeated susceptibility written twice",
+  "domain": "response",
+  "expression_sketch": "Add(chi0, chi0)",
+  "latent_structure": "common subexpression of a repeated kernel",
+  "proposed_ladder": "R0_repeated_local",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "chi0": {}
+    },
+    "function_domains": {},
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "chi0 is a scalar placeholder",
+        "label": "DECLARED",
+        "source": "sketch"
+      }
+    ],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "author sketch; no scientific source required for this control"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "none — negative control",
+  "why_not_cse_lgg": "",
+  "proposer_leak_risk": "none",
+  "notes": "Negative control: single Add of a repeated term is trivial CSE.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

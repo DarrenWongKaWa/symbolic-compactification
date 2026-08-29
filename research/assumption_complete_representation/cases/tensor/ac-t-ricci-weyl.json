@@ -1,0 +1,99 @@
+{
+  "case_id": "ac-t-ricci-weyl",
+  "title": "Ricci/Weyl orthogonal decomposition of an algebraic curvature tensor",
+  "domain": "tensor",
+  "expression_sketch": "Algebraic curvature tensor R_ijkl on an n-dimensional pseudo-Riemannian space with nondegenerate metric g, n=4 in the displayed coefficients. Traceless Ricci: Z_jk = Ric_jk - (1/n)*Scal*g_jk.  Scalar, traceless-Ricci, and Weyl pieces (Wikipedia Ricci decomposition, that page's Riemann sign convention): S_ijkl = Scal/(n*(n-1)) * (g_il*g_jk - g_ik*g_jl), E_ijkl = 1/(n-2) * (Z_il*g_jk - Z_jl*g_ik - Z_ik*g_jl + Z_jk*g_il), W_ijkl = R_ijkl - S_ijkl - E_ijkl.  For n=4: S = Scal/12 * (g_il g_jk - g_ik g_jl), E uses 1/2.  Reconstruction: R = S+E+W.  Orthogonality: <S,E>=<S,W>=<E,W>=0 and |R|^2 = |S|^2+|E|^2+|W|^2 with index raising by g.  W is totally traceless: g^{il} W_ijkl = 0.  Each of S,E,W inherits Riemann symmetries including the Bianchi cycle.",
+  "latent_structure": "Symmetry-adapted O(g)-irreducible splitting of the algebraic curvature space: RV = SV \u2295 EV \u2295 CV (scalar \u2295 traceless-Ricci \u2295 Weyl) via Kulkarni-Nomizu products with g. Invariant orthogonal projectors, not a relabeling of Riemann indices.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {
+        "integer": true,
+        "value": 4,
+        "geq": 4
+      },
+      "Scal": {
+        "scalar": true
+      },
+      "i": {
+        "integer": true,
+        "tensor_index": true
+      },
+      "j": {
+        "integer": true,
+        "tensor_index": true
+      },
+      "k": {
+        "integer": true,
+        "tensor_index": true
+      },
+      "l": {
+        "integer": true,
+        "tensor_index": true
+      }
+    },
+    "function_domains": {
+      "g": "Nondegenerate symmetric metric of any signature on an n-dimensional vector space (cotangent model).",
+      "R": "Algebraic curvature tensor: skew in 12 and 34, pair symmetry 12<->34, Bianchi identity; Wikipedia sign convention R_ijkl = g_lp (d_i Gamma_jk^p - d_j Gamma_ik^p + ...).",
+      "Ric": "Ricci tensor R_jk = g^{il} R_ijkl with the contraction of that page.",
+      "W": "Weyl tensor, the totally traceless piece.",
+      "S": "Scalar Kulkarni-Nomizu piece.",
+      "E": "Traceless-Ricci Kulkarni-Nomizu piece."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "n=4, hence n != 0, n-1 != 0, n-2 != 0, so the displayed denominators n(n-1) and n-2 are invertible in Q.",
+        "label": "DECLARED",
+        "source": "Wikipedia Ricci decomposition: n-manifold; irreducible split stated for n >= 4"
+      },
+      {
+        "statement": "g is nondegenerate, so g^{ij} exists and is used to raise indices and form traces.",
+        "label": "DECLARED",
+        "source": "Wikipedia: Riemannian or pseudo-Riemannian n-manifold"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [],
+    "branch_conventions": [
+      "No square roots: the volume-form Levi-Civita tensor is not used. Index raising uses g^{-1} only."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Ricci_decomposition (S,E,W formulae; orthogonality; irrep split)",
+      "https://en.wikipedia.org/wiki/Weyl_tensor (component formula; Ricci decomposition as O(n) irreps)",
+      "Besse, Einstein Manifolds, Ergebnisse 10, Springer 1987, Chapter 1 \u00a7G.",
+      "Singer and Thorpe, The curvature of 4-dimensional Einstein spaces, 1969.",
+      "Wald, General Relativity, Chicago 1984, p. 40 (physics Weyl formula)."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "The Wikipedia Ricci-decomposition page uses the less common Ricci-sign convention (contract first and last index of that Riemann); the S,E,W formulae are tied to that choice.",
+        "label": "DECLARED",
+        "source": "Wikipedia Ricci decomposition, definition section note on sign convention"
+      },
+      {
+        "statement": "S,E,W each have Riemann algebraic symmetries because they are Kulkarni-Nomizu products (or the complementary Weyl remainder).",
+        "label": "DECLARED",
+        "source": "Wikipedia Ricci decomposition, properties of the pieces"
+      },
+      {
+        "statement": "Orthogonality <S,E>=<S,W>=<E,W>=0 is with respect to the metric-induced inner product on (0,4) tensors.",
+        "label": "DECLARED",
+        "source": "Wikipedia Ricci decomposition, properties of the decomposition"
+      },
+      {
+        "statement": "n=4 is a specialization of the general-n formulae; coefficients 1/12 and 1/2 are n(n-1)=12 and n-2=2.",
+        "label": "DERIVED",
+        "source": "substitute n=4 into Wikipedia S,E"
+      }
+    ]
+  },
+  "public_source": "Wikipedia Ricci decomposition and Weyl tensor; Besse 1987; Singer-Thorpe 1969",
+  "why_not_cse_lgg": "An expanded Riemann array with 20 independent 4D components does not CSE into Weyl plus Ricci plus scalar. LGG cannot invent the Kulkarni-Nomizu product or the O(n) irrep projectors. The target is a change of representation on the curvature module.",
+  "proposer_leak_risk": "Hide Weyl, Schouten, Kulkarni-Nomizu, Ricci decomposition, conformal. Do not give the 1/(n-2) template in scientific_context.",
+  "notes": "Pointwise algebraic identity on curvature tensors; no PDE, no analytic continuation, no coordinate-chart assumption beyond a nondegenerate metric. n=4 is declared (GR/4-manifold case). Physical reading (gravitational waves vs matter) is not required for the tensor identity.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

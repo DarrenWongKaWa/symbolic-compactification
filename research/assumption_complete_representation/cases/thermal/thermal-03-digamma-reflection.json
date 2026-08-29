@@ -1,0 +1,67 @@
+{
+  "case_id": "thermal-03-digamma-reflection",
+  "title": "Digamma reflection: psi(z)-psi(1-z) = -pi cot(pi z)",
+  "domain": "thermal",
+  "expression_sketch": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)  ==  0",
+  "latent_structure": "Master generating identity for bosonic and fermionic Matsubara kernels: the difference of digammas at reflected arguments is the cotangent thermal kernel. Differentiating in z yields polygamma reflections (DLMF 5.15.6) used for higher-order Matsubara poles. One meromorphic object (psi) plus the reflection operator z |-> 1-z.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "z": {
+        "real": null,
+        "integer": false,
+        "positive": null,
+        "nonzero": true,
+        "complex": true
+      }
+    },
+    "function_domains": {
+      "polygamma": "psi meromorphic, poles at nonpositive integers (DLMF 5.2.2)",
+      "tan": "poles at pi*(n+1/2); 1/tan = cot has poles at n*pi"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "z != 0, \u00b11, \u00b12, ...",
+        "label": "DECLARED",
+        "source": "DLMF 5.5.4 written condition: z \u2260 0, \u00b11, \u2026"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "z not an integer",
+        "label": "DECLARED",
+        "source": "DLMF 5.5.4: z \u2260 0, \u00b11, \u2026"
+      },
+      {
+        "statement": "z and 1-z avoid the psi pole set {0,-1,-2,...}",
+        "label": "DERIVED",
+        "source": "if z not integer then neither z nor 1-z is a nonpositive integer"
+      }
+    ],
+    "branch_conventions": [
+      "cot = 1/tan; DLMF writes -pi/tan(pi z) equivalently -pi cot(pi z)"
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "NIST DLMF 5.5.4 https://dlmf.nist.gov/5.5.E4",
+      "A&S 6.3.7 (DLMF notes A&S omitted the condition on z; DLMF supplies it)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "tan(pi*z) != 0 on the same set (cot poles = integers)",
+        "label": "DERIVED",
+        "source": "tan(pi z)=0 iff z integer, excluded by 5.5.4"
+      }
+    ]
+  },
+  "public_source": "NIST DLMF 5.5.4 (https://dlmf.nist.gov/5.5.E4)",
+  "why_not_cse_lgg": "Reflection of psi is a functional equation, not a shared subexpression. The latent operator is z |-> 1-z plus the cotangent kernel. CSE/LGG do not invent that operator.",
+  "proposer_leak_risk": "psi and cot/tan appear in the source. Do not leak 'Matsubara master', 'thermal cotangent', or polygamma-reflection sequels in proposer context.",
+  "notes": "SymPy-writable: polygamma, tan, pi. This is the generating object for thermal frequency sums; it is not a Guo identity and does not require imported pole-exclusion beyond the integers written in 5.5.4.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false,
+  "method_version": "ac-repr-1"
+}

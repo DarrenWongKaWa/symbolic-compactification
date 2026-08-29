@@ -1,0 +1,91 @@
+{
+  "case_id": "ac-t-eps-delta",
+  "title": "Contracted Levi-Civita product as isotropic Kronecker basis",
+  "domain": "tensor",
+  "expression_sketch": "Sum_{i=1}^{3} epsilon(i,j,k)*epsilon(i,m,n)  ==  delta(j,m)*delta(k,n) - delta(j,n)*delta(k,m),  with j,k,m,n in {1,2,3}.  Uncontracted generator: epsilon(i,j,k)*epsilon(l,m,n) == det(Delta) where Delta_pq = delta(index_p, index_q) for (i,j,k) vs (l,m,n); equivalently the six-term Leibniz expansion delta(i,l)*(delta(j,m)*delta(k,n)-delta(j,n)*delta(k,m)) - delta(i,m)*(delta(j,l)*delta(k,n)-delta(j,n)*delta(k,l)) + delta(i,n)*(delta(j,l)*delta(k,m)-delta(j,m)*delta(k,l)).  Further contractions: Sum_{i,j} epsilon(i,j,k)*epsilon(i,j,n) == 2*delta(k,n); Sum_{i,j,k} epsilon(i,j,k)*epsilon(i,j,k) == 6.",
+  "latent_structure": "SO(3) isotropic rank-4 basis reconstruction: the product of two Levi-Civita symbols is the unique (up to the generalized Kronecker) totally antisymmetric pairing and equals a 2-dimensional span of Kronecker products after one contraction. Not an index relabeling: the right-hand side is a different tensor generator (delta) with fixed coefficients +1,-1.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "i": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "j": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "k": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "l": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "m": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "n": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      }
+    },
+    "function_domains": {
+      "epsilon": "Levi-Civita symbol on {1,2,3}^3: +1 on even permutations of (1,2,3), -1 on odd permutations, 0 if any repeated index. Source sets epsilon(1,2,3)=+1.",
+      "delta": "Kronecker delta on {1,2,3}: delta(a,b)=1 if a=b else 0."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [
+      "epsilon",
+      "delta"
+    ],
+    "analytic_domains": [],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Levi-Civita_symbol (3D product and contracted epsilon identity; Kay, Tensor Calculus, Schaum 1988; Tyldesley 1973)",
+      "D. C. Kay, Tensor Calculus, Schaum's Outlines, McGraw-Hill, 1988 (epsilon-delta product and contractions).",
+      "Riley, Hobson, Bence, Mathematical Methods for Physics and Engineering, CUP."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "The identity is a finite sum of integers in {-1,0,1}; it is polynomial over Z and needs no analytic continuation.",
+        "label": "DERIVED",
+        "source": "Leibniz expansion of det(delta) on a 3x3 index matrix; Wikipedia product section"
+      },
+      {
+        "statement": "Einstein summation on a repeated Latin index is the explicit finite sum over {1,2,3}.",
+        "label": "DERIVED",
+        "source": "Wikipedia Levi-Civita symbol, Einstein-notation paragraph before the 3D identities"
+      }
+    ]
+  },
+  "public_source": "Wikipedia Levi-Civita symbol; Kay Tensor Calculus; Riley-Hobson-Bence",
+  "why_not_cse_lgg": "CSE/LGG see a product of two 3-index arrays versus a difference of Kronecker products; there is no shared first-order anti-unification head. The useful compact form is an invariant-basis rewrite (epsilon orbit reconstructed in the delta basis), not a common subexpression.",
+  "proposer_leak_risk": "Hide names isotropic, Levi-Civita, permutation tensor, generalized Kronecker, invariant basis. Show only the summed epsilon product as the source member.",
+  "notes": "Algebraic, finite-index, no branches. Ladder R8: invariant generator of SO(3) isotropic tensors. Distinct from dummy-index renaming because LHS and RHS use different generating tensors.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

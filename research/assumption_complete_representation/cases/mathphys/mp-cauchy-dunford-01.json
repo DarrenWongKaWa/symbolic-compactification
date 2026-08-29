@@ -1,0 +1,69 @@
+{
+  "case_id": "mp-cauchy-dunford-01",
+  "title": "Cauchy\u2013Dunford integral of the resolvent as master for f(A)",
+  "domain": "mathphys",
+  "expression_sketch": "f(A) is defined as (1/(2 \u03c0 i)) * contour_integral_Gamma f(z) (z I - A)^{-1} dz, with Gamma a closed contour about the eigenvalues. Expanding the resolvent in a Jordan or eigenbasis recovers the usual block formulae; the same contour with denominator (z-t_1)...(z-t_k) produces the Newton coefficients of f. The compact object is the contour integral, not the expanded residue table.",
+  "latent_structure": "Dunford\u2013Taylor / Cauchy integral of the resolvent as a master analytic object (ladder R6). Higham Theorem 1.12: when f is analytic this coincides with the Jordan and Hermite definitions. Related instance (not automatically the same hypothesis list): Frobenius/de Boor contour formula for divided differences, \u0394(t_{1:j}) f = (1/(2\u03c0i)) \u222e f(\u03b6)/w_{j,t}(\u03b6) d\u03b6.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "A": {
+        "type": "matrix",
+        "space": "C^{n x n}"
+      },
+      "n": {
+        "integer": true,
+        "positive": true
+      },
+      "Gamma": {
+        "type": "closed contour in C",
+        "note": "encloses Lambda(A); disjoint from Lambda(A)"
+      }
+    },
+    "function_domains": {
+      "f": "Analytic on and inside a closed contour Gamma that encloses Lambda(A) (Higham Definition 1.11).",
+      "resolvent": "(z I - A)^{-1} is defined on Gamma because Gamma is disjoint from the spectrum (Higham Definition 1.11)."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "f is analytic on and inside a closed contour Gamma that encloses Lambda(A) (Higham Definition 1.11; Higham\u2013Lin Definition 3.3 uses the same wording).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham\u2013Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf"
+      },
+      {
+        "statement": "The integrand contains the resolvent (zI-A)^{-1}, which is defined on Gamma since Gamma is disjoint from the spectrum of A (Higham Definition 1.11, sentence after display (1.12)).",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham\u2013Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf"
+      },
+      {
+        "statement": "If the Cauchy definition is claimed equivalent to the Jordan and Hermite definitions, f is analytic (Higham Theorem 1.12: 'If f is analytic then Definition 1.11 is equivalent to Definitions 1.2 and 1.4').",
+        "label": "DECLARED",
+        "source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham\u2013Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf"
+      }
+    ],
+    "branch_conventions": [
+      "Positive orientation of Gamma (standard Cauchy integral; Higham writes the factor 1/(2\u03c0i) as in the scalar Cauchy formula).",
+      "Primary matrix function: one branch of f on and inside Gamma."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (matrix function via Cauchy integral) and Theorem 1.12 (equivalence with Jordan and Hermite definitions when f is analytic); Higham\u2013Lin Def. 3.3, eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+      "de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46\u201369, arXiv:math/0502036, \u00a79 Contour integral, display (51), attributing the formula to Frobenius 1871",
+      "DOI 10.1137/1.9780898717778",
+      "https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf",
+      "https://arxiv.org/abs/math/0502036",
+      "Horn\u2013Johnson, Topics in Matrix Analysis, 1991, Theorem 6.2.28 (cited by Higham for the Cauchy equivalence)"
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "Higham 2008, Definition 1.11 and Theorem 1.12. Higham\u2013Lin, https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf, Definition 3.3. Related contour DD: de Boor, arXiv:math/0502036, \u00a79.",
+  "why_not_cse_lgg": "The expanded residue calculus is a sum of Jordan-block Taylor polynomials. CSE/LGG operate on that expansion and do not reinvent the contour integral of f(z) times the resolvent as a single master object generating those blocks.",
+  "proposer_leak_risk": "Hide Dunford\u2013Taylor, Cauchy integral definition, master object, Hermite interpolant. A catalog may list the integral formula as source text; do not name it as the gold representation type.",
+  "notes": "Holomorphy on and inside Gamma is in the cited definition; it is not to be weakened to 'f defined on the spectrum'. Conversely, do not attach this holomorphy list to mp-hermite-fA-01. The Frobenius/de Boor contour DD (de Boor display (51)) is a sibling formula whose hypotheses in that survey are: f entire in a disk of radius rho, contour of radius rho'<rho, interpolation nodes not in the annulus. Do not import those disk/annulus hypotheses into Higham Definition 1.11, and do not certify (51) from Higham's wording alone.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

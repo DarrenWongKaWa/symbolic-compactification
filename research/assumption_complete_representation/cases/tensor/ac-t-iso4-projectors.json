@@ -1,0 +1,129 @@
+{
+  "case_id": "ac-t-iso4-projectors",
+  "title": "SO(3) isotropic rank-4 basis and volumetric/deviatoric projectors",
+  "domain": "tensor",
+  "expression_sketch": "Most general Cartesian isotropic rank-4 tensor in 3D: T(i,j,k,l) = lam*delta(i,j)*delta(k,l) + mu*delta(i,k)*delta(j,l) + nu*delta(i,l)*delta(j,k).  Symmetrized identity on Sym^2(R^3): I_s(i,j,k,l) = (1/2)*(delta(i,k)*delta(j,l)+delta(i,l)*delta(j,k)).  Volumetric and symmetric-deviatoric projectors: P_vol(i,j,k,l) = (1/3)*delta(i,j)*delta(k,l),  P_dev(i,j,k,l) = I_s(i,j,k,l) - P_vol(i,j,k,l).  Double-contraction identities (sum p,q in {1,2,3}): P_vol(i,j,p,q)*P_vol(p,q,k,l) = P_vol(i,j,k,l), P_dev(i,j,p,q)*P_dev(p,q,k,l) = P_dev(i,j,k,l), P_vol(i,j,p,q)*P_dev(p,q,k,l) = 0, P_vol+P_dev = I_s.  Isotropic Hooke operator on symmetric strains: C(i,j,k,l) = 3*K*P_vol(i,j,k,l) + 2*G*P_dev(i,j,k,l) (equivalently two Lame scalars, nu=mu in T).",
+  "latent_structure": "Invariant basis of SO(3)-isotropic rank-4 tensors (3 Kronecker generators), then the symmetry-adapted spectral/projector split of Sym^2(R^3) into volumetric (1-dimensional) and traceless-deviatoric (5-dimensional) irreps. Orthogonal idempotents, not index renaming.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "i": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "j": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "k": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "l": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "p": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "q": {
+        "integer": true,
+        "range": [
+          1,
+          3
+        ]
+      },
+      "lam": {
+        "scalar": true
+      },
+      "mu": {
+        "scalar": true
+      },
+      "nu": {
+        "scalar": true
+      },
+      "K": {
+        "scalar": true
+      },
+      "G": {
+        "scalar": true
+      },
+      "dim": {
+        "integer": true,
+        "value": 3,
+        "nonzero": true
+      }
+    },
+    "function_domains": {
+      "delta": "Kronecker delta on {1,2,3} in an orthonormal Cartesian frame.",
+      "T": "Cartesian rank-4 tensor components, numerically invariant under SO(3).",
+      "I_s": "Fourth-order symmetrizer / identity on symmetric 3x3 matrices.",
+      "P_vol": "Orthogonal projector onto spherical/volumetric tensors (1/3)(tr A) I.",
+      "P_dev": "Orthogonal projector onto symmetric traceless tensors."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "dim = 3 is nonzero, so the coefficient 1/3 in P_vol is defined in Q.",
+        "label": "DECLARED",
+        "source": "3D Cartesian tensor analysis (Jeffreys; DAMTP NST MMII handout 15; LibreTexts C.5)"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [
+      "delta",
+      "I_s",
+      "P_vol",
+      "P_dev"
+    ],
+    "analytic_domains": [],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "H. Jeffreys and B. S. Jeffreys, Methods of Mathematical Physics, 3rd ed., \u00a73.03 Isotropic Tensors.",
+      "DAMTP NST MMII handout 15, isotropic rank-4 form \u03bb \u03b4ij \u03b4kl + \u03bc \u03b4ik \u03b4jl + \u03bd \u03b4il \u03b4jk: https://www.damtp.cam.ac.uk/user/reh10/lectures/nst-mmii-handout15.pdf",
+      "Engineering LibreTexts 14.5, 4th-order isotropic tensors, Aris 1962: https://eng.libretexts.org/Bookshelves/Civil_Engineering/All_Things_Flow_-_Fluid_Mechanics_for_the_Natural_Sciences_(Smyth)/14%3A_Appendix_C-_Isotropic_Tensors/14.05%3A_C.5_4th-order_isotropic_tensors",
+      "Wolfram MathWorld, Isotropic Tensor: https://mathworld.wolfram.com/IsotropicTensor.html",
+      "deal.II Physics::Elasticity::StandardTensors, dev_P = I_sym - (1/dim) I\u2297I: https://www.dealii.org/current/doxygen/deal.II/classPhysics_1_1Elasticity_1_1StandardTensors.html"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "I_s : I_s = I_s on symmetric arguments because I_s is the identity of Sym^2.",
+        "label": "DERIVED",
+        "source": "definition of the symmetric fourth-order identity"
+      },
+      {
+        "statement": "P_vol and P_dev are complementary: P_vol + P_dev = I_s follows by subtracting the two displayed formulae.",
+        "label": "DERIVED",
+        "source": "deal.II / standard continuum-mechanics split"
+      },
+      {
+        "statement": "Elasticity minor symmetries force nu=mu, reducing the 3-dimensional isotropic basis to two Lame generators.",
+        "label": "DERIVED",
+        "source": "DAMTP handout 15 elasticity paragraph; conservation of angular momentum (symmetric stress)"
+      }
+    ]
+  },
+  "public_source": "Jeffreys \u00a73.03; DAMTP MMII handout 15; LibreTexts C.5; deal.II StandardTensors",
+  "why_not_cse_lgg": "The expanded 81-component array of an isotropic 4-tensor has many repeated 0/\u03bb/\u03bc/\u03bd entries; CSE merges copies but does not invent the three Kronecker generators or the projector algebra. LGG cannot change representation from components to an SO(3)-invariant basis.",
+  "proposer_leak_risk": "Hide P_vol, P_dev, Lam\u00e9, hydrostatic, Kelvin spectral decomposition. Do not print the three-term Kronecker ansatz in proposer context.",
+  "notes": "Purely algebraic in Kronecker symbols. No metric signature, no analysis. K,G are free scalars; positivity of bulk/shear moduli is physical folklore and is not used for the projector identities.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

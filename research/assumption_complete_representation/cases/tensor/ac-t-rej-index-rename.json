@@ -1,0 +1,39 @@
+{
+  "case_id": "ac-t-rej-index-rename",
+  "title": "Rejected: dummy-index swap orbit is not a tensor generator",
+  "domain": "tensor",
+  "expression_sketch": "T(i,j)*v(i)*v(j) + T(j,i)*v(j)*v(i).  Einstein dummies i,j. The second summand is the first after relabeling (i,j)->(j,i). Claimed 'generator' T_gen with orbit {id, swap} is only index renaming.",
+  "latent_structure": "Dummy-index rebinding. Apparent permutation orbit has equal dummy summations, not a new invariant basis or Young/Clebsch generator.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "i": {
+        "dummy_index": true
+      },
+      "j": {
+        "dummy_index": true
+      }
+    },
+    "function_domains": {
+      "T": "Unspecified bilinear kernel.",
+      "v": "Unspecified vector components."
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "Author-constructed anti-pattern matching frozen representation-bench tensor-family tasks (dev-c-tensor-family / S2-pos-tensor-orbit), which this line rejects as representation."
+    ],
+    "derived_conditions": []
+  },
+  "public_source": "in-repo anti-pattern (representation-bench tensor-family); not a scientific identity",
+  "why_not_cse_lgg": "Even CSE is enough: the two summands are identical after dummy relabeling. That is why this is not an R8 case.",
+  "proposer_leak_risk": "n/a (rejected)",
+  "notes": "Preserved reject per ADMISSION_GATE. Mission rule: reject if the 'representation' is just index renaming. Contrasts with ac-t-young-s3 (signed non-constant orbit) and ac-t-eps-delta (change of generator).",
+  "rejected": true,
+  "reject_reason": "The two summands are the same Einstein contraction after dummy-index relabeling. An equal-weight swap orbit is notation, not an invariant basis, Young projector, Clebsch-Gordan reduction, or tensor generator.",
+  "is_guo": false
+}

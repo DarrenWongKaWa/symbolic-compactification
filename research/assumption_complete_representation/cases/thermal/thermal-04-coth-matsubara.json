@@ -1,0 +1,68 @@
+{
+  "case_id": "thermal-04-coth-matsubara",
+  "title": "Bosonic Matsubara partial fractions of coth",
+  "domain": "thermal",
+  "expression_sketch": "cosh(z)/sinh(z) - (1/z + 2*z*Sum(1/(z**2 + n**2*pi**2), (n, 1, oo)))  ==  0",
+  "latent_structure": "Infinite sum over bosonic Matsubara poles n*pi*I of the simple-pole kernel 2z/(z^2 + n^2 pi^2) plus the n=0 term 1/z equals coth z. Equivalent compact form Sum_{n=-oo..oo} 1/(n^2 + q^2) = pi coth(pi q)/q with z = pi q. Closed special function vs spectral sum of poles.",
+  "proposed_ladder": "R5_special_function",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "z": {
+        "real": null,
+        "integer": false,
+        "positive": null,
+        "nonzero": true,
+        "complex": true
+      },
+      "n": {
+        "real": true,
+        "integer": true,
+        "positive": true,
+        "nonzero": true
+      }
+    },
+    "function_domains": {
+      "coth": "poles at z = n*pi*I, n in Z (DLMF 4.36 preamble)",
+      "sinh": "zeros at n*pi*I, n in Z"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "z != n*pi*I for all integers n",
+        "label": "DECLARED",
+        "source": "DLMF 4.36: 'When z \u2260 n \u03c0 i, n \u2208 \u2124' immediately before 4.36.3\u20134.36.5"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "z not an integer multiple of pi*I",
+        "label": "DECLARED",
+        "source": "DLMF 4.36.3 domain line"
+      }
+    ],
+    "branch_conventions": [
+      "coth z = cosh(z)/sinh(z); principal entire sinh, cosh"
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "NIST DLMF 4.36.3 https://dlmf.nist.gov/4.36.E3",
+      "NIST DLMF 4.36 https://dlmf.nist.gov/4.36 (domain line covers 4.36.3\u20134.36.5)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "sinh(z) != 0",
+        "label": "DERIVED",
+        "source": "sinh zeros are exactly z = n*pi*I"
+      }
+    ]
+  },
+  "public_source": "NIST DLMF 4.36.3 (https://dlmf.nist.gov/4.36.E3)",
+  "why_not_cse_lgg": "The compact side is a single hyperbolic function; the expanded side is an infinite sum of rational poles. CSE cannot sum the family. This is the bosonic Matsubara frequency sum, a special-function representation.",
+  "proposer_leak_risk": "Do not leak 'Matsubara', 'Bose distribution', or the equivalent pi*coth(pi*q)/q form as a gold name. Source writes coth and the sum.",
+  "notes": "coth not in PARSE_POLICY: use cosh/sinh. Sibling 4.36.4 is csch(z)**2 = Sum 1/(z - n*pi*I)**2 on the same pole set (trigamma-like bosonic kernel). Thermal reading T>0 / beta>0 is NOT imported: the source is a complex-function identity with explicit pole exclusion.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false,
+  "method_version": "ac-repr-1"
+}
