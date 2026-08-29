@@ -1,0 +1,83 @@
+{
+  "owner": "C5 differentiable physics / SciML",
+  "owns": "research/representation_program_search/cases/diffphys/",
+  "parent": "5321eaa",
+  "branch": "research/representation-program-search-v1",
+  "count": 7,
+  "is_guo": false,
+  "forbidden_historical": [
+    "sciml-phi-hermite-01",
+    "sciml-vanloan-blockexp-01",
+    "sciml-daleckii-krein-01",
+    "sciml-adjoint-linear-01",
+    "sciml-ou-mehler-01",
+    "sciml-deq-ift-01",
+    "sciml-tweedie-gauss-01",
+    "sciml-lyapunov-kronecker-01"
+  ],
+  "dossiers": [
+    {
+      "case_id": "rps-dp-relton-second-frechet",
+      "title": "Second mixed Frechet derivative of exp as the (1,4) block of a 4n block-triangular exponential",
+      "domain": "diffphys",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Higham and Relton, SIAM J. Matrix Anal. Appl. 35 (2014) 1019-1037, Theorem 3.5 and (3.4), doi:10.1137/130945259; MIMS EPrint 2013.58",
+      "json": "rps-dp-relton-second-frechet.json",
+      "topic": "block-exp not already used (k=2 mixed Frechet; not 2n Van Loan/Mathias)"
+    },
+    {
+      "case_id": "rps-dp-skaflestad-wright-phisq",
+      "title": "Double-angle recurrence for exponential-integrator phi functions under scaling-and-squaring",
+      "domain": "diffphys",
+      "proposed_ladder": "R5_special_function",
+      "public_source": "Skaflestad and Wright, Appl. Numer. Math. 59 (2009) 783-799, doi:10.1016/j.apnum.2008.03.035; Berland-Skaflestad-Wright EXPINT, ACM TOMS 33 (2007); Aceto-Gemignani arXiv:2501.10028 eq. (15)",
+      "json": "rps-dp-skaflestad-wright-phisq.json",
+      "topic": "phi recurrences not Hochbruck phi_k=exp[0^{(k)}, z]"
+    },
+    {
+      "case_id": "rps-dp-dexpinv-bernoulli",
+      "title": "Inverse derivative of the exponential map as Bernoulli-adjoint series (dexpinv / Magnus)",
+      "domain": "diffphys",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Iserles, Munthe-Kaas, Norsett and Zanna, Acta Numerica 9 (2000) 215-365, eqs. (2.40)-(2.46), (4.3), doi:10.1017/S0962492900002154; Magnus, Comm. Pure Appl. Math. 7 (1954) 649-673",
+      "json": "rps-dp-dexpinv-bernoulli.json",
+      "topic": "matrix-exp sensitivities that are not Van Loan/Mathias (inverse Frechet / dexpinv)"
+    },
+    {
+      "case_id": "rps-dp-liouville-jacobi-cnf",
+      "title": "Liouville-Jacobi determinant of a propagator as exponential of integrated trace; CNF instantaneous change of variables",
+      "domain": "diffphys",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Hartman, ODEs (Liouville); Higham, Functions of Matrices, Thm 1.13(c); Chen et al., Neural ODE, arXiv:1806.07366; Grathwohl et al., FFJORD, arXiv:1810.01367",
+      "json": "rps-dp-liouville-jacobi-cnf.json",
+      "topic": "propagator derivatives (volume Jacobian / det o exp)"
+    },
+    {
+      "case_id": "rps-dp-rodrigues-so3-dexp",
+      "title": "Rodrigues SO(3) exponential, left Jacobian, and Gallego-Yezzi rotation derivative as one trigonometric object",
+      "domain": "diffphys",
+      "proposed_ladder": "R4_piecewise_unification",
+      "public_source": "Gallego and Yezzi, J. Math. Imaging Vision 51 (2015) 378-384, doi:10.1007/s10851-014-0528-x, arXiv:1312.0788; Murray-Li-Sastry 1994; Iserles et al. 2000; Barfoot 2017",
+      "json": "rps-dp-rodrigues-so3-dexp.json",
+      "topic": "matrix-exp sensitivities (closed-form so(3) dexp / dR, not Duhamel)"
+    },
+    {
+      "case_id": "rps-dp-stm-sensitivity-kernel",
+      "title": "Two-time state-transition kernel: composition, mixed partials, and forward variational sensitivity",
+      "domain": "diffphys",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Rugh, Linear System Theory, 2ed, Ch. 9; Coddington-Levinson, Ch. 3; Hairer-Norsett-Wanner, SODES I, I.14; Wikipedia State-transition matrix",
+      "json": "rps-dp-stm-sensitivity-kernel.json",
+      "topic": "propagator derivatives / sensitivity kernels (forward variational, not Pontryagin adjoint)"
+    },
+    {
+      "case_id": "rps-dp-cossin-oscillator-prop",
+      "title": "Second-order oscillator propagator as a trigonometric block of exp(t companion); omega=0 confluence",
+      "domain": "diffphys",
+      "proposed_ladder": "R4_piecewise_unification",
+      "public_source": "Higham, Functions of Matrices, SIAM 2008, Ch. 12; Hairer-Lubich-Wanner, GNI 2ed, Ch. XIII; Gautschi, Numer. Math. 3 (1961) 381-397",
+      "json": "rps-dp-cossin-oscillator-prop.json",
+      "topic": "propagator derivatives (second-order oscillatory flow; sinc confluence)"
+    }
+  ]
+}

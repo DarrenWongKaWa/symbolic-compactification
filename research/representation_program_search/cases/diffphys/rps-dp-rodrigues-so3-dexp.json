@@ -1,0 +1,87 @@
+{
+  "case_id": "rps-dp-rodrigues-so3-dexp",
+  "title": "Rodrigues SO(3) exponential, left Jacobian, and Gallego-Yezzi rotation derivative as one trigonometric object",
+  "domain": "diffphys",
+  "expression_sketch": "v in R^3, theta = ||v||, bar_v = v/theta for theta != 0, K = [v]_x the 3x3 skew matrix. Euler-Rodrigues (Murray-Li-Sastry (2.14); Gallego-Yezzi (1),(5)):\n  R(v) = exp(K) = I + (sin(theta)/theta) K + (1-cos(theta))/theta**2 K**2\n       = I + sinc(theta) K + (1/2) sinc(theta/2)**2 K**2,\nwith entire continuation R(0)=I. Left Jacobian / dexp on so(3) (Chirikjian; Barfoot; Iserles et al.):\n  J_L(v) = I + (1-cos(theta))/theta**2 K + (theta-sin(theta))/theta**3 K**2,\n  J_L(0)=I, and d/dt |_{0} exp(K + t [w]_x) corresponds to R * [J_R w]_x (right convention) or [J_L w]_x * R (left).\nGallego-Yezzi Result 1 (compact derivative of a rotated point, u independent of v):\n  d(R(v) u)/dv = -R [u]_x * (v v^T + (R^T - I) [v]_x) / ||v||**2   (theta != 0),\nlimit v->0 equals -[u]_x, matching the generators [e_i]_x. Result 2:\n  dR/dv_i = (v_i K + [v x (I-R) e_i]_x) / ||v||**2 * R.\nCoefficient confluence: (1-cos(theta))/theta**2 -> 1/2, (theta-sin(theta))/theta**3 -> 1/6, sin(theta)/theta -> 1.",
+  "latent_structure": "One trigonometric germ (sinc and its even companions (1-cos)/theta^2, (theta-sin)/theta^3) of a single 3-vector v reconstructs the group exponential, the logarithm chart, the left Jacobian dexp, and the Euclidean derivative dR/dv. The theta=0 formulae are not separate programs: they are the entire continuation of the same germ (piecewise unification of the singular Gallego writing with the generator writing).",
+  "proposed_ladder": "R4_piecewise_unification",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "v": {"type": "vector", "space": "R^3"},
+      "theta": {"real": true, "notes": "theta = ||v|| >= 0"},
+      "u": {"type": "vector", "space": "R^3", "notes": "independent of v"},
+      "i": {"integer": true, "range": [1, 3]}
+    },
+    "function_domains": {
+      "exp": "matrix exponential on so(3); here given in closed form by Rodrigues, entire in the entries of K",
+      "sinc": "sinc(theta)=sin(theta)/theta, entire continuation sinc(0)=1",
+      "R": "SO(3)-valued; R^T R = I and det(R)=1"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "Gallego-Yezzi (8)-(9) and the Rodrigues quotients are written for theta = ||v|| != 0; the theta=0 members are the separate generator / identity formulae",
+        "label": "DECLARED",
+        "source": "Gallego and Yezzi, J. Math. Imaging Vision 51 (2015) 378-384, Result 1 eq. (8) and Result 2 eq. (9), arXiv:1312.0788; Murray, Li and Sastry, A Mathematical Introduction to Robotic Manipulation, CRC 1994, pp. 28-33"
+      }
+    ],
+    "positivity_conditions": [
+      {
+        "statement": "theta = ||v|| is the Euclidean norm, hence theta >= 0",
+        "label": "DECLARED",
+        "source": "Gallego-Yezzi, JMIV 51 (2015); Murray-Li-Sastry 1994"
+      }
+    ],
+    "real_valued_functions": ["sin", "cos", "sinc on R", "theta"],
+    "analytic_domains": [
+      {
+        "statement": "The maps theta |-> sin(theta)/theta, (1-cos(theta))/theta**2, (theta-sin(theta))/theta**3 extend to entire functions on C (Taylor: 1 - theta**2/6 + ..., 1/2 - theta**2/24 + ..., 1/6 - theta**2/120 + ...)",
+        "label": "DECLARED",
+        "source": "Standard Taylor series of sin and cos; Rodrigues formula as the closed form of exp:K -> SO(3) (Murray-Li-Sastry; Gallego-Yezzi (5))"
+      },
+      {
+        "statement": "The exponential map so(3)->SO(3) is surjective; a global chart may restrict to the closed ball ||v|| <= pi (principal logarithm)",
+        "label": "DECLARED",
+        "source": "Gallego-Yezzi, Sec. 2: 'kvk <= pi'; Murray-Li-Sastry, exponential coordinates"
+      }
+    ],
+    "branch_conventions": [
+      "Real trigonometric functions of a real theta >= 0; no complex principal Log.",
+      "At theta=0 the axis bar_v is arbitrary (Gallego-Yezzi: 'bar v can be chosen arbitrarily').",
+      "Principal rotation: theta in [0, pi] for the inverse (log) chart; the forward Rodrigues formula is valid for all real theta."
+    ],
+    "limit_domains": [
+      {
+        "statement": "v -> 0 in R^3 (equivalently theta -> 0+) is the unrestricted real limit used to recover generators dR/dv_i |_{0} = [e_i]_x",
+        "label": "DECLARED",
+        "source": "Gallego-Yezzi, Sec. 3.3 Derivative identity, display (6) and the limit of (9)"
+      }
+    ],
+    "source_provenance": [
+      "https://doi.org/10.1007/s10851-014-0528-x",
+      "https://arxiv.org/abs/1312.0788",
+      "Gallego and Yezzi, J. Math. Imaging Vision 51 (2015) 378-384, Results 1-2, eqs. (1),(5),(8),(9)",
+      "Murray, Li, Sastry, A Mathematical Introduction to Robotic Manipulation, CRC 1994, Euler-Rodrigues formula",
+      "Iserles, Munthe-Kaas, Norsett, Zanna, Acta Numerica 9 (2000), dexp on so(3)",
+      "Barfoot, State Estimation for Robotics, CUP 2017, left Jacobian of SO(3)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Entire continuation of the three coefficient germs unifies the theta != 0 Gallego/Rodrigues writings with the identity/generator writings at 0",
+        "label": "DERIVED",
+        "source": "Taylor series of sin, cos; Gallego-Yezzi Sec. 3.3 limit of (9) equals (6)"
+      },
+      {
+        "statement": "(1-cos(theta))/theta**2 = (1/2)*sinc(theta/2)**2 as an identity of entire functions",
+        "label": "DERIVED",
+        "source": "Trigonometric half-angle: 1-cos(theta)=2 sin(theta/2)**2"
+      }
+    ]
+  },
+  "public_source": "Gallego and Yezzi, A compact formula for the derivative of a 3-D rotation in exponential coordinates, J. Math. Imaging Vision 51 (2015) 378-384, doi:10.1007/s10851-014-0528-x, arXiv:1312.0788; Murray, Li and Sastry, A Mathematical Introduction to Robotic Manipulation, CRC 1994 (Rodrigues); Iserles et al., Acta Numerica 9 (2000) (dexp); Barfoot, State Estimation for Robotics, CUP 2017 (left Jacobian).",
+  "why_not_cse_lgg": "CSE will not invent the skew-symmetric hat map or unify the 1/theta**2 Gallego formula with the generator formula at the identity. LGG has no SO(3) exponential constructor. Distinct from the general Van Loan Duhamel integral for L_exp: here the Frechet derivative on so(3) collapses to a closed trigonometric polynomial in K.",
+  "proposer_leak_risk": "Hide: Rodrigues, Gallego, Yezzi, SO(3), left Jacobian, dexp, sinc, Lie algebra, generators. Show unlabeled 3x3 trigonometric polynomials in a skew matrix K and the two writings (theta != 0 quotient vs theta=0 generators) as catalog members.",
+  "notes": "SciML role: autodiff of rotation parameters in robotics/vision/LieTorch; closed-form sensitivity of expm on so(3). Catalog: G0001=R(v) via Rodrigues; G0002=I at v=0; G0003=d(Ru)/dv Gallego writing; G0004=-[u]_x at v=0; G0005=(sin(theta)/theta); G0006=1. Operators: VALUE, LINEAR_COMBINATION of powers of K, piecewise unification at the repeated node theta=0. NOT Van Loan 2-block. NOT adjoint-linear.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

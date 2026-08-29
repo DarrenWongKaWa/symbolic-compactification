@@ -1,0 +1,97 @@
+{
+  "case_id": "rps-dp-stm-sensitivity-kernel",
+  "title": "Two-time state-transition kernel: composition, mixed partials, and forward variational sensitivity",
+  "domain": "diffphys",
+  "expression_sketch": "Linear nonautonomous system x'(t)=A(t) x(t) on a real interval, A continuous n x n. State-transition / fundamental matrix Phi(t, s) (Rugh; Coddington-Levinson; Wikipedia STM):\n  d/dt Phi(t,s) = A(t)*Phi(t,s),   Phi(s,s)=I,\n  d/ds Phi(t,s) = - Phi(t,s)*A(s),\n  Phi(t,r)*Phi(r,s) = Phi(t,s),   Phi(t,s)**(-1) = Phi(s,t).\nConstant-A member: Phi(t,s)=exp((t-s)*A). Variation of parameters with forcing B(t)u(t):\n  x(t) = Phi(t,t0)*x0 + Integral(Phi(t,sigma)*B(sigma)*u(sigma), (sigma, t0, t)).\nForward parameter sensitivity (Hartman / Hairer-Norsett-Wanner I.14). If A=A(t,theta) is C^1 in theta and S = d x / d theta,\n  S' = A S + (dA/d theta) x,   S(t0)=d x0 / d theta,\n  S(t) = Phi(t,t0)*S0 + Integral(Phi(t,sigma)*(dA/d theta)(sigma)*x(sigma), (sigma, t0, t)).\nScalar probe a(t) real continuous: Phi(t,s)=exp(Integral(a, (s,t))), composition of exponentials of integrals is additive, residual of mixed partials vs +/- a * Phi is zero.",
+  "latent_structure": "Master object: the two-time kernel Phi(t,s). Composition (Chapman-Kolmogorov), the pair of mixed partials (left generator A(t), right generator -A(s)), the inverse Phi |-> Phi(s,t), and the variational sensitivity integral are operators on that one kernel. Distinct from the constant-A Green's formula used as a Pontryagin adjoint (historical sciml-adjoint-linear-01): here the claim is the two-time calculus and the forward kernel, not a^T x integrated against a backward adjoint.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {"integer": true, "positive": true},
+      "t": {"real": true},
+      "s": {"real": true},
+      "r": {"real": true},
+      "t0": {"real": true},
+      "sigma": {"real": true},
+      "theta": {"real": true, "notes": "parameter in the sensitivity member"}
+    },
+    "function_domains": {
+      "A": "continuous n x n matrix-valued on a real interval I (unique C^1 fundamental matrix on I)",
+      "Phi": "C^1 in each time argument on I x I",
+      "exp": "entire; used in the constant-A specialisation and the scalar probe"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "Phi(t,s) is invertible for all t,s in I, equivalently det(Phi(t0,t0))=det(I)=1 != 0, preserved by Liouville",
+        "label": "DECLARED",
+        "source": "Rugh, Linear System Theory, 2ed, Prentice Hall 1996, Ch. 9 (state transition matrix); Coddington and Levinson, Theory of Ordinary Differential Equations, McGraw-Hill 1955, Ch. 3; Wikipedia State-transition matrix"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "A(·) is continuous on a real interval I, so Picard-Lindelof supplies a unique C^1 fundamental matrix on I",
+        "label": "DECLARED",
+        "source": "Coddington-Levinson, Ch. 3; Hartman, Ordinary Differential Equations; Wikipedia State-transition matrix"
+      },
+      {
+        "statement": "For the variational member, A(t,theta) is jointly C^1 in (t,theta) on I times an open parameter interval, so x is C^1 in theta (Hartman parameter-differentiation)",
+        "label": "DECLARED",
+        "source": "Hartman, Ordinary Differential Equations, parameter differentiation / variational equation; Hairer, Norsett and Wanner, Solving Ordinary Differential Equations I, 2ed, Sec. I.14"
+      },
+      {
+        "statement": "Constant-A specialisation: A constant, Phi(t,s)=exp((t-s)A) entire in t-s, no spectral restriction",
+        "label": "DECLARED",
+        "source": "Standard matrix exponential; Rugh, Linear System Theory, constant-coefficient case"
+      }
+    ],
+    "branch_conventions": [
+      "Primary matrix exponential in the constant-A member.",
+      "Scalar probe uses the entire exponential of a real integral of a continuous function; no log branch."
+    ],
+    "limit_domains": [
+      {
+        "statement": "Integrals over sigma in [t0, t] (or [t, t0]) are compact real intervals; A continuous implies they exist as proper Riemann integrals",
+        "label": "DECLARED",
+        "source": "Rugh, Linear System Theory, variation of parameters; Hairer-Norsett-Wanner I.14"
+      },
+      {
+        "statement": "Coincidence t=s is unrestricted in I: Phi(s,s)=I by definition, not a limiting convention",
+        "label": "DECLARED",
+        "source": "Wikipedia State-transition matrix; Rugh Ch. 9"
+      }
+    ],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/State-transition_matrix",
+      "Rugh, Linear System Theory, 2ed, Prentice Hall 1996, Chapter 9",
+      "Coddington and Levinson, Theory of Ordinary Differential Equations, 1955, Chapter 3",
+      "Hartman, Ordinary Differential Equations (variational equation / differentiation wrt parameters)",
+      "Hairer, Norsett, Wanner, Solving Ordinary Differential Equations I, 2ed, Springer, Section I.14"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Differentiating the composition identity Phi(t,s)=Phi(t,r) Phi(r,s) in r and using the two mixed partials is consistent ( cocycle )",
+        "label": "DERIVED",
+        "source": "Rugh Ch. 9; Wikipedia STM properties"
+      },
+      {
+        "statement": "Variation of parameters applied to the variational ODE S'=A S + (dA/d theta) x yields the sensitivity-kernel integral",
+        "label": "DERIVED",
+        "source": "Hairer-Norsett-Wanner I.14; Rugh variation of parameters"
+      },
+      {
+        "statement": "Scalar a(t): Phi(t,s)=exp(Integral_s^t a) satisfies both mixed partials and the composition law because integrals add",
+        "label": "DERIVED",
+        "source": "n=1 case of the STM identities; entire exponential"
+      }
+    ]
+  },
+  "public_source": "Rugh, Linear System Theory, 2ed (1996), Ch. 9; Coddington and Levinson, Theory of ODEs (1955), Ch. 3; Hairer, Norsett, Wanner, SODES I, Sec. I.14; Hartman, Ordinary Differential Equations (variational equation); Wikipedia State-transition matrix, https://en.wikipedia.org/wiki/State-transition_matrix.",
+  "why_not_cse_lgg": "CSE will not invent a two-time kernel or identify d/ds Phi = -Phi A(s) as a sibling of d/dt Phi = A(t) Phi. LGG has no cocycle constructor. Distinct from the historical adjoint identity Integral(a x^T): that uses a backward state, not the mixed partials or the composition law of Phi.",
+  "proposer_leak_risk": "Hide: state-transition, fundamental matrix, variational equation, Peano-Baker, Dyson, adjoint, Pontryagin, Neural ODE, Van Loan. Show unlabeled members: the composition Phi(t,r) Phi(r,s), the two mixed partials, the scalar exponential-of-integral probe, and the forward integral for S(t).",
+  "notes": "SciML role: forward sensitivity of linear (and locally linearised) ODE / Neural ODE flows; impulse-to-state map. Catalog: G0001=Phi(t,s) composition residual; G0002=d/dt Phi - A(t) Phi; G0003=d/ds Phi + Phi A(s); G0004=scalar exp(Integral a); G0005=sensitivity integral. NOT sciml-adjoint-linear-01 (backward adjoint for dL/dA). NOT sciml-vanloan-blockexp-01 (constant-A Duhamel as a 2-block exp). Peano-Baker series is a possible expansion of the same kernel, not a separate case.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

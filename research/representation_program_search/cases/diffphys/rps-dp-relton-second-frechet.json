@@ -1,0 +1,73 @@
+{
+  "case_id": "rps-dp-relton-second-frechet",
+  "title": "Second mixed Frechet derivative of exp as the (1,4) block of a 4n block-triangular exponential",
+  "domain": "diffphys",
+  "expression_sketch": "Higham-Relton (SIMAX 2014) Thm 3.5 / display (3.4), k=2. Let X0 = A in C**(n,n) and\n  X1 = [[A, E1], [0, A]],\n  X2 = [[A, E1, E2, 0], [0, A, 0, E2], [0, 0, A, E1], [0, 0, 0, A]]\n(the Kronecker lift Xi = I_2 \\otimes X_{i-1} + [[0,1],[0,0]] \\otimes I_{2^{i-1}} \\otimes Ei). If f is 4p-1 times C^1 on an open D containing spec(A), p = size of the largest Jordan block of A, then the kth Frechet derivative exists and the upper-right n x n block of f(Xk) equals L_f^{(k)}(A; E1,...,Ek). For k=2 and f=exp (entire; drop the 4p-1 hypothesis):\n  exp(X2) has (1,4) block L_exp^{(2)}(A; E1, E2).\nCommuting 1x1 probe (SymPy):\n  A=a, E1=e1, E2=e2 scalars,\n  L_exp^{(2)}(a; e1, e2) = e1*e2*exp(a),\n  equal to the (1,4) entry of exp(X2) and to d^2/ds1 ds2 exp(a+s1*e1+s2*e2) at s1=s2=0.\nSame-direction specialisation E1=E2=E recovers Najfeld-Havel's nested 3-block for D_E^2 exp(A), which is not the claim here: the mixed 4n shuffle (3.4) is the identity.",
+  "latent_structure": "One master analytic object — the primary matrix exponential of a 4n block-triangular lift built from (A, E1, E2) — produces exp(A), the two first Frechet blocks L_exp(A,E1) and L_exp(A,E2), and the mixed second Frechet L_exp^{(2)}(A; E1, E2) as four structurally distinct blocks. This is Higham-Relton's higher-order block calculus, not the 2n Mathias/Van Loan block for the first Frechet. Reconstruction is BASIS_PROJECT of the (1,4) block, not a Duhamel integral named in advance.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {"integer": true, "positive": true},
+      "p": {"integer": true, "positive": true, "notes": "size of the largest Jordan block of A"},
+      "k": {"integer": true, "value": 2, "positive": true},
+      "a": {"complex": true},
+      "e1": {"complex": true},
+      "e2": {"complex": true}
+    },
+    "function_domains": {
+      "f": "C^{4p-1} on an open set D containing spec(A) (Higham-Relton Thm 3.5 with k=2)",
+      "exp": "entire on C; primary matrix exponential on all square complex matrices"
+    },
+    "nonzero_conditions": [],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "For general f: spec(A) subset D and f of class C^{2 k p - 1} on D with k=2, i.e. C^{4p-1} (Higham-Relton Theorem 3.5)",
+        "label": "DECLARED",
+        "source": "Higham and Relton, SIAM J. Matrix Anal. Appl. 35 (2014) 1019-1037, Theorem 3.5 and display (3.4); MIMS EPrint 2013.58"
+      },
+      {
+        "statement": "For f=exp: no spectral restriction; exp is entire so exp(X2) and L_exp^{(2)}(A; E1, E2) exist for all square A, E1, E2",
+        "label": "DECLARED",
+        "source": "Higham and Relton, SIMAX 35 (2014), Theorem 3.5 specialised to the entire function exp; Najfeld and Havel, Adv. Appl. Math. 16 (1995) 321-375, Theorem 4.13 (same-direction nested block, cited as related not mixed)"
+      }
+    ],
+    "branch_conventions": [
+      "Primary matrix function of the 4n x 4n block matrix X2; not an entrywise exponential.",
+      "The (1,4) block is L_exp^{(2)}(A; E1, E2), which is symmetric in E1, E2 (Nashed mixed partials)."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The Frechet remainder o(||E2||) in the recursive definition (2.1) is the ordinary little-o as E2 -> 0 in any matrix norm",
+        "label": "DECLARED",
+        "source": "Higham and Relton, SIMAX 35 (2014), eq. (2.1)"
+      }
+    ],
+    "source_provenance": [
+      "https://doi.org/10.1137/130945259",
+      "https://eprints.maths.manchester.ac.uk/2160/",
+      "Higham and Relton, SIAM J. Matrix Anal. Appl. 35 (2014) 1019-1037, Theorem 3.5, display (3.4), Algorithm 3.6",
+      "Najfeld and Havel, Adv. Appl. Math. 16 (1995) 321-375, Theorem 4.13 (same-direction path derivative, related)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "exp entire implies Higham-Relton's C^{4p-1} hypothesis is satisfied on D=C for f=exp",
+        "label": "DERIVED",
+        "source": "Higham and Relton, SIMAX 35 (2014), Theorem 3.5; entire functions are C^infty on C"
+      },
+      {
+        "statement": "If A, E1, E2 all commute then L_exp^{(2)}(A; E1, E2) = E1*E2*exp(A), matching the (1,4) entry of the 1x1-block (i.e. 4x4) exponential",
+        "label": "DERIVED",
+        "source": "Higham and Relton eq. (2.2) (mixed partial of f(A+s1 E1+s2 E2)); commuting exponential series"
+      }
+    ]
+  },
+  "public_source": "Higham and Relton, Higher order Frechet derivatives of matrix functions and the level-2 condition number, SIAM J. Matrix Anal. Appl. 35 (2014) 1019-1037, Theorem 3.5 and (3.4), doi:10.1137/130945259; MIMS EPrint 2013.58, https://eprints.maths.manchester.ac.uk/2160/",
+  "why_not_cse_lgg": "CSE can share copies of exp(A) on the diagonal of a 4n matrix but will not invent the Kronecker lift X2 or identify its (1,4) block as the mixed second Frechet. LGG has no block-triangular augmentation constructor. Distinct from the historical 2n Van Loan/Mathias first-Frechet block.",
+  "proposer_leak_risk": "Hide: Van Loan, Mathias, Frechet, Higham-Relton, level-2 condition, Duhamel, block triangular, augmentation, Xk. Show unlabeled 4x4 exponential entries of the commuting probe and the mixed second partial of exp(a+s1*e1+s2*e2). Do not mention that they are blocks of one exponential.",
+  "notes": "SciML role: second-order sensitivity of expm / level-2 condition of the matrix exponential; autodiff through a matrix exponential twice. Catalog sketch: G0001 = exp(a); G0002 = e1*exp(a); G0003 = e2*exp(a); G0004 = e1*e2*exp(a); G0005 = (1,4) entry of exp([[a,e1,e2,0],[0,a,0,e2],[0,0,a,e1],[0,0,0,a]]). F = matrix exponential of the 4n lift. NOT sciml-vanloan-blockexp-01 (2n first Frechet / phi action) and NOT mp-mathias-block-01 (2n Mathias). Same-direction Najfeld-Havel 3-block is related, not this mixed 4n shuffle.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
