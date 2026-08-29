@@ -1,0 +1,68 @@
+{
+  "case_id": "rps-t-dirac-gamma-completeness",
+  "title": "Clifford completeness of the 16 Dirac matrices as a Fierz reconstruction",
+  "domain": "tensor",
+  "expression_sketch": "Dirac spinor indices alpha,beta,gamma,delta in {1,2,3,4}. Lorentz indices mu,nu in {0,1,2,3}. Minkowski metric eta = diag(+1,-1,-1,-1). Gamma matrices satisfy {gamma^mu, gamma^nu} = 2*eta^{mu nu}*I_4. Standard 16-element basis of M_4(C) (Wikipedia Fierz identity; Itzykson--Zuber): Gamma^A in { I_4, gamma^mu, sigma^{mu nu} for mu<nu, gamma^5 gamma^mu, gamma^5 } with sigma^{mu nu} = (I/2)*[gamma^mu, gamma^nu] and gamma^5 = I*gamma^0*gamma^1*gamma^2*gamma^3. Trace orthonormality: Tr(Gamma^A * Gamma_A') = 4 * delta^{A A'} after lowering A with the bilinear that makes the basis orthogonal (signs from eta on vector and tensor sectors). Completeness / reconstruction of the index-swap operator: (1/4)*Sum_A Gamma^A(alpha,beta)*Gamma_A(gamma,delta) == delta(alpha,delta)*delta(beta,gamma). Equivalent expansion of an arbitrary 4x4 matrix M: M = (1/4)*Sum_A Tr(M*Gamma_A)*Gamma^A. Chiral Fierz table (Wikipedia): the 5x5 rearrangement of (bar chi Gamma^A psi)(bar psi' Gamma_A chi') into S,V,T,A,P bilinears is the same completeness contracted on spinors.",
+  "latent_structure": "Hilbert--Schmidt basis reconstruction of M_4(C) from the Clifford algebra Cl(1,3). The 16 Dirac generators play the role of TENSOR_GENERATOR / BASIS_OBJECT; completeness is BASIS_RECONSTRUCT of the swap operator on C^4 tensor C^4. Distinct from su(2) Pauli completeness (2x2, four matrices including identity, no Clifford grading).",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "alpha": {"integer": true, "range": [1, 4]},
+      "beta": {"integer": true, "range": [1, 4]},
+      "gamma": {"integer": true, "range": [1, 4]},
+      "delta": {"integer": true, "range": [1, 4]},
+      "mu": {"integer": true, "range": [0, 3]},
+      "nu": {"integer": true, "range": [0, 3]},
+      "I": {"imaginary_unit": true, "I**2": -1}
+    },
+    "function_domains": {
+      "gamma": "Dirac matrices generating Cl(1,3) with {gamma^mu, gamma^nu}=2 eta^{mu nu} I_4, any fixed representation (Dirac, Weyl, or Majorana).",
+      "gamma5": "chirality matrix I*gamma^0 gamma^1 gamma^2 gamma^3, (gamma5)^2 = I_4, {gamma5, gamma^mu}=0.",
+      "sigma": "sigma^{mu nu} = (I/2)[gamma^mu, gamma^nu], six independent antisymmetric pairs mu<nu.",
+      "Gamma_A": "The ordered 16-matrix basis {I, gamma^mu, sigma^{mu nu} (mu<nu), gamma5 gamma^mu, gamma5}.",
+      "eta": "Minkowski metric diag(+1,-1,-1,-1).",
+      "delta": "Kronecker delta on {1,2,3,4}.",
+      "Tr": "Matrix trace on 4x4 matrices, Tr(I_4)=4."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "The scalar 4 = Tr(I_4) is invertible in Q, so the completeness prefactor 1/4 is defined.",
+        "label": "DECLARED",
+        "source": "Wikipedia Fierz identity, 4-dimensional Dirac completeness with coefficient 1/4; Itzykson--Zuber"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": ["eta", "delta"],
+    "analytic_domains": [],
+    "branch_conventions": [
+      "gamma5 uses the imaginary unit I as in the Minkowski product I gamma^0 gamma^1 gamma^2 gamma^3; this is an algebraic matrix, not a branched function."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Fierz_identity (Dirac bilinear completeness; S,V,T,A,P rearrangement table in 4D).",
+      "https://en.wikipedia.org/wiki/Gamma_matrices (Clifford relation; 16-matrix basis of M_4(C)).",
+      "C. Itzykson and J.-B. Zuber, Quantum Field Theory, McGraw-Hill 1980, Appendix A-2 (Dirac algebra and Fierz).",
+      "M. E. Peskin and D. V. Schroeder, An Introduction to Quantum Field Theory, Addison-Wesley 1995, Appendix A.3.",
+      "J. F. Nieves and P. B. Pal, Generalized Fierz identities, Am. J. Phys. 72 (2004) 1100, arXiv:hep-ph/0306087."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "The 16 matrices Gamma^A are linearly independent in the 16-dimensional space M_4(C), hence a basis; completeness is the component form of M = (1/4) Sum_A Tr(M Gamma_A) Gamma^A.",
+        "label": "DECLARED",
+        "source": "Wikipedia Gamma matrices, identities / linear independence paragraph; Wikipedia Fierz identity"
+      },
+      {
+        "statement": "Any two representations of the Dirac algebra on C^4 are unitarily equivalent (up to the discrete inner-automorphism by gamma5 in 4D), so the completeness identity is representation-independent.",
+        "label": "DECLARED",
+        "source": "Wikipedia Gamma matrices, Pauli's fundamental theorem / representation theory paragraph"
+      }
+    ]
+  },
+  "public_source": "Wikipedia Fierz identity and Gamma matrices; Itzykson--Zuber Appendix A-2; Peskin--Schroeder Appendix A.3",
+  "why_not_cse_lgg": "A sum of 16 Kronecker products of 4x4 components does not CSE into a combination of spinor-index Kroneckers. LGG has no Clifford-algebra constructor. Distinct from ac-t-pauli-completeness (2-component, three Pauli generators plus I).",
+  "proposer_leak_risk": "Hide Fierz, Dirac, Clifford, gamma5, chiral, completeness. Show only the summed 4x4 bilinears in spinor indices.",
+  "notes": "Finite matrix identity over C. Mostly-plus eta is declared; the completeness relation itself is a statement about M_4(C) and is insensitive to the mostly-plus versus mostly-minus convention once the dual basis Gamma_A is lowered consistently. Distinct from Pauli SU(2) Fierz.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

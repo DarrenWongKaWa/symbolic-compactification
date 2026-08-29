@@ -1,0 +1,66 @@
+{
+  "case_id": "rps-t-riemann-young-22",
+  "title": "Algebraic curvature tensors as the S_4 Young image of partition (2,2)",
+  "domain": "tensor",
+  "expression_sketch": "Finite-dimensional vector space V with dim n, n an integer >= 2; tensor indices i,j,k,l in {1,...,n}. Group algebra of S_4 acting on T in V^{tensor 4} by permuting the four slots. Standard tableau t of shape (2,2) numbered 1 3 / 2 4 (Fiedler; Fulling--King--Wybourne--Cummins). Row symmetrizer a_t = (e + s_13)*(e + s_24); column antisymmetrizer b_t = (e - s_12)*(e - s_34); Young symmetrizer y_t = b_t * a_t. Hook-length dim S^{(2,2)} = 2 so alpha = 4!/2 = 12, hence y_t**2 = 12*y_t and the primitive projector is e_t = y_t/12. Algebraic-curvature criterion (Fiedler Corollary 5, after the * = inverse-permutation involution): y*_t T = 12*T if and only if T has Riemann algebraic symmetries. Explicit index form of those symmetries, recovered as the image of e_t: T(i,j,k,l) = -T(j,i,k,l) = -T(i,j,l,k) = T(k,l,i,j) and the first Bianchi identity T(i,j,k,l)+T(j,k,i,l)+T(k,i,j,l) = 0. Reconstruction from a generic rank-4 array G: first A(i,j,k,l) = (1/4)*(G(i,j,k,l)-G(j,i,k,l)-G(i,j,l,k)+G(j,i,l,k)); then B(i,j,k,l) = (1/2)*(A(i,j,k,l)+A(k,l,i,j)); then T(i,j,k,l) = B(i,j,k,l) - (B(i,j,k,l)+B(j,k,i,l)+B(k,i,j,l))/3, equivalently T = (2/3) B - (1/3) cyclic on the first three slots, which is the image of e_t.",
+  "latent_structure": "Young projector for the S_4 Specht module of partition (2,2), realizing the GL(V)-irreducible (or O(V)-reducible) space of algebraic curvature tensors. Coefficients are the signed row/column symmetrizers of a two-row tableau, not the S_3 Young projectors of V^{tensor 3} and not the Ricci--Weyl metric split.",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {"integer": true, "geq": 2},
+      "i": {"integer": true, "tensor_index": true, "range_from": 1, "range_to": "n"},
+      "j": {"integer": true, "tensor_index": true, "range_from": 1, "range_to": "n"},
+      "k": {"integer": true, "tensor_index": true, "range_from": 1, "range_to": "n"},
+      "l": {"integer": true, "tensor_index": true, "range_from": 1, "range_to": "n"}
+    },
+    "function_domains": {
+      "G": "Generic (0,4) tensor on V, no symmetries assumed.",
+      "T": "Algebraic curvature tensor: pairwise skew, pair swap, Bianchi cycle.",
+      "y_t": "Young symmetrizer of the standard (2,2)-tableau 1 3 / 2 4 in Q[S_4].",
+      "s_uv": "Transposition of slots u and v in S_4."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "The scalars 3, 4, and 12 are invertible in the coefficient field (char 0, or char not 2 or 3).",
+        "label": "DECLARED",
+        "source": "Wikipedia Young symmetrizer: representations over Q; alpha_lambda = n!/dim; Fiedler y*_t T = 12 T"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "B. Fiedler, Determination of the structure of algebraic curvature tensors by means of Young tableaux, Linear Algebra Appl. / arXiv:math/0212278, Theorem 2.3 and Corollary: y*_t T = 12 T for t = 1 3 / 2 4.",
+      "S. A. Fulling, R. C. King, B. G. Wybourne, C. J. Cummins, Normal forms for tensor polynomials. I. The Riemann tensor, Class. Quantum Grav. 9 (1992) 1151--1173.",
+      "https://en.wikipedia.org/wiki/Riemann_curvature_tensor (algebraic symmetries; identification with Young diagram (2,2))",
+      "W. Fulton and J. Harris, Representation Theory, GTM 129, Lecture 4 (Young symmetrizers; c^2 = (n!/dim) c).",
+      "M. Dubois-Violette and M. Henneaux, Tensor fields of mixed Young symmetry type and N-complexes, Commun. Math. Phys. 226 (2002) 393, arXiv:math-ph/0112057 (Young identities for (2,2) = algebraic Bianchi)."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "dim of the Specht module S^{(2,2)} is 2 by the hook-length formula (hooks 3,2/2,1), hence alpha = 24/2 = 12 and e_t = y_t/12 is idempotent.",
+        "label": "DERIVED",
+        "source": "Fulton--Harris; Wikipedia Young symmetrizer; Fiedler factor 12"
+      },
+      {
+        "statement": "Pair symmetry T_ijkl = T_klij follows from the (2,2) Young identities once the two column skew-symmetries and the Bianchi cycle are imposed (standard algebraic fact).",
+        "label": "DERIVED",
+        "source": "Wikipedia Riemann curvature tensor, algebraic identities; Wald, General Relativity, Ch. 3"
+      },
+      {
+        "statement": "No metric is used: the (2,2) projector is a GL(V) statement. An O(g) Ricci--Weyl split is a further, independent decomposition and is not this identity.",
+        "label": "DECLARED",
+        "source": "Fiedler: algebraic curvature tensors in T^4 V; Ricci decomposition is metric-dependent (Wikipedia Ricci decomposition)"
+      }
+    ]
+  },
+  "public_source": "Fiedler arXiv:math/0212278 Corollary on y*_t T=12 T; Fulling--King--Wybourne--Cummins CQG 9 (1992); Fulton--Harris GTM 129",
+  "why_not_cse_lgg": "A generic  n^4-component array does not CSE into the signed 24-term (2,2) combination, nor does it invent the Bianchi cycle. LGG cannot synthesize a Young symmetrizer. Distinct from equal-weight dummy-index orbits (rejected AC anti-pattern) and from S_3 Young on three factors.",
+  "proposer_leak_risk": "Hide Young, Specht, tableau, Bianchi, algebraic curvature, Riemann. Show a generic 4-index array and the six S_4 images with unspecified signs.",
+  "notes": "Algebra over Q. Declare n as a positive integer >=2; verification is a finite sum over {1,...,n}^4. Do not silently switch a_t b_t versus b_t a_t; the cited Fiedler projector uses y*_t of the column-numbered tableau 1 3 / 2 4. Distinct from ac-t-young-s3 (S_3) and ac-t-ricci-weyl (metric irrep split).",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

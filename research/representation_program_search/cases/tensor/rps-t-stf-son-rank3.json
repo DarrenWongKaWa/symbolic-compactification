@@ -1,0 +1,63 @@
+{
+  "case_id": "rps-t-stf-son-rank3",
+  "title": "SO(n) symmetric traceless rank-3 projector at n=5",
+  "domain": "tensor",
+  "expression_sketch": "Cartesian indices i,j,k,p,q,r in {1,...,n} with n=5 declared. Metric delta the Kronecker delta of R^n. Fully symmetric rank-3 tensor S(i,j,k)=S(j,i,k)=S(i,k,j) (all S_3 images equal). Trace vector T(k) := Sum_{p=1}^{n} S(p,p,k). Symmetric-traceless (STF) part (Thorne; Appleby--Lynch--Kosowsky closed form at rank 3): S_stf(i,j,k) = S(i,j,k) - (1/(n+2))*(delta(i,j)*T(k)+delta(i,k)*T(j)+delta(j,k)*T(i)). With n=5, 1/(n+2)=1/7. Projector on generic (not pre-symmetrized) rank-3 arrays: first Sym(i,j,k) = (1/6)*Sum_{g in S_3} G(g(i),g(j),g(k)); then apply the STF trace subtraction to Sym. Kernel form X(i,j,k; p,q,r) of the STF projector: X = (1/6)*Sum_{sigma in S_3} delta(i,p_sigma)*delta(j,q_sigma)*delta(k,r_sigma) minus (1/(n+2)) times the three-term symmetrized traces that subtract one Kronecker and a rank-1 remainder. Identities: Sum_p S_stf(p,p,k)=0; S_stf is totally symmetric; X is an orthogonal idempotent onto the SO(n) irrep of STF 3-tensors (Young diagram (3) made traceless). Dimension: dim Sym^3 = binom(n+2,3), minus n independent traces, giving n(n-1)(n+4)/6; at n=5 this is 30.",
+  "latent_structure": "SO(n) irrep projector onto the rank-3 symmetric traceless tensors (the unique traceless piece of Sym^3). Reconstruction subtracts the trace representation (the vector T_k) with coefficient 1/(n+2). Distinct from the rank-4 SO(3) volumetric/deviatoric split (ac-t-iso4-projectors, n=3, Sym^2).",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "n": {"integer": true, "value": 5, "geq": 3, "neq": 3},
+      "i": {"integer": true, "range": [1, 5]},
+      "j": {"integer": true, "range": [1, 5]},
+      "k": {"integer": true, "range": [1, 5]},
+      "p": {"integer": true, "range": [1, 5]},
+      "q": {"integer": true, "range": [1, 5]},
+      "r": {"integer": true, "range": [1, 5]}
+    },
+    "function_domains": {
+      "delta": "Kronecker delta on {1,...,n}, n=5, orthonormal Cartesian frame.",
+      "S": "Fully symmetric rank-3 Cartesian tensor.",
+      "T": "Trace vector T_k = delta^{pq} S_{pqk}.",
+      "S_stf": "Symmetric traceless part of S.",
+      "X": "Orthogonal projector from (R^n)^{tensor 3} onto STF rank-3 tensors."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "n=5, hence n+2=7 != 0, so the coefficient 1/(n+2) is defined in Q.",
+        "label": "DECLARED",
+        "source": "Toth and Turyshev, Int. J. Geom. Meth. Mod. Phys. 19 (2022) 2250201, arXiv:2109.11743, eqs. (37)--(39) (n-dimensional STF closed form); Thorne, Rev. Mod. Phys. 52 (1980) 299 (STF in n=3 as the classical case)"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": ["delta", "S", "S_stf"],
+    "analytic_domains": [],
+    "branch_conventions": [],
+    "limit_domains": [],
+    "source_provenance": [
+      "V. T. Toth and S. G. Turyshev, Efficient trace-free decomposition of symmetric tensors of arbitrary rank, Int. J. Geom. Meth. Mod. Phys. 19 (2022) 2250201, arXiv:2109.11743, eqs. (37)--(39).",
+      "K. S. Thorne, Multipole expansions of gravitational radiation, Rev. Mod. Phys. 52 (1980) 299--339 (STF projection; n=3 specialization of the same trace subtraction).",
+      "L. Blanchet and T. Damour, Radiative gravitational fields in general relativity. I, Phil. Trans. Roy. Soc. A 320 (1986) 379 (STF multipoles).",
+      "https://en.wikipedia.org/wiki/Symmetric_tensor (trace-free symmetric tensors as SO(n) irreps)."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "The coefficient 1/(n+2) is the unique scalar that makes delta^{ij} S_stf(i,j,k)=0 identically on symmetric S, because delta^{ij}(delta_ij T_k + 2 delta_{k(i} T_{j)}) = n T_k + 2 T_k = (n+2) T_k.",
+        "label": "DERIVED",
+        "source": "Toth--Turyshev derivation of the rank-k STF formula; direct contraction at k=3"
+      },
+      {
+        "statement": "dim STF_3(R^n) = n(n-1)(n+4)/6. At n=5: dim Sym^3 = binom(7,3)=35, minus 5 traces gives 30, matching 5*4*9/6=30.",
+        "label": "DERIVED",
+        "source": "dimension of harmonic homogeneous polynomials of degree 3 in n variables; Wikipedia spherical harmonics / STF"
+      }
+    ]
+  },
+  "public_source": "Toth--Turyshev arXiv:2109.11743 eqs. (37)--(39); Thorne RMP 52 (1980); Blanchet--Damour 1986",
+  "why_not_cse_lgg": "A generic 125-component rank-3 array at n=5 has a large symmetric sector; CSE merges copies of S_ijk but does not subtract the trace vector with coefficient 1/7. LGG cannot invent the SO(n) harmonic projection. Distinct from 3D rank-4 isotropic projectors.",
+  "proposer_leak_risk": "Hide STF, harmonic, traceless-symmetric, multipole, Thorne. Show the expanded symmetric array, not the 1/(n+2) template.",
+  "notes": "Purely algebraic in Kronecker symbols. n=5 is declared to keep the index domain and the coefficient 1/7 off the n=3 elasticity identities of ac-t-iso4-projectors. No metric signature: Euclidean Kronecker.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

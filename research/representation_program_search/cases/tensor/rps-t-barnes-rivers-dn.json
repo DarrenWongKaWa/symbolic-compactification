@@ -1,0 +1,79 @@
+{
+  "case_id": "rps-t-barnes-rivers-dn",
+  "title": "Barnes--Rivers Lorentz spin projectors on symmetric rank-2 tensors in d=5",
+  "domain": "tensor",
+  "expression_sketch": "d=5 spacetime, Lorentz indices mu,nu,rho,sigma,alpha,beta in {0,1,2,3,4}. Flat metric eta of any fixed nondegenerate signature. Momentum k with k^2 := eta^{alpha beta} k_alpha k_beta nonzero. Transverse and longitudinal vector projectors: theta(mu,nu) = eta(mu,nu) - k(mu)*k(nu)/k^2,  omega(mu,nu) = k(mu)*k(nu)/k^2. Algebra: theta+omega=eta, theta*theta=theta, omega*omega=omega, theta*omega=0. Identity on symmetric rank-2 tensors: I(mu,nu;rho,sigma) = (1/2)*(eta(mu,rho)*eta(nu,sigma)+eta(mu,sigma)*eta(nu,rho)). Barnes--Rivers spin projectors (n-dimensional; Buchbinder--Shapiro / Haber-style 1/(d-1) not 1/3): P2(mu,nu;rho,sigma) = (1/2)*(theta(mu,rho)*theta(nu,sigma)+theta(mu,sigma)*theta(nu,rho)) - (1/(d-1))*theta(mu,nu)*theta(rho,sigma); P1(mu,nu;rho,sigma) = (1/2)*(theta(mu,rho)*omega(nu,sigma)+theta(mu,sigma)*omega(nu,rho)+theta(nu,rho)*omega(mu,sigma)+theta(nu,sigma)*omega(mu,rho)); P0s(mu,nu;rho,sigma) = (1/(d-1))*theta(mu,nu)*theta(rho,sigma); P0w(mu,nu;rho,sigma) = omega(mu,nu)*omega(rho,sigma). With d=5, 1/(d-1)=1/4. Completeness: I = P2+P1+P0s+P0w. Orthogonality: P_X(mu,nu;alpha,beta)*P_Y(alpha,beta;rho,sigma) = delta(X,Y)*P_X(mu,nu;rho,sigma). Traces (massive little-group SO(d-1) dimensions): Tr P2 = d(d-1)/2 - 1 = 9, Tr P1 = d-1 = 4, Tr P0s = Tr P0w = 1, summing to d(d+1)/2 = 15.",
+  "latent_structure": "Little-group SO(d-1) irrep decomposition of a massive symmetric rank-2 Lorentz tensor: spin 2 (transverse traceless), spin 1 (transverse vector), and two spin-0 channels (spatial trace vs longitudinal scalar). Orthogonal projectors built from theta, omega; the coefficient 1/(d-1) is the d-dimensional replacement of the 4D 1/3. Not the SO(3) isotropic elasticity split of ac-t-iso4-projectors (no momentum, d=3, volumetric/deviatoric).",
+  "proposed_ladder": "R8_invariant_generator",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "d": {"integer": true, "value": 5, "geq": 3, "neq": 4},
+      "mu": {"integer": true, "range": [0, 4]},
+      "nu": {"integer": true, "range": [0, 4]},
+      "rho": {"integer": true, "range": [0, 4]},
+      "sigma": {"integer": true, "range": [0, 4]},
+      "alpha": {"integer": true, "range": [0, 4]},
+      "beta": {"integer": true, "range": [0, 4]}
+    },
+    "function_domains": {
+      "eta": "Constant nondegenerate symmetric metric on R^{1,4} or R^5; used only algebraically to raise/lower k and to form traces.",
+      "k": "Covector with k^2 = eta^{ab} k_a k_b nonzero.",
+      "theta": "Transverse projector eta - k k / k^2.",
+      "omega": "Longitudinal projector k k / k^2.",
+      "P2": "Spin-2 transverse-traceless projector on symmetric rank-2 tensors.",
+      "P1": "Spin-1 projector (transverse vector inside a symmetric tensor).",
+      "P0s": "Spin-0 spatial-trace (theta-trace) projector.",
+      "P0w": "Spin-0 longitudinal (omega) projector."
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "k^2 != 0, so that omega = k k / k^2 and theta = eta - omega are defined as rational tensors in k.",
+        "label": "DECLARED",
+        "source": "Barnes, J. Math. Phys. 6 (1965) 788; Buchbinder--Shapiro QG notes, momentum-space theta/omega"
+      },
+      {
+        "statement": "d=5, hence d-1=4 != 0, so the coefficient 1/(d-1) in P2 and P0s is defined in Q.",
+        "label": "DECLARED",
+        "source": "n-dimensional Barnes--Rivers formulae (Buchbinder--Shapiro; arXiv:2210.12319 eq. (69)); d=5 is a declared specialization with d != 4"
+      },
+      {
+        "statement": "eta is nondegenerate, so eta^{mu nu} exists.",
+        "label": "DECLARED",
+        "source": "Lorentzian or Euclidean flat metric in the cited projector algebra"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": ["eta", "theta", "omega"],
+    "analytic_domains": [],
+    "branch_conventions": [
+      "No square roots: k^2 is inverted as a rational scalar, not a mass-shell square root."
+    ],
+    "limit_domains": [],
+    "source_provenance": [
+      "K. J. Barnes, Lagrangian theory for the second-rank tensor field, J. Math. Phys. 6 (1965) 788--794.",
+      "R. J. Rivers, Lagrangian theory for neutral massive spin-2 fields, Nuovo Cimento 34 (1964) 386.",
+      "I. L. Buchbinder and I. L. Shapiro, Introduction to Quantum Field Theory with Applications to Quantum Gravity, OUP, eqs. (18.57)--(18.59) (n-dimensional Barnes--Rivers: 1/(n-1) in P^(2) and P^(0-s)).",
+      "I. L. Shapiro, The background information about perturbative quantum gravity, arXiv:2210.12319, eq. (69).",
+      "P. van Nieuwenhuizen, Radiation of massive gravitation, Phys. Rev. D 7 (1973) 2300 (4D special case; not the d=5 formulae used here)."
+    ],
+    "derived_conditions": [
+      {
+        "statement": "P2+P0s equals the symmetrized theta tensor product (1/2)(theta tensor theta)_sym, so they split the transverse-symmetric subspace into traceless spin-2 and a scalar trace.",
+        "label": "DERIVED",
+        "source": "adding the displayed P2 and P0s; Buchbinder--Shapiro completeness"
+      },
+      {
+        "statement": "Massive spin-2 is the STF rank-2 irrep of the little group SO(d-1), of dimension (d-1)d/2 - 1. At d=5 this is 9, matching Tr P2. (The massless formula d(d-3)/2 is not this projector.)",
+        "label": "DERIVED",
+        "source": "little-group SO(d-1); STF dimension n(n+1)/2-1 with n=d-1; Barnes 1965 / Buchbinder--Shapiro completeness"
+      }
+    ]
+  },
+  "public_source": "Barnes JMP 6 (1965); Rivers 1964; Buchbinder--Shapiro n-dimensional projectors 1/(n-1); Shapiro arXiv:2210.12319 eq. (69)",
+  "why_not_cse_lgg": "A generic 5x5 symmetric tensor in momentum space has 15 components; CSE will not invent the four orthogonal spin projectors or the 1/(d-1) trace subtraction. LGG has no little-group constructor. Distinct from 3D isotropic elasticity projectors (no k, coefficient 1/3, SO(3)).",
+  "proposer_leak_risk": "Hide Barnes--Rivers, graviton, spin-2, van Nieuwenhuizen, TT projector, Fierz--Pauli. Show only theta/omega combinations without spin labels.",
+  "notes": "Algebraic rational identity in (eta,k) on the open set k^2 != 0. d=5 is declared so that 1/(d-1)=1/4 is not the 4D coefficient 1/3 and not the 3D elasticity 1/3 of ac-t-iso4-projectors. Signature of eta is not used beyond invertibility.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
