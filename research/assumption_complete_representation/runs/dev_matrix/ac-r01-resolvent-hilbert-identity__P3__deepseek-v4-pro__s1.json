@@ -1,0 +1,527 @@
+{
+  "task_id": "ac-r01-resolvent-hilbert-identity",
+  "public_id": "T02",
+  "structural_cluster_id": "RESOLVENT_CLUSTER",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P3",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "23a59ad7f2ac068fc9f602255a53dcdcc8eb30c06176ae0862a898de46fdec6e",
+  "input_sha256": "77b0d20520184abd627c0605b544fb173ecb8bf35e0316009a24f904705cca2f",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "e3acf59f728659451a333ba93e2a0ef03556a37fdda29f0f79ecb68ef24f2e69",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "04972a942bfc33e404253d744286958e3c486d09e36b0dd011771ac9785df672",
+  "source_catalog_sha256": "60ea5f4d064ed0ebc42a14651d4dbce8940270afd90ea0f842da107ca7056a04",
+  "latency_s": 73.318,
+  "usage": {
+    "prompt_tokens": 1138,
+    "completion_tokens": 5588,
+    "total_tokens": 6726,
+    "reasoning_tokens": 4769,
+    "cached_tokens": 1024
+  },
+  "reasoning_tokens": 4769,
+  "output_tokens": 5588,
+  "total_tokens": 6726,
+  "request_id": "5215e7ff-3aff-47d1-b0be-26e745a2d7da",
+  "reasoning_len": 16210,
+  "reasoning_sha": "8afde1a06af5672c",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"divided_difference_minus_product_of_F_evaluations\",\n      \"latent_object\": \"F(t)=1/(a-t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\", \"G0004\", \"G0005\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"1/(a - z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/(a - w)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"generic\",\n          \"text\": \"(1/(a - z) - 1/(a - w))/(z - w)\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"generic\",\n          \"text\": \"1/((a - z)*(a - w))\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"target\",\n          \"text\": \"(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"specialize: F(t) -> F(z)\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"specialize: F(t) -> F(w)\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit: D_{z,w}[F] = (F(z)-F(w))/(z-w)\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"other_explicit: M_{z,w}[F] = F(z)*F(w)\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"other_explicit: C_{z,w}[F] = D_{z,w}[F] - M_{z,w}[F]\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"w\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0001 = F(z); G0002 = F(w); G0003 = (F(z)-F(w))/(z-w); G0004 = F(z)*F(w); G0005 = G0003 - G0004.\",\n      \"required_assumptions\": [\n        \"z != w\",\n        \"a != z\",\n        \"a != w\",\n        \"the map t |-> 1/(a - t) is defined for t != a\"\n      ],\n      \"proof_obligations\": [\n        \"G0001 - F(z) = 0\",\n        \"G0002 - F(w) = 0\",\n        \"G0003 - (F(z)-F(w))/(z-w) = 0\",\n        \"G0004 - F(z)*F(w) = 0\",\n        \"G0005 - (G0003 - G0004) = 0\"\n      ],\n      \"rationale\": \"The current expression is represented structurally as the divided difference of F(t)=1/(a-t) at z and w minus the product F(z)F(w). No physical interpretation is added.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "divided_difference_minus_product_of_F_evaluations",
+        "latent_object": "F(t)=1/(a-t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003",
+          "G0004",
+          "G0005"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "1/(a - z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/(a - w)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "generic",
+            "text": "(1/(a - z) - 1/(a - w))/(z - w)"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "generic",
+            "text": "1/((a - z)*(a - w))"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "target",
+            "text": "(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "specialize: F(t) -> F(z)"
+          },
+          {
+            "member": "G0002",
+            "O": "specialize: F(t) -> F(w)"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit: D_{z,w}[F] = (F(z)-F(w))/(z-w)"
+          },
+          {
+            "member": "G0004",
+            "O": "other_explicit: M_{z,w}[F] = F(z)*F(w)"
+          },
+          {
+            "member": "G0005",
+            "O": "other_explicit: C_{z,w}[F] = D_{z,w}[F] - M_{z,w}[F]"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "w"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0001 = F(z); G0002 = F(w); G0003 = (F(z)-F(w))/(z-w); G0004 = F(z)*F(w); G0005 = G0003 - G0004.",
+        "required_assumptions": [
+          "z != w",
+          "a != z",
+          "a != w",
+          "the map t |-> 1/(a - t) is defined for t != a"
+        ],
+        "proof_obligations": [
+          "G0001 - F(z) = 0",
+          "G0002 - F(w) = 0",
+          "G0003 - (F(z)-F(w))/(z-w) = 0",
+          "G0004 - F(z)*F(w) = 0",
+          "G0005 - (G0003 - G0004) = 0"
+        ],
+        "rationale": "The current expression is represented structurally as the divided difference of F(t)=1/(a-t) at z and w minus the product F(z)F(w). No physical interpretation is added.",
+        "confidence": 0.95
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "divided_difference_minus_product_of_F_evaluations",
+          "latent_object": "F(t)=1/(a-t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003",
+            "G0004",
+            "G0005"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "1/(a - z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/(a - w)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "generic",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "generic",
+              "text": "1/((a - z)*(a - w))"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "target",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "specialize: F(t) -> F(z)"
+            },
+            {
+              "member": "G0002",
+              "O": "specialize: F(t) -> F(w)"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit: D_{z,w}[F] = (F(z)-F(w))/(z-w)"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit: M_{z,w}[F] = F(z)*F(w)"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: C_{z,w}[F] = D_{z,w}[F] - M_{z,w}[F]"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "w"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 = F(z); G0002 = F(w); G0003 = (F(z)-F(w))/(z-w); G0004 = F(z)*F(w); G0005 = G0003 - G0004.",
+          "required_assumptions": [
+            "z != w",
+            "a != z",
+            "a != w",
+            "the map t |-> 1/(a - t) is defined for t != a"
+          ],
+          "proof_obligations": [
+            "G0001 - F(z) = 0",
+            "G0002 - F(w) = 0",
+            "G0003 - (F(z)-F(w))/(z-w) = 0",
+            "G0004 - F(z)*F(w) = 0",
+            "G0005 - (G0003 - G0004) = 0"
+          ],
+          "rationale": "The current expression is represented structurally as the divided difference of F(t)=1/(a-t) at z and w minus the product F(z)F(w). No physical interpretation is added.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "1/(a - t)",
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0001 - F(z) = 0",
+              "expanded": "(1/(a - z)) - (1/(a - z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - F(w) = 0",
+              "expanded": "(1/(a - w)) - (1/(a - w)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (F(z)-F(w))/(z-w) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w)) - ((1/(a - z))-(1/(a - w)))/(z-w) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - F(z)*F(w) = 0",
+              "expanded": "(1/((a - z)*(a - w))) - (1/(a - z))*(1/(a - w)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - (G0003 - G0004) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))) - (((1/(a - z) - 1/(a - w))/(z - w)) - (1/((a - z)*(a - w)))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "ZERO",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "OPERATIONAL_CORRECT",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": true,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": 2,
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 2,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "OPERATIONAL_CORRECT",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": true,
+      "type_match": true,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": 2
+    },
+    "any_operational_success": true,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 2,
+    "max_certified_depth": 2
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "divided_difference_minus_product_of_F_evaluations",
+          "latent_object": "F(t)=1/(a-t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003",
+            "G0004",
+            "G0005"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "1/(a - z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/(a - w)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "generic",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "generic",
+              "text": "1/((a - z)*(a - w))"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "target",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "specialize: F(t) -> F(z)"
+            },
+            {
+              "member": "G0002",
+              "O": "specialize: F(t) -> F(w)"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit: D_{z,w}[F] = (F(z)-F(w))/(z-w)"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit: M_{z,w}[F] = F(z)*F(w)"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: C_{z,w}[F] = D_{z,w}[F] - M_{z,w}[F]"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "w"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 = F(z); G0002 = F(w); G0003 = (F(z)-F(w))/(z-w); G0004 = F(z)*F(w); G0005 = G0003 - G0004.",
+          "required_assumptions": [
+            "z != w",
+            "a != z",
+            "a != w",
+            "the map t |-> 1/(a - t) is defined for t != a"
+          ],
+          "proof_obligations": [
+            "G0001 - F(z) = 0",
+            "G0002 - F(w) = 0",
+            "G0003 - (F(z)-F(w))/(z-w) = 0",
+            "G0004 - F(z)*F(w) = 0",
+            "G0005 - (G0003 - G0004) = 0"
+          ],
+          "rationale": "The current expression is represented structurally as the divided difference of F(t)=1/(a-t) at z and w minus the product F(z)F(w). No physical interpretation is added.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "1/(a - t)",
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0001 - F(z) = 0",
+              "expanded": "(1/(a - z)) - (1/(a - z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - F(w) = 0",
+              "expanded": "(1/(a - w)) - (1/(a - w)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (F(z)-F(w))/(z-w) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w)) - ((1/(a - z))-(1/(a - w)))/(z-w) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - F(z)*F(w) = 0",
+              "expanded": "(1/((a - z)*(a - w))) - (1/(a - z))*(1/(a - w)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - (G0003 - G0004) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))) - (((1/(a - z) - 1/(a - w))/(z - w)) - (1/((a - z)*(a - w)))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "ZERO",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "OPERATIONAL_CORRECT",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": true,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": 2,
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "OPERATIONAL_CORRECT",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": true,
+      "type_match": true,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": 2
+    },
+    "any_operational_success": true,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 2,
+    "max_certified_depth": 2
+  }
+}

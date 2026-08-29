@@ -1,0 +1,787 @@
+{
+  "task_id": "thermal-01-fermi-im-digamma",
+  "public_id": "T03",
+  "structural_cluster_id": "THERMAL_01_FERMI_DIGAMMA",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P3",
+  "seed": 3,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "e9f768745e521404aa40c77d84ce6c8232261e873ba48a7f9ac5e2e204793615",
+  "input_sha256": "043a28535958cfb74a6c4cb22788e29d3058fdcb72897d1cfe7041d7936cb95a",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "3d0c93c2f173c296bb0fc80408da2ec38d56b2ac50adc481317b0e30daab2a29",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "3b0000368c116d39382c97e618b030d0592f2795ba4d5975fa09b3f7a9045ce7",
+  "source_catalog_sha256": "6b291c4b9ae078009899ce82150c56c1415f7561ba39df40c1399c3ebbfcb29b",
+  "latency_s": 158.061,
+  "usage": {
+    "prompt_tokens": 1106,
+    "completion_tokens": 11110,
+    "total_tokens": 12216,
+    "reasoning_tokens": 9945,
+    "cached_tokens": 1024
+  },
+  "reasoning_tokens": 9945,
+  "output_tokens": 11110,
+  "total_tokens": 12216,
+  "request_id": "ca509399-12f8-415b-b355-7831e5108596",
+  "reasoning_len": 36031,
+  "reasoning_sha": "f7a9ce811ace3ee8",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 2,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"common_value_identity\",\n      \"latent_object\": \"F(y) = (pi/2)*tanh(pi*y)\",\n      \"variables\": [\"y\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"(pi/2)*tanh(pi*y)\"\n        },\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"im(polygamma(0, Rational(1, 2) + I*y))\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0001\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"difference\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"y\": \"y\"\n          }\n        },\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"y\": \"y\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"y\": \"y\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0002 is exactly F(y). G0001 is also mapped to F(y) by the identity operator under the proof obligation G0001 - F(y) = 0. G0003 is reconstructed as the difference G0001 - G0002.\",\n      \"required_assumptions\": [\n        \"y is a real variable\",\n        \"1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)\",\n        \"tanh has no poles on the real axis\"\n      ],\n      \"proof_obligations\": [\n        \"F(y) - G0002 = 0\",\n        \"G0001 - F(y) = 0\",\n        \"G0003 - (G0001 - G0002) = 0\"\n      ],\n      \"rationale\": \"The catalog supplies the two sides of the stated imaginary digamma/tanh identity, and the current expression is exactly their difference. This hypothesis makes the shared common value explicit.\",\n      \"confidence\": 0.75\n    },\n    {\n      \"representation_type\": \"zero_difference_identity\",\n      \"latent_object\": \"F(y) = 0\",\n      \"variables\": [\"y\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)\"\n        },\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"im(polygamma(0, Rational(1, 2) + I*y))\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"generic\",\n          \"text\": \"(pi/2)*tanh(pi*y)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0003\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0001\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"negate\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"y\": \"y\"\n          }\n        },\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"y\": \"y\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"y\": \"y\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"F(y)=0 is reconstructed as the evaluation of G0003 at y. G0003 is the signed sum G0001 - G0002.\",\n      \"required_assumptions\": [\n        \"y is a real variable\",\n        \"1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)\",\n        \"tanh has no poles on the real axis\"\n      ],\n      \"proof_obligations\": [\n        \"G0003 - F(y) = 0\",\n        \"G0003 - (G0001 - G0002) = 0\"\n      ],\n      \"rationale\": \"The current expression is structurally the difference of the two catalog members, so the target can be represented by a latent zero object under the stated identity.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "common_value_identity",
+        "latent_object": "F(y) = (pi/2)*tanh(pi*y)",
+        "variables": [
+          "y"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "(pi/2)*tanh(pi*y)"
+          },
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0002",
+            "O": "identity"
+          },
+          {
+            "member": "G0001",
+            "O": "identity"
+          },
+          {
+            "member": "G0003",
+            "O": "difference"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0002",
+            "theta": {
+              "y": "y"
+            }
+          },
+          {
+            "member": "G0001",
+            "theta": {
+              "y": "y"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "y": "y"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0002 is exactly F(y). G0001 is also mapped to F(y) by the identity operator under the proof obligation G0001 - F(y) = 0. G0003 is reconstructed as the difference G0001 - G0002.",
+        "required_assumptions": [
+          "y is a real variable",
+          "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+          "tanh has no poles on the real axis"
+        ],
+        "proof_obligations": [
+          "F(y) - G0002 = 0",
+          "G0001 - F(y) = 0",
+          "G0003 - (G0001 - G0002) = 0"
+        ],
+        "rationale": "The catalog supplies the two sides of the stated imaginary digamma/tanh identity, and the current expression is exactly their difference. This hypothesis makes the shared common value explicit.",
+        "confidence": 0.75
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "zero_difference_identity",
+        "latent_object": "F(y) = 0",
+        "variables": [
+          "y"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+          },
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "generic",
+            "text": "(pi/2)*tanh(pi*y)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0003",
+            "O": "identity"
+          },
+          {
+            "member": "G0001",
+            "O": "identity"
+          },
+          {
+            "member": "G0002",
+            "O": "negate"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0003",
+            "theta": {
+              "y": "y"
+            }
+          },
+          {
+            "member": "G0001",
+            "theta": {
+              "y": "y"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "y": "y"
+            }
+          }
+        ],
+        "reconstruction_rule": "F(y)=0 is reconstructed as the evaluation of G0003 at y. G0003 is the signed sum G0001 - G0002.",
+        "required_assumptions": [
+          "y is a real variable",
+          "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+          "tanh has no poles on the real axis"
+        ],
+        "proof_obligations": [
+          "G0003 - F(y) = 0",
+          "G0003 - (G0001 - G0002) = 0"
+        ],
+        "rationale": "The current expression is structurally the difference of the two catalog members, so the target can be represented by a latent zero object under the stated identity.",
+        "confidence": 0.7
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "common_value_identity",
+          "latent_object": "F(y) = (pi/2)*tanh(pi*y)",
+          "variables": [
+            "y"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(pi/2)*tanh(pi*y)"
+            },
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "difference"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0001",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "y": "y"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0002 is exactly F(y). G0001 is also mapped to F(y) by the identity operator under the proof obligation G0001 - F(y) = 0. G0003 is reconstructed as the difference G0001 - G0002.",
+          "required_assumptions": [
+            "y is a real variable",
+            "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+            "tanh has no poles on the real axis"
+          ],
+          "proof_obligations": [
+            "F(y) - G0002 = 0",
+            "G0001 - F(y) = 0",
+            "G0003 - (G0001 - G0002) = 0"
+          ],
+          "rationale": "The catalog supplies the two sides of the stated imaginary digamma/tanh identity, and the current expression is exactly their difference. This hypothesis makes the shared common value explicit.",
+          "confidence": 0.75
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "pi*tanh(pi*y)/2",
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "F(y) - G0002 = 0",
+              "expanded": "(pi*tanh(pi*y)/2) - ((pi/2)*tanh(pi*y)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - F(y) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y))) - (pi*tanh(pi*y)/2) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (G0001 - G0002) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - ((im(polygamma(0, Rational(1, 2) + I*y))) - ((pi/2)*tanh(pi*y))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "zero_difference_identity",
+          "latent_object": "F(y) = 0",
+          "variables": [
+            "y"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+            },
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "generic",
+              "text": "(pi/2)*tanh(pi*y)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0003",
+              "O": "identity"
+            },
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0002",
+              "O": "negate"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0003",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0001",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "y": "y"
+              }
+            }
+          ],
+          "reconstruction_rule": "F(y)=0 is reconstructed as the evaluation of G0003 at y. G0003 is the signed sum G0001 - G0002.",
+          "required_assumptions": [
+            "y is a real variable",
+            "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+            "tanh has no poles on the real axis"
+          ],
+          "proof_obligations": [
+            "G0003 - F(y) = 0",
+            "G0003 - (G0001 - G0002) = 0"
+          ],
+          "rationale": "The current expression is structurally the difference of the two catalog members, so the target can be represented by a latent zero object under the stated identity.",
+          "confidence": 0.7
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "0",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "G0003 - F(y) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - F(y) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (G0001 - G0002) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - ((im(polygamma(0, Rational(1, 2) + I*y))) - ((pi/2)*tanh(pi*y))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "common_value_identity",
+          "latent_object": "F(y) = (pi/2)*tanh(pi*y)",
+          "variables": [
+            "y"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(pi/2)*tanh(pi*y)"
+            },
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "difference"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0001",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "y": "y"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0002 is exactly F(y). G0001 is also mapped to F(y) by the identity operator under the proof obligation G0001 - F(y) = 0. G0003 is reconstructed as the difference G0001 - G0002.",
+          "required_assumptions": [
+            "y is a real variable",
+            "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+            "tanh has no poles on the real axis"
+          ],
+          "proof_obligations": [
+            "F(y) - G0002 = 0",
+            "G0001 - F(y) = 0",
+            "G0003 - (G0001 - G0002) = 0"
+          ],
+          "rationale": "The catalog supplies the two sides of the stated imaginary digamma/tanh identity, and the current expression is exactly their difference. This hypothesis makes the shared common value explicit.",
+          "confidence": 0.75
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "pi*tanh(pi*y)/2",
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "F(y) - G0002 = 0",
+              "expanded": "(pi*tanh(pi*y)/2) - ((pi/2)*tanh(pi*y)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - F(y) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y))) - (pi*tanh(pi*y)/2) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (G0001 - G0002) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - ((im(polygamma(0, Rational(1, 2) + I*y))) - ((pi/2)*tanh(pi*y))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "zero_difference_identity",
+          "latent_object": "F(y) = 0",
+          "variables": [
+            "y"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+            },
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "generic",
+              "text": "(pi/2)*tanh(pi*y)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0003",
+              "O": "identity"
+            },
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0002",
+              "O": "negate"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0003",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0001",
+              "theta": {
+                "y": "y"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "y": "y"
+              }
+            }
+          ],
+          "reconstruction_rule": "F(y)=0 is reconstructed as the evaluation of G0003 at y. G0003 is the signed sum G0001 - G0002.",
+          "required_assumptions": [
+            "y is a real variable",
+            "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+            "tanh has no poles on the real axis"
+          ],
+          "proof_obligations": [
+            "G0003 - F(y) = 0",
+            "G0003 - (G0001 - G0002) = 0"
+          ],
+          "rationale": "The current expression is structurally the difference of the two catalog members, so the target can be represented by a latent zero object under the stated identity.",
+          "confidence": 0.7
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "0",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "G0003 - F(y) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - F(y) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (G0001 - G0002) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - ((im(polygamma(0, Rational(1, 2) + I*y))) - ((pi/2)*tanh(pi*y))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  }
+}

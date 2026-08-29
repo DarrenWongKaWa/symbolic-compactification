@@ -1,0 +1,751 @@
+{
+  "task_id": "thermal-05-trigamma-double-pole",
+  "public_id": "T05",
+  "structural_cluster_id": "THERMAL_05_TRIGAMMA_SERIES",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P3",
+  "seed": 1,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "c0e957e075aa1b4f042e340649096510001777854a4105646ebf1797b80fd9bb",
+  "input_sha256": "4bc75d9f1f62e028bf2dba4a613406c1bc8320ff0161a626d564f5514e54e0ee",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "b70d3e7c7019cb4fe3d8bfa58ee3b12ac7bc32ebe5382ef092aecaab0884454f",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "adbc61665fb44995f49ec3491c632cda966eaae043e376505e04368e18d0b8e3",
+  "source_catalog_sha256": "bf36f6c26ba81de8e8cfabe5011a441f1b7e209adcc01e8d9223a22ee9cb5260",
+  "latency_s": 226.304,
+  "usage": {
+    "prompt_tokens": 1056,
+    "completion_tokens": 14415,
+    "total_tokens": 15471,
+    "reasoning_tokens": 13347,
+    "cached_tokens": 1024
+  },
+  "reasoning_tokens": 13347,
+  "output_tokens": 14415,
+  "total_tokens": 15471,
+  "request_id": "24c6c1fa-9106-4c16-9c07-a4a709f380c8",
+  "reasoning_len": 48130,
+  "reasoning_sha": "fbf13f0ee62bd7c7",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 2,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"series_closed_form_identity\",\n      \"latent_object\": \"F(t)=Sum(1/(k+t)**2, (k,0,oo))\",\n      \"variables\": [\"t\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"Sum(1/(k + z)**2, (k, 0, oo))\"\n        },\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"target\",\n          \"text\": \"polygamma(1, z)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\"t\": \"z\"}\n        },\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\"t\": \"z\"}\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\"t\": \"z\"}\n        }\n      ],\n      \"reconstruction_rule\": \"G0002 = F(z); G0001 = O[F](z) with O[F](t)=polygamma(1,t); G0003 = O[F](z) - F(z).\",\n      \"required_assumptions\": [\n        \"z is not a nonpositive integer\",\n        \"k runs over nonnegative integers in the sum\"\n      ],\n      \"proof_obligations\": [\n        \"G0002 - F(z) = 0\",\n        \"G0001 - O[F](z) = 0\",\n        \"G0003 - (O[F](z) - F(z)) = 0\",\n        \"O[F](z) - F(z) = 0\"\n      ],\n      \"rationale\": \"The sum member is the explicit series side of the NIST DLMF 5.15.1 identity; the polygamma member is recovered as the closed-form operator applied to the series, and the difference member is the subtraction target.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"representation_type\": \"binary_difference\",\n      \"latent_object\": \"F(a,b)=a-b\",\n      \"variables\": [\"a\", \"b\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"polygamma(1, z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"generic\",\n          \"text\": \"Sum(1/(k + z)**2, (k, 0, oo))\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\"a\": \"G0001\", \"b\": \"G0002\"}\n        }\n      ],\n      \"reconstruction_rule\": \"G0003 = F(G0001,G0002) = G0001 - G0002; G0001 and G0002 are treated as generic arguments.\",\n      \"required_assumptions\": [\n        \"z is not a nonpositive integer\",\n        \"k runs over nonnegative integers in the sum\"\n      ],\n      \"proof_obligations\": [\n        \"G0003 - (G0001 - G0002) = 0\"\n      ],\n      \"rationale\": \"The current source expression is syntactically the binary difference of the two catalog subexpressions.\",\n      \"confidence\": 0.99\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "series_closed_form_identity",
+        "latent_object": "F(t)=Sum(1/(k+t)**2, (k,0,oo))",
+        "variables": [
+          "t"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+          },
+          {
+            "source_node_id": "G0001",
+            "role": "target",
+            "text": "polygamma(1, z)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0002",
+            "O": "identity"
+          },
+          {
+            "member": "G0001",
+            "O": "other_explicit"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "z"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0002 = F(z); G0001 = O[F](z) with O[F](t)=polygamma(1,t); G0003 = O[F](z) - F(z).",
+        "required_assumptions": [
+          "z is not a nonpositive integer",
+          "k runs over nonnegative integers in the sum"
+        ],
+        "proof_obligations": [
+          "G0002 - F(z) = 0",
+          "G0001 - O[F](z) = 0",
+          "G0003 - (O[F](z) - F(z)) = 0",
+          "O[F](z) - F(z) = 0"
+        ],
+        "rationale": "The sum member is the explicit series side of the NIST DLMF 5.15.1 identity; the polygamma member is recovered as the closed-form operator applied to the series, and the difference member is the subtraction target.",
+        "confidence": 0.7
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "binary_difference",
+        "latent_object": "F(a,b)=a-b",
+        "variables": [
+          "a",
+          "b"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "polygamma(1, z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "generic",
+            "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "identity"
+          },
+          {
+            "member": "G0002",
+            "O": "identity"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0003",
+            "theta": {
+              "a": "G0001",
+              "b": "G0002"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0003 = F(G0001,G0002) = G0001 - G0002; G0001 and G0002 are treated as generic arguments.",
+        "required_assumptions": [
+          "z is not a nonpositive integer",
+          "k runs over nonnegative integers in the sum"
+        ],
+        "proof_obligations": [
+          "G0003 - (G0001 - G0002) = 0"
+        ],
+        "rationale": "The current source expression is syntactically the binary difference of the two catalog subexpressions.",
+        "confidence": 0.99
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "series_closed_form_identity",
+          "latent_object": "F(t)=Sum(1/(k+t)**2, (k,0,oo))",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+            },
+            {
+              "source_node_id": "G0001",
+              "role": "target",
+              "text": "polygamma(1, z)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0001",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0002 = F(z); G0001 = O[F](z) with O[F](t)=polygamma(1,t); G0003 = O[F](z) - F(z).",
+          "required_assumptions": [
+            "z is not a nonpositive integer",
+            "k runs over nonnegative integers in the sum"
+          ],
+          "proof_obligations": [
+            "G0002 - F(z) = 0",
+            "G0001 - O[F](z) = 0",
+            "G0003 - (O[F](z) - F(z)) = 0",
+            "O[F](z) - F(z) = 0"
+          ],
+          "rationale": "The sum member is the explicit series side of the NIST DLMF 5.15.1 identity; the polygamma member is recovered as the closed-form operator applied to the series, and the difference member is the subtraction target.",
+          "confidence": 0.7
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "Sum((k + t)**(-2), (k, 0, oo))",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "obligations": [
+            {
+              "text": "G0002 - F(z) = 0",
+              "expanded": "(Sum(1/(k + z)**2, (k, 0, oo))) - (Sum((k + z)**(-2), (k, 0, oo))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - O[F](z) = 0",
+              "expanded": "(polygamma(1, z)) - O[F](z) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0003 - (O[F](z) - F(z)) = 0",
+              "expanded": "(polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))) - (O[F](z) - (Sum((k + z)**(-2), (k, 0, oo)))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "O[F](z) - F(z) = 0",
+              "expanded": "O[F](z) - (Sum((k + z)**(-2), (k, 0, oo))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": true,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "binary_difference",
+          "latent_object": "F(a,b)=a-b",
+          "variables": [
+            "a",
+            "b"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "polygamma(1, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "generic",
+              "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0003",
+              "theta": {
+                "a": "G0001",
+                "b": "G0002"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0003 = F(G0001,G0002) = G0001 - G0002; G0001 and G0002 are treated as generic arguments.",
+          "required_assumptions": [
+            "z is not a nonpositive integer",
+            "k runs over nonnegative integers in the sum"
+          ],
+          "proof_obligations": [
+            "G0003 - (G0001 - G0002) = 0"
+          ],
+          "rationale": "The current source expression is syntactically the binary difference of the two catalog subexpressions.",
+          "confidence": 0.99
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "a - b",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0003 - (G0001 - G0002) = 0",
+              "expanded": "(polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))) - ((polygamma(1, z)) - (Sum(1/(k + z)**2, (k, 0, oo)))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "series_closed_form_identity",
+          "latent_object": "F(t)=Sum(1/(k+t)**2, (k,0,oo))",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+            },
+            {
+              "source_node_id": "G0001",
+              "role": "target",
+              "text": "polygamma(1, z)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0001",
+              "O": "other_explicit"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0002 = F(z); G0001 = O[F](z) with O[F](t)=polygamma(1,t); G0003 = O[F](z) - F(z).",
+          "required_assumptions": [
+            "z is not a nonpositive integer",
+            "k runs over nonnegative integers in the sum"
+          ],
+          "proof_obligations": [
+            "G0002 - F(z) = 0",
+            "G0001 - O[F](z) = 0",
+            "G0003 - (O[F](z) - F(z)) = 0",
+            "O[F](z) - F(z) = 0"
+          ],
+          "rationale": "The sum member is the explicit series side of the NIST DLMF 5.15.1 identity; the polygamma member is recovered as the closed-form operator applied to the series, and the difference member is the subtraction target.",
+          "confidence": 0.7
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "Sum((k + t)**(-2), (k, 0, oo))",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "obligations": [
+            {
+              "text": "G0002 - F(z) = 0",
+              "expanded": "(Sum(1/(k + z)**2, (k, 0, oo))) - (Sum((k + z)**(-2), (k, 0, oo))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - O[F](z) = 0",
+              "expanded": "(polygamma(1, z)) - O[F](z) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0003 - (O[F](z) - F(z)) = 0",
+              "expanded": "(polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))) - (O[F](z) - (Sum((k + z)**(-2), (k, 0, oo)))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "O[F](z) - F(z) = 0",
+              "expanded": "O[F](z) - (Sum((k + z)**(-2), (k, 0, oo))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": true,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 3,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "binary_difference",
+          "latent_object": "F(a,b)=a-b",
+          "variables": [
+            "a",
+            "b"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "polygamma(1, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "generic",
+              "text": "Sum(1/(k + z)**2, (k, 0, oo))"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "identity"
+            },
+            {
+              "member": "G0002",
+              "O": "identity"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0003",
+              "theta": {
+                "a": "G0001",
+                "b": "G0002"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0003 = F(G0001,G0002) = G0001 - G0002; G0001 and G0002 are treated as generic arguments.",
+          "required_assumptions": [
+            "z is not a nonpositive integer",
+            "k runs over nonnegative integers in the sum"
+          ],
+          "proof_obligations": [
+            "G0003 - (G0001 - G0002) = 0"
+          ],
+          "rationale": "The current source expression is syntactically the binary difference of the two catalog subexpressions.",
+          "confidence": 0.99
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "a - b",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0003 - (G0001 - G0002) = 0",
+              "expanded": "(polygamma(1, z) - Sum(1/(k + z)**2, (k, 0, oo))) - ((polygamma(1, z)) - (Sum(1/(k + z)**2, (k, 0, oo)))) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": 0,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 5,
+    "max_certified_depth": 0
+  }
+}

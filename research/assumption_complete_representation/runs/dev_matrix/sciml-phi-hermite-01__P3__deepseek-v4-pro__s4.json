@@ -1,0 +1,608 @@
+{
+  "task_id": "sciml-phi-hermite-01",
+  "public_id": "T06",
+  "structural_cluster_id": "SCIML_PHI_EXP_FAMILY",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P3",
+  "seed": 4,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "ae5063a8bc0357df77f26578f9e7eb6327172418a5df0b6c4a7ca276037e3831",
+  "input_sha256": "87289c36d71bb06c6e2645269288698348937e5f6e5e5c5e08abe20f773ce0a2",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "0347c41532ac0d04058cb25c2101227cba29990e674805fe581133d0f6b8b195",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "416489aa078615bb8b87d12c5fb801b6dc3d866f7a28667a9453d060070f96a8",
+  "source_catalog_sha256": "b0db76a2a2a96ec1ee664c9c060bb575c62184444e9da0cd32d79d895c3d50aa",
+  "latency_s": 136.682,
+  "usage": {
+    "prompt_tokens": 1198,
+    "completion_tokens": 10290,
+    "total_tokens": 11488,
+    "reasoning_tokens": 9039,
+    "cached_tokens": 1152
+  },
+  "reasoning_tokens": 9039,
+  "output_tokens": 10290,
+  "total_tokens": 11488,
+  "request_id": "e2bf9bc3-3c8f-4048-b908-b010ddf7b744",
+  "reasoning_len": 26608,
+  "reasoning_sha": "51432600789a6df0",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"exponential_integrator_weighted_integral_family\",\n      \"latent_object\": \"F(z,theta)=exp((1-theta)*z)\",\n      \"variables\": [\"z\", \"theta\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"exp(z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"(exp(z) - 1)/z\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1 - z)/z**2\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1 - z - z**2/2)/z**3\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"degenerate\",\n          \"text\": \"1\"\n        },\n        {\n          \"source_node_id\": \"G0006\",\n          \"role\": \"degenerate\",\n          \"text\": \"1/2\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit: F(z,0)=exp((1-0)*z)=exp(z)\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit: \u222b_0^1 F(z,theta) dtheta\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit: \u222b_0^1 F(z,theta)*theta dtheta\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"other_explicit: (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"other_explicit: F(0,theta)=exp((1-theta)*0)=1\"\n        },\n        {\n          \"member\": \"G0006\",\n          \"O\": \"other_explicit: \u222b_0^1 F(0,theta)*theta dtheta = \u222b_0^1 theta dtheta = 1/2\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"z\": \"z\",\n          \"theta\": \"0\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"z\": \"z\",\n          \"theta\": \"integral over [0,1] with weight 1\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"z\": \"z\",\n          \"theta\": \"integral over [0,1] with weight theta\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"z\": \"z\",\n          \"theta\": \"integral over [0,1] with weight (1/2)*theta^2\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"z\": \"0\",\n          \"theta\": \"any\"\n        },\n        {\n          \"member\": \"G0006\",\n          \"z\": \"0\",\n          \"theta\": \"integral over [0,1] with weight theta\"\n        }\n      ],\n      \"reconstruction_rule\": \"Let F(z,theta)=exp((1-theta)*z). For k=0 set u_0(z)=F(z,0). For k>=1 set u_k(z)=1/(k-1)!\u222b_0^1 F(z,theta)*theta^(k-1)dtheta. Catalog members: G0001=u_0(z), G0002=u_1(z), G0003=u_2(z), G0004=u_3(z), G0005=u_0(0)=1, G0006=u_2(0)=1/2.\",\n      \"required_assumptions\": [\n        \"exp is entire on C\",\n        \"z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004\",\n        \"integral parameter theta ranges over the compact interval [0, 1]\",\n        \"each u_k defined below extends to an entire function with u_k(0) = 1/k!\"\n      ],\n      \"proof_obligations\": [\n        \"G0001 - F(z,0) = 0\",\n        \"G0002 - \u222b_0^1 F(z,theta) dtheta = 0 for z != 0\",\n        \"G0003 - \u222b_0^1 F(z,theta)*theta dtheta = 0 for z != 0\",\n        \"G0004 - (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta = 0 for z != 0\",\n        \"G0005 - F(0,theta) = 0 for theta in [0,1]\",\n        \"G0006 - \u222b_0^1 F(0,theta)*theta dtheta = 0\"\n      ],\n      \"rationale\": \"G0001-G0004 are the k=0,1,2,3 exponential-integrator moments of F(z,theta)=exp((1-theta)z); G0005 and G0006 are z=0 point evaluations/constants. The current expression G0002 is exactly the k=1 integral member.\",\n      \"confidence\": 0.95\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "exponential_integrator_weighted_integral_family",
+        "latent_object": "F(z,theta)=exp((1-theta)*z)",
+        "variables": [
+          "z",
+          "theta"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "exp(z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "(exp(z) - 1)/z"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "instance",
+            "text": "(exp(z) - 1 - z)/z**2"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "instance",
+            "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "degenerate",
+            "text": "1"
+          },
+          {
+            "source_node_id": "G0006",
+            "role": "degenerate",
+            "text": "1/2"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit: F(z,0)=exp((1-0)*z)=exp(z)"
+          },
+          {
+            "member": "G0002",
+            "O": "other_explicit: \u222b_0^1 F(z,theta) dtheta"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit: \u222b_0^1 F(z,theta)*theta dtheta"
+          },
+          {
+            "member": "G0004",
+            "O": "other_explicit: (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta"
+          },
+          {
+            "member": "G0005",
+            "O": "other_explicit: F(0,theta)=exp((1-theta)*0)=1"
+          },
+          {
+            "member": "G0006",
+            "O": "other_explicit: \u222b_0^1 F(0,theta)*theta dtheta = \u222b_0^1 theta dtheta = 1/2"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "z": "z",
+            "theta": "0"
+          },
+          {
+            "member": "G0002",
+            "z": "z",
+            "theta": "integral over [0,1] with weight 1"
+          },
+          {
+            "member": "G0003",
+            "z": "z",
+            "theta": "integral over [0,1] with weight theta"
+          },
+          {
+            "member": "G0004",
+            "z": "z",
+            "theta": "integral over [0,1] with weight (1/2)*theta^2"
+          },
+          {
+            "member": "G0005",
+            "z": "0",
+            "theta": "any"
+          },
+          {
+            "member": "G0006",
+            "z": "0",
+            "theta": "integral over [0,1] with weight theta"
+          }
+        ],
+        "reconstruction_rule": "Let F(z,theta)=exp((1-theta)*z). For k=0 set u_0(z)=F(z,0). For k>=1 set u_k(z)=1/(k-1)!\u222b_0^1 F(z,theta)*theta^(k-1)dtheta. Catalog members: G0001=u_0(z), G0002=u_1(z), G0003=u_2(z), G0004=u_3(z), G0005=u_0(0)=1, G0006=u_2(0)=1/2.",
+        "required_assumptions": [
+          "exp is entire on C",
+          "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+          "integral parameter theta ranges over the compact interval [0, 1]",
+          "each u_k defined below extends to an entire function with u_k(0) = 1/k!"
+        ],
+        "proof_obligations": [
+          "G0001 - F(z,0) = 0",
+          "G0002 - \u222b_0^1 F(z,theta) dtheta = 0 for z != 0",
+          "G0003 - \u222b_0^1 F(z,theta)*theta dtheta = 0 for z != 0",
+          "G0004 - (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta = 0 for z != 0",
+          "G0005 - F(0,theta) = 0 for theta in [0,1]",
+          "G0006 - \u222b_0^1 F(0,theta)*theta dtheta = 0"
+        ],
+        "rationale": "G0001-G0004 are the k=0,1,2,3 exponential-integrator moments of F(z,theta)=exp((1-theta)z); G0005 and G0006 are z=0 point evaluations/constants. The current expression G0002 is exactly the k=1 integral member.",
+        "confidence": 0.95
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "exponential_integrator_weighted_integral_family",
+          "latent_object": "F(z,theta)=exp((1-theta)*z)",
+          "variables": [
+            "z",
+            "theta"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z)/z**2"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0006",
+              "role": "degenerate",
+              "text": "1/2"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: F(z,0)=exp((1-0)*z)=exp(z)"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit: \u222b_0^1 F(z,theta) dtheta"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit: \u222b_0^1 F(z,theta)*theta dtheta"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit: (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: F(0,theta)=exp((1-theta)*0)=1"
+            },
+            {
+              "member": "G0006",
+              "O": "other_explicit: \u222b_0^1 F(0,theta)*theta dtheta = \u222b_0^1 theta dtheta = 1/2"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "z": "z",
+              "theta": "0"
+            },
+            {
+              "member": "G0002",
+              "z": "z",
+              "theta": "integral over [0,1] with weight 1"
+            },
+            {
+              "member": "G0003",
+              "z": "z",
+              "theta": "integral over [0,1] with weight theta"
+            },
+            {
+              "member": "G0004",
+              "z": "z",
+              "theta": "integral over [0,1] with weight (1/2)*theta^2"
+            },
+            {
+              "member": "G0005",
+              "z": "0",
+              "theta": "any"
+            },
+            {
+              "member": "G0006",
+              "z": "0",
+              "theta": "integral over [0,1] with weight theta"
+            }
+          ],
+          "reconstruction_rule": "Let F(z,theta)=exp((1-theta)*z). For k=0 set u_0(z)=F(z,0). For k>=1 set u_k(z)=1/(k-1)!\u222b_0^1 F(z,theta)*theta^(k-1)dtheta. Catalog members: G0001=u_0(z), G0002=u_1(z), G0003=u_2(z), G0004=u_3(z), G0005=u_0(0)=1, G0006=u_2(0)=1/2.",
+          "required_assumptions": [
+            "exp is entire on C",
+            "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+            "integral parameter theta ranges over the compact interval [0, 1]",
+            "each u_k defined below extends to an entire function with u_k(0) = 1/k!"
+          ],
+          "proof_obligations": [
+            "G0001 - F(z,0) = 0",
+            "G0002 - \u222b_0^1 F(z,theta) dtheta = 0 for z != 0",
+            "G0003 - \u222b_0^1 F(z,theta)*theta dtheta = 0 for z != 0",
+            "G0004 - (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta = 0 for z != 0",
+            "G0005 - F(0,theta) = 0 for theta in [0,1]",
+            "G0006 - \u222b_0^1 F(0,theta)*theta dtheta = 0"
+          ],
+          "rationale": "G0001-G0004 are the k=0,1,2,3 exponential-integrator moments of F(z,theta)=exp((1-theta)z); G0005 and G0006 are z=0 point evaluations/constants. The current expression G0002 is exactly the k=1 integral member.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(z*(1 - theta))",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 6,
+          "obligations": [
+            {
+              "text": "G0001 - F(z,0) = 0",
+              "expanded": "(exp(z)) - F(z,0) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - \u222b_0^1 F(z,theta) dtheta = 0 for z != 0",
+              "expanded": "((exp(z) - 1)/z) - \u222b_0^1 (exp(z*(1 - theta))) dtheta = 0 for z != 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0003 - \u222b_0^1 F(z,theta)*theta dtheta = 0 for z != 0",
+              "expanded": "((exp(z) - 1 - z)/z**2) - \u222b_0^1 (exp(z*(1 - theta)))*theta dtheta = 0 for z != 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0004 - (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta = 0 for z != 0",
+              "expanded": "((exp(z) - 1 - z - z**2/2)/z**3) - (1/2)\u222b_0^1 (exp(z*(1 - theta)))*theta^2 dtheta = 0 for z != 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0005 - F(0,theta) = 0 for theta in [0,1]",
+              "expanded": "(1) - (exp(0)) = 0 for theta in [0,1]",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0006 - \u222b_0^1 F(0,theta)*theta dtheta = 0",
+              "expanded": "(1/2) - \u222b_0^1 (exp(0))*theta dtheta = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 1,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 6,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "WRONG_REPRESENTATION",
+      "D": "D_WRONG",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 1,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 1,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "exponential_integrator_weighted_integral_family",
+          "latent_object": "F(z,theta)=exp((1-theta)*z)",
+          "variables": [
+            "z",
+            "theta"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z)/z**2"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0006",
+              "role": "degenerate",
+              "text": "1/2"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: F(z,0)=exp((1-0)*z)=exp(z)"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit: \u222b_0^1 F(z,theta) dtheta"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit: \u222b_0^1 F(z,theta)*theta dtheta"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit: (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: F(0,theta)=exp((1-theta)*0)=1"
+            },
+            {
+              "member": "G0006",
+              "O": "other_explicit: \u222b_0^1 F(0,theta)*theta dtheta = \u222b_0^1 theta dtheta = 1/2"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "z": "z",
+              "theta": "0"
+            },
+            {
+              "member": "G0002",
+              "z": "z",
+              "theta": "integral over [0,1] with weight 1"
+            },
+            {
+              "member": "G0003",
+              "z": "z",
+              "theta": "integral over [0,1] with weight theta"
+            },
+            {
+              "member": "G0004",
+              "z": "z",
+              "theta": "integral over [0,1] with weight (1/2)*theta^2"
+            },
+            {
+              "member": "G0005",
+              "z": "0",
+              "theta": "any"
+            },
+            {
+              "member": "G0006",
+              "z": "0",
+              "theta": "integral over [0,1] with weight theta"
+            }
+          ],
+          "reconstruction_rule": "Let F(z,theta)=exp((1-theta)*z). For k=0 set u_0(z)=F(z,0). For k>=1 set u_k(z)=1/(k-1)!\u222b_0^1 F(z,theta)*theta^(k-1)dtheta. Catalog members: G0001=u_0(z), G0002=u_1(z), G0003=u_2(z), G0004=u_3(z), G0005=u_0(0)=1, G0006=u_2(0)=1/2.",
+          "required_assumptions": [
+            "exp is entire on C",
+            "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+            "integral parameter theta ranges over the compact interval [0, 1]",
+            "each u_k defined below extends to an entire function with u_k(0) = 1/k!"
+          ],
+          "proof_obligations": [
+            "G0001 - F(z,0) = 0",
+            "G0002 - \u222b_0^1 F(z,theta) dtheta = 0 for z != 0",
+            "G0003 - \u222b_0^1 F(z,theta)*theta dtheta = 0 for z != 0",
+            "G0004 - (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta = 0 for z != 0",
+            "G0005 - F(0,theta) = 0 for theta in [0,1]",
+            "G0006 - \u222b_0^1 F(0,theta)*theta dtheta = 0"
+          ],
+          "rationale": "G0001-G0004 are the k=0,1,2,3 exponential-integrator moments of F(z,theta)=exp((1-theta)z); G0005 and G0006 are z=0 point evaluations/constants. The current expression G0002 is exactly the k=1 integral member.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(z*(1 - theta))",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 6,
+          "obligations": [
+            {
+              "text": "G0001 - F(z,0) = 0",
+              "expanded": "(exp(z)) - F(z,0) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - \u222b_0^1 F(z,theta) dtheta = 0 for z != 0",
+              "expanded": "((exp(z) - 1)/z) - \u222b_0^1 (exp(z*(1 - theta))) dtheta = 0 for z != 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0003 - \u222b_0^1 F(z,theta)*theta dtheta = 0 for z != 0",
+              "expanded": "((exp(z) - 1 - z)/z**2) - \u222b_0^1 (exp(z*(1 - theta)))*theta dtheta = 0 for z != 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0004 - (1/2)\u222b_0^1 F(z,theta)*theta^2 dtheta = 0 for z != 0",
+              "expanded": "((exp(z) - 1 - z - z**2/2)/z**3) - (1/2)\u222b_0^1 (exp(z*(1 - theta)))*theta^2 dtheta = 0 for z != 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0005 - F(0,theta) = 0 for theta in [0,1]",
+              "expanded": "(1) - (exp(0)) = 0 for theta in [0,1]",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0006 - \u222b_0^1 F(0,theta)*theta dtheta = 0",
+              "expanded": "(1/2) - \u222b_0^1 (exp(0))*theta dtheta = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 1,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 6,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "WRONG_REPRESENTATION",
+      "D": "D_WRONG",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 1,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 1,
+    "max_certified_depth": null
+  }
+}

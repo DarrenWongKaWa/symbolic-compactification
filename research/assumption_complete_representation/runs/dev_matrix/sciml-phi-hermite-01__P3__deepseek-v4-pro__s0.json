@@ -1,0 +1,889 @@
+{
+  "task_id": "sciml-phi-hermite-01",
+  "public_id": "T06",
+  "structural_cluster_id": "SCIML_PHI_EXP_FAMILY",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P3",
+  "seed": 0,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "ae5063a8bc0357df77f26578f9e7eb6327172418a5df0b6c4a7ca276037e3831",
+  "input_sha256": "87289c36d71bb06c6e2645269288698348937e5f6e5e5c5e08abe20f773ce0a2",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "0347c41532ac0d04058cb25c2101227cba29990e674805fe581133d0f6b8b195",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "416489aa078615bb8b87d12c5fb801b6dc3d866f7a28667a9453d060070f96a8",
+  "source_catalog_sha256": "b0db76a2a2a96ec1ee664c9c060bb575c62184444e9da0cd32d79d895c3d50aa",
+  "latency_s": 120.829,
+  "usage": {
+    "prompt_tokens": 1198,
+    "completion_tokens": 9034,
+    "total_tokens": 10232,
+    "reasoning_tokens": 7489,
+    "cached_tokens": 768
+  },
+  "reasoning_tokens": 7489,
+  "output_tokens": 9034,
+  "total_tokens": 10232,
+  "request_id": "ed65a2f2-cd55-4749-a260-c9aa6763542b",
+  "reasoning_len": 24930,
+  "reasoning_sha": "67dc62a0ad847525",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 2,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"exponential_integrator_integral_kernel\",\n      \"latent_object\": \"F(theta,z)=exp((1-theta)*z)\",\n      \"variables\": [\"theta\", \"z\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"exp(z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"(exp(z) - 1)/z\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"specialize: z -> (1-theta)*z\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"integrate over theta from 0 to 1: u(z)=int_0^1 F(theta,z) dtheta\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"z\": \"(1-theta)*z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Apply G0001 with z replaced by (1-theta)*z to form F(theta,z), then integrate over theta in [0,1] to obtain G0002.\",\n      \"required_assumptions\": [\n        \"z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004\",\n        \"exp is entire on C\",\n        \"integral parameter theta ranges over the compact interval [0, 1]\"\n      ],\n      \"proof_obligations\": [\n        \"G0002 - int_0^1 exp((1-theta)*z) dtheta = 0\",\n        \"F(theta,z) - exp((1-theta)*z) = 0\"\n      ],\n      \"rationale\": \"The target is the integral of the entire exponential kernel evaluated along the affine parameter path (1-theta)z, which is the k=1 integral form of the exponential-integrator family.\",\n      \"confidence\": 0.98\n    },\n    {\n      \"representation_type\": \"exponential_integrator_recurrence_family\",\n      \"latent_object\": \"F(k,z)=exp(z) if k=0; F(k,z)=(F(k-1,z)-F(k-1,0))/z for k>=1 and z!=0; F(k,0)=1/k!\",\n      \"variables\": [\"k\", \"z\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"exp(z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1)/z\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1 - z)/z**2\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1 - z - z**2/2)/z**3\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"degenerate\",\n          \"text\": \"1\"\n        },\n        {\n          \"source_node_id\": \"G0006\",\n          \"role\": \"degenerate\",\n          \"text\": \"1/2\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"base: F(0,z)=exp(z)\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"apply recurrence R once to F(0,z)\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"apply recurrence R twice to F(0,z)\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"apply recurrence R three times to F(0,z)\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"evaluate F(0,z) at z=0: F(0,0)=1\"\n        },\n        {\n          \"member\": \"G0006\",\n          \"O\": \"evaluate F(2,z) at z=0: F(2,0)=1/2\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"k\": 0,\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"k\": 1,\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"k\": 2,\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0004\",\n          \"theta\": {\n            \"k\": 3,\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0005\",\n          \"theta\": {\n            \"k\": 0,\n            \"z\": 0\n          }\n        },\n        {\n          \"member\": \"G0006\",\n          \"theta\": {\n            \"k\": 2,\n            \"z\": 0\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Start with F(0,z)=G0001. Define recurrence R: F(k,z)=(F(k-1,z)-F(k-1,0))/z for z!=0, with entire extension F(k,0)=1/k!. Apply R once for G0002, twice for G0003, three times for G0004. G0005 is F(0,0), and G0006 is F(2,0).\",\n      \"required_assumptions\": [\n        \"z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004\",\n        \"exp is entire on C\",\n        \"each u_k defined below extends to an entire function with u_k(0)=1/k!\"\n      ],\n      \"proof_obligations\": [\n        \"F(1,z) - G0002 = 0\",\n        \"F(2,z) - G0003 = 0\",\n        \"F(3,z) - G0004 = 0\",\n        \"F(0,0) - G0005 = 0\",\n        \"F(2,0) - G0006 = 0\"\n      ],\n      \"rationale\": \"The catalog expressions are consecutive divided-difference quotients generated from exp(z) by subtracting the previous value at z=0 and dividing by z, matching the recurrence definition for the exponential-integrator family.\",\n      \"confidence\": 0.97\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "exponential_integrator_integral_kernel",
+        "latent_object": "F(theta,z)=exp((1-theta)*z)",
+        "variables": [
+          "theta",
+          "z"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "exp(z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "(exp(z) - 1)/z"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "specialize: z -> (1-theta)*z"
+          },
+          {
+            "member": "G0002",
+            "O": "integrate over theta from 0 to 1: u(z)=int_0^1 F(theta,z) dtheta"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "z": "(1-theta)*z"
+            }
+          }
+        ],
+        "reconstruction_rule": "Apply G0001 with z replaced by (1-theta)*z to form F(theta,z), then integrate over theta in [0,1] to obtain G0002.",
+        "required_assumptions": [
+          "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+          "exp is entire on C",
+          "integral parameter theta ranges over the compact interval [0, 1]"
+        ],
+        "proof_obligations": [
+          "G0002 - int_0^1 exp((1-theta)*z) dtheta = 0",
+          "F(theta,z) - exp((1-theta)*z) = 0"
+        ],
+        "rationale": "The target is the integral of the entire exponential kernel evaluated along the affine parameter path (1-theta)z, which is the k=1 integral form of the exponential-integrator family.",
+        "confidence": 0.98
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "exponential_integrator_recurrence_family",
+        "latent_object": "F(k,z)=exp(z) if k=0; F(k,z)=(F(k-1,z)-F(k-1,0))/z for k>=1 and z!=0; F(k,0)=1/k!",
+        "variables": [
+          "k",
+          "z"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "exp(z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "(exp(z) - 1)/z"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "instance",
+            "text": "(exp(z) - 1 - z)/z**2"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "instance",
+            "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "degenerate",
+            "text": "1"
+          },
+          {
+            "source_node_id": "G0006",
+            "role": "degenerate",
+            "text": "1/2"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "base: F(0,z)=exp(z)"
+          },
+          {
+            "member": "G0002",
+            "O": "apply recurrence R once to F(0,z)"
+          },
+          {
+            "member": "G0003",
+            "O": "apply recurrence R twice to F(0,z)"
+          },
+          {
+            "member": "G0004",
+            "O": "apply recurrence R three times to F(0,z)"
+          },
+          {
+            "member": "G0005",
+            "O": "evaluate F(0,z) at z=0: F(0,0)=1"
+          },
+          {
+            "member": "G0006",
+            "O": "evaluate F(2,z) at z=0: F(2,0)=1/2"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "k": 0,
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "k": 1,
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "k": 2,
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0004",
+            "theta": {
+              "k": 3,
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0005",
+            "theta": {
+              "k": 0,
+              "z": 0
+            }
+          },
+          {
+            "member": "G0006",
+            "theta": {
+              "k": 2,
+              "z": 0
+            }
+          }
+        ],
+        "reconstruction_rule": "Start with F(0,z)=G0001. Define recurrence R: F(k,z)=(F(k-1,z)-F(k-1,0))/z for z!=0, with entire extension F(k,0)=1/k!. Apply R once for G0002, twice for G0003, three times for G0004. G0005 is F(0,0), and G0006 is F(2,0).",
+        "required_assumptions": [
+          "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+          "exp is entire on C",
+          "each u_k defined below extends to an entire function with u_k(0)=1/k!"
+        ],
+        "proof_obligations": [
+          "F(1,z) - G0002 = 0",
+          "F(2,z) - G0003 = 0",
+          "F(3,z) - G0004 = 0",
+          "F(0,0) - G0005 = 0",
+          "F(2,0) - G0006 = 0"
+        ],
+        "rationale": "The catalog expressions are consecutive divided-difference quotients generated from exp(z) by subtracting the previous value at z=0 and dividing by z, matching the recurrence definition for the exponential-integrator family.",
+        "confidence": 0.97
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "exponential_integrator_integral_kernel",
+          "latent_object": "F(theta,z)=exp((1-theta)*z)",
+          "variables": [
+            "theta",
+            "z"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "specialize: z -> (1-theta)*z"
+            },
+            {
+              "member": "G0002",
+              "O": "integrate over theta from 0 to 1: u(z)=int_0^1 F(theta,z) dtheta"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "z": "(1-theta)*z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Apply G0001 with z replaced by (1-theta)*z to form F(theta,z), then integrate over theta in [0,1] to obtain G0002.",
+          "required_assumptions": [
+            "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+            "exp is entire on C",
+            "integral parameter theta ranges over the compact interval [0, 1]"
+          ],
+          "proof_obligations": [
+            "G0002 - int_0^1 exp((1-theta)*z) dtheta = 0",
+            "F(theta,z) - exp((1-theta)*z) = 0"
+          ],
+          "rationale": "The target is the integral of the entire exponential kernel evaluated along the affine parameter path (1-theta)z, which is the k=1 integral form of the exponential-integrator family.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(z*(1 - theta))",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "G0002 - int_0^1 exp((1-theta)*z) dtheta = 0",
+              "expanded": "((exp(z) - 1)/z) - int_0^1 exp((1-theta)*z) dtheta = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "F(theta,z) - exp((1-theta)*z) = 0",
+              "expanded": "(exp(z*(1 - theta))) - exp((1-theta)*z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 1,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "exponential_integrator_recurrence_family",
+          "latent_object": "F(k,z)=exp(z) if k=0; F(k,z)=(F(k-1,z)-F(k-1,0))/z for k>=1 and z!=0; F(k,0)=1/k!",
+          "variables": [
+            "k",
+            "z"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(exp(z) - 1)/z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z)/z**2"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0006",
+              "role": "degenerate",
+              "text": "1/2"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "base: F(0,z)=exp(z)"
+            },
+            {
+              "member": "G0002",
+              "O": "apply recurrence R once to F(0,z)"
+            },
+            {
+              "member": "G0003",
+              "O": "apply recurrence R twice to F(0,z)"
+            },
+            {
+              "member": "G0004",
+              "O": "apply recurrence R three times to F(0,z)"
+            },
+            {
+              "member": "G0005",
+              "O": "evaluate F(0,z) at z=0: F(0,0)=1"
+            },
+            {
+              "member": "G0006",
+              "O": "evaluate F(2,z) at z=0: F(2,0)=1/2"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "k": 0,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "k": 1,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "k": 2,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "k": 3,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "k": 0,
+                "z": 0
+              }
+            },
+            {
+              "member": "G0006",
+              "theta": {
+                "k": 2,
+                "z": 0
+              }
+            }
+          ],
+          "reconstruction_rule": "Start with F(0,z)=G0001. Define recurrence R: F(k,z)=(F(k-1,z)-F(k-1,0))/z for z!=0, with entire extension F(k,0)=1/k!. Apply R once for G0002, twice for G0003, three times for G0004. G0005 is F(0,0), and G0006 is F(2,0).",
+          "required_assumptions": [
+            "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+            "exp is entire on C",
+            "each u_k defined below extends to an entire function with u_k(0)=1/k!"
+          ],
+          "proof_obligations": [
+            "F(1,z) - G0002 = 0",
+            "F(2,z) - G0003 = 0",
+            "F(3,z) - G0004 = 0",
+            "F(0,0) - G0005 = 0",
+            "F(2,0) - G0006 = 0"
+          ],
+          "rationale": "The catalog expressions are consecutive divided-difference quotients generated from exp(z) by subtracting the previous value at z=0 and dividing by z, matching the recurrence definition for the exponential-integrator family.",
+          "confidence": 0.97
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": false,
+          "F_srepr": "",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 5,
+          "obligations": [
+            {
+              "text": "F(1,z) - G0002 = 0",
+              "expanded": "F(1,z) - ((exp(z) - 1)/z) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(2,z) - G0003 = 0",
+              "expanded": "F(2,z) - ((exp(z) - 1 - z)/z**2) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(3,z) - G0004 = 0",
+              "expanded": "F(3,z) - ((exp(z) - 1 - z - z**2/2)/z**3) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(0,0) - G0005 = 0",
+              "expanded": "F(0,0) - (1) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(2,0) - G0006 = 0",
+              "expanded": "F(2,0) - (1/2) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 5,
+          "n_zero_nontrivial": 0,
+          "F_parsed": false,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 1,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 2,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": true,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 2,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "exponential_integrator_integral_kernel",
+          "latent_object": "F(theta,z)=exp((1-theta)*z)",
+          "variables": [
+            "theta",
+            "z"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "specialize: z -> (1-theta)*z"
+            },
+            {
+              "member": "G0002",
+              "O": "integrate over theta from 0 to 1: u(z)=int_0^1 F(theta,z) dtheta"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "z": "(1-theta)*z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Apply G0001 with z replaced by (1-theta)*z to form F(theta,z), then integrate over theta in [0,1] to obtain G0002.",
+          "required_assumptions": [
+            "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+            "exp is entire on C",
+            "integral parameter theta ranges over the compact interval [0, 1]"
+          ],
+          "proof_obligations": [
+            "G0002 - int_0^1 exp((1-theta)*z) dtheta = 0",
+            "F(theta,z) - exp((1-theta)*z) = 0"
+          ],
+          "rationale": "The target is the integral of the entire exponential kernel evaluated along the affine parameter path (1-theta)z, which is the k=1 integral form of the exponential-integrator family.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(z*(1 - theta))",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "G0002 - int_0^1 exp((1-theta)*z) dtheta = 0",
+              "expanded": "((exp(z) - 1)/z) - int_0^1 exp((1-theta)*z) dtheta = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "F(theta,z) - exp((1-theta)*z) = 0",
+              "expanded": "(exp(z*(1 - theta))) - exp((1-theta)*z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 1,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "exponential_integrator_recurrence_family",
+          "latent_object": "F(k,z)=exp(z) if k=0; F(k,z)=(F(k-1,z)-F(k-1,0))/z for k>=1 and z!=0; F(k,0)=1/k!",
+          "variables": [
+            "k",
+            "z"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(exp(z) - 1)/z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z)/z**2"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0006",
+              "role": "degenerate",
+              "text": "1/2"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "base: F(0,z)=exp(z)"
+            },
+            {
+              "member": "G0002",
+              "O": "apply recurrence R once to F(0,z)"
+            },
+            {
+              "member": "G0003",
+              "O": "apply recurrence R twice to F(0,z)"
+            },
+            {
+              "member": "G0004",
+              "O": "apply recurrence R three times to F(0,z)"
+            },
+            {
+              "member": "G0005",
+              "O": "evaluate F(0,z) at z=0: F(0,0)=1"
+            },
+            {
+              "member": "G0006",
+              "O": "evaluate F(2,z) at z=0: F(2,0)=1/2"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "k": 0,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "k": 1,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "k": 2,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "k": 3,
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "k": 0,
+                "z": 0
+              }
+            },
+            {
+              "member": "G0006",
+              "theta": {
+                "k": 2,
+                "z": 0
+              }
+            }
+          ],
+          "reconstruction_rule": "Start with F(0,z)=G0001. Define recurrence R: F(k,z)=(F(k-1,z)-F(k-1,0))/z for z!=0, with entire extension F(k,0)=1/k!. Apply R once for G0002, twice for G0003, three times for G0004. G0005 is F(0,0), and G0006 is F(2,0).",
+          "required_assumptions": [
+            "z is complex (entire continuation); the z != 0 quotient form is used for G0002, G0003, G0004",
+            "exp is entire on C",
+            "each u_k defined below extends to an entire function with u_k(0)=1/k!"
+          ],
+          "proof_obligations": [
+            "F(1,z) - G0002 = 0",
+            "F(2,z) - G0003 = 0",
+            "F(3,z) - G0004 = 0",
+            "F(0,0) - G0005 = 0",
+            "F(2,0) - G0006 = 0"
+          ],
+          "rationale": "The catalog expressions are consecutive divided-difference quotients generated from exp(z) by subtracting the previous value at z=0 and dividing by z, matching the recurrence definition for the exponential-integrator family.",
+          "confidence": 0.97
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": false,
+          "F_srepr": "",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 5,
+          "obligations": [
+            {
+              "text": "F(1,z) - G0002 = 0",
+              "expanded": "F(1,z) - ((exp(z) - 1)/z) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(2,z) - G0003 = 0",
+              "expanded": "F(2,z) - ((exp(z) - 1 - z)/z**2) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(3,z) - G0004 = 0",
+              "expanded": "F(3,z) - ((exp(z) - 1 - z - z**2/2)/z**3) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(0,0) - G0005 = 0",
+              "expanded": "F(0,0) - (1) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F(2,0) - G0006 = 0",
+              "expanded": "F(2,0) - (1/2) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 5,
+          "F_parsed": false
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 2,
+    "max_certified_depth": null
+  }
+}

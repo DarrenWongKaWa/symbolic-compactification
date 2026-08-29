@@ -1,0 +1,509 @@
+{
+  "task_id": "ac-r01-resolvent-hilbert-identity",
+  "public_id": "T02",
+  "structural_cluster_id": "RESOLVENT_CLUSTER",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P3",
+  "seed": 4,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "23a59ad7f2ac068fc9f602255a53dcdcc8eb30c06176ae0862a898de46fdec6e",
+  "input_sha256": "77b0d20520184abd627c0605b544fb173ecb8bf35e0316009a24f904705cca2f",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "e3acf59f728659451a333ba93e2a0ef03556a37fdda29f0f79ecb68ef24f2e69",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "04972a942bfc33e404253d744286958e3c486d09e36b0dd011771ac9785df672",
+  "source_catalog_sha256": "60ea5f4d064ed0ebc42a14651d4dbce8940270afd90ea0f842da107ca7056a04",
+  "latency_s": 82.53,
+  "usage": {
+    "prompt_tokens": 1138,
+    "completion_tokens": 5820,
+    "total_tokens": 6958,
+    "reasoning_tokens": 5017,
+    "cached_tokens": 1024
+  },
+  "reasoning_tokens": 5017,
+  "output_tokens": 5820,
+  "total_tokens": 6958,
+  "request_id": "85cd62ac-01bd-479c-8f7a-999c4cb48b9b",
+  "reasoning_len": 18307,
+  "reasoning_sha": "82bf487dac9bb22e",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"univariate_rational_function_divided_difference_product_residual\",\n      \"latent_object\": \"F(t)=1/(a-t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"1/(a - z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"1/(a - w)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"generic\",\n          \"text\": \"(1/(a - z) - 1/(a - w))/(z - w)\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"generic\",\n          \"text\": \"1/((a - z)*(a - w))\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"target\",\n          \"text\": \"(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"F(t) evaluated at t=z\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"F(t) evaluated at t=w\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"(F(z)-F(w))/(z-w)\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"F(z)*F(w)\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"(F(z)-F(w))/(z-w) - F(z)*F(w)\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"w\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"With F(t)=1/(a-t), reconstruct G0001 as F(z), G0002 as F(w), G0003 as the divided difference (F(z)-F(w))/(z-w), G0004 as the product F(z)F(w), and G0005 as the difference between the divided difference and the product.\",\n      \"required_assumptions\": [\n        \"z != w\",\n        \"a != z\",\n        \"a != w\",\n        \"the map t |-> 1/(a - t) is defined for t != a\"\n      ],\n      \"proof_obligations\": [\n        \"G0001 - F(z) = 0\",\n        \"G0002 - F(w) = 0\",\n        \"G0003 - (F(z)-F(w))/(z-w) = 0\",\n        \"G0004 - F(z)F(w) = 0\",\n        \"G0005 - ((F(z)-F(w))/(z-w) - F(z)F(w)) = 0\"\n      ],\n      \"rationale\": \"All catalog expressions are built from the same univariate rational function F(t)=1/(a-t): G0001 and G0002 are evaluations, G0003 is a divided difference, G0004 is a product of evaluations, and G0005 is the residual between those two composite forms.\",\n      \"confidence\": 0.98\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "univariate_rational_function_divided_difference_product_residual",
+        "latent_object": "F(t)=1/(a-t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "1/(a - z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "1/(a - w)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "generic",
+            "text": "(1/(a - z) - 1/(a - w))/(z - w)"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "generic",
+            "text": "1/((a - z)*(a - w))"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "target",
+            "text": "(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "F(t) evaluated at t=z"
+          },
+          {
+            "member": "G0002",
+            "O": "F(t) evaluated at t=w"
+          },
+          {
+            "member": "G0003",
+            "O": "(F(z)-F(w))/(z-w)"
+          },
+          {
+            "member": "G0004",
+            "O": "F(z)*F(w)"
+          },
+          {
+            "member": "G0005",
+            "O": "(F(z)-F(w))/(z-w) - F(z)*F(w)"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "w"
+            }
+          }
+        ],
+        "reconstruction_rule": "With F(t)=1/(a-t), reconstruct G0001 as F(z), G0002 as F(w), G0003 as the divided difference (F(z)-F(w))/(z-w), G0004 as the product F(z)F(w), and G0005 as the difference between the divided difference and the product.",
+        "required_assumptions": [
+          "z != w",
+          "a != z",
+          "a != w",
+          "the map t |-> 1/(a - t) is defined for t != a"
+        ],
+        "proof_obligations": [
+          "G0001 - F(z) = 0",
+          "G0002 - F(w) = 0",
+          "G0003 - (F(z)-F(w))/(z-w) = 0",
+          "G0004 - F(z)F(w) = 0",
+          "G0005 - ((F(z)-F(w))/(z-w) - F(z)F(w)) = 0"
+        ],
+        "rationale": "All catalog expressions are built from the same univariate rational function F(t)=1/(a-t): G0001 and G0002 are evaluations, G0003 is a divided difference, G0004 is a product of evaluations, and G0005 is the residual between those two composite forms.",
+        "confidence": 0.98
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "univariate_rational_function_divided_difference_product_residual",
+          "latent_object": "F(t)=1/(a-t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "1/(a - z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/(a - w)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "generic",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "generic",
+              "text": "1/((a - z)*(a - w))"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "target",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "F(t) evaluated at t=z"
+            },
+            {
+              "member": "G0002",
+              "O": "F(t) evaluated at t=w"
+            },
+            {
+              "member": "G0003",
+              "O": "(F(z)-F(w))/(z-w)"
+            },
+            {
+              "member": "G0004",
+              "O": "F(z)*F(w)"
+            },
+            {
+              "member": "G0005",
+              "O": "(F(z)-F(w))/(z-w) - F(z)*F(w)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "w"
+              }
+            }
+          ],
+          "reconstruction_rule": "With F(t)=1/(a-t), reconstruct G0001 as F(z), G0002 as F(w), G0003 as the divided difference (F(z)-F(w))/(z-w), G0004 as the product F(z)F(w), and G0005 as the difference between the divided difference and the product.",
+          "required_assumptions": [
+            "z != w",
+            "a != z",
+            "a != w",
+            "the map t |-> 1/(a - t) is defined for t != a"
+          ],
+          "proof_obligations": [
+            "G0001 - F(z) = 0",
+            "G0002 - F(w) = 0",
+            "G0003 - (F(z)-F(w))/(z-w) = 0",
+            "G0004 - F(z)F(w) = 0",
+            "G0005 - ((F(z)-F(w))/(z-w) - F(z)F(w)) = 0"
+          ],
+          "rationale": "All catalog expressions are built from the same univariate rational function F(t)=1/(a-t): G0001 and G0002 are evaluations, G0003 is a divided difference, G0004 is a product of evaluations, and G0005 is the residual between those two composite forms.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "1/(a - t)",
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "G0001 - F(z) = 0",
+              "expanded": "(1/(a - z)) - (1/(a - z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - F(w) = 0",
+              "expanded": "(1/(a - w)) - (1/(a - w)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (F(z)-F(w))/(z-w) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w)) - ((1/(a - z))-(1/(a - w)))/(z-w) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - F(z)F(w) = 0",
+              "expanded": "(1/((a - z)*(a - w))) - (1/(a - z))(1/(a - w)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0005 - ((F(z)-F(w))/(z-w) - F(z)F(w)) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))) - (((1/(a - z))-(1/(a - w)))/(z-w) - (1/(a - z))(1/(a - w))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "ZERO",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": true,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "n_zero_nontrivial": 1,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 2,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "univariate_rational_function_divided_difference_product_residual",
+          "latent_object": "F(t)=1/(a-t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "1/(a - z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "1/(a - w)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "generic",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "generic",
+              "text": "1/((a - z)*(a - w))"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "target",
+              "text": "(1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "F(t) evaluated at t=z"
+            },
+            {
+              "member": "G0002",
+              "O": "F(t) evaluated at t=w"
+            },
+            {
+              "member": "G0003",
+              "O": "(F(z)-F(w))/(z-w)"
+            },
+            {
+              "member": "G0004",
+              "O": "F(z)*F(w)"
+            },
+            {
+              "member": "G0005",
+              "O": "(F(z)-F(w))/(z-w) - F(z)*F(w)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "w"
+              }
+            }
+          ],
+          "reconstruction_rule": "With F(t)=1/(a-t), reconstruct G0001 as F(z), G0002 as F(w), G0003 as the divided difference (F(z)-F(w))/(z-w), G0004 as the product F(z)F(w), and G0005 as the difference between the divided difference and the product.",
+          "required_assumptions": [
+            "z != w",
+            "a != z",
+            "a != w",
+            "the map t |-> 1/(a - t) is defined for t != a"
+          ],
+          "proof_obligations": [
+            "G0001 - F(z) = 0",
+            "G0002 - F(w) = 0",
+            "G0003 - (F(z)-F(w))/(z-w) = 0",
+            "G0004 - F(z)F(w) = 0",
+            "G0005 - ((F(z)-F(w))/(z-w) - F(z)F(w)) = 0"
+          ],
+          "rationale": "All catalog expressions are built from the same univariate rational function F(t)=1/(a-t): G0001 and G0002 are evaluations, G0003 is a divided difference, G0004 is a product of evaluations, and G0005 is the residual between those two composite forms.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "1/(a - t)",
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "G0001 - F(z) = 0",
+              "expanded": "(1/(a - z)) - (1/(a - z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - F(w) = 0",
+              "expanded": "(1/(a - w)) - (1/(a - w)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (F(z)-F(w))/(z-w) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w)) - ((1/(a - z))-(1/(a - w)))/(z-w) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - F(z)F(w) = 0",
+              "expanded": "(1/((a - z)*(a - w))) - (1/(a - z))(1/(a - w)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "G0005 - ((F(z)-F(w))/(z-w) - F(z)F(w)) = 0",
+              "expanded": "((1/(a - z) - 1/(a - w))/(z - w) - 1/((a - z)*(a - w))) - (((1/(a - z))-(1/(a - w)))/(z-w) - (1/(a - z))(1/(a - w))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "ZERO",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": true,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 2,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 2,
+    "max_certified_depth": null
+  }
+}

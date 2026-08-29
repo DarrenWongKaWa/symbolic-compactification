@@ -1,0 +1,1511 @@
+{
+  "task_id": "sciml-phi-hermite-01",
+  "public_id": "T06",
+  "structural_cluster_id": "SCIML_PHI_EXP_FAMILY",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P1",
+  "seed": 3,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "e3a08297f5444f8fbcd1aea1299b33a587a6f6526b020ad3aadc3f78078f2cf6",
+  "input_sha256": "e594cb914914b1c7f16a9e1924fb5a61041896192dca2e3c5ed6deaa6bfff16b",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "9e0c5028084875f1068afa96284249e32c5b121ba693a62ab23ae3c06d552278",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "416489aa078615bb8b87d12c5fb801b6dc3d866f7a28667a9453d060070f96a8",
+  "source_catalog_sha256": "b0db76a2a2a96ec1ee664c9c060bb575c62184444e9da0cd32d79d895c3d50aa",
+  "latency_s": 165.699,
+  "usage": {
+    "prompt_tokens": 1244,
+    "completion_tokens": 13263,
+    "total_tokens": 14507,
+    "reasoning_tokens": 10991,
+    "cached_tokens": 1152
+  },
+  "reasoning_tokens": 10991,
+  "output_tokens": 13263,
+  "total_tokens": 14507,
+  "request_id": "cf814da3-0b76-458c-8f56-c271bc0017d0",
+  "reasoning_len": 36861,
+  "reasoning_sha": "6be88c9acbee433e",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 4,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"first_difference_quotient\",\n      \"latent_object\": \"F(t)=exp(t)\",\n      \"variables\": [\"t\", \"z\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0005\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"exp(z)\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"degenerate\",\n          \"text\": \"1\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"(exp(z) - 1)/z\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit: T(f)(z)=(f(z)-f(0))/z\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"other_explicit: f(0) constant\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0005\",\n          \"theta\": {\n            \"t\": \"0\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Set F(t)=exp(t). Then G0001=F(z), G0005=F(0), and G0002=T(F)(z) where T(f)(z)=(f(z)-f(0))/z.\",\n      \"required_assumptions\": [\n        \"z is complex\",\n        \"the z != 0 quotient form is used for G0002\",\n        \"exp is entire on C\"\n      ],\n      \"proof_obligations\": [\n        \"G0002 - ((G0001 - G0005)/z) = 0\",\n        \"G0001 - exp(z) = 0\",\n        \"G0005 - 1 = 0\"\n      ],\n      \"rationale\": \"The current expression is the first difference quotient of exp at 0, grounded by G0001 and the constant G0005.\",\n      \"confidence\": 0.97\n    },\n    {\n      \"representation_type\": \"integral_form_over_theta\",\n      \"latent_object\": \"F(z)=exp(z)\",\n      \"variables\": [\"z\", \"theta\"],\n      \"nodes\": [\"G0001\", \"G0002\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"generic\",\n          \"text\": \"exp(z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"(exp(z) - 1)/z\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit: compose z -> (1-theta)z and integrate over theta in [0,1]\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"z\": \"z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Let F(z)=exp(z). Then G0001=F(z), and G0002=Integral(F((1-theta)*z), (theta,0,1)).\",\n      \"required_assumptions\": [\n        \"z is complex\",\n        \"theta ranges over the compact interval [0, 1]\",\n        \"exp is entire on C\"\n      ],\n      \"proof_obligations\": [\n        \"G0002 - Integral(exp((1-theta)*z), (theta,0,1)) = 0\",\n        \"G0001 - exp(z) = 0\"\n      ],\n      \"rationale\": \"The scientific context supplies the integral form for the first exponential-integrator member, here grounded by G0001 and the current G0002.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"representation_type\": \"iterated_recurrence_sequence\",\n      \"latent_object\": \"F(n,z)=u_n(z) with u_0(z)=exp(z), u_n(z)=(u_{n-1}(z)-u_{n-1}(0))/z for z != 0\",\n      \"variables\": [\"n\", \"z\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\", \"G0004\", \"G0005\", \"G0006\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"exp(z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"(exp(z) - 1)/z\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1 - z)/z**2\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"instance\",\n          \"text\": \"(exp(z) - 1 - z - z**2/2)/z**3\"\n        },\n        {\n          \"source_node_id\": \"G0005\",\n          \"role\": \"degenerate\",\n          \"text\": \"1\"\n        },\n        {\n          \"source_node_id\": \"G0006\",\n          \"role\": \"degenerate\",\n          \"text\": \"1/2\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"other_explicit: T^0 base\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"other_explicit: T^1\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"other_explicit: T^2\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"other_explicit: T^3\"\n        },\n        {\n          \"member\": \"G0005\",\n          \"O\": \"other_explicit: base value u_0(0)=u_1(0)\"\n        },\n        {\n          \"member\": \"G0006\",\n          \"O\": \"other_explicit: base value u_2(0)\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"n\": \"0\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"n\": \"1\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"n\": \"2\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0004\",\n          \"theta\": {\n            \"n\": \"3\",\n            \"z\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0005\",\n          \"theta\": {\n            \"n\": \"0\",\n            \"z\": \"0\"\n          }\n        },\n        {\n          \"member\": \"G0006\",\n          \"theta\": {\n            \"n\": \"2\",\n            \"z\": \"0\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Define T(f)(z)=(f(z)-f(0))/z for z != 0. Then G0001=F(0,z), G0002=F(1,z), G0003=F(2,z), G0004=F(3,z); G0005=u_0(0)=u_1(0) and G0006=u_2(0).\",\n      \"required_assumptions\": [\n        \"z is complex\",\n        \"the z != 0 quotient form is used for G0002, G0003, G0004\",\n        \"exp is entire on C\"\n      ],\n      \"proof_obligations\": [\n        \"G0002 - ((G0001 - G0005)/z) = 0\",\n        \"G0003 - ((G0002 - G0005)/z) = 0\",\n        \"G0004 - ((G0003 - G0006)/z) = 0\",\n        \"G0005 - 1 = 0\",\n        \"G0006 - 1/2 = 0\"\n      ],\n      \"rationale\": \"The catalog members G0001 through G0004 follow the same recurrence step from exp, with G0005 and G0006 supplying the zero values needed by the recurrence.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"representation_type\": \"catalog_identity\",\n      \"latent_object\": \"\",\n      \"variables\": [\"z\"],\n      \"nodes\": [\"G0002\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"target\",\n          \"text\": \"(exp(z) - 1)/z\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0002\",\n          \"O\": \"identity\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"z\": \"z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"The current expression is obtained directly from catalog member G0002.\",\n      \"required_assumptions\": [\n        \"z is complex\",\n        \"the z != 0 quotient form is used for G0002\"\n      ],\n      \"proof_obligations\": [\n        \"G0002 - G0002 = 0\"\n      ],\n      \"rationale\": \"Catalog member G0002 is textually identical to the current expression.\",\n      \"confidence\": 0.99\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "first_difference_quotient",
+        "latent_object": "F(t)=exp(t)",
+        "variables": [
+          "t",
+          "z"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0005"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "exp(z)"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "degenerate",
+            "text": "1"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "(exp(z) - 1)/z"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit: T(f)(z)=(f(z)-f(0))/z"
+          },
+          {
+            "member": "G0005",
+            "O": "other_explicit: f(0) constant"
+          },
+          {
+            "member": "G0002",
+            "O": "identity"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0005",
+            "theta": {
+              "t": "0"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "z"
+            }
+          }
+        ],
+        "reconstruction_rule": "Set F(t)=exp(t). Then G0001=F(z), G0005=F(0), and G0002=T(F)(z) where T(f)(z)=(f(z)-f(0))/z.",
+        "required_assumptions": [
+          "z is complex",
+          "the z != 0 quotient form is used for G0002",
+          "exp is entire on C"
+        ],
+        "proof_obligations": [
+          "G0002 - ((G0001 - G0005)/z) = 0",
+          "G0001 - exp(z) = 0",
+          "G0005 - 1 = 0"
+        ],
+        "rationale": "The current expression is the first difference quotient of exp at 0, grounded by G0001 and the constant G0005.",
+        "confidence": 0.97
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "integral_form_over_theta",
+        "latent_object": "F(z)=exp(z)",
+        "variables": [
+          "z",
+          "theta"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "generic",
+            "text": "exp(z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "(exp(z) - 1)/z"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit: compose z -> (1-theta)z and integrate over theta in [0,1]"
+          },
+          {
+            "member": "G0002",
+            "O": "identity"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "z": "z"
+            }
+          }
+        ],
+        "reconstruction_rule": "Let F(z)=exp(z). Then G0001=F(z), and G0002=Integral(F((1-theta)*z), (theta,0,1)).",
+        "required_assumptions": [
+          "z is complex",
+          "theta ranges over the compact interval [0, 1]",
+          "exp is entire on C"
+        ],
+        "proof_obligations": [
+          "G0002 - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+          "G0001 - exp(z) = 0"
+        ],
+        "rationale": "The scientific context supplies the integral form for the first exponential-integrator member, here grounded by G0001 and the current G0002.",
+        "confidence": 0.95
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "iterated_recurrence_sequence",
+        "latent_object": "F(n,z)=u_n(z) with u_0(z)=exp(z), u_n(z)=(u_{n-1}(z)-u_{n-1}(0))/z for z != 0",
+        "variables": [
+          "n",
+          "z"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003",
+          "G0004",
+          "G0005",
+          "G0006"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "exp(z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "(exp(z) - 1)/z"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "instance",
+            "text": "(exp(z) - 1 - z)/z**2"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "instance",
+            "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+          },
+          {
+            "source_node_id": "G0005",
+            "role": "degenerate",
+            "text": "1"
+          },
+          {
+            "source_node_id": "G0006",
+            "role": "degenerate",
+            "text": "1/2"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "other_explicit: T^0 base"
+          },
+          {
+            "member": "G0002",
+            "O": "other_explicit: T^1"
+          },
+          {
+            "member": "G0003",
+            "O": "other_explicit: T^2"
+          },
+          {
+            "member": "G0004",
+            "O": "other_explicit: T^3"
+          },
+          {
+            "member": "G0005",
+            "O": "other_explicit: base value u_0(0)=u_1(0)"
+          },
+          {
+            "member": "G0006",
+            "O": "other_explicit: base value u_2(0)"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "n": "0",
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "n": "1",
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "n": "2",
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0004",
+            "theta": {
+              "n": "3",
+              "z": "z"
+            }
+          },
+          {
+            "member": "G0005",
+            "theta": {
+              "n": "0",
+              "z": "0"
+            }
+          },
+          {
+            "member": "G0006",
+            "theta": {
+              "n": "2",
+              "z": "0"
+            }
+          }
+        ],
+        "reconstruction_rule": "Define T(f)(z)=(f(z)-f(0))/z for z != 0. Then G0001=F(0,z), G0002=F(1,z), G0003=F(2,z), G0004=F(3,z); G0005=u_0(0)=u_1(0) and G0006=u_2(0).",
+        "required_assumptions": [
+          "z is complex",
+          "the z != 0 quotient form is used for G0002, G0003, G0004",
+          "exp is entire on C"
+        ],
+        "proof_obligations": [
+          "G0002 - ((G0001 - G0005)/z) = 0",
+          "G0003 - ((G0002 - G0005)/z) = 0",
+          "G0004 - ((G0003 - G0006)/z) = 0",
+          "G0005 - 1 = 0",
+          "G0006 - 1/2 = 0"
+        ],
+        "rationale": "The catalog members G0001 through G0004 follow the same recurrence step from exp, with G0005 and G0006 supplying the zero values needed by the recurrence.",
+        "confidence": 0.9
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "catalog_identity",
+        "latent_object": "",
+        "variables": [
+          "z"
+        ],
+        "nodes": [
+          "G0002"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0002",
+            "role": "target",
+            "text": "(exp(z) - 1)/z"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0002",
+            "O": "identity"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0002",
+            "theta": {
+              "z": "z"
+            }
+          }
+        ],
+        "reconstruction_rule": "The current expression is obtained directly from catalog member G0002.",
+        "required_assumptions": [
+          "z is complex",
+          "the z != 0 quotient form is used for G0002"
+        ],
+        "proof_obligations": [
+          "G0002 - G0002 = 0"
+        ],
+        "rationale": "Catalog member G0002 is textually identical to the current expression.",
+        "confidence": 0.99
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 4,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "first_difference_quotient",
+          "latent_object": "F(t)=exp(t)",
+          "variables": [
+            "t",
+            "z"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0005"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: T(f)(z)=(f(z)-f(0))/z"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: f(0) constant"
+            },
+            {
+              "member": "G0002",
+              "O": "identity"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "t": "0"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Set F(t)=exp(t). Then G0001=F(z), G0005=F(0), and G0002=T(F)(z) where T(f)(z)=(f(z)-f(0))/z.",
+          "required_assumptions": [
+            "z is complex",
+            "the z != 0 quotient form is used for G0002",
+            "exp is entire on C"
+          ],
+          "proof_obligations": [
+            "G0002 - ((G0001 - G0005)/z) = 0",
+            "G0001 - exp(z) = 0",
+            "G0005 - 1 = 0"
+          ],
+          "rationale": "The current expression is the first difference quotient of exp at 0, grounded by G0001 and the constant G0005.",
+          "confidence": 0.97
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(t)",
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0002 - ((G0001 - G0005)/z) = 0",
+              "expanded": "((exp(z) - 1)/z) - (((exp(z)) - (1))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - exp(z) = 0",
+              "expanded": "(exp(z)) - exp(z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - 1 = 0",
+              "expanded": "(1) - 1 = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "integral_form_over_theta",
+          "latent_object": "F(z)=exp(z)",
+          "variables": [
+            "z",
+            "theta"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: compose z -> (1-theta)z and integrate over theta in [0,1]"
+            },
+            {
+              "member": "G0002",
+              "O": "identity"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "z": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let F(z)=exp(z). Then G0001=F(z), and G0002=Integral(F((1-theta)*z), (theta,0,1)).",
+          "required_assumptions": [
+            "z is complex",
+            "theta ranges over the compact interval [0, 1]",
+            "exp is entire on C"
+          ],
+          "proof_obligations": [
+            "G0002 - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+            "G0001 - exp(z) = 0"
+          ],
+          "rationale": "The scientific context supplies the integral form for the first exponential-integrator member, here grounded by G0001 and the current G0002.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(z)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "G0002 - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+              "expanded": "((exp(z) - 1)/z) - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - exp(z) = 0",
+              "expanded": "(exp(z)) - exp(z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "iterated_recurrence_sequence",
+          "latent_object": "F(n,z)=u_n(z) with u_0(z)=exp(z), u_n(z)=(u_{n-1}(z)-u_{n-1}(0))/z for z != 0",
+          "variables": [
+            "n",
+            "z"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003",
+            "G0004",
+            "G0005",
+            "G0006"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z)/z**2"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0006",
+              "role": "degenerate",
+              "text": "1/2"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: T^0 base"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit: T^1"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit: T^2"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit: T^3"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: base value u_0(0)=u_1(0)"
+            },
+            {
+              "member": "G0006",
+              "O": "other_explicit: base value u_2(0)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "n": "0",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "n": "1",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "n": "2",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "n": "3",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "n": "0",
+                "z": "0"
+              }
+            },
+            {
+              "member": "G0006",
+              "theta": {
+                "n": "2",
+                "z": "0"
+              }
+            }
+          ],
+          "reconstruction_rule": "Define T(f)(z)=(f(z)-f(0))/z for z != 0. Then G0001=F(0,z), G0002=F(1,z), G0003=F(2,z), G0004=F(3,z); G0005=u_0(0)=u_1(0) and G0006=u_2(0).",
+          "required_assumptions": [
+            "z is complex",
+            "the z != 0 quotient form is used for G0002, G0003, G0004",
+            "exp is entire on C"
+          ],
+          "proof_obligations": [
+            "G0002 - ((G0001 - G0005)/z) = 0",
+            "G0003 - ((G0002 - G0005)/z) = 0",
+            "G0004 - ((G0003 - G0006)/z) = 0",
+            "G0005 - 1 = 0",
+            "G0006 - 1/2 = 0"
+          ],
+          "rationale": "The catalog members G0001 through G0004 follow the same recurrence step from exp, with G0005 and G0006 supplying the zero values needed by the recurrence.",
+          "confidence": 0.9
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "0",
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0002 - ((G0001 - G0005)/z) = 0",
+              "expanded": "((exp(z) - 1)/z) - (((exp(z)) - (1))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - ((G0002 - G0005)/z) = 0",
+              "expanded": "((exp(z) - 1 - z)/z**2) - ((((exp(z) - 1)/z) - (1))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - ((G0003 - G0006)/z) = 0",
+              "expanded": "((exp(z) - 1 - z - z**2/2)/z**3) - ((((exp(z) - 1 - z)/z**2) - (1/2))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - 1 = 0",
+              "expanded": "(1) - 1 = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0006 - 1/2 = 0",
+              "expanded": "(1/2) - 1/2 = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "catalog_identity",
+          "latent_object": "",
+          "variables": [
+            "z"
+          ],
+          "nodes": [
+            "G0002"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "z": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "The current expression is obtained directly from catalog member G0002.",
+          "required_assumptions": [
+            "z is complex",
+            "the z != 0 quotient form is used for G0002"
+          ],
+          "proof_obligations": [
+            "G0002 - G0002 = 0"
+          ],
+          "rationale": "Catalog member G0002 is textually identical to the current expression.",
+          "confidence": 0.99
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": false,
+          "F_srepr": "",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0002 - G0002 = 0",
+              "expanded": "((exp(z) - 1)/z) - ((exp(z) - 1)/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": false,
+          "operational": false,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": false,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 2,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 4,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "first_difference_quotient",
+          "latent_object": "F(t)=exp(t)",
+          "variables": [
+            "t",
+            "z"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0005"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: T(f)(z)=(f(z)-f(0))/z"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: f(0) constant"
+            },
+            {
+              "member": "G0002",
+              "O": "identity"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "t": "0"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Set F(t)=exp(t). Then G0001=F(z), G0005=F(0), and G0002=T(F)(z) where T(f)(z)=(f(z)-f(0))/z.",
+          "required_assumptions": [
+            "z is complex",
+            "the z != 0 quotient form is used for G0002",
+            "exp is entire on C"
+          ],
+          "proof_obligations": [
+            "G0002 - ((G0001 - G0005)/z) = 0",
+            "G0001 - exp(z) = 0",
+            "G0005 - 1 = 0"
+          ],
+          "rationale": "The current expression is the first difference quotient of exp at 0, grounded by G0001 and the constant G0005.",
+          "confidence": 0.97
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(t)",
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0002 - ((G0001 - G0005)/z) = 0",
+              "expanded": "((exp(z) - 1)/z) - (((exp(z)) - (1))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - exp(z) = 0",
+              "expanded": "(exp(z)) - exp(z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - 1 = 0",
+              "expanded": "(1) - 1 = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 2,
+          "CERTIFIED_DEPTH": 2,
+          "n_zero": 3,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "integral_form_over_theta",
+          "latent_object": "F(z)=exp(z)",
+          "variables": [
+            "z",
+            "theta"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "generic",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: compose z -> (1-theta)z and integrate over theta in [0,1]"
+            },
+            {
+              "member": "G0002",
+              "O": "identity"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "z": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let F(z)=exp(z). Then G0001=F(z), and G0002=Integral(F((1-theta)*z), (theta,0,1)).",
+          "required_assumptions": [
+            "z is complex",
+            "theta ranges over the compact interval [0, 1]",
+            "exp is entire on C"
+          ],
+          "proof_obligations": [
+            "G0002 - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+            "G0001 - exp(z) = 0"
+          ],
+          "rationale": "The scientific context supplies the integral form for the first exponential-integrator member, here grounded by G0001 and the current G0002.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "exp(z)",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "obligations": [
+            {
+              "text": "G0002 - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+              "expanded": "((exp(z) - 1)/z) - Integral(exp((1-theta)*z), (theta,0,1)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0001 - exp(z) = 0",
+              "expanded": "(exp(z)) - exp(z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 1,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "iterated_recurrence_sequence",
+          "latent_object": "F(n,z)=u_n(z) with u_0(z)=exp(z), u_n(z)=(u_{n-1}(z)-u_{n-1}(0))/z for z != 0",
+          "variables": [
+            "n",
+            "z"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003",
+            "G0004",
+            "G0005",
+            "G0006"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "exp(z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z)/z**2"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "instance",
+              "text": "(exp(z) - 1 - z - z**2/2)/z**3"
+            },
+            {
+              "source_node_id": "G0005",
+              "role": "degenerate",
+              "text": "1"
+            },
+            {
+              "source_node_id": "G0006",
+              "role": "degenerate",
+              "text": "1/2"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "other_explicit: T^0 base"
+            },
+            {
+              "member": "G0002",
+              "O": "other_explicit: T^1"
+            },
+            {
+              "member": "G0003",
+              "O": "other_explicit: T^2"
+            },
+            {
+              "member": "G0004",
+              "O": "other_explicit: T^3"
+            },
+            {
+              "member": "G0005",
+              "O": "other_explicit: base value u_0(0)=u_1(0)"
+            },
+            {
+              "member": "G0006",
+              "O": "other_explicit: base value u_2(0)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "n": "0",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "n": "1",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "n": "2",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "n": "3",
+                "z": "z"
+              }
+            },
+            {
+              "member": "G0005",
+              "theta": {
+                "n": "0",
+                "z": "0"
+              }
+            },
+            {
+              "member": "G0006",
+              "theta": {
+                "n": "2",
+                "z": "0"
+              }
+            }
+          ],
+          "reconstruction_rule": "Define T(f)(z)=(f(z)-f(0))/z for z != 0. Then G0001=F(0,z), G0002=F(1,z), G0003=F(2,z), G0004=F(3,z); G0005=u_0(0)=u_1(0) and G0006=u_2(0).",
+          "required_assumptions": [
+            "z is complex",
+            "the z != 0 quotient form is used for G0002, G0003, G0004",
+            "exp is entire on C"
+          ],
+          "proof_obligations": [
+            "G0002 - ((G0001 - G0005)/z) = 0",
+            "G0003 - ((G0002 - G0005)/z) = 0",
+            "G0004 - ((G0003 - G0006)/z) = 0",
+            "G0005 - 1 = 0",
+            "G0006 - 1/2 = 0"
+          ],
+          "rationale": "The catalog members G0001 through G0004 follow the same recurrence step from exp, with G0005 and G0006 supplying the zero values needed by the recurrence.",
+          "confidence": 0.9
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "0",
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0002 - ((G0001 - G0005)/z) = 0",
+              "expanded": "((exp(z) - 1)/z) - (((exp(z)) - (1))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - ((G0002 - G0005)/z) = 0",
+              "expanded": "((exp(z) - 1 - z)/z**2) - ((((exp(z) - 1)/z) - (1))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0004 - ((G0003 - G0006)/z) = 0",
+              "expanded": "((exp(z) - 1 - z - z**2/2)/z**3) - ((((exp(z) - 1 - z)/z**2) - (1/2))/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0005 - 1 = 0",
+              "expanded": "(1) - 1 = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0006 - 1/2 = 0",
+              "expanded": "(1/2) - 1/2 = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": 0,
+          "n_zero": 5,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "catalog_identity",
+          "latent_object": "",
+          "variables": [
+            "z"
+          ],
+          "nodes": [
+            "G0002"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0002",
+              "role": "target",
+              "text": "(exp(z) - 1)/z"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0002",
+              "O": "identity"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0002",
+              "theta": {
+                "z": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "The current expression is obtained directly from catalog member G0002.",
+          "required_assumptions": [
+            "z is complex",
+            "the z != 0 quotient form is used for G0002"
+          ],
+          "proof_obligations": [
+            "G0002 - G0002 = 0"
+          ],
+          "rationale": "Catalog member G0002 is textually identical to the current expression.",
+          "confidence": 0.99
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": false,
+          "F_srepr": "",
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "G0002 - G0002 = 0",
+              "expanded": "((exp(z) - 1)/z) - ((exp(z) - 1)/z) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_WRONG",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": false,
+          "operational": false,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": null,
+          "CERTIFIED_DEPTH": 0,
+          "n_zero": 1,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "F_parsed": false
+        }
+      }
+    ],
+    "best": {
+      "Q": "WRONG_REPRESENTATION",
+      "D": "D_WRONG",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": false,
+      "type_match": false,
+      "PROPOSED_DEPTH": 2,
+      "CERTIFIED_DEPTH": 2
+    },
+    "any_operational_success": false,
+    "any_type_match": false,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 2,
+    "max_certified_depth": 2
+  }
+}

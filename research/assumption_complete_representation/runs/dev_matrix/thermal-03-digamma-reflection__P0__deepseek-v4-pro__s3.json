@@ -1,0 +1,1170 @@
+{
+  "task_id": "thermal-03-digamma-reflection",
+  "public_id": "T04",
+  "structural_cluster_id": "THERMAL_03_DIGAMMA_REFLECTION",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P0",
+  "seed": 3,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "ae7048e4d89e94e7534d4030a2df5ca4f0ddd6cf7a67268ed843767f09828c56",
+  "input_sha256": "7c987e286c3cd2380c99a9fd266571b0b31457f4fdef38cb3a8a8ba6306cc954",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "68016cbe8283dff06aaaf48c8ab60c7258423e611fabcfcbb2f456dca94ac41f",
+  "sol_packet_sha256": null,
+  "assumption_contract_sha256": "134e0ebfff925da1c55640cbe8a0c91083246003eefbde281a8aa80d7c5bf5f2",
+  "source_catalog_sha256": "9a125fa329ea41ab1286e9d4d413d659d1e787bb984735b11c8ebea79fcefe4c",
+  "latency_s": 122.198,
+  "usage": {
+    "prompt_tokens": 1099,
+    "completion_tokens": 7838,
+    "total_tokens": 8937,
+    "reasoning_tokens": 5894,
+    "cached_tokens": 1024
+  },
+  "reasoning_tokens": 5894,
+  "output_tokens": 7838,
+  "total_tokens": 8937,
+  "request_id": "90e24f85-a8fd-4031-8e1b-d2f54ff49f36",
+  "reasoning_len": 19970,
+  "reasoning_sha": "bc5f7a496b8e6cde",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 3,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"reflected instance of generic polygamma\",\n      \"latent_object\": \"F(t)=polygamma(0,t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"polygamma(0, z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"polygamma(0, 1 - z)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"evaluate F at t=z\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"evaluate F at t=1-z\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"1-z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0001 = F(z); G0002 = F(1-z).\",\n      \"required_assumptions\": [\n        \"z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0,z) - F(z) = 0\",\n        \"polygamma(0,1-z) - F(1-z) = 0\"\n      ],\n      \"rationale\": \"G0002 is the same generic polygamma expression as G0001 with the argument replaced by 1-z.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"representation_type\": \"three-term affine decomposition\",\n      \"latent_object\": \"F(t)=(polygamma(0,t), -polygamma(0,1-t), pi/tan(pi*t))\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"polygamma(0, z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"polygamma(0, 1 - z)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"instance\",\n          \"text\": \"pi/tan(pi*z)\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"target\",\n          \"text\": \"polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"coordinate projection p1 of F\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"negative of coordinate projection p2 of F\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"coordinate projection p3 of F\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"sum of coordinates p1+p2+p3 of F\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0004\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Let p1,p2,p3 be the coordinate projections of F(t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = p3(F(z)), and G0004 = p1(F(z)) + p2(F(z)) + p3(F(z)).\",\n      \"required_assumptions\": [\n        \"z is not an integer\",\n        \"z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers\",\n        \"tan(pi*z) != 0 on the same set (equivalently z not integer)\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0,z) - p1(F(z)) = 0\",\n        \"polygamma(0,1-z) - (-p2(F(z))) = 0\",\n        \"pi/tan(pi*z) - p3(F(z)) = 0\",\n        \"(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0\"\n      ],\n      \"rationale\": \"G0004 is exactly the sum of the three catalog terms, so a coordinate decomposition makes the combination operational without assuming the reflection identity.\",\n      \"confidence\": 0.98\n    },\n    {\n      \"representation_type\": \"reflection identity with trigonometric target\",\n      \"latent_object\": \"F(t)=polygamma(0,t)-polygamma(0,1-t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"polygamma(0, z)\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"polygamma(0, 1 - z)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"pi/tan(pi*z)\"\n        },\n        {\n          \"source_node_id\": \"G0004\",\n          \"role\": \"target\",\n          \"text\": \"polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"first summand projection p1 of F\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"negative of second summand projection p2 of F\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"negative evaluation -F(z)\"\n        },\n        {\n          \"member\": \"G0004\",\n          \"O\": \"F(z) + pi/tan(pi*z)\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        },\n        {\n          \"member\": \"G0004\",\n          \"theta\": {\n            \"t\": \"z\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"Write F(t)=p1(F(t))+p2(F(t)) with p1(F(t))=polygamma(0,t) and p2(F(t))=-polygamma(0,1-t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = -F(z), and G0004 = F(z) + G0003.\",\n      \"required_assumptions\": [\n        \"z is not an integer\",\n        \"z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers\",\n        \"tan(pi*z) != 0 on the same set (equivalently z not integer)\"\n      ],\n      \"proof_obligations\": [\n        \"polygamma(0,z) - p1(F(z)) = 0\",\n        \"polygamma(0,1-z) - (-p2(F(z))) = 0\",\n        \"pi/tan(pi*z) - (-F(z)) = 0\",\n        \"(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (F(z) + pi/tan(pi*z)) = 0\"\n      ],\n      \"rationale\": \"This isolates the nontrivial reflection relation G0003 = -F(z) as a proof obligation while keeping G0001 and G0002 as explicit summands of F.\",\n      \"confidence\": 0.75\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "reflected instance of generic polygamma",
+        "latent_object": "F(t)=polygamma(0,t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "polygamma(0, z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "polygamma(0, 1 - z)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "evaluate F at t=z"
+          },
+          {
+            "member": "G0002",
+            "O": "evaluate F at t=1-z"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "1-z"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0001 = F(z); G0002 = F(1-z).",
+        "required_assumptions": [
+          "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers"
+        ],
+        "proof_obligations": [
+          "polygamma(0,z) - F(z) = 0",
+          "polygamma(0,1-z) - F(1-z) = 0"
+        ],
+        "rationale": "G0002 is the same generic polygamma expression as G0001 with the argument replaced by 1-z.",
+        "confidence": 0.95
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "three-term affine decomposition",
+        "latent_object": "F(t)=(polygamma(0,t), -polygamma(0,1-t), pi/tan(pi*t))",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "polygamma(0, z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "polygamma(0, 1 - z)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "instance",
+            "text": "pi/tan(pi*z)"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "target",
+            "text": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "coordinate projection p1 of F"
+          },
+          {
+            "member": "G0002",
+            "O": "negative of coordinate projection p2 of F"
+          },
+          {
+            "member": "G0003",
+            "O": "coordinate projection p3 of F"
+          },
+          {
+            "member": "G0004",
+            "O": "sum of coordinates p1+p2+p3 of F"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0004",
+            "theta": {
+              "t": "z"
+            }
+          }
+        ],
+        "reconstruction_rule": "Let p1,p2,p3 be the coordinate projections of F(t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = p3(F(z)), and G0004 = p1(F(z)) + p2(F(z)) + p3(F(z)).",
+        "required_assumptions": [
+          "z is not an integer",
+          "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers",
+          "tan(pi*z) != 0 on the same set (equivalently z not integer)"
+        ],
+        "proof_obligations": [
+          "polygamma(0,z) - p1(F(z)) = 0",
+          "polygamma(0,1-z) - (-p2(F(z))) = 0",
+          "pi/tan(pi*z) - p3(F(z)) = 0",
+          "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0"
+        ],
+        "rationale": "G0004 is exactly the sum of the three catalog terms, so a coordinate decomposition makes the combination operational without assuming the reflection identity.",
+        "confidence": 0.98
+      },
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "reflection identity with trigonometric target",
+        "latent_object": "F(t)=polygamma(0,t)-polygamma(0,1-t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "polygamma(0, z)"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "polygamma(0, 1 - z)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "pi/tan(pi*z)"
+          },
+          {
+            "source_node_id": "G0004",
+            "role": "target",
+            "text": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "first summand projection p1 of F"
+          },
+          {
+            "member": "G0002",
+            "O": "negative of second summand projection p2 of F"
+          },
+          {
+            "member": "G0003",
+            "O": "negative evaluation -F(z)"
+          },
+          {
+            "member": "G0004",
+            "O": "F(z) + pi/tan(pi*z)"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "z"
+            }
+          },
+          {
+            "member": "G0004",
+            "theta": {
+              "t": "z"
+            }
+          }
+        ],
+        "reconstruction_rule": "Write F(t)=p1(F(t))+p2(F(t)) with p1(F(t))=polygamma(0,t) and p2(F(t))=-polygamma(0,1-t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = -F(z), and G0004 = F(z) + G0003.",
+        "required_assumptions": [
+          "z is not an integer",
+          "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers",
+          "tan(pi*z) != 0 on the same set (equivalently z not integer)"
+        ],
+        "proof_obligations": [
+          "polygamma(0,z) - p1(F(z)) = 0",
+          "polygamma(0,1-z) - (-p2(F(z))) = 0",
+          "pi/tan(pi*z) - (-F(z)) = 0",
+          "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (F(z) + pi/tan(pi*z)) = 0"
+        ],
+        "rationale": "This isolates the nontrivial reflection relation G0003 = -F(z) as a proof obligation while keeping G0001 and G0002 as explicit summands of F.",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 3,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "reflected instance of generic polygamma",
+          "latent_object": "F(t)=polygamma(0,t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "polygamma(0, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "polygamma(0, 1 - z)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "evaluate F at t=z"
+            },
+            {
+              "member": "G0002",
+              "O": "evaluate F at t=1-z"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "1-z"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 = F(z); G0002 = F(1-z).",
+          "required_assumptions": [
+            "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers"
+          ],
+          "proof_obligations": [
+            "polygamma(0,z) - F(z) = 0",
+            "polygamma(0,1-z) - F(1-z) = 0"
+          ],
+          "rationale": "G0002 is the same generic polygamma expression as G0001 with the argument replaced by 1-z.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "polygamma(0, t)",
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "polygamma(0,z) - F(z) = 0",
+              "expanded": "polygamma(0,z) - (polygamma(0, z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "polygamma(0,1-z) - F(1-z) = 0",
+              "expanded": "polygamma(0,1-z) - (polygamma(0, 1 - z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "three-term affine decomposition",
+          "latent_object": "F(t)=(polygamma(0,t), -polygamma(0,1-t), pi/tan(pi*t))",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "polygamma(0, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "polygamma(0, 1 - z)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "pi/tan(pi*z)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "target",
+              "text": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "coordinate projection p1 of F"
+            },
+            {
+              "member": "G0002",
+              "O": "negative of coordinate projection p2 of F"
+            },
+            {
+              "member": "G0003",
+              "O": "coordinate projection p3 of F"
+            },
+            {
+              "member": "G0004",
+              "O": "sum of coordinates p1+p2+p3 of F"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let p1,p2,p3 be the coordinate projections of F(t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = p3(F(z)), and G0004 = p1(F(z)) + p2(F(z)) + p3(F(z)).",
+          "required_assumptions": [
+            "z is not an integer",
+            "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers",
+            "tan(pi*z) != 0 on the same set (equivalently z not integer)"
+          ],
+          "proof_obligations": [
+            "polygamma(0,z) - p1(F(z)) = 0",
+            "polygamma(0,1-z) - (-p2(F(z))) = 0",
+            "pi/tan(pi*z) - p3(F(z)) = 0",
+            "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0"
+          ],
+          "rationale": "G0004 is exactly the sum of the three catalog terms, so a coordinate decomposition makes the combination operational without assuming the reflection identity.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": false,
+          "F_srepr": "",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "obligations": [
+            {
+              "text": "polygamma(0,z) - p1(F(z)) = 0",
+              "expanded": "polygamma(0,z) - p1(F(z)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "polygamma(0,1-z) - (-p2(F(z))) = 0",
+              "expanded": "polygamma(0,1-z) - (-p2(F(z))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "pi/tan(pi*z) - p3(F(z)) = 0",
+              "expanded": "pi/tan(pi*z) - p3(F(z)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0",
+              "expanded": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "n_zero_nontrivial": 0,
+          "F_parsed": false,
+          "scorer_version": "ac-score-v1.3"
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "reflection identity with trigonometric target",
+          "latent_object": "F(t)=polygamma(0,t)-polygamma(0,1-t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "polygamma(0, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "polygamma(0, 1 - z)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "pi/tan(pi*z)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "target",
+              "text": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "first summand projection p1 of F"
+            },
+            {
+              "member": "G0002",
+              "O": "negative of second summand projection p2 of F"
+            },
+            {
+              "member": "G0003",
+              "O": "negative evaluation -F(z)"
+            },
+            {
+              "member": "G0004",
+              "O": "F(z) + pi/tan(pi*z)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Write F(t)=p1(F(t))+p2(F(t)) with p1(F(t))=polygamma(0,t) and p2(F(t))=-polygamma(0,1-t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = -F(z), and G0004 = F(z) + G0003.",
+          "required_assumptions": [
+            "z is not an integer",
+            "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers",
+            "tan(pi*z) != 0 on the same set (equivalently z not integer)"
+          ],
+          "proof_obligations": [
+            "polygamma(0,z) - p1(F(z)) = 0",
+            "polygamma(0,1-z) - (-p2(F(z))) = 0",
+            "pi/tan(pi*z) - (-F(z)) = 0",
+            "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (F(z) + pi/tan(pi*z)) = 0"
+          ],
+          "rationale": "This isolates the nontrivial reflection relation G0003 = -F(z) as a proof obligation while keeping G0001 and G0002 as explicit summands of F.",
+          "confidence": 0.75
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "polygamma(0, t) - polygamma(0, 1 - t)",
+          "n_zero": 1,
+          "n_nonzero": 1,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "polygamma(0,z) - p1(F(z)) = 0",
+              "expanded": "polygamma(0,z) - p1((polygamma(0, z) - polygamma(0, 1 - z))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "polygamma(0,1-z) - (-p2(F(z))) = 0",
+              "expanded": "polygamma(0,1-z) - (-p2((polygamma(0, z) - polygamma(0, 1 - z)))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "pi/tan(pi*z) - (-F(z)) = 0",
+              "expanded": "pi/tan(pi*z) - (-(polygamma(0, z) - polygamma(0, 1 - z))) = 0",
+              "verdict": "NONZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (F(z) + pi/tan(pi*z)) = 0",
+              "expanded": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - ((polygamma(0, z) - polygamma(0, 1 - z)) + pi/tan(pi*z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_SHALLOW",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "NONZERO",
+          "Q": "TAUTOLOGICAL",
+          "type_match": true,
+          "operational": true,
+          "tautological": true,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 1,
+          "n_unknown": 2,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "TAUTOLOGICAL",
+      "D": "D_SHALLOW",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": true,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 3,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "reflected instance of generic polygamma",
+          "latent_object": "F(t)=polygamma(0,t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "polygamma(0, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "polygamma(0, 1 - z)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "evaluate F at t=z"
+            },
+            {
+              "member": "G0002",
+              "O": "evaluate F at t=1-z"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "1-z"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 = F(z); G0002 = F(1-z).",
+          "required_assumptions": [
+            "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers"
+          ],
+          "proof_obligations": [
+            "polygamma(0,z) - F(z) = 0",
+            "polygamma(0,1-z) - F(1-z) = 0"
+          ],
+          "rationale": "G0002 is the same generic polygamma expression as G0001 with the argument replaced by 1-z.",
+          "confidence": 0.95
+        },
+        "compile": {
+          "constructable": true,
+          "certified": true,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "polygamma(0, t)",
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "obligations": [
+            {
+              "text": "polygamma(0,z) - F(z) = 0",
+              "expanded": "polygamma(0,z) - (polygamma(0, z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "polygamma(0,1-z) - F(1-z) = 0",
+              "expanded": "polygamma(0,1-z) - (polygamma(0, 1 - z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "ZERO",
+          "Q": "OPERATIONAL_CORRECT",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": true,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": 5,
+          "n_zero": 2,
+          "n_nonzero": 0,
+          "n_unknown": 0,
+          "F_parsed": true
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "three-term affine decomposition",
+          "latent_object": "F(t)=(polygamma(0,t), -polygamma(0,1-t), pi/tan(pi*t))",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "polygamma(0, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "polygamma(0, 1 - z)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "instance",
+              "text": "pi/tan(pi*z)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "target",
+              "text": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "coordinate projection p1 of F"
+            },
+            {
+              "member": "G0002",
+              "O": "negative of coordinate projection p2 of F"
+            },
+            {
+              "member": "G0003",
+              "O": "coordinate projection p3 of F"
+            },
+            {
+              "member": "G0004",
+              "O": "sum of coordinates p1+p2+p3 of F"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Let p1,p2,p3 be the coordinate projections of F(t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = p3(F(z)), and G0004 = p1(F(z)) + p2(F(z)) + p3(F(z)).",
+          "required_assumptions": [
+            "z is not an integer",
+            "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers",
+            "tan(pi*z) != 0 on the same set (equivalently z not integer)"
+          ],
+          "proof_obligations": [
+            "polygamma(0,z) - p1(F(z)) = 0",
+            "polygamma(0,1-z) - (-p2(F(z))) = 0",
+            "pi/tan(pi*z) - p3(F(z)) = 0",
+            "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0"
+          ],
+          "rationale": "G0004 is exactly the sum of the three catalog terms, so a coordinate decomposition makes the combination operational without assuming the reflection identity.",
+          "confidence": 0.98
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": false,
+          "F_srepr": "",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "obligations": [
+            {
+              "text": "polygamma(0,z) - p1(F(z)) = 0",
+              "expanded": "polygamma(0,z) - p1(F(z)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "polygamma(0,1-z) - (-p2(F(z))) = 0",
+              "expanded": "polygamma(0,1-z) - (-p2(F(z))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "pi/tan(pi*z) - p3(F(z)) = 0",
+              "expanded": "pi/tan(pi*z) - p3(F(z)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0",
+              "expanded": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (p1(F(z)) + p2(F(z)) + p3(F(z))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "F_parsed": false
+        }
+      },
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "reflection identity with trigonometric target",
+          "latent_object": "F(t)=polygamma(0,t)-polygamma(0,1-t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "polygamma(0, z)"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "polygamma(0, 1 - z)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "pi/tan(pi*z)"
+            },
+            {
+              "source_node_id": "G0004",
+              "role": "target",
+              "text": "polygamma(0, z) - polygamma(0, 1 - z) + pi/tan(pi*z)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "first summand projection p1 of F"
+            },
+            {
+              "member": "G0002",
+              "O": "negative of second summand projection p2 of F"
+            },
+            {
+              "member": "G0003",
+              "O": "negative evaluation -F(z)"
+            },
+            {
+              "member": "G0004",
+              "O": "F(z) + pi/tan(pi*z)"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "z"
+              }
+            },
+            {
+              "member": "G0004",
+              "theta": {
+                "t": "z"
+              }
+            }
+          ],
+          "reconstruction_rule": "Write F(t)=p1(F(t))+p2(F(t)) with p1(F(t))=polygamma(0,t) and p2(F(t))=-polygamma(0,1-t). Then G0001 = p1(F(z)), G0002 = -p2(F(z)), G0003 = -F(z), and G0004 = F(z) + G0003.",
+          "required_assumptions": [
+            "z is not an integer",
+            "z and 1-z avoid the polygamma(0, \u00b7) poles at nonpositive integers",
+            "tan(pi*z) != 0 on the same set (equivalently z not integer)"
+          ],
+          "proof_obligations": [
+            "polygamma(0,z) - p1(F(z)) = 0",
+            "polygamma(0,1-z) - (-p2(F(z))) = 0",
+            "pi/tan(pi*z) - (-F(z)) = 0",
+            "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (F(z) + pi/tan(pi*z)) = 0"
+          ],
+          "rationale": "This isolates the nontrivial reflection relation G0003 = -F(z) as a proof obligation while keeping G0001 and G0002 as explicit summands of F.",
+          "confidence": 0.75
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "polygamma(0, t) - polygamma(0, 1 - t)",
+          "n_zero": 1,
+          "n_nonzero": 1,
+          "n_unknown": 2,
+          "obligations": [
+            {
+              "text": "polygamma(0,z) - p1(F(z)) = 0",
+              "expanded": "polygamma(0,z) - p1((polygamma(0, z) - polygamma(0, 1 - z))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "polygamma(0,1-z) - (-p2(F(z))) = 0",
+              "expanded": "polygamma(0,1-z) - (-p2((polygamma(0, z) - polygamma(0, 1 - z)))) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "pi/tan(pi*z) - (-F(z)) = 0",
+              "expanded": "pi/tan(pi*z) - (-(polygamma(0, z) - polygamma(0, 1 - z))) = 0",
+              "verdict": "NONZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - (F(z) + pi/tan(pi*z)) = 0",
+              "expanded": "(polygamma(0,z) - polygamma(0,1-z) + pi/tan(pi*z)) - ((polygamma(0, z) - polygamma(0, 1 - z)) + pi/tan(pi*z)) = 0",
+              "verdict": "ZERO",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "NONZERO",
+          "Q": "WRONG_REPRESENTATION",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 1,
+          "n_nonzero": 1,
+          "n_unknown": 2,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "OPERATIONAL_CORRECT",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "ZERO",
+      "operational_success": true,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": 5
+    },
+    "any_operational_success": true,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 5,
+    "max_certified_depth": 5
+  }
+}

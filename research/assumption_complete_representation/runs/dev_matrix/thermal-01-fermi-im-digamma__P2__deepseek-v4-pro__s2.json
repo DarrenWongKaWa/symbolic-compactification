@@ -1,0 +1,467 @@
+{
+  "task_id": "thermal-01-fermi-im-digamma",
+  "public_id": "T03",
+  "structural_cluster_id": "THERMAL_01_FERMI_DIGAMMA",
+  "stratum": "CORE_COMPARABLE",
+  "condition": "P2",
+  "seed": 2,
+  "model": "deepseek-v4-pro",
+  "config_id": "deepseek-v4-pro-thinking-high-v1",
+  "protocol_id": "deepseek-abstraction-protocol-v1-dev",
+  "prompt_sha256": "331d5b5b0c65f2c91ca0cf49c76a2d5b33301d15f83d5ceb1e20c457a0f2f1f7",
+  "input_sha256": "c147862a4bb5bcccef98add6cae0b63119d75dda36c77b5f4d40b0a8070dd08f",
+  "system_sha256": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f",
+  "user_sha256": "7b3e51b4fe53ca6f5789360f17f7f0167499fe99e0c982a063712d01dfd951c0",
+  "sol_packet_sha256": "a74697f0818e96ac104581d2df061bc56b60f30e43ce810a330903279098e276",
+  "assumption_contract_sha256": "3b0000368c116d39382c97e618b030d0592f2795ba4d5975fa09b3f7a9045ce7",
+  "source_catalog_sha256": "6b291c4b9ae078009899ce82150c56c1415f7561ba39df40c1399c3ebbfcb29b",
+  "latency_s": 113.304,
+  "usage": {
+    "prompt_tokens": 1259,
+    "completion_tokens": 6759,
+    "total_tokens": 8018,
+    "reasoning_tokens": 6060,
+    "cached_tokens": 1152
+  },
+  "reasoning_tokens": 6060,
+  "output_tokens": 6759,
+  "total_tokens": 8018,
+  "request_id": "3b98b5c4-7d10-426e-a26b-657a735ca0a0",
+  "reasoning_len": 21898,
+  "reasoning_sha": "98225c3501efdd85",
+  "parse_status": "OK",
+  "parse_error": null,
+  "format_wrap": false,
+  "n_hypotheses": 1,
+  "raw_response": "{\n  \"abstain\": false,\n  \"abstain_reason\": \"\",\n  \"hypotheses\": [\n    {\n      \"representation_type\": \"coordinate_pair_decomposition\",\n      \"latent_object\": \"F(t) = (F1(t), F2(t)) where F1(t)=im(polygamma(0, Rational(1,2)+I*t)) and F2(t)=(pi/2)*tanh(pi*t)\",\n      \"variables\": [\"t\"],\n      \"nodes\": [\"G0001\", \"G0002\", \"G0003\"],\n      \"member_maps\": [\n        {\n          \"source_node_id\": \"G0001\",\n          \"role\": \"instance\",\n          \"text\": \"im(polygamma(0, Rational(1, 2) + I*y))\"\n        },\n        {\n          \"source_node_id\": \"G0002\",\n          \"role\": \"instance\",\n          \"text\": \"(pi/2)*tanh(pi*y)\"\n        },\n        {\n          \"source_node_id\": \"G0003\",\n          \"role\": \"target\",\n          \"text\": \"im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)\"\n        }\n      ],\n      \"operators\": [\n        {\n          \"member\": \"G0001\",\n          \"O\": \"coordinate_1_projection\"\n        },\n        {\n          \"member\": \"G0002\",\n          \"O\": \"coordinate_2_projection\"\n        },\n        {\n          \"member\": \"G0003\",\n          \"O\": \"coordinate_difference\"\n        }\n      ],\n      \"instance_maps\": [\n        {\n          \"member\": \"G0001\",\n          \"theta\": {\n            \"t\": \"y\"\n          }\n        },\n        {\n          \"member\": \"G0002\",\n          \"theta\": {\n            \"t\": \"y\"\n          }\n        },\n        {\n          \"member\": \"G0003\",\n          \"theta\": {\n            \"t\": \"y\"\n          }\n        }\n      ],\n      \"reconstruction_rule\": \"G0001 = F1(y); G0002 = F2(y); G0003 = F1(y)-F2(y).\",\n      \"required_assumptions\": [\n        \"y is a real variable\",\n        \"1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)\",\n        \"tanh has no poles on the real axis\"\n      ],\n      \"proof_obligations\": [\n        \"G0001 - F1(y) = 0\",\n        \"G0002 - F2(y) = 0\",\n        \"G0003 - (F1(y)-F2(y)) = 0\",\n        \"F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)\"\n      ],\n      \"rationale\": \"The source expression G0003 is a difference of the two catalog expressions G0001 and G0002. Storing the two sides as coordinates of a single latent pair makes the reconstruction explicit while keeping the known DLMF equivalence as a separate proof obligation rather than assuming it.\",\n      \"confidence\": 0.7\n    }\n  ]\n}",
+  "parsed": {
+    "parse_status": "OK",
+    "parse_error": null,
+    "abstain": false,
+    "abstain_reason": "",
+    "format_wrap": false,
+    "hypotheses": [
+      {
+        "parse_status": "OK",
+        "parse_error": null,
+        "representation_type": "coordinate_pair_decomposition",
+        "latent_object": "F(t) = (F1(t), F2(t)) where F1(t)=im(polygamma(0, Rational(1,2)+I*t)) and F2(t)=(pi/2)*tanh(pi*t)",
+        "variables": [
+          "t"
+        ],
+        "nodes": [
+          "G0001",
+          "G0002",
+          "G0003"
+        ],
+        "member_maps": [
+          {
+            "source_node_id": "G0001",
+            "role": "instance",
+            "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+          },
+          {
+            "source_node_id": "G0002",
+            "role": "instance",
+            "text": "(pi/2)*tanh(pi*y)"
+          },
+          {
+            "source_node_id": "G0003",
+            "role": "target",
+            "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+          }
+        ],
+        "operators": [
+          {
+            "member": "G0001",
+            "O": "coordinate_1_projection"
+          },
+          {
+            "member": "G0002",
+            "O": "coordinate_2_projection"
+          },
+          {
+            "member": "G0003",
+            "O": "coordinate_difference"
+          }
+        ],
+        "instance_maps": [
+          {
+            "member": "G0001",
+            "theta": {
+              "t": "y"
+            }
+          },
+          {
+            "member": "G0002",
+            "theta": {
+              "t": "y"
+            }
+          },
+          {
+            "member": "G0003",
+            "theta": {
+              "t": "y"
+            }
+          }
+        ],
+        "reconstruction_rule": "G0001 = F1(y); G0002 = F2(y); G0003 = F1(y)-F2(y).",
+        "required_assumptions": [
+          "y is a real variable",
+          "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+          "tanh has no poles on the real axis"
+        ],
+        "proof_obligations": [
+          "G0001 - F1(y) = 0",
+          "G0002 - F2(y) = 0",
+          "G0003 - (F1(y)-F2(y)) = 0",
+          "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)"
+        ],
+        "rationale": "The source expression G0003 is a difference of the two catalog expressions G0001 and G0002. Storing the two sides as coordinates of a single latent pair makes the reconstruction explicit while keeping the known DLMF equivalence as a separate proof obligation rather than assuming it.",
+        "confidence": 0.7
+      }
+    ]
+  },
+  "eval": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "coordinate_pair_decomposition",
+          "latent_object": "F(t) = (F1(t), F2(t)) where F1(t)=im(polygamma(0, Rational(1,2)+I*t)) and F2(t)=(pi/2)*tanh(pi*t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(pi/2)*tanh(pi*y)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "coordinate_1_projection"
+            },
+            {
+              "member": "G0002",
+              "O": "coordinate_2_projection"
+            },
+            {
+              "member": "G0003",
+              "O": "coordinate_difference"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "y"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "y"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "y"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 = F1(y); G0002 = F2(y); G0003 = F1(y)-F2(y).",
+          "required_assumptions": [
+            "y is a real variable",
+            "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+            "tanh has no poles on the real axis"
+          ],
+          "proof_obligations": [
+            "G0001 - F1(y) = 0",
+            "G0002 - F2(y) = 0",
+            "G0003 - (F1(y)-F2(y)) = 0",
+            "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)"
+          ],
+          "rationale": "The source expression G0003 is a difference of the two catalog expressions G0001 and G0002. Storing the two sides as coordinates of a single latent pair makes the reconstruction explicit while keeping the known DLMF equivalence as a separate proof obligation rather than assuming it.",
+          "confidence": 0.7
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "pi*tanh(pi*t)/2",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "obligations": [
+            {
+              "text": "G0001 - F1(y) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y))) - F1(y) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - F2(y) = 0",
+              "expanded": "((pi/2)*tanh(pi*y)) - F2(y) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (F1(y)-F2(y)) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - (F1(y)-F2(y)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)",
+              "expanded": "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "n_zero_nontrivial": 0,
+          "F_parsed": true,
+          "scorer_version": "ac-score-v1.3"
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  },
+  "blocked": false,
+  "error": null,
+  "compiler_version": "ac-compile-v1.1",
+  "COMPILER_GAIN": false,
+  "guo": false,
+  "split": "DEV",
+  "eval_v0": {
+    "parse_status": "OK",
+    "format_wrap": false,
+    "n_hypotheses": 1,
+    "abstain": false,
+    "items": [
+      {
+        "hypothesis": {
+          "parse_status": "OK",
+          "parse_error": null,
+          "representation_type": "coordinate_pair_decomposition",
+          "latent_object": "F(t) = (F1(t), F2(t)) where F1(t)=im(polygamma(0, Rational(1,2)+I*t)) and F2(t)=(pi/2)*tanh(pi*t)",
+          "variables": [
+            "t"
+          ],
+          "nodes": [
+            "G0001",
+            "G0002",
+            "G0003"
+          ],
+          "member_maps": [
+            {
+              "source_node_id": "G0001",
+              "role": "instance",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y))"
+            },
+            {
+              "source_node_id": "G0002",
+              "role": "instance",
+              "text": "(pi/2)*tanh(pi*y)"
+            },
+            {
+              "source_node_id": "G0003",
+              "role": "target",
+              "text": "im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)"
+            }
+          ],
+          "operators": [
+            {
+              "member": "G0001",
+              "O": "coordinate_1_projection"
+            },
+            {
+              "member": "G0002",
+              "O": "coordinate_2_projection"
+            },
+            {
+              "member": "G0003",
+              "O": "coordinate_difference"
+            }
+          ],
+          "instance_maps": [
+            {
+              "member": "G0001",
+              "theta": {
+                "t": "y"
+              }
+            },
+            {
+              "member": "G0002",
+              "theta": {
+                "t": "y"
+              }
+            },
+            {
+              "member": "G0003",
+              "theta": {
+                "t": "y"
+              }
+            }
+          ],
+          "reconstruction_rule": "G0001 = F1(y); G0002 = F2(y); G0003 = F1(y)-F2(y).",
+          "required_assumptions": [
+            "y is a real variable",
+            "1/2 + I*y is not a nonpositive integer (so polygamma(0, \u00b7) is defined)",
+            "tanh has no poles on the real axis"
+          ],
+          "proof_obligations": [
+            "G0001 - F1(y) = 0",
+            "G0002 - F2(y) = 0",
+            "G0003 - (F1(y)-F2(y)) = 0",
+            "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)"
+          ],
+          "rationale": "The source expression G0003 is a difference of the two catalog expressions G0001 and G0002. Storing the two sides as coordinates of a single latent pair makes the reconstruction explicit while keeping the known DLMF equivalence as a separate proof obligation rather than assuming it.",
+          "confidence": 0.7
+        },
+        "compile": {
+          "constructable": true,
+          "certified": false,
+          "compile_status": "C_OK",
+          "compiler_version": "ac-compile-v1.1",
+          "F_parsed": true,
+          "F_srepr": "pi*tanh(pi*t)/2",
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "obligations": [
+            {
+              "text": "G0001 - F1(y) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y))) - F1(y) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0002 - F2(y) = 0",
+              "expanded": "((pi/2)*tanh(pi*y)) - F2(y) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "G0003 - (F1(y)-F2(y)) = 0",
+              "expanded": "(im(polygamma(0, Rational(1, 2) + I*y)) - (pi/2)*tanh(pi*y)) - (F1(y)-F2(y)) = 0",
+              "verdict": "UNKNOWN",
+              "note": "parsed_eq"
+            },
+            {
+              "text": "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)",
+              "expanded": "F1(y)-F2(y) = 0 (DLMF 5.4.17 identity; not assumed, left as an obligation)",
+              "verdict": "UNKNOWN",
+              "note": "unparseable_obligation"
+            },
+            {
+              "text": "current_residual_vs_0",
+              "verdict": "UNKNOWN",
+              "note": "b0_style_residual_not_discovery"
+            }
+          ],
+          "note": ""
+        },
+        "score": {
+          "D": "D_CORRECT",
+          "G": "G_OK",
+          "C": "C_OK",
+          "V": "UNKNOWN",
+          "Q": "VERIFIER_UNKNOWN",
+          "type_match": true,
+          "operational": true,
+          "tautological": false,
+          "shallow": false,
+          "operational_success": false,
+          "PROPOSED_DEPTH": 5,
+          "CERTIFIED_DEPTH": null,
+          "n_zero": 0,
+          "n_nonzero": 0,
+          "n_unknown": 4,
+          "F_parsed": true
+        }
+      }
+    ],
+    "best": {
+      "Q": "VERIFIER_UNKNOWN",
+      "D": "D_CORRECT",
+      "G": "G_OK",
+      "C": "C_OK",
+      "V": "UNKNOWN",
+      "operational_success": false,
+      "type_match": true,
+      "PROPOSED_DEPTH": 5,
+      "CERTIFIED_DEPTH": null
+    },
+    "any_operational_success": false,
+    "any_type_match": true,
+    "any_type_only": false,
+    "any_tautological": false,
+    "max_proposed_depth": 5,
+    "max_certified_depth": null
+  }
+}
