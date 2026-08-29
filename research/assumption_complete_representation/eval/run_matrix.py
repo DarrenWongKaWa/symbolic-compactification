@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from research.assumption_complete_representation.eval.ac_compile import COMPILER_VERSION
 from research.assumption_complete_representation.eval.ac_parser import parse_model_output
 from research.assumption_complete_representation.eval.ac_prompts import messages_for
 from research.assumption_complete_representation.eval.ac_score import score_run
@@ -158,6 +159,8 @@ def run_one(
         "eval": scored,
         "blocked": rec.get("blocked"),
         "error": rec.get("error"),
+        "compiler_version": COMPILER_VERSION,
+        "COMPILER_GAIN": False,
         "guo": False,
         "split": "DEV",
     }

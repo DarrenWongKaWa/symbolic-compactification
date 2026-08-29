@@ -8,7 +8,7 @@ TEST FREEZE STATUS: not frozen
 
 ACTIVE BASELINE JOBS: none (complete)
 
-ACTIVE LLM JOBS: Wave 1 P0 5-seed on CORE_COMPARABLE (launching)
+ACTIVE LLM JOBS: Waves 1–3 (P0 then P1+P2 then P3+P4) running; compiler v1.1 rescored seed-0 P0
 
 BASELINE COMPLETE: yes (TYPE_ONLY / UNPARSEABLE; operational_baseline=0/14; comparable only on 6)
 

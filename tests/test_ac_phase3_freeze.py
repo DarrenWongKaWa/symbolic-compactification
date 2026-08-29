@@ -102,6 +102,38 @@ def test_no_guo_in_core():
     assert all("guo" not in i.lower() for i in CORE + PACKAGING_GAP)
 
 
+def test_compiler_expands_catalog_and_F_calls():
+    from research.assumption_complete_representation.eval.ac_compile import (
+        COMPILER_VERSION,
+        compile_and_verify,
+    )
+    from research.assumption_complete_representation.eval.pack_data import PUBLIC_PACKS
+    pack = PUBLIC_PACKS["mp-resolvent-dd-01"]
+    hyp = {
+        "parse_status": "OK",
+        "latent_object": "F(t)=1/(t-a)",
+        "variables": ["t"],
+        "nodes": [],
+        "member_maps": [{"source_node_id": "G0001", "role": "instance"}],
+        "operators": [{"member": "G0001", "O": "specialize"}],
+        "reconstruction_rule": "G0001=F(lam)",
+        "required_assumptions": [],
+        "proof_obligations": [
+            "G0001 - F(lam) = 0",
+            "G0003 - ((F(lam)-F(mu))/(lam-mu)) = 0",
+            "G0004 - (F(lam)*F(mu)) = 0",
+        ],
+    }
+    c = compile_and_verify(hyp, pack)
+    assert c["compiler_version"] == COMPILER_VERSION
+    assert c["F_parsed"] is True
+    verdicts = {o["text"]: o["verdict"] for o in c["obligations"]
+                if o.get("note") == "parsed_eq"}
+    assert verdicts["G0001 - F(lam) = 0"] == "ZERO"
+    assert verdicts["G0003 - ((F(lam)-F(mu))/(lam-mu)) = 0"] == "ZERO"
+    assert verdicts["G0004 - (F(lam)*F(mu)) = 0"] == "ZERO"
+
+
 def test_execution_freeze_exists_and_locks_p4():
     freeze = json.loads((HERE / "DEV_EXECUTION_FREEZE.json").read_text())
     assert freeze["n_dev"] == 14
