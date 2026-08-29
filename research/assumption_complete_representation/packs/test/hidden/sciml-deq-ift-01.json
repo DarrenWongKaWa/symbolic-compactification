@@ -1,0 +1,22 @@
+{
+  "gold_members": [
+    "G0001",
+    "G0003"
+  ],
+  "ladder": "R6",
+  "ladder_n": 6,
+  "latent_F": "(I - D_z f)^{-1}",
+  "leak_tokens": [
+    "implicit function theorem",
+    "DEQ"
+  ],
+  "nontrivial": true,
+  "operator_family": "FUNCTIONAL_CALCULUS",
+  "representation_family": [
+    "master",
+    "ift",
+    "resolvent",
+    "neumann"
+  ],
+  "tag": "NONTRIVIAL"
+}

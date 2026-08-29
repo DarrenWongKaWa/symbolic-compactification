@@ -1,0 +1,68 @@
+CONDITION: P2_FROZEN_SOL
+
+Same source data as RAW, plus frozen Structural Observation Layer
+packets. Packets are relations reported by existing symbolic backends.
+They are observations, not scientific names, and not proofs.
+
+Do not treat packet labels as the representation.
+Still propose operational H with catalog member IDs, F, operators,
+reconstruction, and proof obligations.
+
+PUBLIC_TASK_ID: H02
+Do not use an external name for this task.
+
+DECLARED SYMBOLS:
+['y', 't', 's', 'theta', 'sigma', 'beta', 'x0']
+DECLARED FUNCTIONS:
+['exp', 'Abs']
+ASSUMPTION CONTRACT (use only these; do not add undeclared domains):
+- theta > 0
+- sigma > 0
+- t > 0 when using the 1-exp(-2*theta*t) member
+- beta > 0
+
+SCIENTIFIC CONTEXT:
+- A linear Gaussian SDE family and its covariance.
+- Do not invent physical names.
+
+SOURCE CATALOG — cite these source_node_id values only.
+IDs are local to this task. Do not invent aliases.
+
+G0001  kind=expr
+  text: y*exp(-theta*t)
+G0002  kind=expr
+  text: (sigma**2/(2*theta))*(1 - exp(-2*theta*t))
+G0003  kind=expr
+  text: (sigma**2/(2*theta))*exp(-theta*Abs(s - t))
+G0004  kind=expr
+  text: x0*exp(-beta*t/2)
+G0005  kind=expr
+  text: 1 - exp(-beta*t)
+
+SOURCE EXPRESSIONS / CURRENT:
+(sigma**2/(2*theta))*exp(-theta*Abs(s - t))
+
+STRUCTURAL OBSERVATION PACKETS:
+These are relations reported by existing symbolic backends.
+They are observations, not scientific names, and not proofs.
+FAMILY F01
+members:
+  (none)
+relations:
+  EGRAPH_EQUIVALENT
+evidence:
+  egglog/EXACT_FACT: Num(1)+Num(2) ~ Num(2)+Num(1) under algebra_basic commute
+exactness_classes: EXACT_FACT
+note: observation only; not a scientific object name
+
+FAMILY F02
+members:
+  (none)
+relations:
+  KNOWN_REWRITE_EQUIVALENT
+evidence:
+  egglog/EXACT_FACT: rewrite(a+b)->(b+a)
+exactness_classes: EXACT_FACT
+note: observation only; not a scientific object name
+
+Respond with JSON only.

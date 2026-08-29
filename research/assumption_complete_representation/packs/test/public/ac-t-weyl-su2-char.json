@@ -1,0 +1,58 @@
+{
+  "assumptions": [
+    "z != 0",
+    "z**2 != 1",
+    "m is a nonnegative integer"
+  ],
+  "catalog": [
+    {
+      "kind": "expr",
+      "source_node_id": "G0001",
+      "text": "Sum(z**(m - 2*k), (k, 0, m))"
+    },
+    {
+      "kind": "expr",
+      "source_node_id": "G0002",
+      "text": "(z**(m + 1) - z**(-(m + 1)))/(z - z**(-1))"
+    },
+    {
+      "kind": "expr",
+      "source_node_id": "G0003",
+      "text": "sin((m + 1)*theta)/sin(theta)"
+    }
+  ],
+  "cluster_id": "WEYL_SU2_CHAR",
+  "current": "(z**(m + 1) - z**(-(m + 1)))/(z - z**(-1))",
+  "domain": "tensor",
+  "functions": [
+    "sin"
+  ],
+  "public_id": "H04",
+  "scientific_context": [
+    "A finite geometric sum in z, a two-term quotient, and a sine ratio.",
+    "Do not invent physical names."
+  ],
+  "split": "TEST",
+  "stratum": "CORE_COMPARABLE",
+  "symbols": [
+    {
+      "name": "z",
+      "nonzero": true,
+      "real": true
+    },
+    {
+      "integer": true,
+      "name": "m",
+      "nonnegative": true
+    },
+    {
+      "integer": true,
+      "name": "k",
+      "nonnegative": true
+    },
+    {
+      "name": "theta",
+      "real": true
+    }
+  ]
+}

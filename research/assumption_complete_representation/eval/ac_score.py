@@ -12,7 +12,7 @@ from research.assumption_complete_representation.eval.ac_compile import (
 from research.assumption_complete_representation.eval.pack_data import R_LEVEL
 
 _GID = re.compile(r"G\d{4}")
-SCORER_VERSION = "ac-score-v1.2"
+SCORER_VERSION = "ac-score-v1.3"
 
 TYPE_TO_R = [
     (tuple("hermite repeated_node repeated-node confluent multiplicity".split()), 3),
@@ -101,8 +101,15 @@ def residual_ids(pack: dict) -> set[str]:
     return out
 
 
+def _f_args(text: str) -> list[str]:
+    return [a.strip() for a in re.findall(r"\bF\s*\(([^)]*)\)", text or "")]
+
+
 def n_nontrivial_zero(compiled: dict, pack: dict) -> int:
-    """ZERO obligations that are not F-specialization renames or residual restatements."""
+    """ZERO obligations that apply F at two distinct arguments, or a product of two F's.
+
+    Catalog restatements (G0001 = G0001-text, F = the full residual) do not count.
+    """
     residual = residual_ids(pack)
     n = 0
     for o in compiled.get("obligations") or []:
@@ -110,26 +117,15 @@ def n_nontrivial_zero(compiled: dict, pack: dict) -> int:
             continue
         text = o.get("text") or ""
         gids = set(_GID.findall(text))
-        if gids and gids <= residual:
+        if gids and (gids <= residual or gids & residual):
             continue
-        if gids & residual:
-            continue
-        nF = len(re.findall(r"\bF\s*\(", text))
-        nG = len(_GID.findall(text))
-        if nF >= 2:
+        args = _f_args(text)
+        if len(set(args)) >= 2:
             n += 1
             continue
-        if nG >= 2:
+        if len(args) >= 2 and "*" in text:
             n += 1
             continue
-        if nF >= 1 and ("/" in text or "*" in text):
-            n += 1
-            continue
-        # raw special-function identity with two distinct heads, e.g. psi vs tanh
-        # counted only when not a single F(arg) rename
-        if nF <= 1 and nG <= 1 and "/" not in text and "*" not in text:
-            continue
-        n += 1
     return n
 
 
@@ -235,11 +231,6 @@ def score_hypothesis(hyp: dict, pack: dict, hidden: dict, compiled: dict) -> dic
     pdepth = proposed_depth(hyp)
     gold_n = hidden.get("ladder_n")
     cdepth = None
-    if v == "ZERO" and d == "D_CORRECT" and g == "G_OK" and cstat == "C_OK" and not taut:
-        cdepth = gold_n
-    elif v == "ZERO" and not taut:
-        # certified something weaker than the gold class
-        cdepth = min(pdepth or 0, gold_n or 0)
 
     operational_success = (
         d == "D_CORRECT"
@@ -256,6 +247,12 @@ def score_hypothesis(hyp: dict, pack: dict, hidden: dict, compiled: dict) -> dic
         if q == "OPERATIONAL_CORRECT":
             q = "SHALLOW_REPACKAGING"
             d = "D_SHALLOW"
+    if taut and q == "OPERATIONAL_CORRECT":
+        q = "TAUTOLOGICAL"
+        d = "D_SHALLOW"
+        operational_success = False
+    if operational_success:
+        cdepth = gold_n if gold_n is not None else pdepth
     return {
         "D": d,
         "G": g,

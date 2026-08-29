@@ -1,0 +1,35 @@
+{
+  "CHALLENGE": [
+    "ac-r02-sokhotski-plemelj-boundary",
+    "mp-opitz-dd-01",
+    "sciml-lyapunov-kronecker-01",
+    "thermal-06-fermi-dirac-polylog",
+    "ac-t-pauli-completeness"
+  ],
+  "CORE_COMPARABLE": [
+    "sciml-tweedie-gauss-01",
+    "sciml-ou-mehler-01",
+    "sciml-deq-ift-01",
+    "ac-t-weyl-su2-char"
+  ],
+  "DUPLICATE_CONTROL": [
+    "thermal-02-bose-im-digamma",
+    "mp-mathias-block-01",
+    "thermal-04-coth-matsubara"
+  ],
+  "GENERAL_FINAL": "P0",
+  "HEADLINE": [
+    "mp-kato-simple-ev-01",
+    "mp-parlett-schur-01",
+    "sciml-tweedie-gauss-01",
+    "sciml-ou-mehler-01",
+    "sciml-deq-ift-01",
+    "sciml-adjoint-linear-01",
+    "ac-t-weyl-su2-char",
+    "ac-t-ricci-weyl",
+    "ac-t-clebsch-half",
+    "ac-t-iso4-projectors"
+  ],
+  "guo": false,
+  "not_a_prompt_retune": true
+}

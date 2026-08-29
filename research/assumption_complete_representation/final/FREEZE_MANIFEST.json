@@ -1,0 +1,111 @@
+{
+  "AI_UNIQUE_only_on_CORE_COMPARABLE": true,
+  "CHALLENGE": [
+    "ac-r02-sokhotski-plemelj-boundary",
+    "mp-opitz-dd-01",
+    "sciml-lyapunov-kronecker-01",
+    "thermal-06-fermi-dirac-polylog",
+    "ac-t-pauli-completeness"
+  ],
+  "CORE_COMPARABLE": [
+    "sciml-tweedie-gauss-01",
+    "sciml-ou-mehler-01",
+    "sciml-deq-ift-01",
+    "ac-t-weyl-su2-char"
+  ],
+  "DUPLICATE_CONTROL": [
+    "thermal-02-bose-im-digamma",
+    "mp-mathias-block-01",
+    "thermal-04-coth-matsubara"
+  ],
+  "GENERAL_FINAL": "P0",
+  "HEADLINE": [
+    "mp-kato-simple-ev-01",
+    "mp-parlett-schur-01",
+    "sciml-tweedie-gauss-01",
+    "sciml-ou-mehler-01",
+    "sciml-deq-ift-01",
+    "sciml-adjoint-linear-01",
+    "ac-t-weyl-su2-char",
+    "ac-t-ricci-weyl",
+    "ac-t-clebsch-half",
+    "ac-t-iso4-projectors"
+  ],
+  "P4_TEST_ELIGIBLE": [],
+  "PACKAGING_GAP_HEADLINE": [
+    "mp-kato-simple-ev-01",
+    "mp-parlett-schur-01",
+    "sciml-adjoint-linear-01",
+    "ac-t-ricci-weyl",
+    "ac-t-clebsch-half",
+    "ac-t-iso4-projectors"
+  ],
+  "SPECIALIST_DD": "P4",
+  "compiler_version": "ac-compile-v1.1",
+  "conditions": [
+    "P0",
+    "P2"
+  ],
+  "evaluator_version": "ac-eval-v1",
+  "file_hashes": {
+    "hidden": {
+      "ac-t-weyl-su2-char": "add8078819b79e4b735e11e0986dd91a26f656795317304356e1fe6221bf915b",
+      "sciml-deq-ift-01": "318f500a1be5cd65b90b4f53a76e02f50e5e7fc53aa8e9600cf9f07b48454f17",
+      "sciml-ou-mehler-01": "0cef917bfbc535975562c72c06dbd0cf98a0f0943a012fbc49d9ada2c90494ab",
+      "sciml-tweedie-gauss-01": "f38863ceff86688db0da459ea244444ad34dc19b2de610ba81763abef6087991"
+    },
+    "public": {
+      "ac-t-weyl-su2-char": "0526c430db9cb19ccdac9a5379e835d086715f23313810308496c65f2d8b9fbf",
+      "sciml-deq-ift-01": "4942b89c1eb7a888707166b7a8b9a540a2a054974c679e5712b139a1e33d50ff",
+      "sciml-ou-mehler-01": "317c9bd080d036cc8032f7a57b8ecbaa06ebcb30b03125c8dc30c5fa12b3dea0",
+      "sciml-tweedie-gauss-01": "54c7852a8e90b9efc1b6ee4df39a7e696f2767913047ef006e4e932e0c4fc1f0"
+    },
+    "rendered": {
+      "ac-t-weyl-su2-char__P0": "3bed9dbc56772288f0bb44c603a8568f0e4561cce52417c9910b40e7f4c7b7ab",
+      "ac-t-weyl-su2-char__P2": "a7e8f1df18d58e589cbeb57d10b88985adafc1f734286bb1f0a9c59d6dce4331",
+      "sciml-deq-ift-01__P0": "0d32656f2d8692188bb50a7df64f1bc18cfb796d8b3dd1ad97d2333c9447fcba",
+      "sciml-deq-ift-01__P2": "2a7f0c1434c9da112ffffe11fddfc895401d85ed395281fb56eecfbecaec46f1",
+      "sciml-ou-mehler-01__P0": "3acf70aeae307541a254f0f285d72a1e0bbbde824a966078adb8d689908e3430",
+      "sciml-ou-mehler-01__P2": "ff148ad134564308265c3a78d02d9fe13b11fecb407cab6f2dae93f68097c752",
+      "sciml-tweedie-gauss-01__P0": "59170bfd18f50111daa73ba98be0b6907194c93fda3a3366187aa41f75966964",
+      "sciml-tweedie-gauss-01__P2": "5ac467373d63d95b63c7c84d82317962455101e17e2bd0427b58dec216a38660"
+    },
+    "sol": {
+      "ac-t-weyl-su2-char": "648887686a4a8213d320c05ca286b3696192fa72b176d5de59204eed1ea02063",
+      "sciml-deq-ift-01": "5e35df26919f64e658516b9e53075008ac495cadea24cdeb404ce42995173098",
+      "sciml-ou-mehler-01": "5d05e244a926e3265092026dc5850a02141b7107b79425a36e11ee92cf372885",
+      "sciml-tweedie-gauss-01": "d47ed617c481e91554af09aebf40ac8a6f1372afa32eb1b696096c27e29bcdda"
+    }
+  },
+  "flash_model": "deepseek-v4-flash",
+  "flash_seeds": [
+    0,
+    1,
+    2
+  ],
+  "guo_in_dev_or_test": false,
+  "leak_scan": {
+    "ac-t-weyl-su2-char": [],
+    "sciml-deq-ift-01": [],
+    "sciml-ou-mehler-01": [],
+    "sciml-tweedie-gauss-01": []
+  },
+  "model": "deepseek-v4-pro",
+  "note": "After this file, no method/prompt/parser/evaluator change.",
+  "parser_extended": false,
+  "prompt_hashes": {
+    "P0": "6ccf1fee5020e2db89787302e42cf452ef17206d40358ba1c079c9f52e1c0329",
+    "P2": "fdddb9b0e0182dcb1fba0c85ad9c6a71b28384f7b0d4c504262be2999b226d0c",
+    "SYSTEM_V1": "6bb2440e1360c3841ac0ef2d193e4dab11aa0460bbe1dbcee0ed0ffecb63094f"
+  },
+  "prompts_retuned": false,
+  "scorer_version": "ac-score-v1.3",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "version": "ac-test-freeze-v1"
+}

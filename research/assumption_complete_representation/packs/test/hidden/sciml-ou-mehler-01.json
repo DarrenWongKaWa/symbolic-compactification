@@ -1,0 +1,25 @@
+{
+  "gold_members": [
+    "G0001",
+    "G0002",
+    "G0003"
+  ],
+  "ladder": "R6",
+  "ladder_n": 6,
+  "latent_F": "OU transition kernel",
+  "leak_tokens": [
+    "Mehler",
+    "Hermite",
+    "Ornstein",
+    "Matern"
+  ],
+  "nontrivial": true,
+  "operator_family": "OTHER_EXPLICIT",
+  "representation_family": [
+    "master",
+    "mehler",
+    "ou",
+    "kernel"
+  ],
+  "tag": "NONTRIVIAL"
+}

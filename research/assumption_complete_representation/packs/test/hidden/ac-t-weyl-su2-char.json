@@ -1,0 +1,23 @@
+{
+  "gold_members": [
+    "G0001",
+    "G0002"
+  ],
+  "ladder": "R8",
+  "ladder_n": 8,
+  "latent_F": "Weyl orbit sum / denominator",
+  "leak_tokens": [
+    "Weyl character",
+    "Weyl group"
+  ],
+  "nontrivial": true,
+  "operator_family": "BASIS_RECONSTRUCTION",
+  "representation_family": [
+    "weyl",
+    "character",
+    "orbit",
+    "generator",
+    "invariant"
+  ],
+  "tag": "NONTRIVIAL"
+}
