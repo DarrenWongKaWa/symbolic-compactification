@@ -1,0 +1,467 @@
+{
+  "meta": {
+    "agent": "DEV-audit-MP",
+    "owns": "research/assumption_complete_representation/audit/dev/MP.json",
+    "parent": "c02348e",
+    "branch": "work/ac-dev-audit-mp",
+    "slice": "mathphys",
+    "partition": "DEV_proposal",
+    "n_tasks": 4,
+    "case_ids": [
+      "mp-resolvent-dd-01",
+      "mp-daleckii-krein-01",
+      "mp-hermite-fA-01",
+      "mp-cauchy-dunford-01"
+    ],
+    "guo_sealed": true,
+    "hop_authority": "G0016 -> G0013 = UNKNOWN LEVEL_B",
+    "llm_not_run": true,
+    "hold_for_test_or_challenge_not_consulted": true,
+    "drop_tasks": false,
+    "stay_dev": true,
+    "method_version": "ac-repr-1",
+    "a1_a4": {
+      "extract": "DECLARED/DERIVED for verifier-needed analytic domains; NOT_DECLARED entries are forbidden_import",
+      "domain": "verdict OK; gap_predicates empty",
+      "physics": "faithful; no T>0/eta>0/beta>0 folklore",
+      "falsify": "CLEAN; no witnesses"
+    },
+    "id_scheme": "Invent proposer catalog IDs MPxx####. Do not reuse Guo G####.",
+    "policy": "Audit only the four mathphys DEV_proposal tasks. Do not design prompts from HOLD_for_TEST_or_CHALLENGE. B0 residual ZERO is not representation discovery. A task may stay DEV even if easy. Do not drop tasks. Guo is sealed."
+  },
+  "summary": {
+    "tags": {
+      "mp-resolvent-dd-01": "SHALLOW",
+      "mp-daleckii-krein-01": "NONTRIVIAL",
+      "mp-hermite-fA-01": "NONTRIVIAL",
+      "mp-cauchy-dunford-01": "NONTRIVIAL"
+    },
+    "n_trivial": 0,
+    "n_shallow": 1,
+    "n_nontrivial": 3,
+    "n_challenge": 0,
+    "all_assumption_complete": true,
+    "all_stay_dev": true,
+    "headline": "Four Higham/Glück/Kato identities, all DECLARED/DERIVED on verifier domains. Resolvent B0 is a one-line rational rearrange (SHALLOW). Daleckii–Krein, Hermite f(A), and Cauchy–Dunford are genuine matrix-function structure (NONTRIVIAL) but two of them currently write the gold object in expression_sketch and must be packed with titles/latent_structure hidden."
+  },
+  "cases": [
+    {
+      "case_id": "mp-resolvent-dd-01",
+      "tag": "SHALLOW",
+      "stay_dev": true,
+      "drop": false,
+      "scientific_source": "Glück, Functional Analysis 1, Proposition 2.2.9 (resolvent identity) and Example 2.3.2 (R holomorphic on ρ(a), R'(λ,a)=−R(λ,a)^2), https://fan.uni-wuppertal.de/fileadmin/mathe/reine_mathematik/funktionalanalysis/glueck/Manuskripte/Lecture_Notes__Functional_Analysis_1.pdf. Two-operator identity: Müger, Introduction to Functional Analysis, Exercise 13.29, https://www.math.ru.nl/~mueger/functionalanalysis.pdf, with that source's opposite convention R_a(λ)=(a−λ1)^{-1}. Textbook: Kato, Perturbation Theory for Linear Operators, Ch. I (1982 finite-dimensional edition). Working convention R(z,A)=(zI−A)^{-1}: Higham 2008 Definition 1.11 and Glück.",
+      "domain": "mathphys",
+      "assumption_completeness": {
+        "declared_derived_only": true,
+        "verifier_predicates": "DECLARED/DERIVED only",
+        "declared": [
+          "λ, μ ∈ ρ(A) (Glück Prop. 2.2.9)",
+          "λ ↦ R(λ,A) holomorphic on ρ(A) with R'(λ,A)=−R(λ,A)^2 (Glück Ex. 2.3.2)",
+          "two-operator: z ∈ ρ(A) ∩ ρ(B) (Müger Ex. 13.29)",
+          "repeated-node limit μ→λ taken inside ρ(A)",
+          "working convention R=(zI−A)^{-1} (Higham/Glück); Müger sign flip recorded"
+        ],
+        "derived": [
+          "ρ(A) is open (Neumann series; Glück after Prop. 2.2.9)"
+        ],
+        "not_declared": [
+          {
+            "statement": "holomorphy disk containing the spectrum",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "A self-adjoint",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "z not real / dissipativity",
+            "role": "forbidden_import"
+          }
+        ],
+        "a1_a4": "EXTRACT complete; DOMAIN OK; PHYSICS faithful; A4 CLEAN",
+        "notes": "Identity lives on the resolvent set, off the spectrum. Do not import a disk around Λ(A), self-adjointness, or dissipativity. Sign depends on (zI−A)^{-1} vs (A−zI)^{-1}; freeze Higham/Glück."
+      },
+      "source_expressions": {
+        "sketch_quote": "Write R(z,A) = (z I - A)^{-1}. For spectral parameters lam, mu off the spectrum, the expanded identity is R(lam,A) - R(mu,A) = (mu - lam) R(lam,A) R(mu,A). For two operators and a common z off both spectra, R(z,A) - R(z,B) = R(z,A) (B-A) R(z,B). The first difference quotient in the spectral parameter is (R(lam,A)-R(mu,A))/(lam-mu) = - R(lam,A) R(mu,A); when lam=mu the same object is the derivative -R(lam,A)^2.",
+        "source_displays": [
+          "Glück Prop. 2.2.9: R(λ,a) − R(μ,a) = (μ − λ) R(λ,a) R(μ,a) for all λ, μ ∈ ρ(a).",
+          "Glück Ex. 2.3.2: ρ(a) → A, λ ↦ R(λ,a) is holomorphic and R'(λ,a) = −R(λ,a)^2.",
+          "Müger Ex. 13.29 (opposite convention R_a(λ)=(a−λ1)^{-1}): R_a(s)−R_a(t)=(s−t)R_a(s)R_a(t) for s,t ∈ F\\σ(a); R_a(s)−R_b(s)=R_a(s)(b−a)R_b(s) for s ∈ F\\(σ(a)∪σ(b))."
+        ]
+      },
+      "source_catalog_needs": [
+        {
+          "member_id": "MPR0001",
+          "role": "generic",
+          "proposer_text": "R(λ,A) − R(μ,A) = (μ − λ) R(λ,A) R(μ,A), with R(z,A) = (z I − A)^{-1} and λ, μ off the spectrum of A.",
+          "hide_from_text": ["Newton", "divided difference", "confluent", "F[z,w]"]
+        },
+        {
+          "member_id": "MPR0002",
+          "role": "degenerate",
+          "proposer_text": "On the same set, the z-derivative of R(·,A) at λ is −R(λ,A)^2.",
+          "hide_from_text": ["Newton", "divided difference", "confluent node", "Hermite"]
+        },
+        {
+          "member_id": "MPR0003",
+          "role": "instance",
+          "proposer_text": "R(z,A) − R(z,B) = R(z,A)(B − A)R(z,B) for z off both spectra. Same R convention as MPR0001.",
+          "hide_from_text": ["Newton", "second resolvent as DD", "F"]
+        }
+      ],
+      "hidden_target_representation": {
+        "ladder": "R2_newton_dd",
+        "operator_family": "NEWTON_DD",
+        "v2_type": "divided_difference",
+        "F": "R(z,A) = (z I − A)^{-1}",
+        "nodes": "spectral parameters (λ, μ); repeated node λ=μ from holomorphy on ρ(A)",
+        "claim": "One first Newton DD of F in the spectral parameter: F[λ,μ] = −R(λ,A)R(μ,A), with F[λ,λ] = R'(λ,A) = −R(λ,A)^2. The two-operator identity is the same difference-quotient structure in the operator argument at fixed z, not a second F."
+      },
+      "expected_proof_obligations": [
+        "EQUALITY: R(λ,A)−R(μ,A)=(μ−λ)R(λ,A)R(μ,A) for λ,μ ∈ ρ(A) (Higham/Glück convention).",
+        "NEWTON_DD: (R(λ,A)−R(μ,A))/(λ−μ) = −R(λ,A)R(μ,A) = F[λ,μ] for λ≠μ in ρ(A).",
+        "DERIVATIVE / LIMIT / CONFLUENCE: μ→λ inside ρ(A) yields R'(λ,A)=−R(λ,A)^2 = F[λ,λ].",
+        "EQUALITY: R(z,A)−R(z,B)=R(z,A)(B−A)R(z,B) for z ∈ ρ(A)∩ρ(B).",
+        "HYPOTHESES: λ,μ ∈ ρ(A); z ∈ ρ(A)∩ρ(B); do not require a disk around the spectrum; do not mix Müger's (A−zI)^{-1} sign into the Higham/Glück displays."
+      ],
+      "verifier_route": {
+        "primary": "sympy residual",
+        "also": ["matrix identity", "theorem hypotheses"],
+        "detail": "B0 already implements the scalar instance (1/(λ−a)−1/(μ−a))/(λ−μ) + 1/((λ−a)(μ−a)) at (λ,μ,a)=(3,2,0) and reports ZERO. Finite-n matrix check: multiply the first identity on the left by (λI−A) and on the right by (μI−A). Hypotheses checker: λ,μ not in spec(A). Confluent clause is the declared holomorphic derivative, not a 0/0 the verifier must take."
+      },
+      "proposer_visible_leak_risk": {
+        "expression_sketch_names_newton_hermite_dd": false,
+        "sketch_needles": {
+          "Newton": false,
+          "Hermite": false,
+          "divided difference": false,
+          "DD": false,
+          "difference quotient": true
+        },
+        "title_leaks_if_shown": "Resolvent identities as Newton difference quotients",
+        "latent_structure_leaks_if_shown": "Newton first divided difference of the resolvent",
+        "pack": "Hide title, latent_structure, proposed_ladder, why_not_cse_lgg. Catalog may say resolvent identity. Do not print Newton DD or F[z,w]. Phrase first difference quotient is close; acceptable as source language, not as gold type.",
+        "c6_TARGET_LEAKED_BY_NOTATION": false
+      },
+      "syntax_trivially_exposes_answer": false,
+      "b0_residual_zero_makes_representation_trivial": true,
+      "genuinely_scientific_vs_dressed_toy": "Genuinely scientific identity (Glück/Kato/Müger resolvent calculus). Representation target is a dressed naming of a one-line algebraic rearrange as Newton first DD. Stay DEV; not a toy algebra invented for the method.",
+      "b0_smoke": {
+        "present": true,
+        "b0_zero": true,
+        "expr": "(1/(lam-a) - 1/(mu-a))/(lam-mu) + 1/((lam-a)*(mu-a))",
+        "note": "B0 residual ZERO is not representation discovery (B0_RESULTS.json)."
+      },
+      "notes": "Algebra: (1/(λ−a)−1/(μ−a))/(λ−μ) = −1/((λ−a)(μ−a)) by clearing denominators. Dossier why_not_cse_lgg already calls this an algebraic rearrangement. Extra structure beyond B0 is confluence + two-operator member as one F. That is still SHALLOW."
+    },
+    {
+      "case_id": "mp-daleckii-krein-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "drop": false,
+      "scientific_source": "Higham, Functions of Matrices, SIAM 2008, Theorem 3.11 (Daleckii and Krein) and Corollary 3.12; divided-difference definition immediately before Theorem 3.9; DOI 10.1137/1.9780898717778. Working smoothness is C^{2n−1} on an open D ⊂ ℝ or ℂ containing the spectrum, X diagonalizable. Classical Hermitian source: Daleckii–Krein, AMS Transl. Ser. 2 47 (1965) 1–30 — do not import A Hermitian from 1965 into Higham 3.11. Weaker public restatement: Noferini, MIMS EPrint 2016.24, Theorem 2.10 (C^1 on the spectrum, diagonalizable), https://eprints.maths.manchester.ac.uk/2462/1/gendk.pdf — do not mix Noferini C^1 with Higham C^{2n−1}.",
+      "domain": "mathphys",
+      "assumption_completeness": {
+        "declared_derived_only": true,
+        "verifier_predicates": "DECLARED/DERIVED only",
+        "declared": [
+          "Z invertible (X = Z D Z^{-1}, Higham Cor. 3.12)",
+          "D open in ℝ or ℂ (Higham §3.2)",
+          "f is 2n−1 times continuously differentiable on D (Higham Thm 3.11 / Cor. 3.12)",
+          "spec(X) ⊂ D",
+          "f[l,l] := f'(l) is the recorded definition, not an extra limit"
+        ],
+        "derived": [
+          "f' exists on the spectrum from declared C^{2n−1} on an open set containing the spectrum"
+        ],
+        "not_declared": [
+          {
+            "statement": "f holomorphic on a neighbourhood of the spectrum",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "X Hermitian (1965 paper)",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "Noferini C^1 mixed with Higham C^{2n−1}",
+            "role": "forbidden_import"
+          }
+        ],
+        "a1_a4": "EXTRACT complete; DOMAIN OK; PHYSICS faithful; A4 CLEAN",
+        "notes": "Working contract is Higham Thm 3.11 / Cor. 3.12. Noferini Thm 2.10 is the C^1 diagonalizable formula actually quoted in a public PDF; it is not a license to weaken Higham's C^{2n−1} obligation."
+      },
+      "source_expressions": {
+        "sketch_quote": "Let X = Z D Z^{-1} with D = diag(l_1,...,l_n). The directional derivative of f at X in direction E expands, in the eigenbasis, as a piecewise array: (Z^{-1} L_f(X,E) Z)_{ij} equals ((f(l_i)-f(l_j))/(l_i-l_j)) * (Z^{-1} E Z)_{ij} when l_i != l_j, and equals f'(l_i) * (Z^{-1} E Z)_{ii} when l_i = l_j. The same array is a single Hadamard product against the kernel of first difference quotients of f on the spectrum, including the repeated-eigenvalue diagonal.",
+        "source_displays": [
+          "Noferini Thm 2.10 (C^1 restatement): L_f(A,E) = Z (F ∘ (Z^{-1} E Z)) Z^{-1} with F_ij = (f(D_ii)−f(D_jj))/(D_ii−D_jj) if D_ii ≠ D_jj and F_ij = f'(D_ii) otherwise.",
+          "Higham before Thm 3.9: f[l,m] = (f(l)−f(m))/(l−m) if l ≠ m, f[l,l] = f'(l).",
+          "Higham Thm 3.11 / Cor. 3.12: same kernel for diagonal / diagonalizable X with f ∈ C^{2n−1}(D), spec(X) ⊂ D."
+        ]
+      },
+      "source_catalog_needs": [
+        {
+          "member_id": "MPD0001",
+          "role": "generic",
+          "proposer_text": "X = Z D Z^{-1}, D = diag(l_1,...,l_n), Z invertible. Off-diagonal: (Z^{-1} L_f(X,E) Z)_{ij} = ((f(l_i)−f(l_j))/(l_i−l_j)) (Z^{-1} E Z)_{ij} when l_i ≠ l_j.",
+          "hide_from_text": ["Daleckii", "Krein", "Loewner", "Fréchet", "divided difference", "Newton", "Hermite", "Hadamard as gold type"]
+        },
+        {
+          "member_id": "MPD0002",
+          "role": "degenerate",
+          "proposer_text": "On the equal-eigenvalue diagonal: (Z^{-1} L_f(X,E) Z)_{ii} = f'(l_i) (Z^{-1} E Z)_{ii} when l_i = l_j. Same L_f, Z, D as MPD0001. f is 2n−1 times continuously differentiable on an open set containing the l_i.",
+          "hide_from_text": ["confluent Newton", "Hermite DD", "Loewner"]
+        }
+      ],
+      "hidden_target_representation": {
+        "ladder": "R3_hermite_dd",
+        "operator_family": "NEWTON_DD",
+        "also": ["HERMITE_DD", "HADAMARD"],
+        "v2_type": "hermite_divided_difference",
+        "F": "f on spec(X)",
+        "nodes": "eigenvalues (l_i, l_j); repeated node is the diagonal f'(l_i)",
+        "claim": "L_f(X,E) = Z ((f[l_i,l_j]) ∘ (Z^{-1} E Z)) Z^{-1}. Generic quotients and equal-eigenvalue derivatives are one first-DD / Loewner kernel, not two Piecewise programs. Diagonal confluence is Hermite order 1."
+      },
+      "expected_proof_obligations": [
+        "EQUALITY (off-diagonal): (Z^{-1} L_f(X,E) Z)_{ij} = f[l_i,l_j] (Z^{-1} E Z)_{ij} for l_i ≠ l_j.",
+        "HERMITE_DD / NEWTON_DD (diagonal): f[l,l] = f'(l) supplied by C^{2n−1}, not a verifier 0/0.",
+        "MASTER_INSTANCE / HADAMARD: L_f(X,E) = Z (K ∘ (Z^{-1} E Z)) Z^{-1} with K_ij = f[l_i,l_j].",
+        "HYPOTHESES: X diagonalizable, Z invertible, spec(X) ⊂ D open in ℝ or ℂ, f ∈ C^{2n−1}(D).",
+        "FORBIDDEN: do not require holomorphy; do not require X Hermitian; do not discharge Higham C^{2n−1} from Noferini C^1."
+      ],
+      "verifier_route": {
+        "primary": "matrix identity",
+        "also": ["theorem hypotheses", "sympy residual"],
+        "detail": "No B0 smoke. Check Fréchet definition f(X+E)=f(X)+L_f(X,E)+o(||E||) against the Hadamard kernel on a small diagonalizable example (distinct eigenvalues, then a repeated pair). Scalar Loewner kernel (f(a)−f(b))/(a−b) vs f' is sympy. Do not residual the piecewise display against the DD definition — that is tautological. Hypotheses checker: C^{2n−1}, spec in D, Z invertible."
+      },
+      "proposer_visible_leak_risk": {
+        "expression_sketch_names_newton_hermite_dd": false,
+        "sketch_needles": {
+          "Newton": false,
+          "Hermite": false,
+          "divided difference": false,
+          "DD": false,
+          "Daleckii": false,
+          "Loewner": false,
+          "Fréchet": false,
+          "difference quotients": true,
+          "Hadamard product": true
+        },
+        "title_leaks_if_shown": "Fréchet derivative of f at a diagonalizable matrix as Loewner kernel",
+        "latent_structure_leaks_if_shown": "Daleckii–Krein theorem ... first Newton divided difference (Loewner matrix)",
+        "pack": "Hide title, latent_structure, proposed_ladder. Show the two eigenbasis clauses. Catalog may say directional derivative. Do not print Daleckii–Krein, Loewner, divided difference, Fréchet, or Hadamard/Schur as gold type names.",
+        "c6_TARGET_LEAKED_BY_NOTATION": false
+      },
+      "syntax_trivially_exposes_answer": false,
+      "b0_residual_zero_makes_representation_trivial": false,
+      "genuinely_scientific_vs_dressed_toy": "Genuinely scientific (Higham Thm 3.11 / Daleckii–Krein). Not a dressed toy. Piecewise-minus-DD-definition would be tautological; the discovery is one kernel plus Fréchet reconstruction.",
+      "b0_smoke": {
+        "present": false,
+        "note": "If a future B0 subtracts the piecewise clauses from the DD definition, that residual is ZERO by definition and would make the representation look trivial. Require Fréchet-limit vs kernel."
+      },
+      "notes": "Cleanest mathphys DEV task: two syntactic families, one Loewner kernel, assumption list that forbids Hermitian-1965 and holomorphy backfill. Textbook, so not CHALLENGE. Stay DEV."
+    },
+    {
+      "case_id": "mp-hermite-fA-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "drop": false,
+      "scientific_source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.4 (Hermite interpolation) and Definition 1.2 (Jordan), Theorem 1.12; DOI 10.1137/1.9780898717778. Public companion with the same numbering as cited Def. 3.2: Higham–Lin, Matrix Functions: A Short Course, MIMS EPrint 2013.73, Definition 3.2 (matrix function via Hermite interpolation), https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf. Survey: Higham–Al-Mohy, Computing matrix functions, Acta Numerica 2010, Definition 2.2. Provenance string 'A Schur–Padé algorithm for fractional powers of a matrix' on eprint 2067 is a mis-title of the short course; definitions 3.2/3.3 on that URL are the short-course interpolant and Cauchy integral, not a disqualifier.",
+      "domain": "mathphys",
+      "assumption_completeness": {
+        "declared_derived_only": true,
+        "verifier_predicates": "DECLARED/DERIVED only",
+        "declared": [
+          "f defined on spec(A): jets f^{(j)}(λ_i) exist for j=0:n_i−1, i=1:s (Higham Def. 1.4 / Higham–Lin Def. 3.2)",
+          "A ∈ C^{n×n}",
+          "primary branch: the same branch of f and of its derivatives at every occurrence of an eigenvalue"
+        ],
+        "derived": [
+          "unique interpolating polynomial p of degree < ∑ n_i (stated in Higham Def. 1.4 / Higham–Lin Def. 3.2)"
+        ],
+        "not_declared": [
+          {
+            "statement": "holomorphy of f on a neighbourhood of Λ(A)",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "A Hermitian",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "A diagonalizable",
+            "role": "forbidden_import"
+          },
+          {
+            "statement": "preferred branch of sqrt/log for a general f",
+            "role": "forbidden_import"
+          }
+        ],
+        "a1_a4": "EXTRACT complete; DOMAIN OK; PHYSICS faithful; A4 CLEAN",
+        "notes": "Holomorphy belongs to Higham Def. 1.11 / Higham–Lin Def. 3.3 (Cauchy), invoked by Thm 1.12 only for equivalence with the integral definition. Do not attach that list here."
+      },
+      "source_expressions": {
+        "sketch_quote": "Let A in C^{n x n} have distinct eigenvalues l_1..l_s with indices n_i (size of the largest Jordan block for l_i). The expanded form of f(A) changes with the Jordan data: if all n_i=1 and s=2, f(A) = f(l_1)*(A-l_2 I)/(l_1-l_2) + f(l_2)*(A-l_1 I)/(l_2-l_1); if a single Jordan block J_k(l) of size m, the strictly upper diagonals of f(J_k) are f^{(j)}(l)/j! for j=1..m-1. The scientific target is one polynomial p of degree < sum_i n_i with p^{(j)}(l_i)=f^{(j)}(l_i) for j=0..n_i-1 and f(A)=p(A), valid on both the distinct-eigenvalue and repeated-node strata.",
+        "source_displays": [
+          "Higham–Lin 2013 Def. 3.2: f defined on the spectrum of A ∈ C^{n×n}; f(A):=p(A) where p is the unique polynomial of degree less than ∑ n_i satisfying p^{(j)}(λ_i)=f^{(j)}(λ_i), j=0:n_i−1, i=1:s.",
+          "Higham–Lin 2013 (3.4) / Def. 3.1: f(J_k) has f^{(j)}(λ_k)/j! on the j-th superdiagonal.",
+          "Higham–Lin 2013 square-root example (not a general branch rule): for f(t)=t^{1/2} principal, A=[[2,2],[1,3]], λ={1,4}, p(t)=(t+2)/3, A^{1/2}=p(A)."
+        ]
+      },
+      "source_catalog_needs": [
+        {
+          "member_id": "MPH0001",
+          "role": "generic",
+          "proposer_text": "If A has two distinct eigenvalues l_1, l_2 and all Jordan indices 1, the expanded formula is f(A) = f(l_1)(A−l_2 I)/(l_1−l_2) + f(l_2)(A−l_1 I)/(l_2−l_1).",
+          "hide_from_text": ["Hermite", "osculatory", "Newton form", "divided difference", "primary matrix function", "Higham"]
+        },
+        {
+          "member_id": "MPH0002",
+          "role": "degenerate",
+          "proposer_text": "If A is a single Jordan block J_m(l), the main diagonal of f(J_m) is f(l) and the j-th strict superdiagonal is f^{(j)}(l)/j! for j=1..m−1. The values f^{(j)}(l) are assumed to exist.",
+          "hide_from_text": ["Hermite", "osculatory interpolant", "Taylor interpolant as gold type"]
+        }
+      ],
+      "hidden_target_representation": {
+        "ladder": "R3_hermite_dd",
+        "operator_family": "HERMITE_DD",
+        "also": ["FUNCTIONAL_CALCULUS"],
+        "v2_type": "hermite_divided_difference",
+        "F": "f, defined on spec(A) by jet existence (not holomorphy)",
+        "nodes": "eigenvalues λ_i with multiplicities n_i = Jordan indices",
+        "claim": "f(A):=p(A) for the unique osculatory interpolant p of those jets. Distinct-eigenvalue Lagrange and repeated-node Jordan Taylor blocks are one interpolant, not two Piecewise programs. Equivalent to the Jordan definition without holomorphy (Higham Thm 1.12)."
+      },
+      "expected_proof_obligations": [
+        "EQUALITY: Lagrange two-pole formula when s=2 and n_i=1 (MPH0001).",
+        "HERMITE_DD: f(J_m(λ)) superdiagonal j equals f^{(j)}(λ)/j! (MPH0002).",
+        "BASIS_RECONSTRUCTION: f(A)=p(A) for the unique p of degree < ∑ n_i matching p^{(j)}(λ_i)=f^{(j)}(λ_i).",
+        "HYPOTHESES: jets exist through the Jordan index; A ∈ C^{n×n}; primary branch at every occurrence of an eigenvalue.",
+        "FORBIDDEN: do not insert holomorphy (that is Cauchy Def. 1.11); do not insert A Hermitian or A diagonalizable; do not attach Re t^{1/2}≥0 unless the instance is Higham's square-root example."
+      ],
+      "verifier_route": {
+        "primary": "matrix identity",
+        "also": ["theorem hypotheses", "sympy residual"],
+        "detail": "No B0 smoke. 2×2 diagonalizable check of MPH0001; 2×2 Jordan block check of MPH0002. Hypotheses: jet existence, not holomorphy. Uniqueness of p is DERIVED from the definition, not an extra axiom. Scalar interpolant matching is sympy; the representation claim is f(A)=p(A) across both strata."
+      },
+      "proposer_visible_leak_risk": {
+        "expression_sketch_names_newton_hermite_dd": false,
+        "sketch_needles": {
+          "Newton": false,
+          "Hermite": false,
+          "divided difference": false,
+          "DD": false,
+          "repeated-node": true
+        },
+        "title_leaks_if_shown": "Primary matrix function as Hermite interpolant at Jordan data",
+        "latent_structure_leaks_if_shown": "Hermite interpolation definition of the primary matrix function",
+        "target_wording_in_sketch": "The scientific target is one polynomial p of degree < sum_i n_i with p^{(j)}(l_i)=f^{(j)}(l_i) ... and f(A)=p(A). That is Higham Def. 1.4 / Higham–Lin Def. 3.2 without the name Hermite.",
+        "pack": "Hide title, latent_structure, proposed_ladder, and the last sentence of expression_sketch. Proposer-visible pack should be only MPH0001 and MPH0002 plus jet-existence hypotheses. Keep Hermite, osculatory, Newton form, divided difference, primary matrix function, and Higham out of proposer text.",
+        "c6_TARGET_LEAKED_BY_NOTATION": false
+      },
+      "syntax_trivially_exposes_answer": true,
+      "b0_residual_zero_makes_representation_trivial": false,
+      "genuinely_scientific_vs_dressed_toy": "Genuinely scientific (Higham Def. 1.4). Not a dressed toy. It is definition rediscovery: given two expanded strata, name the interpolant. If the jet-matching sentence stays in the sketch, the experiment is compromised even though the math is real.",
+      "b0_smoke": {
+        "present": false,
+        "note": "A B0 that only checks the two-pole Lagrange identity would ZERO by algebra and would not certify the Hermite unification."
+      },
+      "notes": "Stay DEV. Strip the 'scientific target is one polynomial p...' sentence before packing, or the task becomes SHALLOW by target wording. Provenance URL 2067 is the 2013 short course, not the Schur–Padé paper; Def. 3.2 on that PDF is still the interpolant definition."
+    },
+    {
+      "case_id": "mp-cauchy-dunford-01",
+      "tag": "NONTRIVIAL",
+      "stay_dev": true,
+      "drop": false,
+      "scientific_source": "Higham, Functions of Matrices, SIAM 2008, Definition 1.11 (Cauchy integral) and Theorem 1.12 (equivalence with Jordan Def. 1.2 and Hermite Def. 1.4 when f is analytic); DOI 10.1137/1.9780898717778; Horn–Johnson, Topics in Matrix Analysis, 1991, Theorem 6.2.28 (cited by Higham). Public companion: Higham–Lin, Matrix Functions: A Short Course, MIMS EPrint 2013.73, Definition 3.3, https://eprints.maths.manchester.ac.uk/2067/1/paper.pdf. Sibling formula, different hypotheses, not this contract: de Boor, Divided Differences, Surveys in Approximation Theory 1 (2005) 46–69, arXiv:math/0502036, §9 display (51).",
+      "domain": "mathphys",
+      "assumption_completeness": {
+        "declared_derived_only": true,
+        "verifier_predicates": "DECLARED/DERIVED only",
+        "declared": [
+          "f analytic on and inside a closed contour Γ enclosing Λ(A) (Higham Def. 1.11; Higham–Lin Def. 3.3)",
+          "Γ disjoint from Λ(A), so (zI−A)^{-1} is defined on Γ",
+          "equivalence with Jordan and Hermite definitions requires f analytic (Higham Thm 1.12)",
+          "positive orientation of Γ; primary branch of f on and inside Γ"
+        ],
+        "derived": [],
+        "not_declared": [
+          {
+            "statement": "de Boor/Frobenius disk of radius ρ, contour radius ρ'<ρ, interpolation nodes not in the annulus",
+            "role": "forbidden_import"
+          }
+        ],
+        "a1_a4": "EXTRACT complete; DOMAIN OK; PHYSICS faithful; A4 CLEAN",
+        "notes": "Do not weaken holomorphy to 'f defined on the spectrum' (that is mp-hermite-fA-01). Do not certify de Boor (51) from Higham Def. 1.11 wording."
+      },
+      "source_expressions": {
+        "sketch_quote": "f(A) is defined as (1/(2 π i)) * contour_integral_Gamma f(z) (z I - A)^{-1} dz, with Gamma a closed contour about the eigenvalues. Expanding the resolvent in a Jordan or eigenbasis recovers the usual block formulae; the same contour with denominator (z-t_1)...(z-t_k) produces the Newton coefficients of f. The compact object is the contour integral, not the expanded residue table.",
+        "source_displays": [
+          "Higham–Lin 2013 Def. 3.3: f(A) = (1/(2πi)) ∮_Γ f(z)(zI−A)^{-1} dz, f analytic on and inside a closed contour Γ that encloses λ(A).",
+          "Higham–Lin 2013 §3.1.4: Defs 3.1, 3.2, 3.3 equivalent modulo analyticity for the Cauchy definition [Higham 2008 Thm 1.12].",
+          "de Boor (51), sibling only: Δ(t_{1:j}) f = (1/(2πi)) ∮ f(ζ)/w_{j,t}(ζ) dζ, under f entire in a disk of radius ρ, contour radius ρ'<ρ, nodes not in the annulus."
+        ]
+      },
+      "source_catalog_needs": [
+        {
+          "member_id": "MPC0001",
+          "role": "generic",
+          "proposer_text": "If A = Z J Z^{-1} is in Jordan form, f(A) acts blockwise: on a block J_m(λ) the diagonal is f(λ) and the j-th superdiagonal is f^{(j)}(λ)/j!, assuming those derivatives exist.",
+          "hide_from_text": ["Dunford–Taylor", "Cauchy integral definition", "master object", "Hermite interpolant"]
+        },
+        {
+          "member_id": "MPC0002",
+          "role": "instance",
+          "proposer_text": "If A is diagonalizable, A = Z D Z^{-1}, the expanded spectral mapping is f(A) = Z diag(f(l_1),...,f(l_n)) Z^{-1} when f is defined at each l_i.",
+          "hide_from_text": ["Cauchy", "Dunford", "contour integral as gold type"]
+        }
+      ],
+      "hidden_target_representation": {
+        "ladder": "R6_master_object",
+        "operator_family": "FUNCTIONAL_CALCULUS",
+        "also": ["CAUCHY_DUNFORD", "MASTER_INSTANCE"],
+        "v2_type": "master_function",
+        "F": "f holomorphic on and inside Γ",
+        "nodes": "spectrum enclosed by Γ; resolvent (zI−A)^{-1} on Γ",
+        "claim": "Dunford–Taylor / Cauchy integral of the resolvent is the master analytic object generating the Jordan blocks and the interpolant. Higham Thm 1.12: equivalent to Defs 1.2 and 1.4 when f is analytic. Do not treat de Boor (51) as an automatic instance of this hypothesis list."
+      },
+      "expected_proof_obligations": [
+        "MASTER_INSTANCE: (1/(2πi)) ∮_Γ f(z)(zI−A)^{-1} dz equals the Jordan definition when f is analytic on and inside Γ.",
+        "MASTER_INSTANCE: the same integral equals the Hermite interpolant definition when f is analytic (Higham Thm 1.12).",
+        "HYPOTHESES: f holomorphic on and inside Γ; Γ closed, positively oriented, enclosing Λ(A), disjoint from Λ(A); one primary branch on and inside Γ.",
+        "FORBIDDEN: do not import de Boor disk/annulus hypotheses; do not certify (51) from Higham Def. 1.11 alone; do not weaken to 'f defined on the spectrum'."
+      ],
+      "verifier_route": {
+        "primary": "theorem hypotheses",
+        "also": ["matrix identity", "sympy residual"],
+        "detail": "No B0 smoke. Primary route is Higham Thm 1.12 hypotheses (analyticity + contour). Finite check: diagonalizable 2×2, residues of f(z)/(z−λ_i) recover f(λ_i) (scalar Cauchy — does not by itself prove the operator master). Jordan-block check that the integral reproduces the Taylor superdiagonals. Do not residual the Cauchy definition against itself."
+      },
+      "proposer_visible_leak_risk": {
+        "expression_sketch_names_newton_hermite_dd": true,
+        "sketch_needles": {
+          "Newton": true,
+          "Hermite": false,
+          "divided difference": false,
+          "DD": false,
+          "Cauchy": false,
+          "Dunford": false,
+          "contour_integral": true,
+          "compact object is the contour integral": true
+        },
+        "title_leaks_if_shown": "Cauchy–Dunford integral of the resolvent as master for f(A)",
+        "latent_structure_leaks_if_shown": "Dunford–Taylor / Cauchy integral of the resolvent as a master analytic object (ladder R6)",
+        "target_wording_in_sketch": "The sketch states the Cauchy integral as the definition of f(A) and then says the compact object is the contour integral. That is the gold R6 object. It also names Newton coefficients.",
+        "pack": "Hide title, latent_structure, proposed_ladder, and the current expression_sketch. Proposer-visible pack is MPC0001 and MPC0002 (Jordan / diagonalizable expansions) plus holomorphy-on-and-inside-Γ if the Cauchy formula is not shown. If the catalog includes the integral formula as source text, do not name it as the gold representation type (dossier leak_risk). Do not put de Boor (51) in this catalog.",
+        "c6_TARGET_LEAKED_BY_NOTATION": false
+      },
+      "syntax_trivially_exposes_answer": true,
+      "b0_residual_zero_makes_representation_trivial": false,
+      "genuinely_scientific_vs_dressed_toy": "Genuinely scientific (Higham Def. 1.11 / Dunford–Taylor calculus). Not a dressed toy. Current sketch hands the master object to the proposer; packed as expansions-only it is a real R6 discovery task, still DEV not CHALLENGE.",
+      "b0_smoke": {
+        "present": false,
+        "note": "Scalar Cauchy residue vs f(λ) would ZERO and would not certify the operator master. Equivalence of three definitions is a theorem, not a one-line rearrange."
+      },
+      "notes": "Stay DEV. Must not mix this holomorphy list into mp-hermite-fA-01. Must not mix de Boor (51) disk/annulus into Higham Def. 1.11. Same eprint-2067 mis-title as the Hermite dossier; Def. 3.3 on that PDF is the Cauchy integral."
+    }
+  ]
+}
