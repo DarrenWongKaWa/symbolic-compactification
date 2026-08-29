@@ -159,6 +159,7 @@ R6 benchmark skeptic: **FAIL** on “LLM invented operational representations be
 | Scorer v1.2 | `d8248c9` |
 | TEST freeze | `cff6763` |
 | DEV 135 runs | `895a501` |
+| TEST + verdict | `bc06e73` |
 | Contracts | `1075d80` |
 | Guo source-assumption | `9fc3c8a` |
 | B9 / LGG | `4237f6b` / `efc0924` |
