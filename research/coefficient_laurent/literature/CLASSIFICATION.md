@@ -10,17 +10,17 @@ Allowed labels (exactly one primary label per method):
 |---|---|
 | **known standard** | Textbook or published algorithm. Shipping it is reimplementation. |
 | **engineering adaptation** | Standard method, wired into this engine’s Laurent-coefficient IR, budgets, and fail-closed three-way (`LEVEL_A` / `LEVEL_B` / `LEVEL_C`). Systems work, not a new theorem. |
-| **GAP** | Not claimed. Would require later hop `LEVEL_C` `ZERO` on **G0016→G0013** (primary frozen generic→diagonal) with false hop `ZERO` = 0, without 27k `together()`, without Guo identities. That experiment has **not** run. V4 closed CASE J-C. Absence of a packaged evaluation is a gap, not a proof. |
+| **GAP** | Not claimed. Would require hop `LEVEL_C` `ZERO` on **G0016→G0013** with false hop `ZERO` = 0, without 27k `together()`, without Guo identities. The hop was run. After remainder fail-close it is `LEVEL_B` `UNKNOWN` (C0 matches; `remainder_ok` False on symbolic α). V4 closed CASE J-C. A C0 lemma is not hop ZERO. |
 
 There is **no** “potential novel contribution” row that may be
 quoted as a result. Track V and Track V2 allowed a *conditional*
 package row. Track V3 refused that upgrade because Guo family
 certificates did not exist. Track V5 refuses it because
-G0016→G0013 is not `LEVEL_C` `ZERO`. If that hop later is
-`LEVEL_C` `ZERO`, the only honest remainder would be
-**coefficient-space routing at scientific-expression scale**
-(verification-engineering, not mathematics). Until then the
-cell is a **GAP**.
+G0016→G0013 is not `LEVEL_C` `ZERO` (C0 matches; remainder is
+UNKNOWN). If that hop later is `LEVEL_C` `ZERO`, the only honest
+remainder would be **coefficient-space routing at
+scientific-expression scale** (verification-engineering, not
+mathematics). Until then the cell is a **GAP**.
 
 **Hard rules.**
 
@@ -69,9 +69,10 @@ ordinary systems work and does not upgrade the label.
 
 The last row is a **GAP**. It is not a “potential novel
 contribution” that a draft may hedge into existence. V4 is
-J-C. G0016→G0013 is `UNKNOWN`. The candidate system
-contribution, *if* that hop later is `LEVEL_C` `ZERO`, would
-be coefficient-space routing at scientific-expression scale —
+J-C. G0016→G0013 is hop `UNKNOWN` (`LEVEL_B`: negatives and C0
+certified, remainder not). The candidate system contribution,
+*if* that hop later is `LEVEL_C` `ZERO`, would be
+coefficient-space routing at scientific-expression scale —
 still not sparse Laurent, still not polygamma Taylor.
 
 ---

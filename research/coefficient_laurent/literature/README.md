@@ -7,10 +7,11 @@ expansion is **not** novelty. Both are textbook / published CAS.
 with a surviving \(t^{-1}\) is `NONZERO`. Only `LEVEL_C` may
 return hop `ZERO`.
 
-G0016→G0013 is `UNKNOWN` (inherited V4, CASE J-C). The only
+G0016→G0013 is hop `UNKNOWN` (`LEVEL_B` after remainder
+fail-close: C0 matches, `remainder_ok` False). The only
 *candidate* system contribution — coefficient-space routing at
 scientific-expression scale — is a **GAP** until that hop is
-`LEVEL_C` `ZERO`. This pack is not that experiment.
+`LEVEL_C` `ZERO`. A C0 lemma is not hop ZERO.
 
 This directory is the literature pack for **Track V5**
 (coefficient-space Laurent certification of already-frozen

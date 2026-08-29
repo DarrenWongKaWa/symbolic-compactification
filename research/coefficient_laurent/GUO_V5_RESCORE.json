@@ -1,20 +1,20 @@
 {
   "n_hops": 18,
-  "ZERO": 6,
+  "ZERO": 0,
   "NONZERO": 0,
-  "UNKNOWN": 12,
-  "case": "L-A",
+  "UNKNOWN": 18,
+  "case": "L-D",
   "primary": {
     "hop_id": "guo-p2-s0-i3:G0016->G0013",
     "family_id": "guo-p2-s0-i3",
     "source": "G0016",
     "target": "G0013",
     "is_primary": true,
-    "verdict": "ZERO",
-    "level": "LEVEL_C",
+    "verdict": "UNKNOWN",
+    "level": "LEVEL_B",
     "neg": "ZERO",
     "c0": "ZERO",
-    "remainder": "ZERO",
+    "remainder": "UNKNOWN",
     "max_ops": 1696,
     "together": false,
     "v4": "UNKNOWN"
@@ -26,11 +26,11 @@
       "source": "G0016",
       "target": "G0013",
       "is_primary": true,
-      "verdict": "ZERO",
-      "level": "LEVEL_C",
+      "verdict": "UNKNOWN",
+      "level": "LEVEL_B",
       "neg": "ZERO",
       "c0": "ZERO",
-      "remainder": "ZERO",
+      "remainder": "UNKNOWN",
       "max_ops": 1696,
       "together": false,
       "v4": "UNKNOWN"
@@ -71,11 +71,11 @@
       "source": "G0016",
       "target": "G0013",
       "is_primary": false,
-      "verdict": "ZERO",
-      "level": "LEVEL_C",
+      "verdict": "UNKNOWN",
+      "level": "LEVEL_B",
       "neg": "ZERO",
       "c0": "ZERO",
-      "remainder": "ZERO",
+      "remainder": "UNKNOWN",
       "max_ops": 1696,
       "together": false,
       "v4": "UNKNOWN"
@@ -116,11 +116,11 @@
       "source": "G0023",
       "target": "G0020",
       "is_primary": false,
-      "verdict": "ZERO",
-      "level": "LEVEL_C",
+      "verdict": "UNKNOWN",
+      "level": "LEVEL_B",
       "neg": "ZERO",
       "c0": "ZERO",
-      "remainder": "ZERO",
+      "remainder": "UNKNOWN",
       "max_ops": 1696,
       "together": false,
       "v4": "UNKNOWN"
@@ -161,11 +161,11 @@
       "source": "G0016",
       "target": "G0013",
       "is_primary": false,
-      "verdict": "ZERO",
-      "level": "LEVEL_C",
+      "verdict": "UNKNOWN",
+      "level": "LEVEL_B",
       "neg": "ZERO",
       "c0": "ZERO",
-      "remainder": "ZERO",
+      "remainder": "UNKNOWN",
       "max_ops": 1696,
       "together": false,
       "v4": "UNKNOWN"
@@ -206,11 +206,11 @@
       "source": "G0023",
       "target": "G0020",
       "is_primary": false,
-      "verdict": "ZERO",
-      "level": "LEVEL_C",
+      "verdict": "UNKNOWN",
+      "level": "LEVEL_B",
       "neg": "ZERO",
       "c0": "ZERO",
-      "remainder": "ZERO",
+      "remainder": "UNKNOWN",
       "max_ops": 1696,
       "together": false,
       "v4": "UNKNOWN"
@@ -251,11 +251,11 @@
       "source": "G0016",
       "target": "G0013",
       "is_primary": false,
-      "verdict": "ZERO",
-      "level": "LEVEL_C",
+      "verdict": "UNKNOWN",
+      "level": "LEVEL_B",
       "neg": "ZERO",
       "c0": "ZERO",
-      "remainder": "ZERO",
+      "remainder": "UNKNOWN",
       "max_ops": 1696,
       "together": false,
       "v4": "UNKNOWN"
@@ -295,27 +295,27 @@
   "families": [
     {
       "family_id": "guo-p2-s0-i3",
-      "n_path_zero": 5,
+      "n_path_zero": 3,
       "family_verdict": "FAMILY_UNKNOWN"
     },
     {
       "family_id": "guo-p2-s1-i2",
-      "n_path_zero": 5,
+      "n_path_zero": 3,
       "family_verdict": "FAMILY_UNKNOWN"
     },
     {
       "family_id": "guo-p2-s1-i3",
-      "n_path_zero": 5,
+      "n_path_zero": 3,
       "family_verdict": "FAMILY_UNKNOWN"
     },
     {
       "family_id": "guo-p2-s2-i2",
-      "n_path_zero": 5,
+      "n_path_zero": 3,
       "family_verdict": "FAMILY_UNKNOWN"
     },
     {
       "family_id": "guo-p2-s2-i3",
-      "n_path_zero": 5,
+      "n_path_zero": 3,
       "family_verdict": "FAMILY_UNKNOWN"
     },
     {
@@ -325,12 +325,15 @@
     },
     {
       "family_id": "guo-p2-s4-i1",
-      "n_path_zero": 5,
+      "n_path_zero": 3,
       "family_verdict": "FAMILY_UNKNOWN"
     }
   ],
   "FAMILY_ZERO": 0,
   "FAMILY_NONZERO": 0,
   "FAMILY_UNKNOWN": 7,
-  "d2_unlocked": false
+  "d2_unlocked": false,
+  "remainder_fail_closed": true,
+  "mn_hops_rerun_after_remainder_patch": 6,
+  "ell_hops_not_rerun": true
 }

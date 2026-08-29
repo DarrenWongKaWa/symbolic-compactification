@@ -7,25 +7,32 @@ false ZERO = 0. LEVEL A is not hop ZERO. Surviving `t^{-1}` with matching
 
 ## Frozen generic→diagonal hops
 
-C0 matcher now groups by polygamma and compares **per-atom** rational
-coefficients (`together` of a coeff pair only; never 27k-op kernel).
+Independent reviews (R1–R6) at parent `fb3b929` found C0 matching
+sound and LEVEL C remainder unsound: the engine hardcoded
+`remainder_verdict=ZERO` without `remainder_ok`. Coordinator
+fail-closed remainder (R2/R4). Former m→n hops rerun; ell-hops
+not retuned.
 
 ```
-EDGE ZERO:     6   (all m→n generic→diagonal: G0016→G0013, G0023→G0020)
+EDGE ZERO:     0
 EDGE NONZERO:  0
-EDGE UNKNOWN: 12   (ell-hops: process timeout 40s)
-case: **L-A**
+EDGE UNKNOWN: 18
+  6 m→n: LEVEL_B UNKNOWN (neg ZERO, C0 ZERO, rem UNKNOWN)
+  12 ell: LEVEL_A UNKNOWN (40 s timeout, not rerun)
+case: **L-D**
 ```
 
-Primary `guo-p2-s0-i3:G0016→G0013`: **LEVEL_C ZERO**
-negatives ZERO, C0 ZERO via `pg_atoms`, max core ops 1696, no full together.
+Primary `guo-p2-s0-i3:G0016→G0013`: **LEVEL_B UNKNOWN**
+negatives ZERO, C0 ZERO via `pg_atoms`, remainder UNKNOWN
+(`remainder_ok` False on 14/14 symbolic-α atoms), max core ops 1696,
+no full together.
 
-Families remain FAMILY_UNKNOWN (other covering hops UNKNOWN; path
-consistency not auto-CONSISTENT_ZERO). Track D2 **LOCKED**.
+Families remain FAMILY_UNKNOWN. Track D2 **LOCKED**.
 
-This is **edge V_GAIN**, not family V_GAIN.
+C0 matching is a non-hop lemma, not hop ZERO, not family V_GAIN.
 
 ## Decision
 
-LEVEL C on the primary hop is closed. Ell-hops remain UNKNOWN.
-Do not open D2. Do not retune the algorithm for siblings.
+LEVEL C on the primary hop is **not** certified. Ell-hops remain
+UNKNOWN. Do not open D2. Do not retune the algorithm for siblings.
+Do not start V6 by default.

@@ -79,7 +79,7 @@ limit certificate is the Track V5-specific reviewer-kill.
 | Family | V2 | 4–5 member graphs + recurrence | **not closed**; H-C (`fe53ebc`) |
 | Iterated path | V3 | ordered one-parameter steps | **not closed**; I-D (`d2752f9`) |
 | Atom series | V4 | per-atom `series` then `together` + Laurent \(t^0\) | **J-C** (`248d247`): diagonal→triple ZERO; generic→diagonal UNKNOWN (together 27327) |
-| Coefficient space | V5 | sparse \([t^k]\) of atoms; LEVEL A/B/C | **not closed**; freeze only (`7102e8a`); G0016→G0013 UNKNOWN |
+| Coefficient space | V5 | sparse \([t^k]\) of atoms; LEVEL A/B/C | **L-D** after remainder fail-close: G0016→G0013 LEVEL_B UNKNOWN (C0 matches; rem UNKNOWN) |
 
 A hop is not certified because atoms have series (that is
 `LEVEL_A`). Negative coefficients vanishing is not hop `ZERO`
@@ -538,7 +538,7 @@ Gain labels stay those of Track V, at hop grain:
   verifier improved, without 27k `together`;
 - **C_GAIN**: previously uncompiled hop, now compiles then
   verifies;
-- **NO_GAIN**: still `UNKNOWN`, including G0016→G0013 at freeze.
+- **NO_GAIN**: still hop `UNKNOWN`, including G0016→G0013 after remainder fail-close (C0 lemma is not hop ZERO).
 
 False hop `ZERO` = 0 is a merge gate. This pack does not
 produce that number. Relabeling V4’s 20 diagonal ZEROs as

@@ -9,6 +9,7 @@ from sympy.core.function import AppliedUndef
 
 from research.coefficient_laurent.cache import certificate_key, sha256_text
 from research.coefficient_laurent.c0 import match_constant
+from research.coefficient_laurent.remainder import remainder_ok
 from research.coefficient_laurent.schema import (
     LEVEL_A,
     METHOD_VERSION,
@@ -52,6 +53,44 @@ def _split_add(expr: sympy.Expr) -> tuple[sympy.Expr, sympy.Expr, bool]:
     pref = sympy.Mul(*pre) if pre else sympy.Integer(1)
     ok = (pref * add) == expr or sympy.expand(pref * add - expr) == 0
     return pref, add, bool(ok)
+
+
+def _has_pg_unit(expr: sympy.Expr) -> bool:
+    if expr.atoms(sympy.polygamma):
+        return True
+    for name in ("digamma", "trigamma", "loggamma"):
+        fn = getattr(sympy, name, None)
+        if fn is not None and expr.atoms(fn):
+            return True
+    return False
+
+
+def _remainder_from_atoms(
+    pref: sympy.Expr,
+    terms: list[sympy.Expr],
+    variable: sympy.Expr,
+    target_value: sympy.Expr,
+    recon: bool,
+) -> str:
+    """ZERO only if remainder_ok on every polygamma unit. No domain shortcut.
+
+    No polygamma: extra polygamma poles cannot appear, so a vanished
+    principal part through t^0 leaves O(t). Symbolic polygamma α is
+    UNKNOWN (remainder_ok False).
+    """
+    if not recon:
+        return UNKNOWN
+    t = sympy.Dummy("t")
+    try:
+        for term in terms:
+            expr = (pref * term).xreplace({variable: target_value + t})
+            if not _has_pg_unit(expr):
+                continue
+            if not remainder_ok(expr, t):
+                return UNKNOWN
+        return ZERO
+    except Exception:
+        return UNKNOWN
 
 
 def _is_zero(expr: sympy.Expr) -> Optional[bool]:
@@ -108,7 +147,9 @@ def sparse_laurent_limit(
         pref, add, recon = _split_add(work_s)
         terms = list(sympy.Add.make_args(add))
         cert.atom_records = [{"i": i, "ops": _ops(t)} for i, t in enumerate(terms)]
-        cert.atom_decomposition_hash = sha256_text("|".join(str(_ops(t)) for t in terms))
+        cert.atom_decomposition_hash = sha256_text(
+            sympy.srepr(pref) + "|" + "|".join(sympy.srepr(term) for term in terms)
+        )
         if not recon:
             v, lvl = compose_hop_verdict(
                 reconstruction_ok=False, atoms_expanded=False,
@@ -145,10 +186,7 @@ def sparse_laurent_limit(
         steps.append("c0:" + c0_match.provenance)
         c0v = c0_match.verdict
         cert.constant_term_verdict = c0v
-        # Affine polygamma arguments at t=0 are not nonpositive integers
-        # for the frozen Guo kernels (energy arguments ~ 1/2 + i E). Remainder
-        # is ZERO only when negatives and reconstruction succeeded; else UNKNOWN.
-        rem = ZERO if (recon and neg == ZERO) else UNKNOWN
+        rem = _remainder_from_atoms(pref, terms, variable, target_value, recon)
         cert.remainder_verdict = rem
         v, lvl = compose_hop_verdict(
             reconstruction_ok=True,

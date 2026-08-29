@@ -76,9 +76,25 @@ def rescore() -> dict:
                     seconds=EDGE_SECONDS, operation="v5_sparse", mode="process",
                 )
             except BudgetExceeded:
-                existing = {"final_verdict": "UNKNOWN", "proof_level": "LEVEL_A", "provenance": "timeout"}
+                existing = {
+                    "final_verdict": "UNKNOWN",
+                    "proof_level": "LEVEL_A",
+                    "provenance": "timeout",
+                    "negative_coefficients_verdict": "UNKNOWN",
+                    "constant_term_verdict": "UNKNOWN",
+                    "remainder_verdict": "UNKNOWN",
+                    "used_full_together": False,
+                }
             except Exception as exc:
-                existing = {"final_verdict": "UNKNOWN", "proof_level": "LEVEL_A", "error": type(exc).__name__}
+                existing = {
+                    "final_verdict": "UNKNOWN",
+                    "proof_level": "LEVEL_A",
+                    "error": type(exc).__name__,
+                    "negative_coefficients_verdict": "UNKNOWN",
+                    "constant_term_verdict": "UNKNOWN",
+                    "remainder_verdict": "UNKNOWN",
+                    "used_full_together": False,
+                }
             cache.put(key, existing)
         hop_rows.append({
             "hop_id": hop["hop_id"],
@@ -142,12 +158,12 @@ def rescore() -> dict:
                 ))
             path_rows.append(compose_path(steps, path_id=p["path_id"], start=p["start_member"], end=p["end_member"]))
         covering = [p for p in path_rows if len(p.steps) >= 2] or path_rows
-        cons = [CONSISTENCY_UNKNOWN] if len(covering) > 1 else []
+        # Never auto-CONSISTENT_ZERO (V3 R2). Never fake reconstruction ZERO (V5 R4).
         fam_v = compose_family_verdict(
             path_verdicts=[p.path_verdict for p in covering],
-            consistency_verdicts=cons,
-            reconstruction_verdicts=["ZERO"],
-            require_path_independence=bool(cons),
+            consistency_verdicts=[CONSISTENCY_UNKNOWN],
+            reconstruction_verdicts=["UNKNOWN"],
+            require_path_independence=True,
         )
         fam_rows.append({
             "family_id": fid,

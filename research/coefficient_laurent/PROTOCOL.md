@@ -12,8 +12,9 @@ atoms, without a 27k-op `together()` and without Guo identities?
 
 - **LEVEL A** — atoms expanded. Not hop ZERO.
 - **LEVEL B** — all required negative coefficients vanish.
-- **LEVEL C** — t^0 equals the diagonal target and remainder is sufficient.
-  Only LEVEL C may return ZERO.
+- **LEVEL C** — t^0 equals the diagonal target and remainder is sufficient
+  (`remainder_ok` on every polygamma unit). Only LEVEL C may return ZERO.
+  Hardcoding remainder ZERO from vanished negatives is forbidden.
 
 t^0 match with a surviving t^{-1} is NONZERO.
 
