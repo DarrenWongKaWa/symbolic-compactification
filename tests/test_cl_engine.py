@@ -60,6 +60,30 @@ def test_symbolic_alpha_blocks_level_c():
     assert cert.used_full_together is False
 
 
+def test_forbidden_ignore_remainder_regression():
+    """Permanent V5 invariant: neg ZERO + C0 ZERO + rem UNKNOWN is not hop ZERO."""
+    from research.coefficient_laurent.schema import compose_hop_verdict
+    from research.coefficient_laurent.schema import UNKNOWN as HOP_UNKNOWN
+
+    v, lvl = compose_hop_verdict(
+        reconstruction_ok=True,
+        atoms_expanded=True,
+        negative_verdict=ZERO,
+        constant_verdict=ZERO,
+        remainder_verdict=HOP_UNKNOWN,
+    )
+    assert v == HOP_UNKNOWN
+    assert v != ZERO
+    assert lvl == LEVEL_B
+    u = sympy.Symbol("u")
+    a = sympy.Symbol("a")
+    cert = sparse_laurent_limit(
+        sympy.polygamma(0, a + u), sympy.polygamma(0, a), u, sympy.Integer(0)
+    )
+    assert cert.remainder_verdict == UNKNOWN
+    assert cert.final_verdict != ZERO
+
+
 def test_surviving_pole_still_nonzero():
     u = sympy.Symbol("u")
     f = sympy.Symbol("f")
