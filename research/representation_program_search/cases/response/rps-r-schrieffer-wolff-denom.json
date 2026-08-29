@@ -1,0 +1,91 @@
+{
+  "case_id": "rps-r-schrieffer-wolff-denom",
+  "title": "Schrieffer-Wolff generator and second-order effective Hamiltonian with energy denominators",
+  "domain": "perturbation",
+  "expression_sketch": "H = H0 + V with V off-diagonal in the eigenbasis of H0. Generator condition: V + [S, H0] = 0. After rotating H0 to a diagonal D0 = diag(d_i) and V to V', the generator is S_ij = V'_ij / (d_i - d_j) (i != j). Second-order transformed Hamiltonian: H'_ij = d_i*KroneckerDelta(i,j) + (1/2)*Sum_k V'_ik * V'_kj * (1/(d_i - d_k) + 1/(d_j - d_k)) + O(V'^3). Dressed energies: E'_n = d_n + Sum_k V'_nk * V'_kn / (d_n - d_k) + O(V'^3). Written smallness: |V_ij| << |d_i - d_j|. Degenerate levels of H0 are required to lie in the same block; the generator formula is singular on d_i = d_j for off-diagonal V'.",
+  "latent_structure": "A family of perturbative kernels with energy denominators d_i - d_j. The generator S is the first Newton-like quotient of V' along unperturbed energies; the second-order H' reconstructs the same denominators as a two-node sum. The written regime |V_ij| << |d_i - d_j| excludes intra-block degeneracy of the quotient; degenerate subspaces are a different block of the same transformation, not a CSE of two V matrix elements.",
+  "proposed_ladder": "R2_newton_dd",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "H0": {
+        "type": "unperturbed Hamiltonian with known eigenstates |m> and eigenvalues E_m"
+      },
+      "V": {
+        "type": "off-diagonal perturbation in the eigenbasis of H0",
+        "notes": "Wikipedia: assumed without loss of generality that <m|V|m> = 0"
+      },
+      "d_i": {
+        "notes": "diagonal entries of D0 after block-diagonalising H0"
+      },
+      "S": {
+        "type": "anti-Hermitian generator of the unitary e^S"
+      }
+    },
+    "function_domains": {
+      "H_prime": "Schrieffer-Wolff transformed Hamiltonian e^S H e^{-S}, diagonal to first order in V",
+      "H_eff": "block projection of H' onto a chosen subspace"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "Generator components are written as S_ij = V'_ij / (d_i - d_j), so d_i != d_j for those off-diagonal pairs",
+        "label": "DECLARED",
+        "source": "Wikipedia Schrieffer-Wolff transformation, Particular case: S_ij = V'_ij / (d_i - d_j)"
+      },
+      {
+        "statement": "Dressed-energy denominators d_n - d_k in the sum for E'_n",
+        "label": "DECLARED",
+        "source": "Wikipedia Schrieffer-Wolff transformation: E'_n = d_n + Sum_k V'_nk V'_kn / (d_n - d_k) + O(V'^3)"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "The transformation is accurate when eliminated subspaces are energetically well separated from the subspace of interest: the strength of V is much smaller than the energy difference between subspaces",
+        "label": "DECLARED",
+        "source": "Wikipedia Schrieffer-Wolff transformation, Derivation, last paragraph: 'the strength of the interaction V must be much smaller than the energy difference between the subspaces'"
+      },
+      {
+        "statement": "Componentwise smallness |V_ij| << |d_i - d_j| is written as the approximation on which SW is based",
+        "label": "DECLARED",
+        "source": "Wikipedia Schrieffer-Wolff transformation, Particular case: 'the SW transformation is based on the approximation |V_ij| << |d_i - d_j|'"
+      },
+      {
+        "statement": "All degenerate energy levels of H0 belong to the same block; typical matrix elements coupling different sectors are much smaller than eigenvalue differences between those sectors",
+        "label": "DECLARED",
+        "source": "Wikipedia Schrieffer-Wolff transformation, Particular case: 'all degenerate energy levels should belong to the same block'; 'the typical matrix element coupling different sectors must be much smaller than the eigenvalue differences between those sectors'"
+      }
+    ],
+    "branch_conventions": [
+      "V is taken off-diagonal in the H0 eigenbasis (diagonal pieces absorbed into H0).",
+      "Unitary W = e^S; Wikipedia writes H' = e^S H e^{-S}."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The Baker-Campbell-Hausdorff expansion of H' is truncated at O(V^3); the displayed H'_ij is the second-order member",
+        "label": "DECLARED",
+        "source": "Wikipedia Schrieffer-Wolff transformation: H' = H0 + (1/2)[S, V] + O(V^3), then the explicit H'_ij formula"
+      }
+    ],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Schrieffer%E2%80%93Wolff_transformation",
+      "Schrieffer, J. R. and Wolff, P. A., Phys. Rev. 149 (1966) 491-492, doi:10.1103/PhysRev.149.491",
+      "Bravyi, S., DiVincenzo, D., Loss, D., Ann. Phys. 326 (2011) 2793-2826, arXiv:1105.0675",
+      "Luttinger, J. R. and Kohn, W., Phys. Rev. 97 (1955) 869-883"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "The generator formula is undefined for off-diagonal pairs with d_i = d_j; those pairs are assigned to a common degenerate block rather than to S_ij = V_ij/(d_i-d_j)",
+        "label": "DERIVED",
+        "source": "Conjunction of the written S_ij formula with the written requirement that degenerate levels share a block"
+      }
+    ]
+  },
+  "public_source": "Wikipedia, Schrieffer-Wolff transformation (https://en.wikipedia.org/wiki/Schrieffer%E2%80%93Wolff_transformation); Schrieffer and Wolff, Phys. Rev. 149, 491 (1966), doi:10.1103/PhysRev.149.491; Bravyi-DiVincenzo-Loss, arXiv:1105.0675.",
+  "why_not_cse_lgg": "CSE shares V_ik V_kj. LGG antiunifies two second-order diagrams. The scientific object is a generator whose matrix elements are energy-denominator quotients, with a written nondegeneracy |d_i-d_j| >> |V_ij| and a degenerate-block exclusion.",
+  "proposer_leak_risk": "Do not plant 'Schrieffer-Wolff', 'Kondo', or 'divided difference' as gold names. Do not package this as Kato simple-eigenvalue first-order perturbation (historical mp-kato-simple-ev-01).",
+  "notes": "Not Kato simple eigenvalue: that is lambda'(tau0) = y0* A'(tau0) x0 via the reduced resolvent of an analytic matrix family at a simple eigenvalue. Here the object is a block-decoupling unitary with explicit energy denominators d_i-d_j. Degenerate denominators are declared singular for the quotient and assigned to blocks. is_guo=false.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

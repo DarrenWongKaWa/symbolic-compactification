@@ -1,0 +1,88 @@
+{
+  "owner": "C3 perturbation / response",
+  "parent": "5321eaa",
+  "count": 8,
+  "is_guo": false,
+  "forbidden_historical": [
+    "ac-r01-resolvent-hilbert-identity",
+    "ac-r02-sokhotski-plemelj-boundary",
+    "ac-r03-helmholtz-outgoing-green",
+    "ac-r04-lindhard-occupation-dd",
+    "ac-r05-lehmann-spectral-master",
+    "ac-r06-matsubara-pole-family",
+    "ac-r07-lippmann-schwinger-iepsilon",
+    "ac-r08-kubo-frequency-underspecified",
+    "Lindhard",
+    "Lehmann",
+    "Lippmann-Schwinger",
+    "Kato simple eigenvalue",
+    "Sokhotski-Plemelj",
+    "Guo"
+  ],
+  "dossiers": [
+    {
+      "case_id": "rps-r-birman-schwinger-kernel",
+      "title": "Birman-Schwinger compact kernel of the free resolvent as bound-state master",
+      "domain": "perturbation",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Wikipedia Birman-Schwinger principle; Birman 1961; Schwinger PNAS 47 (1961)",
+      "json": "rps-r-birman-schwinger-kernel.json"
+    },
+    {
+      "case_id": "rps-r-krein-spectral-shift",
+      "title": "Krein perturbation determinant as Cauchy master of the spectral shift function",
+      "domain": "perturbation",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Yafaev arXiv:math/0701301 Theorem 2.1; Krein 1953; Carey-Gesztesy-Levitina-Sukochev arXiv:1505.04895",
+      "json": "rps-r-krein-spectral-shift.json"
+    },
+    {
+      "case_id": "rps-r-feshbach-optical-heff",
+      "title": "Feshbach open/closed-channel optical Hamiltonian with degenerate closed-channel resolvent",
+      "domain": "perturbation",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Wikipedia Feshbach resonance; Feshbach Ann. Phys. 5 (1958) and 19 (1962)",
+      "json": "rps-r-feshbach-optical-heff.json"
+    },
+    {
+      "case_id": "rps-r-faddeeva-plasma-z",
+      "title": "Fried-Conte plasma dispersion Z as Faddeeva Hilbert transform of a Maxwellian",
+      "domain": "response",
+      "proposed_ladder": "R5_special_function",
+      "public_source": "Wikipedia Faddeeva function; Fried and Conte 1961",
+      "json": "rps-r-faddeeva-plasma-z.json"
+    },
+    {
+      "case_id": "rps-r-schrieffer-wolff-denom",
+      "title": "Schrieffer-Wolff generator and second-order effective Hamiltonian with energy denominators",
+      "domain": "perturbation",
+      "proposed_ladder": "R2_newton_dd",
+      "public_source": "Wikipedia Schrieffer-Wolff transformation; Schrieffer-Wolff Phys. Rev. 149 (1966); Bravyi-DiVincenzo-Loss arXiv:1105.0675",
+      "json": "rps-r-schrieffer-wolff-denom.json"
+    },
+    {
+      "case_id": "rps-r-fano-beutler-profile",
+      "title": "Beutler-Fano asymmetric profile from discrete-continuum interference",
+      "domain": "response",
+      "proposed_ladder": "R4_piecewise_unification",
+      "public_source": "Wikipedia Fano resonance; Fano Phys. Rev. 124 (1961); Miroshnichenko-Flach-Kivshar arXiv:0902.3014",
+      "json": "rps-r-fano-beutler-profile.json"
+    },
+    {
+      "case_id": "rps-r-lorentz-causal-poles",
+      "title": "Lorentz oscillator susceptibility with written causal poles in the lower half-plane",
+      "domain": "response",
+      "proposed_ladder": "R4_piecewise_unification",
+      "public_source": "Wikipedia Lorentz oscillator model; Capers et al. arXiv:2008.05546",
+      "json": "rps-r-lorentz-causal-poles.json"
+    },
+    {
+      "case_id": "rps-r-weyl-titchmarsh-m",
+      "title": "Weyl-Titchmarsh M-function as Herglotz master of the Sturm-Liouville Green kernel",
+      "domain": "green",
+      "proposed_ladder": "R6_master_object",
+      "public_source": "Clark-Gesztesy arXiv:math/9905070 Theorem 2.8; Titchmarsh 1946/1962; Weyl 1910",
+      "json": "rps-r-weyl-titchmarsh-m.json"
+    }
+  ]
+}

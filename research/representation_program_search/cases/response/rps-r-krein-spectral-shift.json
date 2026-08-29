@@ -1,0 +1,101 @@
+{
+  "case_id": "rps-r-krein-spectral-shift",
+  "title": "Krein perturbation determinant as Cauchy master of the spectral shift function",
+  "domain": "perturbation",
+  "expression_sketch": "H, H0 self-adjoint, V = H - H0 trace class. Perturbation determinant on rho(H0): D(z) = Det(I + V * (H0 - z)**(-1)). D is holomorphic on rho(H0); D'(z)/D(z) = Tr(R(z) - R0(z)) for z in rho(H) intersect rho(H0). Krein: ln D(z) = Integral(xi(lambda)/(lambda - z), (lambda, -oo, oo)) for Im(z) != 0, with xi(lambda) = (1/pi) * lim_{eps->0+} arg D(lambda + I*eps) for a.e. lambda in R. Trace formula: Tr(f(H) - f(H0)) = Integral(f'(lambda)*xi(lambda), lambda). Resolvent specialisation: Tr((H - z)**(-1) - (H0 - z)**(-1)) = -Integral(xi(lambda)/(lambda - z)**2, lambda) for z in C \\ (spec(H0) union spec(H)). Birman-Krein: Det S(lambda; H, H0) = exp(-2*pi*I*xi(lambda)) for a.e. lambda in the absolutely continuous spectrum of H0. Integral xi = Tr(V) and Integral |xi| <= ||V||_1.",
+  "latent_structure": "The holomorphic perturbation determinant D(z) on rho(H0) is the master object. The spectral shift xi is its real-axis boundary value of arg/log, i.e. a Stieltjes inversion of ln D. Resolvent traces, Lifshitz-Krein traces of f(H)-f(H0), and the scattering phase (Birman-Krein) are members of that one Cauchy/Herglotz family. Not a CSE of two resolvents and not a Lehmann spectral representation of a single Green function.",
+  "proposed_ladder": "R6_master_object",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "z": {
+        "complex": true,
+        "notes": "spectral parameter of the perturbation determinant"
+      },
+      "lambda": {
+        "real": true,
+        "notes": "real energy at which xi is recovered by a boundary value"
+      },
+      "H0": {
+        "type": "self-adjoint operator"
+      },
+      "H": {
+        "type": "self-adjoint operator"
+      },
+      "V": {
+        "type": "trace-class self-adjoint perturbation H - H0"
+      }
+    },
+    "function_domains": {
+      "D": "perturbation determinant Det(I + V R0(z)), holomorphic on rho(H0)",
+      "xi": "Krein spectral shift function of the pair (H, H0), in L1(R)",
+      "R": "resolvent (H - z)**(-1) on rho(H)",
+      "R0": "resolvent (H0 - z)**(-1) on rho(H0)",
+      "S": "scattering matrix of the pair (H, H0) on the ac spectrum of H0"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "D(z) is defined on the resolvent set rho(H0); ln D is taken in C+ / C- with arg D(z) -> 0 as |Im z| -> infinity",
+        "label": "DECLARED",
+        "source": "Yafaev, arXiv:math/0701301, Section 2: D holomorphic on rho(H0); branch of ln D fixed by arg D(z) = 0 as Im z -> infinity"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": ["xi"],
+    "analytic_domains": [
+      {
+        "statement": "The perturbation determinant D(z) is holomorphic on the resolvent set rho(H0)",
+        "label": "DECLARED",
+        "source": "Yafaev, arXiv:math/0701301, Section 2: 'The function D(z) is holomorphic on rho(H0)'"
+      },
+      {
+        "statement": "ln D(z) = Integral xi(lambda)/(lambda - z) d lambda holds for Im z != 0",
+        "label": "DECLARED",
+        "source": "Yafaev, arXiv:math/0701301, Theorem 2.1: ln D(z) = Integral xi(lambda)(lambda - z)**(-1) d lambda, Im z != 0"
+      },
+      {
+        "statement": "Carey-Gesztesy-Levitina-Sukochev restatement: ln(Delta_{H/H0}(z)) = Integral xi(lambda; H, H0)/(lambda - z) d lambda for Im(z) != 0",
+        "label": "DECLARED",
+        "source": "Carey, Gesztesy, Levitina, Sukochev, arXiv:1505.04895, Theorem 2.2"
+      },
+      {
+        "statement": "Resolvent trace formula is written for z in C \\ (spec(H0) union spec(H))",
+        "label": "DECLARED",
+        "source": "Gesztesy-Makarov, arXiv:math/9903186, Theorem 3.6: Tr((H-z)**(-1)-(H0-z)**(-1)) = -Integral xi(lambda)(lambda-z)**(-2) d lambda"
+      }
+    ],
+    "branch_conventions": [
+      "ln D in the half-planes Im z != 0 is the branch with arg D(z) -> 0 as |Im z| -> infinity (Yafaev Section 2).",
+      "xi(lambda) = pi**(-1) lim_{eps->0+} arg D(lambda + i eps) for a.e. lambda in R (Krein inversion).",
+      "Convention (H0 - z)**(-1) as in Yafaev's D(z) = Det(I + V R0(z))."
+    ],
+    "limit_domains": [
+      {
+        "statement": "For a.e. lambda in R, xi(lambda) = pi**(-1) lim_{eps->0+} arg D(lambda + i eps); the limit exists a.e.",
+        "label": "DECLARED",
+        "source": "Yafaev, arXiv:math/0701301, Theorem 2.1; equivalently Carey et al. arXiv:1505.04895 (2.5): xi = pi**(-1) lim_{eps down 0} Im ln Delta(lambda + i eps)"
+      }
+    ],
+    "source_provenance": [
+      "Yafaev, D. R., Perturbation determinants, the spectral shift function, trace identities, and all that, arXiv:math/0701301",
+      "Krein, M. G., Mat. Sb. 33 (1953) 597-626",
+      "Lifshitz, I. M., Uspekhi Mat. Nauk 7 (1952) 171-180",
+      "Carey, A., Gesztesy, F., Levitina, G., Sukochev, F., arXiv:1505.04895, Theorems 2.2-2.3",
+      "Gesztesy, F. and Makarov, K. A., arXiv:math/9903186, Theorem 3.6 and (3.33) Birman-Krein",
+      "Birman, M. Sh. and Krein, M. G., Dokl. Akad. Nauk SSSR 144 (1962) 475-478"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "On the ac spectrum, Det S(lambda; H, H0) = exp(-2*pi*I*xi(lambda)) (Birman-Krein)",
+        "label": "DERIVED",
+        "source": "Yafaev, arXiv:math/0701301 (1.2); Gesztesy-Makarov arXiv:math/9903186 (3.33)"
+      }
+    ]
+  },
+  "public_source": "Yafaev, arXiv:math/0701301, Theorem 2.1 (https://arxiv.org/abs/math/0701301); Krein, Mat. Sb. 33 (1953); Carey-Gesztesy-Levitina-Sukochev, arXiv:1505.04895, Theorem 2.2.",
+  "why_not_cse_lgg": "CSE can share a resolvent difference. LGG antiunifies two traces. The scientific object is a holomorphic Fredholm determinant on rho(H0) whose boundary arg is the spectral shift, reconstructing both the Lifshitz-Krein trace and the scattering phase.",
+  "proposer_leak_risk": "Do not plant 'Lehmann', 'Krein SSF', or 'perturbation determinant' as gold names in a later proposer view. Keep this distinct from the historical Lehmann master (ac-r05) and from Hilbert first-resolvent identity (ac-r01).",
+  "notes": "Not Lehmann: that packages G(z) = Integral rho/(z-x) for one Green function. Here the master is ln Det(I + V R0(z)) for a trace-class pair. Not Kato simple eigenvalue. Boundary value of arg D uses a written eps down 0+ inversion (Krein), not folklore i epsilon in a scattering kernel. is_guo=false. Not admitted here.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

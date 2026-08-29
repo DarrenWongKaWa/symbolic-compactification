@@ -1,0 +1,97 @@
+{
+  "case_id": "rps-r-lorentz-causal-poles",
+  "title": "Lorentz oscillator susceptibility with written causal poles in the lower half-plane",
+  "domain": "response",
+  "expression_sketch": "Time-harmonic convention E(t) = E0*exp(-I*omega*t). Polarizability: alpha(omega) = (e**2/m) / ((omega0**2 - omega**2) - I*omega/tau). Dielectric: epsilon(omega) = 1 + 4*pi*N*e**2/m * 1/((omega0**2 - omega**2) - I*omega/tau) (Gaussian). Multi-resonance: epsilon(omega) = epsilon_inf + Sum_j s_j / (omega0_j**2 - omega**2 - I*Gamma_j*omega), Gamma_j = 1/tau. Transfer-function form G(omega) = 1/(omega0**2 - omega**2 - I*gamma*omega): if the system is passive (gamma > 0) both poles lie in Im(omega) < 0. Piecewise scattering regimes of the same denominator: Thomson omega**2 >> omega/tau, omega0**2; Rayleigh omega0**2 >> omega**2, omega/tau; resonant omega/tau >> |omega0**2 - omega**2|. Real/imaginary split: epsilon = epsilon1 + I*epsilon2 with epsilon2 proportional to Gamma_j*omega / ((omega0**2-omega**2)**2 + (Gamma_j*omega)**2).",
+  "latent_structure": "A meromorphic causal response whose poles are confined to the open lower half-plane when damping is passive. Thomson, Rayleigh, and resonant (Schneider-Miles) regimes are piecewise specialisations of one Lorentz denominator, not CSE of omega0**2 and omega**2. Causality of the inverse Fourier transform for t < 0 is the UHP analyticity of G, equivalent to the written LHP pole location.",
+  "proposed_ladder": "R4_piecewise_unification",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "omega": {
+        "complex": true,
+        "notes": "frequency; time-harmonic factor exp(-I*omega*t) as written"
+      },
+      "omega0": {
+        "notes": "resonance frequency sqrt(k/m) as written"
+      },
+      "tau": {
+        "notes": "relaxation time/scattering time as named on Wikipedia; Gamma = 1/tau"
+      },
+      "gamma": {
+        "notes": "damping coefficient in the G(omega) = 1/(omega0**2 - omega**2 - I*gamma*omega) form"
+      }
+    },
+    "function_domains": {
+      "alpha": "complex polarizability of a single oscillator",
+      "epsilon": "complex dielectric function",
+      "G": "Lorentz transfer function 1/(omega0**2 - omega**2 - I*gamma*omega)"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "The dielectric/polarizability denominator is (omega0**2 - omega**2) - I*omega/tau",
+        "label": "DECLARED",
+        "source": "Wikipedia Lorentz oscillator model, Dielectric function and Dipole moment"
+      }
+    ],
+    "positivity_conditions": [
+      {
+        "statement": "If the system is passive, gamma > 0",
+        "label": "DECLARED",
+        "source": "Capers, Boyes, Hibbins, Horsley, arXiv:2008.05546: 'if the system is passive (gamma > 0), then both the poles of G(omega) lie in the plane Im omega < 0'"
+      }
+    ],
+    "real_valued_functions": [],
+    "analytic_domains": [
+      {
+        "statement": "Time-harmonic convention is E(t) = E0 exp(-I*omega*t) (and r(t) likewise)",
+        "label": "DECLARED",
+        "source": "Wikipedia Lorentz oscillator model, Electron motion: E(t) = E0 e^{-i omega t}"
+      },
+      {
+        "statement": "For passive damping gamma > 0, both poles of G(omega) = 1/(omega0**2 - omega**2 - I*gamma*omega) lie in Im(omega) < 0",
+        "label": "DECLARED",
+        "source": "Capers et al., arXiv:2008.05546, paragraph after (5): poles in Im omega < 0 when gamma > 0"
+      },
+      {
+        "statement": "The inverse Fourier transform of G for t < 0 is evaluated by a contour in Im omega > 0, where the integrand is analytic under the written LHP pole condition",
+        "label": "DECLARED",
+        "source": "Capers et al., arXiv:2008.05546, after (6): 'If t < 0, then e^{-i omega t} is bounded in the upper half plane... poles of the problem' in the lower half-plane"
+      },
+      {
+        "statement": "Wikipedia records three scattering regimes as conditions on the same denominator (Thomson / Schneider-Miles / Rayleigh)",
+        "label": "DECLARED",
+        "source": "Wikipedia Lorentz oscillator model, table 'Three distinct scattering regimes'"
+      }
+    ],
+    "branch_conventions": [
+      "Fourier convention exp(-I*omega*t) as on the Wikipedia Lorentz page; this places causal poles in Im omega < 0 for gamma > 0.",
+      "Gamma_j = 1/tau as written in the multi-oscillator restatement."
+    ],
+    "limit_domains": [
+      {
+        "statement": "epsilon_inf is the infinite-frequency value of the dielectric function, used as an adjustable high-frequency remainder",
+        "label": "DECLARED",
+        "source": "Wikipedia Lorentz oscillator model, Dielectric function: 'epsilon_inf is the value of the dielectric function at infinite frequency'"
+      }
+    ],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Lorentz_oscillator_model",
+      "Capers, J. R., Boyes, S. J., Hibbins, A. P., Horsley, S. A. R., arXiv:2008.05546",
+      "Jackson, J. D., Classical Electrodynamics, causality and Kramers-Kronig (Ch. 7.10 in later editions)"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "Under the written convention exp(-I*omega t) and gamma > 0, G is holomorphic in the open upper half-plane Im(omega) > 0",
+        "label": "DERIVED",
+        "source": "Poles in Im omega < 0 (Capers et al.) imply holomorphy in the complementary open half-plane"
+      }
+    ]
+  },
+  "public_source": "Wikipedia, Lorentz oscillator model (https://en.wikipedia.org/wiki/Lorentz_oscillator_model); Capers, Boyes, Hibbins, Horsley, arXiv:2008.05546.",
+  "why_not_cse_lgg": "CSE can share omega0**2 - omega**2. LGG antiunifies Thomson and Rayleigh scalings. The scientific object is one meromorphic Lorentz master with written LHP poles under passivity, whose high-frequency, resonant, and static regimes are members.",
+  "proposer_leak_risk": "Do not plant 'Kramers-Kronig', 'Lorentz oscillator', or 'passivity' as gold names. Do not package as Sokhotski-Plemelj 1/z (ac-r02) or as Kubo frequency (ac-r08).",
+  "notes": "Not Sokhotski-Plemelj: the identity is the Lorentz rational kernel plus written LHP poles, not the distributional boundary value of 1/z. gamma > 0 is not inserted as folklore; it is the passivity hypothesis written in arXiv:2008.05546. Wikipedia names tau as relaxation/scattering time but does not write tau > 0 as an inequality; positivity is taken from the passivity source only. is_guo=false.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}

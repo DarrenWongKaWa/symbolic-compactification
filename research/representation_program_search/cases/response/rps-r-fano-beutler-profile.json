@@ -1,0 +1,95 @@
+{
+  "case_id": "rps-r-fano-beutler-profile",
+  "title": "Beutler-Fano asymmetric profile from discrete-continuum interference",
+  "domain": "response",
+  "expression_sketch": "Fano 1961 cross-section: sigma ≈ (q*Gamma_res/2 + E - E_res)**2 / ((Gamma_res/2)**2 + (E - E_res)**2). Reduced energy: epsilon = 2*(E - E_res)/Gamma_res, equivalently epsilon = 2*(E - E_F)/Gamma. One-parameter family: sigma / sigma_background = (epsilon + q)**2 / (epsilon**2 + 1). Window member q = 0: sigma ≈ (E - E_res)**2 / ((Gamma_res/2)**2 + (E - E_res)**2). Lorentzian/Breit-Wigner member |q| -> oo (direct amplitude vanishes relative to resonant). Zero of the profile at epsilon = -q; maximum at epsilon = 1/q for q != 0. Resonant energy E_res is required to lie in the energy range of the continuum (background) states.",
+  "latent_structure": "A one-parameter family of rational response profiles indexed by the Fano q, with a shared quadratic denominator (E - E_res)**2 + (Gamma_res/2)**2. The q = 0 window, finite-q asymmetric line, and |q| -> oo Lorentzian are members of that family (piecewise unification of discrete-plus-continuum interference), not CSE of numerator and denominator. Consistent with Feshbach-Fano partitioning but packaged here as the published lineshape, not as the optical Hamiltonian.",
+  "proposed_ladder": "R4_piecewise_unification",
+  "assumption_contract": {
+    "symbol_assumptions": {
+      "E": {
+        "real": true,
+        "notes": "scattering energy"
+      },
+      "E_res": {
+        "real": true,
+        "notes": "resonant energy; Wikipedia also writes E_F"
+      },
+      "Gamma_res": {
+        "notes": "line width of the resonant energy as written"
+      },
+      "q": {
+        "notes": "Fano parameter: ratio of resonant scattering to direct (background) scattering amplitude"
+      },
+      "epsilon": {
+        "real": true,
+        "notes": "reduced energy 2*(E - E_res)/Gamma_res"
+      }
+    },
+    "function_domains": {
+      "sigma": "total scattering cross-section near the autoionizing / Fano resonance"
+    },
+    "nonzero_conditions": [
+      {
+        "statement": "The profile denominator is (Gamma_res/2)**2 + (E - E_res)**2; equivalently epsilon**2 + 1 after reducing by Gamma_res/2",
+        "label": "DECLARED",
+        "source": "Wikipedia Fano resonance, Explanation: sigma ≈ (q Gamma_res/2 + E - E_res)**2 / ((Gamma_res/2)**2 + (E - E_res)**2)"
+      }
+    ],
+    "positivity_conditions": [],
+    "real_valued_functions": ["sigma"],
+    "analytic_domains": [
+      {
+        "statement": "The energy of the resonant state must lie in the energy range of the continuum (background) states for the effect to occur",
+        "label": "DECLARED",
+        "source": "Wikipedia Fano resonance, Explanation: 'The energy of the resonant state must lie in the energy range of the continuum (background) states for the effect to occur'"
+      },
+      {
+        "statement": "Near E_res the background amplitude varies slowly while the resonant amplitude changes magnitude and phase quickly; within 2 Gamma_res of E_res the resonant phase changes by pi",
+        "label": "DECLARED",
+        "source": "Wikipedia Fano resonance, Explanation, paragraphs on phase variation"
+      },
+      {
+        "statement": "If the direct scattering amplitude vanishes, q = 0 and the formula becomes the symmetric window (E - E_res)**2 / ((Gamma_res/2)**2 + (E - E_res)**2)",
+        "label": "DECLARED",
+        "source": "Wikipedia Fano resonance: 'In case the direct scattering amplitude vanishes, the q parameter becomes zero and the Fano formula becomes' the window expression"
+      },
+      {
+        "statement": "Transmission 1 - sigma(q=0) recovers the three-parameter Lorentzian / Breit-Wigner profile",
+        "label": "DECLARED",
+        "source": "Wikipedia Fano resonance: 'this last expression boils down to the expected Breit-Wigner (Lorentzian) formula'"
+      }
+    ],
+    "branch_conventions": [
+      "q measures resonant versus direct amplitude as written; q = 0 is the window member, |q| large is the Lorentzian member.",
+      "Reduced energy epsilon = 2*(E - E_res)/Gamma_res (Miroshnichenko et al. restatement of Fano 1961)."
+    ],
+    "limit_domains": [
+      {
+        "statement": "The |q| -> infinity limit of the family is the standard Lorentzian of a Breit-Wigner resonance (direct continuum transition weak)",
+        "label": "DECLARED",
+        "source": "Miroshnichenko, Flach, Kivshar, Rev. Mod. Phys. 82 (2010) 2257, arXiv:0902.3014, discussion of (1): 'In the limit |q| -> infinity, Eq. (1) reduces to the standard Lorentzian profile of a Breit-Wigner resonance'"
+      }
+    ],
+    "source_provenance": [
+      "https://en.wikipedia.org/wiki/Fano_resonance",
+      "Fano, U., Phys. Rev. 124 (1961) 1866-1878, doi:10.1103/PhysRev.124.1866",
+      "Fano, U., Nuovo Cimento 12 (1935) 154-161",
+      "Miroshnichenko, A. E., Flach, S., Kivshar, Y. S., Rev. Mod. Phys. 82 (2010) 2257, arXiv:0902.3014"
+    ],
+    "derived_conditions": [
+      {
+        "statement": "sigma_min = 0 at epsilon = -q and sigma_max = 1 + q**2 at epsilon = 1/q (for the normalised (epsilon+q)**2/(epsilon**2+1) family)",
+        "label": "DERIVED",
+        "source": "Critical points of (epsilon+q)**2/(epsilon**2+1); recorded in Miroshnichenko et al., arXiv:0902.3014, eq. (2)"
+      }
+    ]
+  },
+  "public_source": "Wikipedia, Fano resonance (https://en.wikipedia.org/wiki/Fano_resonance); Fano, Phys. Rev. 124, 1866 (1961), doi:10.1103/PhysRev.124.1866; Miroshnichenko-Flach-Kivshar, arXiv:0902.3014.",
+  "why_not_cse_lgg": "CSE can share the Lorentzian denominator. LGG antiunifies a window and a peak. The scientific object is a q-family unifying discrete-continuum interference, with written domain that E_res lies in the continuum band.",
+  "proposer_leak_risk": "Do not plant 'Fano', 'Beutler', or 'autoionization' as gold names. Keep distinct from the Feshbach optical Hamiltonian case packaged separately in this directory.",
+  "notes": "Not Lippmann-Schwinger, not Lehmann, not Kato simple eigenvalue. Real-energy lineshape; no folklore i epsilon. Overlap of a discrete state with a continuum is written as a necessary condition. Complementary to rps-r-feshbach-optical-heff (operator Schur complement vs published profile). is_guo=false.",
+  "rejected": false,
+  "reject_reason": "",
+  "is_guo": false
+}
