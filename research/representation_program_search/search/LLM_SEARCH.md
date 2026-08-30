@@ -37,7 +37,9 @@ The prompt contains the word JSON and an exact output example, as required by
 JSON mode.
 
 Five fixed replication labels are available: `seed-0` through `seed-4`.
-They are audit labels, not an unsupported API seed parameter.
+Every result binds `seed` deterministically to the label suffix (`0` through
+`4`) while retaining `seed_label`. They are experiment seed identifiers, not
+an unsupported API seed parameter.
 
 ## Strict output contract
 
@@ -52,6 +54,17 @@ duplicate, missing, non-string, free-form, extra-field, truncated, model
 mismatch, missing-request-id, and incomplete-usage responses are invalid.
 Invalid output is never repaired. Search applies the separately recorded
 `PRESENTED_CANONICAL_ORDER_V1` fallback.
+
+Fallback keeps a failed run replayable as a diagnostic; it does not make the
+run LLM-guided evidence. `RPSLLMCausalValidityV1` marks a completed run
+scientifically eligible only when it has at least one accepted LLM ranking,
+zero fallback decisions, and complete usage for every decision. The terminal
+result records `accepted_llm_decisions`, `llm_causal_valid`,
+`llm_causal_validity_status`, exact invalid-reason codes, and
+`llm_guided_scientific_run_eligible`. Any fallback, any incomplete usage, or
+zero accepted decisions fails closed to
+`INVALID_LLM_GUIDED_DIAGNOSTIC_ONLY`. The pre-call header records this policy
+as `PENDING_FAIL_CLOSED`; it cannot prematurely assert run validity.
 
 Provider `reasoning_content` is never accessed. No reasoning body, hash,
 length, tail, or reused reasoning message is retained. The projector keeps
@@ -78,7 +91,7 @@ The method records every batch and beam truncation. It is not exhaustive:
 `branching_incomplete=true`, and global expression enumeration is never
 claimed.
 
-### Mandatory matched-frontier caveat
+### Mandatory matched-frontier control
 
 Current S2 applies its symbolic heuristic to the full generated child
 frontier for each parent before selecting the layer beam. S4/S5 first truncate
@@ -93,10 +106,19 @@ is identical. Every run/header records:
 }
 ```
 
-No S2-versus-S4/S5 efficiency or AI_SEARCH_ADVANTAGE claim is admissible until
-a frozen symbolic `S2_MATCHED_BATCH32` diagnostic, or an equivalent control
-using the identical first-32 presented subset, is executed. This diagnostic
-does not replace strongest full-frontier S2.
+`S2_MATCHED_BATCH32` is implemented as the required diagnostic. It uses the
+identical first 32 M2-ordered legal children for each parent, the same beam
+width, canonical duplicate handling, and the same shared
+`(local_rank, parent_hash, child_hash)` merge function. Its only difference is
+that the frozen symbolic heuristic supplies each parent's local permutation.
+It records every presented and locally ranked batch plus every cross-parent
+beam layer.
+
+No S2-versus-S4/S5 efficiency or AI_SEARCH_ADVANTAGE claim is admissible
+unless that matched diagnostic is executed on the same immutable inputs and
+budget. Full-frontier S2 remains the strongest symbolic baseline;
+`S2_MATCHED_BATCH32` is an additional causal control and explicitly records
+`replaces_full_frontier_s2=false`.
 
 ## Atomic decision evidence
 

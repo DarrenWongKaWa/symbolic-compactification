@@ -9,6 +9,13 @@ from .actions import (
     initial_state,
     legal_actions,
 )
+from .beam_policy import (
+    BATCHED_BEAM_MERGE_POLICY_VERSION,
+    CROSS_PARENT_PRIORITY_FIELDS,
+    MATCHED_LAYER_BEAM_WIDTH,
+    MATCHED_PER_PARENT_BATCH_SIZE,
+    cross_parent_rank_key,
+)
 from .candidates import (
     CANDIDATE_POLICY_VERSION,
     CandidatePool,
@@ -51,6 +58,12 @@ from .llm_contract import (
     request_hash,
 )
 from .llm_guided import (
+    LLM_CAUSAL_REASON_FALLBACK,
+    LLM_CAUSAL_REASON_INCOMPLETE_USAGE,
+    LLM_CAUSAL_REASON_ZERO_ACCEPTED,
+    LLM_CAUSAL_STATUS_INVALID,
+    LLM_CAUSAL_STATUS_VALID,
+    LLM_CAUSAL_VALIDITY_POLICY_VERSION,
     LLM_FALLBACK_POLICY,
     LLM_RUN_HEADER_VERSION,
     LLM_SEARCH_POLICY_VERSION,
@@ -65,10 +78,15 @@ from .llm_guided import (
 from .symbolic_beam import (
     SYMBOLIC_BEAM_POLICY_VERSION,
     SYMBOLIC_BEAM_WIDTH,
+    SYMBOLIC_MATCHED_BATCH_CONDITION,
+    SYMBOLIC_MATCHED_BATCH_POLICY_VERSION,
     BeamLayerRecord,
+    MatchedParentBatchRecord,
+    MatchedSymbolicBeamResult,
     PriorityRecord,
     SymbolicBeamResult,
     symbolic_beam_search,
+    symbolic_matched_batch32_search,
 )
 from .symbolic_heuristic import (
     SYMBOLIC_HEURISTIC_VERSION,
@@ -81,6 +99,7 @@ from .symbolic_heuristic import (
 )
 
 __all__ = [
+    "BATCHED_BEAM_MERGE_POLICY_VERSION",
     "CANDIDATE_POLICY_VERSION",
     "SEARCH_POLICY_VERSION",
     "CandidatePool",
@@ -94,6 +113,12 @@ __all__ = [
     "LLM_BATCH_SIZE",
     "LLM_BEAM_WIDTH",
     "LLM_FALLBACK_POLICY",
+    "LLM_CAUSAL_REASON_FALLBACK",
+    "LLM_CAUSAL_REASON_INCOMPLETE_USAGE",
+    "LLM_CAUSAL_REASON_ZERO_ACCEPTED",
+    "LLM_CAUSAL_STATUS_INVALID",
+    "LLM_CAUSAL_STATUS_VALID",
+    "LLM_CAUSAL_VALIDITY_POLICY_VERSION",
     "LLM_RUN_HEADER_VERSION",
     "LLM_PRIMARY_MODEL",
     "LLM_RANKING_SCHEMA_VERSION",
@@ -123,9 +148,16 @@ __all__ = [
     "assert_llm_public_payload",
     "SYMBOLIC_BEAM_POLICY_VERSION",
     "SYMBOLIC_BEAM_WIDTH",
+    "SYMBOLIC_MATCHED_BATCH_CONDITION",
+    "SYMBOLIC_MATCHED_BATCH_POLICY_VERSION",
     "SYMBOLIC_HEURISTIC_VERSION",
     "SYMBOLIC_HEURISTIC_WEIGHTS",
     "BeamLayerRecord",
+    "CROSS_PARENT_PRIORITY_FIELDS",
+    "MatchedParentBatchRecord",
+    "MATCHED_LAYER_BEAM_WIDTH",
+    "MATCHED_PER_PARENT_BATCH_SIZE",
+    "MatchedSymbolicBeamResult",
     "PriorityRecord",
     "SymbolicBeamResult",
     "SymbolicObservations",
@@ -136,6 +168,7 @@ __all__ = [
     "call_and_validate_ranking",
     "candidate_state_items",
     "complexity_breakdown",
+    "cross_parent_rank_key",
     "enumerative_search",
     "expand_state",
     "extract_candidate_pool",
@@ -154,6 +187,7 @@ __all__ = [
     "request_hash",
     "score_program",
     "symbolic_beam_search",
+    "symbolic_matched_batch32_search",
     "symbolic_priority",
     "symbolic_priority_key",
 ]

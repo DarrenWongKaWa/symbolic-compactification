@@ -14,12 +14,18 @@ from research.representation_program_search.program_ir import canonical_json
 from research.representation_program_search.program_ir.model import freeze_json, thaw_json
 
 from .actions import SearchPolicy, expand_state, initial_state
+from .beam_policy import (
+    BATCHED_BEAM_MERGE_POLICY_VERSION,
+    CROSS_PARENT_PRIORITY_FIELDS,
+    cross_parent_rank_key,
+)
 from .candidates import CandidatePool, extract_candidate_pool
 from .llm_contract import (
     LLM_BATCH_SIZE,
     LLM_BEAM_WIDTH,
     LLM_RANKING_SCHEMA_VERSION,
     LLM_SEARCH_PROTOCOL_VERSION,
+    LLM_SEED_LABELS,
     ChatCompletionsTransport,
     DeepSeekSearchConfig,
     TokenUsage,
@@ -39,9 +45,31 @@ from .results import ExpansionRecord, SearchResult, public_manifest
 
 LLM_SEARCH_POLICY_VERSION = "RPSLLMBeamBatchPolicyV1"
 LLM_FALLBACK_POLICY = "PRESENTED_CANONICAL_ORDER_V1"
+LLM_CAUSAL_VALIDITY_POLICY_VERSION = "RPSLLMCausalValidityV1"
+LLM_CAUSAL_STATUS_VALID = "VALID_LLM_GUIDED_SCIENTIFIC_RUN"
+LLM_CAUSAL_STATUS_INVALID = "INVALID_LLM_GUIDED_DIAGNOSTIC_ONLY"
+LLM_CAUSAL_REASON_FALLBACK = "FALLBACK_DECISION_PRESENT"
+LLM_CAUSAL_REASON_INCOMPLETE_USAGE = "USAGE_INCOMPLETE"
+LLM_CAUSAL_REASON_ZERO_ACCEPTED = "ZERO_ACCEPTED_LLM_DECISIONS"
 SYMBOLIC_COMPARISON_REQUIRES_MATCHED_BATCH_CONTROL = True
 SYMBOLIC_COMPARISON_STATUS = "UNMATCHED_FRONTIER_DO_NOT_CLAIM_AI_ADVANTAGE"
 LLM_RUN_HEADER_VERSION = "RPSLLMRunHeaderV1"
+
+
+def _causal_invalid_reasons(
+    *,
+    accepted_llm_decisions: int,
+    fallback_decisions: int,
+    usage_complete_for_all_decisions: bool,
+) -> tuple[str, ...]:
+    reasons: list[str] = []
+    if fallback_decisions:
+        reasons.append(LLM_CAUSAL_REASON_FALLBACK)
+    if not usage_complete_for_all_decisions:
+        reasons.append(LLM_CAUSAL_REASON_INCOMPLETE_USAGE)
+    if accepted_llm_decisions == 0:
+        reasons.append(LLM_CAUSAL_REASON_ZERO_ACCEPTED)
+    return tuple(reasons)
 
 
 @dataclass(frozen=True)
@@ -66,6 +94,7 @@ class LLMGuidedSearchResult(SearchResult):
     seed_label: str = ""
     protocol_version: str = LLM_SEARCH_PROTOCOL_VERSION
     llm_search_policy_version: str = LLM_SEARCH_POLICY_VERSION
+    merge_policy_version: str = BATCHED_BEAM_MERGE_POLICY_VERSION
     ranking_schema_version: str = LLM_RANKING_SCHEMA_VERSION
     batch_size: int = LLM_BATCH_SIZE
     beam_width: int = LLM_BEAM_WIDTH
@@ -76,12 +105,20 @@ class LLMGuidedSearchResult(SearchResult):
     llm_beam_states_pruned: int = 0
     fallback_decisions: int = 0
     invalid_response_decisions: int = 0
+    accepted_llm_decisions: int = 0
     prompt_tokens: int = 0
     completion_tokens: int = 0
     reasoning_tokens: int = 0
     prompt_cache_hit_tokens: int = 0
     prompt_cache_miss_tokens: int = 0
     usage_complete_for_all_decisions: bool = True
+    llm_causal_validity_policy_version: str = LLM_CAUSAL_VALIDITY_POLICY_VERSION
+    llm_causal_valid: bool = False
+    llm_causal_validity_status: str = LLM_CAUSAL_STATUS_INVALID
+    llm_causal_invalid_reasons: tuple[str, ...] = (
+        LLM_CAUSAL_REASON_ZERO_ACCEPTED,
+    )
+    llm_guided_scientific_run_eligible: bool = False
     run_header_artifact: str = "run_header.json"
     run_header_sha256: str = ""
     search_result_artifact: str = "search_result.json"
@@ -95,6 +132,8 @@ class LLMGuidedSearchResult(SearchResult):
         SYMBOLIC_COMPARISON_REQUIRES_MATCHED_BATCH_CONTROL
     )
     symbolic_comparison_status: str = SYMBOLIC_COMPARISON_STATUS
+    required_symbolic_control_condition: str = "S2_MATCHED_BATCH32"
+    strongest_symbolic_baseline_condition: str = "S2"
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -108,6 +147,42 @@ class LLMGuidedSearchResult(SearchResult):
             raise ValueError("LLM_SEARCH_TOKEN_TOTAL_MISMATCH")
         if not self.symbolic_comparison_requires_matched_batch_control:
             raise ValueError("LLM_SEARCH_UNMATCHED_COMPARISON_GATE_MISSING")
+        if self.seed_label not in LLM_SEED_LABELS:
+            raise ValueError("LLM_SEARCH_SEED_LABEL_INVALID")
+        if self.seed != int(self.seed_label.removeprefix("seed-")):
+            raise ValueError("LLM_SEARCH_SEED_BINDING_INVALID")
+        if self.fallback_decisions != self.invalid_response_decisions:
+            raise ValueError("LLM_SEARCH_INVALID_FALLBACK_COUNT_MISMATCH")
+        if self.llm_causal_validity_policy_version != (
+            LLM_CAUSAL_VALIDITY_POLICY_VERSION
+        ):
+            raise ValueError("LLM_SEARCH_CAUSAL_POLICY_NOT_FROZEN")
+        if self.merge_policy_version != BATCHED_BEAM_MERGE_POLICY_VERSION:
+            raise ValueError("LLM_SEARCH_MERGE_POLICY_NOT_FROZEN")
+        if self.required_symbolic_control_condition != "S2_MATCHED_BATCH32":
+            raise ValueError("LLM_SEARCH_MATCHED_CONTROL_INVALID")
+        if self.strongest_symbolic_baseline_condition != "S2":
+            raise ValueError("LLM_SEARCH_STRONGEST_SYMBOLIC_BASELINE_INVALID")
+        expected_accepted = len(self.decision_records) - self.invalid_response_decisions
+        if self.accepted_llm_decisions != expected_accepted:
+            raise ValueError("LLM_SEARCH_ACCEPTED_DECISION_COUNT_MISMATCH")
+        expected_reasons = _causal_invalid_reasons(
+            accepted_llm_decisions=self.accepted_llm_decisions,
+            fallback_decisions=self.fallback_decisions,
+            usage_complete_for_all_decisions=self.usage_complete_for_all_decisions,
+        )
+        if self.llm_causal_invalid_reasons != expected_reasons:
+            raise ValueError("LLM_SEARCH_CAUSAL_REASON_MISMATCH")
+        expected_valid = not expected_reasons
+        expected_status = (
+            LLM_CAUSAL_STATUS_VALID if expected_valid else LLM_CAUSAL_STATUS_INVALID
+        )
+        if self.llm_causal_valid != expected_valid:
+            raise ValueError("LLM_SEARCH_CAUSAL_VALIDITY_MISMATCH")
+        if self.llm_causal_validity_status != expected_status:
+            raise ValueError("LLM_SEARCH_CAUSAL_STATUS_MISMATCH")
+        if self.llm_guided_scientific_run_eligible != expected_valid:
+            raise ValueError("LLM_SEARCH_SCIENTIFIC_ELIGIBILITY_MISMATCH")
         object.__setattr__(
             self,
             "decision_records",
@@ -117,6 +192,7 @@ class LLMGuidedSearchResult(SearchResult):
     def to_dict(self, *, include_states: bool = False) -> dict[str, Any]:
         payload = super().to_dict(include_states=include_states)
         payload.update({
+            "accepted_llm_decisions": self.accepted_llm_decisions,
             "batch_size": self.batch_size,
             "beam_width": self.beam_width,
             "completion_tokens": self.completion_tokens,
@@ -127,7 +203,17 @@ class LLMGuidedSearchResult(SearchResult):
             "invalid_response_decisions": self.invalid_response_decisions,
             "llm_batch_states_pruned": self.llm_batch_states_pruned,
             "llm_beam_states_pruned": self.llm_beam_states_pruned,
+            "llm_causal_invalid_reasons": list(self.llm_causal_invalid_reasons),
+            "llm_causal_valid": self.llm_causal_valid,
+            "llm_causal_validity_policy_version": (
+                self.llm_causal_validity_policy_version
+            ),
+            "llm_causal_validity_status": self.llm_causal_validity_status,
+            "llm_guided_scientific_run_eligible": (
+                self.llm_guided_scientific_run_eligible
+            ),
             "llm_layer_records": [item.to_dict() for item in self.llm_layer_records],
+            "merge_policy_version": self.merge_policy_version,
             "llm_search_complete": self.llm_search_complete,
             "llm_search_policy_version": self.llm_search_policy_version,
             "model": self.model,
@@ -137,12 +223,18 @@ class LLMGuidedSearchResult(SearchResult):
             "protocol_version": self.protocol_version,
             "ranking_schema_version": self.ranking_schema_version,
             "reasoning_tokens": self.reasoning_tokens,
+            "required_symbolic_control_condition": (
+                self.required_symbolic_control_condition
+            ),
             "run_header_artifact": self.run_header_artifact,
             "run_header_sha256": self.run_header_sha256,
             "search_result_artifact": self.search_result_artifact,
             "seed_label": self.seed_label,
             "self_certifies_success": self.self_certifies_success,
             "states_to_first_success": self.states_to_first_success,
+            "strongest_symbolic_baseline_condition": (
+                self.strongest_symbolic_baseline_condition
+            ),
             "success_evaluation": self.success_evaluation,
             "time_to_first_success_seconds": self.time_to_first_success_seconds,
             "tokens_to_first_success": self.tokens_to_first_success,
@@ -303,7 +395,9 @@ def _run_header(
         "batch_policy": {
             "batch_size": LLM_BATCH_SIZE,
             "beam_width": LLM_BEAM_WIDTH,
+            "cross_parent_priority": list(CROSS_PARENT_PRIORITY_FIELDS),
             "fallback_policy": LLM_FALLBACK_POLICY,
+            "merge_policy_version": BATCHED_BEAM_MERGE_POLICY_VERSION,
             "policy_version": LLM_SEARCH_POLICY_VERSION,
             "presented_subset": "FIRST_32_M2_ORDERED_LEGAL_CHILDREN",
         },
@@ -326,6 +420,16 @@ def _run_header(
             canonical_json(public_context).encode("utf-8")
         ).hexdigest(),
         "run_header_version": LLM_RUN_HEADER_VERSION,
+        "llm_causal_validity_policy": {
+            "fallback_is_diagnostic_only": True,
+            "policy_version": LLM_CAUSAL_VALIDITY_POLICY_VERSION,
+            "pre_call_status": "PENDING_FAIL_CLOSED",
+            "valid_requires": [
+                "AT_LEAST_ONE_ACCEPTED_LLM_DECISION",
+                "ZERO_FALLBACK_DECISIONS",
+                "COMPLETE_USAGE_FOR_EVERY_DECISION",
+            ],
+        },
         "search_policy": policy.to_dict(),
         "symbolic_comparison_requires_matched_batch_control": (
             SYMBOLIC_COMPARISON_REQUIRES_MATCHED_BATCH_CONTROL
@@ -454,7 +558,7 @@ def llm_guided_search(
                 if child_hash in expanded_hashes:
                     duplicates += 1
                     continue
-                key = (local_rank, state_hash, child_hash)
+                key = cross_parent_rank_key(local_rank, state_hash, child_hash)
                 prior = next_candidates.get(child_hash)
                 if prior is None or key < prior[0]:
                     if prior is not None:
@@ -484,6 +588,13 @@ def llm_guided_search(
 
     elapsed = time.perf_counter() - started
     beam_exhausted = not layer and not stopped_for_budget
+    accepted_count = len(decision_records) - invalid_count
+    causal_reasons = _causal_invalid_reasons(
+        accepted_llm_decisions=accepted_count,
+        fallback_decisions=fallback_count,
+        usage_complete_for_all_decisions=usage_complete,
+    )
+    causal_valid = not causal_reasons
     result = LLMGuidedSearchResult(
         condition=condition,
         case_id=case.case_id,
@@ -491,7 +602,7 @@ def llm_guided_search(
         budget_requested=budget,
         states_expanded=len(expanded),
         frontier_exhausted=beam_exhausted,
-        seed=None,
+        seed=frozen_config.seed,
         wall_time_seconds=elapsed,
         expanded_states=tuple(expanded),
         expansion_trace=tuple(trace),
@@ -513,12 +624,19 @@ def llm_guided_search(
         llm_beam_states_pruned=beam_pruned,
         fallback_decisions=fallback_count,
         invalid_response_decisions=invalid_count,
+        accepted_llm_decisions=accepted_count,
         prompt_tokens=prompt_tokens,
         completion_tokens=completion_tokens,
         reasoning_tokens=reasoning_tokens,
         prompt_cache_hit_tokens=cache_hit_tokens,
         prompt_cache_miss_tokens=cache_miss_tokens,
         usage_complete_for_all_decisions=usage_complete,
+        llm_causal_valid=causal_valid,
+        llm_causal_validity_status=(
+            LLM_CAUSAL_STATUS_VALID if causal_valid else LLM_CAUSAL_STATUS_INVALID
+        ),
+        llm_causal_invalid_reasons=causal_reasons,
+        llm_guided_scientific_run_eligible=causal_valid,
         run_header_sha256=header["run_header_sha256"],
     )
     atomic_write_json(output_directory / result.search_result_artifact, result.to_dict())

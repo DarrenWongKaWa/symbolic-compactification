@@ -33,6 +33,7 @@ from research.representation_program_search.grammar_v1 import (
 from research.representation_program_search.program_ir import canonical_json
 from research.representation_program_search.program_ir.model import thaw_json
 
+from .beam_policy import MATCHED_LAYER_BEAM_WIDTH, MATCHED_PER_PARENT_BATCH_SIZE
 from .model import LegalAction, SearchContractError, SearchState
 from .public_case import PublicCase
 
@@ -47,8 +48,8 @@ LLM_THINKING_TYPE = "enabled"
 LLM_RESPONSE_FORMAT = MappingProxyType({"type": "json_object"})
 LLM_MAX_TOKENS = 4096
 LLM_BASE_URL = "https://api.deepseek.com"
-LLM_BATCH_SIZE = 32
-LLM_BEAM_WIDTH = 32
+LLM_BATCH_SIZE = MATCHED_PER_PARENT_BATCH_SIZE
+LLM_BEAM_WIDTH = MATCHED_LAYER_BEAM_WIDTH
 
 OFFICIAL_DEEPSEEK_DOCS = (
     "https://api-docs.deepseek.com/api/create-chat-completion/",
@@ -106,6 +107,11 @@ class DeepSeekSearchConfig:
         if self.thinking_type != LLM_THINKING_TYPE:
             raise SearchContractError("LLM_THINKING_MODE_NOT_FROZEN")
 
+    @property
+    def seed(self) -> int:
+        """Return the deterministic experiment seed bound to ``seed_label``."""
+        return LLM_SEED_LABELS.index(self.seed_label)
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "base_url": LLM_BASE_URL,
@@ -114,6 +120,7 @@ class DeepSeekSearchConfig:
             "protocol_version": self.protocol_version,
             "reasoning_effort": self.reasoning_effort,
             "response_format": dict(LLM_RESPONSE_FORMAT),
+            "seed": self.seed,
             "seed_label": self.seed_label,
             "thinking": {"type": self.thinking_type},
         }

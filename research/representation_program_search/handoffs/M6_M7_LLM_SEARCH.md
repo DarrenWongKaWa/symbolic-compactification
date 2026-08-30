@@ -3,6 +3,7 @@
 Date: 2026-08-30
 Branch: `work/rps-symbolic-beam`
 Base for this subtask: `4a5f178`
+Fail-closed/matched-control follow-up base: `05fd7ee`
 Scope: infrastructure plus mocked synthetic controls; zero live DeepSeek,
 scientific DEV, TEST, or package calls
 
@@ -26,6 +27,10 @@ scientific DEV, TEST, or package calls
     `search_result.json`;
   - full token/cache/reasoning-token accounting and explicit null
     states/time/tokens-to-first-success pending external exact evaluation.
+- `search/symbolic_beam.py`
+  - additive `S2_MATCHED_BATCH32` causal diagnostic over the exact S4/S5
+    first-32-per-parent frontier and shared cross-parent merge policy;
+  - full-frontier S2 remains unchanged and strongest.
 - `search/LLM_SEARCH.md`, public exports, and search README integration.
 - `tests/test_rps_llm_guided.py`, using mocked transports only.
 
@@ -67,6 +72,14 @@ canonical record hash. It is fsync'd to a temporary file and atomically
 renamed before children enter the next frontier. Existing artifacts are never
 overwritten.
 
+The terminal run-level validity is fail-closed under
+`RPSLLMCausalValidityV1`. A run is eligible as LLM-guided scientific evidence
+only with at least one accepted LLM decision, zero fallback decisions, and
+complete usage on every decision. Any API/schema/parse fallback, incomplete
+usage, or zero accepted decision yields
+`INVALID_LLM_GUIDED_DIAGNOSTIC_ONLY` and
+`llm_guided_scientific_run_eligible=false`. Fallback remains diagnostic only.
+
 `run_header.json` is written atomically before the first API call. It anchors
 condition, config, case/proposer hash, public-context hash, candidate-pool
 hash/incompleteness, exact SearchPolicy, grammar, budget, batch/beam/fallback
@@ -80,27 +93,35 @@ policy, and the comparison gate, so partial runs remain interpretable.
 - first 32 M2-ordered legal children presented;
 - layer beam width 32;
 - accepted local rank then parent hash then child hash;
-- five provenance labels `seed-0` through `seed-4`;
+- five provenance labels `seed-0` through `seed-4`, deterministically bound to
+  numeric result seeds 0 through 4;
 - grammar and latent-object ablations unchanged;
 - candidate-batch and beam truncation explicitly reported;
 - no exhaustive-search claim.
 
-## Causal frontier mismatch gate
+## Causal frontier matched diagnostic
 
 S4/S5 generate the same M2 legal frontier but expose only the first 32
-M2-ordered children per parent. Current S2 ranks the full per-parent frontier
-before its layer beam. Therefore the methods are not yet fully
-frontier-matched. Every run and header records:
+M2-ordered children per parent. Full-frontier S2 ranks every generated child
+before its layer beam. Every LLM run and header therefore records:
 
 ```text
 symbolic_comparison_requires_matched_batch_control = true
 symbolic_comparison_status = UNMATCHED_FRONTIER_DO_NOT_CLAIM_AI_ADVANTAGE
 ```
 
-No S2-vs-S4/S5 or AI_SEARCH_ADVANTAGE conclusion is permitted until a frozen
-`S2_MATCHED_BATCH32` diagnostic (or equivalent identical-subset control) is
-run. Full-frontier S2 remains the strongest symbolic condition; the matched
-diagnostic is an additional causal control, not a replacement.
+The frozen `S2_MATCHED_BATCH32` diagnostic is now implemented. It exposes the
+identical first-32-per-parent M2 subset, uses symbolic priority only for the
+local permutation, and then calls the same shared
+`(local_rank,parent_hash,child_hash)` merge key and beam policy as S4/S5. It
+records presented/local-ranked batches and layer frontiers so tests can replay
+an S4 run under the symbolic permutation and establish exact state-for-state
+frontier agreement.
+
+No S2-vs-S4/S5 or AI_SEARCH_ADVANTAGE conclusion is permitted without running
+this diagnostic on the same inputs and budget. Full-frontier S2 remains the
+strongest symbolic condition; the matched diagnostic explicitly records that
+it is an additional causal control, not a replacement.
 
 ## Documentation basis
 
@@ -124,7 +145,7 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q \
   tests/test_rps_enumerative_random.py \
   tests/test_rps_program_ir.py
 
-68 passed in 13.20s
+74 passed in 21.79s
 ```
 
 Repository-wide:
@@ -132,17 +153,18 @@ Repository-wide:
 ```text
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q
 
-1790 passed in 211.99s
+1796 passed in 221.86s
 ```
 
-The 17 M6/M7 tests cover exact Chat Completions dispatch, both frozen models,
-five seed labels, thinking/high/JSON configuration, strict response failures,
-private-reasoning exclusion, complete usage, API/parse fallback, exact S4 and
-S5 candidate presentations, M2 frontier matching before the explicitly
-reported batch truncation, run-header-before-call ordering, atomic hashes and
-no-overwrite behavior, fixed budgets/policy, grammar and latent ablation,
-forged evaluator-context rejection, zero success self-certification, and the
-mandatory unmatched-S2 causal gate.
+The 18 M6/M7 and 16 S2 tests cover exact Chat Completions dispatch, both frozen
+models, deterministic numeric binding of five seed labels,
+thinking/high/JSON configuration, strict response failures, private-reasoning
+exclusion, complete usage, API/parse fallback, fail-closed run-level causal
+validity, exact S4 and S5 candidate presentations, run-header-before-call
+ordering, atomic hashes and no-overwrite behavior, fixed budgets/policy,
+grammar and latent ablation, forged evaluator-context rejection, zero success
+self-certification, and state-for-state replay of S4 against the mandatory
+`S2_MATCHED_BATCH32` causal control.
 
 ## Integration boundary
 

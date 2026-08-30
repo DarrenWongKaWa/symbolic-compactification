@@ -12,6 +12,8 @@ import research.llm_abstraction.client as old_llm_client
 import research.representation_program_search.program_ir as program_ir
 import symbolic_compactification
 from research.representation_program_search.search import (
+    BATCHED_BEAM_MERGE_POLICY_VERSION,
+    CROSS_PARENT_PRIORITY_FIELDS,
     LLM_ALLOWED_MODELS,
     LLM_BATCH_SIZE,
     LLM_BEAM_WIDTH,
@@ -20,6 +22,11 @@ from research.representation_program_search.search import (
     LLM_ROBUSTNESS_MODEL,
     LLM_SEED_LABELS,
     LLM_THINKING_TYPE,
+    LLM_CAUSAL_REASON_FALLBACK,
+    LLM_CAUSAL_REASON_INCOMPLETE_USAGE,
+    LLM_CAUSAL_REASON_ZERO_ACCEPTED,
+    LLM_CAUSAL_STATUS_INVALID,
+    LLM_CAUSAL_STATUS_VALID,
     DeepSeekSearchConfig,
     LatentCandidate,
     OpenAIChatCompletionsTransport,
@@ -179,6 +186,7 @@ def test_deepseek_chat_completions_request_is_exactly_frozen(tmp_path):
     items = candidate_state_items(expansion.children[:2])
     for model in LLM_ALLOWED_MODELS:
         config = DeepSeekSearchConfig(model=model, seed_label="seed-3")
+        assert config.seed == 3
         request = build_ranking_request(
             condition="S4",
             config=config,
@@ -197,6 +205,9 @@ def test_deepseek_chat_completions_request_is_exactly_frozen(tmp_path):
     assert LLM_PRIMARY_MODEL == "deepseek-v4-pro"
     assert LLM_ROBUSTNESS_MODEL == "deepseek-v4-flash"
     assert len(LLM_SEED_LABELS) == 5
+    assert [DeepSeekSearchConfig(seed_label=label).seed for label in LLM_SEED_LABELS] == [
+        0, 1, 2, 3, 4,
+    ]
     with pytest.raises(SearchContractError, match="LLM_MODEL_NOT_FROZEN"):
         DeepSeekSearchConfig(model="deepseek-chat")
     with pytest.raises(SearchContractError, match="LLM_SEED_LABEL_NOT_FROZEN"):
@@ -336,10 +347,16 @@ def test_s4_s5_audit_every_decision_and_share_frontier_policy(tmp_path, conditio
     assert result.time_to_first_success_seconds is None
     assert result.tokens_to_first_success is None
     assert result.model == LLM_PRIMARY_MODEL
+    assert result.seed == 2
     assert result.seed_label == "seed-2"
     assert result.fallback_decisions == 0
     assert result.invalid_response_decisions == 0
     assert result.usage_complete_for_all_decisions is True
+    assert result.accepted_llm_decisions == len(result.decision_records)
+    assert result.llm_causal_valid is True
+    assert result.llm_causal_validity_status == LLM_CAUSAL_STATUS_VALID
+    assert result.llm_causal_invalid_reasons == ()
+    assert result.llm_guided_scientific_run_eligible is True
     assert result.prompt_tokens == 10 * len(result.decision_records)
     assert result.completion_tokens == 5 * len(result.decision_records)
     assert result.llm_tokens == 15 * len(result.decision_records)
@@ -379,7 +396,9 @@ def test_s4_s5_audit_every_decision_and_share_frontier_policy(tmp_path, conditio
     assert header["batch_policy"] == {
         "batch_size": 32,
         "beam_width": 32,
+        "cross_parent_priority": list(CROSS_PARENT_PRIORITY_FIELDS),
         "fallback_policy": "PRESENTED_CANONICAL_ORDER_V1",
+        "merge_policy_version": BATCHED_BEAM_MERGE_POLICY_VERSION,
         "policy_version": "RPSLLMBeamBatchPolicyV1",
         "presented_subset": "FIRST_32_M2_ORDERED_LEGAL_CHILDREN",
     }
@@ -387,7 +406,23 @@ def test_s4_s5_audit_every_decision_and_share_frontier_policy(tmp_path, conditio
     assert header["symbolic_comparison_status"] == (
         "UNMATCHED_FRONTIER_DO_NOT_CLAIM_AI_ADVANTAGE"
     )
+    assert header["llm_causal_validity_policy"] == {
+        "fallback_is_diagnostic_only": True,
+        "policy_version": "RPSLLMCausalValidityV1",
+        "pre_call_status": "PENDING_FAIL_CLOSED",
+        "valid_requires": [
+            "AT_LEAST_ONE_ACCEPTED_LLM_DECISION",
+            "ZERO_FALLBACK_DECISIONS",
+            "COMPLETE_USAGE_FOR_EVERY_DECISION",
+        ],
+    }
     assert (run / "search_result.json").is_file()
+    terminal = json.loads((run / "search_result.json").read_text(encoding="utf-8"))
+    assert terminal == result.to_dict()
+    assert terminal["seed"] == 2
+    assert terminal["seed_label"] == "seed-2"
+    assert terminal["llm_causal_valid"] is True
+    assert terminal["llm_guided_scientific_run_eligible"] is True
     serialized_records = result.to_dict()["decision_records"]
     for filename, serialized_record in zip(
         result.decision_artifacts, serialized_records
@@ -432,6 +467,15 @@ def test_invalid_or_failed_api_uses_separate_canonical_fallback(tmp_path):
     )
     assert invalid.fallback_decisions == len(invalid.decision_records)
     assert failed.fallback_decisions == len(failed.decision_records)
+    for result in (invalid, failed):
+        assert result.accepted_llm_decisions == 0
+        assert result.llm_causal_valid is False
+        assert result.llm_causal_validity_status == LLM_CAUSAL_STATUS_INVALID
+        assert result.llm_guided_scientific_run_eligible is False
+        assert LLM_CAUSAL_REASON_FALLBACK in result.llm_causal_invalid_reasons
+        assert LLM_CAUSAL_REASON_ZERO_ACCEPTED in result.llm_causal_invalid_reasons
+    assert LLM_CAUSAL_REASON_INCOMPLETE_USAGE not in invalid.llm_causal_invalid_reasons
+    assert LLM_CAUSAL_REASON_INCOMPLETE_USAGE in failed.llm_causal_invalid_reasons
     assert [item.canonical_hash for item in invalid.expanded_states] == [
         item.canonical_hash for item in failed.expanded_states
     ]
@@ -450,6 +494,13 @@ def test_invalid_or_failed_api_uses_separate_canonical_fallback(tmp_path):
     assert invalid_first["provider_response"]["raw_structured_final_response"] is not None
     assert failed_first["fallback"]["reason"] == "API_FAILURE:RuntimeError"
     assert failed_first["provider_response"]["raw_structured_final_response"] is None
+    for run_name in ("invalid", "failed"):
+        terminal = json.loads(
+            (tmp_path / run_name / "search_result.json").read_text(encoding="utf-8")
+        )
+        assert terminal["llm_causal_valid"] is False
+        assert terminal["llm_guided_scientific_run_eligible"] is False
+        assert terminal["llm_causal_validity_status"] == LLM_CAUSAL_STATUS_INVALID
 
 
 def test_incomplete_usage_invalidates_response_and_is_recorded(tmp_path):
@@ -469,9 +520,39 @@ def test_incomplete_usage_invalidates_response_and_is_recorded(tmp_path):
     )
     assert result.fallback_decisions == len(result.decision_records)
     assert result.usage_complete_for_all_decisions is False
+    assert result.llm_causal_valid is False
+    assert result.llm_guided_scientific_run_eligible is False
+    assert result.llm_causal_invalid_reasons == (
+        LLM_CAUSAL_REASON_FALLBACK,
+        LLM_CAUSAL_REASON_INCOMPLETE_USAGE,
+        LLM_CAUSAL_REASON_ZERO_ACCEPTED,
+    )
     first = json.loads((tmp_path / "run" / result.decision_artifacts[0]).read_text())
     assert first["fallback"]["reason"] == "RESPONSE_USAGE_INCOMPLETE"
     assert first["provider_response"]["usage"]["complete"] is False
+
+
+def test_any_fallback_invalidates_run_even_after_an_accepted_llm_decision(tmp_path):
+    case = load_public_case(_fixture(tmp_path / "case"))
+
+    class AcceptedThenFallback(MockRankingTransport):
+        def complete(self, request):
+            self.mode = "reverse" if not self.requests else "bad_json"
+            return super().complete(request)
+
+    result = llm_state_ranking_search(
+        case,
+        budget=10,
+        transport=AcceptedThenFallback(),
+        decision_directory=tmp_path / "run",
+    )
+    assert result.accepted_llm_decisions == 1
+    assert result.fallback_decisions > 0
+    assert result.usage_complete_for_all_decisions is True
+    assert result.llm_causal_invalid_reasons == (LLM_CAUSAL_REASON_FALLBACK,)
+    assert result.llm_causal_valid is False
+    assert result.llm_causal_validity_status == LLM_CAUSAL_STATUS_INVALID
+    assert result.llm_guided_scientific_run_eligible is False
 
 
 def test_no_evaluator_verifier_sol_or_old_reasoning_client_is_called(tmp_path, monkeypatch):
@@ -498,6 +579,7 @@ def test_no_evaluator_verifier_sol_or_old_reasoning_client_is_called(tmp_path, m
     assert result.grammar_id == "G_PRIMITIVE"
     assert result.model == LLM_ROBUSTNESS_MODEL
     assert result.seed_label == "seed-4"
+    assert result.seed == 4
     assert all(
         "reference" not in item and "verification" not in item
         for item in result.public_case_manifest["accessed_paths"]
@@ -523,6 +605,12 @@ def test_budget_latent_ablation_and_atomic_directory_fail_closed(tmp_path):
     assert disabled.states_expanded == 1
     assert not disabled.decision_records
     assert disabled.frontier_exhausted is True
+    assert disabled.llm_causal_valid is False
+    assert disabled.llm_causal_validity_status == LLM_CAUSAL_STATUS_INVALID
+    assert disabled.llm_causal_invalid_reasons == (
+        LLM_CAUSAL_REASON_ZERO_ACCEPTED,
+    )
+    assert disabled.llm_guided_scientific_run_eligible is False
 
     occupied = tmp_path / "occupied"
     occupied.mkdir()

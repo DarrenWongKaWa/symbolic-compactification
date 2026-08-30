@@ -86,8 +86,18 @@ private-reasoning exclusion, audit, and incompleteness rules are in
 This is **not** frontier-matched to current S2: S2 ranks every generated child
 before layer-beam truncation. S4/S5 therefore record
 `symbolic_comparison_requires_matched_batch_control=true`; no AI-advantage
-comparison to S2 is valid until a symbolic `S2_MATCHED_BATCH32` diagnostic (or
-equivalent frozen matched control) is run.
+comparison to S2 is valid unless the implemented `S2_MATCHED_BATCH32`
+diagnostic is run on the same inputs and budget. That diagnostic ranks the
+identical first-32-per-parent subset and uses the exact shared cross-parent
+merge key and beam width. It is additive: full-frontier S2 remains the
+strongest symbolic baseline.
+
+S4/S5 also fail closed at run level. A run with any API/schema/parse fallback,
+incomplete usage, or zero accepted LLM rankings is labeled
+`INVALID_LLM_GUIDED_DIAGNOSTIC_ONLY` and
+`llm_guided_scientific_run_eligible=false`; fallback output can be replayed
+but cannot count as LLM-guided evidence. Numeric result seeds 0--4 are bound
+deterministically to retained labels `seed-0`--`seed-4`.
 
 ## Search-policy bounds
 
