@@ -71,6 +71,24 @@ completed depth layer. `beam_search_complete=false` is unconditional, and
 the truncation auditable. Reaching an empty beam means only that the frozen
 beam policy exhausted its retained frontier.
 
+## S4/S5 LLM heuristic controls
+
+S4 ranks bounded legal child states; S5 ranks bounded legal typed actions.
+Both generate the unchanged M2 frontier and then present only its first 32
+children under one shared frozen batch/beam policy.
+They accept only complete permutations of opaque IDs and atomically record
+every decision. Invalid API or schema output is not repaired; a distinct
+canonical fallback is recorded. They never read verifier/evaluator/SOL data
+and never self-certify PROGRAM_SUCCESS. Full request, response-projection,
+private-reasoning exclusion, audit, and incompleteness rules are in
+[`LLM_SEARCH.md`](LLM_SEARCH.md).
+
+This is **not** frontier-matched to current S2: S2 ranks every generated child
+before layer-beam truncation. S4/S5 therefore record
+`symbolic_comparison_requires_matched_batch_control=true`; no AI-advantage
+comparison to S2 is valid until a symbolic `S2_MATCHED_BATCH32` diagnostic (or
+equivalent frozen matched control) is run.
+
 ## Search-policy bounds
 
 `RPSSearchPolicyV1` fixes, without per-task tuning:
