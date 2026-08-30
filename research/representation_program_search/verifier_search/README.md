@@ -1,7 +1,9 @@
 # S6 verifier-in-the-loop controller
 
-This package is the exact-adjudication layer for condition S6. It is not a
-program generator and does not duplicate S0/S1 enumeration.
+This package is the exact-adjudication layer for condition S6 and the shared
+post-hoc evaluator for conditions whose search order does not use verifier
+feedback. It is not a program generator and does not duplicate S0/S1
+enumeration.
 
 The controller consumes `VerifierFrontierNode` objects adapted from a
 method-neutral legal frontier. Ordering uses only:
@@ -47,3 +49,12 @@ frontier. It calls the same `extract_candidate_pool`, `initial_state`, and
 verifier feedback changes only the controller's priority band. Leakage status
 defaults to `UNKNOWN`; a complete program can be verified only when a separate
 audit has explicitly supplied `CLEARED`.
+
+For S0–S5, `verify_search_result_posthoc` inserts every recorded expanded
+state into the same evidence recorder with its original expansion index as
+the first ordering key and no successor callback. Verifier outcomes therefore
+cannot affect the already-completed search order. The output retains the
+source condition (`S0`, `S1`, …), and `controller.json` records
+`feedback_guides_successors=false`. Assumption completeness and target-leakage
+clearance both default to `UNKNOWN`; neither is inferred from successful
+parsing or from the public-input firewall.

@@ -94,6 +94,7 @@ def _node(
         depth=depth,
         public_priority=priority,
         leakage_status="CLEARED",
+        assumption_clearance="CLEARED",
         label=label,
     )
 
@@ -126,6 +127,7 @@ def test_zero_is_program_success_and_every_equality_has_atomic_session_evidence(
     )
 
     assert result.states_expanded == 1
+    assert result.condition == "S6"
     assert result.first_success_index == 1
     assert result.feedback_counts["ZERO"] == 1
     assert result.obligation_verdict_counts["ZERO"] == 1
@@ -136,6 +138,10 @@ def test_zero_is_program_success_and_every_equality_has_atomic_session_evidence(
     assert decision["disposition"] == "PROGRAM_SUCCESS"
     assert decision["feedback_exposed_to_expander"] == "ZERO"
     assert decision["private_reasoning_recorded"] is False
+    assert decision["semantic_decision_hash_inputs"]["condition"] == "S6"
+    assert decision["semantic_decision_hash_inputs"][
+        "feedback_guides_successors"
+    ] is False
     assert "residual" not in canonical_json(decision)
     assert "counterexample" not in canonical_json(decision)
     obligation = decision["obligations"][0]
@@ -152,6 +158,35 @@ def test_zero_is_program_success_and_every_equality_has_atomic_session_evidence(
     assert hashlib.sha256((run_root / "manifest.json").read_bytes()).hexdigest() == (
         evidence["evidence"]["manifest_sha256"]
     )
+
+
+def test_assumption_clearance_is_a_fail_closed_pre_verifier_gate(tmp_path):
+    case = tmp_path / "case"
+    source = _source(case, "A001", "x + 1")
+    program, _ = _value_program(
+        source,
+        expression="u + 1",
+        parameters=("u",),
+        values={"u": "x"},
+    )
+    context = CompileContext(case, ("x",))
+    node = VerifierFrontierNode.from_program(
+        program,
+        context,
+        complexity=3,
+        depth=1,
+        leakage_status="CLEARED",
+    )
+    output = tmp_path / "output"
+    result = verifier_search([node], output_root=output, budget=10)
+
+    assert result.first_success_index is None
+    assert result.disposition_counts == {"PRE_VERIFICATION_INELIGIBLE": 1}
+    decision = _single_decision(output)
+    assert decision["evaluation"]["reason"] == (
+        "ASSUMPTION_CLEARANCE_NOT_ESTABLISHED"
+    )
+    assert not list((output / "states").glob("*/obligations/*"))
 
 
 def test_nonzero_prunes_only_exact_state_and_retains_exact_counterexample_in_step(tmp_path):

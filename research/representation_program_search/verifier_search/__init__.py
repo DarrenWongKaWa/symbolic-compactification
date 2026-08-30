@@ -2,7 +2,10 @@
 
 from .controller import SuccessorExpander, VerifierSearchController, verifier_search
 from .m2_adapter import M2VerifierFrontierAdapter
+from .posthoc import nodes_from_search_result, verify_search_result_posthoc
 from .model import (
+    ASSUMPTION_CLEARANCE_STATUSES,
+    EVALUATION_CONDITIONS,
     FEEDBACK_VALUES,
     FIXED_STATE_BUDGETS,
     LEAKAGE_STATUSES,
@@ -14,7 +17,9 @@ from .model import (
 )
 
 __all__ = [
+    "ASSUMPTION_CLEARANCE_STATUSES",
     "FEEDBACK_VALUES",
+    "EVALUATION_CONDITIONS",
     "FIXED_STATE_BUDGETS",
     "LEAKAGE_STATUSES",
     "M2VerifierFrontierAdapter",
@@ -26,4 +31,6 @@ __all__ = [
     "VerifierSearchPolicy",
     "VerifierSearchResult",
     "verifier_search",
+    "nodes_from_search_result",
+    "verify_search_result_posthoc",
 ]

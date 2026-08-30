@@ -27,7 +27,11 @@ from research.representation_program_search.program_ir.model import (
 FEEDBACK_VALUES = frozenset({"ZERO", "NONZERO", "UNKNOWN", "COMPILE_FAILURE"})
 FIXED_STATE_BUDGETS = (10, 50, 100, 500, 1000)
 LEAKAGE_STATUSES = frozenset({"CLEARED", "FOUND", "UNKNOWN"})
+ASSUMPTION_CLEARANCE_STATUSES = frozenset({"CLEARED", "INCOMPLETE", "UNKNOWN"})
 POLICY_VERSION = "RPSVerifierSearchPolicyV1"
+EVALUATION_CONDITIONS = frozenset({
+    "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "F0",
+})
 
 # These keys name evaluator-only information.  Values are intentionally not
 # scanned: a scientific expression can legitimately contain words such as
@@ -92,6 +96,7 @@ class VerifierFrontierNode:
     depth: int
     public_priority: tuple[int | str, ...] = ()
     leakage_status: str = "UNKNOWN"
+    assumption_clearance: str = "UNKNOWN"
     label: str | None = None
     parent_hash: str | None = None
     action_from_parent: Mapping[str, Any] | None = None
@@ -105,6 +110,8 @@ class VerifierFrontierNode:
             raise FrontierContractError("STATE_METRIC_NEGATIVE")
         if self.leakage_status not in LEAKAGE_STATUSES:
             raise FrontierContractError("LEAKAGE_STATUS_INVALID")
+        if self.assumption_clearance not in ASSUMPTION_CLEARANCE_STATUSES:
+            raise FrontierContractError("ASSUMPTION_CLEARANCE_INVALID")
         if not all(_priority_item(item) for item in self.public_priority):
             raise FrontierContractError("PUBLIC_PRIORITY_INVALID")
         try:
@@ -135,6 +142,7 @@ class VerifierFrontierNode:
         depth: int,
         public_priority: tuple[int | str, ...] = (),
         leakage_status: str = "UNKNOWN",
+        assumption_clearance: str = "UNKNOWN",
         label: str | None = None,
         parent_hash: str | None = None,
         action_from_parent: Mapping[str, Any] | None = None,
@@ -151,6 +159,7 @@ class VerifierFrontierNode:
             depth=depth,
             public_priority=public_priority,
             leakage_status=leakage_status,
+            assumption_clearance=assumption_clearance,
             label=label,
             parent_hash=parent_hash,
             action_from_parent=action_from_parent,
@@ -180,6 +189,7 @@ class VerifierFrontierNode:
                 else thaw_json(self.action_from_parent)
             ),
             "canonical_hash": self.canonical_hash,
+            "assumption_clearance": self.assumption_clearance,
             "complexity": self.complexity,
             "depth": self.depth,
             "grammar_id": self.context.grammar_id,
@@ -242,8 +252,9 @@ class VerifierSearchPolicy:
 
 @dataclass(frozen=True)
 class VerifierSearchResult:
-    """Immutable summary of one fixed-state-budget S6 run."""
+    """Immutable summary of one fixed-state-budget exact-evaluation run."""
 
+    condition: str
     budget_requested: int
     states_expanded: int
     frontier_exhausted: bool
@@ -268,6 +279,7 @@ class VerifierSearchResult:
     def to_dict(self) -> dict[str, Any]:
         return {
             "budget_requested": self.budget_requested,
+            "condition": self.condition,
             "decision_hashes": list(self.decision_hashes),
             "disposition_counts": dict(self.disposition_counts),
             "duplicate_states_pruned": self.duplicate_states_pruned,

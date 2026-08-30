@@ -67,6 +67,7 @@ def test_adapter_exposes_exact_m2_children_and_actions(tmp_path):
         candidate_pool=pool,
         search_policy=policy,
         leakage_status="CLEARED",
+        assumption_clearance="CLEARED",
     )
     root = adapter.initial_node()
     children = adapter.expand(root, None)
@@ -85,7 +86,9 @@ def test_adapter_exposes_exact_m2_children_and_actions(tmp_path):
 
 def test_feedback_does_not_mutate_the_legal_frontier(tmp_path):
     case = _case(tmp_path)
-    adapter = M2VerifierFrontierAdapter(case, leakage_status="CLEARED")
+    adapter = M2VerifierFrontierAdapter(
+        case, leakage_status="CLEARED", assumption_clearance="CLEARED"
+    )
     root = adapter.initial_node()
     baseline = [item.canonical_hash for item in adapter.expand(root, None)]
     for feedback in ("ZERO", "NONZERO", "UNKNOWN", "COMPILE_FAILURE"):
@@ -102,6 +105,9 @@ def test_leakage_clearance_is_never_inferred(tmp_path):
     assert M2VerifierFrontierAdapter(
         case, leakage_status="CLEARED"
     ).initial_node().leakage_status == "CLEARED"
+    assert M2VerifierFrontierAdapter(
+        case, leakage_status="CLEARED"
+    ).initial_node().assumption_clearance == "UNKNOWN"
 
 
 def test_adapter_rejects_candidate_pool_from_another_case(tmp_path):

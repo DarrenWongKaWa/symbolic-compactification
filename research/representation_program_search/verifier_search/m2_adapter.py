@@ -38,6 +38,7 @@ class M2VerifierFrontierAdapter:
     candidate_pool: CandidatePool | None = None
     search_policy: SearchPolicy = field(default_factory=SearchPolicy)
     leakage_status: str = "UNKNOWN"
+    assumption_clearance: str = "UNKNOWN"
     _states: dict[str, SearchState] = field(default_factory=dict, init=False)
 
     def __post_init__(self) -> None:
@@ -45,6 +46,8 @@ class M2VerifierFrontierAdapter:
             raise FrontierContractError("GRAMMAR_ABLATION_UNKNOWN")
         if self.leakage_status not in {"CLEARED", "FOUND", "UNKNOWN"}:
             raise FrontierContractError("LEAKAGE_STATUS_INVALID")
+        if self.assumption_clearance not in {"CLEARED", "INCOMPLETE", "UNKNOWN"}:
+            raise FrontierContractError("ASSUMPTION_CLEARANCE_INVALID")
         if self.candidate_pool is None:
             self.candidate_pool = extract_candidate_pool(self.case)
         if self.candidate_pool.source_member_count != len(self.case.members):
@@ -83,6 +86,7 @@ class M2VerifierFrontierAdapter:
             depth=state.depth,
             public_priority=(state.complexity, state.depth, state.canonical_hash),
             leakage_status=self.leakage_status,
+            assumption_clearance=self.assumption_clearance,
             parent_hash=parent_hash,
             action_from_parent=(
                 None
@@ -129,6 +133,7 @@ class M2VerifierFrontierAdapter:
         """Return hashable method provenance for a surrounding run manifest."""
         return {
             "candidate_pool_hash": self.candidate_pool.canonical_hash,
+            "assumption_clearance": self.assumption_clearance,
             "case_id": self.case.case_id,
             "grammar_id": self.grammar_id,
             "leakage_status": self.leakage_status,

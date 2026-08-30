@@ -1,4 +1,4 @@
-"""Recorded exact-verifier controller for the S6 search condition.
+"""Recorded exact-verifier controller for search evaluation.
 
 This module does not generate representation programs.  A method-neutral
 frontier supplies public states and legal successors.  Complete eligible
@@ -35,6 +35,7 @@ from research.representation_program_search.program_ir import (
 )
 
 from .model import (
+    EVALUATION_CONDITIONS,
     FEEDBACK_VALUES,
     FIXED_STATE_BUDGETS,
     FrontierContractError,
@@ -145,20 +146,32 @@ class _DominanceIndex:
 
 
 class VerifierSearchController:
-    """Run S6 over a public legal frontier under a fixed state budget."""
+    """Run exact evaluation over a public frontier under a fixed budget."""
 
     def __init__(
         self,
         *,
         output_root: str | Path,
         budget: int,
+        condition: str = "S6",
+        llm_tokens_used: int = 0,
         policy: VerifierSearchPolicy | None = None,
         expander: SuccessorExpander | None = None,
     ) -> None:
         if budget not in FIXED_STATE_BUDGETS:
             raise FrontierContractError("STATE_BUDGET_NOT_FROZEN_CHECKPOINT")
+        if condition not in EVALUATION_CONDITIONS:
+            raise FrontierContractError("EVALUATION_CONDITION_UNKNOWN")
+        if (
+            not isinstance(llm_tokens_used, int)
+            or isinstance(llm_tokens_used, bool)
+            or llm_tokens_used < 0
+        ):
+            raise FrontierContractError("LLM_TOKEN_COUNT_INVALID")
         self.output_root = Path(output_root)
         self.budget = budget
+        self.condition = condition
+        self.llm_tokens_used = llm_tokens_used
         self.policy = policy or VerifierSearchPolicy()
         self.expander = expander
 
@@ -179,7 +192,8 @@ class VerifierSearchController:
             self.output_root / "controller.json",
             {
                 "budget_requested": self.budget,
-                "condition": "S6",
+                "condition": self.condition,
+                "feedback_guides_successors": self.expander is not None,
                 "feedback_values": sorted(FEEDBACK_VALUES),
                 "policy": policy_payload,
                 "policy_hash": _sha256_json(policy_payload),
@@ -332,7 +346,7 @@ class VerifierSearchController:
             current.source_path = obligation.current_path
             candidate.source_path = "input/candidate.txt"
             meta = {
-                "condition": "S6",
+                "condition": self.condition,
                 "obligation_hash": obligation_hash,
                 "obligation_id": obligation.obligation_id,
                 "program_id": node.program_id,
@@ -438,6 +452,17 @@ class VerifierSearchController:
         state_root: Path,
         dominance: _DominanceIndex,
     ) -> dict:
+        if node.assumption_clearance != "CLEARED":
+            return {
+                "compiled_obligations": (),
+                "disposition": "PRE_VERIFICATION_INELIGIBLE",
+                "feedback": None,
+                "reason": (
+                    "ASSUMPTIONS_INCOMPLETE"
+                    if node.assumption_clearance == "INCOMPLETE"
+                    else "ASSUMPTION_CLEARANCE_NOT_ESTABLISHED"
+                ),
+            }
         if node.leakage_status != "CLEARED":
             return {
                 "compiled_obligations": (),
@@ -658,12 +683,16 @@ class VerifierSearchController:
                 "action_from_parent": decision_payload["node"][
                     "action_from_parent"
                 ],
+                "assumption_clearance": node.assumption_clearance,
+                "condition": self.condition,
                 "decision_index": index,
                 "disposition": disposition,
                 "evaluation": evaluation,
                 "feedback": feedback,
+                "feedback_guides_successors": self.expander is not None,
                 "frontier_snapshot_hash": snapshot_hash,
                 "legal_child_hashes": sorted(legal_child_hashes),
+                "leakage_status": node.leakage_status,
                 "obligations": semantic_obligations,
                 "ordering_key": list(queue_key),
                 "parent_hash": decision_payload["node"]["parent_hash"],
@@ -706,6 +735,7 @@ class VerifierSearchController:
         )
         semantic_trace_hash = _sha256_json(list(semantic_decision_hashes))
         result = VerifierSearchResult(
+            condition=self.condition,
             budget_requested=self.budget,
             states_expanded=observed,
             frontier_exhausted=not queued,
@@ -729,7 +759,7 @@ class VerifierSearchController:
             semantic_trace_hash=semantic_trace_hash,
             wall_time_seconds=time.perf_counter() - started,
             time_to_first_success_seconds=time_to_first_success,
-            llm_tokens_used=0,
+            llm_tokens_used=self.llm_tokens_used,
             output_root=str(self.output_root),
             policy=self.policy,
         )
@@ -742,13 +772,17 @@ def verifier_search(
     *,
     output_root: str | Path,
     budget: int,
+    condition: str = "S6",
+    llm_tokens_used: int = 0,
     policy: VerifierSearchPolicy | None = None,
     expander: SuccessorExpander | None = None,
 ) -> VerifierSearchResult:
-    """Functional entry point for the S6 controller."""
+    """Functional entry point; defaults to verifier-guided condition S6."""
     return VerifierSearchController(
         output_root=output_root,
         budget=budget,
+        condition=condition,
+        llm_tokens_used=llm_tokens_used,
         policy=policy,
         expander=expander,
     ).run(initial_states)
