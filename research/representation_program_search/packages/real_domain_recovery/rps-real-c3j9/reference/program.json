@@ -1,0 +1,215 @@
+{
+  "assumption_statuses": {
+    "P3A1": "DECLARED",
+    "P3A2": "DECLARED",
+    "P3A3": "DERIVED",
+    "P3A4": "DECLARED"
+  },
+  "assumptions_used": [
+    "P3A1",
+    "P3A2",
+    "P3A3",
+    "P3A4"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "M3A1": {
+      "component": "first_12",
+      "nodes": [
+        "x",
+        "y"
+      ]
+    },
+    "M3A2": {
+      "component": "second_12",
+      "nodes": [
+        "x",
+        "x",
+        "y"
+      ]
+    },
+    "M3A3": {
+      "component": "second_12",
+      "nodes": [
+        "x",
+        "y",
+        "y"
+      ]
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "log(u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F3L1",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "M3A1",
+      "operator_ids": [
+        "OP3N",
+        "OP3L1"
+      ],
+      "output": "c3_1"
+    },
+    {
+      "member_id": "M3A2",
+      "operator_ids": [
+        "OP3H1",
+        "OP3L2"
+      ],
+      "output": "c3_2"
+    },
+    {
+      "member_id": "M3A3",
+      "operator_ids": [
+        "OP3H2",
+        "OP3L3"
+      ],
+      "output": "c3_3"
+    }
+  ],
+  "node_structures": [
+    {
+      "node_id": "N3D1",
+      "nodes": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "node_id": "N3D2",
+      "nodes": [
+        "x",
+        "x",
+        "y"
+      ]
+    },
+    {
+      "node_id": "N3D3",
+      "nodes": [
+        "x",
+        "y",
+        "y"
+      ]
+    }
+  ],
+  "obligations": [
+    {
+      "member_id": "M3A1",
+      "obligation_id": "O3R1",
+      "output": "c3_1",
+      "required": true
+    },
+    {
+      "member_id": "M3A2",
+      "obligation_id": "O3R2",
+      "output": "c3_2",
+      "required": true
+    },
+    {
+      "member_id": "M3A3",
+      "obligation_id": "O3R3",
+      "output": "c3_3",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "nodes": "N3D1"
+      },
+      "inputs": [],
+      "latent_id": "F3L1",
+      "operator": "NEWTON_DD",
+      "operator_id": "OP3N",
+      "output": "d3_xy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p"
+        ]
+      },
+      "inputs": [
+        "d3_xy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP3L1",
+      "output": "c3_1"
+    },
+    {
+      "arguments": {
+        "nodes": "N3D2"
+      },
+      "inputs": [],
+      "latent_id": "F3L1",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP3H1",
+      "output": "d3_xxy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "d3_xxy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP3L2",
+      "output": "c3_2"
+    },
+    {
+      "arguments": {
+        "nodes": "N3D3"
+      },
+      "inputs": [],
+      "latent_id": "F3L1",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP3H2",
+      "output": "d3_xyy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "d3_xyy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP3L3",
+      "output": "c3_3"
+    }
+  ],
+  "program_id": "4ab52f93477ef9be430a51a92b8a6e41368619e5ed4575993ddeb12ccf2e87a6",
+  "representation_depth": "R3_REPEATED_NODE",
+  "source_members": [
+    {
+      "member_id": "M3A1",
+      "path": "members/M3A1.txt",
+      "sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea"
+    },
+    {
+      "member_id": "M3A2",
+      "path": "members/M3A2.txt",
+      "sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94"
+    },
+    {
+      "member_id": "M3A3",
+      "path": "members/M3A3.txt",
+      "sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75"
+    }
+  ],
+  "unexplained_members": []
+}

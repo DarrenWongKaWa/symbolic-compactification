@@ -1,0 +1,100 @@
+{
+  "attempts": [
+    {
+      "candidate_path": "reference/candidates/O3R1.full.txt",
+      "member_id": "M3A1",
+      "obligation_id": "O3R1",
+      "program_variant": "G_FULL",
+      "proposal_step": 1,
+      "run_id": "20260830T130038Z-748690",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R2.full.txt",
+      "member_id": "M3A2",
+      "obligation_id": "O3R2",
+      "program_variant": "G_FULL",
+      "proposal_step": 1,
+      "run_id": "20260830T130039Z-d52f6f",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R3.full.txt",
+      "member_id": "M3A3",
+      "obligation_id": "O3R3",
+      "program_variant": "G_FULL",
+      "proposal_step": 1,
+      "run_id": "20260830T130039Z-64a609",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R1.no_hermite.txt",
+      "member_id": "M3A1",
+      "obligation_id": "O3R1",
+      "program_variant": "G_NO_HERMITE",
+      "proposal_step": 1,
+      "run_id": "20260830T130040Z-d1d4a2",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R2.no_hermite.txt",
+      "member_id": "M3A2",
+      "obligation_id": "O3R2",
+      "program_variant": "G_NO_HERMITE",
+      "proposal_step": 1,
+      "run_id": "20260830T130040Z-425bdd",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R3.no_hermite.txt",
+      "member_id": "M3A3",
+      "obligation_id": "O3R3",
+      "program_variant": "G_NO_HERMITE",
+      "proposal_step": 1,
+      "run_id": "20260830T130041Z-112e53",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R1.primitive.txt",
+      "member_id": "M3A1",
+      "obligation_id": "O3R1",
+      "program_variant": "G_PRIMITIVE",
+      "proposal_step": 1,
+      "run_id": "20260830T130041Z-2d4648",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R2.primitive.txt",
+      "member_id": "M3A2",
+      "obligation_id": "O3R2",
+      "program_variant": "G_PRIMITIVE",
+      "proposal_step": 1,
+      "run_id": "20260830T130042Z-efb290",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O3R3.primitive.txt",
+      "member_id": "M3A3",
+      "obligation_id": "O3R3",
+      "program_variant": "G_PRIMITIVE",
+      "proposal_step": 1,
+      "run_id": "20260830T130042Z-1ea02f",
+      "verdict": "ZERO",
+      "verification_step": 2
+    }
+  ],
+  "required_g_full_verdicts": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 3
+  },
+  "schema_version": "RPSVerificationIndexV1"
+}

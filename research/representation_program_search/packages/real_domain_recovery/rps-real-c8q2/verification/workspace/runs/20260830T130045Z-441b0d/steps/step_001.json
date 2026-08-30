@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc",
+  "candidate_hash": "87876bb1868772822209c157b6ca900829621fdabfce4662e352652538e5e6ae",
+  "candidate_text": "-cos(x)/x + sin(x)/x**2",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "rps-real-c8q2-G_NO_HERMITE-O8R2",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T13:00:45Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "849de01d123c4b51fcf776fff7d8926e2a070cc9195593196adc068df8c42852",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T13:00:45Z",
+      "proposal_timestamp": "2026-08-30T13:00:45Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T13:00:45Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "rps-real-c8q2-G_NO_HERMITE-O8R2",
+      "hypothesis": "The compiled output is exactly equivalent to the member.",
+      "candidate_expression_or_rewrite": "-cos(x)/x + sin(x)/x**2",
+      "rationale": "The transformation is the selected executable M1 output.",
+      "expected_structural_benefit": "A legal compiled program output reconstructs one grounded member.",
+      "suggested_verification_strategy": "Run the exact verifier on the hash-bound member and candidate files.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "package ScientificAssumptionContract"
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "6b259f2979f03d0eb71e7b8e2744c401883c5bf5",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

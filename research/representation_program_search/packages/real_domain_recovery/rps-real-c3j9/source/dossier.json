@@ -1,0 +1,20 @@
+{
+  "domain": "real-symmetric matrix-function response",
+  "identity": "C3J9",
+  "predicate_locators": {
+    "S3P1": "pages 9--10, equations (4.3)--(4.5), positive-spectrum log specialization declared in source/lowering.json",
+    "S3P2": "pages 9--10, Hermitian hypothesis above (4.3) and explicit real A,E statement below (5.2)",
+    "S3P3": "Theorem 3.3 smoothness hypothesis and scalar log domain recorded in source/lowering.json",
+    "S3P4": "equation (4.5) U^(alpha) term plus the affine scientific-instance declaration in source/lowering.json"
+  },
+  "primary_source": {
+    "artifact_sha256": "732b25ee69191ccd32a936ad3f61bced8e97e2f77e59b79da94bea0acc2e281e",
+    "doi": "10.1137/23M1580589",
+    "retrieved_on": "2026-08-30",
+    "title": "A Unifying Framework for Higher Order Derivatives of Matrix Functions",
+    "url": "https://arxiv.org/pdf/2306.15814"
+  },
+  "source_locator": "arXiv v1 pages 9--10, equations (4.3)--(4.5); published as SIAM J. Matrix Anal. Appl. 45(1), 504--528 (2024)",
+  "source_scope": "Equation (4.5) gives the second-order formula when A at the base point is Hermitian. The paper explicitly also treats real A and E.",
+  "visual_formula_check": "PDF pages 9--10 rendered with Poppler at 150 dpi; equations (4.3)--(4.5) and the real A,E statement below (5.2) were visually inspected."
+}

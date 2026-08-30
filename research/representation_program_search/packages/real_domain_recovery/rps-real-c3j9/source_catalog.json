@@ -1,0 +1,23 @@
+{
+  "members": [
+    {
+      "locator_id": "S3L1",
+      "member_id": "M3A1",
+      "path": "members/M3A1.txt",
+      "sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea"
+    },
+    {
+      "locator_id": "S3L2",
+      "member_id": "M3A2",
+      "path": "members/M3A2.txt",
+      "sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94"
+    },
+    {
+      "locator_id": "S3L3",
+      "member_id": "M3A3",
+      "path": "members/M3A3.txt",
+      "sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75"
+    }
+  ],
+  "schema_version": "RPSMemberCatalogV1"
+}

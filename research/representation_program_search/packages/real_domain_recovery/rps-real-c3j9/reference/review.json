@@ -1,0 +1,18 @@
+{
+  "baseline_assessment": {
+    "cse": "MODERATE_VISIBLE_LOG_KERNEL_REUSE_BUT_NO_REPEATED_NODE_CONSTRUCTOR",
+    "first_order_lgg_only": false,
+    "tautological": false
+  },
+  "candidate_status": "CANDIDATE_FOR_INDEPENDENT_REVIEW",
+  "depth_assessment": "R3_REPEATED_NODE",
+  "duplicate_assessment": "No exact or alpha-renamed member match in the current package pool. Thematic overlap with historical first-order matrix-function response is retained as a manual-review risk; this source identity is second-order log response, not a renamed historical member.",
+  "grammar_assessment": {
+    "g_full": "COMPILED",
+    "g_no_hermite": "COMPILED",
+    "g_primitive": "COMPILED",
+    "named_primitive_required": false
+  },
+  "leakage_assessment": "OPAQUE_PROPOSER_VIEW_WITHOUT_SOURCE_OR_TARGET_NAMES",
+  "review_policy": "RPS_REAL_DOMAIN_RECOVERY_REVIEW_V1"
+}

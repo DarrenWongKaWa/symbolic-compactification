@@ -1,0 +1,23 @@
+{
+  "members": [
+    {
+      "locator_id": "S8L1",
+      "member_id": "M8B1",
+      "path": "members/M8B1.txt",
+      "sha256": "2d3e82e4c2f4d86c687b60871eab47284121b6c2d706b99cb92c37a30e8f2b94"
+    },
+    {
+      "locator_id": "S8L2",
+      "member_id": "M8B2",
+      "path": "members/M8B2.txt",
+      "sha256": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc"
+    },
+    {
+      "locator_id": "S8L3",
+      "member_id": "M8B3",
+      "path": "members/M8B3.txt",
+      "sha256": "44e0b6a81fe23971ee90634c3e50c5d52f5e178634acf01a4841e9eba21a19ec"
+    }
+  ],
+  "schema_version": "RPSMemberCatalogV1"
+}

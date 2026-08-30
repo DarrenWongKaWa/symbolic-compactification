@@ -1,0 +1,1017 @@
+{
+  "admission_decision": "NO_ADMISSION_PERFORMED",
+  "gaps": {
+    "admission_action": "NONE",
+    "candidate_slots": {
+      "R3": {
+        "candidate_package": "rps-real-c3j9",
+        "status": "CANDIDATE_FOR_INDEPENDENT_REVIEW"
+      },
+      "R4_R5": {
+        "candidate_package": "rps-real-c8q2",
+        "status": "CANDIDATE_FOR_INDEPENDENT_REVIEW"
+      }
+    },
+    "missing_slots": {
+      "R2": {
+        "reason": "Defensible real-domain divided-difference cases found in the bounded search were structural variants of historical Daleckii-Krein or resolvent identities, so none passed the fresh-identity gate.",
+        "status": "MISSING"
+      },
+      "R6": {
+        "reason": "The strongest real SO(3) master-object candidate requires a zero stratum. Frozen M1 latent parameters are constructed in the provably-non-real namespace, so its Piecewise zero branch is not executable on the declared real domain. Restricting away the stratum or encoding its branches as member-specific coefficients would weaken the scientific identity or give away the representation. Scalar alternatives collapsed below R6.",
+        "related_defect": "research/representation_program_search/audits/REAL_FALSE_NAMESPACE_CONTRACT_DEFECT.md",
+        "status": "MISSING"
+      }
+    },
+    "policy": "RPS_REAL_DOMAIN_RECOVERY_V1",
+    "schema_version": "RPSRecoveryGapRegistryV1"
+  },
+  "packages": [
+    {
+      "admission_decision": "NO_ADMISSION_PERFORMED",
+      "compiled_programs": {
+        "loader_schema_deltas": [],
+        "variants": {
+          "G_FULL": {
+            "compilation": {
+              "failure_codes": [],
+              "obligations": [
+                {
+                  "candidate_expression": "p*(-log(x) + log(y))/(-x + y)",
+                  "current_expression": "p*(log(y)-log(x))/(y-x)",
+                  "current_path": "members/M3A1.txt",
+                  "current_sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea",
+                  "member_id": "M3A1",
+                  "obligation_id": "O3R1",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "p*q*((-log(x) + log(y))/(-x + y) - 1/x)/(-x + y)",
+                  "current_expression": "p*q*(((log(y)-log(x))/(y-x))-1/x)/(y-x)",
+                  "current_path": "members/M3A2.txt",
+                  "current_sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94",
+                  "member_id": "M3A2",
+                  "obligation_id": "O3R2",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "p*q*(-(-log(x) + log(y))/(-x + y) + 1/y)/(-x + y)",
+                  "current_expression": "p*q*(1/y-(log(y)-log(x))/(y-x))/(y-x)",
+                  "current_path": "members/M3A3.txt",
+                  "current_sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75",
+                  "member_id": "M3A3",
+                  "obligation_id": "O3R3",
+                  "required": true,
+                  "status": "COMPILED"
+                }
+              ],
+              "program_id": "4ab52f93477ef9be430a51a92b8a6e41368619e5ed4575993ddeb12ccf2e87a6",
+              "status": "COMPILED",
+              "tautological": false
+            },
+            "program_id": "4ab52f93477ef9be430a51a92b8a6e41368619e5ed4575993ddeb12ccf2e87a6"
+          },
+          "G_NO_HERMITE": {
+            "compilation": {
+              "failure_codes": [],
+              "obligations": [
+                {
+                  "candidate_expression": "p*(-log(x)/(-x + y) + log(y)/(-x + y))",
+                  "current_expression": "p*(log(y)-log(x))/(y-x)",
+                  "current_path": "members/M3A1.txt",
+                  "current_sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea",
+                  "member_id": "M3A1",
+                  "obligation_id": "O3R1",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "p*q*((-log(x)/(-x + y) + log(y)/(-x + y))/(-x + y) - 1/(x*(-x + y)))",
+                  "current_expression": "p*q*(((log(y)-log(x))/(y-x))-1/x)/(y-x)",
+                  "current_path": "members/M3A2.txt",
+                  "current_sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94",
+                  "member_id": "M3A2",
+                  "obligation_id": "O3R2",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "p*q*(-(-log(x)/(-x + y) + log(y)/(-x + y))/(-x + y) + 1/(y*(-x + y)))",
+                  "current_expression": "p*q*(1/y-(log(y)-log(x))/(y-x))/(y-x)",
+                  "current_path": "members/M3A3.txt",
+                  "current_sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75",
+                  "member_id": "M3A3",
+                  "obligation_id": "O3R3",
+                  "required": true,
+                  "status": "COMPILED"
+                }
+              ],
+              "program_id": "567ede611fc987ffdfdd554bf5810c8780f7b948c4483eb5ea3c62334d27eed7",
+              "status": "COMPILED",
+              "tautological": false
+            },
+            "program_id": "567ede611fc987ffdfdd554bf5810c8780f7b948c4483eb5ea3c62334d27eed7"
+          },
+          "G_PRIMITIVE": {
+            "compilation": {
+              "failure_codes": [],
+              "obligations": [
+                {
+                  "candidate_expression": "p*(-log(x)/(-x + y) + log(y)/(-x + y))",
+                  "current_expression": "p*(log(y)-log(x))/(y-x)",
+                  "current_path": "members/M3A1.txt",
+                  "current_sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea",
+                  "member_id": "M3A1",
+                  "obligation_id": "O3R1",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "p*q*((-log(x)/(-x + y) + log(y)/(-x + y))/(-x + y) - 1/(x*(-x + y)))",
+                  "current_expression": "p*q*(((log(y)-log(x))/(y-x))-1/x)/(y-x)",
+                  "current_path": "members/M3A2.txt",
+                  "current_sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94",
+                  "member_id": "M3A2",
+                  "obligation_id": "O3R2",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "p*q*(-(-log(x)/(-x + y) + log(y)/(-x + y))/(-x + y) + 1/(y*(-x + y)))",
+                  "current_expression": "p*q*(1/y-(log(y)-log(x))/(y-x))/(y-x)",
+                  "current_path": "members/M3A3.txt",
+                  "current_sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75",
+                  "member_id": "M3A3",
+                  "obligation_id": "O3R3",
+                  "required": true,
+                  "status": "COMPILED"
+                }
+              ],
+              "program_id": "567ede611fc987ffdfdd554bf5810c8780f7b948c4483eb5ea3c62334d27eed7",
+              "status": "COMPILED",
+              "tautological": false
+            },
+            "program_id": "567ede611fc987ffdfdd554bf5810c8780f7b948c4483eb5ea3c62334d27eed7"
+          }
+        }
+      },
+      "duplicate_and_leakage_review": {
+        "corpus_audit": {
+          "admission_decision": null,
+          "case_id": "C3J9",
+          "findings": [],
+          "highest_severity": "NONE",
+          "is_negative_control": false,
+          "path": "",
+          "proposer_projection": "explicit",
+          "requires_manual_review": false,
+          "top_comparisons": [
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "dev-a-hermite-two",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/dev/dev-a-hermite-two.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "dev-a-newton-first",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/dev/dev-a-newton-first.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "dev-a-repeated-node",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/dev/dev-a-repeated-node.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "dev-b-piecewise-dd",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/dev/dev-b-piecewise-dd.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "nc-empty-provenance",
+              "reference_partition": "HISTORICAL_DIAGNOSTIC",
+              "reference_path": "research/assumption_complete_representation/cases/skeptic/negative/nc-empty-provenance.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "test-a-hermite-two",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/test/test-a-hermite-two.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "test-a-newton-first",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/test/test-a-newton-first.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.833333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "test-a-repeated-node",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/test/test-a-repeated-node.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.458333
+            }
+          ]
+        },
+        "corpus_partitions": [
+          "AC_CHALLENGE",
+          "AC_DEV",
+          "AC_DUPLICATE_CONTROL",
+          "AC_HEADLINE",
+          "HISTORICAL_DIAGNOSTIC",
+          "PREVIOUS_BENCHMARK"
+        ],
+        "exact_member_matches": [],
+        "guo_references": [
+          "research/assumption_complete_representation/cases/skeptic/negative/nc-guo-sigma-abc.json"
+        ],
+        "reference_count": 79,
+        "renamed_member_matches": []
+      },
+      "hard_checks": {
+        "all_symbols_explicitly_real": true,
+        "all_variants_compile": true,
+        "all_variants_non_tautological": true,
+        "assumption_contract_complete": true,
+        "duplicate_corpus_includes_guo": true,
+        "m1_loader_has_no_schema_delta": true,
+        "manifest_valid": true,
+        "no_exact_or_alpha_duplicate": true,
+        "proposer_artifacts_hash_bound": true,
+        "proposer_firewall_clean": true,
+        "receipts_exact_zero": true,
+        "review_status_candidate_only": true,
+        "source_provenance_hash_bound": true
+      },
+      "manifest": {
+        "artifact_count": 61,
+        "errors": [],
+        "status": "VALID"
+      },
+      "package_id": "rps-real-c3j9",
+      "receipts": {
+        "all_zero": true,
+        "attempt_count": 9,
+        "errors": [],
+        "rows": [
+          {
+            "candidate_path": "reference/candidates/O3R1.full.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A1",
+            "obligation_id": "O3R1",
+            "program_variant": "G_FULL",
+            "proposal_step": 1,
+            "run_id": "20260830T130038Z-748690",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R2.full.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A2",
+            "obligation_id": "O3R2",
+            "program_variant": "G_FULL",
+            "proposal_step": 1,
+            "run_id": "20260830T130039Z-d52f6f",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R3.full.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A3",
+            "obligation_id": "O3R3",
+            "program_variant": "G_FULL",
+            "proposal_step": 1,
+            "run_id": "20260830T130039Z-64a609",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R1.no_hermite.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A1",
+            "obligation_id": "O3R1",
+            "program_variant": "G_NO_HERMITE",
+            "proposal_step": 1,
+            "run_id": "20260830T130040Z-d1d4a2",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R2.no_hermite.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A2",
+            "obligation_id": "O3R2",
+            "program_variant": "G_NO_HERMITE",
+            "proposal_step": 1,
+            "run_id": "20260830T130040Z-425bdd",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R3.no_hermite.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A3",
+            "obligation_id": "O3R3",
+            "program_variant": "G_NO_HERMITE",
+            "proposal_step": 1,
+            "run_id": "20260830T130041Z-112e53",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R1.primitive.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A1",
+            "obligation_id": "O3R1",
+            "program_variant": "G_PRIMITIVE",
+            "proposal_step": 1,
+            "run_id": "20260830T130041Z-2d4648",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R2.primitive.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A2",
+            "obligation_id": "O3R2",
+            "program_variant": "G_PRIMITIVE",
+            "proposal_step": 1,
+            "run_id": "20260830T130042Z-efb290",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O3R3.primitive.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M3A3",
+            "obligation_id": "O3R3",
+            "program_variant": "G_PRIMITIVE",
+            "proposal_step": 1,
+            "run_id": "20260830T130042Z-1ea02f",
+            "verdict": "ZERO",
+            "verification_step": 2
+          }
+        ]
+      },
+      "source_and_firewall": {
+        "all_symbols_explicitly_real": true,
+        "assumption_contract_complete": true,
+        "assumptions_hash_bound": true,
+        "catalog_hash_bound": true,
+        "dossier_hash_bound": true,
+        "expected_retrieval_hashes_present": true,
+        "local_source_artifacts_hash_bound": true,
+        "opaque_case_id": true,
+        "opaque_member_ids": true,
+        "primary_locator_complete": true,
+        "proposer_leaks": []
+      },
+      "status": "CANDIDATE_FOR_INDEPENDENT_REVIEW"
+    },
+    {
+      "admission_decision": "NO_ADMISSION_PERFORMED",
+      "compiled_programs": {
+        "loader_schema_deltas": [],
+        "variants": {
+          "G_FULL": {
+            "compilation": {
+              "failure_codes": [],
+              "obligations": [
+                {
+                  "candidate_expression": "sin(x)/x",
+                  "current_expression": "sin(x)/x",
+                  "current_path": "members/M8B1.txt",
+                  "current_sha256": "2d3e82e4c2f4d86c687b60871eab47284121b6c2d706b99cb92c37a30e8f2b94",
+                  "member_id": "M8B1",
+                  "obligation_id": "O8R1",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "-cos(x)/x + sin(x)/x**2",
+                  "current_expression": "sin(x)/x**2 - cos(x)/x",
+                  "current_path": "members/M8B2.txt",
+                  "current_sha256": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc",
+                  "member_id": "M8B2",
+                  "obligation_id": "O8R2",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "3*(-cos(x)/x + sin(x)/x**2)/x - sin(x)/x",
+                  "current_expression": "(-1/x + 3/x**3)*sin(x) - 3*cos(x)/x**2",
+                  "current_path": "members/M8B3.txt",
+                  "current_sha256": "44e0b6a81fe23971ee90634c3e50c5d52f5e178634acf01a4841e9eba21a19ec",
+                  "member_id": "M8B3",
+                  "obligation_id": "O8R3",
+                  "required": true,
+                  "status": "COMPILED"
+                }
+              ],
+              "program_id": "2ec9bc97d4017de0e41c9f187249f8ddaec0c41a74c53b4fce1e3270d37dae45",
+              "status": "COMPILED",
+              "tautological": false
+            },
+            "program_id": "2ec9bc97d4017de0e41c9f187249f8ddaec0c41a74c53b4fce1e3270d37dae45"
+          },
+          "G_NO_HERMITE": {
+            "compilation": {
+              "failure_codes": [],
+              "obligations": [
+                {
+                  "candidate_expression": "sin(x)/x",
+                  "current_expression": "sin(x)/x",
+                  "current_path": "members/M8B1.txt",
+                  "current_sha256": "2d3e82e4c2f4d86c687b60871eab47284121b6c2d706b99cb92c37a30e8f2b94",
+                  "member_id": "M8B1",
+                  "obligation_id": "O8R1",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "-cos(x)/x + sin(x)/x**2",
+                  "current_expression": "sin(x)/x**2 - cos(x)/x",
+                  "current_path": "members/M8B2.txt",
+                  "current_sha256": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc",
+                  "member_id": "M8B2",
+                  "obligation_id": "O8R2",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "3*(-cos(x)/x + sin(x)/x**2)/x - sin(x)/x",
+                  "current_expression": "(-1/x + 3/x**3)*sin(x) - 3*cos(x)/x**2",
+                  "current_path": "members/M8B3.txt",
+                  "current_sha256": "44e0b6a81fe23971ee90634c3e50c5d52f5e178634acf01a4841e9eba21a19ec",
+                  "member_id": "M8B3",
+                  "obligation_id": "O8R3",
+                  "required": true,
+                  "status": "COMPILED"
+                }
+              ],
+              "program_id": "2ec9bc97d4017de0e41c9f187249f8ddaec0c41a74c53b4fce1e3270d37dae45",
+              "status": "COMPILED",
+              "tautological": false
+            },
+            "program_id": "2ec9bc97d4017de0e41c9f187249f8ddaec0c41a74c53b4fce1e3270d37dae45"
+          },
+          "G_PRIMITIVE": {
+            "compilation": {
+              "failure_codes": [],
+              "obligations": [
+                {
+                  "candidate_expression": "sin(x)/x",
+                  "current_expression": "sin(x)/x",
+                  "current_path": "members/M8B1.txt",
+                  "current_sha256": "2d3e82e4c2f4d86c687b60871eab47284121b6c2d706b99cb92c37a30e8f2b94",
+                  "member_id": "M8B1",
+                  "obligation_id": "O8R1",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "-cos(x)/x + sin(x)/x**2",
+                  "current_expression": "sin(x)/x**2 - cos(x)/x",
+                  "current_path": "members/M8B2.txt",
+                  "current_sha256": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc",
+                  "member_id": "M8B2",
+                  "obligation_id": "O8R2",
+                  "required": true,
+                  "status": "COMPILED"
+                },
+                {
+                  "candidate_expression": "3*(-cos(x)/x + sin(x)/x**2)/x - sin(x)/x",
+                  "current_expression": "(-1/x + 3/x**3)*sin(x) - 3*cos(x)/x**2",
+                  "current_path": "members/M8B3.txt",
+                  "current_sha256": "44e0b6a81fe23971ee90634c3e50c5d52f5e178634acf01a4841e9eba21a19ec",
+                  "member_id": "M8B3",
+                  "obligation_id": "O8R3",
+                  "required": true,
+                  "status": "COMPILED"
+                }
+              ],
+              "program_id": "2ec9bc97d4017de0e41c9f187249f8ddaec0c41a74c53b4fce1e3270d37dae45",
+              "status": "COMPILED",
+              "tautological": false
+            },
+            "program_id": "2ec9bc97d4017de0e41c9f187249f8ddaec0c41a74c53b4fce1e3270d37dae45"
+          }
+        }
+      },
+      "duplicate_and_leakage_review": {
+        "corpus_audit": {
+          "admission_decision": null,
+          "case_id": "C8Q2",
+          "findings": [],
+          "highest_severity": "NONE",
+          "is_negative_control": false,
+          "path": "",
+          "proposer_projection": "explicit",
+          "requires_manual_review": false,
+          "top_comparisons": [
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.533333,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "sciml-phi-hermite-01",
+              "reference_partition": "AC_DEV",
+              "reference_path": "research/assumption_complete_representation/cases/sciml/sciml-phi-hermite-01.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.293333
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.5,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "dev-a-deriv-family",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/dev/dev-a-deriv-family.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.275
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.5,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "dev-b-special-fn",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/dev/dev-b-special-fn.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.275
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.5,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "nc-trivial-cse",
+              "reference_partition": "HISTORICAL_DIAGNOSTIC",
+              "reference_path": "research/assumption_complete_representation/cases/skeptic/negative/nc-trivial-cse.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.275
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.5,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "test-a-deriv-family",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/test/test-a-deriv-family.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.275
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.470588,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "nc-silent-positivity",
+              "reference_partition": "HISTORICAL_DIAGNOSTIC",
+              "reference_path": "research/assumption_complete_representation/cases/skeptic/negative/nc-silent-positivity.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.258824
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.439024,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "thermal-03-digamma-reflection",
+              "reference_partition": "AC_DEV",
+              "reference_path": "research/assumption_complete_representation/cases/thermal/thermal-03-digamma-reflection.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.241463
+            },
+            {
+              "content_jaccard": 0.0,
+              "exact": false,
+              "formula_similarity": 0.4375,
+              "matched_fragment_preview": [],
+              "matched_fragment_sha256": [],
+              "projection": "SOURCE_IDENTITY_FIELDS_ONLY",
+              "reference_id": "test-b-special-fn",
+              "reference_partition": "PREVIOUS_BENCHMARK",
+              "reference_path": "research/representation_invention/bench/tasks/test/test-b-special-fn.json",
+              "renamed": false,
+              "shared_source_ids": [],
+              "source_id_jaccard": 0.0,
+              "weighted_similarity": 0.240625
+            }
+          ]
+        },
+        "corpus_partitions": [
+          "AC_CHALLENGE",
+          "AC_DEV",
+          "AC_DUPLICATE_CONTROL",
+          "AC_HEADLINE",
+          "HISTORICAL_DIAGNOSTIC",
+          "PREVIOUS_BENCHMARK"
+        ],
+        "exact_member_matches": [],
+        "guo_references": [
+          "research/assumption_complete_representation/cases/skeptic/negative/nc-guo-sigma-abc.json"
+        ],
+        "reference_count": 79,
+        "renamed_member_matches": []
+      },
+      "hard_checks": {
+        "all_symbols_explicitly_real": true,
+        "all_variants_compile": true,
+        "all_variants_non_tautological": true,
+        "assumption_contract_complete": true,
+        "duplicate_corpus_includes_guo": true,
+        "m1_loader_has_no_schema_delta": true,
+        "manifest_valid": true,
+        "no_exact_or_alpha_duplicate": true,
+        "proposer_artifacts_hash_bound": true,
+        "proposer_firewall_clean": true,
+        "receipts_exact_zero": true,
+        "review_status_candidate_only": true,
+        "source_provenance_hash_bound": true
+      },
+      "manifest": {
+        "artifact_count": 66,
+        "errors": [],
+        "status": "VALID"
+      },
+      "package_id": "rps-real-c8q2",
+      "receipts": {
+        "all_zero": true,
+        "attempt_count": 9,
+        "errors": [],
+        "rows": [
+          {
+            "candidate_path": "reference/candidates/O8R1.full.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B1",
+            "obligation_id": "O8R1",
+            "program_variant": "G_FULL",
+            "proposal_step": 1,
+            "run_id": "20260830T130043Z-4fa69e",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R2.full.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B2",
+            "obligation_id": "O8R2",
+            "program_variant": "G_FULL",
+            "proposal_step": 1,
+            "run_id": "20260830T130043Z-500e8d",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R3.full.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B3",
+            "obligation_id": "O8R3",
+            "program_variant": "G_FULL",
+            "proposal_step": 1,
+            "run_id": "20260830T130044Z-cd39d1",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R1.no_hermite.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B1",
+            "obligation_id": "O8R1",
+            "program_variant": "G_NO_HERMITE",
+            "proposal_step": 1,
+            "run_id": "20260830T130044Z-83e37e",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R2.no_hermite.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B2",
+            "obligation_id": "O8R2",
+            "program_variant": "G_NO_HERMITE",
+            "proposal_step": 1,
+            "run_id": "20260830T130045Z-441b0d",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R3.no_hermite.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B3",
+            "obligation_id": "O8R3",
+            "program_variant": "G_NO_HERMITE",
+            "proposal_step": 1,
+            "run_id": "20260830T130045Z-3f2535",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R1.primitive.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B1",
+            "obligation_id": "O8R1",
+            "program_variant": "G_PRIMITIVE",
+            "proposal_step": 1,
+            "run_id": "20260830T130046Z-3baff2",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R2.primitive.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B2",
+            "obligation_id": "O8R2",
+            "program_variant": "G_PRIMITIVE",
+            "proposal_step": 1,
+            "run_id": "20260830T130046Z-a327a6",
+            "verdict": "ZERO",
+            "verification_step": 2
+          },
+          {
+            "candidate_path": "reference/candidates/O8R3.primitive.txt",
+            "checks": {
+              "candidate_hash_bound": true,
+              "current_hash_bound": true,
+              "main_proposer_recorded": true,
+              "proof_status_proven": true,
+              "residual_exact_zero": true,
+              "status_certified": true,
+              "verdict_zero": true
+            },
+            "member_id": "M8B3",
+            "obligation_id": "O8R3",
+            "program_variant": "G_PRIMITIVE",
+            "proposal_step": 1,
+            "run_id": "20260830T130047Z-a6ae5a",
+            "verdict": "ZERO",
+            "verification_step": 2
+          }
+        ]
+      },
+      "source_and_firewall": {
+        "all_symbols_explicitly_real": true,
+        "assumption_contract_complete": true,
+        "assumptions_hash_bound": true,
+        "catalog_hash_bound": true,
+        "dossier_hash_bound": true,
+        "expected_retrieval_hashes_present": true,
+        "local_source_artifacts_hash_bound": true,
+        "opaque_case_id": true,
+        "opaque_member_ids": true,
+        "primary_locator_complete": true,
+        "proposer_leaks": []
+      },
+      "status": "CANDIDATE_FOR_INDEPENDENT_REVIEW"
+    }
+  ],
+  "policy": "RPS_REAL_DOMAIN_RECOVERY_VALIDATOR_V1",
+  "status": "VALID_CANDIDATE_SET"
+}

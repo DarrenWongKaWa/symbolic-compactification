@@ -1,0 +1,262 @@
+{
+  "admission_status": "CANDIDATE_FOR_INDEPENDENT_REVIEW",
+  "artifact_hashes": [
+    {
+      "path": "assumptions.json",
+      "sha256": "7cf21409eaee10ed62056f5455b753031f200b7096ebc0d54ddb32038ca278d5"
+    },
+    {
+      "path": "members/M3A1.txt",
+      "sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea"
+    },
+    {
+      "path": "members/M3A2.txt",
+      "sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94"
+    },
+    {
+      "path": "members/M3A3.txt",
+      "sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75"
+    },
+    {
+      "path": "proposer_view.json",
+      "sha256": "b10a6786731e6933915347da80d1d11e94ae7db47ce68a2dc0b4f0bd4c061409"
+    },
+    {
+      "path": "reference/ablations/G_NO_HERMITE.program.json",
+      "sha256": "4e575ca2864942e98939c92c8816f105b2e500be6b4807c988a7ca8ff4c279d5"
+    },
+    {
+      "path": "reference/ablations/G_PRIMITIVE.program.json",
+      "sha256": "4e575ca2864942e98939c92c8816f105b2e500be6b4807c988a7ca8ff4c279d5"
+    },
+    {
+      "path": "reference/candidates/O3R1.full.txt",
+      "sha256": "ff24849cd3ce29a61b34b518ff120f97adc68c7aa5848ac5473cf4af022750b6"
+    },
+    {
+      "path": "reference/candidates/O3R1.no_hermite.txt",
+      "sha256": "b52f9372fd92e76dea6cc475623c184e3a27f95ace20a58f0e4279f96e6e63d2"
+    },
+    {
+      "path": "reference/candidates/O3R1.primitive.txt",
+      "sha256": "b52f9372fd92e76dea6cc475623c184e3a27f95ace20a58f0e4279f96e6e63d2"
+    },
+    {
+      "path": "reference/candidates/O3R2.full.txt",
+      "sha256": "38476e8e16907dd9cb32007a9af446981b0352ebb8b3b1e96d42a50439d7b9ec"
+    },
+    {
+      "path": "reference/candidates/O3R2.no_hermite.txt",
+      "sha256": "fd69bb23a6c7be0d31c0e228062cb1521c7fb2eb0723c6bf748c742087765842"
+    },
+    {
+      "path": "reference/candidates/O3R2.primitive.txt",
+      "sha256": "fd69bb23a6c7be0d31c0e228062cb1521c7fb2eb0723c6bf748c742087765842"
+    },
+    {
+      "path": "reference/candidates/O3R3.full.txt",
+      "sha256": "3c982da7e6d64f696b434ef77059b88596c2646207875e1296d1f4fd31990bbd"
+    },
+    {
+      "path": "reference/candidates/O3R3.no_hermite.txt",
+      "sha256": "9f00f2177f23aa7053708f7781051ba4570b72dfcf796f96f5b51dc9f5a8ee69"
+    },
+    {
+      "path": "reference/candidates/O3R3.primitive.txt",
+      "sha256": "9f00f2177f23aa7053708f7781051ba4570b72dfcf796f96f5b51dc9f5a8ee69"
+    },
+    {
+      "path": "reference/obligations.json",
+      "sha256": "99241cbf7d1500d9a111bc65bd0d1c14574e2c1fc224e93adcacc4ec87d69869"
+    },
+    {
+      "path": "reference/program.json",
+      "sha256": "e80150be846e1f9fb6b0b86fc77912389bfd1fcaae0a2932d9ce89becd349bd5"
+    },
+    {
+      "path": "reference/review.json",
+      "sha256": "85cd0dd90a0a0b0aa12f6e35b61554e4f808e7fa285139045fecb6f22fdd529c"
+    },
+    {
+      "path": "source/dossier.json",
+      "sha256": "ee0fe740f86d65f9c090b1e650ab063382e37f340f9ac9c04101f41ac558d191"
+    },
+    {
+      "path": "source/lowering.json",
+      "sha256": "ee29255d8925016b77427343dd2edc6de0e4c588a3caf3a41bfa485bcc87d3f6"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "18a4dc0f52cdc831df04dfa9e7002fbfb7e06700b55777c628a1c9be966be2a2"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "6e42db7cdac4824b59831dfb28e0385bde9827a20641060035770691634a8456"
+    },
+    {
+      "path": "symbols.json",
+      "sha256": "6a19efe9e440131a6f603ca6c6b9a67da836baa8dd1db1542c9878b2ff19b4ae"
+    },
+    {
+      "path": "verification/index.json",
+      "sha256": "159bd02a4a927f05dc562be0c9bf3d8813da775405b93e058001acd0ed1212fe"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130038Z-748690/final/current.json",
+      "sha256": "ce447d55d7b7d9e9521d90467dae936b7495581efbd23ef5096920e3560fd189"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130038Z-748690/manifest.json",
+      "sha256": "d6a3d7513219ad942672e8711d8f14bf80df17c0d9a7c0fd5a1d80be2bbb09da"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130038Z-748690/steps/step_001.json",
+      "sha256": "3f4b86f8cc37eaa4eae7bf9016eb8d50be9c3dd43908d34725169b5dd1cd729a"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130038Z-748690/steps/step_002.json",
+      "sha256": "237e139e7b1a5f49c4de2fc2f86d200b60bc4914944bdbdac127dd1816b2cddf"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-64a609/final/current.json",
+      "sha256": "cf05930d60bec2e63cb2f6ae98c29e019e24a59f49b56d3ae6ef95c20781c6bf"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-64a609/manifest.json",
+      "sha256": "db389faf9c78fa50d74b5c8d8d78852e24adb64e8b929fbd67c48e90ea2acd1c"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-64a609/steps/step_001.json",
+      "sha256": "0371428606d2e3b47ffa3316b6595516352d891477bc3f6a6e8c1c23af48d1af"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-64a609/steps/step_002.json",
+      "sha256": "90c1d4c11bde9fee73bf59675382c48255a278e06dab1464ead8c6a011ee10e3"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-d52f6f/final/current.json",
+      "sha256": "b379346aa32fb1f7bc1081d0497065e90fb72ed276ba7504fb6fa91dc007ab7b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-d52f6f/manifest.json",
+      "sha256": "cfdb62de2378e7e63d2208c681320f7e17fb034cbc7e8cf80d72fe985a7f8644"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-d52f6f/steps/step_001.json",
+      "sha256": "1ab6dfc301afc749914e35d29c04b6f722fcff5f587c2d41b45a70a191a3c102"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130039Z-d52f6f/steps/step_002.json",
+      "sha256": "fa12631a78391fe522128fee10c8e8fd76e5a6c52e9ca2207413cd4987d97176"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-425bdd/final/current.json",
+      "sha256": "dda69736ec9e5f5d9fe72bd14d5b1311317dff64ade5e9dde48c04a51ece1bbd"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-425bdd/manifest.json",
+      "sha256": "823963e27d9769227d24fba2e3407b6689fd5a8f48468bbb7dc821222b948f59"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-425bdd/steps/step_001.json",
+      "sha256": "d5ff4971621aa4ca0762f47c78facd18478b67cef19f5d584e857bc3544b7c82"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-425bdd/steps/step_002.json",
+      "sha256": "2b1b373cd9f5773a294b05b1389cfc34828c2d5859bc54b4fc3eb56ccb77d054"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-d1d4a2/final/current.json",
+      "sha256": "ed442bbb32c4990ca4fea832cde480c66b581311015294200219946234308f13"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-d1d4a2/manifest.json",
+      "sha256": "97c7931517199e4400c4418fca4981b69c9cc4f3c90dd35c5240ee0de5cecfa3"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-d1d4a2/steps/step_001.json",
+      "sha256": "a9c9a3d1dd936f7c04143db682aaface13b4913e9c9883a870cf737daa707146"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130040Z-d1d4a2/steps/step_002.json",
+      "sha256": "dc2ccb0d7425358b04cfd64b5b648225a93e2206080cc07e75d3ab1089ac439a"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-112e53/final/current.json",
+      "sha256": "3c55c52a0a42f9aef12ff9442e7f9fa2ddf34f125ad35b50e39356c664144ef1"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-112e53/manifest.json",
+      "sha256": "c32874121062a68ef7d7f674fae107e682310bc92c63ba22c4e81b0e4b2698f3"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-112e53/steps/step_001.json",
+      "sha256": "5aeacda5f1780bf899d6ab4c4ca05173c8842ac5b438c4436703e9cc1f437d92"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-112e53/steps/step_002.json",
+      "sha256": "d9a7ca663cbf5e3871578dff23146a9ee8c705945be317b07487e6b4ceb6a0df"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-2d4648/final/current.json",
+      "sha256": "ed442bbb32c4990ca4fea832cde480c66b581311015294200219946234308f13"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-2d4648/manifest.json",
+      "sha256": "b379b637b06935fb0c5880ea58aab64f7398c26fbb27cebb80ec7eaa70517e91"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-2d4648/steps/step_001.json",
+      "sha256": "2f6f34a25aaf40b7fd853f4f9759dea7aaca51a5c12ccf2e359c1b9e18555bb7"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130041Z-2d4648/steps/step_002.json",
+      "sha256": "9da906917ddad7a2be3bfadc5c9f6879ec2639b8fac369dacb3c5035c4d58327"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-1ea02f/final/current.json",
+      "sha256": "3c55c52a0a42f9aef12ff9442e7f9fa2ddf34f125ad35b50e39356c664144ef1"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-1ea02f/manifest.json",
+      "sha256": "df21ae0d3e247f98733e25c4d767dd9f87ee1659b5b7bae4db607e53158f7595"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-1ea02f/steps/step_001.json",
+      "sha256": "031a8eec4e9cffbb9b61f9a421513db0e7d9660985fbf0fa02c5bcce82f57b4b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-1ea02f/steps/step_002.json",
+      "sha256": "85d7ca6ade47f7298bb20f7c6b7a97904d8991b2e1b12fbc416ece5c98c666bd"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-efb290/final/current.json",
+      "sha256": "dda69736ec9e5f5d9fe72bd14d5b1311317dff64ade5e9dde48c04a51ece1bbd"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-efb290/manifest.json",
+      "sha256": "3d7546f977fe1ac6fddaefcd5ef7aa2d42b76053bc9934e818131a1a41e87e3c"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-efb290/steps/step_001.json",
+      "sha256": "d371faea88200b56f2b892641992a7a609b108058faae121836724b1e10f2a35"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T130042Z-efb290/steps/step_002.json",
+      "sha256": "6c01775ebc57fbeca68b895ec6f89b48231a31f2f37501f9c1a3d05dd265a936"
+    }
+  ],
+  "audited_depth": "R3_REPEATED_NODE",
+  "eligibility": "CANDIDATE_FOR_INDEPENDENT_REVIEW",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
+  "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
+  "package_id": "rps-real-c3j9",
+  "package_status": "PACKAGE_READY",
+  "schema_version": "RPSCasePackageV1",
+  "source_identity": "Rubensson-2024-equations-4.3--4.5-real-SPD-log",
+  "verdict_totals": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 9
+  }
+}

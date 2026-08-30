@@ -1,0 +1,52 @@
+{
+  "obligations": [
+    {
+      "candidate_path": "reference/candidates/O3R1.full.txt",
+      "candidate_sha256": "ff24849cd3ce29a61b34b518ff120f97adc68c7aa5848ac5473cf4af022750b6",
+      "current_member_id": "M3A1",
+      "current_path": "members/M3A1.txt",
+      "current_sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea",
+      "obligation_id": "O3R1",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T130038Z-748690",
+      "session_path": "verification/workspace/runs/20260830T130038Z-748690",
+      "step_path": "verification/workspace/runs/20260830T130038Z-748690/steps/step_002.json",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/O3R2.full.txt",
+      "candidate_sha256": "38476e8e16907dd9cb32007a9af446981b0352ebb8b3b1e96d42a50439d7b9ec",
+      "current_member_id": "M3A2",
+      "current_path": "members/M3A2.txt",
+      "current_sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94",
+      "obligation_id": "O3R2",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T130039Z-d52f6f",
+      "session_path": "verification/workspace/runs/20260830T130039Z-d52f6f",
+      "step_path": "verification/workspace/runs/20260830T130039Z-d52f6f/steps/step_002.json",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/O3R3.full.txt",
+      "candidate_sha256": "3c982da7e6d64f696b434ef77059b88596c2646207875e1296d1f4fd31990bbd",
+      "current_member_id": "M3A3",
+      "current_path": "members/M3A3.txt",
+      "current_sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75",
+      "obligation_id": "O3R3",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T130039Z-64a609",
+      "session_path": "verification/workspace/runs/20260830T130039Z-64a609",
+      "step_path": "verification/workspace/runs/20260830T130039Z-64a609/steps/step_002.json",
+      "verdict": "ZERO"
+    }
+  ],
+  "schema_version": "RPSObligationsV1",
+  "summary": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 3
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "run_id": "20260830T130046Z-a327a6",
+  "created_at": "2026-08-30T13:00:47Z",
+  "repository_version": "0.3.0",
+  "engine_version": "0.3.0",
+  "agent_protocol_version": "0.3.0",
+  "engine_git_sha": "6b259f2979f03d0eb71e7b8e2744c401883c5bf5",
+  "requested_arm": null,
+  "requested_proposer_mode": "main",
+  "policies": {
+    "parse": {
+      "max_expr_chars": 65536,
+      "max_nodes": 8000,
+      "max_tokens": 16000,
+      "max_nesting_depth": 256,
+      "max_integer_digits": 256,
+      "max_numeric_exponent": 10000,
+      "max_symbols": 40,
+      "allowed_functions": [
+        "Abs",
+        "Rational",
+        "acos",
+        "asin",
+        "atan",
+        "atan2",
+        "conjugate",
+        "cos",
+        "cosh",
+        "exp",
+        "im",
+        "log",
+        "polygamma",
+        "re",
+        "sin",
+        "sinh",
+        "sqrt",
+        "tan",
+        "tanh"
+      ]
+    },
+    "verify": {
+      "simplify_ops_cap": 8000,
+      "structure_first_threshold": 200
+    },
+    "transform": {
+      "ops_cap": 8000
+    },
+    "budget": {
+      "mode": "process",
+      "residual_seconds": 15.0,
+      "expand_seconds": 15.0,
+      "simplify_seconds": 30.0,
+      "probe_simplify_seconds": 10.0,
+      "equals_seconds": 10.0,
+      "expand_complex_seconds": 10.0,
+      "factor_seconds": 15.0,
+      "factor_terms_seconds": 15.0,
+      "together_seconds": 15.0,
+      "cancel_seconds": 15.0,
+      "finite_expand_seconds": 15.0,
+      "kill_grace_seconds": 2.0
+    }
+  },
+  "meta": {
+    "case_package": "rps-real-c8q2",
+    "grammar_variant": "G_PRIMITIVE",
+    "obligation_id": "O8R2",
+    "agent_protocol": "record_proposal"
+  },
+  "current": {
+    "text": "-cos(x)/x + sin(x)/x**2",
+    "sha256": "da0838f2d9c3a15b905a12e28b111f86b3ae8ee374c1dfff7711c9226fc82e82",
+    "source_path": "/private/tmp/ssc-rps-dev-recovery/research/representation_program_search/packages/real_domain_recovery/rps-real-c8q2/reference/candidates/O8R2.primitive.txt",
+    "parsed_expr": "-cos(x)/x + sin(x)/x**2",
+    "symbols": [
+      {
+        "name": "x",
+        "real": true,
+        "nonzero": true
+      }
+    ],
+    "functions": []
+  },
+  "steps": [
+    {
+      "step": 1,
+      "current_hash": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc",
+      "candidate_hash": "87876bb1868772822209c157b6ca900829621fdabfce4662e352652538e5e6ae",
+      "candidate_text": "-cos(x)/x + sin(x)/x**2",
+      "residual": null,
+      "verdict": "UNKNOWN",
+      "evidence": [
+        {
+          "kind": "proposer_candidate",
+          "candidate_id": "rps-real-c8q2-G_PRIMITIVE-O8R2",
+          "assumptions_status": "DECLARED",
+          "confidence": "high",
+          "role": "STRUCTURAL_PROPOSER",
+          "harness_task_or_subagent_id": null,
+          "invoked_at": "2026-08-30T13:00:47Z",
+          "returned_at": null,
+          "parent_agent_step": 0,
+          "proposal_sha256": "a5f3c68ea4312dd9f713f49867bf69eae900282638f5dbf312502d5285d0f672",
+          "conjecture_packet_sha256": null,
+          "invocation_mode": "main_agent",
+          "unavailable": false,
+          "subagent_id": null,
+          "invocation_timestamp": "2026-08-30T13:00:47Z",
+          "proposal_timestamp": "2026-08-30T13:00:47Z",
+          "parent_step_index": 0
+        }
+      ],
+      "timestamp": "2026-08-30T13:00:47Z",
+      "status": "HYPOTHESIS",
+      "telemetry": {
+        "primitive": "proposal",
+        "wall_time_seconds": 0.0,
+        "verdict": null,
+        "engine_version": "0.3.0",
+        "agent_protocol_version": "0.3.0",
+        "proposal": {
+          "candidate_id": "rps-real-c8q2-G_PRIMITIVE-O8R2",
+          "hypothesis": "The compiled output is exactly equivalent to the member.",
+          "candidate_expression_or_rewrite": "-cos(x)/x + sin(x)/x**2",
+          "rationale": "The transformation is the selected executable M1 output.",
+          "expected_structural_benefit": "A legal compiled program output reconstructs one grounded member.",
+          "suggested_verification_strategy": "Run the exact verifier on the hash-bound member and candidate files.",
+          "status": "HYPOTHESIS",
+          "required_assumptions": [
+            "package ScientificAssumptionContract"
+          ],
+          "assumptions_status": "DECLARED",
+          "confidence": "high"
+        }
+      },
+      "engine_version": "0.3.0",
+      "engine_git_sha": "6b259f2979f03d0eb71e7b8e2744c401883c5bf5",
+      "assumption_status": null,
+      "proof_status": "HYPOTHESIS"
+    },
+    {
+      "step": 2,
+      "current_hash": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc",
+      "candidate_hash": "da0838f2d9c3a15b905a12e28b111f86b3ae8ee374c1dfff7711c9226fc82e82",
+      "candidate_text": "-cos(x)/x + sin(x)/x**2",
+      "residual": "0",
+      "verdict": "ZERO",
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ],
+      "timestamp": "2026-08-30T13:00:47Z",
+      "status": "CERTIFIED",
+      "telemetry": {
+        "input_chars": 22,
+        "output_chars": 23,
+        "wall_time_seconds": 0.4313,
+        "verdict": "ZERO",
+        "timeout_status": "ok",
+        "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+        "repository_version": "0.3.0",
+        "engine_version": "0.3.0",
+        "agent_protocol_version": "0.3.0",
+        "policies": {
+          "parse": {
+            "max_expr_chars": 65536,
+            "max_nodes": 8000,
+            "max_tokens": 16000,
+            "max_nesting_depth": 256,
+            "max_integer_digits": 256,
+            "max_numeric_exponent": 10000,
+            "max_symbols": 40,
+            "allowed_functions": [
+              "Abs",
+              "Rational",
+              "acos",
+              "asin",
+              "atan",
+              "atan2",
+              "conjugate",
+              "cos",
+              "cosh",
+              "exp",
+              "im",
+              "log",
+              "polygamma",
+              "re",
+              "sin",
+              "sinh",
+              "sqrt",
+              "tan",
+              "tanh"
+            ]
+          },
+          "verify": {
+            "simplify_ops_cap": 8000,
+            "structure_first_threshold": 200
+          },
+          "transform": {
+            "ops_cap": 8000
+          },
+          "budget": {
+            "mode": "process",
+            "residual_seconds": 15.0,
+            "expand_seconds": 15.0,
+            "simplify_seconds": 30.0,
+            "probe_simplify_seconds": 10.0,
+            "equals_seconds": 10.0,
+            "expand_complex_seconds": 10.0,
+            "factor_seconds": 15.0,
+            "factor_terms_seconds": 15.0,
+            "together_seconds": 15.0,
+            "cancel_seconds": 15.0,
+            "finite_expand_seconds": 15.0,
+            "kill_grace_seconds": 2.0
+          }
+        },
+        "count_ops_before": 6,
+        "count_ops_after": 6
+      },
+      "engine_version": "0.3.0",
+      "engine_git_sha": "6b259f2979f03d0eb71e7b8e2744c401883c5bf5",
+      "assumption_status": "DECLARED",
+      "proof_status": "PROVEN"
+    }
+  ]
+}

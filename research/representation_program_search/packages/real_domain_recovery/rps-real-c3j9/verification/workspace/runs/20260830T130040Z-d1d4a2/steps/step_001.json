@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea",
+  "candidate_hash": "b67e9c3cddbc186464e23384ba67a93d22a2ad6a66e87445aa306359ffd3362f",
+  "candidate_text": "p*(-log(x)/(-x + y) + log(y)/(-x + y))",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "rps-real-c3j9-G_NO_HERMITE-O3R1",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T13:00:40Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "541e2e91707bcc0958588c686ea6335e49ecedf43683b6c14e857c3b28d9eeac",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T13:00:40Z",
+      "proposal_timestamp": "2026-08-30T13:00:40Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T13:00:40Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "rps-real-c3j9-G_NO_HERMITE-O3R1",
+      "hypothesis": "The compiled output is exactly equivalent to the member.",
+      "candidate_expression_or_rewrite": "p*(-log(x)/(-x + y) + log(y)/(-x + y))",
+      "rationale": "The transformation is the selected executable M1 output.",
+      "expected_structural_benefit": "A legal compiled program output reconstructs one grounded member.",
+      "suggested_verification_strategy": "Run the exact verifier on the hash-bound member and candidate files.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "package ScientificAssumptionContract"
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "6b259f2979f03d0eb71e7b8e2744c401883c5bf5",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

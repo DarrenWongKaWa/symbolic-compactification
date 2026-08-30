@@ -1,0 +1,277 @@
+{
+  "assumption_statuses": {
+    "P3A1": "DECLARED",
+    "P3A2": "DECLARED",
+    "P3A3": "DERIVED",
+    "P3A4": "DECLARED"
+  },
+  "assumptions_used": [
+    "P3A1",
+    "P3A2",
+    "P3A3",
+    "P3A4"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "M3A1": {
+      "component": "first_12",
+      "nodes": [
+        "x",
+        "y"
+      ]
+    },
+    "M3A2": {
+      "component": "second_12",
+      "nodes": [
+        "x",
+        "x",
+        "y"
+      ]
+    },
+    "M3A3": {
+      "component": "second_12",
+      "nodes": [
+        "x",
+        "y",
+        "y"
+      ]
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "log(u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F3L1",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "M3A1",
+      "operator_ids": [
+        "P3X",
+        "P3Y",
+        "P3DD",
+        "P3L1"
+      ],
+      "output": "pc3_1"
+    },
+    {
+      "member_id": "M3A2",
+      "operator_ids": [
+        "P3X",
+        "P3Y",
+        "P3DD",
+        "P3D",
+        "P3DX",
+        "P3XXY",
+        "P3L2"
+      ],
+      "output": "pc3_2"
+    },
+    {
+      "member_id": "M3A3",
+      "operator_ids": [
+        "P3D",
+        "P3DY",
+        "P3X",
+        "P3Y",
+        "P3DD",
+        "P3XYY",
+        "P3L3"
+      ],
+      "output": "pc3_3"
+    }
+  ],
+  "node_structures": [],
+  "obligations": [
+    {
+      "member_id": "M3A1",
+      "obligation_id": "O3R1",
+      "output": "pc3_1",
+      "required": true
+    },
+    {
+      "member_id": "M3A2",
+      "obligation_id": "O3R2",
+      "output": "pc3_2",
+      "required": true
+    },
+    {
+      "member_id": "M3A3",
+      "obligation_id": "O3R3",
+      "output": "pc3_3",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "node": "x"
+      },
+      "inputs": [],
+      "latent_id": "F3L1",
+      "operator": "VALUE",
+      "operator_id": "P3X",
+      "output": "p3_fx"
+    },
+    {
+      "arguments": {
+        "node": "y"
+      },
+      "inputs": [],
+      "latent_id": "F3L1",
+      "operator": "VALUE",
+      "operator_id": "P3Y",
+      "output": "p3_fy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "-1/(y-x)",
+          "1/(y-x)"
+        ]
+      },
+      "inputs": [
+        "p3_fx",
+        "p3_fy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "P3DD",
+      "output": "p3_dxy"
+    },
+    {
+      "arguments": {
+        "variable": "u"
+      },
+      "inputs": [],
+      "latent_id": "F3L1",
+      "operator": "DERIVATIVE",
+      "operator_id": "P3D",
+      "output": "p3_df"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "x"
+      },
+      "inputs": [
+        "p3_df"
+      ],
+      "latent_id": "F3L1",
+      "operator": "SUBSTITUTE",
+      "operator_id": "P3DX",
+      "output": "p3_dfx"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "y"
+      },
+      "inputs": [
+        "p3_df"
+      ],
+      "latent_id": "F3L1",
+      "operator": "SUBSTITUTE",
+      "operator_id": "P3DY",
+      "output": "p3_dfy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1/(y-x)",
+          "-1/(y-x)"
+        ]
+      },
+      "inputs": [
+        "p3_dxy",
+        "p3_dfx"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "P3XXY",
+      "output": "p3_xxy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1/(y-x)",
+          "-1/(y-x)"
+        ]
+      },
+      "inputs": [
+        "p3_dfy",
+        "p3_dxy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "P3XYY",
+      "output": "p3_xyy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p"
+        ]
+      },
+      "inputs": [
+        "p3_dxy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "P3L1",
+      "output": "pc3_1"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "p3_xxy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "P3L2",
+      "output": "pc3_2"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "p3_xyy"
+      ],
+      "latent_id": "F3L1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "P3L3",
+      "output": "pc3_3"
+    }
+  ],
+  "program_id": "567ede611fc987ffdfdd554bf5810c8780f7b948c4483eb5ea3c62334d27eed7",
+  "representation_depth": "R3_COMPOSITIONAL_REPEATED_NODE",
+  "source_members": [
+    {
+      "member_id": "M3A1",
+      "path": "members/M3A1.txt",
+      "sha256": "23212031747cb407d8fab2a22248d11b7036d0c842fd4e1593615649d72cb5ea"
+    },
+    {
+      "member_id": "M3A2",
+      "path": "members/M3A2.txt",
+      "sha256": "c7573db2daf45b50d988503730364e06b943004afc2f702c8953e60884183b94"
+    },
+    {
+      "member_id": "M3A3",
+      "path": "members/M3A3.txt",
+      "sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75"
+    }
+  ],
+  "unexplained_members": []
+}

@@ -1,0 +1,14 @@
+{
+  "text": "-cos(x)/x + sin(x)/x**2",
+  "sha256": "da0838f2d9c3a15b905a12e28b111f86b3ae8ee374c1dfff7711c9226fc82e82",
+  "sha256_of_text": "87876bb1868772822209c157b6ca900829621fdabfce4662e352652538e5e6ae",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "x",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}

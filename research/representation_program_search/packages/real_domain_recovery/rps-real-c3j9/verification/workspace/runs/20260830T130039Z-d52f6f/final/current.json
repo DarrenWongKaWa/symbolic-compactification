@@ -1,0 +1,29 @@
+{
+  "text": "p*q*((-log(x) + log(y))/(-x + y) - 1/x)/(-x + y)",
+  "sha256": "38476e8e16907dd9cb32007a9af446981b0352ebb8b3b1e96d42a50439d7b9ec",
+  "sha256_of_text": "0e725d582dd5010cfba5cea57f438bc9e7349970a2b1c03078b6f574f73da15e",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "p",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "q",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "y",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}
