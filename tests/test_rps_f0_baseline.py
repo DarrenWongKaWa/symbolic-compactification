@@ -8,11 +8,16 @@ import pytest
 
 from research.representation_program_search.freeform_baseline import (
     F0_AUTHORITY_COMMIT,
+    F0RunContractError,
     build_f0_prompt,
+    run_f0,
     validate_f0_authority,
 )
 from research.representation_program_search.freeform_baseline.prompt import F0ContractError
 from research.representation_program_search.search import load_public_case
+from research.representation_program_search.search.llm_contract import (
+    DeepSeekSearchConfig,
+)
 
 
 def _json(path: Path, value: object) -> str:
@@ -95,3 +100,159 @@ def test_authority_drift_fails_closed(tmp_path, monkeypatch):
     )
     with pytest.raises(F0ContractError, match="F0_AUTHORITY_DRIFT"):
         build_f0_prompt(case)
+
+
+def _usage():
+    return {
+        "prompt_tokens": 100,
+        "completion_tokens": 40,
+        "total_tokens": 140,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 100,
+        "completion_tokens_details": {"reasoning_tokens": 20},
+    }
+
+
+def _hypothesis(**extra):
+    value = {
+        "representation_type": "parameterized_family",
+        "latent_object": "F(t)=t+1",
+        "member_maps": [{"source_node_id": "G0001", "role": "instance"}],
+        "operators": [{"member": "G0001", "O": "specialize"}],
+        "reconstruction_rule": "G0001 = F(x)",
+        "required_assumptions": ["x is real"],
+        "proof_obligations": ["G0001 = F(x)"],
+    }
+    value.update(extra)
+    return value
+
+
+class _Transport:
+    def __init__(self, content, *, before_call=None, error=None, message=None):
+        self.content = content
+        self.before_call = before_call
+        self.error = error
+        self.message = message
+        self.calls = []
+
+    def complete(self, request):
+        self.calls.append(request)
+        if self.before_call is not None:
+            self.before_call()
+        if self.error is not None:
+            raise self.error
+        return {
+            "id": "request-f0",
+            "model": "deepseek-v4-pro",
+            "usage": _usage(),
+            "choices": [{
+                "finish_reason": "stop",
+                "message": (
+                    self.message
+                    if self.message is not None
+                    else {"content": self.content}
+                ),
+            }],
+        }
+
+
+def test_f0_runner_records_header_before_call_and_only_final_output(tmp_path):
+    output = tmp_path / "run"
+    content = json.dumps({
+        "abstain": False,
+        "abstain_reason": "",
+        "hypotheses": [_hypothesis()],
+    })
+    transport = _Transport(
+        content,
+        before_call=lambda: (output / "run_header.json").read_bytes(),
+    )
+
+    result = run_f0(
+        _case(tmp_path / "case"),
+        transport=transport,
+        output_directory=output,
+        config=DeepSeekSearchConfig(seed_label="seed-3"),
+    )
+
+    assert result.f0_run_available is True
+    assert result.provider_call_valid is True
+    assert result.seed == 3 and result.seed_label == "seed-3"
+    assert result.parse_status == "OK"
+    assert result.final_content == content
+    assert result.private_reasoning_accessed is False
+    assert result.private_reasoning_persisted is False
+    assert transport.calls[0]["messages"][1]["content"].startswith("CONDITION: P0_RAW")
+    header = json.loads((output / "run_header.json").read_text())
+    recorded = json.loads((output / "result.json").read_text())
+    assert header["run_header_sha256"] == result.run_header_sha256
+    assert recorded["final_content_sha256"] == hashlib.sha256(content.encode()).hexdigest()
+    assert "reasoning_content" not in json.dumps(recorded)
+
+
+def test_f0_malformed_final_json_is_available_method_failure(tmp_path):
+    result = run_f0(
+        _case(tmp_path / "case"),
+        transport=_Transport("not json"),
+        output_directory=tmp_path / "run",
+    )
+    assert result.f0_run_available is True
+    assert result.parse_status == "PARSE_FAILURE"
+    assert result.provider_error_code is None
+
+
+def test_f0_api_failure_is_unavailable_without_fallback_or_content(tmp_path):
+    result = run_f0(
+        _case(tmp_path / "case"),
+        transport=_Transport("", error=RuntimeError("secret provider text")),
+        output_directory=tmp_path / "run",
+    )
+    assert result.f0_run_available is False
+    assert result.provider_error_code == "API_FAILURE:RuntimeError"
+    assert result.final_content is None
+    assert "secret provider text" not in (tmp_path / "run/result.json").read_text()
+
+
+def test_f0_rejects_private_reasoning_copied_into_final_json(tmp_path):
+    content = json.dumps({
+        "abstain": False,
+        "hypotheses": [_hypothesis(reasoning_content="SENSITIVE_BODY_X9")],
+    })
+    result = run_f0(
+        _case(tmp_path / "case"),
+        transport=_Transport(content),
+        output_directory=tmp_path / "run",
+    )
+    assert result.f0_run_available is False
+    assert result.provider_error_code == "RESPONSE_PRIVATE_REASONING_FIELD_FORBIDDEN"
+    assert result.final_content is None
+    assert "SENSITIVE_BODY_X9" not in (tmp_path / "run/result.json").read_text()
+
+
+def test_f0_never_reads_provider_reasoning_attribute(tmp_path):
+    class _Message:
+        content = json.dumps({"abstain": True, "hypotheses": []})
+
+        @property
+        def reasoning_content(self):
+            raise AssertionError("private reasoning was accessed")
+
+    result = run_f0(
+        _case(tmp_path / "case"),
+        transport=_Transport("", message=_Message()),
+        output_directory=tmp_path / "run",
+    )
+    assert result.f0_run_available is True
+    assert result.parse_status == "ABSTAIN"
+
+
+def test_f0_refuses_to_overwrite_existing_evidence(tmp_path):
+    output = tmp_path / "run"
+    output.mkdir()
+    (output / "existing.json").write_text("{}\n")
+    with pytest.raises(F0RunContractError, match="F0_OUTPUT_DIRECTORY_NOT_EMPTY"):
+        run_f0(
+            _case(tmp_path / "case"),
+            transport=_Transport("{}"),
+            output_directory=output,
+        )

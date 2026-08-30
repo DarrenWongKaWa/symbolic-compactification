@@ -1,6 +1,7 @@
 # F0 — historical P0 RAW free-form baseline
 
-Status: compatibility boundary only; no new scientific or live LLM run.
+Status: compatibility boundary and auditable runner implemented; no new
+scientific or live LLM run.
 
 F0 byte-locks the historical P0 RAW system/condition prompt and parser to the
 closed experiment authority `0cdde49`. A public RPS case is adapted without
@@ -12,6 +13,18 @@ The old prompt/parser architecture is retained, but its former client-side
 private-reasoning capture is not: new runs must retain only the final response,
 usage, request provenance, and hashes. No private reasoning body, tail, hash,
 or length may be accessed or stored.
+
+`runner.py` implements that boundary. It writes a hash-bound run header before
+the provider call, accepts only the frozen DeepSeek model/configuration, and
+persists the final assistant content plus explicit usage/provenance. It never
+reads `reasoning_content`. Provider/API/provenance failures make the run
+unavailable; there is no fallback. A malformed final JSON response remains an
+available method outcome with `PARSE_FAILURE`, because format failure is a
+scientific failure of F0 rather than missing infrastructure.
+
+The runner does not evaluate its own output. Legacy scoring and typed M1
+translation remain evaluator-side operations, so neither hidden representation
+labels nor reference programs cross the proposer boundary.
 
 ## Outcome compatibility
 
