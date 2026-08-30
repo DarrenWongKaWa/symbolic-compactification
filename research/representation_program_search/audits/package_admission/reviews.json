@@ -1,0 +1,164 @@
+{
+  "policy_version": "RPS_PACKAGE_ADMISSION_REVIEW_V1",
+  "reviews": {
+    "dp-oscillator-confluent-fixed-r4": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE_BUT_UNPROVEN",
+      "domain_note": "The required source claim keeps w complex. The retained real-w ZERO replay is a domain-restricted diagnostic and is ineligible.",
+      "independent_depth": "R4",
+      "named_primitive_giveaway": "HIGH_REQUIRES_G_NO_HERMITE_AND_G_PRIMITIVE_ABLATIONS",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "RESTRICTED_REAL_REPLAY_INELIGIBLE",
+        "PIECEWISE_HISTORICAL_SIMILARITY_REVIEW"
+      ]
+    },
+    "mx-abba-exp-fixed-r6": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "DEPTH_DOWNGRADED",
+      "domain_note": "The package explicitly excludes p*u+q*v=0 and claims only the fixed m=2,n=1 scalar-component lowering.",
+      "independent_depth": "R2",
+      "named_primitive_giveaway": "MODERATE_REQUIRES_G_PRIMITIVE_ABLATION",
+      "non_tautology": "PASS_IR_NARROW_BUT_SOURCE_EXPOSES_SHARED_QUOTIENT",
+      "review_flags": [
+        "FIXED_ABBA_IS_NEWTON_DD_PLUS_LINEAR_RECONSTRUCTION_NOT_R6_MASTER",
+        "SHARED_QUOTIENT_IS_AN_EXPLICIT_SOURCE_MEMBER"
+      ]
+    },
+    "mx-sqrt-hermite-fixed-r3": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE",
+      "domain_note": "Positive real x,y and x!=y are explicit; the package claims only a scalar spectral coefficient.",
+      "independent_depth": "R3",
+      "named_primitive_giveaway": "CRITICAL_REQUIRES_G_NO_HERMITE_AND_G_PRIMITIVE_ABLATIONS",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "EXACT_MEMBER_OVERLAP_WITH_R2_SIBLING",
+        "NAMED_HERMITE_PRIMITIVE_MAY_SUPPLY_TARGET"
+      ]
+    },
+    "mx-sqrt-newton-fixed-r2": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE",
+      "domain_note": "Positive real x,y and x!=y are explicit; the package claims only a scalar spectral coefficient.",
+      "independent_depth": "R2",
+      "named_primitive_giveaway": "MODERATE_REQUIRES_G_PRIMITIVE_ABLATION",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "EXACT_MEMBER_OVERLAP_WITH_R3_SIBLING"
+      ]
+    },
+    "rps-r-feshbach-optical-heff": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "DEPTH_DOWNGRADED",
+      "domain_note": "The one-dimensional P/Q specialization and eps-hqq!=0 are explicit.",
+      "independent_depth": "R0",
+      "named_primitive_giveaway": "NONE",
+      "non_tautology": "PASS_IR_NARROW_BUT_FAILS_FAIR_CSE_CONTROL",
+      "review_flags": [
+        "TRIVIAL_SHARED_DENOMINATOR_CSE_BASELINE_CLASS",
+        "VALUE_PLUS_LINEAR_COMBINATION_IS_NOT_R6_MULTI_OPERATOR_MASTER"
+      ]
+    },
+    "rps-t-barnes-rivers-dn": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "NOT_ADMISSIBLE_AS_R8",
+      "domain_note": "Only two fixed index quadruples at d=5 and Euclidean signature are certified.",
+      "independent_depth": "DIAGNOSTIC_ONLY",
+      "named_primitive_giveaway": "NOT_APPLICABLE_DIAGNOSTIC",
+      "non_tautology": "NOT_ASSESSED_FOR_ADMISSION",
+      "review_flags": [
+        "FINITE_INDEX_DIAGNOSTIC",
+        "NO_SYMBOLIC_D_PROJECTOR_ALGEBRA",
+        "NO_FULL_IDEMPOTENCE_OR_ORTHOGONALITY_PROOF"
+      ]
+    },
+    "rps-t-stf-son-rank3": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "NOT_ADMISSIBLE_AS_R8",
+      "domain_note": "Only two fixed trace slices at n=5 and Euclidean signature are certified.",
+      "independent_depth": "DIAGNOSTIC_ONLY",
+      "named_primitive_giveaway": "NOT_APPLICABLE_DIAGNOSTIC",
+      "non_tautology": "NOT_ASSESSED_FOR_ADMISSION",
+      "review_flags": [
+        "FINITE_INDEX_DIAGNOSTIC",
+        "NO_SYMBOLIC_N_PROJECTOR",
+        "NO_ALL_COMPONENTS_RECONSTRUCTION"
+      ]
+    },
+    "thermal-09-digamma-newton": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE_BUT_UNPROVEN",
+      "domain_note": "The full nonpositive-integer pole exclusion is explicit in the package contract.",
+      "independent_depth": "R2",
+      "named_primitive_giveaway": "MODERATE_REQUIRES_G_PRIMITIVE_ABLATION",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "SYMBOLIC_REQUIRED_OBLIGATION_UNKNOWN",
+        "PROPOSER_VISIBLE_OPERATOR_NAME"
+      ]
+    },
+    "thermal-09-digamma-newton-z1": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE_AT_R0_ONLY",
+      "domain_note": "This is the explicit z=1 fixed instance; the unused z symbol is a parser namespace carrier.",
+      "independent_depth": "R0",
+      "named_primitive_giveaway": "TARGET_OPERATOR_IS_SCIENTIFICALLY_INESSENTIAL_AT_FIXED_POINT",
+      "non_tautology": "PASS_IR_NARROW",
+      "review_flags": [
+        "FIXED_SPECIAL_VALUE_NOT_R2",
+        "PROPOSER_VISIBLE_OPERATOR_NAME"
+      ]
+    },
+    "thermal-10-polygamma-order2-recurrence": {
+      "assumption_status": "HUMAN_REQUIRED",
+      "depth_assessment": "DEPTH_DOWNGRADED",
+      "domain_note": "The package adds the full nonpositive-integer pole exclusion after the inherited dossier was rejected as PROBLEM_UNDERSPECIFIED. No recorded human authorization for that domain repair is present.",
+      "independent_depth": "R1",
+      "named_primitive_giveaway": "HIGH_REQUIRES_G_PRIMITIVE_ABLATION",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "UNAUTHORIZED_DOMAIN_REPAIR",
+        "SYMBOLIC_REQUIRED_OBLIGATION_UNKNOWN",
+        "PROPOSER_VISIBLE_OPERATOR_NAME"
+      ]
+    },
+    "thermal-11-digamma-duplication": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "DEPTH_DOWNGRADED",
+      "domain_note": "The n=2 specialization and digamma pole exclusions are explicit.",
+      "independent_depth": "R1",
+      "named_primitive_giveaway": "NONE",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "SYMBOLIC_REQUIRED_OBLIGATION_UNKNOWN",
+        "SOURCE_MEMBER_A002_HAS_NO_CURRENT_SIDE_OBLIGATION"
+      ]
+    },
+    "thermal-13-alternating-digamma": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE_BUT_UNPROVEN",
+      "domain_note": "The pole exclusion and bound summation index are explicit.",
+      "independent_depth": "R5",
+      "named_primitive_giveaway": "NONE",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "SYMBOLIC_REQUIRED_OBLIGATION_UNKNOWN",
+        "HISTORICAL_THERMAL_SIMILARITY_REVIEW"
+      ]
+    },
+    "thermal-13-alternating-digamma-z1": {
+      "assumption_status": "DECLARED",
+      "depth_assessment": "PLAUSIBLE_FIXED_INSTANCE_ONLY",
+      "domain_note": "This is the explicit z=1 fixed instance; k is a bound Sum index.",
+      "independent_depth": "R5_FIXED_INSTANCE",
+      "named_primitive_giveaway": "NONE",
+      "non_tautology": "PASS",
+      "review_flags": [
+        "FIXED_POINT_DOES_NOT_ESTABLISH_SYMBOLIC_FAMILY_GENERALIZATION",
+        "HISTORICAL_THERMAL_SIMILARITY_REVIEW"
+      ]
+    }
+  },
+  "schema_version": "RPSPackageAdmissionReviewsV1"
+}
