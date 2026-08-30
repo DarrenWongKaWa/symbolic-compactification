@@ -1,0 +1,68 @@
+{
+  "schema_version": "RPSClosureManifestV1",
+  "experiment": "Verified Representation Program Search",
+  "branch": "research/representation-program-search-v1",
+  "closure_date": "2026-08-31",
+  "parent_authority": "0cdde498715f1e1bb146ff33c8c90350077352ca",
+  "gate_authority": "b54256766054b9ebdeaeaed9bbb6448cc9405ea0",
+  "gate_decision": "GATE_BLOCKED",
+  "publication_decision": "F",
+  "scientific_treatment_started": false,
+  "scientific_method_job_count": 0,
+  "live_llm_call_count": 0,
+  "fresh_test_frozen": false,
+  "benchmark": {
+    "intended_name": "ssc-representation-search-bench-v0.1",
+    "status": "NOT_CREATED",
+    "benchmark_hash": null,
+    "dev_manifest": null,
+    "test_manifest": null,
+    "freeze_manifest": null,
+    "reason": "The mandatory first DEV calibration gate was not cleared."
+  },
+  "required_gate_slots": {
+    "R2": "READY_C9H4_DEV_CALIBRATION_ONLY",
+    "R3": "MISSING",
+    "R4_R5": "MISSING",
+    "R6": "MISSING_PACKAGING_GAP",
+    "NEGATIVE_TRAP": "MISSING"
+  },
+  "artifacts": [
+    {
+      "path": "research/representation_program_search/audits/dev_gate_final/GATE_AUDIT.json",
+      "sha256": "767ce24dbda3a81a84d62d55e0efcfc6447e3b4a4622b10e6447eaa72c078606"
+    },
+    {
+      "path": "research/representation_program_search/reviews/final/REVIEW_SYNTHESIS.json",
+      "sha256": "1bfc8ba476ccd29fb97bac25dc1cbcafa6258b614c1933be23ec639c234ce72c"
+    },
+    {
+      "path": "research/representation_program_search/reviews/final/REVIEW_SYNTHESIS.md",
+      "sha256": "9423eb0958eca3ab5f5630a57f78105fbe7aecea7251fb7b9ec30aa456bb5fca"
+    },
+    {
+      "path": "research/representation_program_search/final/FINAL_SCIENTIFIC_VERDICT.md",
+      "sha256": "31284fb999d81f059c45391ed7e45160df98341f6c3df35824319a21ae741574"
+    },
+    {
+      "path": "REPERTOIRE_V2.md",
+      "sha256": "6fecc1b61fb077da8e6aa8bb66432e02201361d8cb91a331a684d6270da658d0"
+    },
+    {
+      "path": "CAPABILITIES.json",
+      "sha256": "f2c832e90363fbd43c09ad1a68f750cd9b44313e6aebba9bfe86255875e554e5"
+    },
+    {
+      "path": "NEGATIVE_RESULTS.md",
+      "sha256": "05d83ed72a2b98d42b74118e95bcfb76f4bf8b2f2f493abf12d884e76230441f"
+    },
+    {
+      "path": "research/representation_program_search/STATUS.md",
+      "sha256": "23144c4c034afc234bc84cec303fd4ffbcb96e934e2b53e68990e92e0b97b3ca"
+    }
+  ],
+  "review_count": 9,
+  "review_consensus": "F_WITH_PRETREATMENT_QUALIFIER",
+  "claim_boundary": "The bounded run did not assemble its mandatory fresh calibration suite, so it produced no evidence supporting structured-search representation invention. No search, AI, verifier-feedback, SOL, efficiency, or held-out effect was estimated, and no algorithmic null result is claimed.",
+  "manifest_role": "NEGATIVE_PROCESS_CLOSURE_NOT_TEST_FREEZE"
+}

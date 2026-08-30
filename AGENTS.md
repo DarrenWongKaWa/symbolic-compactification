@@ -9,6 +9,13 @@ the verifier decides, and it fails closed.
 Read this file first. Follow every rule. When in doubt, fail closed and
 escalate to the human.
 
+Before proposing or reopening a research method, also read the repository-root
+`CAPABILITIES.json`, `NEGATIVE_RESULTS.md`, and `REPERTOIRE_V2.md`. They are
+the evidence-based capability and closure registries. Do not reopen a frozen
+negative line, promote implemented-but-unevaluated research software, or claim
+a capability beyond the status recorded there without a new predeclared
+experiment and fresh evidence.
+
 ---
 
 ## The loop (one sentence)
