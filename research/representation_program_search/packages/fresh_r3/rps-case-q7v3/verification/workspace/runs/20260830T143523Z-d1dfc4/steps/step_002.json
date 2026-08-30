@@ -1,0 +1,87 @@
+{
+  "step": 2,
+  "current_hash": "d394cf1dd087b00407c2637ce6a7b97697359b90892edee82d4969119e873d48",
+  "candidate_hash": "f7c1a1a67e5ec5d7a32cda814b60e13d93664c5b7be2a1d52c9cc43795d33f3f",
+  "candidate_text": "p*q*r*((-(-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + b) + exp(b)/(-a + b))/(-a + b) - ((-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + b) - exp(a)/(-a + b))/(-a + b))",
+  "residual": "0",
+  "verdict": "ZERO",
+  "evidence": [
+    {
+      "kind": "exact_symbolic_zero",
+      "simplified_difference": "0"
+    }
+  ],
+  "timestamp": "2026-08-30T14:35:24Z",
+  "status": "CERTIFIED",
+  "telemetry": {
+    "input_chars": 84,
+    "output_chars": 160,
+    "wall_time_seconds": 0.487,
+    "verdict": "ZERO",
+    "timeout_status": "ok",
+    "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+    "repository_version": "0.3.0",
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "policies": {
+      "parse": {
+        "max_expr_chars": 65536,
+        "max_nodes": 8000,
+        "max_tokens": 16000,
+        "max_nesting_depth": 256,
+        "max_integer_digits": 256,
+        "max_numeric_exponent": 10000,
+        "max_symbols": 40,
+        "allowed_functions": [
+          "Abs",
+          "Rational",
+          "acos",
+          "asin",
+          "atan",
+          "atan2",
+          "conjugate",
+          "cos",
+          "cosh",
+          "exp",
+          "im",
+          "log",
+          "polygamma",
+          "re",
+          "sin",
+          "sinh",
+          "sqrt",
+          "tan",
+          "tanh"
+        ]
+      },
+      "verify": {
+        "simplify_ops_cap": 8000,
+        "structure_first_threshold": 200
+      },
+      "transform": {
+        "ops_cap": 8000
+      },
+      "budget": {
+        "mode": "process",
+        "residual_seconds": 15.0,
+        "expand_seconds": 15.0,
+        "simplify_seconds": 30.0,
+        "probe_simplify_seconds": 10.0,
+        "equals_seconds": 10.0,
+        "expand_complex_seconds": 10.0,
+        "factor_seconds": 15.0,
+        "factor_terms_seconds": 15.0,
+        "together_seconds": 15.0,
+        "cancel_seconds": 15.0,
+        "finite_expand_seconds": 15.0,
+        "kill_grace_seconds": 2.0
+      }
+    },
+    "count_ops_before": 23,
+    "count_ops_after": 34
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "e175ebab31e4d3a0426818ec3cadba304c998ec0",
+  "assumption_status": "DECLARED",
+  "proof_status": "PROVEN"
+}

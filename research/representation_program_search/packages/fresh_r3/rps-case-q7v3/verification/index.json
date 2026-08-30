@@ -1,0 +1,100 @@
+{
+  "attempts": [
+    {
+      "candidate_path": "reference/candidates/O01.full.txt",
+      "member_id": "M01",
+      "obligation_id": "O01",
+      "program_variant": "G_FULL",
+      "proposal_step": 1,
+      "run_id": "20260830T143519Z-18b8e0",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O02.full.txt",
+      "member_id": "M02",
+      "obligation_id": "O02",
+      "program_variant": "G_FULL",
+      "proposal_step": 1,
+      "run_id": "20260830T143520Z-1843e1",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O03.full.txt",
+      "member_id": "M03",
+      "obligation_id": "O03",
+      "program_variant": "G_FULL",
+      "proposal_step": 1,
+      "run_id": "20260830T143521Z-66590d",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O01.no_hermite.txt",
+      "member_id": "M01",
+      "obligation_id": "O01",
+      "program_variant": "G_NO_HERMITE",
+      "proposal_step": 1,
+      "run_id": "20260830T143521Z-9bfeb8",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O02.no_hermite.txt",
+      "member_id": "M02",
+      "obligation_id": "O02",
+      "program_variant": "G_NO_HERMITE",
+      "proposal_step": 1,
+      "run_id": "20260830T143522Z-304292",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O03.no_hermite.txt",
+      "member_id": "M03",
+      "obligation_id": "O03",
+      "program_variant": "G_NO_HERMITE",
+      "proposal_step": 1,
+      "run_id": "20260830T143523Z-4751d0",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O01.primitive.txt",
+      "member_id": "M01",
+      "obligation_id": "O01",
+      "program_variant": "G_PRIMITIVE",
+      "proposal_step": 1,
+      "run_id": "20260830T143523Z-d1dfc4",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O02.primitive.txt",
+      "member_id": "M02",
+      "obligation_id": "O02",
+      "program_variant": "G_PRIMITIVE",
+      "proposal_step": 1,
+      "run_id": "20260830T143524Z-ca32fa",
+      "verdict": "ZERO",
+      "verification_step": 2
+    },
+    {
+      "candidate_path": "reference/candidates/O03.primitive.txt",
+      "member_id": "M03",
+      "obligation_id": "O03",
+      "program_variant": "G_PRIMITIVE",
+      "proposal_step": 1,
+      "run_id": "20260830T143525Z-8276b6",
+      "verdict": "ZERO",
+      "verification_step": 2
+    }
+  ],
+  "required_g_full_verdicts": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 3
+  },
+  "schema_version": "RPSVerificationIndexV1"
+}

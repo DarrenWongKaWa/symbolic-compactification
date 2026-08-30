@@ -1,0 +1,52 @@
+{
+  "obligations": [
+    {
+      "candidate_path": "reference/candidates/O01.full.txt",
+      "candidate_sha256": "a7be7997dfeae97ac2583ee6b5fcec5eb9765e17b6743652f3cb0b89bf9cbf10",
+      "current_member_id": "M01",
+      "current_path": "members/M01.txt",
+      "current_sha256": "d394cf1dd087b00407c2637ce6a7b97697359b90892edee82d4969119e873d48",
+      "obligation_id": "O01",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T143519Z-18b8e0",
+      "session_path": "verification/workspace/runs/20260830T143519Z-18b8e0",
+      "step_path": "verification/workspace/runs/20260830T143519Z-18b8e0/steps/step_002.json",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/O02.full.txt",
+      "candidate_sha256": "18c6a62e3a0510fb79d7ffff9997713dad16c278cc631abacce8cf37ed7f7fab",
+      "current_member_id": "M02",
+      "current_path": "members/M02.txt",
+      "current_sha256": "8ea8ccdf80e872ce58d557e26214c803b096a8ad3c30c789609fed0b0b012aa9",
+      "obligation_id": "O02",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T143520Z-1843e1",
+      "session_path": "verification/workspace/runs/20260830T143520Z-1843e1",
+      "step_path": "verification/workspace/runs/20260830T143520Z-1843e1/steps/step_002.json",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/O03.full.txt",
+      "candidate_sha256": "b4569fb8c24e9fe0934bcb52df544cf251885c61cb5e1f51d8f5a416b7fd07a6",
+      "current_member_id": "M03",
+      "current_path": "members/M03.txt",
+      "current_sha256": "2aed9afc1bab2d86177ad18eff755b52c0ac6fe7910926180939b435c299328b",
+      "obligation_id": "O03",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T143521Z-66590d",
+      "session_path": "verification/workspace/runs/20260830T143521Z-66590d",
+      "step_path": "verification/workspace/runs/20260830T143521Z-66590d/steps/step_002.json",
+      "verdict": "ZERO"
+    }
+  ],
+  "schema_version": "RPSObligationsV1",
+  "summary": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 3
+  }
+}

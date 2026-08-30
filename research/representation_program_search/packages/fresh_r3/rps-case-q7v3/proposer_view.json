@@ -1,0 +1,24 @@
+{
+  "assumptions": {
+    "path": "assumptions.json",
+    "sha256": "ccc06cdb4bdd865e4fcac29b7507a8f452598716859b9c3d1ee41e968ebbd957"
+  },
+  "case_id": "Q7V3",
+  "schema_version": "RPSProposerViewV1",
+  "source_catalog": {
+    "path": "source_catalog.json",
+    "sha256": "a7b58e790d505837873bf437b5c81a493c87ce71eef51326fbc0eebe908a1bbe"
+  },
+  "structural_observations": {
+    "argument_families": [
+      "a",
+      "b",
+      "c"
+    ],
+    "member_count": 3,
+    "shared_functions": [
+      "exp"
+    ],
+    "source_scope": "real scalar components on a declared pairwise-distinct stratum"
+  }
+}

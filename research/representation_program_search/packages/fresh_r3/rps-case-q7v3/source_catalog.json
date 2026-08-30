@@ -1,0 +1,25 @@
+{
+  "members": [
+    {
+      "locator_id": "L01",
+      "member_id": "M01",
+      "path": "members/M01.txt",
+      "sha256": "d394cf1dd087b00407c2637ce6a7b97697359b90892edee82d4969119e873d48"
+    },
+    {
+      "locator_id": "L02",
+      "member_id": "M02",
+      "path": "members/M02.txt",
+      "sha256": "8ea8ccdf80e872ce58d557e26214c803b096a8ad3c30c789609fed0b0b012aa9"
+    },
+    {
+      "locator_id": "L03",
+      "member_id": "M03",
+      "path": "members/M03.txt",
+      "sha256": "2aed9afc1bab2d86177ad18eff755b52c0ac6fe7910926180939b435c299328b"
+    }
+  ],
+  "schema_version": "RPSMemberCatalogV1",
+  "symbols_path": "symbols.json",
+  "symbols_sha256": "de796039294e73b67d95412f1a0c73f36d19e73f668d010013fd36f5371272d0"
+}

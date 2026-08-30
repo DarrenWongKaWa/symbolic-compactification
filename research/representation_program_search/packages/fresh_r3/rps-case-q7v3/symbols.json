@@ -1,0 +1,35 @@
+{
+  "functions": [],
+  "symbols": [
+    {
+      "name": "a",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "b",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "c",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "p",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "q",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "r",
+      "nonzero": false,
+      "real": true
+    }
+  ]
+}

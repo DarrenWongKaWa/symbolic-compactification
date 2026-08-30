@@ -1,0 +1,39 @@
+{
+  "text": "p*q*r*(((-exp(b) + exp(c))/(-b + c) - (-exp(a) + exp(b))/(-a + b))/(-a + c) - (-exp(a) + (-exp(a) + exp(b))/(-a + b))/(-a + b))/(-a + c)",
+  "sha256": "18c6a62e3a0510fb79d7ffff9997713dad16c278cc631abacce8cf37ed7f7fab",
+  "sha256_of_text": "d3f05215040141e94c934c291227a1a2fb7c3477e8ea00d1b81ec53f801b70a3",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "a",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "b",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "c",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "p",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "q",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "r",
+      "real": true,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

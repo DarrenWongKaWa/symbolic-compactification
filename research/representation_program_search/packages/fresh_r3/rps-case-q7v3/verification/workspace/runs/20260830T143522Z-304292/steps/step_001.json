@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "8ea8ccdf80e872ce58d557e26214c803b096a8ad3c30c789609fed0b0b012aa9",
+  "candidate_hash": "2d8dd1f44a78057abfc0e269001697d400d828040bb445ec995dc95ec8e0fa54",
+  "candidate_text": "p*q*r*(-((-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + b) - exp(a)/(-a + b))/(-a + c) + (-(-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + c) + (-exp(b)/(-b + c) + exp(c)/(-b + c))/(-a + c))/(-a + c))",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "rps-case-q7v3-G_NO_HERMITE-O02",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T14:35:22Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "584c5267ff6faeccfafb1675ad9e951d42ad20190ff1c35723decb3e5e5b3715",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T14:35:22Z",
+      "proposal_timestamp": "2026-08-30T14:35:22Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T14:35:22Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "rps-case-q7v3-G_NO_HERMITE-O02",
+      "hypothesis": "The compiled output is exactly equivalent to the grounded member.",
+      "candidate_expression_or_rewrite": "p*q*r*(-((-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + b) - exp(a)/(-a + b))/(-a + c) + (-(-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + c) + (-exp(b)/(-b + c) + exp(c)/(-b + c))/(-a + c))/(-a + c))",
+      "rationale": "The transformation is the selected executable M1 output.",
+      "expected_structural_benefit": "A legal compiled program output reconstructs one grounded member.",
+      "suggested_verification_strategy": "Run the exact verifier on the hash-bound member and candidate files.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "package ScientificAssumptionContract"
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "e175ebab31e4d3a0426818ec3cadba304c998ec0",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

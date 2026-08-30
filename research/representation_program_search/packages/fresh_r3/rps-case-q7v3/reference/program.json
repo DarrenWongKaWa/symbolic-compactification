@@ -1,0 +1,221 @@
+{
+  "assumption_statuses": {
+    "P01": "DECLARED",
+    "P02": "DECLARED",
+    "P03": "DERIVED"
+  },
+  "assumptions_used": [
+    "P01",
+    "P02",
+    "P03"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "M01": {
+      "component": "c_12",
+      "sites": [
+        "a",
+        "a",
+        "b",
+        "b"
+      ]
+    },
+    "M02": {
+      "component": "c_13",
+      "sites": [
+        "a",
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "M03": {
+      "component": "c_13",
+      "sites": [
+        "a",
+        "b",
+        "c",
+        "c"
+      ]
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "exp(z)",
+      "form": "FUNCTION_1",
+      "latent_id": "F01",
+      "parameters": [
+        "z"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "M01",
+      "operator_ids": [
+        "OP01",
+        "OP02"
+      ],
+      "output": "out_1"
+    },
+    {
+      "member_id": "M02",
+      "operator_ids": [
+        "OP03",
+        "OP04"
+      ],
+      "output": "out_2"
+    },
+    {
+      "member_id": "M03",
+      "operator_ids": [
+        "OP05",
+        "OP06"
+      ],
+      "output": "out_3"
+    }
+  ],
+  "node_structures": [
+    {
+      "node_id": "N01",
+      "nodes": [
+        "a",
+        "a",
+        "b",
+        "b"
+      ]
+    },
+    {
+      "node_id": "N02",
+      "nodes": [
+        "a",
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "node_id": "N03",
+      "nodes": [
+        "a",
+        "b",
+        "c",
+        "c"
+      ]
+    }
+  ],
+  "obligations": [
+    {
+      "member_id": "M01",
+      "obligation_id": "O01",
+      "output": "out_1",
+      "required": true
+    },
+    {
+      "member_id": "M02",
+      "obligation_id": "O02",
+      "output": "out_2",
+      "required": true
+    },
+    {
+      "member_id": "M03",
+      "obligation_id": "O03",
+      "output": "out_3",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "nodes": "N01"
+      },
+      "inputs": [],
+      "latent_id": "F01",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP01",
+      "output": "h_1"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q*r"
+        ]
+      },
+      "inputs": [
+        "h_1"
+      ],
+      "latent_id": "F01",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP02",
+      "output": "out_1"
+    },
+    {
+      "arguments": {
+        "nodes": "N02"
+      },
+      "inputs": [],
+      "latent_id": "F01",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP03",
+      "output": "h_2"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q*r"
+        ]
+      },
+      "inputs": [
+        "h_2"
+      ],
+      "latent_id": "F01",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP04",
+      "output": "out_2"
+    },
+    {
+      "arguments": {
+        "nodes": "N03"
+      },
+      "inputs": [],
+      "latent_id": "F01",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP05",
+      "output": "h_3"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q*r"
+        ]
+      },
+      "inputs": [
+        "h_3"
+      ],
+      "latent_id": "F01",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP06",
+      "output": "out_3"
+    }
+  ],
+  "program_id": "1b11b9c94276b87124d9252c9f21b65ad23868b5f24b71c6db2ae29624cdbc2b",
+  "representation_depth": "R3_REPEATED_NODE",
+  "source_members": [
+    {
+      "member_id": "M01",
+      "path": "members/M01.txt",
+      "sha256": "d394cf1dd087b00407c2637ce6a7b97697359b90892edee82d4969119e873d48"
+    },
+    {
+      "member_id": "M02",
+      "path": "members/M02.txt",
+      "sha256": "8ea8ccdf80e872ce58d557e26214c803b096a8ad3c30c789609fed0b0b012aa9"
+    },
+    {
+      "member_id": "M03",
+      "path": "members/M03.txt",
+      "sha256": "2aed9afc1bab2d86177ad18eff755b52c0ac6fe7910926180939b435c299328b"
+    }
+  ],
+  "unexplained_members": []
+}

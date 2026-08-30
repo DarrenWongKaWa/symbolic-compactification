@@ -1,0 +1,44 @@
+{
+  "assumption_contract": {
+    "path": "assumptions.json",
+    "sha256": "ccc06cdb4bdd865e4fcac29b7507a8f452598716859b9c3d1ee41e968ebbd957"
+  },
+  "assumption_locators": {
+    "path": "source/assumption_locators.json",
+    "sha256": "60425ccf425843dab3740b5a251c55dc0d3b79e094507bba17ba499d6479563c"
+  },
+  "duplicate_audit": {
+    "path": "source/duplicate_audit.json",
+    "sha256": "59f4ce0fa4f8897b6dee2c79f7bcb23a0d3cccda502af2cf29a76f6ed386b550"
+  },
+  "lowering": {
+    "path": "source/lowering.json",
+    "sha256": "fcfea1469589f906aad882a4076d4de216c96fbc1c135fed84815aaa6e457f48"
+  },
+  "schema_version": "RPSSourceManifestV1",
+  "sources": [
+    {
+      "arxiv_source_archive_sha256": "e8214b47d29be06dcbd8e77f8e6d79568d6d25b67732f4ab543524b8b5a74ea7",
+      "arxiv_version": "2203.03930v2",
+      "authority": "peer-reviewed primary research article",
+      "authors": [
+        "Marcel Schweitzer"
+      ],
+      "doi": "10.1016/j.laa.2022.10.005",
+      "journal_locator": "Linear Algebra and its Applications 656 (2023), 247--276, Section 2.1, Theorem 2, equations (8)--(9)",
+      "retrieved_on": "2026-08-30",
+      "source_tex_full_sha256": "fbae74b5e4422e5428404732ecbff74311077a0dce43352a0bd69e654ba5fd95",
+      "source_tex_locator": "arXiv v2 file higher_order_frechet.tex lines 365--374; stored bytes are the exact equation block at lines 367--373",
+      "stored_artifact": {
+        "path": "source/theorem2-equations.tex",
+        "sha256": "76cbf6191983c656681daca3b3c58bf9d62688fb5f4602ba0e42005dff0222a1"
+      },
+      "title": "Integral representations for higher-order Frechet derivatives of matrix functions: Quadrature algorithms and new results on the level-2 condition number",
+      "url": "https://arxiv.org/abs/2203.03930v2"
+    }
+  ],
+  "symbol_namespace": {
+    "path": "symbols.json",
+    "sha256": "de796039294e73b67d95412f1a0c73f36d19e73f668d010013fd36f5371272d0"
+  }
+}
