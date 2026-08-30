@@ -56,4 +56,12 @@ was changed.
 
 ## Verification
 
-To be filled after the clean integrated-tree replay.
+Replayed after cherry-picking the audit onto a clean worktree at integrated
+tree `009bd2a`, using the root virtual environment and
+`PYTHONDONTWRITEBYTECODE=1`:
+
+- focused: `9 passed in 0.92s`;
+- full repository: `1962 passed in 419.21s`;
+- the audit CLI reproduced `R6_MISSING`, `candidate_count: 0`, and all five
+  registry hashes;
+- `git diff --check`: clean.
