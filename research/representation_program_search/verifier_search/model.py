@@ -30,7 +30,8 @@ LEAKAGE_STATUSES = frozenset({"CLEARED", "FOUND", "UNKNOWN"})
 ASSUMPTION_CLEARANCE_STATUSES = frozenset({"CLEARED", "INCOMPLETE", "UNKNOWN"})
 POLICY_VERSION = "RPSVerifierSearchPolicyV1"
 EVALUATION_CONDITIONS = frozenset({
-    "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "F0",
+    "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S6_MATCHED_BATCH32",
+    "S7", "F0",
 })
 
 # These keys name evaluator-only information.  Values are intentionally not

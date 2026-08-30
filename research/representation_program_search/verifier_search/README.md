@@ -58,3 +58,13 @@ source condition (`S0`, `S1`, …), and `controller.json` records
 `feedback_guides_successors=false`. Assumption completeness and target-leakage
 clearance both default to `UNKNOWN`; neither is inferred from successful
 parsing or from the public-input firewall.
+
+## S7 and the matched batched S6 control
+
+`llm_controller.py` adds S7 state ranking after exact S6 evaluation and the
+required `S6_MATCHED_BATCH32` non-LLM diagnostic. Both consume the unchanged
+M2 adapter, first-32-per-parent subset, feedback-priority bands, and shared
+banded beam merge policy. Full-frontier S6 above remains the strongest
+verifier-search baseline. The exact LLM boundary, fail-closed run validity,
+token accounting, comparison gate, and artifact schema are frozen in
+[`LLM_VERIFIER_SEARCH.md`](LLM_VERIFIER_SEARCH.md).

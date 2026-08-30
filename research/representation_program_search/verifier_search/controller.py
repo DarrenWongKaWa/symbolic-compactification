@@ -148,6 +148,8 @@ class _DominanceIndex:
 class VerifierSearchController:
     """Run exact evaluation over a public frontier under a fixed budget."""
 
+    condition = "S6"
+
     def __init__(
         self,
         *,

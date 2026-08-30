@@ -56,7 +56,7 @@ SYMBOLIC_COMPARISON_STATUS = "UNMATCHED_FRONTIER_DO_NOT_CLAIM_AI_ADVANTAGE"
 LLM_RUN_HEADER_VERSION = "RPSLLMRunHeaderV1"
 
 
-def _causal_invalid_reasons(
+def llm_causal_invalid_reasons(
     *,
     accepted_llm_decisions: int,
     fallback_decisions: int,
@@ -166,7 +166,7 @@ class LLMGuidedSearchResult(SearchResult):
         expected_accepted = len(self.decision_records) - self.invalid_response_decisions
         if self.accepted_llm_decisions != expected_accepted:
             raise ValueError("LLM_SEARCH_ACCEPTED_DECISION_COUNT_MISMATCH")
-        expected_reasons = _causal_invalid_reasons(
+        expected_reasons = llm_causal_invalid_reasons(
             accepted_llm_decisions=self.accepted_llm_decisions,
             fallback_decisions=self.fallback_decisions,
             usage_complete_for_all_decisions=self.usage_complete_for_all_decisions,
@@ -589,7 +589,7 @@ def llm_guided_search(
     elapsed = time.perf_counter() - started
     beam_exhausted = not layer and not stopped_for_budget
     accepted_count = len(decision_records) - invalid_count
-    causal_reasons = _causal_invalid_reasons(
+    causal_reasons = llm_causal_invalid_reasons(
         accepted_llm_decisions=accepted_count,
         fallback_decisions=fallback_count,
         usage_complete_for_all_decisions=usage_complete,
