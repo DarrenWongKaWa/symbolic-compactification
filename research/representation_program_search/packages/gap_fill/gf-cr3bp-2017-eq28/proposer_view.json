@@ -1,0 +1,34 @@
+{
+  "assumptions": {
+    "path": "assumptions.json",
+    "sha256": "b7cf9843b643802a325ccc9af04194d89169e083c50fb1a992dd5ab6cd9c482f"
+  },
+  "package_id": "gf-cr3bp-2017-eq28",
+  "schema_version": "RPSProposerViewV1",
+  "source_catalog": {
+    "members": [
+      {
+        "member_id": "G0001",
+        "path": "members/G0001.txt",
+        "sha256": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1"
+      },
+      {
+        "member_id": "G0002",
+        "path": "members/G0002.txt",
+        "sha256": "04437530c91f25ce96431db386e64117e89fd88fbc0dd0fe10f7fd4baf8dc672"
+      },
+      {
+        "member_id": "G0003",
+        "path": "members/G0003.txt",
+        "sha256": "f8ecd645a4cf3f2f5d21cdc646d44d72eb97ab290abcdefe750b5df24f95dd54"
+      },
+      {
+        "member_id": "G0004",
+        "path": "members/G0004.txt",
+        "sha256": "261d69aee58010d1a3d9ca7c293a3365647c62b769b0f238c45b40a0b2ad6c32"
+      }
+    ],
+    "path": "source_catalog.json",
+    "sha256": "5752d3d1d6cb3834d0a8608adc8f2bd60727799f03b4b4a7e613448ac72adb44"
+  }
+}

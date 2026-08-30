@@ -1,0 +1,83 @@
+{
+  "case_id": "gf-cr3bp-2017-eq28",
+  "obligations": [
+    {
+      "candidate_path": "reference/candidates/Q0001.txt",
+      "candidate_sha256": "4da1c7aab54b77b8c29629d2099959ffa3c2d5730efbe2d469cade0a6307292c",
+      "current_member_id": "G0001",
+      "current_path": "members/G0001.txt",
+      "current_sha256": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1",
+      "obligation_id": "Q0001",
+      "output": "component_1",
+      "proposal_step": 1,
+      "proposal_step_path": "verification/Q0001/runs/20260830T131928Z-72c1d6/steps/step_001.json",
+      "proposal_step_sha256": "8863e9c5c3ecee83fb700a8e4976289fa415cf2bb2f88ea66b4fea3a8ead1ab3",
+      "required": true,
+      "session_path": "verification/Q0001/runs/20260830T131928Z-72c1d6",
+      "verdict": "ZERO",
+      "verification_step": 2,
+      "verification_step_path": "verification/Q0001/runs/20260830T131928Z-72c1d6/steps/step_002.json",
+      "verification_step_sha256": "2408a4be942a0f5e692573b3d69c8f2720ff75e9e3ce3661fb452c3e4bc901cf"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0002.txt",
+      "candidate_sha256": "cdaf99950edbdf46645a5c697ec3dc024fa57a6f99a8744c8cb4fab3e38339d7",
+      "current_member_id": "G0002",
+      "current_path": "members/G0002.txt",
+      "current_sha256": "04437530c91f25ce96431db386e64117e89fd88fbc0dd0fe10f7fd4baf8dc672",
+      "obligation_id": "Q0002",
+      "output": "component_2",
+      "proposal_step": 1,
+      "proposal_step_path": "verification/Q0002/runs/20260830T131929Z-854553/steps/step_001.json",
+      "proposal_step_sha256": "b442831b30fd898d64db9f1f2bf32cf60aae2cc131b3edc9ad0f897c910b714c",
+      "required": true,
+      "session_path": "verification/Q0002/runs/20260830T131929Z-854553",
+      "verdict": "ZERO",
+      "verification_step": 2,
+      "verification_step_path": "verification/Q0002/runs/20260830T131929Z-854553/steps/step_002.json",
+      "verification_step_sha256": "aa7677f4cd2adf5d58f753b002a59a7978bc110b4ee261fa73c92fedd97eb6ca"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0003.txt",
+      "candidate_sha256": "6d52e97566fecee13fa4e2c829f07ab54685911739b49adb00df248351add43b",
+      "current_member_id": "G0003",
+      "current_path": "members/G0003.txt",
+      "current_sha256": "f8ecd645a4cf3f2f5d21cdc646d44d72eb97ab290abcdefe750b5df24f95dd54",
+      "obligation_id": "Q0003",
+      "output": "component_3",
+      "proposal_step": 1,
+      "proposal_step_path": "verification/Q0003/runs/20260830T131929Z-6f53af/steps/step_001.json",
+      "proposal_step_sha256": "fe4ed29c6794374269a08515b63044156985eeefab113b51f02da833516a6d9e",
+      "required": true,
+      "session_path": "verification/Q0003/runs/20260830T131929Z-6f53af",
+      "verdict": "ZERO",
+      "verification_step": 2,
+      "verification_step_path": "verification/Q0003/runs/20260830T131929Z-6f53af/steps/step_002.json",
+      "verification_step_sha256": "fc3b7e651c031ea22845df88c3257f69eeb83fe43b8598e0f67f266c9420ac82"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0004.txt",
+      "candidate_sha256": "8ce8909bda9af82846b26e568a047d111d9a130aa183df645d29b65b6d86bf2f",
+      "current_member_id": "G0004",
+      "current_path": "members/G0004.txt",
+      "current_sha256": "261d69aee58010d1a3d9ca7c293a3365647c62b769b0f238c45b40a0b2ad6c32",
+      "obligation_id": "Q0004",
+      "output": "component_4",
+      "proposal_step": 1,
+      "proposal_step_path": "verification/Q0004/runs/20260830T131930Z-c01958/steps/step_001.json",
+      "proposal_step_sha256": "6d55662d67f66db47b4d12fd2591c2fef8b8fd4df3497f2fc2b22ae805c7c4e8",
+      "required": true,
+      "session_path": "verification/Q0004/runs/20260830T131930Z-c01958",
+      "verdict": "ZERO",
+      "verification_step": 2,
+      "verification_step_path": "verification/Q0004/runs/20260830T131930Z-c01958/steps/step_002.json",
+      "verification_step_sha256": "328c6a221fb8ba794f0c098819da2e50877b6a1d5836700cf0197c856f1df120"
+    }
+  ],
+  "schema_version": "RPSObligationSetV1",
+  "summary": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 4
+  }
+}

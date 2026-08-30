@@ -1,0 +1,1 @@
+-N*k*T*(1+log((V-N*b)*T**Rational(3,2)/(N*c)))-a*N**2/V

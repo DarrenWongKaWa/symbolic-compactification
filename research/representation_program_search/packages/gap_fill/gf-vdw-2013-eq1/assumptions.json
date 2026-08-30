@@ -1,0 +1,38 @@
+{
+  "predicates": [
+    {
+      "predicate_id": "P001",
+      "source": "Deserno (2013), Eq. (1)",
+      "statement": "T, V, and N are real thermodynamic variables; a, b, c, and k are real constants independent of T and V in the fixed-N lowering.",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P002",
+      "source": "Deserno (2013), Eq. (1) and text below it",
+      "statement": "T, N, c, and k are positive, a and b are positive model constants, and V>N*b, so the logarithm argument is positive and V is nonzero.",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P003",
+      "source": "NIST teqp thermodynamic-derivative definitions; fixed-N specialization",
+      "statement": "All T and V derivatives are taken at fixed N and fixed model constants in one homogeneous branch.",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P004",
+      "source": "P001-P003",
+      "statement": "The Helmholtz value, pressure, entropy, internal energy, isochoric heat capacity, and isothermal bulk modulus expressions are defined on that real domain.",
+      "status": "DERIVED"
+    },
+    {
+      "predicate_id": "P005",
+      "source": "NIST teqp compressibility definition and the G0006 denominator",
+      "statement": "The package is restricted away from the spinodal where the isothermal bulk modulus vanishes; this is required only for G0007.",
+      "status": "DECLARED"
+    }
+  ],
+  "schema_version": "ScientificAssumptionContractV1",
+  "status": "ASSUMPTION_COMPLETE",
+  "symbols_artifact": "symbols.json",
+  "verifier_scope_note": "The package proves exact algebraic/differential reconstructions for the single homogeneous van der Waals branch. It makes no phase-coexistence, Maxwell-construction, or stability claim."
+}

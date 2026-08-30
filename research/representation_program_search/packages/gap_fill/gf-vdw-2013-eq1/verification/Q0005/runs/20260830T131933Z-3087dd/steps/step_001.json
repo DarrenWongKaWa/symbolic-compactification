@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "f751be65d673bdfeabc740bbd03b5e4d3e3421fa3d9344dafa74cc0c5772b927",
+  "candidate_hash": "1265fad46ac45fae3417f03f70b1bde2265e4b2d00d72e9410f2e7f56897f324",
+  "candidate_text": "3*N*k/2",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "gf-vdw-2013-eq1-Q0005",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T13:19:33Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "f1c83df4ff6483f236ecc719016492648cdb980b767bd66f4656f1da3c5ca5f8",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T13:19:33Z",
+      "proposal_timestamp": "2026-08-30T13:19:33Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T13:19:33Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "gf-vdw-2013-eq1-Q0005",
+      "hypothesis": "The compiled candidate may reconstruct this exact source member under the declared contract.",
+      "candidate_expression_or_rewrite": "3*N*k/2",
+      "rationale": "This is the evaluator-only expression emitted by the frozen typed constructor.",
+      "expected_structural_benefit": "The shared program reuses latent objects and typed operators across multiple source members.",
+      "suggested_verification_strategy": "Run the exact symbolic verifier under the unchanged member namespace.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "All required predicates are DECLARED or DERIVED in assumptions.json."
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "dd2c1fc37befb14831b124ab29752df6def419ab",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

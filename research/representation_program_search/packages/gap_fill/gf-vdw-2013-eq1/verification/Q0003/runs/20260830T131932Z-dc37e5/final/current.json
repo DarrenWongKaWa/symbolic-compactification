@@ -1,0 +1,44 @@
+{
+  "text": "N*k*(log(T**(3/2)*(-N*b + V)/(N*c)) + 1) + 3*N*k/2",
+  "sha256": "27f4a912cb148822fab739d287ba1a5fc32a08764473297c87ce231357a4a803",
+  "sha256_of_text": "7a7cb38c6e71780268f0de76bc7d6e8fa251f9468421101b1edbad8d1fa041d0",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "N",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "T",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "V",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "a",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "b",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "c",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "k",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}

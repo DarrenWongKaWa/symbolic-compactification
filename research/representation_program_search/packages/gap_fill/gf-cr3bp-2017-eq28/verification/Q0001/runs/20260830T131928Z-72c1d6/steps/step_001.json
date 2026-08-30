@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1",
+  "candidate_hash": "b0a158ecfd95da9166cc97f6da31d451c4f8ed97fdeb6533fcc17db09b9a692e",
+  "candidate_text": "(-1/sqrt(x2_hold**2 + (alpha + x1_old)**2) + 1/sqrt(x2_hold**2 + (alpha + x1_new)**2))*(2*alpha + x1_new + x1_old)/((alpha + x1_new)**2 - (alpha + x1_old)**2)",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "gf-cr3bp-2017-eq28-Q0001",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T13:19:28Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "db4a807d36fd52b013c54e305de9a277f65583c0828b0961826bb7527a58d385",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T13:19:28Z",
+      "proposal_timestamp": "2026-08-30T13:19:28Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T13:19:28Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "gf-cr3bp-2017-eq28-Q0001",
+      "hypothesis": "The compiled candidate may reconstruct this exact source member under the declared contract.",
+      "candidate_expression_or_rewrite": "(-1/sqrt(x2_hold**2 + (alpha + x1_old)**2) + 1/sqrt(x2_hold**2 + (alpha + x1_new)**2))*(2*alpha + x1_new + x1_old)/((alpha + x1_new)**2 - (alpha + x1_old)**2)",
+      "rationale": "This is the evaluator-only expression emitted by the frozen typed constructor.",
+      "expected_structural_benefit": "The shared program reuses latent objects and typed operators across multiple source members.",
+      "suggested_verification_strategy": "Run the exact symbolic verifier under the unchanged member namespace.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "All required predicates are DECLARED or DERIVED in assumptions.json."
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "dd2c1fc37befb14831b124ab29752df6def419ab",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

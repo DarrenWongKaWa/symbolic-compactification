@@ -1,0 +1,44 @@
+{
+  "text": "-V*(2*N**2*a/V**3 - N*T*k/(-N*b + V)**2)",
+  "sha256": "1cfa1b372a786f946ade5d937a692e5f96f5d6a71b5bb123070f83b3cbb8ab46",
+  "sha256_of_text": "628d76ff673dbc9e2b57e16c6870115e242361739274c4556b100c06c754686a",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "N",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "T",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "V",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "a",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "b",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "c",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "k",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}

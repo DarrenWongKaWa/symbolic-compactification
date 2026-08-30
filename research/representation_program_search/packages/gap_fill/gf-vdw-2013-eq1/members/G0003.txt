@@ -1,0 +1,1 @@
+N*k*(Rational(5,2)+log((V-N*b)*T**Rational(3,2)/(N*c)))

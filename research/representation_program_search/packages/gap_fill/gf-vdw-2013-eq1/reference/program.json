@@ -1,0 +1,433 @@
+{
+  "assumption_statuses": {
+    "P001": "DECLARED",
+    "P002": "DECLARED",
+    "P003": "DECLARED",
+    "P004": "DERIVED",
+    "P005": "DECLARED"
+  },
+  "assumptions_used": [
+    "P001",
+    "P002",
+    "P003",
+    "P004",
+    "P005"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {},
+  "latent_objects": [
+    {
+      "expression": "-N*k*tau*(1+log((nu-N*b)*tau**Rational(3,2)/(N*c)))-a*N**2/nu",
+      "form": "FUNCTION_2",
+      "latent_id": "F0001",
+      "parameters": [
+        "tau",
+        "nu"
+      ]
+    },
+    {
+      "expression": "1/z",
+      "form": "SCALAR_KERNEL",
+      "latent_id": "F0002",
+      "parameters": [
+        "z"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "G0001",
+      "operator_ids": [
+        "O0001"
+      ],
+      "output": "helmholtz"
+    },
+    {
+      "member_id": "G0002",
+      "operator_ids": [
+        "O0002",
+        "O0003",
+        "O0004",
+        "O0005"
+      ],
+      "output": "pressure"
+    },
+    {
+      "member_id": "G0003",
+      "operator_ids": [
+        "O0006",
+        "O0007",
+        "O0008",
+        "O0009"
+      ],
+      "output": "entropy"
+    },
+    {
+      "member_id": "G0004",
+      "operator_ids": [
+        "O0001",
+        "O0006",
+        "O0007",
+        "O0008",
+        "O0009",
+        "O0010"
+      ],
+      "output": "internal_energy"
+    },
+    {
+      "member_id": "G0005",
+      "operator_ids": [
+        "O0001",
+        "O0006",
+        "O0007",
+        "O0008",
+        "O0009",
+        "O0010",
+        "O0011"
+      ],
+      "output": "isochoric_heat_capacity"
+    },
+    {
+      "member_id": "G0006",
+      "operator_ids": [
+        "O0002",
+        "O0003",
+        "O0004",
+        "O0005",
+        "O0012",
+        "O0013"
+      ],
+      "output": "bulk_modulus"
+    },
+    {
+      "member_id": "G0007",
+      "operator_ids": [
+        "O0002",
+        "O0003",
+        "O0004",
+        "O0005",
+        "O0012",
+        "O0013",
+        "O0014"
+      ],
+      "output": "isothermal_compressibility"
+    },
+    {
+      "member_id": "G0008",
+      "operator_ids": [
+        "O0001",
+        "O0006",
+        "O0007",
+        "O0008",
+        "O0009",
+        "O0010",
+        "O0002",
+        "O0003",
+        "O0004",
+        "O0005",
+        "O0015"
+      ],
+      "output": "enthalpy"
+    }
+  ],
+  "node_structures": [],
+  "obligations": [
+    {
+      "member_id": "G0001",
+      "obligation_id": "Q0001",
+      "output": "helmholtz",
+      "required": true
+    },
+    {
+      "member_id": "G0002",
+      "obligation_id": "Q0002",
+      "output": "pressure",
+      "required": true
+    },
+    {
+      "member_id": "G0003",
+      "obligation_id": "Q0003",
+      "output": "entropy",
+      "required": true
+    },
+    {
+      "member_id": "G0004",
+      "obligation_id": "Q0004",
+      "output": "internal_energy",
+      "required": true
+    },
+    {
+      "member_id": "G0005",
+      "obligation_id": "Q0005",
+      "output": "isochoric_heat_capacity",
+      "required": true
+    },
+    {
+      "member_id": "G0006",
+      "obligation_id": "Q0006",
+      "output": "bulk_modulus",
+      "required": true
+    },
+    {
+      "member_id": "G0007",
+      "obligation_id": "Q0007",
+      "output": "isothermal_compressibility",
+      "required": true
+    },
+    {
+      "member_id": "G0008",
+      "obligation_id": "Q0008",
+      "output": "enthalpy",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "values": {
+          "nu": "V",
+          "tau": "T"
+        }
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "VALUE",
+      "operator_id": "O0001",
+      "output": "helmholtz"
+    },
+    {
+      "arguments": {
+        "order": 1,
+        "variable": "nu"
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "DERIVATIVE",
+      "operator_id": "O0002",
+      "output": "dF_dnu_bound"
+    },
+    {
+      "arguments": {
+        "parameter": "tau",
+        "value": "T"
+      },
+      "inputs": [
+        "dF_dnu_bound"
+      ],
+      "latent_id": "F0001",
+      "operator": "SUBSTITUTE",
+      "operator_id": "O0003",
+      "output": "dF_dnu_T"
+    },
+    {
+      "arguments": {
+        "parameter": "nu",
+        "value": "V"
+      },
+      "inputs": [
+        "dF_dnu_T"
+      ],
+      "latent_id": "F0001",
+      "operator": "SUBSTITUTE",
+      "operator_id": "O0004",
+      "output": "dF_dV"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "-1"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dF_dV"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0005",
+      "output": "pressure"
+    },
+    {
+      "arguments": {
+        "order": 1,
+        "variable": "tau"
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "DERIVATIVE",
+      "operator_id": "O0006",
+      "output": "dF_dtau_bound"
+    },
+    {
+      "arguments": {
+        "parameter": "tau",
+        "value": "T"
+      },
+      "inputs": [
+        "dF_dtau_bound"
+      ],
+      "latent_id": "F0001",
+      "operator": "SUBSTITUTE",
+      "operator_id": "O0007",
+      "output": "dF_dtau_T"
+    },
+    {
+      "arguments": {
+        "parameter": "nu",
+        "value": "V"
+      },
+      "inputs": [
+        "dF_dtau_T"
+      ],
+      "latent_id": "F0001",
+      "operator": "SUBSTITUTE",
+      "operator_id": "O0008",
+      "output": "dF_dT"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "-1"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dF_dT"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0009",
+      "output": "entropy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1",
+          "T"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "helmholtz",
+        "entropy"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0010",
+      "output": "internal_energy"
+    },
+    {
+      "arguments": {
+        "order": 1,
+        "variable": "T"
+      },
+      "inputs": [
+        "internal_energy"
+      ],
+      "latent_id": "F0001",
+      "operator": "DERIVATIVE",
+      "operator_id": "O0011",
+      "output": "isochoric_heat_capacity"
+    },
+    {
+      "arguments": {
+        "order": 1,
+        "variable": "V"
+      },
+      "inputs": [
+        "pressure"
+      ],
+      "latent_id": "F0001",
+      "operator": "DERIVATIVE",
+      "operator_id": "O0012",
+      "output": "dp_dV"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "-V"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dp_dV"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0013",
+      "output": "bulk_modulus"
+    },
+    {
+      "arguments": {},
+      "inputs": [
+        "bulk_modulus"
+      ],
+      "latent_id": "F0002",
+      "operator": "COMPOSE",
+      "operator_id": "O0014",
+      "output": "isothermal_compressibility"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1",
+          "V"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "internal_energy",
+        "pressure"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0015",
+      "output": "enthalpy"
+    }
+  ],
+  "program_id": "a9edbe98eae38051f4c43003f7cc8c806d2390d60cb9764aca2aa52fe0d67543",
+  "representation_depth": "R6",
+  "source_members": [
+    {
+      "member_id": "G0001",
+      "path": "members/G0001.txt",
+      "sha256": "7c3d85845304c9ba64df0f20a8f94083a28d68c81e5608941d4fd6f73e7b40ce"
+    },
+    {
+      "member_id": "G0002",
+      "path": "members/G0002.txt",
+      "sha256": "ccdcdb44a7675b4c5a8a3cd8fbeeb3427afed0a905563b1519f5ddb521f72e8c"
+    },
+    {
+      "member_id": "G0003",
+      "path": "members/G0003.txt",
+      "sha256": "4d7e6a51f858e9728433fad601724b8fa8bf7177f6ec14d4b88ed665cfed38ab"
+    },
+    {
+      "member_id": "G0004",
+      "path": "members/G0004.txt",
+      "sha256": "abc8bfb03c546390c08778fd67ef48714f09621fac5fc45a96a676fce6c9f6e0"
+    },
+    {
+      "member_id": "G0005",
+      "path": "members/G0005.txt",
+      "sha256": "f751be65d673bdfeabc740bbd03b5e4d3e3421fa3d9344dafa74cc0c5772b927"
+    },
+    {
+      "member_id": "G0006",
+      "path": "members/G0006.txt",
+      "sha256": "1c3fdb2ae83329918a3fc2964df379a7a75f57721acc04ae3ef0b51a9d5519aa"
+    },
+    {
+      "member_id": "G0007",
+      "path": "members/G0007.txt",
+      "sha256": "c8adf252af31f74e8d458d70bef04d32a405337de56cb65f5a9551462fa54b31"
+    },
+    {
+      "member_id": "G0008",
+      "path": "members/G0008.txt",
+      "sha256": "b1d6e411e70f39ad321aa729e4cadc1e13ed60471ee07515a75499cdd6875bf8"
+    }
+  ],
+  "unexplained_members": []
+}

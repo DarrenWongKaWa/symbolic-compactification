@@ -1,0 +1,243 @@
+{
+  "assumption_statuses": {
+    "P001": "DECLARED",
+    "P002": "DECLARED",
+    "P003": "DECLARED",
+    "P004": "DERIVED"
+  },
+  "assumptions_used": [
+    "P001",
+    "P002",
+    "P003",
+    "P004"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {},
+  "latent_objects": [
+    {
+      "expression": "1/sqrt(z)",
+      "form": "SCALAR_KERNEL",
+      "latent_id": "F0001",
+      "parameters": [
+        "z"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "G0001",
+      "operator_ids": [
+        "O0001",
+        "O0002"
+      ],
+      "output": "component_1"
+    },
+    {
+      "member_id": "G0002",
+      "operator_ids": [
+        "O0003",
+        "O0004"
+      ],
+      "output": "component_2"
+    },
+    {
+      "member_id": "G0003",
+      "operator_ids": [
+        "O0005",
+        "O0006"
+      ],
+      "output": "component_3"
+    },
+    {
+      "member_id": "G0004",
+      "operator_ids": [
+        "O0007",
+        "O0008"
+      ],
+      "output": "component_4"
+    }
+  ],
+  "node_structures": [
+    {
+      "node_id": "N0001",
+      "nodes": [
+        "(x1_old+alpha)**2+x2_hold**2",
+        "(x1_new+alpha)**2+x2_hold**2"
+      ]
+    },
+    {
+      "node_id": "N0002",
+      "nodes": [
+        "(x1_hold+alpha)**2+x2_old**2",
+        "(x1_hold+alpha)**2+x2_new**2"
+      ]
+    },
+    {
+      "node_id": "N0003",
+      "nodes": [
+        "(x1_old-beta)**2+x2_hold**2",
+        "(x1_new-beta)**2+x2_hold**2"
+      ]
+    },
+    {
+      "node_id": "N0004",
+      "nodes": [
+        "(x1_hold-beta)**2+x2_old**2",
+        "(x1_hold-beta)**2+x2_new**2"
+      ]
+    }
+  ],
+  "obligations": [
+    {
+      "member_id": "G0001",
+      "obligation_id": "Q0001",
+      "output": "component_1",
+      "required": true
+    },
+    {
+      "member_id": "G0002",
+      "obligation_id": "Q0002",
+      "output": "component_2",
+      "required": true
+    },
+    {
+      "member_id": "G0003",
+      "obligation_id": "Q0003",
+      "output": "component_3",
+      "required": true
+    },
+    {
+      "member_id": "G0004",
+      "obligation_id": "Q0004",
+      "output": "component_4",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "nodes": "N0001"
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "NEWTON_DD",
+      "operator_id": "O0001",
+      "output": "dd_1"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x1_new+x1_old+2*alpha"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dd_1"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0002",
+      "output": "component_1"
+    },
+    {
+      "arguments": {
+        "nodes": "N0002"
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "NEWTON_DD",
+      "operator_id": "O0003",
+      "output": "dd_2"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x2_new+x2_old"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dd_2"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0004",
+      "output": "component_2"
+    },
+    {
+      "arguments": {
+        "nodes": "N0003"
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "NEWTON_DD",
+      "operator_id": "O0005",
+      "output": "dd_3"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x1_new+x1_old-2*beta"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dd_3"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0006",
+      "output": "component_3"
+    },
+    {
+      "arguments": {
+        "nodes": "N0004"
+      },
+      "inputs": [],
+      "latent_id": "F0001",
+      "operator": "NEWTON_DD",
+      "operator_id": "O0007",
+      "output": "dd_4"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x2_new+x2_old"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "dd_4"
+      ],
+      "latent_id": "F0001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "O0008",
+      "output": "component_4"
+    }
+  ],
+  "program_id": "d194d3532d65b3f7707995d78c35cce91995c323061e87435b9fa229f6031b5c",
+  "representation_depth": "R2",
+  "source_members": [
+    {
+      "member_id": "G0001",
+      "path": "members/G0001.txt",
+      "sha256": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1"
+    },
+    {
+      "member_id": "G0002",
+      "path": "members/G0002.txt",
+      "sha256": "04437530c91f25ce96431db386e64117e89fd88fbc0dd0fe10f7fd4baf8dc672"
+    },
+    {
+      "member_id": "G0003",
+      "path": "members/G0003.txt",
+      "sha256": "f8ecd645a4cf3f2f5d21cdc646d44d72eb97ab290abcdefe750b5df24f95dd54"
+    },
+    {
+      "member_id": "G0004",
+      "path": "members/G0004.txt",
+      "sha256": "261d69aee58010d1a3d9ca7c293a3365647c62b769b0f238c45b40a0b2ad6c32"
+    }
+  ],
+  "unexplained_members": []
+}
