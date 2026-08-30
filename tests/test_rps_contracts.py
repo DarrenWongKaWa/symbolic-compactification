@@ -34,6 +34,7 @@ def test_hermite_is_not_newton():
     assert "NEWTON_DD" in OPERATORS and "HERMITE_DD" in OPERATORS
     assert "NEWTON_DD" != "HERMITE_DD"
     assert "ADD_REPEATED_NODE" in ACTIONS
+    assert "ADD_COMPOSE" in ACTIONS
     g = (HERE / "REPRESENTATION_GRAMMAR_V1.md").read_text()
     assert "NODES[x, x]" in g
     assert "structurally different" in g.lower() or "structurally different" in g

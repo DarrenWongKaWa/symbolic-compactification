@@ -35,6 +35,10 @@ A program may contain several latent objects. Prefer one.
 | BASIS_RECONSTRUCT | reconstruct from basis coefficients |
 | COMPOSE | compose operators / functions |
 
+`ADD_COMPOSE` is the legal search action that instantiates the already-declared
+`COMPOSE` operator. This access path is required for `G_PRIMITIVE`; its
+presence does not add a new mathematical primitive to the grammar.
+
 NEWTON_DD and HERMITE_DD are **structurally different**. Hermite is not
 Newton plus English “repeated node.”
 
