@@ -140,6 +140,7 @@ def _audit_public_shape(value: Any, ancestry: tuple[str, ...] = ()) -> None:
                     "DECLARED",
                     "DERIVED",
                     "ASSUMPTION_COMPLETE",
+                    "COMPLETE",
                     "COMPLETE_AS_WRITTEN",
                 }
             )

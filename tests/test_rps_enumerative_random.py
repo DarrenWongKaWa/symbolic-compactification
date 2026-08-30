@@ -115,6 +115,15 @@ def test_public_loader_reads_only_disclosed_hashed_artifacts(tmp_path, monkeypat
     assert all("reference" not in item and "verification" not in item for item in case.accessed_paths)
 
 
+def test_public_loader_accepts_contract_level_complete_status(tmp_path):
+    path = _public_fixture(tmp_path)
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    raw["assumptions"]["status"] = "COMPLETE"
+    _json(path, raw)
+    case = load_public_case(path)
+    assert case.assumption_statuses == {"P_REAL": "DECLARED"}
+
+
 @pytest.mark.parametrize("forbidden", ["status", "verdict", "gold_program", "audited_depth"])
 def test_public_loader_rejects_evaluator_fields_at_any_depth(tmp_path, forbidden):
     path = _public_fixture(tmp_path)
