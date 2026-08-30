@@ -1,0 +1,185 @@
+{
+  "audit_version": "rps-assumption-audit-v1",
+  "policy": {
+    "admission_complete": "Every verifier-domain predicate is DECLARED or DERIVED.",
+    "fail_closed": "Any NOT_DECLARED verifier-domain predicate yields PROBLEM_UNDERSPECIFIED.",
+    "no_repair": "The audit records gaps but never adds assumptions to a case dossier."
+  },
+  "reclassifications": [
+    {
+      "case_id": "thermal-10-polygamma-recurrence",
+      "field": "analytic_domains",
+      "index": 0,
+      "audit_status": "NOT_DECLARED",
+      "reason": "The contract declares only z != 0.  The exclusion z notin {0,-1,-2,...} cannot be derived from that declaration; knowing the pole set does not declare that the input avoids every pole.",
+      "source_basis": [
+        "NIST DLMF 5.15.5 https://dlmf.nist.gov/5.15.E5",
+        "NIST DLMF 5.2.2 https://dlmf.nist.gov/5.2.E2"
+      ]
+    },
+    {
+      "case_id": "rps-r-birman-schwinger-kernel",
+      "field": "analytic_domains",
+      "index": 2,
+      "audit_status": "NOT_DECLARED",
+      "reason": "The entry says only that unspecified regularity assumptions make K_lambda bounded and compact.  It does not state a function space or an explicit condition on V, so the theorem-domain predicate is not declared.",
+      "source_basis": [
+        "Wikipedia Birman-Schwinger principle, statement noting that regularity assumptions on V are required for boundedness and compactness",
+        "The dossier's own function_domains.K_lambda entry"
+      ]
+    }
+  ],
+  "required_predicates": {
+    "rps-r-birman-schwinger-kernel": [
+      {
+        "finding_id": "explicit-potential-regularity",
+        "category": "analytic_domains",
+        "statement": "V satisfies an explicit source-backed function-space hypothesis sufficient for K_lambda to be a bounded compact operator.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The dossier uses the placeholder 'regularity so that K_lambda is bounded and compact' and never records the regularity class.  The source itself says such hypotheses are required.",
+        "source_basis": [
+          "Wikipedia Birman-Schwinger principle, statement of the regularity requirement",
+          "The dossier's symbol_assumptions.V and function_domains.K_lambda entries"
+        ]
+      }
+    ],
+    "rps-r-fano-beutler-profile": [
+      {
+        "finding_id": "nonzero-line-width",
+        "category": "nonzero_conditions",
+        "statement": "Gamma_res != 0 wherever epsilon = 2*(E-E_res)/Gamma_res is used.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "Gamma_res is only described as a line width.  Neither symbol_assumptions nor a predicate declares it nonzero, although the reduced-energy definition divides by it.",
+        "source_basis": [
+          "Miroshnichenko, Flach, and Kivshar, Rev. Mod. Phys. 82 (2010), Eq. (1), arXiv:0902.3014",
+          "The dossier's reduced-energy expression"
+        ]
+      },
+      {
+        "finding_id": "real-fano-parameter",
+        "category": "analytic_domains",
+        "statement": "q is real for the asserted real zero, maximum, and one-parameter cross-section profile.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The extrema and zero statements are claims about the real profile, but q has no real-valued declaration.  A physical name is not an assumption under the contract.",
+        "source_basis": [
+          "Miroshnichenko, Flach, and Kivshar, Rev. Mod. Phys. 82 (2010), Eqs. (1)-(2), arXiv:0902.3014",
+          "The dossier's symbol_assumptions.q entry"
+        ]
+      }
+    ],
+    "rps-r-lorentz-causal-poles": [
+      {
+        "finding_id": "nonzero-relaxation-time",
+        "category": "nonzero_conditions",
+        "statement": "tau != 0 wherever Gamma = 1/tau or omega/tau is used.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The contract calls tau a relaxation time but never declares it nonzero or positive.  Physical terminology cannot supply the missing predicate.",
+        "source_basis": [
+          "Wikipedia Lorentz oscillator model, dielectric-function denominator",
+          "The dossier's branch convention Gamma_j = 1/tau"
+        ]
+      },
+      {
+        "finding_id": "positive-resonance-frequency",
+        "category": "positivity_conditions",
+        "statement": "omega0 is a strictly positive real resonance frequency for the claimed strict lower-half-plane pole placement.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "gamma > 0 alone does not imply both roots of omega0**2-omega**2-I*gamma*omega lie strictly in Im(omega)<0 for an unrestricted omega0; omega0=0 already places one root at zero.",
+        "source_basis": [
+          "Capers, Boyes, Hibbins, and Horsley, arXiv:2008.05546, discussion following Eq. (5)",
+          "The dossier's pole-placement claim and symbol_assumptions.omega0 entry"
+        ]
+      }
+    ],
+    "rps-r-schrieffer-wolff-denom": [
+      {
+        "finding_id": "quantified-sum-denominators",
+        "category": "nonzero_conditions",
+        "statement": "For every index k actually included in each displayed second-order sum, each denominator d_i-d_k and d_j-d_k occurring in that summand is nonzero, or the summation exclusions/block restrictions are explicit.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The displayed sums are unqualified sums over k.  Saying that degenerate levels share a block does not specify which k are omitted, and zero matrix elements do not make a written 0/0 quotient defined.",
+        "source_basis": [
+          "Wikipedia Schrieffer-Wolff transformation, component generator and second-order formula",
+          "The dossier's two nonzero_conditions and displayed sums"
+        ]
+      },
+      {
+        "finding_id": "self-adjoint-hamiltonian-data",
+        "category": "analytic_domains",
+        "statement": "H0 and V are Hermitian (with real d_i) when S is claimed anti-Hermitian and exp(S) is claimed unitary.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The contract uses the physical word Hamiltonian but does not declare Hermiticity or real eigenvalues.  Those properties are required for the anti-Hermitian/unitary claim and may not be supplied as folklore.",
+        "source_basis": [
+          "Wikipedia Schrieffer-Wolff transformation, unitary transformation generated by an anti-Hermitian S",
+          "The dossier's symbol_assumptions.H0, symbol_assumptions.V, and function_domains entries"
+        ]
+      }
+    ],
+    "rps-r-weyl-titchmarsh-m": [
+      {
+        "finding_id": "operator-and-endpoint-domain",
+        "category": "analytic_domains",
+        "statement": "The differential expression, coefficient regularity, self-adjoint realization, and limit-point or boundary condition selecting the Weyl solution are explicit.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The dossier mixes half-line matrix M-functions and a separated-endpoint scalar Green kernel without specifying the underlying operator coefficients or endpoint hypotheses.  A branch-convention sentence naming alternatives does not choose one.",
+        "source_basis": [
+          "Clark and Gesztesy, arXiv:math/9905070, hypotheses preceding Theorem 2.8",
+          "The dossier's function_domains.M_plus, function_domains.G, and final branch convention"
+        ]
+      }
+    ],
+    "rps-dp-dexpinv-bernoulli": [
+      {
+        "finding_id": "bernoulli-operator-series-convergence",
+        "category": "analytic_domains",
+        "statement": "The spectrum of ad_Omega lies in the Taylor-series convergence disk |w| < 2*pi (or an explicit alternative convergence hypothesis is stated) when dexp_Omega^{-1} is identified with the Bernoulli power series.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "Avoiding the poles 2*pi*I*Z\\{0} makes dexp invertible, but it does not make the Taylor series about zero converge outside its radius 2*pi.  The contract declares the scalar disk yet does not impose it on ad_Omega.",
+        "source_basis": [
+          "Iserles, Munthe-Kaas, Norsett, and Zanna, Acta Numerica 9 (2000), dexp inverse expansion",
+          "Abramowitz and Stegun 23.1.1, Bernoulli generating function",
+          "The dossier's analytic_domains entries"
+        ]
+      }
+    ],
+    "rps-dp-liouville-jacobi-cnf": [
+      {
+        "finding_id": "cnf-vector-field-regularity",
+        "category": "analytic_domains",
+        "statement": "The CNF vector field f has explicit regularity sufficient for a differentiable flow and for Df(x(t),t) and its trace to exist along the trajectory.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "The contract declares regularity of the linear matrix A and positivity of p, but it records no domain or differentiability assumption for the nonlinear CNF vector field f.",
+        "source_basis": [
+          "Chen et al., Neural ODE, arXiv:1806.07366, instantaneous change-of-variables theorem",
+          "Grathwohl et al., FFJORD, arXiv:1810.01367, Eq. (2)",
+          "The dossier's function_domains and analytic_domains entries"
+        ]
+      }
+    ],
+    "rps-dp-stm-sensitivity-kernel": [
+      {
+        "finding_id": "forcing-integrability",
+        "category": "analytic_domains",
+        "statement": "B(t)u(t) is continuous or otherwise explicitly integrable on the stated interval for the variation-of-parameters member.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "Continuity of A guarantees the state-transition matrix, but it does not guarantee existence of the forcing integral involving B*u.  No regularity for B or u is declared.",
+        "source_basis": [
+          "Rugh, Linear System Theory, variation of parameters",
+          "The dossier's variation-of-parameters expression and analytic_domains entries"
+        ]
+      },
+      {
+        "finding_id": "initial-data-parameter-regularity",
+        "category": "analytic_domains",
+        "statement": "x0(theta) is differentiable in theta when S(t0)=d x0/d theta is included.",
+        "audit_status": "NOT_DECLARED",
+        "reason": "C1 regularity of A(t,theta) does not imply differentiability of parameter-dependent initial data.  The displayed initial sensitivity therefore needs its own predicate.",
+        "source_basis": [
+          "Hartman, Ordinary Differential Equations, parameter differentiation",
+          "Hairer, Norsett, and Wanner, Solving Ordinary Differential Equations I, Section I.14",
+          "The dossier's sensitivity initial condition"
+        ]
+      }
+    ]
+  }
+}
