@@ -18,10 +18,13 @@ Piecewise/zero-domain claims fail closed; see
 
 TEST FREEZE STATUS: not started (old AC TEST is HISTORICAL_DIAGNOSTIC)
 
-LLM / SEARCH JOBS: S0/S1 and S6 are implemented; the unchanged M2 legal
-frontier is connected to S6 by an evaluator-blind adapter with leakage default
-`UNKNOWN`. S2 and S3 are under independent review. No scientific DEV run and
-no LLM call.
+LLM / SEARCH JOBS: S0/S1, S2, S3, and S6 are implemented. The unchanged M2
+legal frontier is connected to S6 by an evaluator-blind adapter. S0–S5 can use
+the same exact recorder post hoc without feeding verdicts into search order.
+Both assumption completeness and leakage clearance default `UNKNOWN`. S3 is
+scientifically `UNAVAILABLE` until an admitted case receives a fresh
+case-bound replay from the byte-exact frozen SOL authority. S4/S5 are under
+implementation. No scientific DEV run and no LLM call.
 
 PUBLICATION STATUS: not issued
 
@@ -57,6 +60,16 @@ artifact and eight ZERO receipts remain ineligible contract-defect evidence)
 M2-TO-S6 ADAPTER: 93cd86d (same public candidate pool and `expand_state`;
 verifier feedback affects only the frozen priority band; no inferred leakage
 clearance)
+
+S2 SYMBOLIC BEAM: e101009; isolation correction a52e5a9 (width 32; unchanged
+M2 frontier; public structural signals only; no proof or evaluator ordering)
+
+POST-HOC EXACT EVALUATION: 73a9111 (preserves recorded expansion order; no
+verifier feedback to S0–S5; explicit assumption and leakage clearance gates)
+
+S3 SOL SEARCH: b23b565; handoff 0fe23b8 (authority manifest
+`6678002a8038ea7cc79ed75d428c669946c67ae66272f1999d4e9d95db8f1595`;
+historical Guo aggregate ineligible; no scientific replay/run yet)
 
 DUPLICATE / LEAKAGE AUDIT: 1ba666a (0 HIGH/CRITICAL scientific findings;
 9 MEDIUM manual-review cases)
