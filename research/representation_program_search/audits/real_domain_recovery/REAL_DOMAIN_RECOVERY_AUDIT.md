@@ -12,6 +12,8 @@ Disposition: `CANDIDATE_FOR_INDEPENDENT_REVIEW`
 
 Recorded exact-ZERO receipts: 9
 
+Public search loader: exact symbols and assumption statuses
+
 Failed hard checks: none
 
 ### rps-real-c8q2
@@ -19,6 +21,8 @@ Failed hard checks: none
 Disposition: `CANDIDATE_FOR_INDEPENDENT_REVIEW`
 
 Recorded exact-ZERO receipts: 9
+
+Public search loader: exact symbols and assumption statuses
 
 Failed hard checks: none
 

@@ -20,7 +20,7 @@
     }
   ],
   "schema_version": "ScientificAssumptionContractV1",
-  "status": "COMPLETE",
+  "status": "ASSUMPTION_COMPLETE",
   "symbols_artifact": "symbols.json",
   "verifier_scope_note": "The frozen namespace exactly records the retained real, nonzero argument. No zero-limit continuation, complex-domain receipt, or unstated positivity claim is used."
 }

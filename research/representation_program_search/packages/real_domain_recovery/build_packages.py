@@ -313,7 +313,7 @@ def _build_r3() -> None:
             },
         ],
         "schema_version": "ScientificAssumptionContractV1",
-        "status": "COMPLETE",
+        "status": "ASSUMPTION_COMPLETE",
         "symbols_artifact": "symbols.json",
         "verifier_scope_note": (
             "The symbol namespace exactly records real and nonzero scalar symbols. "
@@ -328,6 +328,8 @@ def _build_r3() -> None:
             for i, row in enumerate(source_members, start=1)
         ],
         "schema_version": "RPSMemberCatalogV1",
+        "symbols_path": "symbols.json",
+        "symbols_sha256": _sha256(package / "symbols.json"),
     }
     _write_json(package / "source_catalog.json", catalog)
     _write_json(
@@ -340,10 +342,6 @@ def _build_r3() -> None:
             "case_id": "C3J9",
             "schema_version": "RPSProposerViewV1",
             "source_catalog": {
-                "members": [
-                    {key: row[key] for key in ("member_id", "path", "sha256")}
-                    for row in source_members
-                ],
                 "path": "source_catalog.json",
                 "sha256": _sha256(package / "source_catalog.json"),
             },
@@ -619,7 +617,7 @@ def _build_r5() -> None:
             },
         ],
         "schema_version": "ScientificAssumptionContractV1",
-        "status": "COMPLETE",
+        "status": "ASSUMPTION_COMPLETE",
         "symbols_artifact": "symbols.json",
         "verifier_scope_note": (
             "The frozen namespace exactly records the retained real, nonzero argument. "
@@ -634,6 +632,8 @@ def _build_r5() -> None:
             for i, row in enumerate(source_members, start=1)
         ],
         "schema_version": "RPSMemberCatalogV1",
+        "symbols_path": "symbols.json",
+        "symbols_sha256": _sha256(package / "symbols.json"),
     }
     _write_json(package / "source_catalog.json", catalog)
     _write_json(
@@ -646,10 +646,6 @@ def _build_r5() -> None:
             "case_id": "C8Q2",
             "schema_version": "RPSProposerViewV1",
             "source_catalog": {
-                "members": [
-                    {key: row[key] for key in ("member_id", "path", "sha256")}
-                    for row in source_members
-                ],
                 "path": "source_catalog.json",
                 "sha256": _sha256(package / "source_catalog.json"),
             },

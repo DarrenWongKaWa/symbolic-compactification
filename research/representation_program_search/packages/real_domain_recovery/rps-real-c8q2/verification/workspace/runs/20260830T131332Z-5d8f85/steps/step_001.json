@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "2d3e82e4c2f4d86c687b60871eab47284121b6c2d706b99cb92c37a30e8f2b94",
+  "candidate_hash": "1801813090b4b498dde0e1e0c3f6a471b921c87dc20ddb75e725a6a1b34422a4",
+  "candidate_text": "sin(x)/x",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "rps-real-c8q2-G_NO_HERMITE-O8R1",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T13:13:32Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "101f6966beb8c800aa917ab19eea3c95e0310720fa5a40a5711dd2c91f56f270",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T13:13:32Z",
+      "proposal_timestamp": "2026-08-30T13:13:32Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T13:13:32Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "rps-real-c8q2-G_NO_HERMITE-O8R1",
+      "hypothesis": "The compiled output is exactly equivalent to the member.",
+      "candidate_expression_or_rewrite": "sin(x)/x",
+      "rationale": "The transformation is the selected executable M1 output.",
+      "expected_structural_benefit": "A legal compiled program output reconstructs one grounded member.",
+      "suggested_verification_strategy": "Run the exact verifier on the hash-bound member and candidate files.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "package ScientificAssumptionContract"
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "1ec8f855c1b9f172349320c1d2763c61dbc877cc",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

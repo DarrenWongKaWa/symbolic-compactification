@@ -1,30 +1,13 @@
 {
   "assumptions": {
     "path": "assumptions.json",
-    "sha256": "6dc3afa6598fc9a39d1149caceaa04083e1993fc05169a8e814e4482e9aacf30"
+    "sha256": "53dbfe21c686ee30b130956ff25c70b5e6e096c9ec87d31a0f0b3763d1b8371f"
   },
   "case_id": "C8Q2",
   "schema_version": "RPSProposerViewV1",
   "source_catalog": {
-    "members": [
-      {
-        "member_id": "M8B1",
-        "path": "members/M8B1.txt",
-        "sha256": "2d3e82e4c2f4d86c687b60871eab47284121b6c2d706b99cb92c37a30e8f2b94"
-      },
-      {
-        "member_id": "M8B2",
-        "path": "members/M8B2.txt",
-        "sha256": "c18e91a8f633a5125872e476c107aaacb59834aff85d1a7a291785fbab0e8ecc"
-      },
-      {
-        "member_id": "M8B3",
-        "path": "members/M8B3.txt",
-        "sha256": "44e0b6a81fe23971ee90634c3e50c5d52f5e178634acf01a4841e9eba21a19ec"
-      }
-    ],
     "path": "source_catalog.json",
-    "sha256": "a9a326b58591eb77e8a113269d58da243a4009691b4a4c566af3c63c10873981"
+    "sha256": "fef874b670c3992cb470ac08347c0c7a7e84ccec12b1ebcdd5eb7e0c97f474ea"
   },
   "structural_observations": {
     "argument_families": [

@@ -26,7 +26,7 @@
     }
   ],
   "schema_version": "ScientificAssumptionContractV1",
-  "status": "COMPLETE",
+  "status": "ASSUMPTION_COMPLETE",
   "symbols_artifact": "symbols.json",
   "verifier_scope_note": "The symbol namespace exactly records real and nonzero scalar symbols. The relational predicates x>0, y>0, and x!=y remain explicit in this contract; exact ZERO does not silently add or discharge them."
 }

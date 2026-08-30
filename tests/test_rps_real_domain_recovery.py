@@ -22,6 +22,7 @@ from research.representation_program_search.program_ir import (
     load_case_package,
 )
 from research.representation_program_search.program_ir.schema import program_from_dict
+from research.representation_program_search.search import load_public_case
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,6 +69,54 @@ def test_strict_manifest_real_domain_and_proposer_firewall(package_id):
     visible = _json(package / "proposer_view.json")
     visible_blob = json.dumps(visible, sort_keys=True).casefold()
     assert not any(term in visible_blob for term in FORBIDDEN_PROPOSER_TERMS)
+
+
+@pytest.mark.parametrize(
+    ("package_id", "expected_symbols", "expected_statuses"),
+    (
+        (
+            "rps-real-c3j9",
+            (
+                {"name": "x", "nonzero": True, "real": True},
+                {"name": "y", "nonzero": True, "real": True},
+                {"name": "p", "nonzero": False, "real": True},
+                {"name": "q", "nonzero": False, "real": True},
+            ),
+            {
+                "P3A1": "DECLARED",
+                "P3A2": "DECLARED",
+                "P3A3": "DERIVED",
+                "P3A4": "DECLARED",
+            },
+        ),
+        (
+            "rps-real-c8q2",
+            ({"name": "x", "nonzero": True, "real": True},),
+            {"P8A1": "DECLARED", "P8A2": "DECLARED", "P8A3": "DERIVED"},
+        ),
+    ),
+)
+def test_actual_public_search_loader_reads_exact_namespace_and_assumptions(
+    package_id, expected_symbols, expected_statuses
+):
+    package = COLLECTION / package_id
+    proposer = _json(package / "proposer_view.json")
+    assert set(proposer["source_catalog"]) == {"path", "sha256"}
+    case = load_public_case(package / "proposer_view.json")
+    assert case.symbols == expected_symbols
+    assert dict(case.assumption_statuses) == expected_statuses
+    assert case.namespace_provenance == "EXACT_PROPOSER_REFERENCE"
+    assert set(case.accessed_paths) == {
+        "assumptions.json",
+        "proposer_view.json",
+        "source_catalog.json",
+        "symbols.json",
+        *{row["path"] for row in _json(package / "source_catalog.json")["members"]},
+    }
+    assert all(
+        not ({"reference", "verification", "final", "runs", "steps"} & set(Path(path).parts))
+        for path in case.accessed_paths
+    )
 
 
 @pytest.mark.parametrize("package_id", PACKAGE_IDS)

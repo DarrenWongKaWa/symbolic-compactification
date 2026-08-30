@@ -19,5 +19,7 @@
       "sha256": "19c7a0bbee461bc196615dd883228b3750271cd4c04e73ecc089bbeae0ee4d75"
     }
   ],
-  "schema_version": "RPSMemberCatalogV1"
+  "schema_version": "RPSMemberCatalogV1",
+  "symbols_path": "symbols.json",
+  "symbols_sha256": "6a19efe9e440131a6f603ca6c6b9a67da836baa8dd1db1542c9878b2ff19b4ae"
 }

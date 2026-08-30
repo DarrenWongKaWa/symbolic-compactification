@@ -26,6 +26,7 @@ from research.representation_program_search.program_ir import (
     load_case_package,
 )
 from research.representation_program_search.program_ir.schema import program_from_dict
+from research.representation_program_search.search import SearchContractError, load_public_case
 
 
 POLICY = "RPS_REAL_DOMAIN_RECOVERY_VALIDATOR_V1"
@@ -259,7 +260,8 @@ def _source_and_firewall(package: Path) -> dict[str, Any]:
         "all_symbols_explicitly_real": bool(symbols)
         and all(symbol.get("real") is True for symbol in symbols),
         "assumption_contract_complete": (
-            _json(package / "assumptions.json").get("status") == "COMPLETE"
+            _json(package / "assumptions.json").get("status")
+            == "ASSUMPTION_COMPLETE"
             and bool(predicates)
             and all(item.get("status") in {"DECLARED", "DERIVED"} for item in predicates)
         ),
@@ -323,12 +325,50 @@ def _duplicate_audit(root: Path, package: Path) -> dict[str, Any]:
     }
 
 
+def _public_loader(package: Path) -> dict[str, Any]:
+    expected_symbols = tuple(_json(package / "symbols.json")["symbols"])
+    expected_statuses = {
+        row["predicate_id"]: row["status"]
+        for row in _json(package / "assumptions.json")["predicates"]
+    }
+    expected_paths = {
+        "assumptions.json",
+        "proposer_view.json",
+        "source_catalog.json",
+        "symbols.json",
+        *{
+            row["path"]
+            for row in _json(package / "source_catalog.json")["members"]
+        },
+    }
+    try:
+        case = load_public_case(package / "proposer_view.json")
+    except SearchContractError as exc:
+        return {
+            "accessed_paths": [],
+            "assumption_statuses_exact": False,
+            "error": str(exc),
+            "loaded": False,
+            "symbols_exact": False,
+        }
+    return {
+        "accessed_paths": list(case.accessed_paths),
+        "assumption_statuses_exact": dict(case.assumption_statuses)
+        == expected_statuses,
+        "case_id": case.case_id,
+        "error": None,
+        "expected_paths_exact": set(case.accessed_paths) == expected_paths,
+        "loaded": True,
+        "namespace_provenance": case.namespace_provenance,
+        "symbols_exact": case.symbols == expected_symbols,
+    }
 def _validate_package(root: Path, package: Path) -> dict[str, Any]:
     manifest = _manifest(package)
     compiled = _compile(package)
     receipts = _receipts(package)
     source = _source_and_firewall(package)
     duplicate = _duplicate_audit(root, package)
+    public_loader = _public_loader(package)
     review = _json(package / "reference/review.json")
     hard_checks = {
         "all_variants_compile": all(
@@ -349,6 +389,11 @@ def _validate_package(root: Path, package: Path) -> dict[str, Any]:
         "proposer_artifacts_hash_bound": source["assumptions_hash_bound"]
         and source["catalog_hash_bound"],
         "proposer_firewall_clean": not source["proposer_leaks"],
+        "public_search_loader_contract": public_loader["loaded"]
+        and public_loader["symbols_exact"]
+        and public_loader["assumption_statuses_exact"]
+        and public_loader["expected_paths_exact"]
+        and public_loader["namespace_provenance"] == "EXACT_PROPOSER_REFERENCE",
         "receipts_exact_zero": receipts["all_zero"],
         "review_status_candidate_only": review.get("candidate_status") == CANDIDATE,
         "source_provenance_hash_bound": source["dossier_hash_bound"]
@@ -363,6 +408,7 @@ def _validate_package(root: Path, package: Path) -> dict[str, Any]:
         "hard_checks": hard_checks,
         "manifest": manifest,
         "package_id": package.name,
+        "public_loader": public_loader,
         "receipts": receipts,
         "source_and_firewall": source,
         "status": CANDIDATE if all(hard_checks.values()) else "REJECTED",
@@ -403,6 +449,15 @@ def _render_markdown(report: dict[str, Any]) -> str:
                 f"Disposition: `{package['status']}`",
                 "",
                 f"Recorded exact-ZERO receipts: {package['receipts']['attempt_count']}",
+                "",
+                "Public search loader: "
+                + (
+                    "exact symbols and assumption statuses"
+                    if package["public_loader"]["loaded"]
+                    and package["public_loader"]["symbols_exact"]
+                    and package["public_loader"]["assumption_statuses_exact"]
+                    else f"FAILED ({package['public_loader']['error']})"
+                ),
                 "",
             ]
         )
