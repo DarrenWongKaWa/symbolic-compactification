@@ -1,0 +1,19 @@
+{
+  "text": "((log(y)+1)-((y*log(y)-x*log(x))/(y-x)))/(y-x)",
+  "sha256": "3bcd0a2ad2eb5f28e2b0908a0ca68a7e52a018dc19521153c1200dac4cb32a81",
+  "sha256_of_text": "d8c90dbb2e8c978fa323b0d83efb1c40aabc5de5bd79834b5b02f741a13f99e9",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "x",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "y",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}

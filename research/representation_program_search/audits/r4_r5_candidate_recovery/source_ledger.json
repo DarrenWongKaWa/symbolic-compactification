@@ -1,0 +1,59 @@
+{
+  "retrieval_date": "2026-08-30",
+  "schema_version": "RPSR4R5SourceLedgerV1",
+  "sources": [
+    {
+      "artifact_bytes": 307489,
+      "artifact_sha256": "210afa1d3b8548b805c754a9757e790175405d55114fc8fd87631845b5c2b0ff",
+      "authors": [
+        "Fumio Hiai",
+        "Denes Petz"
+      ],
+      "equations": [
+        {
+          "formula": "(log(x)-log(y))/(x-y)",
+          "formula_sha256": "646793163c6966b5236e7a2f4935e79444f7ad6aab330313d493990dcae54a27",
+          "locator": "PDF page 7, displayed definition of G^[1](x,y), distinct stratum; HTML lines 243-251"
+        },
+        {
+          "formula": "(x-y)/(log(x)-log(y))",
+          "formula_sha256": "3472bb3406e01d169b65e747fdab4fef698c96bde08a1b7e521a66444491e042",
+          "locator": "PDF page 10, Eq. (2.11); HTML line 331"
+        }
+      ],
+      "identifier": "arXiv:0809.4974v3",
+      "source_class": "PRIMARY_ARTICLE",
+      "source_id": "SRC-A",
+      "title": "Riemannian metrics on positive definite matrices related to means",
+      "url": "https://arxiv.org/pdf/0809.4974"
+    },
+    {
+      "artifact_bytes": 301757,
+      "artifact_sha256": "6f690b01de0ce95ad450a5233ffc470ba6ca1b2b84c744a8f7fe98fd1f3f31f1",
+      "authors": [
+        "Florent Bouchard",
+        "Ammar Mian",
+        "Malik Tiomoko",
+        "Guillaume Ginolhac",
+        "Frederic Pascal"
+      ],
+      "equations": [
+        {
+          "formula": "(x*log(x/y)-(x-y))/(x-y)**2",
+          "formula_sha256": "08f5a8962b0c2cb806f12e3cc107e946cb4001488bc154e2069faa2a4771cac6",
+          "locator": "PDF page 3, Theorem 2.1, Q_ij definition following Eq. (2), i != j; HTML lines 105-112"
+        },
+        {
+          "formula": "1/(2*x)",
+          "formula_sha256": "af92696723dbf51ac0109ccfd8323d1a080bc07aa8579aea91a24ad19f7e3feb",
+          "locator": "PDF page 3, Theorem 2.1, Q_ij definition following Eq. (2), i = j; HTML lines 105-112"
+        }
+      ],
+      "identifier": "arXiv:2405.06558v2 / ICML 2024",
+      "source_class": "PRIMARY_PEER_REVIEWED_ARTICLE_REPRODUCING_CITED_THEOREM",
+      "source_id": "SRC-B",
+      "title": "Random matrix theory improved Frechet mean of symmetric positive definite matrices",
+      "url": "https://arxiv.org/pdf/2405.06558"
+    }
+  ]
+}

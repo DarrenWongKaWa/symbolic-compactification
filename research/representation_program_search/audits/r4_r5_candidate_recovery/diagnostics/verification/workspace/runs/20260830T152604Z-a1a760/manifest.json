@@ -1,0 +1,228 @@
+{
+  "run_id": "20260830T152604Z-a1a760",
+  "created_at": "2026-08-30T15:26:04Z",
+  "repository_version": "0.3.0",
+  "engine_version": "0.3.0",
+  "agent_protocol_version": "0.3.0",
+  "engine_git_sha": "de2524709410d160216423e65b4f9d4f3abcbc1e",
+  "requested_arm": null,
+  "requested_proposer_mode": "main",
+  "policies": {
+    "parse": {
+      "max_expr_chars": 65536,
+      "max_nodes": 8000,
+      "max_tokens": 16000,
+      "max_nesting_depth": 256,
+      "max_integer_digits": 256,
+      "max_numeric_exponent": 10000,
+      "max_symbols": 40,
+      "allowed_functions": [
+        "Abs",
+        "Rational",
+        "acos",
+        "asin",
+        "atan",
+        "atan2",
+        "conjugate",
+        "cos",
+        "cosh",
+        "exp",
+        "im",
+        "log",
+        "polygamma",
+        "re",
+        "sin",
+        "sinh",
+        "sqrt",
+        "tan",
+        "tanh"
+      ]
+    },
+    "verify": {
+      "simplify_ops_cap": 8000,
+      "structure_first_threshold": 200
+    },
+    "transform": {
+      "ops_cap": 8000
+    },
+    "budget": {
+      "mode": "process",
+      "residual_seconds": 15.0,
+      "expand_seconds": 15.0,
+      "simplify_seconds": 30.0,
+      "probe_simplify_seconds": 10.0,
+      "equals_seconds": 10.0,
+      "expand_complex_seconds": 10.0,
+      "factor_seconds": 15.0,
+      "factor_terms_seconds": 15.0,
+      "together_seconds": 15.0,
+      "cancel_seconds": 15.0,
+      "finite_expand_seconds": 15.0,
+      "kill_grace_seconds": 2.0
+    }
+  },
+  "meta": {
+    "diagnostic_id": "D003",
+    "scope": "MINING_ONLY",
+    "agent_protocol": "record_proposal"
+  },
+  "current": {
+    "text": "polygamma(0,x+1)-polygamma(0,x)",
+    "sha256": "d04ec1c3a6647bcb5bc0ccd30fb7a267a6aa6503ac097830bf2aa357f88efa05",
+    "source_path": "/private/tmp/ssc-rps-dev-recovery/research/representation_program_search/audits/r4_r5_candidate_recovery/diagnostics/expressions/D003.current.txt",
+    "parsed_expr": "-polygamma(0, x) + polygamma(0, x + 1)",
+    "symbols": [
+      {
+        "name": "x",
+        "real": true,
+        "nonzero": true
+      }
+    ],
+    "functions": []
+  },
+  "steps": [
+    {
+      "step": 1,
+      "current_hash": "d04ec1c3a6647bcb5bc0ccd30fb7a267a6aa6503ac097830bf2aa357f88efa05",
+      "candidate_hash": "cf2ae21ad027cb223b1127d958ef449267df336eb23d226db07fd748aa4dc69f",
+      "candidate_text": "1/x",
+      "residual": null,
+      "verdict": "UNKNOWN",
+      "evidence": [
+        {
+          "kind": "proposer_candidate",
+          "candidate_id": "r4-r5-negative-D003",
+          "assumptions_status": "DECLARED",
+          "confidence": "low",
+          "role": "STRUCTURAL_PROPOSER",
+          "harness_task_or_subagent_id": null,
+          "invoked_at": "2026-08-30T15:26:04Z",
+          "returned_at": null,
+          "parent_agent_step": 0,
+          "proposal_sha256": "e4a5156e0382366b3d0a41765a0b2f57a9e7ef3fc3a62cb2612010648c435e28",
+          "conjecture_packet_sha256": null,
+          "invocation_mode": "main_agent",
+          "unavailable": false,
+          "subagent_id": null,
+          "invocation_timestamp": "2026-08-30T15:26:04Z",
+          "proposal_timestamp": "2026-08-30T15:26:04Z",
+          "parent_step_index": 0
+        }
+      ],
+      "timestamp": "2026-08-30T15:26:04Z",
+      "status": "HYPOTHESIS",
+      "telemetry": {
+        "primitive": "proposal",
+        "wall_time_seconds": 0.0,
+        "verdict": null,
+        "engine_version": "0.3.0",
+        "agent_protocol_version": "0.3.0",
+        "proposal": {
+          "candidate_id": "r4-r5-negative-D003",
+          "hypothesis": "The exact verifier outcome determines package eligibility; it does not admit this rejected mining lead.",
+          "candidate_expression_or_rewrite": "1/x",
+          "rationale": "The only admitted non-elementary family does not certify its symbolic recurrence under the frozen verifier.",
+          "expected_structural_benefit": "The only admitted non-elementary family does not certify its symbolic recurrence under the frozen verifier.",
+          "suggested_verification_strategy": "Run the exact verifier on the hash-bound diagnostic files.",
+          "status": "HYPOTHESIS",
+          "required_assumptions": [
+            "source ledger and frozen symbol namespace"
+          ],
+          "assumptions_status": "DECLARED",
+          "confidence": "low"
+        }
+      },
+      "engine_version": "0.3.0",
+      "engine_git_sha": "de2524709410d160216423e65b4f9d4f3abcbc1e",
+      "assumption_status": null,
+      "proof_status": "HYPOTHESIS"
+    },
+    {
+      "step": 2,
+      "current_hash": "d04ec1c3a6647bcb5bc0ccd30fb7a267a6aa6503ac097830bf2aa357f88efa05",
+      "candidate_hash": "0bf9aff955eadcc64e38afb1826b133dd4139f88acd792aadd82ee20bdc1838b",
+      "candidate_text": "1/x",
+      "residual": "-polygamma(0, x) + polygamma(0, x + 1) - 1/x",
+      "verdict": "UNKNOWN",
+      "evidence": [
+        {
+          "kind": "simplification_undecided_no_exact_counterexample",
+          "probes_tried": 6
+        }
+      ],
+      "timestamp": "2026-08-30T15:26:06Z",
+      "status": "UNVERIFIED",
+      "telemetry": {
+        "input_chars": 31,
+        "output_chars": 3,
+        "wall_time_seconds": 2.0762,
+        "verdict": "UNKNOWN",
+        "timeout_status": "ok",
+        "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+        "repository_version": "0.3.0",
+        "engine_version": "0.3.0",
+        "agent_protocol_version": "0.3.0",
+        "policies": {
+          "parse": {
+            "max_expr_chars": 65536,
+            "max_nodes": 8000,
+            "max_tokens": 16000,
+            "max_nesting_depth": 256,
+            "max_integer_digits": 256,
+            "max_numeric_exponent": 10000,
+            "max_symbols": 40,
+            "allowed_functions": [
+              "Abs",
+              "Rational",
+              "acos",
+              "asin",
+              "atan",
+              "atan2",
+              "conjugate",
+              "cos",
+              "cosh",
+              "exp",
+              "im",
+              "log",
+              "polygamma",
+              "re",
+              "sin",
+              "sinh",
+              "sqrt",
+              "tan",
+              "tanh"
+            ]
+          },
+          "verify": {
+            "simplify_ops_cap": 8000,
+            "structure_first_threshold": 200
+          },
+          "transform": {
+            "ops_cap": 8000
+          },
+          "budget": {
+            "mode": "process",
+            "residual_seconds": 15.0,
+            "expand_seconds": 15.0,
+            "simplify_seconds": 30.0,
+            "probe_simplify_seconds": 10.0,
+            "equals_seconds": 10.0,
+            "expand_complex_seconds": 10.0,
+            "factor_seconds": 15.0,
+            "factor_terms_seconds": 15.0,
+            "together_seconds": 15.0,
+            "cancel_seconds": 15.0,
+            "finite_expand_seconds": 15.0,
+            "kill_grace_seconds": 2.0
+          }
+        },
+        "count_ops_before": 4,
+        "count_ops_after": 1
+      },
+      "engine_version": "0.3.0",
+      "engine_git_sha": "de2524709410d160216423e65b4f9d4f3abcbc1e",
+      "assumption_status": "DECLARED",
+      "proof_status": "PROOF_REQUIRED"
+    }
+  ]
+}

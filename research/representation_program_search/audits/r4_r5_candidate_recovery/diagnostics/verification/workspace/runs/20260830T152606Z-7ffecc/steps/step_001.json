@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "6fb77c6c9d018e70ee63e34876332685f209ac384712079257f810f56e9691d9",
+  "candidate_hash": "d8c90dbb2e8c978fa323b0d83efb1c40aabc5de5bd79834b5b02f741a13f99e9",
+  "candidate_text": "((log(y)+1)-((y*log(y)-x*log(x))/(y-x)))/(y-x)",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "r4-r5-negative-D004",
+      "assumptions_status": "DECLARED",
+      "confidence": "low",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T15:26:06Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "9de52bef727f8ad5437e1f5dc790e4be15bbacf2cbc97e9e371a22a68358dbdb",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T15:26:06Z",
+      "proposal_timestamp": "2026-08-30T15:26:06Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T15:26:06Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "r4-r5-negative-D004",
+      "hypothesis": "The exact verifier outcome determines package eligibility; it does not admit this rejected mining lead.",
+      "candidate_expression_or_rewrite": "((log(y)+1)-((y*log(y)-x*log(x))/(y-x)))/(y-x)",
+      "rationale": "After an external positive-domain log lowering, the proposed structure is exactly the historical Hermite-two template instantiated with F(z)=z*log(z); this diagnostic is not source-member certification.",
+      "expected_structural_benefit": "After an external positive-domain log lowering, the proposed structure is exactly the historical Hermite-two template instantiated with F(z)=z*log(z); this diagnostic is not source-member certification.",
+      "suggested_verification_strategy": "Run the exact verifier on the hash-bound diagnostic files.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "source ledger and frozen symbol namespace"
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "low"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "de2524709410d160216423e65b4f9d4f3abcbc1e",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

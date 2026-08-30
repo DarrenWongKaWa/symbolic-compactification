@@ -1,0 +1,19 @@
+{
+  "text": "(-log(x)+log(y))/(-x+y)",
+  "sha256": "4edfe1e9ca7403f047f2565856fee22af24745a504ce34442a4a3512257c51be",
+  "sha256_of_text": "157249ae62fd8959d440025da36d31294839c677bf9a2090ede6d90951b857fe",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "x",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "y",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}

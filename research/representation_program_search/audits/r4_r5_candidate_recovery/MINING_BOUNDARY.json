@@ -1,0 +1,211 @@
+{
+  "candidate_count": 0,
+  "diagnostic_receipts": {
+    "errors": [],
+    "receipts": [
+      {
+        "checks": {
+          "candidate_hash_bound": true,
+          "current_hash_bound": true,
+          "expected_verdict": true,
+          "lifecycle": true,
+          "main_proposal_recorded": true,
+          "proof_status": true
+        },
+        "diagnostic_id": "D001",
+        "note": "Parser-feasible first divided-difference lowering; rejected as a direct old-TEST instantiation.",
+        "run_id": "20260830T152558Z-301092",
+        "verdict": "ZERO"
+      },
+      {
+        "checks": {
+          "candidate_hash_bound": true,
+          "current_hash_bound": true,
+          "exact_counterexample": true,
+          "expected_verdict": true,
+          "lifecycle": true,
+          "main_proposal_recorded": true,
+          "proof_status": true
+        },
+        "diagnostic_id": "D002",
+        "note": "The source declares positive eigenvalues, but positivity is unavailable in the frozen namespace; the required log quotient lowering is refuted on the broader real probe domain.",
+        "run_id": "20260830T152558Z-afb42c",
+        "verdict": "NONZERO"
+      },
+      {
+        "checks": {
+          "candidate_hash_bound": true,
+          "current_hash_bound": true,
+          "expected_verdict": true,
+          "lifecycle": true,
+          "main_proposal_recorded": true,
+          "proof_status": true,
+          "unknown_fail_closed": true
+        },
+        "diagnostic_id": "D003",
+        "note": "The only admitted non-elementary family does not certify its symbolic recurrence under the frozen verifier.",
+        "run_id": "20260830T152604Z-a1a760",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "checks": {
+          "candidate_hash_bound": true,
+          "current_hash_bound": true,
+          "expected_verdict": true,
+          "lifecycle": true,
+          "main_proposal_recorded": true,
+          "proof_status": true
+        },
+        "diagnostic_id": "D004",
+        "note": "After an external positive-domain log lowering, the proposed structure is exactly the historical Hermite-two template instantiated with F(z)=z*log(z); this diagnostic is not source-member certification.",
+        "run_id": "20260830T152606Z-7ffecc",
+        "verdict": "ZERO"
+      }
+    ],
+    "status": "VALID"
+  },
+  "historical_duplicate_audit": {
+    "errors": [],
+    "matches": [
+      {
+        "formula": "(s(p) - s(q))/(p - q)",
+        "formula_sha256": "eabd561149fa40529a30445963cda79c46c58f9bcbf81a9d7cf19c37d26a0bdd",
+        "path": "research/representation_invention/bench/tasks/test/test-a-newton-first.json"
+      },
+      {
+        "formula": "(ds(p) - (s(p) - s(q))/(p - q))/(p - q)",
+        "formula_sha256": "611c2c67809302acb950b3e12c649fdb929bac75eed7a358096a2cd89675c417",
+        "path": "research/representation_invention/bench/tasks/test/test-a-hermite-two.json"
+      },
+      {
+        "formula": "Piecewise(((s(p) - s(q))/(p - q), Ne(p, q)), (ds(p), True))",
+        "formula_sha256": "48a60547142c19ebb889a6612ab1a410801c807900e9b3071a8e77e45838d61e",
+        "path": "research/representation_invention/bench/tasks/test/test-b-piecewise-dd.json"
+      }
+    ],
+    "status": "VALID"
+  },
+  "honest_case_remaining": false,
+  "m1_compile": {
+    "reason": "NO_RETAINED_CANDIDATE",
+    "status": "NOT_APPLICABLE"
+  },
+  "package_status": "NO_PACKAGE_CREATED",
+  "parser_boundary": {
+    "allowed_functions": [
+      "Abs",
+      "Rational",
+      "acos",
+      "asin",
+      "atan",
+      "atan2",
+      "conjugate",
+      "cos",
+      "cosh",
+      "exp",
+      "im",
+      "log",
+      "polygamma",
+      "re",
+      "sin",
+      "sinh",
+      "sqrt",
+      "tan",
+      "tanh"
+    ],
+    "non_elementary_family_admitted": [
+      "polygamma"
+    ],
+    "polygamma_symbolic_recurrence_verdict": "UNKNOWN",
+    "status": "NO_FRESH_CERTIFIABLE_R5_OBJECT_FOUND"
+  },
+  "policy": "RPS_R4_R5_CANDIDATE_RECOVERY_V1",
+  "public_loader": {
+    "reason": "NO_RETAINED_CANDIDATE",
+    "status": "NOT_APPLICABLE"
+  },
+  "screened_leads": [
+    {
+      "candidate_id": "SCREEN-A",
+      "disposition": "REJECTED",
+      "domain": "x,y are positive real spectral values",
+      "reasons": [
+        "OLD_TEST_VARIANT:test-a-newton-first",
+        "OLD_TEST_VARIANT:test-b-piecewise-dd",
+        "SOURCE_EXPOSES_DIVIDED_DIFFERENCE_TARGET",
+        "NOT_GENUINELY_FRESH"
+      ],
+      "scientifically_available": true,
+      "source_id": "SRC-A"
+    },
+    {
+      "candidate_id": "SCREEN-B",
+      "disposition": "REJECTED",
+      "domain": "positive real eigenvalues of real SPD matrices",
+      "reasons": [
+        "OLD_TEST_VARIANT:test-a-hermite-two",
+        "FROZEN_NAMESPACE_CANNOT_ENFORCE_POSITIVITY",
+        "SOURCE_TO_PROGRAM_LOWERING_NONZERO_ON_FROZEN_REAL_DOMAIN",
+        "NOT_GENUINELY_FRESH"
+      ],
+      "scientifically_available": true,
+      "source_id": "SRC-B"
+    }
+  ],
+  "slot_disposition": {
+    "R4_R5": "MISSING",
+    "reason": "NO_SOURCE_BACKED_IDENTITY_SURVIVED_FRESHNESS_DOMAIN_LEAKAGE_AND_ZERO_GATES"
+  },
+  "source_provenance": {
+    "errors": [],
+    "note": "PDF byte counts and SHA-256 values bind the exact 2026-08-30 retrievals. The rejected-source PDFs are not copied into a case package because no candidate survived screening.",
+    "sources": [
+      {
+        "artifact_bytes": 307489,
+        "artifact_sha256": "210afa1d3b8548b805c754a9757e790175405d55114fc8fd87631845b5c2b0ff",
+        "equations": [
+          {
+            "formula": "(log(x)-log(y))/(x-y)",
+            "formula_sha256": "646793163c6966b5236e7a2f4935e79444f7ad6aab330313d493990dcae54a27",
+            "locator": "PDF page 7, displayed definition of G^[1](x,y), distinct stratum; HTML lines 243-251"
+          },
+          {
+            "formula": "(x-y)/(log(x)-log(y))",
+            "formula_sha256": "3472bb3406e01d169b65e747fdab4fef698c96bde08a1b7e521a66444491e042",
+            "locator": "PDF page 10, Eq. (2.11); HTML line 331"
+          }
+        ],
+        "identifier": "arXiv:0809.4974v3",
+        "source_class": "PRIMARY_ARTICLE",
+        "source_id": "SRC-A",
+        "title": "Riemannian metrics on positive definite matrices related to means",
+        "url": "https://arxiv.org/pdf/0809.4974"
+      },
+      {
+        "artifact_bytes": 301757,
+        "artifact_sha256": "6f690b01de0ce95ad450a5233ffc470ba6ca1b2b84c744a8f7fe98fd1f3f31f1",
+        "equations": [
+          {
+            "formula": "(x*log(x/y)-(x-y))/(x-y)**2",
+            "formula_sha256": "08f5a8962b0c2cb806f12e3cc107e946cb4001488bc154e2069faa2a4771cac6",
+            "locator": "PDF page 3, Theorem 2.1, Q_ij definition following Eq. (2), i != j; HTML lines 105-112"
+          },
+          {
+            "formula": "1/(2*x)",
+            "formula_sha256": "af92696723dbf51ac0109ccfd8323d1a080bc07aa8579aea91a24ad19f7e3feb",
+            "locator": "PDF page 3, Theorem 2.1, Q_ij definition following Eq. (2), i = j; HTML lines 105-112"
+          }
+        ],
+        "identifier": "arXiv:2405.06558v2 / ICML 2024",
+        "source_class": "PRIMARY_PEER_REVIEWED_ARTICLE_REPRODUCING_CITED_THEOREM",
+        "source_id": "SRC-B",
+        "title": "Random matrix theory improved Frechet mean of symmetric positive definite matrices",
+        "url": "https://arxiv.org/pdf/2405.06558"
+      }
+    ],
+    "status": "VALID"
+  },
+  "status": "VALID_NEGATIVE_BOUNDARY",
+  "summary": "Real-domain scientific formulas were found, but the parser-feasible ones are old held-out divided-difference variants. The stronger SPD lead also cannot lower soundly through the frozen namespace, and the only admitted non-elementary family remains verifier-UNKNOWN. No honest R4/R5 package remains without parser/verifier or benchmark-policy changes.",
+  "validation_errors": []
+}
