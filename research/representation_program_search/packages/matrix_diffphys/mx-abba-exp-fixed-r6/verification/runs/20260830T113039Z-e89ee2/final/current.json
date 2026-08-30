@@ -1,0 +1,34 @@
+{
+  "text": "exp(alpha)+q*v*(exp(alpha+p*u+q*v)-exp(alpha))/(p*u+q*v)",
+  "sha256": "116cbc7b22866cb578f1de4922d3e272ead5adb5d0a54bbb2a2857395c964b0a",
+  "sha256_of_text": "d3a3e78c68fb965ced5e656b16fd23cedde7befd48c150e746572744a3431763",
+  "promoted_at_step": 1,
+  "symbols": [
+    {
+      "name": "alpha",
+      "real": false,
+      "nonzero": false
+    },
+    {
+      "name": "p",
+      "real": false,
+      "nonzero": false
+    },
+    {
+      "name": "q",
+      "real": false,
+      "nonzero": false
+    },
+    {
+      "name": "u",
+      "real": false,
+      "nonzero": false
+    },
+    {
+      "name": "v",
+      "real": false,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

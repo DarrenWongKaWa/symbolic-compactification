@@ -1,0 +1,24 @@
+{
+  "text": "cos(w*t)**2+sin(w*t)**2",
+  "sha256": "b11caa7b94d85fb403e6657fe43648e2999b1594d10a9aa2dfbceff317bdc245",
+  "sha256_of_text": "4bd751c7e72c47c87aa5d49882b329105a88a5b595c451b5bcc22dd9389ddb8f",
+  "promoted_at_step": 1,
+  "symbols": [
+    {
+      "name": "s",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "t",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "w",
+      "real": false,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

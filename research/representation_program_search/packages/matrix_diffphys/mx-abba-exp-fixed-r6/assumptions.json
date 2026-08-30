@@ -1,0 +1,52 @@
+{
+  "analytic_domains": [
+    {
+      "label": "DECLARED",
+      "source": "S001, Theorem 1.35 and equation (1.31)",
+      "statement": "exp is entire and is defined at every complex scalar argument in the fixed source expressions."
+    }
+  ],
+  "branch_conventions": [
+    "exp is the entire scalar function with no branch cut."
+  ],
+  "derived_conditions": [],
+  "function_domains": {
+    "exp": "Entire on C; no spectral cut and no branch choice."
+  },
+  "limit_domains": [
+    {
+      "label": "DECLARED",
+      "source": "S001, Theorem 1.35 nonsingularity hypothesis",
+      "statement": "The domain excludes p*u+q*v=0; no value on that excluded stratum is asserted."
+    }
+  ],
+  "nonzero_conditions": [
+    {
+      "label": "DECLARED",
+      "source": "S001, Theorem 1.35",
+      "statement": "p*u+q*v is nonzero."
+    }
+  ],
+  "positivity_conditions": [],
+  "real_valued_functions": [],
+  "source_provenance": [
+    "S001"
+  ],
+  "symbol_assumptions": {
+    "alpha": {
+      "complex": true
+    },
+    "p": {
+      "complex": true
+    },
+    "q": {
+      "complex": true
+    },
+    "u": {
+      "complex": true
+    },
+    "v": {
+      "complex": true
+    }
+  }
+}

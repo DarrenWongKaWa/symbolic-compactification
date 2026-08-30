@@ -1,0 +1,19 @@
+{
+  "symbols": [
+    {
+      "name": "w",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "t",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s",
+      "nonzero": false,
+      "real": true
+    }
+  ]
+}

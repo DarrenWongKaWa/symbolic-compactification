@@ -1,0 +1,19 @@
+{
+  "text": "-1/(2*sqrt(x)*(sqrt(x) + sqrt(y))**2)",
+  "sha256": "6f36cc4101bfbf480bb782b2e45343974b39693f2db90a206e7a77311ecd410f",
+  "sha256_of_text": "458ad96ede09bb7063f2bf42b6a61fc9c43ec5beded5f4972c159fd28a147634",
+  "promoted_at_step": 1,
+  "symbols": [
+    {
+      "name": "x",
+      "real": true,
+      "nonzero": true
+    },
+    {
+      "name": "y",
+      "real": true,
+      "nonzero": true
+    }
+  ],
+  "functions": []
+}

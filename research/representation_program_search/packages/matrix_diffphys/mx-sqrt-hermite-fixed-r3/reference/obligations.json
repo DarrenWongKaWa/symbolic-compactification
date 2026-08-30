@@ -1,0 +1,16 @@
+{
+  "case_id": "mx-sqrt-hermite-fixed-r3",
+  "obligations": [
+    {
+      "candidate_path": "members/G0004.txt",
+      "candidate_sha256": "6f36cc4101bfbf480bb782b2e45343974b39693f2db90a206e7a77311ecd410f",
+      "current_path": "members/G0003.txt",
+      "current_sha256": "4fd4187d11d519231d6e727090fc4620d8f5d17b1fbafe250095b4211a6e559f",
+      "obligation_id": "Q0001",
+      "required": true,
+      "session_path": "verification/runs/20260830T111540Z-7343d2",
+      "verdict": "ZERO"
+    }
+  ],
+  "schema_version": "RPSObligationSetV1"
+}

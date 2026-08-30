@@ -1,0 +1,70 @@
+{
+  "case_id": "dp-oscillator-confluent-fixed-r4",
+  "diagnostic_evidence": [
+    {
+      "candidate_path": "reference/candidates/Q0001.txt",
+      "candidate_sha256": "7e38d1990215df1235dd7f7878b4f9470d81d7712248a83a8a335ab470f2f1f8",
+      "current_path": "members/G0001.txt",
+      "current_sha256": "48466d35b40d6b0983511c5557828d35ebed65040c5bd884251e364d320bf8b3",
+      "eligibility": "INELIGIBLE_RESTRICTED_REPLAY",
+      "obligation_id": "Q0001_REAL_DIAGNOSTIC",
+      "restriction": "w was changed from the source-declared complex domain to real; this replay cannot certify the source claim",
+      "session_path": "verification/runs/20260830T111904Z-6a347e",
+      "verdict": "ZERO"
+    }
+  ],
+  "obligations": [
+    {
+      "candidate_path": "reference/candidates/Q0001.txt",
+      "candidate_sha256": "7e38d1990215df1235dd7f7878b4f9470d81d7712248a83a8a335ab470f2f1f8",
+      "current_path": "members/G0001.txt",
+      "current_sha256": "48466d35b40d6b0983511c5557828d35ebed65040c5bd884251e364d320bf8b3",
+      "failure_class": "PROOF_REQUIRED_COMPLEX_DOMAIN",
+      "obligation_id": "Q0001",
+      "required": true,
+      "session_path": "verification/runs/20260830T111540Z-8f5972",
+      "verdict": "UNKNOWN"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0002.txt",
+      "candidate_sha256": "5130b4482c6dcaa978b332cbecabecf0faa7b4b8734705f4ff5da63cc374bd5a",
+      "current_path": "members/G0003.txt",
+      "current_sha256": "6f13084df878c94f447cb747206aa967150e6b5532610a5585c869ceaa4fa3b0",
+      "obligation_id": "Q0002",
+      "required": true,
+      "session_path": "verification/runs/20260830T111540Z-e8bce0",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0003.txt",
+      "candidate_sha256": "da3ea088158c93eca29bafea3f86b7e9ab61177049e5b564b5c52222f3bcf7de",
+      "current_path": "members/G0002.txt",
+      "current_sha256": "25c1d02139aea1c1db2c96f147fc6b813fd3dbf9e98a3dc20daf2b4d6006999a",
+      "obligation_id": "Q0003",
+      "required": true,
+      "session_path": "verification/runs/20260830T113039Z-eed90a",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0004.txt",
+      "candidate_sha256": "b11caa7b94d85fb403e6657fe43648e2999b1594d10a9aa2dfbceff317bdc245",
+      "current_path": "members/G0004.txt",
+      "current_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "obligation_id": "Q0004",
+      "required": true,
+      "session_path": "verification/runs/20260830T113039Z-b632ee",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0005.txt",
+      "candidate_sha256": "e3c4402863a59124964e6acceac62d4b9ffcd6c445031d10372ac9461406c6c4",
+      "current_path": "members/G0005.txt",
+      "current_sha256": "fe8edeeb98cc6d3b93cf2d57000254b84bd9eba34b4df7ce4b87db8b937b7703",
+      "obligation_id": "Q0005",
+      "required": true,
+      "session_path": "verification/runs/20260830T113039Z-0aa2db",
+      "verdict": "ZERO"
+    }
+  ],
+  "schema_version": "RPSObligationSetV1"
+}

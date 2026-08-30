@@ -1,0 +1,29 @@
+{
+  "symbols": [
+    {
+      "name": "alpha",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "u",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "v",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "p",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "q",
+      "nonzero": false,
+      "real": false
+    }
+  ]
+}

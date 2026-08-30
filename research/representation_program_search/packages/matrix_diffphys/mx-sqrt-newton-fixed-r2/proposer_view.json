@@ -1,0 +1,73 @@
+{
+  "assumptions": {
+    "analytic_domains": [
+      {
+        "label": "DECLARED",
+        "source": "S001, equation (1.1)",
+        "statement": "x and y lie on the positive real axis, where the scalar principal square root is smooth and single-valued."
+      }
+    ],
+    "branch_conventions": [
+      "sqrt denotes the nonnegative scalar square root on (0, infinity)."
+    ],
+    "derived_conditions": [],
+    "function_domains": {
+      "sqrt": "Unique positive scalar square root on (0, infinity); no complex branch is used."
+    },
+    "limit_domains": [],
+    "nonzero_conditions": [
+      {
+        "label": "DECLARED",
+        "source": "S002, section 5 distinct-site clause",
+        "statement": "x and y are distinct, so y-x is nonzero."
+      },
+      {
+        "label": "DERIVED",
+        "source": "x>0 and y>0",
+        "statement": "sqrt(x)+sqrt(y) is strictly positive and hence nonzero."
+      }
+    ],
+    "positivity_conditions": [
+      {
+        "label": "DECLARED",
+        "source": "S001 fixed positive diagonal specialization",
+        "statement": "x>0 and y>0."
+      }
+    ],
+    "real_valued_functions": [
+      "sqrt is real-valued and positive on (0, infinity)"
+    ],
+    "source_provenance": [
+      "S001",
+      "S002"
+    ],
+    "symbol_assumptions": {
+      "x": {
+        "positive": true,
+        "real": true
+      },
+      "y": {
+        "positive": true,
+        "real": true
+      }
+    }
+  },
+  "case_id": "MDF0001",
+  "schema_version": "RPSProposerViewV1",
+  "source_catalog": {
+    "case_id": "MDF0001",
+    "members": [
+      {
+        "member_id": "G0001",
+        "path": "members/G0001.txt",
+        "sha256": "29e6051c950e84cf899f1bbb8c4fec2bbe19ffbbe18df2fef88f13660d3f02d1"
+      },
+      {
+        "member_id": "G0002",
+        "path": "members/G0002.txt",
+        "sha256": "14875c3c6cdd938d3e08a346495ba464aa47497c099359487b6e22e6a7212a36"
+      }
+    ],
+    "schema_version": "RPSSourceCatalogV1"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "artifacts": [
+    {
+      "path": "assumptions.json",
+      "sha256": "c6afb7637b60d32ed4de06815f9c2e97c6cab33f8f0a4b4a2d077440fb5467a9"
+    },
+    {
+      "path": "members/G0001.txt",
+      "sha256": "5d39ac7ace31957faf7b5f5bcbfc1cc69c8dba1ddbbc4e639fa44888c67ca98b"
+    },
+    {
+      "path": "members/G0002.txt",
+      "sha256": "6cca406d22bb191e94a28e8d69ad6d61bdc71677cdc83dde8e2c7d8fcdc963e5"
+    },
+    {
+      "path": "members/G0003.txt",
+      "sha256": "c29f96b3b3ebbf12cd5007330be0975cf9226ff736015c339dfa67f2bd3aa0c3"
+    },
+    {
+      "path": "members/G0004.txt",
+      "sha256": "03d9cd1c24fe73db51e5b4dd6eedbe21167366541b592a6bb2bf90f0514d3d0f"
+    },
+    {
+      "path": "members/G0005.txt",
+      "sha256": "3d1dd50ce07cf11faa59491479f5ba3cea3b851f5db7d9224f953890b444f5d6"
+    },
+    {
+      "path": "proposer_view.json",
+      "sha256": "6cc72af9beaefec51b02c81ab113425cfbdfcb5f85f930a3e2b30c965b13f33f"
+    },
+    {
+      "path": "reference/candidates/Q0001.txt",
+      "sha256": "81fe39428a5e0501a499cdc548f85c24a3f0d1f89ac7a285c198cc11d4accc12"
+    },
+    {
+      "path": "reference/candidates/Q0002.txt",
+      "sha256": "8992e09a51247cbcf195ca48386382e7f228a48b2c030d3b2a9165fd4f59d14c"
+    },
+    {
+      "path": "reference/candidates/Q0003.txt",
+      "sha256": "9389af4d6fbb25654604d5f2f2b1f0295119155dc6688e236989859ac6d4df04"
+    },
+    {
+      "path": "reference/candidates/Q0004.txt",
+      "sha256": "116cbc7b22866cb578f1de4922d3e272ead5adb5d0a54bbb2a2857395c964b0a"
+    },
+    {
+      "path": "reference/obligations.json",
+      "sha256": "e350335d082f6d5b4985f85c3826ed4f78c7985f79c0b67fb74c5dbbf6118d20"
+    },
+    {
+      "path": "reference/program.json",
+      "sha256": "094dd04f150965385f8375099ec43746869b3624e46dd06c13bf813ca82bc65c"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "3fa5aa5559b0e41f9ce93d037a387ef6c21277c7d09660b01079641eda22b246"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "0a544e8de08f22569a1c68f883430021385b0e7de3c0c2d98c15ebade0fac2f2"
+    },
+    {
+      "path": "symbols.json",
+      "sha256": "32b2996fc2fd33915c47483311a3c5ad18da5c5c504f825fe6f2b04f694cddf1"
+    },
+    {
+      "path": "verification/runs/20260830T111540Z-241f63/final/current.json",
+      "sha256": "f028275b9d9b911df7bc6ed66274c8612b885509e95077d0359c3b7b7267201e"
+    },
+    {
+      "path": "verification/runs/20260830T111540Z-241f63/manifest.json",
+      "sha256": "14051e80a9f030c81af8b94b75e33760ff0c5d0c2ae43721fc3c60cc664de458"
+    },
+    {
+      "path": "verification/runs/20260830T111540Z-241f63/steps/step_001.json",
+      "sha256": "ff14376a0053a3dae96c3d734b25365a2494ca7467220a6759f7f83b213d5f37"
+    },
+    {
+      "path": "verification/runs/20260830T111540Z-80fbdc/final/current.json",
+      "sha256": "784daec79a6c54c2d83843c6d8f1e04edb242c39fffe6239509f864a3a033fbc"
+    },
+    {
+      "path": "verification/runs/20260830T111540Z-80fbdc/manifest.json",
+      "sha256": "4aaa6e974a7b7acb05abb31a21db24a9d59a344c02b6e50ef814526704e3d9c3"
+    },
+    {
+      "path": "verification/runs/20260830T111540Z-80fbdc/steps/step_001.json",
+      "sha256": "da4db01a79299ec9ab212cdb0b3467a5a36a3666957eaee05240203b6f23cad2"
+    },
+    {
+      "path": "verification/runs/20260830T113039Z-b633e0/final/current.json",
+      "sha256": "89f91e744c610067ae8aa1c64991129c7de89e1192bb34ee0a00a71aefd69f3c"
+    },
+    {
+      "path": "verification/runs/20260830T113039Z-b633e0/manifest.json",
+      "sha256": "4553d30ca5bc637daede38e1a139704045be331491e27efe8ee381d4543faccc"
+    },
+    {
+      "path": "verification/runs/20260830T113039Z-b633e0/steps/step_001.json",
+      "sha256": "6b38121a0c98f1887f3c2e275460e425908c0614ba906a74d6d17478c2c0604a"
+    },
+    {
+      "path": "verification/runs/20260830T113039Z-e89ee2/final/current.json",
+      "sha256": "7bc185e5dcc62738fa709271012f75868f0dbd1915f7c2b8aeeb86a8c600a619"
+    },
+    {
+      "path": "verification/runs/20260830T113039Z-e89ee2/manifest.json",
+      "sha256": "fa527dbf5014bdfbe43f454905d3c4702c64803222b63957c44b9de4f777079b"
+    },
+    {
+      "path": "verification/runs/20260830T113039Z-e89ee2/steps/step_001.json",
+      "sha256": "62287e01bd93b1b94ec05839589d4e106460a8c40c34751037190512a535a98c"
+    }
+  ],
+  "attempt_verdict_counts": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 4
+  },
+  "audited_depth": "R6",
+  "case_id": "mx-abba-exp-fixed-r6",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
+  "package_id": "mx-abba-exp-fixed-r6",
+  "package_status": "PACKAGE_READY",
+  "schema_version": "RPSCasePackageV1",
+  "source_dossier_id": "mx-ab-ba-functional-01",
+  "verdict_counts": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 4
+  }
+}

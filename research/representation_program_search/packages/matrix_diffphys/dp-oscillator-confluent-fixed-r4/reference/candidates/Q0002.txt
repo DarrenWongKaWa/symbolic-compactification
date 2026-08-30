@@ -1,0 +1,1 @@
+cos(w*t)*cos(w*s) - sin(w*t)*sin(w*s)

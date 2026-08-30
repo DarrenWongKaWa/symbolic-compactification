@@ -1,0 +1,46 @@
+{
+  "case_id": "mx-abba-exp-fixed-r6",
+  "obligations": [
+    {
+      "candidate_path": "reference/candidates/Q0001.txt",
+      "candidate_sha256": "81fe39428a5e0501a499cdc548f85c24a3f0d1f89ac7a285c198cc11d4accc12",
+      "current_path": "members/G0001.txt",
+      "current_sha256": "5d39ac7ace31957faf7b5f5bcbfc1cc69c8dba1ddbbc4e639fa44888c67ca98b",
+      "obligation_id": "Q0001",
+      "required": true,
+      "session_path": "verification/runs/20260830T111540Z-80fbdc",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0002.txt",
+      "candidate_sha256": "8992e09a51247cbcf195ca48386382e7f228a48b2c030d3b2a9165fd4f59d14c",
+      "current_path": "members/G0002.txt",
+      "current_sha256": "6cca406d22bb191e94a28e8d69ad6d61bdc71677cdc83dde8e2c7d8fcdc963e5",
+      "obligation_id": "Q0002",
+      "required": true,
+      "session_path": "verification/runs/20260830T111540Z-241f63",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0003.txt",
+      "candidate_sha256": "9389af4d6fbb25654604d5f2f2b1f0295119155dc6688e236989859ac6d4df04",
+      "current_path": "members/G0003.txt",
+      "current_sha256": "c29f96b3b3ebbf12cd5007330be0975cf9226ff736015c339dfa67f2bd3aa0c3",
+      "obligation_id": "Q0003",
+      "required": true,
+      "session_path": "verification/runs/20260830T113039Z-b633e0",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/candidates/Q0004.txt",
+      "candidate_sha256": "116cbc7b22866cb578f1de4922d3e272ead5adb5d0a54bbb2a2857395c964b0a",
+      "current_path": "members/G0004.txt",
+      "current_sha256": "03d9cd1c24fe73db51e5b4dd6eedbe21167366541b592a6bb2bf90f0514d3d0f",
+      "obligation_id": "Q0004",
+      "required": true,
+      "session_path": "verification/runs/20260830T113039Z-e89ee2",
+      "verdict": "ZERO"
+    }
+  ],
+  "schema_version": "RPSObligationSetV1"
+}

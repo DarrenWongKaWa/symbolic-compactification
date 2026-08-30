@@ -1,0 +1,120 @@
+{
+  "assumptions_used": [
+    "x>0",
+    "y>0",
+    "x!=y"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": [
+    {
+      "multiplicity": "x occurs twice and y occurs once",
+      "scope": "scalar spectral coefficient"
+    }
+  ],
+  "latent_objects": [
+    {
+      "core": "sqrt(z)",
+      "form": "FUNCTION_1",
+      "latent_id": "F0001",
+      "parameters": [
+        "z"
+      ]
+    }
+  ],
+  "member_assignments": {
+    "G0001": {
+      "operator_id": "O0001",
+      "reconstruction": "(sqrt(y) - sqrt(x))/(y - x)",
+      "verification": "BYTE_IDENTICAL_EXACT"
+    },
+    "G0002": {
+      "operator_id": "O0002",
+      "reconstruction": "sqrt(x)/(2*x)",
+      "verification": "BYTE_IDENTICAL_EXACT"
+    },
+    "G0003": {
+      "operator_id": "O0003",
+      "reconstruction": "(1/(sqrt(x) + sqrt(y)) - sqrt(x)/(2*x))/(y - x)",
+      "verification": "BYTE_IDENTICAL_EXACT"
+    },
+    "G0004": {
+      "operator_id": "O0004",
+      "reconstruction": "-1/(2*sqrt(x)*(sqrt(x) + sqrt(y))**2)",
+      "verification": "BYTE_IDENTICAL_EXACT"
+    }
+  },
+  "node_structures": [
+    {
+      "node_id": "N0001",
+      "nodes": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "node_id": "N0002",
+      "nodes": [
+        "x",
+        "x"
+      ]
+    },
+    {
+      "node_id": "N0003",
+      "nodes": [
+        "x",
+        "x",
+        "y"
+      ]
+    }
+  ],
+  "obligations": [
+    "Q0001"
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "nodes": "N0001"
+      },
+      "latent_id": "F0001",
+      "operator": "NEWTON_DD",
+      "operator_id": "O0001"
+    },
+    {
+      "arguments": {
+        "nodes": "N0002"
+      },
+      "latent_id": "F0001",
+      "operator": "HERMITE_DD",
+      "operator_id": "O0002"
+    },
+    {
+      "arguments": {
+        "nodes": "N0003",
+        "recursive_inputs": [
+          "O0001",
+          "O0002"
+        ]
+      },
+      "latent_id": "F0001",
+      "operator": "HERMITE_DD",
+      "operator_id": "O0003"
+    },
+    {
+      "arguments": {
+        "expression": "closed scalar form",
+        "input": "O0003"
+      },
+      "latent_id": "F0001",
+      "operator": "COMPOSE",
+      "operator_id": "O0004"
+    }
+  ],
+  "program_id": "8d039930dc3c8c4e29793cdeb8db83c5d7d2b522122b798541537495732a0ab7",
+  "reconstruction": {
+    "G0001": "O0001",
+    "G0002": "O0002",
+    "G0003": "O0003",
+    "G0004": "O0004"
+  },
+  "schema_version": "RepresentationProgramV1"
+}
