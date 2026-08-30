@@ -1,0 +1,97 @@
+{
+  "audit_date": "2026-08-30",
+  "audit_policy": "RPS_GAP_FILL_INDEPENDENT_ADMISSION_AUDIT_V1",
+  "package_source_commit": "8bab08d94efaedc4ab65b5b71a6d1252bf91c01e",
+  "reviews": {
+    "gf-cr3bp-2017-eq28": {
+      "admission_verdict": "NOT_ADMISSION_READY",
+      "assumption_findings": [
+        "P002 cites Eqs. (26)-(28), but the CR3BP source states only that alpha and beta are relative masses satisfying alpha+beta=1; it does not explicitly state the packaged strict positivity predicates.",
+        "P003's global distinct-node and noncollision restriction is mathematically relevant to the displayed divided-difference quotient, but the cited CR3BP passage does not state that package-wide restriction explicitly.",
+        "The cited Eq. (28) is in the following damped-oscillator section, not the CR3BP derivation."
+      ],
+      "assumption_status": "SOURCE_SUPPORT_INCOMPLETE",
+      "depth_findings": [
+        "One reciprocal-square-root latent is reused over four distinct scientific two-node structures.",
+        "Each member is exactly reconstructed by NEWTON_DD followed by a chain-rule linear factor.",
+        "G_PRIMITIVE cannot express the reference program because NEWTON_DD is named; this is an R2 calibration, not primitive-grammar invention."
+      ],
+      "independent_depth": "R2",
+      "leakage_findings": [
+        "No gold program, depth label, operator sequence, or hidden member role occurs in proposer_view.json.",
+        "The public case id is not opaque: it exposes CR3BP, year, and a misleading Eq. 28 tag.",
+        "The named NEWTON_DD primitive makes the source structure easy, so primitive-grammar failure must remain visible."
+      ],
+      "manual_duplicate_verdict": "NO_EXACT_OR_RENAMED_SCIENTIFIC_IDENTITY_FOUND",
+      "source_authenticity": "CONFIRMED_PRIMARY_SOURCE",
+      "source_findings": [
+        "The four package members match the four factorized reciprocal-square-root coordinate divided differences displayed in Section 5.3 after Eq. (27), under notation normalization.",
+        "The source is the Wan-Bihlo-Nave primary article, DOI 10.1137/16M110719X.",
+        "The package hash-binds a self-authored normalized dossier, but records no retrieved primary-source artifact bytes or source-content SHA-256."
+      ]
+    },
+    "gf-vdw-2013-eq1": {
+      "admission_verdict": "REJECT_R6_DEV_ADMISSION",
+      "assumption_findings": [
+        "P002 attributes positivity of T, N, k, a, b, and c to Deserno Eq. (1) and its following text, but that text only states that a, b, and c are constants independent of T, V, and N.",
+        "The real positive homogeneous-branch restriction is scientifically reasonable but is not source-bound at the cited locator as claimed.",
+        "P005 cites a NIST teqp compressibility definition, while the exact beta_T/K_T relation used by G0007 is supplied by source S004."
+      ],
+      "assumption_status": "SOURCE_SUPPORT_INCOMPLETE",
+      "depth_findings": [
+        "The alleged master F0001 is already exposed exactly as source member G0001 after parameter substitution.",
+        "The remaining members are familiar first derivatives, response derivatives, and textbook linear thermodynamic reconstructions from that exposed member.",
+        "F0002=1/z is used once only to wrap G0006 as G0007; it does not establish a reusable second master.",
+        "Five operator spellings and a branching graph demonstrate executable composition, but not an R6 representation change or latent-master discovery."
+      ],
+      "independent_depth": "R1_DERIVATIVE_RESPONSE_GRAPH",
+      "leakage_findings": [
+        "No gold program, depth label, operator sequence, or hidden member role occurs in proposer_view.json.",
+        "The public case id is not opaque: it exposes the van der Waals source identity and Eq. 1.",
+        "The source catalog itself exposes the Helmholtz master as G0001, making the proposed master relation familiar and direct."
+      ],
+      "manual_duplicate_verdict": "NO_EXACT_OR_RENAMED_SCIENTIFIC_IDENTITY_FOUND",
+      "source_authenticity": "CONFIRMED_AUTHORITATIVE_SOURCE_SET",
+      "source_findings": [
+        "Deserno Eq. (1) authenticates G0001, NIST teqp authenticates the derivative semantics, and Gor-Neimark Eqs. (5)-(6) authenticate reciprocal isothermal modulus/compressibility.",
+        "G0006 and G0007 are not linked to exact source claim C003 in lowering_provenance, despite C003 being their precise definition source.",
+        "G0008 links C002, but C002's hash-bound normalized formula omits the enthalpy relation used for that member.",
+        "The package hash-binds a self-authored normalized dossier, but records no retrieved primary/authoritative source artifact bytes or source-content SHA-256."
+      ]
+    }
+  },
+  "source_retrievals": [
+    {
+      "bytes": 612454,
+      "locator_verified": "Section 5.3, PDF pp. 18-19; reciprocal-square-root rule and four coordinate formulas",
+      "retrieved": "2026-08-30",
+      "sha256": "6f848482fbe359d9a2d2ff5b6b36adb0dbd88a57d8fb6262f301b506cc65eed7",
+      "source_id": "CR3BP_S001",
+      "url": "https://arxiv.org/pdf/1612.02417v1"
+    },
+    {
+      "bytes": 92897,
+      "locator_verified": "PDF p. 1, Eq. (1), Eqs. (5)-(6), and text immediately following Eq. (1)",
+      "retrieved": "2026-08-30",
+      "sha256": "10af6eb465322fd0654bb47c98d905e57864a4ac7a4d990867b7f037aa5bd4e0",
+      "source_id": "VDW_S001_S003",
+      "url": "https://www.cmu.edu/biolphys/deserno/pdf/van-der-Waals-and-Maxwell.pdf"
+    },
+    {
+      "bytes": 23742,
+      "locator_verified": "Helmholtz energy derivatives: pressure, internal energy, enthalpy, entropy, and c_v",
+      "retrieved": "2026-08-30",
+      "sha256": "ad660dae647df313922f18d8a722dc32a44ec93e2126f1afe57b330fb7cbf305",
+      "source_id": "VDW_S002",
+      "url": "https://pages.nist.gov/teqp-docs/en/latest/derivs/derivs.html"
+    },
+    {
+      "bytes": 406116,
+      "locator_verified": "PDF p. 5, Section II.B, Eqs. (5)-(6)",
+      "retrieved": "2026-08-30",
+      "sha256": "8a32fccbe233382fa94642542ea3118821d9233ecc9fba1c06ce6b802439ef37",
+      "source_id": "VDW_S004",
+      "url": "https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=921308"
+    }
+  ]
+}
