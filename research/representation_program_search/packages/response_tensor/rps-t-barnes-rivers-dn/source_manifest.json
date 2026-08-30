@@ -1,0 +1,55 @@
+{
+  "package_derivation": {
+    "fixed_instance": "d=5 Euclidean signature; scalar components (00;11) and (01;01)",
+    "index_mapping": {
+      "component_A": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "component_B": [
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "scope": "Exact reconstruction and completeness of two fixed scalar components. This finite-index replay is diagnostic and is not proof of the symbolic-dimension projector algebra or idempotence."
+  },
+  "schema_version": "RPSSourceManifestV1",
+  "source_dossier_id": "rps-t-barnes-rivers-dn",
+  "sources": [
+    {
+      "artifact": {
+        "retrieval_status": "CITATION_ONLY_NO_VENDORED_SNAPSHOT",
+        "url": "https://doi.org/10.1063/1.1704335"
+      },
+      "citation": "K. J. Barnes, Lagrangian Theory for the Second-Rank Tensor Field, J. Math. Phys. 6 (1965) 788-794, doi:10.1063/1.1704335.",
+      "equation_scope": "Projection conditions and the spin-2 decomposition in four dimensions; the package uses the explicit n-dimensional coefficient from Shapiro, not an inferred symbolic-d extension of Barnes.",
+      "locator": "Sec. 1, especially Eqs. (1.10)-(1.15), pp. 789-790",
+      "source_id": "barnes-1965",
+      "source_role": "PRIMARY_ORIGIN"
+    },
+    {
+      "artifact": {
+        "bytes_sha256": "ce6aade05ada3441ae1a6b19b42c8e14c601a4e5190eb7e44c1ce88c27177549",
+        "media_type": "application/pdf",
+        "retrieved_on": "2026-08-30",
+        "url": "https://arxiv.org/pdf/2210.12319",
+        "vendored": false
+      },
+      "citation": "I. L. Shapiro, The background information about perturbative quantum gravity, arXiv:2210.12319 (2022).",
+      "equation_transcriptions": [
+        "omega_mu_nu=k_mu*k_nu/k^2; theta_mu_nu=eta_mu_nu-omega_mu_nu",
+        "P2=1/2*(theta_mu_alpha*theta_nu_beta+theta_mu_beta*theta_nu_alpha)-theta_mu_nu*theta_alpha_beta/(n-1)",
+        "P1=1/2*(theta_mu_alpha*omega_nu_beta+theta_nu_alpha*omega_mu_beta+theta_mu_beta*omega_nu_alpha+theta_nu_beta*omega_mu_alpha)",
+        "P0s=theta_mu_nu*theta_alpha_beta/(n-1); P0w=omega_mu_nu*omega_alpha_beta",
+        "I=P2+P1+P0s+P0w"
+      ],
+      "locator": "Eqs. (67)-(69) and (76), pp. 20-21",
+      "source_id": "shapiro-2022-projectors",
+      "source_role": "EXACT_N_DIMENSIONAL_EQUATION_SOURCE"
+    }
+  ]
+}

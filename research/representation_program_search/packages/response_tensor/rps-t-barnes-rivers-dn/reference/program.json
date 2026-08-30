@@ -1,0 +1,177 @@
+{
+  "assumptions_used": [
+    "d=5",
+    "q=k^2 != 0",
+    "fixed Euclidean signature",
+    "fixed components (00;11) and (01;01)"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "component_A": {
+      "indices": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    "component_B": {
+      "indices": [
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "theta_00": {
+      "delta_uv": "1",
+      "u": "k0",
+      "v": "k0"
+    },
+    "theta_01": {
+      "delta_uv": "0",
+      "u": "k0",
+      "v": "k1"
+    },
+    "theta_11": {
+      "delta_uv": "1",
+      "u": "k1",
+      "v": "k1"
+    }
+  },
+  "latent_objects": [
+    {
+      "form": "TENSOR_GENERATOR",
+      "latent_id": "latent_theta",
+      "parameters": [
+        "u",
+        "v",
+        "delta_uv",
+        "q"
+      ],
+      "symbolic_core": "delta_uv-u*v/q"
+    },
+    {
+      "form": "TENSOR_GENERATOR",
+      "latent_id": "latent_omega",
+      "parameters": [
+        "u",
+        "v",
+        "q"
+      ],
+      "symbolic_core": "u*v/q"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_001",
+    "m002": "op_002",
+    "m003": "op_003",
+    "m004": "op_004",
+    "m005": "op_005",
+    "m006": "op_006",
+    "m007": "op_007",
+    "m008": "op_008"
+  },
+  "node_structures": [],
+  "obligations": [
+    "obligation_001"
+  ],
+  "operators": [
+    {
+      "arguments": [
+        "theta_01",
+        "theta_00",
+        "theta_11"
+      ],
+      "latent": "latent_theta",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_001",
+      "output": "m001"
+    },
+    {
+      "arguments": [
+        "theta_01",
+        "omega_01"
+      ],
+      "latent": "latent_theta",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_002",
+      "output": "m002"
+    },
+    {
+      "arguments": [
+        "theta_00",
+        "theta_11"
+      ],
+      "latent": "latent_theta",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_003",
+      "output": "m003"
+    },
+    {
+      "arguments": [
+        "omega_00",
+        "omega_11"
+      ],
+      "latent": "latent_omega",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_004",
+      "output": "m004"
+    },
+    {
+      "arguments": [
+        "theta_00",
+        "theta_11",
+        "theta_01"
+      ],
+      "latent": "latent_theta",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_005",
+      "output": "m005"
+    },
+    {
+      "arguments": [
+        "theta_00",
+        "theta_01",
+        "theta_11",
+        "omega_00",
+        "omega_01",
+        "omega_11"
+      ],
+      "latent": "latent_theta",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_006",
+      "output": "m006"
+    },
+    {
+      "arguments": [
+        "theta_01"
+      ],
+      "latent": "latent_theta",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_007",
+      "output": "m007"
+    },
+    {
+      "arguments": [
+        "omega_01"
+      ],
+      "latent": "latent_omega",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_008",
+      "output": "m008"
+    }
+  ],
+  "program_id": "ecd48ec2884ed7d1d0c48aeeeda09b3fba0ce81454e13e63869b2a3c2686aec3",
+  "reconstruction": {
+    "m001": "reference/reconstructions/m001.txt",
+    "m002": "reference/reconstructions/m002.txt",
+    "m003": "reference/reconstructions/m003.txt",
+    "m004": "reference/reconstructions/m004.txt",
+    "m005": "reference/reconstructions/m005.txt",
+    "m006": "reference/reconstructions/m006.txt",
+    "m007": "reference/reconstructions/m007.txt",
+    "m008": "reference/reconstructions/m008.txt"
+  },
+  "schema_version": "RepresentationProgramV1"
+}

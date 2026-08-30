@@ -1,0 +1,56 @@
+{
+  "assumption_status": null,
+  "candidate_hash": "2596cce6e13ebcf1de79d56f280bce2810172558e7d0ea6f68a0481613878a29",
+  "candidate_text": "tag_001*((1/(eps-hqq))*hqp*psi_p)+tag_002*(hpq*(1/(eps-hqq))*hqp)+tag_003*(hpp+hpq*(1/(eps-hqq))*hqp)+tag_004*(eps-(hpp+hpq*(1/(eps-hqq))*hqp))+tag_005*(eps-hpp-hpq*(1/(eps-hqq))*hqp)",
+  "current_hash": "049819161f8937e0d851fce65006923117b9b51ad7c3de82e790d440439ae8f5",
+  "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+  "engine_version": "0.3.0",
+  "evidence": [
+    {
+      "assumptions_status": "DECLARED",
+      "candidate_id": "rt-feshbach-scalar-reconstruction",
+      "confidence": "high",
+      "conjecture_packet_sha256": null,
+      "harness_task_or_subagent_id": null,
+      "invocation_mode": "main_agent",
+      "invocation_timestamp": "2026-08-30T11:17:15Z",
+      "invoked_at": "2026-08-30T11:17:15Z",
+      "kind": "proposer_candidate",
+      "parent_agent_step": 0,
+      "parent_step_index": 0,
+      "proposal_sha256": "a734cd0351d4a92fc5eac4c51d4e23ae7e484bee787c8a9a680cd370663b796b",
+      "proposal_timestamp": "2026-08-30T11:17:15Z",
+      "returned_at": null,
+      "role": "STRUCTURAL_PROPOSER",
+      "subagent_id": null,
+      "unavailable": false
+    }
+  ],
+  "proof_status": "HYPOTHESIS",
+  "residual": null,
+  "status": "HYPOTHESIS",
+  "step": 1,
+  "telemetry": {
+    "agent_protocol_version": "0.3.0",
+    "engine_version": "0.3.0",
+    "primitive": "proposal",
+    "proposal": {
+      "assumptions_status": "DECLARED",
+      "candidate_expression_or_rewrite": "tag_001*((1/(eps-hqq))*hqp*psi_p)+tag_002*(hpq*(1/(eps-hqq))*hqp)+tag_003*(hpp+hpq*(1/(eps-hqq))*hqp)+tag_004*(eps-(hpp+hpq*(1/(eps-hqq))*hqp))+tag_005*(eps-hpp-hpq*(1/(eps-hqq))*hqp)",
+      "candidate_id": "rt-feshbach-scalar-reconstruction",
+      "confidence": "high",
+      "expected_structural_benefit": "Shared latent structure reconstructs every tagged source member without per-member memorization.",
+      "hypothesis": "One shared scalar pole kernel may reconstruct all five fixed block members.",
+      "rationale": "The candidate is the explicit evaluator-only reconstruction compiled from the reference program.",
+      "required_assumptions": [
+        "All scientific assumptions are already declared in assumptions.json."
+      ],
+      "status": "HYPOTHESIS",
+      "suggested_verification_strategy": "Exact component-tagged direct-sum residual under the declared symbols."
+    },
+    "verdict": null,
+    "wall_time_seconds": 0.0
+  },
+  "timestamp": "2026-08-30T11:17:15Z",
+  "verdict": "UNKNOWN"
+}

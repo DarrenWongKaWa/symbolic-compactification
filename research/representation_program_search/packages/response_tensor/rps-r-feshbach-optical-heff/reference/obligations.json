@@ -1,0 +1,22 @@
+{
+  "obligations": [
+    {
+      "candidate_path": "reference/obligation_candidate.txt",
+      "candidate_sha256": "9dea687485a7b336973c4b8677f0269b3c642f4fc5c5e10eac22cb84ead9f29c",
+      "component_tags": {
+        "tag_001": "m001",
+        "tag_002": "m002",
+        "tag_003": "m003",
+        "tag_004": "m004",
+        "tag_005": "m005"
+      },
+      "current_path": "reference/obligation_current.txt",
+      "current_sha256": "049819161f8937e0d851fce65006923117b9b51ad7c3de82e790d440439ae8f5",
+      "exactness_note": "Independent tag indeterminates make this direct sum equivalent to the five component identities.",
+      "obligation_id": "obligation_001",
+      "run_path": "verification/obligation_001/runs/20260830T111715Z-48b9b3",
+      "verdict": "ZERO"
+    }
+  ],
+  "schema_version": "RPSObligationsV1"
+}

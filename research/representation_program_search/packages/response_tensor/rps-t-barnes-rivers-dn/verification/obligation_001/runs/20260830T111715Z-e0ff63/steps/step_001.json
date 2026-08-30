@@ -1,0 +1,56 @@
+{
+  "assumption_status": null,
+  "candidate_hash": "52d001db1fca18d8feb4e65765f1e77fb79a368123b9bffd542f959bd504757c",
+  "candidate_text": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)",
+  "current_hash": "83e7fd02ca7c0b52812a1ee3474e2c781f11f792420f8a654310017c5299cfae",
+  "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+  "engine_version": "0.3.0",
+  "evidence": [
+    {
+      "assumptions_status": "DECLARED",
+      "candidate_id": "rt-barnes-fixed-basis",
+      "confidence": "high",
+      "conjecture_packet_sha256": null,
+      "harness_task_or_subagent_id": null,
+      "invocation_mode": "main_agent",
+      "invocation_timestamp": "2026-08-30T11:17:15Z",
+      "invoked_at": "2026-08-30T11:17:15Z",
+      "kind": "proposer_candidate",
+      "parent_agent_step": 0,
+      "parent_step_index": 0,
+      "proposal_sha256": "6eedc87c50d15e9db1cf3e8999f37a92a60211d549fe275d317b2810bbe4f6db",
+      "proposal_timestamp": "2026-08-30T11:17:15Z",
+      "returned_at": null,
+      "role": "STRUCTURAL_PROPOSER",
+      "subagent_id": null,
+      "unavailable": false
+    }
+  ],
+  "proof_status": "HYPOTHESIS",
+  "residual": null,
+  "status": "HYPOTHESIS",
+  "step": 1,
+  "telemetry": {
+    "agent_protocol_version": "0.3.0",
+    "engine_version": "0.3.0",
+    "primitive": "proposal",
+    "proposal": {
+      "assumptions_status": "DECLARED",
+      "candidate_expression_or_rewrite": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)",
+      "candidate_id": "rt-barnes-fixed-basis",
+      "confidence": "high",
+      "expected_structural_benefit": "Shared latent structure reconstructs every tagged source member without per-member memorization.",
+      "hypothesis": "Two shared rank-one scalar kernels may reconstruct the eight fixed basis components and their completeness sums.",
+      "rationale": "The candidate is the explicit evaluator-only reconstruction compiled from the reference program.",
+      "required_assumptions": [
+        "All scientific assumptions are already declared in assumptions.json."
+      ],
+      "status": "HYPOTHESIS",
+      "suggested_verification_strategy": "Exact component-tagged direct-sum residual under the declared symbols."
+    },
+    "verdict": null,
+    "wall_time_seconds": 0.0
+  },
+  "timestamp": "2026-08-30T11:17:15Z",
+  "verdict": "UNKNOWN"
+}

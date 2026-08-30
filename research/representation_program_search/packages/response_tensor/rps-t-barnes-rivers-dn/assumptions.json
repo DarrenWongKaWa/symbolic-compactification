@@ -1,0 +1,52 @@
+{
+  "assumption_contract_status": "COMPLETE_AS_WRITTEN",
+  "derived": [
+    {
+      "label": "DERIVED",
+      "predicate": "At d=5 the transverse-trace coefficient 1/(d-1) equals 1/4."
+    }
+  ],
+  "lowering_assumptions": [
+    {
+      "label": "DECLARED",
+      "predicate": "Euclidean fixed signature eta=diag(1,1,1,1,1) is used, and only components (00;11) and (01;01) are replayed.",
+      "source_locator": "The dossier permits any fixed nondegenerate signature; Shapiro Eq. (67) supplies eta, theta, and omega."
+    },
+    {
+      "label": "DECLARED",
+      "predicate": "q denotes the complete Euclidean momentum square k^2; k0 and k1 are the only components occurring in the selected scalar components."
+    }
+  ],
+  "scientific_assumptions": [
+    {
+      "label": "DECLARED",
+      "predicate": "d=5"
+    },
+    {
+      "label": "DECLARED",
+      "predicate": "q=k^2 != 0",
+      "reason": "theta and omega contain the rational denominator k^2."
+    },
+    {
+      "label": "DECLARED",
+      "predicate": "k0, k1, and q are real."
+    }
+  ],
+  "verification_only_symbols": [
+    {
+      "names": [
+        "tag_001",
+        "tag_002",
+        "tag_003",
+        "tag_004",
+        "tag_005",
+        "tag_006",
+        "tag_007",
+        "tag_008",
+        "tag_009",
+        "tag_010"
+      ],
+      "purpose": "Independent indeterminates for a component-tagged direct-sum obligation; they are not tensor or momentum components."
+    }
+  ]
+}

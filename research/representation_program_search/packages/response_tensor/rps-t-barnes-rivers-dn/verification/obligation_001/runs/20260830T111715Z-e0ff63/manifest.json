@@ -1,0 +1,287 @@
+{
+  "agent_protocol_version": "0.3.0",
+  "created_at": "2026-08-30T11:17:15Z",
+  "current": {
+    "functions": [],
+    "parsed_expr": "-2*k0**2*k1**2*tag_002/q**2 + k0**2*k1**2*tag_004/q**2 + k0**2*k1**2*tag_007/(4*q**2) + k0**2*k1**2*tag_008/q**2 + tag_001*(k0**2*k1**2/q**2 - (-k0**2/q + 1)*(-k1**2/q + 1)/4) + tag_003*(-k0**2/q + 1)*(-k1**2/q + 1)/4 + tag_005*(k0**2*k1**2/(4*q**2) + (-k0**2/q + 1)*(-k1**2/q + 1)/2) + tag_006*(-k0**2*k1**2/q**2 + k0**2*(-k1**2/q + 1)/(2*q) + k1**2*(-k0**2/q + 1)/(2*q)) + tag_010/2",
+    "sha256": "094096d4aaad34fda72a10178a3eda265e2027b73c516042a5a62906f968b719",
+    "source_path": "research/representation_program_search/packages/response_tensor/rps-t-barnes-rivers-dn/reference/obligation_candidate.txt",
+    "symbols": [
+      {
+        "name": "k0",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "k1",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "q",
+        "nonzero": true,
+        "real": true
+      },
+      {
+        "name": "tag_001",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_002",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_003",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_004",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_005",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_006",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_007",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_008",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_009",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_010",
+        "nonzero": false,
+        "real": true
+      }
+    ],
+    "text": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)"
+  },
+  "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+  "engine_version": "0.3.0",
+  "meta": {
+    "agent_protocol": "record_proposal",
+    "cli": "step"
+  },
+  "policies": {
+    "budget": {
+      "cancel_seconds": 15.0,
+      "equals_seconds": 10.0,
+      "expand_complex_seconds": 10.0,
+      "expand_seconds": 15.0,
+      "factor_seconds": 15.0,
+      "factor_terms_seconds": 15.0,
+      "finite_expand_seconds": 15.0,
+      "kill_grace_seconds": 2.0,
+      "mode": "process",
+      "probe_simplify_seconds": 10.0,
+      "residual_seconds": 15.0,
+      "simplify_seconds": 30.0,
+      "together_seconds": 15.0
+    },
+    "parse": {
+      "allowed_functions": [
+        "Abs",
+        "Rational",
+        "acos",
+        "asin",
+        "atan",
+        "atan2",
+        "conjugate",
+        "cos",
+        "cosh",
+        "exp",
+        "im",
+        "log",
+        "polygamma",
+        "re",
+        "sin",
+        "sinh",
+        "sqrt",
+        "tan",
+        "tanh"
+      ],
+      "max_expr_chars": 65536,
+      "max_integer_digits": 256,
+      "max_nesting_depth": 256,
+      "max_nodes": 8000,
+      "max_numeric_exponent": 10000,
+      "max_symbols": 40,
+      "max_tokens": 16000
+    },
+    "transform": {
+      "ops_cap": 8000
+    },
+    "verify": {
+      "simplify_ops_cap": 8000,
+      "structure_first_threshold": 200
+    }
+  },
+  "repository_version": "0.3.0",
+  "requested_arm": null,
+  "requested_proposer_mode": "main",
+  "run_id": "20260830T111715Z-e0ff63",
+  "steps": [
+    {
+      "assumption_status": null,
+      "candidate_hash": "52d001db1fca18d8feb4e65765f1e77fb79a368123b9bffd542f959bd504757c",
+      "candidate_text": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)",
+      "current_hash": "83e7fd02ca7c0b52812a1ee3474e2c781f11f792420f8a654310017c5299cfae",
+      "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+      "engine_version": "0.3.0",
+      "evidence": [
+        {
+          "assumptions_status": "DECLARED",
+          "candidate_id": "rt-barnes-fixed-basis",
+          "confidence": "high",
+          "conjecture_packet_sha256": null,
+          "harness_task_or_subagent_id": null,
+          "invocation_mode": "main_agent",
+          "invocation_timestamp": "2026-08-30T11:17:15Z",
+          "invoked_at": "2026-08-30T11:17:15Z",
+          "kind": "proposer_candidate",
+          "parent_agent_step": 0,
+          "parent_step_index": 0,
+          "proposal_sha256": "6eedc87c50d15e9db1cf3e8999f37a92a60211d549fe275d317b2810bbe4f6db",
+          "proposal_timestamp": "2026-08-30T11:17:15Z",
+          "returned_at": null,
+          "role": "STRUCTURAL_PROPOSER",
+          "subagent_id": null,
+          "unavailable": false
+        }
+      ],
+      "proof_status": "HYPOTHESIS",
+      "residual": null,
+      "status": "HYPOTHESIS",
+      "step": 1,
+      "telemetry": {
+        "agent_protocol_version": "0.3.0",
+        "engine_version": "0.3.0",
+        "primitive": "proposal",
+        "proposal": {
+          "assumptions_status": "DECLARED",
+          "candidate_expression_or_rewrite": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)",
+          "candidate_id": "rt-barnes-fixed-basis",
+          "confidence": "high",
+          "expected_structural_benefit": "Shared latent structure reconstructs every tagged source member without per-member memorization.",
+          "hypothesis": "Two shared rank-one scalar kernels may reconstruct the eight fixed basis components and their completeness sums.",
+          "rationale": "The candidate is the explicit evaluator-only reconstruction compiled from the reference program.",
+          "required_assumptions": [
+            "All scientific assumptions are already declared in assumptions.json."
+          ],
+          "status": "HYPOTHESIS",
+          "suggested_verification_strategy": "Exact component-tagged direct-sum residual under the declared symbols."
+        },
+        "verdict": null,
+        "wall_time_seconds": 0.0
+      },
+      "timestamp": "2026-08-30T11:17:15Z",
+      "verdict": "UNKNOWN"
+    },
+    {
+      "assumption_status": "DECLARED",
+      "candidate_hash": "094096d4aaad34fda72a10178a3eda265e2027b73c516042a5a62906f968b719",
+      "candidate_text": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)",
+      "current_hash": "83e7fd02ca7c0b52812a1ee3474e2c781f11f792420f8a654310017c5299cfae",
+      "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+      "engine_version": "0.3.0",
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ],
+      "proof_status": "PROVEN",
+      "residual": "0",
+      "status": "CERTIFIED",
+      "step": 2,
+      "telemetry": {
+        "agent_protocol_version": "0.3.0",
+        "count_ops_after": 97,
+        "count_ops_before_reason": "PARSE_UNAVAILABLE",
+        "engine_version": "0.3.0",
+        "input_chars": 655,
+        "output_chars": 360,
+        "policies": {
+          "budget": {
+            "cancel_seconds": 15.0,
+            "equals_seconds": 10.0,
+            "expand_complex_seconds": 10.0,
+            "expand_seconds": 15.0,
+            "factor_seconds": 15.0,
+            "factor_terms_seconds": 15.0,
+            "finite_expand_seconds": 15.0,
+            "kill_grace_seconds": 2.0,
+            "mode": "process",
+            "probe_simplify_seconds": 10.0,
+            "residual_seconds": 15.0,
+            "simplify_seconds": 30.0,
+            "together_seconds": 15.0
+          },
+          "parse": {
+            "allowed_functions": [
+              "Abs",
+              "Rational",
+              "acos",
+              "asin",
+              "atan",
+              "atan2",
+              "conjugate",
+              "cos",
+              "cosh",
+              "exp",
+              "im",
+              "log",
+              "polygamma",
+              "re",
+              "sin",
+              "sinh",
+              "sqrt",
+              "tan",
+              "tanh"
+            ],
+            "max_expr_chars": 65536,
+            "max_integer_digits": 256,
+            "max_nesting_depth": 256,
+            "max_nodes": 8000,
+            "max_numeric_exponent": 10000,
+            "max_symbols": 40,
+            "max_tokens": 16000
+          },
+          "transform": {
+            "ops_cap": 8000
+          },
+          "verify": {
+            "simplify_ops_cap": 8000,
+            "structure_first_threshold": 200
+          }
+        },
+        "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+        "repository_version": "0.3.0",
+        "timeout_status": "ok",
+        "verdict": "ZERO",
+        "wall_time_seconds": 0.495
+      },
+      "timestamp": "2026-08-30T11:17:16Z",
+      "verdict": "ZERO"
+    }
+  ]
+}

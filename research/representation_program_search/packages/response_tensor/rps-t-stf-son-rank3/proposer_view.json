@@ -1,0 +1,62 @@
+{
+  "assumptions": [
+    "The fixed dimension is 5 and the fixed metric is Euclidean.",
+    "The source scalars are components of a fully symmetric real rank-3 tensor.",
+    "The ten members are two fixed index slices with the coefficient denominator 7 nonzero."
+  ],
+  "source_catalog": {
+    "members": [
+      {
+        "member_id": "m001",
+        "path": "members/m001.txt",
+        "sha256": "9632e49d83cb70ffcc9207adbd19366a27f355ee3fa0e1ba4b62e5843a8f33a5"
+      },
+      {
+        "member_id": "m002",
+        "path": "members/m002.txt",
+        "sha256": "6d9e9e9f23c76b36a680ed140eb0dff1145df144dc90473146c101dd380fd110"
+      },
+      {
+        "member_id": "m003",
+        "path": "members/m003.txt",
+        "sha256": "b24d6e7b7e2023fd57c341865b983881d97363982c777c75f2bda72cf313a142"
+      },
+      {
+        "member_id": "m004",
+        "path": "members/m004.txt",
+        "sha256": "f12fbdbb8f025247915ff51c50c6f9150cbad5690999d0280e2c380566ae89e8"
+      },
+      {
+        "member_id": "m005",
+        "path": "members/m005.txt",
+        "sha256": "799c4865789e9ebd3bbff60c6bd1e949188746d8833d8aef1d601b5b87344d77"
+      },
+      {
+        "member_id": "m006",
+        "path": "members/m006.txt",
+        "sha256": "8216cf24880efb8d535b93ac5851dd00973a1bcbfe78f23b8d4c213b2d564f64"
+      },
+      {
+        "member_id": "m007",
+        "path": "members/m007.txt",
+        "sha256": "3b0a52356bd8937e13c79e0c9365e37f66cc47edf6e3325805187dfddc2aae24"
+      },
+      {
+        "member_id": "m008",
+        "path": "members/m008.txt",
+        "sha256": "009708f3887bfaf988d49e912dbf7932ca74ba4dcd824c4f47a33cea46856831"
+      },
+      {
+        "member_id": "m009",
+        "path": "members/m009.txt",
+        "sha256": "c506f133b8242051ac000970dabe121ff35b8d3bb7658043107034bc6630bd67"
+      },
+      {
+        "member_id": "m010",
+        "path": "members/m010.txt",
+        "sha256": "a046f2344805ee170d066e4814cacc7394bec02bda24b3860cb6581f24abeeaa"
+      }
+    ],
+    "symbols_path": "symbols.json"
+  }
+}

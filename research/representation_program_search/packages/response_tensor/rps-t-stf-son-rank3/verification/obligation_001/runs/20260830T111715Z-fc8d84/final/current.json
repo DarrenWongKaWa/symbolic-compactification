@@ -1,0 +1,119 @@
+{
+  "functions": [],
+  "promoted_at_step": 2,
+  "sha256": "a6b4bbcf9b8fca631b5ed3fee777866cba1b12fc01f332353ace5113833bcbf7",
+  "sha256_of_text": "6f384bb09be49a38280c17ddbcb67877065b5d7ca13d26dd557da48ff8137f8c",
+  "symbols": [
+    {
+      "name": "s111",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s112",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s122",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s133",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s144",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s155",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s222",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s233",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s244",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "s255",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_001",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_002",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_003",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_004",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_005",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_006",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_007",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_008",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_009",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_010",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_011",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "tag_012",
+      "nonzero": false,
+      "real": true
+    }
+  ],
+  "text": "tag_001*(s111-3*(s111+s122+s133+s144+s155)/7)+tag_002*(s122-(s111+s122+s133+s144+s155)/7)+tag_003*(s133-(s111+s122+s133+s144+s155)/7)+tag_004*(s144-(s111+s122+s133+s144+s155)/7)+tag_005*(s155-(s111+s122+s133+s144+s155)/7)+tag_006*(s112-(s112+s222+s233+s244+s255)/7)+tag_007*(s222-3*(s112+s222+s233+s244+s255)/7)+tag_008*(s233-(s112+s222+s233+s244+s255)/7)+tag_009*(s244-(s112+s222+s233+s244+s255)/7)+tag_010*(s255-(s112+s222+s233+s244+s255)/7)+tag_011*0+tag_012*0"
+}

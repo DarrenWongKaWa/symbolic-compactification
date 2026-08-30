@@ -1,0 +1,114 @@
+{
+  "cases": [
+    {
+      "case_id": "rps-r-birman-schwinger-kernel",
+      "cluster": "response",
+      "disposition": "PROBLEM_UNDERSPECIFIED",
+      "reason": "The dossier leaves the potential class, square-root convention, compactness hypotheses, and bound-state domain open. Supplying them in a package would add scientific assumptions rather than merely lower a declared problem."
+    },
+    {
+      "case_id": "rps-r-faddeeva-plasma-z",
+      "cluster": "response",
+      "disposition": "PACKAGING_GAP",
+      "reason": "The scientific identity needs erf/erfc or an integral plus analytic continuation, none of which is available in the frozen scalar parser. Declaring an opaque function would make equality a tautological string replay rather than verify the special-function representation."
+    },
+    {
+      "case_id": "rps-r-fano-beutler-profile",
+      "cluster": "response",
+      "disposition": "REJECT_DEPTH",
+      "reason": "The exact scalar profile is a single low-depth parameter family. The dossier's proposed R4 claim depends on approximate physical regimes, not an exact operational representation change."
+    },
+    {
+      "case_id": "rps-r-feshbach-optical-heff",
+      "cluster": "response",
+      "disposition": "PACKAGE_READY",
+      "package_path": "rps-r-feshbach-optical-heff",
+      "reason": "A declared one-P/one-Q scientific instance is exactly expressible, reconstructs five source members from one resolvent master, and has a retained ZERO session."
+    },
+    {
+      "case_id": "rps-r-krein-spectral-shift",
+      "cluster": "response",
+      "disposition": "PACKAGING_GAP",
+      "reason": "The perturbation determinant, trace-class operator semantics, boundary values, and Cauchy-transform relation cannot be represented by the frozen scalar parser without replacing the scientific object by opaque symbols."
+    },
+    {
+      "case_id": "rps-r-lorentz-causal-poles",
+      "cluster": "response",
+      "disposition": "REJECT_DEPTH",
+      "reason": "The exact pole factorization is a low-depth rational parameter family. The higher-depth dossier narrative is asymptotic/regime language rather than an exact piecewise reconstruction."
+    },
+    {
+      "case_id": "rps-r-schrieffer-wolff-denom",
+      "cluster": "response",
+      "disposition": "REJECT_SCOPE",
+      "reason": "The proposed effective Hamiltonian is truncated at O(V^3). Certifying it requires remainder semantics, which this experiment explicitly excludes; the denominator alone is only R2."
+    },
+    {
+      "case_id": "rps-r-weyl-titchmarsh-m",
+      "cluster": "response",
+      "disposition": "PACKAGING_GAP",
+      "reason": "The ODE solution space, Wronskian, boundary condition, operator Green kernel, and Herglotz-domain semantics are outside the frozen scalar parser. A fixed scalar replay would discard the defining scientific content."
+    },
+    {
+      "case_id": "rps-t-barnes-rivers-dn",
+      "cluster": "tensor",
+      "disposition": "PACKAGE_READY",
+      "package_path": "rps-t-barnes-rivers-dn",
+      "reason": "Two declared d=5 Euclidean components admit exact reconstruction and completeness checks with a retained ZERO session. This is FINITE_INDEX_DIAGNOSTIC evidence only."
+    },
+    {
+      "case_id": "rps-t-dirac-gamma-completeness",
+      "cluster": "tensor",
+      "disposition": "DUPLICATE_REVIEW",
+      "reason": "The operational target is a generator-completeness/Fierz identity structurally near the historical Pauli-completeness family. It is withheld pending an independent duplicate audit."
+    },
+    {
+      "case_id": "rps-t-riemann-young-22",
+      "cluster": "tensor",
+      "disposition": "DUPLICATE_REVIEW",
+      "reason": "The target is structurally near the historical S3 Young-projector family; changing rank and partition does not by itself establish a fresh representation identity."
+    },
+    {
+      "case_id": "rps-t-stf-son-rank3",
+      "cluster": "tensor",
+      "disposition": "PACKAGE_READY",
+      "package_path": "rps-t-stf-son-rank3",
+      "reason": "Two declared n=5 trace slices admit exact reconstruction and vanishing-trace checks with a retained ZERO session. This is FINITE_INDEX_DIAGNOSTIC evidence only."
+    },
+    {
+      "case_id": "rps-t-su3-d-contractions",
+      "cluster": "tensor",
+      "disposition": "PACKAGING_GAP",
+      "reason": "The frozen scalar parser has no indexed tensor or contraction semantics. Tabulating fixed d/f-symbol entries would collapse the target to arithmetic and would not operationally reconstruct the invariant tensor."
+    },
+    {
+      "case_id": "rps-t-su3-gellmann-fierz",
+      "cluster": "tensor",
+      "disposition": "DUPLICATE_REVIEW",
+      "reason": "The generator-completeness target is structurally near historical Pauli completeness. A finite entry table would not establish freshness or a distinct operational abstraction."
+    },
+    {
+      "case_id": "rps-t-su3-octet-projectors",
+      "cluster": "tensor",
+      "disposition": "PACKAGING_GAP",
+      "reason": "Full 8 tensor 8 projector composition and index contraction are unavailable in the frozen scalar parser. Fixed numeric entries would be a grammar-revealing arithmetic table, not a certified invariant-basis reconstruction."
+    },
+    {
+      "case_id": "rps-t-weyl-selfdual-4d",
+      "cluster": "tensor",
+      "disposition": "DUPLICATE_REVIEW",
+      "reason": "The self-dual split remains near the historical Ricci-Weyl decomposition family and is withheld rather than treated as a fresh R8 success."
+    }
+  ],
+  "excluded_historical_policy": "No Guo or historical/near-duplicate identity is packaged. Duplicate-review cases remain non-admissible.",
+  "schema_version": "RPSPackagingDispositionV1",
+  "summary": {
+    "DUPLICATE_REVIEW": 4,
+    "PACKAGE_READY": 3,
+    "PACKAGING_GAP": 5,
+    "PROBLEM_UNDERSPECIFIED": 1,
+    "REJECT_DEPTH": 2,
+    "REJECT_SCOPE": 1,
+    "total": 16
+  }
+}

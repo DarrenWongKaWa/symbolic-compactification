@@ -1,0 +1,199 @@
+{
+  "assumptions_used": [
+    "n=5",
+    "fully symmetric real rank-3 tensor",
+    "Euclidean Cartesian metric",
+    "fixed trace-vector slices k=1 and k=2"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "trace_slice_1": {
+      "u0": "s111",
+      "u1": "s122",
+      "u2": "s133",
+      "u3": "s144",
+      "u4": "s155"
+    },
+    "trace_slice_2": {
+      "u0": "s112",
+      "u1": "s222",
+      "u2": "s233",
+      "u3": "s244",
+      "u4": "s255"
+    }
+  },
+  "latent_objects": [
+    {
+      "form": "TENSOR_GENERATOR",
+      "latent_id": "latent_trace_family",
+      "parameters": [
+        "u0",
+        "u1",
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "symbolic_core": "u0+u1+u2+u3+u4"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_003",
+    "m002": "op_004",
+    "m003": "op_005",
+    "m004": "op_006",
+    "m005": "op_007",
+    "m006": "op_008",
+    "m007": "op_009",
+    "m008": "op_010",
+    "m009": "op_011",
+    "m010": "op_012"
+  },
+  "node_structures": [],
+  "obligations": [
+    "obligation_001"
+  ],
+  "operators": [
+    {
+      "arguments": [
+        "trace_slice_1"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "SUBSTITUTE",
+      "operator_id": "op_001",
+      "output": "trace_1"
+    },
+    {
+      "arguments": [
+        "trace_slice_2"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "SUBSTITUTE",
+      "operator_id": "op_002",
+      "output": "trace_2"
+    },
+    {
+      "arguments": [
+        "s111",
+        "trace_1",
+        "3/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_003",
+      "output": "m001"
+    },
+    {
+      "arguments": [
+        "s122",
+        "trace_1",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_004",
+      "output": "m002"
+    },
+    {
+      "arguments": [
+        "s133",
+        "trace_1",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_005",
+      "output": "m003"
+    },
+    {
+      "arguments": [
+        "s144",
+        "trace_1",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_006",
+      "output": "m004"
+    },
+    {
+      "arguments": [
+        "s155",
+        "trace_1",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_007",
+      "output": "m005"
+    },
+    {
+      "arguments": [
+        "s112",
+        "trace_2",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_008",
+      "output": "m006"
+    },
+    {
+      "arguments": [
+        "s222",
+        "trace_2",
+        "3/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_009",
+      "output": "m007"
+    },
+    {
+      "arguments": [
+        "s233",
+        "trace_2",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_010",
+      "output": "m008"
+    },
+    {
+      "arguments": [
+        "s244",
+        "trace_2",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_011",
+      "output": "m009"
+    },
+    {
+      "arguments": [
+        "s255",
+        "trace_2",
+        "1/7"
+      ],
+      "latent": "latent_trace_family",
+      "operator": "BASIS_RECONSTRUCT",
+      "operator_id": "op_012",
+      "output": "m010"
+    }
+  ],
+  "program_id": "55a39553a0de2e25a5d6af67a92ab3c691c5b19e4198b3d1b230519147008e4c",
+  "reconstruction": {
+    "m001": "reference/reconstructions/m001.txt",
+    "m002": "reference/reconstructions/m002.txt",
+    "m003": "reference/reconstructions/m003.txt",
+    "m004": "reference/reconstructions/m004.txt",
+    "m005": "reference/reconstructions/m005.txt",
+    "m006": "reference/reconstructions/m006.txt",
+    "m007": "reference/reconstructions/m007.txt",
+    "m008": "reference/reconstructions/m008.txt",
+    "m009": "reference/reconstructions/m009.txt",
+    "m010": "reference/reconstructions/m010.txt"
+  },
+  "schema_version": "RepresentationProgramV1"
+}

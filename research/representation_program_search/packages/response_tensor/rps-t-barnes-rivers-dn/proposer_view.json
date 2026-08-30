@@ -1,0 +1,52 @@
+{
+  "assumptions": [
+    "The fixed dimension is 5 and the fixed metric is Euclidean.",
+    "q is the nonzero real squared norm of a momentum whose displayed components k0 and k1 are real.",
+    "The eight source members are scalar components at two fixed index quadruples."
+  ],
+  "source_catalog": {
+    "members": [
+      {
+        "member_id": "m001",
+        "path": "members/m001.txt",
+        "sha256": "ef230a82d03aaa29c7ea5e8cf1ce42044d04d128e3b7200eddaf80907ef6b149"
+      },
+      {
+        "member_id": "m002",
+        "path": "members/m002.txt",
+        "sha256": "c0ba9fc47d4b9557b4fa8bb3abfbd33cde90fe1c34f67a71894d6194cd37c854"
+      },
+      {
+        "member_id": "m003",
+        "path": "members/m003.txt",
+        "sha256": "428263ceb999ab260d4f135844be1a61cef3d2d027ceba8bd4a1a021de62d21a"
+      },
+      {
+        "member_id": "m004",
+        "path": "members/m004.txt",
+        "sha256": "91d560989d01deaf66b5ac3d68dcc5159819b390eaccb0e492b5f26564e4b67d"
+      },
+      {
+        "member_id": "m005",
+        "path": "members/m005.txt",
+        "sha256": "109cc2afacd6e2dfcb66968c08e2469b2be3e4b7f6d676ebbda0ec6f1213eae2"
+      },
+      {
+        "member_id": "m006",
+        "path": "members/m006.txt",
+        "sha256": "161f61a02ce0f02e131e0aa91b2d524406c80608d20cf8bcd596234cd224a604"
+      },
+      {
+        "member_id": "m007",
+        "path": "members/m007.txt",
+        "sha256": "8522b68e4612253dd88a881f9b8abeb172285b081f2110e87510ed93be4ff8dc"
+      },
+      {
+        "member_id": "m008",
+        "path": "members/m008.txt",
+        "sha256": "91d560989d01deaf66b5ac3d68dcc5159819b390eaccb0e492b5f26564e4b67d"
+      }
+    ],
+    "symbols_path": "symbols.json"
+  }
+}

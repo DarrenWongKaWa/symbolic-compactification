@@ -1,0 +1,36 @@
+{
+  "assumption_contract_status": "COMPLETE_AS_WRITTEN",
+  "derived": [],
+  "lowering_assumptions": [
+    {
+      "label": "DECLARED",
+      "predicate": "The P and Q sectors are each one-dimensional in this fixed scalar lowering.",
+      "source_locator": "Feshbach 1964, projection equation following Eq. (4); scalar block specialization"
+    }
+  ],
+  "scientific_assumptions": [
+    {
+      "label": "DECLARED",
+      "predicate": "eps-hqq != 0",
+      "reason": "The closed-channel scalar resolvent is defined only off its pole.",
+      "source_locator": "Feshbach 1964, (eps-H_QQ)^(-1) in the effective P-space equation"
+    },
+    {
+      "label": "DECLARED",
+      "predicate": "eps, hpp, hpq, hqp, hqq, and psi_p are complex scalars.",
+      "reason": "No Hermiticity relation is needed by the block-elimination identity."
+    }
+  ],
+  "verification_only_symbols": [
+    {
+      "names": [
+        "tag_001",
+        "tag_002",
+        "tag_003",
+        "tag_004",
+        "tag_005"
+      ],
+      "purpose": "Independent indeterminates for a component-tagged direct-sum obligation; they are not scientific parameters."
+    }
+  ]
+}

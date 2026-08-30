@@ -1,0 +1,87 @@
+{
+  "assumption_status": "DECLARED",
+  "candidate_hash": "094096d4aaad34fda72a10178a3eda265e2027b73c516042a5a62906f968b719",
+  "candidate_text": "tag_001*((-k0*k1/q)**2-((1-k0**2/q)*(1-k1**2/q))/4)+tag_002*(2*(-k0*k1/q)*(k0*k1/q))+tag_003*(((1-k0**2/q)*(1-k1**2/q))/4)+tag_004*((k0**2/q)*(k1**2/q))+tag_005*(((1-k0**2/q)*(1-k1**2/q))/2+(-k0*k1/q)**2/4)+tag_006*(((1-k0**2/q)*(k1**2/q)+2*(-k0*k1/q)*(k0*k1/q)+(1-k1**2/q)*(k0**2/q))/2)+tag_007*((-k0*k1/q)**2/4)+tag_008*((k0*k1/q)**2)+tag_009*0+tag_010*(1/2)",
+  "current_hash": "83e7fd02ca7c0b52812a1ee3474e2c781f11f792420f8a654310017c5299cfae",
+  "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+  "engine_version": "0.3.0",
+  "evidence": [
+    {
+      "kind": "exact_symbolic_zero",
+      "simplified_difference": "0"
+    }
+  ],
+  "proof_status": "PROVEN",
+  "residual": "0",
+  "status": "CERTIFIED",
+  "step": 2,
+  "telemetry": {
+    "agent_protocol_version": "0.3.0",
+    "count_ops_after": 97,
+    "count_ops_before_reason": "PARSE_UNAVAILABLE",
+    "engine_version": "0.3.0",
+    "input_chars": 655,
+    "output_chars": 360,
+    "policies": {
+      "budget": {
+        "cancel_seconds": 15.0,
+        "equals_seconds": 10.0,
+        "expand_complex_seconds": 10.0,
+        "expand_seconds": 15.0,
+        "factor_seconds": 15.0,
+        "factor_terms_seconds": 15.0,
+        "finite_expand_seconds": 15.0,
+        "kill_grace_seconds": 2.0,
+        "mode": "process",
+        "probe_simplify_seconds": 10.0,
+        "residual_seconds": 15.0,
+        "simplify_seconds": 30.0,
+        "together_seconds": 15.0
+      },
+      "parse": {
+        "allowed_functions": [
+          "Abs",
+          "Rational",
+          "acos",
+          "asin",
+          "atan",
+          "atan2",
+          "conjugate",
+          "cos",
+          "cosh",
+          "exp",
+          "im",
+          "log",
+          "polygamma",
+          "re",
+          "sin",
+          "sinh",
+          "sqrt",
+          "tan",
+          "tanh"
+        ],
+        "max_expr_chars": 65536,
+        "max_integer_digits": 256,
+        "max_nesting_depth": 256,
+        "max_nodes": 8000,
+        "max_numeric_exponent": 10000,
+        "max_symbols": 40,
+        "max_tokens": 16000
+      },
+      "transform": {
+        "ops_cap": 8000
+      },
+      "verify": {
+        "simplify_ops_cap": 8000,
+        "structure_first_threshold": 200
+      }
+    },
+    "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+    "repository_version": "0.3.0",
+    "timeout_status": "ok",
+    "verdict": "ZERO",
+    "wall_time_seconds": 0.495
+  },
+  "timestamp": "2026-08-30T11:17:16Z",
+  "verdict": "ZERO"
+}

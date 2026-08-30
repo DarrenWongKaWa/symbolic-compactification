@@ -1,0 +1,1 @@
+tag_001*(hqp*psi_p/(eps-hqq))+tag_002*(hpq*hqp/(eps-hqq))+tag_003*(hpp+hpq*hqp/(eps-hqq))+tag_004*(eps-hpp-hpq*hqp/(eps-hqq))+tag_005*(((eps-hpp)*(eps-hqq)-hpq*hqp)/(eps-hqq))

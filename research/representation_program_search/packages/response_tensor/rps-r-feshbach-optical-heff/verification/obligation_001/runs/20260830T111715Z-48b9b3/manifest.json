@@ -1,0 +1,277 @@
+{
+  "agent_protocol_version": "0.3.0",
+  "created_at": "2026-08-30T11:17:15Z",
+  "current": {
+    "functions": [],
+    "parsed_expr": "hpq*hqp*tag_002/(eps - hqq) + hqp*psi_p*tag_001/(eps - hqq) + tag_003*(hpp + hpq*hqp/(eps - hqq)) + tag_004*(eps - hpp - hpq*hqp/(eps - hqq)) + tag_005*(eps - hpp - hpq*hqp/(eps - hqq))",
+    "sha256": "9dea687485a7b336973c4b8677f0269b3c642f4fc5c5e10eac22cb84ead9f29c",
+    "source_path": "research/representation_program_search/packages/response_tensor/rps-r-feshbach-optical-heff/reference/obligation_candidate.txt",
+    "symbols": [
+      {
+        "name": "eps",
+        "nonzero": false,
+        "real": false
+      },
+      {
+        "name": "hpp",
+        "nonzero": false,
+        "real": false
+      },
+      {
+        "name": "hpq",
+        "nonzero": false,
+        "real": false
+      },
+      {
+        "name": "hqp",
+        "nonzero": false,
+        "real": false
+      },
+      {
+        "name": "hqq",
+        "nonzero": false,
+        "real": false
+      },
+      {
+        "name": "psi_p",
+        "nonzero": false,
+        "real": false
+      },
+      {
+        "name": "tag_001",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_002",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_003",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_004",
+        "nonzero": false,
+        "real": true
+      },
+      {
+        "name": "tag_005",
+        "nonzero": false,
+        "real": true
+      }
+    ],
+    "text": "tag_001*((1/(eps-hqq))*hqp*psi_p)+tag_002*(hpq*(1/(eps-hqq))*hqp)+tag_003*(hpp+hpq*(1/(eps-hqq))*hqp)+tag_004*(eps-(hpp+hpq*(1/(eps-hqq))*hqp))+tag_005*(eps-hpp-hpq*(1/(eps-hqq))*hqp)"
+  },
+  "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+  "engine_version": "0.3.0",
+  "meta": {
+    "agent_protocol": "record_proposal",
+    "cli": "step"
+  },
+  "policies": {
+    "budget": {
+      "cancel_seconds": 15.0,
+      "equals_seconds": 10.0,
+      "expand_complex_seconds": 10.0,
+      "expand_seconds": 15.0,
+      "factor_seconds": 15.0,
+      "factor_terms_seconds": 15.0,
+      "finite_expand_seconds": 15.0,
+      "kill_grace_seconds": 2.0,
+      "mode": "process",
+      "probe_simplify_seconds": 10.0,
+      "residual_seconds": 15.0,
+      "simplify_seconds": 30.0,
+      "together_seconds": 15.0
+    },
+    "parse": {
+      "allowed_functions": [
+        "Abs",
+        "Rational",
+        "acos",
+        "asin",
+        "atan",
+        "atan2",
+        "conjugate",
+        "cos",
+        "cosh",
+        "exp",
+        "im",
+        "log",
+        "polygamma",
+        "re",
+        "sin",
+        "sinh",
+        "sqrt",
+        "tan",
+        "tanh"
+      ],
+      "max_expr_chars": 65536,
+      "max_integer_digits": 256,
+      "max_nesting_depth": 256,
+      "max_nodes": 8000,
+      "max_numeric_exponent": 10000,
+      "max_symbols": 40,
+      "max_tokens": 16000
+    },
+    "transform": {
+      "ops_cap": 8000
+    },
+    "verify": {
+      "simplify_ops_cap": 8000,
+      "structure_first_threshold": 200
+    }
+  },
+  "repository_version": "0.3.0",
+  "requested_arm": null,
+  "requested_proposer_mode": "main",
+  "run_id": "20260830T111715Z-48b9b3",
+  "steps": [
+    {
+      "assumption_status": null,
+      "candidate_hash": "2596cce6e13ebcf1de79d56f280bce2810172558e7d0ea6f68a0481613878a29",
+      "candidate_text": "tag_001*((1/(eps-hqq))*hqp*psi_p)+tag_002*(hpq*(1/(eps-hqq))*hqp)+tag_003*(hpp+hpq*(1/(eps-hqq))*hqp)+tag_004*(eps-(hpp+hpq*(1/(eps-hqq))*hqp))+tag_005*(eps-hpp-hpq*(1/(eps-hqq))*hqp)",
+      "current_hash": "049819161f8937e0d851fce65006923117b9b51ad7c3de82e790d440439ae8f5",
+      "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+      "engine_version": "0.3.0",
+      "evidence": [
+        {
+          "assumptions_status": "DECLARED",
+          "candidate_id": "rt-feshbach-scalar-reconstruction",
+          "confidence": "high",
+          "conjecture_packet_sha256": null,
+          "harness_task_or_subagent_id": null,
+          "invocation_mode": "main_agent",
+          "invocation_timestamp": "2026-08-30T11:17:15Z",
+          "invoked_at": "2026-08-30T11:17:15Z",
+          "kind": "proposer_candidate",
+          "parent_agent_step": 0,
+          "parent_step_index": 0,
+          "proposal_sha256": "a734cd0351d4a92fc5eac4c51d4e23ae7e484bee787c8a9a680cd370663b796b",
+          "proposal_timestamp": "2026-08-30T11:17:15Z",
+          "returned_at": null,
+          "role": "STRUCTURAL_PROPOSER",
+          "subagent_id": null,
+          "unavailable": false
+        }
+      ],
+      "proof_status": "HYPOTHESIS",
+      "residual": null,
+      "status": "HYPOTHESIS",
+      "step": 1,
+      "telemetry": {
+        "agent_protocol_version": "0.3.0",
+        "engine_version": "0.3.0",
+        "primitive": "proposal",
+        "proposal": {
+          "assumptions_status": "DECLARED",
+          "candidate_expression_or_rewrite": "tag_001*((1/(eps-hqq))*hqp*psi_p)+tag_002*(hpq*(1/(eps-hqq))*hqp)+tag_003*(hpp+hpq*(1/(eps-hqq))*hqp)+tag_004*(eps-(hpp+hpq*(1/(eps-hqq))*hqp))+tag_005*(eps-hpp-hpq*(1/(eps-hqq))*hqp)",
+          "candidate_id": "rt-feshbach-scalar-reconstruction",
+          "confidence": "high",
+          "expected_structural_benefit": "Shared latent structure reconstructs every tagged source member without per-member memorization.",
+          "hypothesis": "One shared scalar pole kernel may reconstruct all five fixed block members.",
+          "rationale": "The candidate is the explicit evaluator-only reconstruction compiled from the reference program.",
+          "required_assumptions": [
+            "All scientific assumptions are already declared in assumptions.json."
+          ],
+          "status": "HYPOTHESIS",
+          "suggested_verification_strategy": "Exact component-tagged direct-sum residual under the declared symbols."
+        },
+        "verdict": null,
+        "wall_time_seconds": 0.0
+      },
+      "timestamp": "2026-08-30T11:17:15Z",
+      "verdict": "UNKNOWN"
+    },
+    {
+      "assumption_status": "DECLARED",
+      "candidate_hash": "9dea687485a7b336973c4b8677f0269b3c642f4fc5c5e10eac22cb84ead9f29c",
+      "candidate_text": "tag_001*((1/(eps-hqq))*hqp*psi_p)+tag_002*(hpq*(1/(eps-hqq))*hqp)+tag_003*(hpp+hpq*(1/(eps-hqq))*hqp)+tag_004*(eps-(hpp+hpq*(1/(eps-hqq))*hqp))+tag_005*(eps-hpp-hpq*(1/(eps-hqq))*hqp)",
+      "current_hash": "049819161f8937e0d851fce65006923117b9b51ad7c3de82e790d440439ae8f5",
+      "engine_git_sha": "dcc318df24d74fa26f4a10b8df4b966b64617c93",
+      "engine_version": "0.3.0",
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ],
+      "proof_status": "PROVEN",
+      "residual": "0",
+      "status": "CERTIFIED",
+      "step": 2,
+      "telemetry": {
+        "agent_protocol_version": "0.3.0",
+        "count_ops_after": 29,
+        "count_ops_before_reason": "PARSE_UNAVAILABLE",
+        "engine_version": "0.3.0",
+        "input_chars": 175,
+        "output_chars": 183,
+        "policies": {
+          "budget": {
+            "cancel_seconds": 15.0,
+            "equals_seconds": 10.0,
+            "expand_complex_seconds": 10.0,
+            "expand_seconds": 15.0,
+            "factor_seconds": 15.0,
+            "factor_terms_seconds": 15.0,
+            "finite_expand_seconds": 15.0,
+            "kill_grace_seconds": 2.0,
+            "mode": "process",
+            "probe_simplify_seconds": 10.0,
+            "residual_seconds": 15.0,
+            "simplify_seconds": 30.0,
+            "together_seconds": 15.0
+          },
+          "parse": {
+            "allowed_functions": [
+              "Abs",
+              "Rational",
+              "acos",
+              "asin",
+              "atan",
+              "atan2",
+              "conjugate",
+              "cos",
+              "cosh",
+              "exp",
+              "im",
+              "log",
+              "polygamma",
+              "re",
+              "sin",
+              "sinh",
+              "sqrt",
+              "tan",
+              "tanh"
+            ],
+            "max_expr_chars": 65536,
+            "max_integer_digits": 256,
+            "max_nesting_depth": 256,
+            "max_nodes": 8000,
+            "max_numeric_exponent": 10000,
+            "max_symbols": 40,
+            "max_tokens": 16000
+          },
+          "transform": {
+            "ops_cap": 8000
+          },
+          "verify": {
+            "simplify_ops_cap": 8000,
+            "structure_first_threshold": 200
+          }
+        },
+        "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+        "repository_version": "0.3.0",
+        "timeout_status": "ok",
+        "verdict": "ZERO",
+        "wall_time_seconds": 0.5329
+      },
+      "timestamp": "2026-08-30T11:17:16Z",
+      "verdict": "ZERO"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "assumptions": [
+    "The six named scientific quantities in symbols.json are complex scalars.",
+    "eps-hqq is nonzero.",
+    "The source is a fixed one-dimensional-by-one-dimensional block instance."
+  ],
+  "source_catalog": {
+    "members": [
+      {
+        "member_id": "m001",
+        "path": "members/m001.txt",
+        "sha256": "9333db1a6755d28f2d3b598c9afa117eef1d58a2699bf993d93f31f700a7fec4"
+      },
+      {
+        "member_id": "m002",
+        "path": "members/m002.txt",
+        "sha256": "1c677ad24ff8cddde0283443110991993a2484a6107ec93d71267dc828389a09"
+      },
+      {
+        "member_id": "m003",
+        "path": "members/m003.txt",
+        "sha256": "f62733bd2a915260e6230d207c9dbb844c734f88def39f11097b211b18928440"
+      },
+      {
+        "member_id": "m004",
+        "path": "members/m004.txt",
+        "sha256": "461109f1dd7f22f0e0602b68672bfcd723967f226049e5989fd7ab8b74ef194a"
+      },
+      {
+        "member_id": "m005",
+        "path": "members/m005.txt",
+        "sha256": "1dc49af293add492872524cb594b5813ab782242dcf18dab4ec948b0876b41f7"
+      }
+    ],
+    "symbols_path": "symbols.json"
+  }
+}

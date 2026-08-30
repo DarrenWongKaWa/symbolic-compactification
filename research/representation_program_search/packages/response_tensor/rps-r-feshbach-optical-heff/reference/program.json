@@ -1,0 +1,120 @@
+{
+  "assumptions_used": [
+    "eps-hqq != 0",
+    "fixed one-dimensional P and Q sectors"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "fixed_scalar_channels": {
+      "H_PP": "hpp",
+      "H_PQ": "hpq",
+      "H_QP": "hqp",
+      "H_QQ": "hqq"
+    }
+  },
+  "latent_objects": [
+    {
+      "form": "SCALAR_KERNEL",
+      "latent_id": "latent_001",
+      "parameters": [
+        "eps",
+        "hqq"
+      ],
+      "symbolic_core": "1/(eps-hqq)"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_002",
+    "m002": "op_003",
+    "m003": "op_004",
+    "m004": "op_005",
+    "m005": "op_005"
+  },
+  "node_structures": [],
+  "obligations": [
+    "obligation_001"
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "parameters": {
+          "eps": "eps",
+          "hqq": "hqq"
+        }
+      },
+      "latent": "latent_001",
+      "operator": "VALUE",
+      "operator_id": "op_001",
+      "output": "closed_kernel"
+    },
+    {
+      "arguments": {
+        "constant": "0",
+        "inputs": [
+          {
+            "coefficient": "hqp*psi_p",
+            "input": "closed_kernel"
+          }
+        ]
+      },
+      "latent": "latent_001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "op_002",
+      "output": "m001"
+    },
+    {
+      "arguments": {
+        "constant": "0",
+        "inputs": [
+          {
+            "coefficient": "hpq*hqp",
+            "input": "closed_kernel"
+          }
+        ]
+      },
+      "latent": "latent_001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "op_003",
+      "output": "self_energy"
+    },
+    {
+      "arguments": {
+        "constant": "hpp",
+        "inputs": [
+          {
+            "coefficient": "1",
+            "input": "self_energy"
+          }
+        ]
+      },
+      "latent": "latent_001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "op_004",
+      "output": "effective_hamiltonian"
+    },
+    {
+      "arguments": {
+        "constant": "eps",
+        "inputs": [
+          {
+            "coefficient": "-1",
+            "input": "effective_hamiltonian"
+          }
+        ]
+      },
+      "latent": "latent_001",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "op_005",
+      "output": "effective_equation_scalar"
+    }
+  ],
+  "program_id": "8fe92a88c33e9651520597004bf9ec1162633c3dcaaa499e233b49f08d387644",
+  "reconstruction": {
+    "m001": "reference/reconstructions/m001.txt",
+    "m002": "reference/reconstructions/m002.txt",
+    "m003": "reference/reconstructions/m003.txt",
+    "m004": "reference/reconstructions/m004.txt",
+    "m005": "reference/reconstructions/m005.txt"
+  },
+  "schema_version": "RepresentationProgramV1"
+}
