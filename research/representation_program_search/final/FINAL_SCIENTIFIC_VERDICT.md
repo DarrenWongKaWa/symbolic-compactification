@@ -286,8 +286,12 @@ Nine independent reviews were completed. Their unanimous boundary is:
 
 Known reproducibility limitations include incomplete environment locking,
 non-self-contained negative-mining source bytes, shallow gate-validation
-semantics, and host-specific paths in some diagnostic receipts. Exact reviewer
-commits and hashes are in `reviews/final/REVIEW_SYNTHESIS.json`.
+semantics, and host-specific paths in some diagnostic receipts. The initial
+contracts commit also contained contract-supporting Python/tests (15 files in
+total), rather than literally only the six requested Markdown files. It
+preceded case mining and contained no experimental result, so the history was
+preserved and the protocol deviation is disclosed instead of rewritten. Exact
+reviewer commits and hashes are in `reviews/final/REVIEW_SYNTHESIS.json`.
 
 ## 32. Claims supported
 

@@ -82,6 +82,9 @@ The `real:false` namespace-contract defect remains unresolved and all affected
 claims fail closed. Reproducibility limitations are recorded by R7: incomplete
 environment locking, non-self-contained negative-mining sources, shallow gate
 validation semantics, and host-specific paths in some diagnostic receipts.
+The initial contracts commit contained 15 contract/support files instead of
+literally only the six requested Markdown files; it preceded case mining and
+contained no result, so the deviation is disclosed and history is preserved.
 
 ## Future rule
 
