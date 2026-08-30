@@ -1,0 +1,8 @@
+\subsection{Divided difference}
+\text{ }\\
+Next, we define a version of multivariate divided difference. For convenience, we use $x_0:=t$ interchangeably so that $\Delta x_0:=\Delta t := t^{k+1}-t^k$ and $\Delta x_i := \Delta x_i^k = x_i^{k+1}-x_i^k$ for $i=1,\dots,n$. 
+\begin{definition}
+Let $\bb f\in C^1(I\times U\rightarrow\mathbb{R}^n)$ and $\bb X^{\bb \alpha}\in I\times U$. For $i=0,\dots,n$, the $i$-th (first order) divided difference of $f$ at $\bb X^{\bb \alpha}$ is the linear operator $\frac{\Delta}{\Delta_i}:C^1(I\times U\rightarrow\mathbb{R}^n)\rightarrow \mathbb{R}^n$,
+\[
+\frac{\Delta}{\Delta x_i}\bb f(\bb X^{\bb \alpha}):=\frac{\Delta_i \bb f(\bb X^{\bb \alpha})}{\Delta x_i} = \frac{\bb f(\bb X^{\bb \alpha+\bb e_i})-\bb f(\bb X^{\bb \alpha})}{x_i^{k+1}-x_i^k}, \] 
+\end{definition} where $\displaystyle \lim_{\bb X^{\bb \alpha+\bb e_i}\rightarrow \bb X^{\bb \alpha}} \frac{\Delta}{\Delta x_i}\bb f(\bb X^{\bb \alpha}) = \partial_{x_i}\bb f(t^{\alpha_0},\bb x^\alpha).

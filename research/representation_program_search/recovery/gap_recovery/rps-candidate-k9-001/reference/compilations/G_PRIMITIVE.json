@@ -1,0 +1,53 @@
+{
+  "compilation": {
+    "failure_codes": [],
+    "obligations": [
+      {
+        "candidate_expression": "(-1/(sqrt(x2_hold**2 + (alpha + x1_old)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)) + 1/(sqrt(x2_hold**2 + (alpha + x1_new)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)))*(2*alpha + x1_new + x1_old)",
+        "current_expression": "-(x1_new+x1_old+2*alpha)/(sqrt((x1_old+alpha)**2+x2_hold**2)*sqrt((x1_new+alpha)**2+x2_hold**2)*(sqrt((x1_old+alpha)**2+x2_hold**2)+sqrt((x1_new+alpha)**2+x2_hold**2)))",
+        "current_path": "members/M9H1.txt",
+        "current_sha256": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1",
+        "member_id": "M9H1",
+        "obligation_id": "Q9H1",
+        "required": true,
+        "status": "COMPILED"
+      },
+      {
+        "candidate_expression": "(x2_new + x2_old)*(-1/((x2_new**2 - x2_old**2)*sqrt(x2_old**2 + (alpha + x1_hold)**2)) + 1/((x2_new**2 - x2_old**2)*sqrt(x2_new**2 + (alpha + x1_hold)**2)))",
+        "current_expression": "-(x2_new+x2_old)/(sqrt((x1_hold+alpha)**2+x2_old**2)*sqrt((x1_hold+alpha)**2+x2_new**2)*(sqrt((x1_hold+alpha)**2+x2_old**2)+sqrt((x1_hold+alpha)**2+x2_new**2)))",
+        "current_path": "members/M9H2.txt",
+        "current_sha256": "04437530c91f25ce96431db386e64117e89fd88fbc0dd0fe10f7fd4baf8dc672",
+        "member_id": "M9H2",
+        "obligation_id": "Q9H2",
+        "required": true,
+        "status": "COMPILED"
+      },
+      {
+        "candidate_expression": "(-1/(sqrt(x2_hold**2 + (-beta + x1_old)**2)*((-beta + x1_new)**2 - (-beta + x1_old)**2)) + 1/(sqrt(x2_hold**2 + (-beta + x1_new)**2)*((-beta + x1_new)**2 - (-beta + x1_old)**2)))*(-2*beta + x1_new + x1_old)",
+        "current_expression": "-(x1_new+x1_old-2*beta)/(sqrt((x1_old-beta)**2+x2_hold**2)*sqrt((x1_new-beta)**2+x2_hold**2)*(sqrt((x1_old-beta)**2+x2_hold**2)+sqrt((x1_new-beta)**2+x2_hold**2)))",
+        "current_path": "members/M9H3.txt",
+        "current_sha256": "f8ecd645a4cf3f2f5d21cdc646d44d72eb97ab290abcdefe750b5df24f95dd54",
+        "member_id": "M9H3",
+        "obligation_id": "Q9H3",
+        "required": true,
+        "status": "COMPILED"
+      },
+      {
+        "candidate_expression": "(x2_new + x2_old)*(-1/((x2_new**2 - x2_old**2)*sqrt(x2_old**2 + (-beta + x1_hold)**2)) + 1/((x2_new**2 - x2_old**2)*sqrt(x2_new**2 + (-beta + x1_hold)**2)))",
+        "current_expression": "-(x2_new+x2_old)/(sqrt((x1_hold-beta)**2+x2_old**2)*sqrt((x1_hold-beta)**2+x2_new**2)*(sqrt((x1_hold-beta)**2+x2_old**2)+sqrt((x1_hold-beta)**2+x2_new**2)))",
+        "current_path": "members/M9H4.txt",
+        "current_sha256": "261d69aee58010d1a3d9ca7c293a3365647c62b769b0f238c45b40a0b2ad6c32",
+        "member_id": "M9H4",
+        "obligation_id": "Q9H4",
+        "required": true,
+        "status": "COMPILED"
+      }
+    ],
+    "program_id": "8579e18353ca043e77870ee42c279585fbeeca71fcf64e61f4a9968943c57665",
+    "status": "COMPILED",
+    "tautological": false
+  },
+  "grammar_id": "G_PRIMITIVE",
+  "program_id": "8579e18353ca043e77870ee42c279585fbeeca71fcf64e61f4a9968943c57665",
+  "schema_version": "RPSCompilationReceiptV1"
+}

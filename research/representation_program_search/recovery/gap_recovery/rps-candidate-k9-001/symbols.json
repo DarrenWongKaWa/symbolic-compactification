@@ -1,0 +1,45 @@
+{
+  "functions": [],
+  "symbols": [
+    {
+      "name": "alpha",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "beta",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x1_hold",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x1_new",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x1_old",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x2_hold",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x2_new",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x2_old",
+      "nonzero": false,
+      "real": true
+    }
+  ]
+}

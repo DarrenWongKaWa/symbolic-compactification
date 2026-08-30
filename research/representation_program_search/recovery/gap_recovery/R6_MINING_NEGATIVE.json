@@ -1,0 +1,175 @@
+{
+  "admission_action": "NONE",
+  "audit_scope": {
+    "current_case_json_documents": 53,
+    "current_package_manifests": 18,
+    "fresh_test_used": false,
+    "guo_reference_documents": 1,
+    "historical_documents": 79,
+    "historical_partitions": [
+      "AC_CHALLENGE",
+      "AC_DEV",
+      "AC_DUPLICATE_CONTROL",
+      "AC_HEADLINE",
+      "HISTORICAL_DIAGNOSTIC",
+      "PREVIOUS_BENCHMARK"
+    ],
+    "hidden_reference_programs_used": false
+  },
+  "candidate_count": 0,
+  "criteria": {
+    "exact_executable_reconstruction": true,
+    "fresh_identity": true,
+    "minimum_operator_types": 2,
+    "multi_member_reuse": true,
+    "proposer_target_leakage": false,
+    "reject_derivative_or_response_graph": true,
+    "reject_directly_exposed_master": true,
+    "reject_scalar_cse": true,
+    "reject_short_derivative_or_recurrence_chain": true
+  },
+  "mining_boundary": "At most one package could be retained. No screened identity passed every criterion, so no R6 package, source catalog, reference program, or verifier session was created.",
+  "package_created": false,
+  "schema_version": "RPSR6MiningNegativeV1",
+  "screened_families": [
+    {
+      "decision": "REJECT_NO_PACKAGE",
+      "depth_assessment": "PLAUSIBLE_R6_ONLY_IN_VECTOR_SCIENTIFIC_IR",
+      "equation_support": "Equations (3)-(7) reconstruct E and H from two scalar wave potentials by curl, curl-of-curl, time differentiation, and vector-spherical-harmonic basis reconstruction.",
+      "failure_codes": [
+        "DIRECT_MASTER_EXPOSED_BY_SOURCE_EQ3",
+        "FROZEN_GRAMMAR_LACKS_CURL",
+        "FROZEN_PARSER_LACKS_VECTOR_BASIS_SEMANTICS",
+        "SCALAR_LOWERING_ERASES_INDEPENDENT_DEPTH"
+      ],
+      "freshness": "NO_EXACT_TITLE_OR_FORMULA_MATCH_IN_CURRENT_CASE_PACKAGE_TEXT_SCAN",
+      "identity": "time-dependent Maxwell fields from Debye potentials",
+      "operator_types_required": [
+        "CURL",
+        "CURL_COMPOSE",
+        "TIME_DERIVATIVE",
+        "VECTOR_BASIS_RECONSTRUCT"
+      ],
+      "source": {
+        "authors": [
+          "Leslie Greengard",
+          "Thomas Hagstrom",
+          "Shidong Jiang"
+        ],
+        "locator": "pages 2-3, equations (3)-(7)",
+        "source_class": "PRIMARY_TECHNICAL_REPORT",
+        "title": "Debye potentials for the time dependent Maxwell equations",
+        "url": "https://m.njit.edu/CAMS/Technical_Reports/CAMS14_15/report1415-10.pdf"
+      }
+    },
+    {
+      "decision": "REJECT_NO_PACKAGE",
+      "depth_assessment": "PLAUSIBLE_MULTI_OPERATOR_MATRIX_LIBRARY_OUTSIDE_FROZEN_IR",
+      "equation_support": "Equation (5) reconstructs toroidal-strip partition functions from powers of transfer-matrix eigenvalues; the paper also derives trace and determinant members.",
+      "failure_codes": [
+        "DIRECT_TRANSFER_REPRESENTATION_EXPOSED_BY_SOURCE_EQ5",
+        "FROZEN_GRAMMAR_LACKS_MATRIX_POWER_TRACE_DETERMINANT",
+        "FINITE_WIDTH_SCALARIZATION_IS_SOURCE_GIVEN_SUM_NOT_LATENT_INDUCTION"
+      ],
+      "freshness": "NO_EXACT_TITLE_OR_FORMULA_MATCH_IN_CURRENT_CASE_PACKAGE_TEXT_SCAN",
+      "identity": "Potts toroidal-strip transfer-matrix family",
+      "operator_types_required": [
+        "MATRIX_POWER",
+        "TRACE",
+        "DETERMINANT",
+        "SPECTRAL_RECONSTRUCT"
+      ],
+      "source": {
+        "arxiv": "cond-mat/0506274",
+        "authors": [
+          "Shu-Chiuan Chang",
+          "Robert Shrock"
+        ],
+        "locator": "equation (5) and the trace/determinant results introduced immediately after it",
+        "source_class": "PRIMARY_RESEARCH_PREPRINT",
+        "title": "Transfer Matrices for the Partition Function of the Potts Model on Toroidal Lattice Strips",
+        "url": "https://arxiv.org/abs/cond-mat/0506274"
+      }
+    },
+    {
+      "decision": "REJECT_NO_PACKAGE",
+      "depth_assessment": "R5_SPECIAL_FUNCTION_DERIVATIVE_LADDER_AT_MOST",
+      "equation_support": "DLMF 10.49.14-10.49.16 give Rayleigh derivative formulas for ordinary and modified spherical Bessel families.",
+      "failure_codes": [
+        "SHORT_DERIVATIVE_LADDER",
+        "SOURCE_DIRECTLY_EXPOSES_GENERATOR",
+        "CURRENT_PACKAGE_OVERLAP_RPS_REAL_C8Q2_DLMF_10_49_3",
+        "NOT_FRESH_R6"
+      ],
+      "freshness": "DUPLICATE_FAMILY_WITH_RPS_REAL_C8Q2",
+      "identity": "Rayleigh differential generators for spherical Bessel families",
+      "operator_types_required": [
+        "DERIVATIVE",
+        "LINEAR_COMBINATION",
+        "RECURRENCE"
+      ],
+      "source": {
+        "locator": "DLMF 10.49.14-10.49.16",
+        "source_class": "AUTHORITATIVE_REFERENCE",
+        "title": "NIST Digital Library of Mathematical Functions, Section 10.49(iii)",
+        "url": "https://dlmf.nist.gov/10.49.iii"
+      }
+    },
+    {
+      "decision": "REJECT_NO_PACKAGE",
+      "depth_assessment": "R6_SCIENTIFIC_OBJECT_BUT_DERIVATIVE_RESPONSE_GRAPH",
+      "equation_support": "The frozen source dossier binds a 4n block exponential and mixed second Frechet blocks to Theorem 3.5 and equation (3.4).",
+      "failure_codes": [
+        "CURRENT_MINED_IDENTITY_RPS_DP_RELTON_SECOND_FRECHET",
+        "DERIVATIVE_RESPONSE_GRAPH",
+        "DIRECT_BLOCK_MASTER_EXPOSED",
+        "MATRIX_BLOCK_PARSER_GAP"
+      ],
+      "freshness": "CURRENT_MINED_IDENTITY",
+      "identity": "higher matrix-exponential derivatives from a block lift",
+      "operator_types_required": [
+        "BLOCK_MATRIX_ASSEMBLY",
+        "MATRIX_FUNCTION_VALUE",
+        "BASIS_PROJECT"
+      ],
+      "source": {
+        "authors": [
+          "Nicholas J. Higham",
+          "Samuel D. Relton"
+        ],
+        "doi": "10.1137/130945259",
+        "locator": "Theorem 3.5 and equation (3.4)",
+        "source_class": "PRIMARY_PEER_REVIEWED_ARTICLE",
+        "title": "Higher Order Frechet Derivatives of Matrix Functions and the Level-2 Condition Number",
+        "url": "https://eprints.maths.manchester.ac.uk/2160/"
+      }
+    },
+    {
+      "decision": "REJECT_NO_PACKAGE",
+      "depth_assessment": "R1_DERIVATIVE_RESPONSE_GRAPH",
+      "equation_support": "The historical candidate's exact sessions reconstruct thermodynamic responses from an explicitly public Helmholtz member.",
+      "failure_codes": [
+        "REJECTED_HISTORICAL_CANDIDATE_GF_VDW_2013_EQ1",
+        "DIRECT_MASTER_MEMBER_PUBLIC",
+        "DERIVATIVE_RESPONSE_GRAPH",
+        "INDEPENDENT_DEPTH_DOWNGRADED_TO_R1"
+      ],
+      "freshness": "REJECTED_HISTORICAL_PACKAGE",
+      "identity": "van der Waals Helmholtz response graph",
+      "operator_types_required": [
+        "DERIVATIVE",
+        "SUBSTITUTE",
+        "LINEAR_COMBINATION",
+        "COMPOSE"
+      ],
+      "source": {
+        "locator": "rejected package source dossier and independent gap-fill admission audit",
+        "source_class": "FROZEN_HISTORICAL_DIAGNOSTIC",
+        "title": "gf-vdw-2013-eq1",
+        "url": "research/representation_program_search/packages/gap_fill/gf-vdw-2013-eq1"
+      }
+    }
+  ],
+  "status": "NO_DEFENSIBLE_R6_CANDIDATE",
+  "summary": "Fresh source-backed multi-operator objects that survive the depth screen require vector, matrix, trace, determinant, curl, or basis semantics outside frozen M1. Parser-feasible scalar families either directly expose their generator, collapse to a short derivative/recurrence graph, or duplicate a current/historical identity. Forcing a package would manufacture depth or require forbidden grammar/parser changes."
+}

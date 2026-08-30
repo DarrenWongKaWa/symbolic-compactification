@@ -1,0 +1,49 @@
+{
+  "text": "(-1/(sqrt(x2_hold**2 + (alpha + x1_old)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)) + 1/(sqrt(x2_hold**2 + (alpha + x1_new)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)))*(2*alpha + x1_new + x1_old)",
+  "sha256": "32a85052beb004a20f10b237d046093b2107ebccf2df8f9753584bafb7c22a6c",
+  "sha256_of_text": "924b8e17877df95bc364a5a31447ced41c3ee5b9432d4e18f9d811e512ae5e97",
+  "promoted_at_step": 2,
+  "symbols": [
+    {
+      "name": "alpha",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "beta",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x1_hold",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x1_new",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x1_old",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x2_hold",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x2_new",
+      "real": true,
+      "nonzero": false
+    },
+    {
+      "name": "x2_old",
+      "real": true,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

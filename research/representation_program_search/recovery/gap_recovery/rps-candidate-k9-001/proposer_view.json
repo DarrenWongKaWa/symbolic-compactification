@@ -1,0 +1,19 @@
+{
+  "assumptions": {
+    "path": "assumptions.json",
+    "sha256": "397d4e6f0b1ffd4233e498038b9f17f564d30865798b05acce3ab8fea852c439"
+  },
+  "case_id": "C9H4",
+  "schema_version": "RPSProposerViewV1",
+  "source_catalog": {
+    "path": "source_catalog.json",
+    "sha256": "8dbb2c6ccd69ccf74dd2bfeb4f66850dda7c8ccc9f20ccad89fcb1f3886c164b"
+  },
+  "structural_observations": {
+    "member_count": 4,
+    "shared_visible_calls": [
+      "sqrt"
+    ],
+    "source_scope": "four real scalar expressions on one declared stratum"
+  }
+}

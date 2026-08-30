@@ -1,0 +1,125 @@
+{
+  "case_id": "C9H4",
+  "numbering_correction": {
+    "claim": "The four retained coordinate identities are unnumbered align* lines in Section 5.3. They follow the source label 3bodySys and precede the later source label R3B_RHS; they are not equation (28).",
+    "source_locator_ids": [
+      "S9N1",
+      "S9N2"
+    ]
+  },
+  "primary_source": {
+    "authors": [
+      "Andy T. S. Wan",
+      "Alexander Bihlo",
+      "Jean-Christophe Nave"
+    ],
+    "doi": "10.1137/16M110719X",
+    "retrieved_on": "2026-08-30",
+    "source_archive_sha256": "698a6b496e375aa6a31e0b4750dbe59a438f69bd205a807dca8913269b8a1d4a",
+    "source_file": "CM_dynSys.tex",
+    "source_file_sha256": "59ad6a8047c13cd4a8dd1f7c595194f5734aa5049a0949828b23c55ccbcacbc3",
+    "title": "Conservative methods for dynamical systems",
+    "url": "https://arxiv.org/e-print/1612.02417v1",
+    "venue": "SIAM Journal on Numerical Analysis 55(5), 2255-2285 (2017)"
+  },
+  "source_artifacts": [
+    {
+      "path": "source/upstream/CM_dynSys.lines_1001_1005.tex",
+      "sha256": "49b68485e00dfd844f959dee8b2260b3f8cdbd80cdb5bbf323e755267c9e4fbd"
+    },
+    {
+      "path": "source/upstream/CM_dynSys.lines_1062_1069.tex",
+      "sha256": "cbb9da19cf4391f71b780d550a192e83e00767cccdc6897f8125eed8da68a110"
+    },
+    {
+      "path": "source/upstream/CM_dynSys.lines_1088_1118.tex",
+      "sha256": "1611b04bed8d1a0b01bf96b0746fc7550fba808a11451a55b62c005eeefd2e10"
+    },
+    {
+      "path": "source/upstream/CM_dynSys.lines_1148_1159.tex",
+      "sha256": "c039184c02abdf9c0d0f2e3c4ae5a7c155f3441ca5c3f46da2d3ef3afaa2f8ff"
+    },
+    {
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e"
+    },
+    {
+      "path": "source/upstream/CM_dynSys.lines_710_730.tex",
+      "sha256": "98b2390b9e9e6ef77240751c656408ca4de25f35055ae010d21cb2efcfb5325f"
+    }
+  ],
+  "source_locators": {
+    "S9M1": {
+      "claim": "The source's unnumbered coordinate identity 1 of four.",
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e",
+      "upstream_lines": "661-709 (identity at 705)"
+    },
+    "S9M2": {
+      "claim": "The source's unnumbered coordinate identity 2 of four.",
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e",
+      "upstream_lines": "661-709 (identity at 706)"
+    },
+    "S9M3": {
+      "claim": "The source's unnumbered coordinate identity 3 of four.",
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e",
+      "upstream_lines": "661-709 (identity at 707)"
+    },
+    "S9M4": {
+      "claim": "The source's unnumbered coordinate identity 4 of four.",
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e",
+      "upstream_lines": "661-709 (identity at 708)"
+    },
+    "S9N1": {
+      "claim": "The retained formulas occur in an unnumbered align* block after the source label 3bodySys.",
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e",
+      "upstream_lines": "661-709 (labels/formulas at 663-709)"
+    },
+    "S9N2": {
+      "claim": "The next numbered source environment begins later with label R3B_RHS.",
+      "path": "source/upstream/CM_dynSys.lines_710_730.tex",
+      "sha256": "98b2390b9e9e6ef77240751c656408ca4de25f35055ae010d21cb2efcfb5325f",
+      "upstream_lines": "710-730 (next label at 722)"
+    },
+    "S9P1": {
+      "claim": "Appendix B constructs the rules for real t and real x entries.",
+      "path": "source/upstream/CM_dynSys.lines_1001_1005.tex",
+      "sha256": "49b68485e00dfd844f959dee8b2260b3f8cdbd80cdb5bbf323e755267c9e4fbd",
+      "upstream_lines": "1001-1005 (claim at 1003)"
+    },
+    "S9P2": {
+      "claim": "alpha and beta are relative masses with alpha+beta=1.",
+      "path": "source/upstream/CM_dynSys.lines_661_709.tex",
+      "sha256": "9a223e976adadde8a1b2a4691b3e9f161b1834c26da93ac1b1e63d5efa97bd5e",
+      "upstream_lines": "661-709 (claim at 671)"
+    },
+    "S9P3A": {
+      "claim": "The scalar chain rule states Delta_i g != 0.",
+      "path": "source/upstream/CM_dynSys.lines_1088_1118.tex",
+      "sha256": "1611b04bed8d1a0b01bf96b0746fc7550fba808a11451a55b62c005eeefd2e10",
+      "upstream_lines": "1088-1118 (rule at 1114-1118)"
+    },
+    "S9P3B": {
+      "claim": "The rational-power rule assumes positive nodes when q>1.",
+      "path": "source/upstream/CM_dynSys.lines_1148_1159.tex",
+      "sha256": "c039184c02abdf9c0d0f2e3c4ae5a7c155f3441ca5c3f46da2d3ef3afaa2f8ff",
+      "upstream_lines": "1148-1159 (rule at 1148-1153)"
+    },
+    "S9P4": {
+      "claim": "The reciprocal rule requires zero outside the image of f.",
+      "path": "source/upstream/CM_dynSys.lines_1088_1118.tex",
+      "sha256": "1611b04bed8d1a0b01bf96b0746fc7550fba808a11451a55b62c005eeefd2e10",
+      "upstream_lines": "1088-1118 (rule at 1100-1104)"
+    },
+    "S9R1": {
+      "claim": "The first-order divided difference is an exact quotient.",
+      "path": "source/upstream/CM_dynSys.lines_1062_1069.tex",
+      "sha256": "cbb9da19cf4391f71b780d550a192e83e00767cccdc6897f8125eed8da68a110",
+      "upstream_lines": "1062-1069 (definition at 1065-1069)"
+    }
+  }
+}

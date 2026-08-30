@@ -1,0 +1,56 @@
+{
+  "step": 1,
+  "current_hash": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1",
+  "candidate_hash": "924b8e17877df95bc364a5a31447ced41c3ee5b9432d4e18f9d811e512ae5e97",
+  "candidate_text": "(-1/(sqrt(x2_hold**2 + (alpha + x1_old)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)) + 1/(sqrt(x2_hold**2 + (alpha + x1_new)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)))*(2*alpha + x1_new + x1_old)",
+  "residual": null,
+  "verdict": "UNKNOWN",
+  "evidence": [
+    {
+      "kind": "proposer_candidate",
+      "candidate_id": "rps-candidate-k9-001-G_PRIMITIVE-Q9H1",
+      "assumptions_status": "DECLARED",
+      "confidence": "high",
+      "role": "STRUCTURAL_PROPOSER",
+      "harness_task_or_subagent_id": null,
+      "invoked_at": "2026-08-30T14:53:46Z",
+      "returned_at": null,
+      "parent_agent_step": 0,
+      "proposal_sha256": "c2e990b02fa999c4908959347dc66a058331c37feb25dd6d8641e2cdcbe8c426",
+      "conjecture_packet_sha256": null,
+      "invocation_mode": "main_agent",
+      "unavailable": false,
+      "subagent_id": null,
+      "invocation_timestamp": "2026-08-30T14:53:46Z",
+      "proposal_timestamp": "2026-08-30T14:53:46Z",
+      "parent_step_index": 0
+    }
+  ],
+  "timestamp": "2026-08-30T14:53:46Z",
+  "status": "HYPOTHESIS",
+  "telemetry": {
+    "primitive": "proposal",
+    "wall_time_seconds": 0.0,
+    "verdict": null,
+    "engine_version": "0.3.0",
+    "agent_protocol_version": "0.3.0",
+    "proposal": {
+      "candidate_id": "rps-candidate-k9-001-G_PRIMITIVE-Q9H1",
+      "hypothesis": "The compiled program output is exactly equivalent to the member.",
+      "candidate_expression_or_rewrite": "(-1/(sqrt(x2_hold**2 + (alpha + x1_old)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)) + 1/(sqrt(x2_hold**2 + (alpha + x1_new)**2)*((alpha + x1_new)**2 - (alpha + x1_old)**2)))*(2*alpha + x1_new + x1_old)",
+      "rationale": "This is the selected typed constructor output.",
+      "expected_structural_benefit": "The executable M1 program reconstructs one hash-bound member.",
+      "suggested_verification_strategy": "Run the exact verifier on the hash-bound member and candidate.",
+      "status": "HYPOTHESIS",
+      "required_assumptions": [
+        "package ScientificAssumptionContract"
+      ],
+      "assumptions_status": "DECLARED",
+      "confidence": "high"
+    }
+  },
+  "engine_version": "0.3.0",
+  "engine_git_sha": "9f3afc637eb58cd57d0b1c15bb8e8a0331c6ac24",
+  "assumption_status": null,
+  "proof_status": "HYPOTHESIS"
+}

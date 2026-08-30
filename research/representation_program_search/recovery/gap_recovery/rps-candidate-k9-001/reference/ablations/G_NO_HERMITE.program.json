@@ -1,0 +1,260 @@
+{
+  "assumption_statuses": {
+    "P9A1": "DECLARED",
+    "P9A2": "DECLARED",
+    "P9A3": "DECLARED",
+    "P9A4": "DERIVED"
+  },
+  "assumptions_used": [
+    "P9A1",
+    "P9A2",
+    "P9A3",
+    "P9A4"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "M9H1": {
+      "left_node": "(x1_old+alpha)**2+x2_hold**2",
+      "right_node": "(x1_new+alpha)**2+x2_hold**2"
+    },
+    "M9H2": {
+      "left_node": "(x1_hold+alpha)**2+x2_old**2",
+      "right_node": "(x1_hold+alpha)**2+x2_new**2"
+    },
+    "M9H3": {
+      "left_node": "(x1_old-beta)**2+x2_hold**2",
+      "right_node": "(x1_new-beta)**2+x2_hold**2"
+    },
+    "M9H4": {
+      "left_node": "(x1_hold-beta)**2+x2_old**2",
+      "right_node": "(x1_hold-beta)**2+x2_new**2"
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "1/sqrt(z)",
+      "form": "SCALAR_KERNEL",
+      "latent_id": "L9K1",
+      "parameters": [
+        "z"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "M9H1",
+      "operator_ids": [
+        "OP9N1",
+        "OP9L1"
+      ],
+      "output": "c9_1"
+    },
+    {
+      "member_id": "M9H2",
+      "operator_ids": [
+        "OP9N2",
+        "OP9L2"
+      ],
+      "output": "c9_2"
+    },
+    {
+      "member_id": "M9H3",
+      "operator_ids": [
+        "OP9N3",
+        "OP9L3"
+      ],
+      "output": "c9_3"
+    },
+    {
+      "member_id": "M9H4",
+      "operator_ids": [
+        "OP9N4",
+        "OP9L4"
+      ],
+      "output": "c9_4"
+    }
+  ],
+  "node_structures": [
+    {
+      "node_id": "N9K1",
+      "nodes": [
+        "(x1_old+alpha)**2+x2_hold**2",
+        "(x1_new+alpha)**2+x2_hold**2"
+      ]
+    },
+    {
+      "node_id": "N9K2",
+      "nodes": [
+        "(x1_hold+alpha)**2+x2_old**2",
+        "(x1_hold+alpha)**2+x2_new**2"
+      ]
+    },
+    {
+      "node_id": "N9K3",
+      "nodes": [
+        "(x1_old-beta)**2+x2_hold**2",
+        "(x1_new-beta)**2+x2_hold**2"
+      ]
+    },
+    {
+      "node_id": "N9K4",
+      "nodes": [
+        "(x1_hold-beta)**2+x2_old**2",
+        "(x1_hold-beta)**2+x2_new**2"
+      ]
+    }
+  ],
+  "obligations": [
+    {
+      "member_id": "M9H1",
+      "obligation_id": "Q9H1",
+      "output": "c9_1",
+      "required": true
+    },
+    {
+      "member_id": "M9H2",
+      "obligation_id": "Q9H2",
+      "output": "c9_2",
+      "required": true
+    },
+    {
+      "member_id": "M9H3",
+      "obligation_id": "Q9H3",
+      "output": "c9_3",
+      "required": true
+    },
+    {
+      "member_id": "M9H4",
+      "obligation_id": "Q9H4",
+      "output": "c9_4",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "nodes": "N9K1"
+      },
+      "inputs": [],
+      "latent_id": "L9K1",
+      "operator": "NEWTON_DD",
+      "operator_id": "OP9N1",
+      "output": "d9_1"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x1_new+x1_old+2*alpha"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "d9_1"
+      ],
+      "latent_id": "L9K1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP9L1",
+      "output": "c9_1"
+    },
+    {
+      "arguments": {
+        "nodes": "N9K2"
+      },
+      "inputs": [],
+      "latent_id": "L9K1",
+      "operator": "NEWTON_DD",
+      "operator_id": "OP9N2",
+      "output": "d9_2"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x2_new+x2_old"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "d9_2"
+      ],
+      "latent_id": "L9K1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP9L2",
+      "output": "c9_2"
+    },
+    {
+      "arguments": {
+        "nodes": "N9K3"
+      },
+      "inputs": [],
+      "latent_id": "L9K1",
+      "operator": "NEWTON_DD",
+      "operator_id": "OP9N3",
+      "output": "d9_3"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x1_new+x1_old-2*beta"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "d9_3"
+      ],
+      "latent_id": "L9K1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP9L3",
+      "output": "c9_3"
+    },
+    {
+      "arguments": {
+        "nodes": "N9K4"
+      },
+      "inputs": [],
+      "latent_id": "L9K1",
+      "operator": "NEWTON_DD",
+      "operator_id": "OP9N4",
+      "output": "d9_4"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "x2_new+x2_old"
+        ],
+        "constant": "0"
+      },
+      "inputs": [
+        "d9_4"
+      ],
+      "latent_id": "L9K1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP9L4",
+      "output": "c9_4"
+    }
+  ],
+  "program_id": "0002761432e0bd2c6c0ea2050622b287ea817d00769555c30a08ee3022dd5b66",
+  "representation_depth": "R2_NEWTON_DD",
+  "source_members": [
+    {
+      "member_id": "M9H1",
+      "path": "members/M9H1.txt",
+      "sha256": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1"
+    },
+    {
+      "member_id": "M9H2",
+      "path": "members/M9H2.txt",
+      "sha256": "04437530c91f25ce96431db386e64117e89fd88fbc0dd0fe10f7fd4baf8dc672"
+    },
+    {
+      "member_id": "M9H3",
+      "path": "members/M9H3.txt",
+      "sha256": "f8ecd645a4cf3f2f5d21cdc646d44d72eb97ab290abcdefe750b5df24f95dd54"
+    },
+    {
+      "member_id": "M9H4",
+      "path": "members/M9H4.txt",
+      "sha256": "261d69aee58010d1a3d9ca7c293a3365647c62b769b0f238c45b40a0b2ad6c32"
+    }
+  ],
+  "unexplained_members": []
+}

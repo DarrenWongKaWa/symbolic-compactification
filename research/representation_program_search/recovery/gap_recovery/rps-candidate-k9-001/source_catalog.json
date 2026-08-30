@@ -1,0 +1,31 @@
+{
+  "members": [
+    {
+      "locator_id": "L9H1",
+      "member_id": "M9H1",
+      "path": "members/M9H1.txt",
+      "sha256": "9e863623c4d7bb08f1568cb6a70108896c44528801b16d3b9d06dd01251ef2f1"
+    },
+    {
+      "locator_id": "L9H2",
+      "member_id": "M9H2",
+      "path": "members/M9H2.txt",
+      "sha256": "04437530c91f25ce96431db386e64117e89fd88fbc0dd0fe10f7fd4baf8dc672"
+    },
+    {
+      "locator_id": "L9H3",
+      "member_id": "M9H3",
+      "path": "members/M9H3.txt",
+      "sha256": "f8ecd645a4cf3f2f5d21cdc646d44d72eb97ab290abcdefe750b5df24f95dd54"
+    },
+    {
+      "locator_id": "L9H4",
+      "member_id": "M9H4",
+      "path": "members/M9H4.txt",
+      "sha256": "261d69aee58010d1a3d9ca7c293a3365647c62b769b0f238c45b40a0b2ad6c32"
+    }
+  ],
+  "schema_version": "RPSMemberCatalogV1",
+  "symbols_path": "symbols.json",
+  "symbols_sha256": "cfbace910d61d9652cb116318c751df81f6b2d69a04b85ce937465fd06df5148"
+}
