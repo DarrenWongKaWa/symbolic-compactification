@@ -1,15 +1,18 @@
 # STATUS
 
-CURRENT PHASE: independent DEV admission review plus completion of the S7
-matched-control implementation; no scientific search experiments
+CURRENT PHASE: independent DEV admission review and fresh-case recovery; no
+scientific search experiments
 
 PARENT: `0cdde49` publication F (assumption-complete representation)
 
-CURRENT BOTTLENECK: recovered and newly mined strict M1 packages remain
-candidate-only until independent source, assumption, depth, duplicate, and
-leakage review. C3J9 is already excluded from fresh evidence as an old-TEST
-structural variant. C8Q2 and fresh R2/R6 gap-fill candidates are under
-independent review. No case has entered a shared DEV manifest.
+CURRENT BOTTLENECK: no case is currently admission-ready. C3J9 is excluded
+from fresh evidence as an old-TEST structural variant. C8Q2 is exact but only
+R1 and diagnostics-only because its package reveals adjacent-order roles.
+The CR3BP gap-fill has exact R2 mathematics but a non-replayable public-source
+and namespace boundary; an isolated agent is repairing that packaging without
+mutating the rejected package. The purported VDW R6 case is independently R1,
+not R6. Fresh strict R3, R4/R5, and R6 mining remains in progress. No case has
+entered a shared DEV manifest.
 
 OPEN CONTRACT DEFECT: `real:false` is documented as complex-probe selection
 but is implemented as SymPy `real=False` (provably non-real). Affected
@@ -18,16 +21,23 @@ Piecewise/zero-domain claims fail closed; see
 
 TEST FREEZE STATUS: not started (old AC TEST is HISTORICAL_DIAGNOSTIC)
 
-LLM / SEARCH JOBS: S0/S1, S2, S3, S4, S5, S6, and F0 are implemented. The M2
+LLM / SEARCH JOBS: S0/S1, S2, S3, S4, S5, S6, S7, and F0 are implemented. The M2
 legal frontier is connected to S6 by an evaluator-blind adapter. S0–S5 can use
 the same exact recorder post hoc without feeding verdicts into search order.
 Both assumption completeness and leakage clearance default `UNKNOWN`. S3 is
 scientifically `UNAVAILABLE` until an admitted case receives a fresh
 case-bound replay from the byte-exact frozen SOL authority. S4/S5 fail closed
 when final-only DeepSeek output, usage provenance, or accepted decisions are
-missing; the matched symbolic batch-32 control is implemented. S7 and its
-matched verifier-only control are under final integration. No scientific DEV
-run and no live LLM call.
+missing; the matched symbolic batch-32 control is implemented. S7 ranks only
+the first 32 exact-evaluated legal M2 children, sees aggregate verdict classes
+but no residuals or hidden labels, and is paired with the matched verifier-only
+batch-32 control. F0 replays every parseable legacy equality through exact
+persisted sessions; untranslatable outputs are FREEFORM_UNCOMPARABLE. No
+scientific DEV run and no live LLM call.
+
+IMPLEMENTATION VERIFICATION: repository-wide suite clean at 1907 passed
+(`2026-08-30`; 381.21 seconds). This verifies software behavior only and is
+not a scientific result.
 
 STATISTICAL REPORTING: c5dfa3c (fixed-budget task- and cluster-weighted
 curves; Wilson intervals; conditional efficiency with explicit censor counts;
@@ -35,7 +45,7 @@ unavailable methods and inadmissible cases cannot enter denominators)
 
 PUBLICATION STATUS: not issued
 
-NEXT AUTO ACTION: finish independent candidate admission and S7 integration;
+NEXT AUTO ACTION: finish independent candidate admission;
 assemble one R2, one R3, one R4/R5, one R6, and one negative DEV calibration
 only from admitted cases; execute all methods for correctness before freezing
 implementation semantics. Do not freeze TEST, run Guo, or interpret search
@@ -79,6 +89,23 @@ M2 frontier; public structural signals only; no proof or evaluator ordering)
 
 POST-HOC EXACT EVALUATION: 73a9111 (preserves recorded expansion order; no
 verifier feedback to S0–S5; explicit assumption and leakage clearance gates)
+
+S7 VERIFIED SEARCH: ba6cdcf (LLM ranker over an exact-evaluated batch-32
+frontier; matched `S6_MATCHED_BATCH32`; exact session gates and fail-closed
+provenance)
+
+F0 SESSIONED EVALUATOR: 6e5fbef (legacy proofs replayed through persisted
+exact sessions; strict no-repair typed translation; evaluator authority stored
+by hash)
+
+PRE-DEV REACHABILITY REPAIR: d483767 (generic V2 bounded public-source
+candidate extraction and legal action reachability; no scientific run)
+
+STRICT GAP-FILL AUDIT: d18238a / 41aa1a0 (CR3BP exact R2 but packaging not
+admission-ready; VDW exact R1 and rejected as R6)
+
+C8Q2 AUDIT: 9f3afc6 (exact recurrence package, independently depth R1 and
+diagnostics-only; not DEV admission)
 
 S3 SOL SEARCH: b23b565; handoff 0fe23b8 (authority manifest
 `6678002a8038ea7cc79ed75d428c669946c67ae66272f1999d4e9d95db8f1595`;
