@@ -22,9 +22,19 @@ unavailable; there is no fallback. A malformed final JSON response remains an
 available method outcome with `PARSE_FAILURE`, because format failure is a
 scientific failure of F0 rather than missing infrastructure.
 
-The runner does not evaluate its own output. Legacy scoring and typed M1
-translation remain evaluator-side operations, so neither hidden representation
-labels nor reference programs cross the proposer boundary.
+The runner does not evaluate its own output. `evaluator.py` implements the
+separate evaluator-side boundary, so neither hidden representation labels nor
+reference programs cross the proposer call:
+
+- every parseable legacy equality is replayed through a persisted exact
+  verifier session before the frozen legacy scorer sees a verdict;
+- the legacy axis records only a hash of its evaluator-only authority;
+- the no-repair typed translator accepts only complete unary-specialization
+  programs with exact member/operator/instance maps and exact assumption-ID or
+  canonical-predicate references;
+- all other free-form programs are `FREEFORM_UNCOMPARABLE`;
+- translated programs receive current `PROGRAM_SUCCESS` only through M1
+  compilation and session-recorded ZERO for every required member.
 
 ## Outcome compatibility
 

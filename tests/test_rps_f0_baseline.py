@@ -10,6 +10,7 @@ from research.representation_program_search.freeform_baseline import (
     F0_AUTHORITY_COMMIT,
     F0RunContractError,
     build_f0_prompt,
+    evaluate_f0,
     run_f0,
     validate_f0_authority,
 )
@@ -256,3 +257,127 @@ def test_f0_refuses_to_overwrite_existing_evidence(tmp_path):
             transport=_Transport("{}"),
             output_directory=output,
         )
+
+
+def _specialization_case(tmp_path: Path):
+    members = []
+    for index, expression in enumerate(("x + 1\n", "y + 1\n"), 1):
+        path = tmp_path / "members" / f"M{index}.txt"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(expression, encoding="utf-8")
+        members.append({
+            "member_id": f"OPAQUE_{index}",
+            "path": path.relative_to(tmp_path).as_posix(),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        })
+    symbols_sha = _json(tmp_path / "symbols.json", {"symbols": ["x", "y"]})
+    assumptions_sha = _json(tmp_path / "assumptions.json", {
+        "predicates": [
+            {"predicate_id": "P_X", "status": "DECLARED"},
+            {"predicate_id": "P_Y", "status": "DECLARED"},
+        ],
+        "status": "COMPLETE",
+    })
+    _json(tmp_path / "proposer_view.json", {
+        "assumptions": {"path": "assumptions.json", "sha256": assumptions_sha},
+        "case_id": "F0_SPECIALIZATION_CASE",
+        "schema_version": "RPSProposerViewV1",
+        "source_catalog": {
+            "members": members,
+            "symbols_path": "symbols.json",
+            "symbols_sha256": symbols_sha,
+        },
+    })
+    return load_public_case(tmp_path / "proposer_view.json")
+
+
+def test_f0_evaluator_session_replays_legacy_and_certifies_strict_specialization(tmp_path):
+    case = _specialization_case(tmp_path / "case")
+    content = json.dumps({
+        "abstain": False,
+        "abstain_reason": "",
+        "hypotheses": [{
+            "representation_type": "parameterized_family",
+            "latent_object": "F(t)=t+1",
+            "variables": ["t"],
+            "member_maps": [
+                {"source_node_id": "G0001", "role": "instance"},
+                {"source_node_id": "G0002", "role": "instance"},
+            ],
+            "operators": [
+                {"member": "G0001", "O": "specialize"},
+                {"member": "G0002", "O": "specialize"},
+            ],
+            "instance_maps": [
+                {"member": "G0001", "theta": {"t": "x"}},
+                {"member": "G0002", "theta": {"t": "y"}},
+            ],
+            "reconstruction_rule": "G0001=F(x); G0002=F(y)",
+            "required_assumptions": ["P_X", "P_Y"],
+            "proof_obligations": [
+                "G0001 = F(x)",
+                "G0002 = F(y)",
+                "G0001 - G0002 = F(x) - F(y)",
+            ],
+        }],
+    })
+    run = run_f0(
+        case,
+        transport=_Transport(content),
+        output_directory=tmp_path / "run",
+    )
+    evaluated = evaluate_f0(
+        run,
+        case,
+        legacy_hidden={
+            "ladder_n": 1,
+            "nontrivial": True,
+            "representation_family": ["parameterized_family"],
+        },
+        output_directory=tmp_path / "evaluation",
+        leakage_status="CLEARED",
+        assumption_clearance="CLEARED",
+    )
+    assert evaluated["legacy"]["any_operational_success"] is True
+    assert evaluated["program"]["any_program_success"] is True
+    assert evaluated["program"]["items"][0]["disposition"] == "PROGRAM_SUCCESS"
+    legacy_obligations = evaluated["legacy"]["items"][0]["compile"]["obligations"]
+    assert [item["verdict"] for item in legacy_obligations] == ["ZERO", "ZERO", "ZERO"]
+    assert all(item["evidence"]["run_id"] for item in legacy_obligations)
+
+
+def test_f0_typed_translation_fails_closed_on_freeform_operator(tmp_path):
+    case = _specialization_case(tmp_path / "case")
+    hypothesis = _hypothesis(
+        member_maps=[
+            {"source_node_id": "G0001", "role": "instance"},
+            {"source_node_id": "G0002", "role": "instance"},
+        ],
+        operators=[
+            {"member": "G0001", "O": "other_explicit"},
+            {"member": "G0002", "O": "other_explicit"},
+        ],
+        instance_maps=[
+            {"member": "G0001", "theta": {"t": "x"}},
+            {"member": "G0002", "theta": {"t": "y"}},
+        ],
+        required_assumptions=["P_X", "P_Y"],
+        proof_obligations=["G0001 = F(x)"],
+    )
+    content = json.dumps({"abstain": False, "hypotheses": [hypothesis]})
+    run = run_f0(
+        case,
+        transport=_Transport(content),
+        output_directory=tmp_path / "run",
+    )
+    evaluated = evaluate_f0(
+        run,
+        case,
+        legacy_hidden={"nontrivial": True, "representation_family": []},
+        output_directory=tmp_path / "evaluation",
+        leakage_status="CLEARED",
+        assumption_clearance="CLEARED",
+    )
+    typed = evaluated["program"]["items"][0]
+    assert typed["disposition"] == "FREEFORM_UNCOMPARABLE"
+    assert typed["failure_code"] == "FREEFORM_OPERATOR_UNTRANSLATABLE"
