@@ -1,0 +1,245 @@
+{
+  "assumption_statuses": {
+    "P1X7": "DECLARED",
+    "P2X7": "DECLARED",
+    "P3X7": "DERIVED"
+  },
+  "assumptions_used": [
+    "P1X7",
+    "P2X7",
+    "P3X7"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "M7K1": {
+      "direction": "p",
+      "nodes": "N7D1"
+    },
+    "M7K2": {
+      "direction": "q",
+      "nodes": "N7D1"
+    },
+    "M7K3": {
+      "directions": [
+        "p",
+        "q"
+      ],
+      "nodes": "N7D2"
+    },
+    "M7K4": {
+      "directions": [
+        "p",
+        "q"
+      ],
+      "nodes": "N7D3"
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "exp(u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F7E1",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "M7K1",
+      "operator_ids": [
+        "OP7A",
+        "OP7B"
+      ],
+      "output": "c7_12"
+    },
+    {
+      "member_id": "M7K2",
+      "operator_ids": [
+        "OP7A",
+        "OP7C"
+      ],
+      "output": "c7_21"
+    },
+    {
+      "member_id": "M7K3",
+      "operator_ids": [
+        "OP7D",
+        "OP7E"
+      ],
+      "output": "c7_11"
+    },
+    {
+      "member_id": "M7K4",
+      "operator_ids": [
+        "OP7F",
+        "OP7G"
+      ],
+      "output": "c7_22"
+    }
+  ],
+  "node_structures": [
+    {
+      "node_id": "N7D1",
+      "nodes": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "node_id": "N7D2",
+      "nodes": [
+        "x",
+        "x",
+        "y"
+      ]
+    },
+    {
+      "node_id": "N7D3",
+      "nodes": [
+        "x",
+        "y",
+        "y"
+      ]
+    }
+  ],
+  "obligations": [
+    {
+      "member_id": "M7K1",
+      "obligation_id": "O7R1",
+      "output": "c7_12",
+      "required": true
+    },
+    {
+      "member_id": "M7K2",
+      "obligation_id": "O7R2",
+      "output": "c7_21",
+      "required": true
+    },
+    {
+      "member_id": "M7K3",
+      "obligation_id": "O7R3",
+      "output": "c7_11",
+      "required": true
+    },
+    {
+      "member_id": "M7K4",
+      "obligation_id": "O7R4",
+      "output": "c7_22",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "nodes": "N7D1"
+      },
+      "inputs": [],
+      "latent_id": "F7E1",
+      "operator": "NEWTON_DD",
+      "operator_id": "OP7A",
+      "output": "d7_xy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p"
+        ]
+      },
+      "inputs": [
+        "d7_xy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP7B",
+      "output": "c7_12"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "q"
+        ]
+      },
+      "inputs": [
+        "d7_xy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP7C",
+      "output": "c7_21"
+    },
+    {
+      "arguments": {
+        "nodes": "N7D2"
+      },
+      "inputs": [],
+      "latent_id": "F7E1",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP7D",
+      "output": "d7_xxy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "d7_xxy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP7E",
+      "output": "c7_11"
+    },
+    {
+      "arguments": {
+        "nodes": "N7D3"
+      },
+      "inputs": [],
+      "latent_id": "F7E1",
+      "operator": "HERMITE_DD",
+      "operator_id": "OP7F",
+      "output": "d7_xyy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "d7_xyy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP7G",
+      "output": "c7_22"
+    }
+  ],
+  "program_id": "951244f77df712e6c70211d48eda0c2bf6a993799c01f6deefd08cbe35352810",
+  "representation_depth": "R3_REPEATED_NODE",
+  "source_members": [
+    {
+      "member_id": "M7K1",
+      "path": "members/M7K1.txt",
+      "sha256": "29a5da53cd078122ee8add0260e30654e1be64eafd9c409b1781205c7ae4fb16"
+    },
+    {
+      "member_id": "M7K2",
+      "path": "members/M7K2.txt",
+      "sha256": "1181231bc41cf3a64391e689ee8759a54f15cdc8a34ccfee479769d8684d60ac"
+    },
+    {
+      "member_id": "M7K3",
+      "path": "members/M7K3.txt",
+      "sha256": "46662878bbbfa21dfa0834d07d8cdf65aa51019bafbddef8b4a627e65e034c84"
+    },
+    {
+      "member_id": "M7K4",
+      "path": "members/M7K4.txt",
+      "sha256": "648ed0ec8fe907a3cadc24903d8b7627aaf221eae78f5ac31e318316ee088566"
+    }
+  ],
+  "unexplained_members": []
+}

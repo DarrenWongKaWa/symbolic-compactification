@@ -1,0 +1,45 @@
+{
+  "assumptions": {
+    "path": "assumptions.json",
+    "sha256": "0564b6c68c35b14e723bb62e41a8b1a2dc03026124b19ccebe8edbfb763e18c6"
+  },
+  "case_id": "C7X4",
+  "schema_version": "RPSProposerViewV1",
+  "source_catalog": {
+    "members": [
+      {
+        "member_id": "M7K1",
+        "path": "members/M7K1.txt",
+        "sha256": "29a5da53cd078122ee8add0260e30654e1be64eafd9c409b1781205c7ae4fb16"
+      },
+      {
+        "member_id": "M7K2",
+        "path": "members/M7K2.txt",
+        "sha256": "1181231bc41cf3a64391e689ee8759a54f15cdc8a34ccfee479769d8684d60ac"
+      },
+      {
+        "member_id": "M7K3",
+        "path": "members/M7K3.txt",
+        "sha256": "46662878bbbfa21dfa0834d07d8cdf65aa51019bafbddef8b4a627e65e034c84"
+      },
+      {
+        "member_id": "M7K4",
+        "path": "members/M7K4.txt",
+        "sha256": "648ed0ec8fe907a3cadc24903d8b7627aaf221eae78f5ac31e318316ee088566"
+      }
+    ],
+    "path": "source_catalog.json",
+    "sha256": "fea890cae367415f7ed09858c267c4197b83fb289dac0aabde275a6452457028"
+  },
+  "structural_observations": {
+    "argument_families": [
+      "x",
+      "y"
+    ],
+    "member_count": 4,
+    "shared_functions": [
+      "exp"
+    ],
+    "source_scope": "symbolic scalar components on a declared distinct-parameter stratum"
+  }
+}

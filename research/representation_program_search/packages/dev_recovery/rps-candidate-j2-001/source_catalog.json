@@ -1,0 +1,29 @@
+{
+  "members": [
+    {
+      "locator_id": "S7A1",
+      "member_id": "M7K1",
+      "path": "members/M7K1.txt",
+      "sha256": "29a5da53cd078122ee8add0260e30654e1be64eafd9c409b1781205c7ae4fb16"
+    },
+    {
+      "locator_id": "S7A2",
+      "member_id": "M7K2",
+      "path": "members/M7K2.txt",
+      "sha256": "1181231bc41cf3a64391e689ee8759a54f15cdc8a34ccfee479769d8684d60ac"
+    },
+    {
+      "locator_id": "S7A3",
+      "member_id": "M7K3",
+      "path": "members/M7K3.txt",
+      "sha256": "46662878bbbfa21dfa0834d07d8cdf65aa51019bafbddef8b4a627e65e034c84"
+    },
+    {
+      "locator_id": "S7A4",
+      "member_id": "M7K4",
+      "path": "members/M7K4.txt",
+      "sha256": "648ed0ec8fe907a3cadc24903d8b7627aaf221eae78f5ac31e318316ee088566"
+    }
+  ],
+  "schema_version": "RPSMemberCatalogV1"
+}

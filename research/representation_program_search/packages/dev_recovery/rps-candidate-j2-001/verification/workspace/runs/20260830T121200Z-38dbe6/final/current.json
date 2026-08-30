@@ -1,0 +1,29 @@
+{
+  "functions": [],
+  "promoted_at_step": 1,
+  "sha256": "0080676582efb2616669d44fc326f6616506b10d665ddb32a627259e32b57de5",
+  "sha256_of_text": "d5c9a7ce129f9504308439512a7ebea03f5d89cb05a77e21e572a811bc1ab13b",
+  "symbols": [
+    {
+      "name": "p",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "q",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": false
+    },
+    {
+      "name": "y",
+      "nonzero": false,
+      "real": false
+    }
+  ],
+  "text": "p*(-exp(x) + exp(y))/(-x + y)"
+}

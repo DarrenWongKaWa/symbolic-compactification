@@ -1,0 +1,286 @@
+{
+  "assumption_statuses": {
+    "P1X7": "DECLARED",
+    "P2X7": "DECLARED",
+    "P3X7": "DERIVED"
+  },
+  "assumptions_used": [
+    "P1X7",
+    "P2X7",
+    "P3X7"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {},
+  "latent_objects": [
+    {
+      "expression": "exp(u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F7E1",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": [
+    {
+      "member_id": "M7K1",
+      "operator_ids": [
+        "PA0",
+        "PA1",
+        "PA2",
+        "PA3"
+      ],
+      "output": "pc12"
+    },
+    {
+      "member_id": "M7K2",
+      "operator_ids": [
+        "PA0",
+        "PA1",
+        "PA2",
+        "PA4"
+      ],
+      "output": "pc21"
+    },
+    {
+      "member_id": "M7K3",
+      "operator_ids": [
+        "PA0",
+        "PA1",
+        "PA2",
+        "PA5",
+        "PA6",
+        "PA8",
+        "PA9"
+      ],
+      "output": "pc11"
+    },
+    {
+      "member_id": "M7K4",
+      "operator_ids": [
+        "PA5",
+        "PA7",
+        "PA0",
+        "PA1",
+        "PA2",
+        "PA10",
+        "PA11"
+      ],
+      "output": "pc22"
+    }
+  ],
+  "node_structures": [],
+  "obligations": [
+    {
+      "member_id": "M7K1",
+      "obligation_id": "O7R1",
+      "output": "pc12",
+      "required": true
+    },
+    {
+      "member_id": "M7K2",
+      "obligation_id": "O7R2",
+      "output": "pc21",
+      "required": true
+    },
+    {
+      "member_id": "M7K3",
+      "obligation_id": "O7R3",
+      "output": "pc11",
+      "required": true
+    },
+    {
+      "member_id": "M7K4",
+      "obligation_id": "O7R4",
+      "output": "pc22",
+      "required": true
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "node": "x"
+      },
+      "inputs": [],
+      "latent_id": "F7E1",
+      "operator": "VALUE",
+      "operator_id": "PA0",
+      "output": "pfx"
+    },
+    {
+      "arguments": {
+        "node": "y"
+      },
+      "inputs": [],
+      "latent_id": "F7E1",
+      "operator": "VALUE",
+      "operator_id": "PA1",
+      "output": "pfy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "-1/(y-x)",
+          "1/(y-x)"
+        ]
+      },
+      "inputs": [
+        "pfx",
+        "pfy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA2",
+      "output": "pdxy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p"
+        ]
+      },
+      "inputs": [
+        "pdxy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA3",
+      "output": "pc12"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "q"
+        ]
+      },
+      "inputs": [
+        "pdxy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA4",
+      "output": "pc21"
+    },
+    {
+      "arguments": {
+        "variable": "u"
+      },
+      "inputs": [],
+      "latent_id": "F7E1",
+      "operator": "DERIVATIVE",
+      "operator_id": "PA5",
+      "output": "pdf"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "x"
+      },
+      "inputs": [
+        "pdf"
+      ],
+      "latent_id": "F7E1",
+      "operator": "SUBSTITUTE",
+      "operator_id": "PA6",
+      "output": "pdx"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "y"
+      },
+      "inputs": [
+        "pdf"
+      ],
+      "latent_id": "F7E1",
+      "operator": "SUBSTITUTE",
+      "operator_id": "PA7",
+      "output": "pdy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1/(y-x)",
+          "-1/(y-x)"
+        ]
+      },
+      "inputs": [
+        "pdxy",
+        "pdx"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA8",
+      "output": "pd_xxy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "pd_xxy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA9",
+      "output": "pc11"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1/(y-x)",
+          "-1/(y-x)"
+        ]
+      },
+      "inputs": [
+        "pdy",
+        "pdxy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA10",
+      "output": "pd_xyy"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "p*q"
+        ]
+      },
+      "inputs": [
+        "pd_xyy"
+      ],
+      "latent_id": "F7E1",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "PA11",
+      "output": "pc22"
+    }
+  ],
+  "program_id": "9ebe78cf867af8f6969f6ccde878e8e4184f63dd9426464e0df2e119aa84036b",
+  "representation_depth": "R3_COMPOSITIONAL_REPEATED_NODE",
+  "source_members": [
+    {
+      "member_id": "M7K1",
+      "path": "members/M7K1.txt",
+      "sha256": "29a5da53cd078122ee8add0260e30654e1be64eafd9c409b1781205c7ae4fb16"
+    },
+    {
+      "member_id": "M7K2",
+      "path": "members/M7K2.txt",
+      "sha256": "1181231bc41cf3a64391e689ee8759a54f15cdc8a34ccfee479769d8684d60ac"
+    },
+    {
+      "member_id": "M7K3",
+      "path": "members/M7K3.txt",
+      "sha256": "46662878bbbfa21dfa0834d07d8cdf65aa51019bafbddef8b4a627e65e034c84"
+    },
+    {
+      "member_id": "M7K4",
+      "path": "members/M7K4.txt",
+      "sha256": "648ed0ec8fe907a3cadc24903d8b7627aaf221eae78f5ac31e318316ee088566"
+    }
+  ],
+  "unexplained_members": []
+}

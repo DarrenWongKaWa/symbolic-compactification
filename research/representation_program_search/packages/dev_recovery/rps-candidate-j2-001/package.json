@@ -1,0 +1,207 @@
+{
+  "artifact_hashes": [
+    {
+      "path": "assumptions.json",
+      "sha256": "0564b6c68c35b14e723bb62e41a8b1a2dc03026124b19ccebe8edbfb763e18c6"
+    },
+    {
+      "path": "members/M7K1.txt",
+      "sha256": "29a5da53cd078122ee8add0260e30654e1be64eafd9c409b1781205c7ae4fb16"
+    },
+    {
+      "path": "members/M7K2.txt",
+      "sha256": "1181231bc41cf3a64391e689ee8759a54f15cdc8a34ccfee479769d8684d60ac"
+    },
+    {
+      "path": "members/M7K3.txt",
+      "sha256": "46662878bbbfa21dfa0834d07d8cdf65aa51019bafbddef8b4a627e65e034c84"
+    },
+    {
+      "path": "members/M7K4.txt",
+      "sha256": "648ed0ec8fe907a3cadc24903d8b7627aaf221eae78f5ac31e318316ee088566"
+    },
+    {
+      "path": "proposer_view.json",
+      "sha256": "7c18c038eae748b9a8ea3288bbfb4765d1158963d93eee82f093517ac1c91403"
+    },
+    {
+      "path": "reference/ablations/G_PRIMITIVE.program.json",
+      "sha256": "5e676ea3e88dd647a46cdd794cdf5fb838cf6b1d802ba8d0e7599644159cf34b"
+    },
+    {
+      "path": "reference/candidates/O7R1.full.txt",
+      "sha256": "0080676582efb2616669d44fc326f6616506b10d665ddb32a627259e32b57de5"
+    },
+    {
+      "path": "reference/candidates/O7R1.primitive.txt",
+      "sha256": "cfa16e058ce8c1c8513f7d1f150cdfe37c9d0e8c9143b26894df4cd9b6be77af"
+    },
+    {
+      "path": "reference/candidates/O7R2.full.txt",
+      "sha256": "e269b2552383eb7e3c522e367d4212be4bad0cc154537603c8372d16ba9a8661"
+    },
+    {
+      "path": "reference/candidates/O7R2.primitive.txt",
+      "sha256": "7146d0b0f89f69deeb6becb4b27aff498ff8c77b27981b57cf84206db82c16fe"
+    },
+    {
+      "path": "reference/candidates/O7R3.full.txt",
+      "sha256": "3318f267245d271b5eaf971e610489a2a7c058a6e73bda1acd878a85a96a85cb"
+    },
+    {
+      "path": "reference/candidates/O7R3.primitive.txt",
+      "sha256": "ecaef2bce2d4e4be66a3715b1d29e934f99c4669c94db0bebaa1bdd051fb41f4"
+    },
+    {
+      "path": "reference/candidates/O7R4.full.txt",
+      "sha256": "51611a18ce594828e361bca651098071dda5ee1ddc29a11d4abfadb1f5dc070a"
+    },
+    {
+      "path": "reference/candidates/O7R4.primitive.txt",
+      "sha256": "f4bd2e4b5c5b52bcda1c1eefd5bdd5b5a5eb628b9af95a7f0e3ef5290cf71189"
+    },
+    {
+      "path": "reference/obligations.json",
+      "sha256": "b36312319265931097dc8f285ed99a2ae4996f349a5dd45f3289a3b3ea03fb33"
+    },
+    {
+      "path": "reference/program.json",
+      "sha256": "feb4c096020aaa493840282f00d38a7a7524327fe15dc6149959cce2e94c78cb"
+    },
+    {
+      "path": "source/dossier.json",
+      "sha256": "63226f500107484ff8d377a26421224af199eaf66157d939d20573166fede9f5"
+    },
+    {
+      "path": "source/lowering.json",
+      "sha256": "0accf055e7c15d97ca5e99f20eb912623b806554f15f26f00ec125573bdd4dfc"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "fea890cae367415f7ed09858c267c4197b83fb289dac0aabde275a6452457028"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "389abc2663f5b77a0276e1d917c55492d05e1f5350e1df641a9813ba1859f5e1"
+    },
+    {
+      "path": "symbols.json",
+      "sha256": "d71e1e251f42bef1562ede3ff3487a46c9c696326d3560da0f0aebb55d1f41f3"
+    },
+    {
+      "path": "verification/index.json",
+      "sha256": "0c99ae5ed58b266740352d1df0a4f56346a4e38fc9a2076e499ac0d02081620b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121200Z-38dbe6/final/current.json",
+      "sha256": "d9d08920133bcadf662514bdb4367161598450c31b3c576415a92164e88483c4"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121200Z-38dbe6/manifest.json",
+      "sha256": "8a672a9ce67a88095279b2f8aab9fedb944b0cfb36a4c1008ab32a5b7df960d2"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121200Z-38dbe6/steps/step_001.json",
+      "sha256": "52d8addecad032c916ad65df386a4e690d52f7b88a66a38db1c77185534e00a7"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121201Z-0c314d/final/current.json",
+      "sha256": "2877c94b92449c564abddb1412968074d8f6b1983ef1761a175084bab94241d1"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121201Z-0c314d/manifest.json",
+      "sha256": "d8fdb0b18d54e8cb0313da4cd47c11fefc975edf773ab919ee62ea98ceba99b6"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121201Z-0c314d/steps/step_001.json",
+      "sha256": "d5ea4c72367491d3ca6fb50b09738f33af447d87bb5a56d30560ba7745457879"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121201Z-3de08e/final/current.json",
+      "sha256": "a6f835cb55464c899ec11c0cf0ab92f6f5fe30ac6e3a74163f4eeb3831eaddf3"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121201Z-3de08e/manifest.json",
+      "sha256": "6d9646b6b84207901b5b0a301effc0b78256ef36944b6a8ddfafddf05b6a117b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121201Z-3de08e/steps/step_001.json",
+      "sha256": "031c2b982106b0cc90debf05433947496c4eb3b2fb2cc1d7b358386eee5ec6fa"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121202Z-31526e/final/current.json",
+      "sha256": "2a1720cbf0560e40e122d783cb635b756669a2d1a05f767a175437326501672b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121202Z-31526e/manifest.json",
+      "sha256": "c9fa46113c9ce9080dc4754c7bff58e7524a13ddb7b6f0b4f19d20c3191191fd"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121202Z-31526e/steps/step_001.json",
+      "sha256": "0ec146970232bb61e034c4416d23fa3f0f6bf9014734ef574686ff9be719b7d5"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121203Z-ef1691/final/current.json",
+      "sha256": "78f617e749a800e10449c5cdc46ef52c60adf90e5df258db213ce2fe7b7c040b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121203Z-ef1691/manifest.json",
+      "sha256": "918786a3ad60bb9ecdbbaf894ba8f2f90586db38b09097a9252a89aec3e6d8b7"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121203Z-ef1691/steps/step_001.json",
+      "sha256": "120be10cc3c743ac5d0e7c9165fca7152236155bc12b358c20c5036cbdfc532b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121204Z-0e35ce/final/current.json",
+      "sha256": "6141d325bcda7361f4d124dd1f8c6c7c49ec779b4cc0ef1a3e95a58c9cf1ee54"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121204Z-0e35ce/manifest.json",
+      "sha256": "6aa6e69831f1a5d05377a1886b27123e1f854af393c205754eb7c7094e303612"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121204Z-0e35ce/steps/step_001.json",
+      "sha256": "39877bd6c48df2bdb8eb4f1744973b608a35938f66f597b8542925342604253f"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121204Z-dd6262/final/current.json",
+      "sha256": "cd3c31096c59133f3ac1709a911633e9d435224ba79a18a87a3c62bd15c766bd"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121204Z-dd6262/manifest.json",
+      "sha256": "650dabdc5033299b22a91e63c76bfbf9ff57692d85e6fcc9dc7e453c8576d59b"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121204Z-dd6262/steps/step_001.json",
+      "sha256": "06e782b02d93c0ea66bbf10bcbc3c68ced1086406103678961e2b3efdf632d1d"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121205Z-7b14bc/final/current.json",
+      "sha256": "4defdbd7cf69e2574e9de2704b299c18ba1ad93346ac3c7386c196f55cafb994"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121205Z-7b14bc/manifest.json",
+      "sha256": "3dd23b6f505f34700c608a018a885fb9fa849ae18584bb1b649307de111d0b06"
+    },
+    {
+      "path": "verification/workspace/runs/20260830T121205Z-7b14bc/steps/step_001.json",
+      "sha256": "bcab12a16775f9341be552c2e72fd43595d424a76fdd0ecfdf373c6a9ae73bec"
+    }
+  ],
+  "audited_depth": "R3_REPEATED_NODE_INELIGIBLE",
+  "contract_defect": "REAL_FALSE_NAMESPACE_CONTRACT_DEFECT",
+  "eligibility": "INELIGIBLE",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
+  "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
+  "package_id": "rps-candidate-j2-001",
+  "package_status": "PACKAGING_GAP",
+  "schema_version": "RPSCasePackageV1",
+  "source_dossier_id": "rps-dp-relton-second-frechet",
+  "verdict_totals": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 8
+  },
+  "zero_scope": "FROZEN_IMPLEMENTATION_NONREAL_SUBDOMAIN_ONLY"
+}
