@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 from dataclasses import replace
@@ -8,6 +9,7 @@ from pathlib import Path
 import pytest
 
 import research.representation_program_search.program_ir as program_ir
+import research.representation_program_search.search.symbolic_heuristic as heuristic
 import symbolic_compactification
 from research.representation_program_search.search import (
     SYMBOLIC_BEAM_WIDTH,
@@ -194,6 +196,33 @@ def test_symbolic_observations_and_priority_rank_structure_not_target_labels(tmp
     assert symbolic_priority(
         derivative, case, pool, observations
     ).total > symbolic_priority(neutral, case, pool, observations).total
+
+
+def test_relation_extractors_do_not_mutate_shared_trees_or_depend_on_order(tmp_path):
+    case = load_public_case(_fixture(tmp_path))
+    pool = extract_candidate_pool(case)
+    public_expressions = tuple(member.expression for member in case.members)
+    tree = heuristic._tree(public_expressions[0])
+    assert tree is not None
+    original = ast.dump(tree, include_attributes=True)
+
+    denominator_first = heuristic._denominator_families(tree)
+    assert ast.dump(tree, include_attributes=True) == original
+    power_second = heuristic._power_profile(tree)
+    assert ast.dump(tree, include_attributes=True) == original
+
+    replay_tree = heuristic._tree(public_expressions[0])
+    assert replay_tree is not None
+    power_first = heuristic._power_profile(replay_tree)
+    denominator_second = heuristic._denominator_families(replay_tree)
+    assert ast.dump(replay_tree, include_attributes=True) == original
+    assert denominator_first == denominator_second
+    assert power_first == power_second
+
+    first = extract_symbolic_observations(case, pool)
+    second = extract_symbolic_observations(case, pool)
+    assert first == second
+    assert tuple(member.expression for member in case.members) == public_expressions
 
 
 def test_s2_never_calls_evaluator_loader_or_verifier(tmp_path, monkeypatch):

@@ -1,8 +1,8 @@
 # M3 + M9 handoff — S2 symbolic-heuristic beam
 
-Date: 2026-08-30  
-Branch: `work/rps-symbolic-beam`  
-Base: `d0c0591`  
+Date: 2026-08-30
+Branch: `work/rps-symbolic-beam`
+Base: `d0c0591`
 Scope: implementation and synthetic/evaluator-only controls; no scientific
 DEV run
 
@@ -78,7 +78,7 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q \
   tests/test_rps_enumerative_random.py \
   tests/test_rps_program_ir.py
 
-50 passed in 12.47s
+51 passed in 12.18s
 ```
 
 Repository-wide result:
@@ -86,14 +86,15 @@ Repository-wide result:
 ```text
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q
 
-1772 passed in 209.36s
+1773 passed in 208.35s
 ```
 
 The focused controls cover deterministic replay, matched root legal frontier,
 budget validation/counting, evaluator/verifier blindness, structural controls
-ranked over distractors, proof-verdict invariance, all three grammar
-ablations, latent-object-disabled behavior, cross-latent COMPOSE under
-`G_PRIMITIVE`, and explicit candidate-pool/beam incompleteness.
+ranked over distractors, proof-verdict invariance, non-mutating and
+order-independent structural extraction, all three grammar ablations,
+latent-object-disabled behavior, cross-latent COMPOSE under `G_PRIMITIVE`,
+and explicit candidate-pool/beam incompleteness.
 
 ## Integration boundary
 

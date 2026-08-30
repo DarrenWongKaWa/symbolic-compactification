@@ -8,6 +8,7 @@ syntactic evidence for search ordering, never mathematical proof.
 from __future__ import annotations
 
 import ast
+import copy
 import hashlib
 import itertools
 from dataclasses import dataclass
@@ -108,9 +109,10 @@ def _alpha_signature(tree: ast.Expression) -> str:
 
 
 def _shape_signature(node: ast.AST) -> str:
-    return _dump(_ShapeAtoms().visit(ast.fix_missing_locations(ast.parse(
-        ast.unparse(node), mode="eval"
-    ))))
+    # NodeTransformer mutates nodes in place.  Search observations share one
+    # parsed tree across relation extractors, so always transform an isolated
+    # copy and leave extraction order scientifically irrelevant.
+    return _dump(_ShapeAtoms().visit(copy.deepcopy(node)))
 
 
 def _call_families(tree: ast.Expression) -> set[tuple[str, int]]:
