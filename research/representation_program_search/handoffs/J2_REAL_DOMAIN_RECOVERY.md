@@ -2,6 +2,8 @@
 
 Implementation commit: `7e5203693dd88d5eba396a2617333d19204cbcbe`
 
+Public-search boundary repair: `403ba55`
+
 Branch: `work/rps-dev-recovery`
 
 Coordinator synchronization merge: `56c6386`
@@ -79,6 +81,12 @@ Primary authority: NIST Digital Library of Mathematical Functions, sections
 - Proposer-visible IDs are opaque. The proposer projection contains source
   members/catalog, assumptions, and structural observations, but no source
   names, gold program, operator sequence, target depth, or verdict.
+- The repaired proposer projection references `source_catalog.json` only by
+  exact path and SHA-256. The catalog carries the hash-bound `symbols.json`
+  reference. Both views load through the evaluator-blind `load_public_case()`
+  boundary with `EXACT_PROPOSER_REFERENCE`, exact real/nonzero symbol records,
+  and exact DECLARED/DERIVED predicate statuses. No evaluator artifact is
+  accessed.
 - Duplicate audit used 79 historical/current references, explicitly including
   the sealed Guo diagnostic. Neither candidate has an exact or alpha-renamed
   member match in the current package pool.
@@ -92,11 +100,13 @@ Audit artifacts:
 
 ## Verification
 
-- Focused recovery tests: `9 passed`.
+- Focused recovery tests: `11 passed`.
 - Program/package/leakage/assumption cluster: `54 passed`.
-- Exact committed tree full suite, with bytecode writes disabled to prevent a
-  neighboring test from treating `__pycache__` as a package: `1785 passed in
-  227.38s`.
+- Public-loader repair regression cluster: `75 passed`, including both
+  recovery packages and the complete enumerative/random public-boundary tests.
+- Repaired-tree full suite, with bytecode writes disabled to prevent a
+  neighboring test from treating `__pycache__` as a package: `1787 passed in
+  226.09s`.
 
 Recommended next action: cherry-pick the implementation and handoff commits,
 then assign independent source/domain, depth/CSE, and leakage/duplicate review.
