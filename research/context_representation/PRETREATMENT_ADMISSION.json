@@ -1,0 +1,91 @@
+{
+  "schema_version": "ContextConditionedRepresentationAdmissionV1",
+  "campaign_id": "context-conditioned-verified-representation-discovery-v1",
+  "decision": "PRE_TREATMENT_NOT_ADMITTED",
+  "decision_date": "2026-08-31",
+  "campaign_input": {
+    "path": "workspace/input/context/context_conditioned_verified_representation_campaign.txt",
+    "sha256": "51e1ee0574a5056a5cffd64fd3a236a035c149b394b83104541c0bf8a3f3f6d8",
+    "classification": "context_notes"
+  },
+  "gate": {
+    "required_primary_task_count": 5,
+    "provisionally_viable_task_count": 1,
+    "irreversible_failure": "Two of the five fixed task families failed before treatment; the maximum attainable admissible count is three.",
+    "prerequisites": {
+      "five_admissible_real_physics_tasks": "FAIL",
+      "four_distinct_representation_families": "NOT_EVALUABLE",
+      "context_for_every_task": "NOT_EVALUABLE",
+      "hidden_target_and_evaluation_for_every_task": "NOT_EVALUABLE",
+      "negative_or_misleading_context_control": "NOT_EVALUABLE",
+      "operational_evaluator_for_every_task": "FAIL",
+      "no_direct_target_leakage": "NOT_EVALUABLE"
+    }
+  },
+  "task_cards": [
+    {
+      "task_id": "CCR-A-KUBO-FERMI-DD-01",
+      "family": "matrix_function_divided_difference_transfer",
+      "admission_status": "FAIL",
+      "failure_classes": ["PROBLEM_UNDERSPECIFIED", "PACKAGING_GAP"],
+      "source_urls": [
+        "https://arxiv.org/abs/2303.06077",
+        "https://arxiv.org/abs/2306.15814"
+      ],
+      "summary": "Source quotient leaves the Fermi function and degenerate/diagonal treatment incomplete; full Kubo expression is outside current scalar operational evaluation."
+    },
+    {
+      "task_id": "B-CANONICAL-BASIS-01",
+      "family": "canonical_basis_representation_change",
+      "admission_status": "FAIL",
+      "failure_classes": ["NO_CURRENT_OPERATIONAL_EVALUATOR"],
+      "source_urls": [
+        "https://arxiv.org/abs/2203.13014",
+        "https://arxiv.org/abs/1304.1806"
+      ],
+      "summary": "Scalar hidden-entry receipts do not operationally adjudicate an arbitrary proposed basis transformation; matrix/differential-system semantics are not executable."
+    },
+    {
+      "task_id": "CCR-TC-2LOOP-VACUUM-0MM-v1",
+      "family": "master_integral_generator_basis",
+      "admission_status": "PROVISIONALLY_VIABLE_NOT_FROZEN",
+      "failure_classes": [],
+      "source_urls": [
+        "https://arxiv.org/abs/2210.10593",
+        "https://arxiv.org/abs/2002.08042",
+        "https://arxiv.org/abs/1104.3993"
+      ],
+      "summary": "Source-derived rational recurrence can be evaluated as a one-generator R1 transfer task, but no independent leakage audit or package admission was run."
+    },
+    {
+      "task_id": "TASK_D",
+      "family": "continued_fraction_representation",
+      "admission_status": "STOPPED_UNCLASSIFIED",
+      "failure_classes": [],
+      "summary": "Mining halted once the exact-five gate became impossible."
+    },
+    {
+      "task_id": "TASK_E",
+      "family": "polygamma_divided_difference_transfer",
+      "admission_status": "STOPPED_UNCLASSIFIED",
+      "failure_classes": [],
+      "summary": "Mining halted once the exact-five gate became impossible."
+    }
+  ],
+  "not_run": [
+    "independent_leakage_review_phase",
+    "pretreatment_freeze",
+    "any_deepseek_or_other_llm_treatment_call",
+    "symbolic_baseline_treatment",
+    "verification_treatment",
+    "publication_review_cluster",
+    "full_root_test_suite"
+  ],
+  "interpretation": {
+    "scientific_failure": false,
+    "method_falsification": false,
+    "publication_decision_issued": false,
+    "evidence_for_or_against_context_conditioning": "NONE"
+  },
+  "closure": "The campaign terminates at its pre-treatment admission gate. This artifact does not authorize a follow-up method or parser/IR extension."
+}
