@@ -40,3 +40,10 @@ aggregate feedback, and exact obligation identities/verdicts. The semantic
 hashes explicitly exclude wall times, run IDs and paths, and engine receipt
 hashes, so identical executions are comparable even though their diagnostic
 timings and session receipts differ.
+
+`M2VerifierFrontierAdapter` is the frozen bridge to the S0/S1 generated
+frontier. It calls the same `extract_candidate_pool`, `initial_state`, and
+`expand_state` functions and owns no alternate action generator. Aggregate
+verifier feedback changes only the controller's priority band. Leakage status
+defaults to `UNKNOWN`; a complete program can be verified only when a separate
+audit has explicitly supplied `CLEARED`.
