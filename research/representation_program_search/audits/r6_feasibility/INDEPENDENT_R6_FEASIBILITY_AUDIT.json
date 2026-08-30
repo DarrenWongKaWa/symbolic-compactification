@@ -1,0 +1,135 @@
+{
+  "audited_tree": "009bd2acfab00c770bacdd71e597e9a40e2b8904",
+  "candidate_count": 0,
+  "claim_boundary": "No identity in the bounded, hash-bound mined registry clears every R6 admission gate under the frozen parser and Program IR. This is not a mathematical impossibility claim and does not authorize parser, verifier, grammar, method, manifest, or TEST changes.",
+  "current_case_summary": {
+    "audited_depth_counts": {
+      "R1": 2,
+      "R2": 2,
+      "R3": 1,
+      "R4": 4,
+      "R5": 7,
+      "R6": 14,
+      "R7": 1,
+      "R8": 8
+    },
+    "qualifying_count": 0,
+    "r6_candidate_count": 14,
+    "r6_status_counts": {
+      "DUPLICATE_REVIEW": 1,
+      "PACKAGING_GAP": 12,
+      "PROBLEM_UNDERSPECIFIED": 1
+    },
+    "total": 39
+  },
+  "decision": "R6_MISSING",
+  "failure_class": "PACKAGING_GAP",
+  "frozen_language_findings": {
+    "matrix_function_form_has_matrix_semantics": false,
+    "optional_later_operators_are_active": false,
+    "parser_admits_structural_sum": true,
+    "parser_has_required_bernoulli_adjoint_semantics": false,
+    "parser_has_required_block_matrix_semantics": false,
+    "parser_has_required_integral_semantics": false,
+    "parser_has_required_matrix_trace_determinant_semantics": false,
+    "parser_has_required_vector_tensor_semantics": false
+  },
+  "package_created": false,
+  "qualifying_candidate_ids": [],
+  "qualification_gates": [
+    "AUTHORITATIVE_SOURCE_LOCATOR",
+    "HASH_BOUND_SOURCE_BYTES",
+    "FRESH_IDENTITY",
+    "ASSUMPTION_COMPLETE",
+    "EXACT_M1_COMPILATION_WITHOUT_SCHEMA_DELTAS",
+    "AT_LEAST_TWO_INDEPENDENT_OPERATOR_TYPES",
+    "MULTI_MEMBER_REUSE",
+    "NO_TARGET_OR_OPERATOR_ROLE_LEAKAGE",
+    "NO_PUBLIC_SOURCE_MEMBER_MASTER_EXPOSURE",
+    "NO_HISTORICAL_OR_CURRENT_STRUCTURAL_DUPLICATE",
+    "NO_DEPTH_COLLAPSE_AFTER_EXECUTABLE_LOWERING"
+  ],
+  "registries": {
+    "current_case_json": {
+      "count": 53,
+      "sha256": "6a79dde9b4384ec5651671001c26a704e2d138f304542117baf15b596508f46a"
+    },
+    "current_package_manifests": {
+      "count": 19,
+      "sha256": "07bbce9e9f6e11adb0d4faaa0fb512ec28dea6f522052457646dfaf688d48034"
+    },
+    "current_science_dossiers": {
+      "count": 39,
+      "sha256": "6bc8b0d0eb5cc4c280c388aff87ee2bab7a5d7259623a9184c9b8aa90904bb71"
+    },
+    "historical_r6_dossiers": {
+      "count": 14,
+      "sha256": "511eebfc793f9248ba2f9d66b2f1ee471cdadcb4136e37f5a814c46f6875b4d5"
+    },
+    "historical_reference_corpus": {
+      "count": 79,
+      "sha256": "a2dd7c4d6f31608160c70b9b1973f26567e3fa3c39129a969aaf90ec16f34f12"
+    }
+  },
+  "requested_family_conclusions": {
+    "block_exponentials": "PACKAGING_GAP_AND_HISTORICAL_DUPLICATION",
+    "dexp_bernoulli": "PACKAGING_GAP_NONCOMMUTATIVE_AND_BERNOULLI_SEMANTICS",
+    "matrix_functional_calculus": "PACKAGING_GAP_OR_R2_SCALAR_COLLAPSE",
+    "response": "PACKAGING_GAP_OR_R0_R1_DERIVATIVE_RESPONSE_COLLAPSE",
+    "thermal_polygamma": "R5_OR_BELOW_AFTER_EXECUTABLE_LOWERING",
+    "vector_transfer_tensor": "PACKAGING_GAP_OR_DIAGNOSTIC_ONLY"
+  },
+  "r6_relevant_packages": [
+    {
+      "failure_codes": [
+        "PUBLIC_G0001_IS_EXACT_HELMHOLTZ_MASTER",
+        "DERIVATIVE_RESPONSE_GRAPH_BELOW_R6",
+        "NO_HASH_BOUND_SOURCE_BYTES_IN_PACKAGE"
+      ],
+      "independent_depth": "R1_DERIVATIVE_RESPONSE_GRAPH",
+      "loader_status": "COMPILED_NO_SCHEMA_DELTAS",
+      "package_id": "gf-vdw-2013-eq1",
+      "qualifies": false,
+      "source_member_master_exposed": true
+    },
+    {
+      "failure_codes": [
+        "M1_LOAD_FAILURE",
+        "NEWTON_DD_PLUS_LINEAR_RECONSTRUCTION_BELOW_R6",
+        "PUBLIC_G0005_IS_SHARED_NEWTON_QUOTIENT",
+        "NO_HASH_BOUND_SOURCE_BYTES_IN_PACKAGE"
+      ],
+      "independent_depth": "R2",
+      "loader_status": "PACKAGE_ARTIFACT_MANIFEST_INVALID",
+      "package_id": "mx-abba-exp-fixed-r6",
+      "qualifies": false,
+      "source_member_master_exposed": true
+    },
+    {
+      "failure_codes": [
+        "HISTORICAL_BLOCK_EXPONENTIAL_SOURCE_IDENTITY",
+        "SCALAR_REPEATED_NODE_LOWERING_BELOW_R6",
+        "NO_HASH_BOUND_SOURCE_BYTES_IN_PACKAGE"
+      ],
+      "independent_depth": "R3_REPEATED_NODE_INELIGIBLE",
+      "loader_status": "COMPILED_NO_SCHEMA_DELTAS",
+      "package_id": "rps-candidate-j2-001",
+      "qualifies": false,
+      "source_member_master_exposed": false
+    },
+    {
+      "failure_codes": [
+        "M1_LOAD_FAILURE",
+        "SHARED_DENOMINATOR_CSE_BELOW_R6",
+        "PUBLIC_MEMBERS_EXPOSE_SHARED_KERNEL",
+        "NO_HASH_BOUND_SOURCE_BYTES_IN_PACKAGE"
+      ],
+      "independent_depth": "R0",
+      "loader_status": "PACKAGE_ARTIFACT_MANIFEST_INVALID",
+      "package_id": "rps-r-feshbach-optical-heff",
+      "qualifies": false,
+      "source_member_master_exposed": true
+    }
+  ],
+  "schema_version": "RPS_INDEPENDENT_R6_FEASIBILITY_AUDIT_V1"
+}
