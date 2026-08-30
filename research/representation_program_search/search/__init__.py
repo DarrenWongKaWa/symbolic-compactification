@@ -21,6 +21,23 @@ from .public_case import PublicCase, PublicMember, load_public_case
 from .random_control import random_search
 from .results import ExpansionRecord, SearchResult
 from .scoring import ComplexityBreakdown, complexity_breakdown, score_program
+from .symbolic_beam import (
+    SYMBOLIC_BEAM_POLICY_VERSION,
+    SYMBOLIC_BEAM_WIDTH,
+    BeamLayerRecord,
+    PriorityRecord,
+    SymbolicBeamResult,
+    symbolic_beam_search,
+)
+from .symbolic_heuristic import (
+    SYMBOLIC_HEURISTIC_VERSION,
+    SYMBOLIC_HEURISTIC_WEIGHTS,
+    SymbolicObservations,
+    SymbolicPriority,
+    extract_symbolic_observations,
+    symbolic_priority,
+    symbolic_priority_key,
+)
 
 __all__ = [
     "CANDIDATE_POLICY_VERSION",
@@ -38,14 +55,27 @@ __all__ = [
     "SearchPolicy",
     "SearchResult",
     "SearchState",
+    "SYMBOLIC_BEAM_POLICY_VERSION",
+    "SYMBOLIC_BEAM_WIDTH",
+    "SYMBOLIC_HEURISTIC_VERSION",
+    "SYMBOLIC_HEURISTIC_WEIGHTS",
+    "BeamLayerRecord",
+    "PriorityRecord",
+    "SymbolicBeamResult",
+    "SymbolicObservations",
+    "SymbolicPriority",
     "apply_action",
     "complexity_breakdown",
     "enumerative_search",
     "expand_state",
     "extract_candidate_pool",
+    "extract_symbolic_observations",
     "initial_state",
     "legal_actions",
     "load_public_case",
     "random_search",
     "score_program",
+    "symbolic_beam_search",
+    "symbolic_priority",
+    "symbolic_priority_key",
 ]

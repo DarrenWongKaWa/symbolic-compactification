@@ -1,4 +1,4 @@
-# S0/S1 search kernel — frozen finite policy
+# S0/S1/S2 search kernel — frozen finite policy
 
 This directory implements the no-LLM controls:
 
@@ -10,6 +10,26 @@ This directory implements the no-LLM controls:
 Neither condition calls the verifier or uses ZERO/NONZERO/UNKNOWN to order a
 state. Compilation is recorded and may fail closed, but it does not alter S0
 or S1 priority.
+
+**S2** uses the same candidate pool, legal actions, child expansion, grammar
+ablations, and state-expansion budgets. It applies a deterministic layer-wise
+beam of width 32. Candidate states are ordered by
+`(-symbolic_priority, complexity, canonical_hash)`, and ties therefore have a
+stable replay order. Every expanded state still emits its complete frozen
+generated child frontier before beam truncation.
+
+`RPSSymbolicHeuristicV1` uses only proposer-visible syntax and partial-program
+structure: pairwise anti-unification relations, shared call-argument and
+denominator families, adjacent power profiles as weak derivative-edge
+evidence, alpha-renaming symmetry, repeated public call arguments, member
+coverage, latent reuse, cross-latent composition, and frozen program
+complexity. Its integer weights are global and versioned in
+`symbolic_heuristic.py`. These signals are routing evidence, not proof.
+Compiled obligations, ZERO/NONZERO/UNKNOWN, reference programs, audited
+depths, hidden roles, and target labels are absent from S2 ordering.
+The priority is a routing policy distinct from the frozen scientific
+`Score(H)` in `SCORING_POLICY.md`; it cannot make a state eligible and cannot
+establish PROGRAM_SUCCESS.
 
 ## Public boundary
 
@@ -44,6 +64,12 @@ Every pool and search result records `branching_incomplete=true` and the
 specific caps. This implementation is exhaustive only over its generated
 finite child frontier. It never claims global enumeration of the grammar's
 expression space.
+
+S2 is additionally incomplete because it retains only 32 states after each
+completed depth layer. `beam_search_complete=false` is unconditional, and
+`beam_states_pruned` plus every layer's candidate and selected hashes make
+the truncation auditable. Reaching an empty beam means only that the frozen
+beam policy exhausted its retained frontier.
 
 ## Search-policy bounds
 
