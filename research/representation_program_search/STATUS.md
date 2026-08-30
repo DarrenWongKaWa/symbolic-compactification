@@ -1,13 +1,15 @@
 # STATUS
 
-CURRENT PHASE: strict DEV-package recovery plus search-method implementation;
-no scientific search experiments
+CURRENT PHASE: real-domain DEV-package recovery plus search-method
+implementation; no scientific search experiments
 
 PARENT: `0cdde49` publication F (assumption-complete representation)
 
-CURRENT BOTTLENECK: the independent post-package audit found 0/13
-`ADMISSION_READY`. Strict M1 schema repair alone is insufficient: proof,
-assumption, depth, duplicate, leakage, and diagnostic-scope gates remain.
+CURRENT BOTTLENECK: both the independent post-package audit and the J2
+fail-closed recovery leave 0 `ADMISSION_READY`. R2, R3, R4/R5, and R6 are all
+still missing. Strict M1 schema repair and diagnostic ZERO receipts are
+insufficient: proof-domain, assumption, depth, duplicate, leakage, and
+diagnostic-scope gates remain.
 
 OPEN CONTRACT DEFECT: `real:false` is documented as complex-probe selection
 but is implemented as SymPy `real=False` (provably non-real). Affected
@@ -16,15 +18,19 @@ Piecewise/zero-domain claims fail closed; see
 
 TEST FREEZE STATUS: not started (old AC TEST is HISTORICAL_DIAGNOSTIC)
 
-LLM / SEARCH JOBS: S0/S1 and S6 implementation only; no scientific DEV run and
-no LLM call
+LLM / SEARCH JOBS: S0/S1 and S6 are implemented; the unchanged M2 legal
+frontier is connected to S6 by an evaluator-blind adapter with leakage default
+`UNKNOWN`. S2 and S3 are under independent review. No scientific DEV run and
+no LLM call.
 
 PUBLICATION STATUS: not issued
 
-NEXT AUTO ACTION: recover only fresh, assumption-complete, strict M1-native
-DEV candidates; complete method-control implementations against synthetic and
-evaluator-only fixtures; do not execute the all-method DEV gate until the
-scientific package admission pool is nonempty; do not revive Guo
+NEXT AUTO ACTION: mine genuinely real-domain, assumption-complete, strict
+M1-native DEV candidates rather than retrofitting defective complex-domain
+dossiers; complete method-control implementations against synthetic and
+evaluator-only fixtures; do not execute the all-method DEV gate until every
+required scientific slot has survived independent admission review; do not
+revive Guo
 
 CONTRACTS SHA: 5321eaa
 
@@ -44,6 +50,13 @@ slots retained explicitly)
 
 ADVERSARIAL FALSIFIER: 5b72364 (six traps blocked; only the separate positive
 control is ZERO)
+
+FAIL-CLOSED DEV RECOVERY: a5073c2; handoff 89c4d50 (0 admitted; the strict R3
+artifact and eight ZERO receipts remain ineligible contract-defect evidence)
+
+M2-TO-S6 ADAPTER: 93cd86d (same public candidate pool and `expand_state`;
+verifier feedback affects only the frozen priority band; no inferred leakage
+clearance)
 
 DUPLICATE / LEAKAGE AUDIT: 1ba666a (0 HIGH/CRITICAL scientific findings;
 9 MEDIUM manual-review cases)
