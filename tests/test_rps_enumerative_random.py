@@ -180,6 +180,254 @@ def test_candidate_pool_is_finite_deterministic_and_explicitly_incomplete(tmp_pa
     )
 
 
+def test_dev_source_structure_can_induce_full_latent_and_bounded_coefficients():
+    package = Path(
+        "research/representation_program_search/packages/real_domain_recovery/"
+        "rps-real-c8q2"
+    )
+    case = load_public_case(package / "proposer_view.json")
+    pool = extract_candidate_pool(case)
+    normalized_latents = {
+        item.expression.replace(" ", ""): item for item in pool.latents
+    }
+    assert "sin(rps_p0)/rps_p0" in normalized_latents
+    latent = normalized_latents["sin(rps_p0)/rps_p0"]
+    assert latent.extraction == "FULL_EXPRESSION_PARAMETER_ABSTRACTION"
+    assert latent.instance_maps == (("M8B1", (("rps_p0", "x"),)),)
+    normalized_coefficients = {item.replace(" ", "") for item in pool.coefficients}
+    assert "3*(1/x)" in normalized_coefficients
+    assert "sin" not in pool.coefficients and "cos" not in pool.coefficients
+    assert len(pool.coefficients) <= 24
+
+
+def test_dev_frontier_exposes_generic_scaling_and_two_output_reconstruction():
+    package = Path(
+        "research/representation_program_search/packages/real_domain_recovery/"
+        "rps-real-c8q2"
+    )
+    case = load_public_case(package / "proposer_view.json")
+    pool = extract_candidate_pool(case)
+    target = next(
+        item
+        for item in pool.latents
+        if item.expression.replace(" ", "") == "sin(rps_p0)/rps_p0"
+    )
+    policy = SearchPolicy()
+    assert (
+        policy.max_operators == 12
+        and policy.max_complexity == 48
+        and policy.max_node_structures == 4
+    )
+    state = initial_state(case, grammar_id="G_FULL")
+    create = next(
+        action
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "CREATE_LATENT"
+        and action.payload["candidate_id"] == target.candidate_id
+    )
+    state = apply_action(state, create, case)
+    assign = next(
+        action
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "ADD_MEMBER"
+        and action.payload.get("member_id") == "M8B1"
+        and "latent_id" in action.payload
+    )
+    state = apply_action(state, assign, case)
+    derivative = next(
+        action
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "ADD_DERIVATIVE" and action.payload["input"] is None
+    )
+    state = apply_action(state, derivative, case)
+    linear_actions = [
+        action
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "ADD_LINEAR_COMBINATION"
+    ]
+    assert any(action.payload["coefficients"] == ("-1",) for action in linear_actions)
+    assert any(
+        tuple(item.replace(" ", "") for item in action.payload["coefficients"])
+        == ("3*(1/x)", "-1")
+        for action in linear_actions
+    )
+
+
+def test_repeated_node_frontier_keeps_both_multiplicity_orientations():
+    package = Path(
+        "research/representation_program_search/packages/real_domain_recovery/"
+        "rps-real-c3j9"
+    )
+    case = load_public_case(package / "proposer_view.json")
+    pool = extract_candidate_pool(case)
+    assert pool.node_values[:2] == ("x", "y")
+    latent = next(
+        item
+        for item in pool.latents
+        if item.expression == "log(rps_p0)"
+        and item.extraction == "UNARY_CALL_SCHEMA"
+    )
+    policy = SearchPolicy()
+    state = initial_state(case, grammar_id="G_FULL")
+    create = next(
+        action
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "CREATE_LATENT"
+        and action.payload["candidate_id"] == latent.candidate_id
+    )
+    state = apply_action(state, create, case)
+    repeat_actions = [
+        action
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "ADD_REPEATED_NODE"
+    ]
+    assert any(action.payload["nodes"] == ("x", "x", "y") for action in repeat_actions)
+    assert any(action.payload["nodes"] == ("x", "y", "y") for action in repeat_actions)
+    for nodes in (("x", "x", "y"), ("x", "y", "y")):
+        action = next(
+            item for item in legal_actions(state, case, pool, policy)
+            if item.action == "ADD_REPEATED_NODE" and item.payload["nodes"] == nodes
+        )
+        state = apply_action(state, action, case)
+    node_by_id = {item.node_id: item.nodes for item in state.node_structures}
+    hermite_nodes = {
+        node_by_id[action.payload["node_id"]]
+        for action in legal_actions(state, case, pool, policy)
+        if action.action == "ADD_HERMITE_DD"
+    }
+    assert hermite_nodes >= {("x", "x", "y"), ("x", "y", "y")}
+
+
+def test_dlmf_reference_program_is_reachable_by_only_legal_public_actions():
+    package = Path(
+        "research/representation_program_search/packages/real_domain_recovery/"
+        "rps-real-c8q2"
+    )
+    case = load_public_case(package / "proposer_view.json")
+    pool = extract_candidate_pool(case)
+    policy = SearchPolicy()
+    target = next(
+        item
+        for item in pool.latents
+        if item.expression.replace(" ", "") == "sin(rps_p0)/rps_p0"
+    )
+    state = initial_state(case, grammar_id="G_FULL")
+
+    def take(predicate):
+        nonlocal state
+        action = next(
+            item for item in legal_actions(state, case, pool, policy)
+            if predicate(item)
+        )
+        state = apply_action(state, action, case)
+        assert state.complexity <= policy.max_complexity
+        return state.operators[-1].output if state.operators else None
+
+    take(lambda item: item.action == "CREATE_LATENT" and item.payload["candidate_id"] == target.candidate_id)
+    value_output = take(
+        lambda item: item.action == "ADD_MEMBER"
+        and item.payload.get("member_id") == "M8B1"
+        and "latent_id" in item.payload
+    )
+    derivative_output = take(
+        lambda item: item.action == "ADD_DERIVATIVE"
+        and item.payload["input"] is None
+    )
+    substituted_derivative = take(
+        lambda item: item.action == "SUBSTITUTE_PARAMETER"
+        and item.payload["input"] == derivative_output
+        and item.payload["value"] == "x"
+    )
+    first_output = take(
+        lambda item: item.action == "ADD_LINEAR_COMBINATION"
+        and item.payload["inputs"] == (substituted_derivative,)
+        and item.payload["coefficients"] == ("-1",)
+    )
+    take(
+        lambda item: item.action == "ADD_MEMBER"
+        and item.payload.get("member_id") == "M8B2"
+        and item.payload.get("output") == first_output
+    )
+    second_output = take(
+        lambda item: item.action == "ADD_LINEAR_COMBINATION"
+        and item.payload["inputs"] == (value_output, first_output)
+        and tuple(value.replace(" ", "") for value in item.payload["coefficients"])
+        == ("-1", "3*(1/x)")
+    )
+    take(
+        lambda item: item.action == "ADD_MEMBER"
+        and item.payload.get("member_id") == "M8B3"
+        and item.payload.get("output") == second_output
+    )
+    assert state.unexplained_members == ()
+    assert len(state.operators) == 5
+    assert all(item["status"] == "COMPILED" for item in state.compiled_obligations)
+
+
+def test_repeated_node_reference_program_is_reachable_under_full_grammar():
+    package = Path(
+        "research/representation_program_search/packages/real_domain_recovery/"
+        "rps-real-c3j9"
+    )
+    case = load_public_case(package / "proposer_view.json")
+    pool = extract_candidate_pool(case)
+    policy = SearchPolicy()
+    latent = next(
+        item
+        for item in pool.latents
+        if item.expression == "log(rps_p0)"
+        and item.extraction == "UNARY_CALL_SCHEMA"
+    )
+    state = initial_state(case, grammar_id="G_FULL")
+
+    def take(predicate):
+        nonlocal state
+        action = next(
+            item for item in legal_actions(state, case, pool, policy)
+            if predicate(item)
+        )
+        state = apply_action(state, action, case)
+        assert state.complexity <= policy.max_complexity
+        return state.operators[-1].output if state.operators else None
+
+    take(lambda item: item.action == "CREATE_LATENT" and item.payload["candidate_id"] == latent.candidate_id)
+    newton = take(
+        lambda item: item.action == "ADD_NEWTON_DD"
+        and item.payload["nodes"] == ("x", "y")
+    )
+    member_one = take(
+        lambda item: item.action == "ADD_LINEAR_COMBINATION"
+        and item.payload["inputs"] == (newton,)
+        and item.payload["coefficients"] == ("p",)
+    )
+    take(lambda item: item.action == "ADD_MEMBER" and item.payload.get("member_id") == "M3A1" and item.payload.get("output") == member_one)
+    for member_id, nodes in (("M3A2", ("x", "x", "y")), ("M3A3", ("x", "y", "y"))):
+        take(
+            lambda item, nodes=nodes: item.action == "ADD_REPEATED_NODE"
+            and item.payload["nodes"] == nodes
+        )
+        node_id = next(item.node_id for item in state.node_structures if item.nodes == nodes)
+        hermite = take(
+            lambda item, node_id=node_id: item.action == "ADD_HERMITE_DD"
+            and item.payload["node_id"] == node_id
+        )
+        member_output = take(
+            lambda item, hermite=hermite: item.action == "ADD_LINEAR_COMBINATION"
+            and item.payload["inputs"] == (hermite,)
+            and item.payload["coefficients"] == ("p * q",)
+        )
+        take(
+            lambda item, member_id=member_id, member_output=member_output: (
+                item.action == "ADD_MEMBER"
+                and item.payload.get("member_id") == member_id
+                and item.payload.get("output") == member_output
+            )
+        )
+    assert state.unexplained_members == ()
+    assert len(state.operators) == 6
+    assert all(item["status"] == "COMPILED" for item in state.compiled_obligations)
+
+
 def test_state_hash_is_order_and_alpha_invariant_but_member_ids_are_exact():
     left = SearchState(
         latent_objects=(

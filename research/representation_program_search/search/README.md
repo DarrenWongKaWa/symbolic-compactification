@@ -1,4 +1,4 @@
-# S0/S1/S2 search kernel — frozen finite policy
+# S0/S1/S2 search kernel — versioned finite policy
 
 This directory implements the no-LLM controls:
 
@@ -41,17 +41,23 @@ evaluator-side `load_case_package()`.
 
 ## Candidate-pool policy
 
-`RPSCandidatePoolV1` is finite and gold-free:
+`RPSCandidatePoolV2` is finite and gold-free:
 
 - at most 16 public source members;
 - at most 24 latent candidates;
 - at most 64 pairwise anti-unification pairs;
 - at most two anti-unified parameters;
 - at most eight public node atoms;
+- at most 24 reconstruction coefficients;
 - source expressions capped at 4096 characters for candidate extraction;
-- fixed coefficient atoms `-1, 0, 1, 2, Rational(1, 2)`;
-- unary function-call schemas and syntax-tree pairwise anti-unification come
-  only from public member expressions.
+- fixed coefficient atoms `-1, 0, 1, 2, Rational(1, 2)`, augmented by a
+  bounded syntax-only inventory of public integers, simple symbol products,
+  direct denominator reciprocals, and observed integer/reciprocal products;
+- unary function-call schemas, complete-expression one/two-name
+  parameterizations, and syntax-tree pairwise anti-unification come only from
+  public member expressions;
+- call arguments are ordered before remaining free names in the bounded node
+  inventory. Reserved constants and function identifiers are excluded.
 
 `SOURCE_LITERAL` objects are **tautology controls only**. They may instantiate
 their byte-identical member through VALUE so the pre-verifier tautology gate
@@ -101,15 +107,30 @@ deterministically to retained labels `seed-0`--`seed-4`.
 
 ## Search-policy bounds
 
-`RPSSearchPolicyV1` fixes, without per-task tuning:
+`RPSSearchPolicyV2` fixes, without per-task tuning:
 
-- maximum program complexity 24;
+- maximum program complexity 48;
 - at most two latent objects;
-- at most four operators;
-- at most one node structure;
+- at most twelve operators;
+- at most four node structures;
 - at most one member group;
 - at most two parameters per latent;
 - optional `latent_creation_enabled=false` ablation.
+
+V2 also exposes one-input scaling, bounded two-input reconstruction with the
+same public coefficient inventory, and both three-node multiplicity
+orientations `[x,x,y]` and `[x,y,y]`. Reconstruction considers a deterministic
+four-output split window: the earliest reusable outputs and the most recent
+construction outputs. This prevents prefix truncation from making a new
+operator output unusable while preserving a finite gold-free branch set.
+
+The V1→V2 change occurred before any scientific search run or TEST freeze.
+Public-source legal-path checks showed that V1 could not mechanically express
+a complete multi-member recurrence or two repeated-node obligations: the
+missing paths were candidate/action reachability defects, not adverse search
+scores. No grammar operator, verifier rule, target label, or hidden reference
+was added. V2 is the implementation candidate for the first DEV execution
+gate; the gate, not these reachability tests, determines search success.
 
 Legal children use the frozen action vocabulary, including `ADD_COMPOSE` for
 the existing COMPOSE primitive. Its bounded input pool is the first three

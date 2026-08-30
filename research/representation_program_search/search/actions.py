@@ -23,7 +23,7 @@ from .model import LegalAction, SearchContractError, SearchState
 from .public_case import PublicCase
 from .scoring import complexity_breakdown, score_program
 
-SEARCH_POLICY_VERSION = "RPSSearchPolicyV1"
+SEARCH_POLICY_VERSION = "RPSSearchPolicyV2"
 
 _ACTION_OPERATOR = {
     "SUBSTITUTE_PARAMETER": "SUBSTITUTE",
@@ -41,10 +41,10 @@ _ACTION_OPERATOR = {
 @dataclass(frozen=True)
 class SearchPolicy:
     version: str = SEARCH_POLICY_VERSION
-    max_complexity: int = 24
+    max_complexity: int = 48
     max_latents: int = 2
-    max_operators: int = 4
-    max_node_structures: int = 1
+    max_operators: int = 12
+    max_node_structures: int = 4
     max_member_groups: int = 1
     max_parameters_per_latent: int = 2
     latent_creation_enabled: bool = True
@@ -484,6 +484,25 @@ def _candidate_for_latent(pool: CandidatePool, latent: LatentObject) -> LatentCa
     return next((item for item in pool.latents if item.candidate_id == candidate_id), None)
 
 
+def _bounded_output_window(
+    outputs: tuple[str, ...],
+    *,
+    limit: int = 4,
+) -> tuple[str, ...]:
+    """Keep both foundational and recent outputs in the finite frontier.
+
+    Prefix-only truncation made a newly constructed output immediately
+    unusable once a state contained more than four operators.  The split
+    window remains gold-free and bounded while preserving both early reusable
+    kernels and the latest construction steps.
+    """
+    if len(outputs) <= limit:
+        return outputs
+    prefix_width = (limit + 1) // 2
+    suffix_width = limit - prefix_width
+    return outputs[:prefix_width] + outputs[-suffix_width:]
+
+
 def legal_actions(
     state: SearchState,
     case: PublicCase,
@@ -643,6 +662,9 @@ def legal_actions(
                 result.append(LegalAction("ADD_REPEATED_NODE", {
                     "nodes": [left, left, right],
                 }))
+                result.append(LegalAction("ADD_REPEATED_NODE", {
+                    "nodes": [left, right, right],
+                }))
 
         synthesis_latents = tuple(
             item
@@ -652,7 +674,7 @@ def legal_actions(
                 or candidate.extraction != "SOURCE_LITERAL"
             )
         )
-        synthesis_outputs = tuple(
+        synthesis_outputs = _bounded_output_window(tuple(
             output
             for output in outputs
             if (
@@ -661,10 +683,33 @@ def legal_actions(
                 )) is None
                 or candidate.extraction != "SOURCE_LITERAL"
             )
-        )
+        ))
+        if synthesis_outputs and synthesis_latents:
+            for output in synthesis_outputs:
+                for coefficient in pool.coefficients:
+                    if coefficient in {"0", "1"}:
+                        continue
+                    result.append(LegalAction("ADD_LINEAR_COMBINATION", {
+                        "coefficients": [coefficient],
+                        "inputs": [output],
+                        "latent_id": synthesis_latents[0].latent_id,
+                    }))
         if len(synthesis_outputs) >= 2 and synthesis_latents:
-            for first, second in itertools.combinations(synthesis_outputs[:4], 2):
-                for coefficients in (("1", "1"), ("1", "-1")):
+            for first, second in itertools.combinations(synthesis_outputs, 2):
+                coefficient_pairs = {("1", "1"), ("1", "-1")}
+                for coefficient in pool.coefficients:
+                    if coefficient in {"0", "1", "-1"}:
+                        continue
+                    negative = f"-({coefficient})"
+                    coefficient_pairs.update({
+                        (coefficient, "1"),
+                        (coefficient, "-1"),
+                        ("1", coefficient),
+                        ("-1", coefficient),
+                        (coefficient, negative),
+                        (negative, coefficient),
+                    })
+                for coefficients in sorted(coefficient_pairs):
                     result.append(LegalAction("ADD_LINEAR_COMBINATION", {
                         "coefficients": list(coefficients),
                         "inputs": [first, second],

@@ -122,3 +122,22 @@ implementation commit.
 - No hidden target program, target depth, package status, verifier receipt,
   or reference reconstruction is loaded.
 - No parser, verifier, package, scientific dossier, or partition was changed.
+
+## Pre-DEV V2 implementation amendment
+
+Before any scientific method run or TEST freeze, public-source legal-path
+checks exposed two mechanical limitations in the original finite frontier:
+it could not retain enough operators/node structures for a complete
+multi-member program, and it could not derive public reconstruction
+coefficients or a complete one-parameter latent from source syntax. The
+coordinator therefore versioned the policy to `RPSCandidatePoolV2` and
+`RPSSearchPolicyV2`.
+
+V2 adds bounded syntax-only full-expression parameterization, a bounded
+public coefficient inventory, one-input scaling, bounded two-input
+reconstruction, both repeated-node orientations, higher global complexity /
+operator / node caps, and a deterministic earliest-plus-recent output window.
+These are generic constructor/search paths over existing grammar operators.
+They do not use evaluator programs or verifier verdicts, and they do not
+constitute a scientific result. V1 provenance above is retained rather than
+rewritten.

@@ -1,15 +1,15 @@
 # STATUS
 
-CURRENT PHASE: real-domain DEV-package recovery plus search-method
-implementation; no scientific search experiments
+CURRENT PHASE: independent DEV admission review plus completion of the S7
+matched-control implementation; no scientific search experiments
 
 PARENT: `0cdde49` publication F (assumption-complete representation)
 
-CURRENT BOTTLENECK: both the independent post-package audit and the J2
-fail-closed recovery leave 0 `ADMISSION_READY`. R2, R3, R4/R5, and R6 are all
-still missing. Strict M1 schema repair and diagnostic ZERO receipts are
-insufficient: proof-domain, assumption, depth, duplicate, leakage, and
-diagnostic-scope gates remain.
+CURRENT BOTTLENECK: recovered and newly mined strict M1 packages remain
+candidate-only until independent source, assumption, depth, duplicate, and
+leakage review. C3J9 is already excluded from fresh evidence as an old-TEST
+structural variant. C8Q2 and fresh R2/R6 gap-fill candidates are under
+independent review. No case has entered a shared DEV manifest.
 
 OPEN CONTRACT DEFECT: `real:false` is documented as complex-probe selection
 but is implemented as SymPy `real=False` (provably non-real). Affected
@@ -18,13 +18,16 @@ Piecewise/zero-domain claims fail closed; see
 
 TEST FREEZE STATUS: not started (old AC TEST is HISTORICAL_DIAGNOSTIC)
 
-LLM / SEARCH JOBS: S0/S1, S2, S3, and S6 are implemented. The unchanged M2
+LLM / SEARCH JOBS: S0/S1, S2, S3, S4, S5, S6, and F0 are implemented. The M2
 legal frontier is connected to S6 by an evaluator-blind adapter. S0–S5 can use
 the same exact recorder post hoc without feeding verdicts into search order.
 Both assumption completeness and leakage clearance default `UNKNOWN`. S3 is
 scientifically `UNAVAILABLE` until an admitted case receives a fresh
-case-bound replay from the byte-exact frozen SOL authority. S4/S5 are under
-implementation. No scientific DEV run and no LLM call.
+case-bound replay from the byte-exact frozen SOL authority. S4/S5 fail closed
+when final-only DeepSeek output, usage provenance, or accepted decisions are
+missing; the matched symbolic batch-32 control is implemented. S7 and its
+matched verifier-only control are under final integration. No scientific DEV
+run and no live LLM call.
 
 STATISTICAL REPORTING: c5dfa3c (fixed-budget task- and cluster-weighted
 curves; Wilson intervals; conditional efficiency with explicit censor counts;
@@ -32,12 +35,18 @@ unavailable methods and inadmissible cases cannot enter denominators)
 
 PUBLICATION STATUS: not issued
 
-NEXT AUTO ACTION: mine genuinely real-domain, assumption-complete, strict
-M1-native DEV candidates rather than retrofitting defective complex-domain
-dossiers; complete method-control implementations against synthetic and
-evaluator-only fixtures; do not execute the all-method DEV gate until every
-required scientific slot has survived independent admission review; do not
-revive Guo
+NEXT AUTO ACTION: finish independent candidate admission and S7 integration;
+assemble one R2, one R3, one R4/R5, one R6, and one negative DEV calibration
+only from admitted cases; execute all methods for correctness before freezing
+implementation semantics. Do not freeze TEST, run Guo, or interpret search
+results before those gates.
+
+PRE-DEV FINITE FRONTIER: `RPSCandidatePoolV2` / `RPSSearchPolicyV2`. The V1
+frontier was mechanically unable to express complete public-source
+multi-member recurrence and repeated-node legal paths. V2 adds only generic,
+bounded public-syntax candidate/coefficient extraction and existing grammar
+actions; no scientific run, verifier feedback, hidden program, TEST case, or
+new operator informed the change.
 
 CONTRACTS SHA: 5321eaa
 
