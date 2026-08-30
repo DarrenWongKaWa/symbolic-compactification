@@ -1,0 +1,11 @@
+{
+  "admission_audit_sha256": "81750690d978f47c41f35bf862cec56604fa3285b3ce04129a1b83f626c2f82a",
+  "admission_status": "ADMISSION_READY",
+  "assumption_audit_sha256": "81750690d978f47c41f35bf862cec56604fa3285b3ce04129a1b83f626c2f82a",
+  "assumption_clearance": "CLEARED",
+  "case_id": "C9H4",
+  "leakage_audit_sha256": "81750690d978f47c41f35bf862cec56604fa3285b3ce04129a1b83f626c2f82a",
+  "leakage_status": "CLEARED",
+  "proposer_view_sha256": "4f6b3ab61c15a333c636dbb903f10b8634e12b8b629a164798f2ab686e28c72f",
+  "schema_version": "RPSCaseClearanceV1"
+}
