@@ -26,6 +26,10 @@ scientifically `UNAVAILABLE` until an admitted case receives a fresh
 case-bound replay from the byte-exact frozen SOL authority. S4/S5 are under
 implementation. No scientific DEV run and no LLM call.
 
+STATISTICAL REPORTING: c5dfa3c (fixed-budget task- and cluster-weighted
+curves; Wilson intervals; conditional efficiency with explicit censor counts;
+unavailable methods and inadmissible cases cannot enter denominators)
+
 PUBLICATION STATUS: not issued
 
 NEXT AUTO ACTION: mine genuinely real-domain, assumption-complete, strict
