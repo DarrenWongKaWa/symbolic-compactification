@@ -27,6 +27,10 @@ exact persisted verifier sessions; F0 uses the separate strict sessioned
 evaluator. F0 has no state-expansion budget and must not be copied across
 search-budget points as if it had performed formal search.
 
+One independent audit may cover multiple gates; in that case the receipt
+repeats the same exact artifact SHA in the corresponding fields. This records
+shared authority explicitly rather than inventing separate evidence.
+
 An `AVAILABLE` record enters a denominator only when the case is independently
 `ADMISSION_READY` and leakage is `CLEARED`. `UNAVAILABLE`, `PACKAGING_GAP`,
 `PROBLEM_UNDERSPECIFIED`, and infrastructure diagnostics are never silently

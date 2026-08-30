@@ -538,9 +538,31 @@ def _r6_mining(root: Path) -> dict[str, Any]:
         "historical_documents": len(references),
         "historical_partitions": sorted({row.partition for row in references}),
     }
-    for key, value in actual_scope.items():
-        if scope.get(key) != value:
-            errors.append(f"R6_AUDIT_SCOPE_MISMATCH:{key}")
+    # ``audit_scope`` is point-in-time evidence from the recovery commit.  New
+    # packages or historical records added later must not rewrite that scope or
+    # retroactively invalidate the preserved negative result.  A decrease is a
+    # fail-closed regression; growth requires a new audit for new claims but is
+    # not evidence that the earlier audit was malformed.
+    for key in (
+        "current_case_json_documents",
+        "current_package_manifests",
+        "guo_reference_documents",
+        "historical_documents",
+    ):
+        recorded = scope.get(key)
+        actual = actual_scope[key]
+        if (
+            not isinstance(recorded, int)
+            or isinstance(recorded, bool)
+            or actual < recorded
+        ):
+            errors.append(f"R6_AUDIT_SCOPE_REGRESSION:{key}")
+    recorded_partitions = scope.get("historical_partitions")
+    if (
+        not isinstance(recorded_partitions, list)
+        or not set(recorded_partitions) <= set(actual_scope["historical_partitions"])
+    ):
+        errors.append("R6_AUDIT_SCOPE_REGRESSION:historical_partitions")
     if scope.get("fresh_test_used") is not False:
         errors.append("R6_FRESH_TEST_USED")
     if scope.get("hidden_reference_programs_used") is not False:
