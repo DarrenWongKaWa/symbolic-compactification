@@ -18,6 +18,9 @@ from research.representation_program_search.program_ir import (
     SourceMember,
 )
 from research.representation_program_search.search import (
+    CANDIDATE_POLICY_VERSION,
+    CandidatePool,
+    LatentCandidate,
     LegalAction,
     ObligationEvidence,
     SearchContractError,
@@ -366,6 +369,102 @@ def test_g_primitive_can_instantiate_and_execute_compose(tmp_path):
         for item in state.compiled_obligations
     }
     assert candidates["A002"] == "x + 2"
+
+
+def test_g_primitive_compose_uses_outputs_from_a_distinct_inner_latent(tmp_path):
+    case = load_public_case(_public_fixture(tmp_path))
+    inner = LatentCandidate(
+        candidate_id="LC_INNER",
+        form="FUNCTION_1",
+        parameters=("rps_p0",),
+        expression="rps_p0**2",
+        public_origins=("A001",),
+        instance_maps=(("A001", (("rps_p0", "x"),)),),
+        extraction="SYNTHETIC_SCHEMA",
+    )
+    outer = LatentCandidate(
+        candidate_id="LC_OUTER",
+        form="FUNCTION_2",
+        parameters=("rps_a", "rps_b"),
+        expression="rps_a + rps_b",
+        public_origins=("A001", "A002"),
+        extraction="SYNTHETIC_SCHEMA",
+    )
+    pool = CandidatePool(
+        policy_version=CANDIDATE_POLICY_VERSION,
+        latents=(inner, outer),
+        node_values=("x", "y"),
+        coefficients=("-1", "0", "1", "2", "Rational(1, 2)"),
+        branching_incomplete=True,
+        incompleteness_reasons=("SYNTHETIC_TEST_POOL",),
+        source_member_count=len(case.members),
+    )
+    policy = SearchPolicy()
+    state = initial_state(case, grammar_id="G_PRIMITIVE")
+    for candidate_id in (inner.candidate_id, outer.candidate_id):
+        create = next(
+            item
+            for item in legal_actions(state, case, pool, policy)
+            if item.action == "CREATE_LATENT"
+            and item.payload["candidate_id"] == candidate_id
+        )
+        state = apply_action(state, create, case)
+
+    inner_id = f"F_{inner.candidate_id}"
+    outer_id = f"F_{outer.candidate_id}"
+    assign_value = next(
+        item
+        for item in legal_actions(state, case, pool, policy)
+        if item.action == "ADD_MEMBER"
+        and item.payload.get("latent_id") == inner_id
+        and item.payload.get("member_id") == "A001"
+    )
+    state = apply_action(state, assign_value, case)
+    value_output = state.operators[-1].output
+
+    derivative = next(
+        item
+        for item in legal_actions(state, case, pool, policy)
+        if item.action == "ADD_DERIVATIVE"
+        and item.payload["latent_id"] == inner_id
+        and item.payload["input"] is None
+    )
+    state = apply_action(state, derivative, case)
+    derivative_output = state.operators[-1].output
+    substitute = next(
+        item
+        for item in legal_actions(state, case, pool, policy)
+        if item.action == "SUBSTITUTE_PARAMETER"
+        and item.payload["latent_id"] == inner_id
+        and item.payload["input"] == derivative_output
+        and item.payload["value"] == "x"
+    )
+    state = apply_action(state, substitute, case)
+    substituted_output = state.operators[-1].output
+
+    compose = next(
+        item
+        for item in legal_actions(state, case, pool, policy)
+        if item.action == "ADD_COMPOSE"
+        and item.payload["latent_id"] == outer_id
+        and item.payload["inputs"] == (value_output, substituted_output)
+    )
+    state = apply_action(state, compose, case)
+    assert state.operators[-1].latent_id == outer_id
+    assert state.operators[-1].inputs == (value_output, substituted_output)
+    compose_output = state.operators[-1].output
+    state = apply_action(state, LegalAction("ADD_MEMBER", {
+        "member_id": "A002",
+        "output": compose_output,
+    }), case)
+    assert all(
+        item["status"] == "COMPILED" for item in state.compiled_obligations
+    )
+    candidates = {
+        item["member_id"]: item["candidate_expression"]
+        for item in state.compiled_obligations
+    }
+    assert candidates["A002"] == "x**2 + 2*x"
 
 
 def test_duplicate_canonical_states_are_pruned(tmp_path):

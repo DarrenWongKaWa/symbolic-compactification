@@ -58,7 +58,11 @@ expression space.
 - optional `latent_creation_enabled=false` ablation.
 
 Legal children use the frozen action vocabulary, including `ADD_COMPOSE` for
-the existing COMPOSE primitive. `REMOVE_REDUNDANT_OBJECT` is a validated
+the existing COMPOSE primitive. Its bounded input pool is the first three
+eligible available outputs regardless of which latent produced them; this
+permits an outer latent to compose VALUE/DERIVATIVE results from a distinct
+inner latent. SOURCE_LITERAL control outputs remain ineligible composition
+inputs. `REMOVE_REDUNDANT_OBJECT` is a validated
 transition but is not generated: removing an unused object reaches a
 canonical state already reachable without adding that object, so duplicate
 canonical-state pruning subsumes it. This is a gold-free graph reduction.

@@ -510,6 +510,16 @@ def legal_actions(
     output_operators = {
         item.output: item for item in state.operators if item.output is not None
     }
+    composition_outputs = tuple(
+        output
+        for output in outputs
+        if (
+            (candidate := _candidate_for_latent(
+                pool, _latent(state, output_operators[output].latent_id)
+            )) is None
+            or candidate.extraction != "SOURCE_LITERAL"
+        )
+    )[:3]
     for output in outputs:
         owner = output_operators[output]
         owner_latent = _latent(state, owner.latent_id)
@@ -608,9 +618,9 @@ def legal_actions(
                         "latent_id": latent.latent_id,
                         "mapping": {left: right, right: left},
                     }))
-            if latent.parameters and compatible_outputs:
+            if latent.parameters and composition_outputs:
                 for inputs in itertools.product(
-                    compatible_outputs[:3], repeat=len(latent.parameters)
+                    composition_outputs, repeat=len(latent.parameters)
                 ):
                     result.append(LegalAction("ADD_COMPOSE", {
                         "inputs": list(inputs),

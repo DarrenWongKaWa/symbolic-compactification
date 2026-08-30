@@ -24,7 +24,8 @@ COMPOSE operator. The implementation commit assumes that action is in
   byte-identical VALUE-self maps receive a pre-verifier `TAUTOLOGICAL`
   ineligibility marker and cannot become PROGRAM_SUCCESS;
 - executable typed transitions for every frozen action, including the repaired
-  `ADD_COMPOSE` access path and explicit repeated-node structures;
+  `ADD_COMPOSE` access path, bounded cross-latent composition inputs, and
+  explicit repeated-node structures;
 - hard G_FULL / G_NO_HERMITE / G_PRIMITIVE action filtering and the
   latent-object-disabled ablation;
 - exact frozen complexity/score implementation, including exact SymPy
@@ -80,7 +81,7 @@ around that boundary.
 Focused integration:
 
 ```text
-52 passed in 7.44s
+53 passed in 7.33s
 ```
 
 Command:
