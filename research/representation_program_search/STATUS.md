@@ -5,14 +5,15 @@ scientific search experiments
 
 PARENT: `0cdde49` publication F (assumption-complete representation)
 
-CURRENT BOTTLENECK: no case is currently admission-ready. C3J9 is excluded
-from fresh evidence as an old-TEST structural variant. C8Q2 is exact but only
-R1 and diagnostics-only because its package reveals adjacent-order roles.
-The CR3BP gap-fill has exact R2 mathematics but a non-replayable public-source
-and namespace boundary; an isolated agent is repairing that packaging without
-mutating the rejected package. The purported VDW R6 case is independently R1,
-not R6. Fresh strict R3, R4/R5, and R6 mining remains in progress. No case has
-entered a shared DEV manifest.
+CURRENT BOTTLENECK: exactly one case is admission-ready: repaired CR3BP case
+`C9H4`, scoped to DEV R2 calibration only. It is a versioned repair of the
+rejected predecessor and both count as one scientific identity. C3J9 is an
+old-TEST structural variant. C8Q2 is exact R1 and diagnostics-only. Q7V3 is
+mechanically valid arity-four R3, but its benchmark-author scalarizations are
+subsumed by historical TEST `mp-opitz-dd-01`; it is diagnostics-only. The VDW
+case is independently R1, not R6. Final bounded R3 mining and independent R6
+feasibility review are in progress; R4/R5 currently has no qualifying case.
+No case has entered a shared DEV manifest and no search result exists.
 
 OPEN CONTRACT DEFECT: `real:false` is documented as complex-probe selection
 but is implemented as SymPy `real=False` (provably non-real). Affected
@@ -37,7 +38,9 @@ scientific DEV run and no live LLM call.
 
 IMPLEMENTATION VERIFICATION: repository-wide suite clean at 1907 passed
 (`2026-08-30`; 381.21 seconds). This verifies software behavior only and is
-not a scientific result.
+not a scientific result. After the later candidate/audit integrations, focused
+integration tests are clean; a new repository-wide run is pending completion
+of the remaining isolated audits.
 
 STATISTICAL REPORTING: c5dfa3c (fixed-budget task- and cluster-weighted
 curves; Wilson intervals; conditional efficiency with explicit censor counts;
@@ -45,11 +48,12 @@ unavailable methods and inadmissible cases cannot enter denominators)
 
 PUBLICATION STATUS: not issued
 
-NEXT AUTO ACTION: finish independent candidate admission;
-assemble one R2, one R3, one R4/R5, one R6, and one negative DEV calibration
-only from admitted cases; execute all methods for correctness before freezing
-implementation semantics. Do not freeze TEST, run Guo, or interpret search
-results before those gates.
+NEXT AUTO ACTION: finish the bounded R3/R4-R5/R6 feasibility audits. Assemble
+the first DEV calibration suite only if every required scientific slot clears
+independent admission. If the target-depth suite cannot be constructed under
+the frozen parser/IR without duplication or fabricated depth, close the gate
+as a method-feasibility failure; do not silently weaken it. Do not freeze TEST,
+run Guo, or interpret search results before that decision.
 
 PRE-DEV FINITE FRONTIER: `RPSCandidatePoolV2` / `RPSSearchPolicyV2`. The V1
 frontier was mechanically unable to express complete public-source
@@ -106,6 +110,17 @@ admission-ready; VDW exact R1 and rejected as R6)
 
 C8Q2 AUDIT: 9f3afc6 (exact recurrence package, independently depth R1 and
 diagnostics-only; not DEV admission)
+
+ATOMIC CONDITION RUNNER: 28745de / 64dca54 (one immutable, hash-bound job per
+condition; independent clearance receipt; exact post-hoc/session evaluation;
+matched diagnostics; no fake state budget for F0; atomic output publication)
+
+R2 RECOVERY AND ADMISSION: 80d84e7 / de25247 / 04dd938 (strict repaired public
+package, 12 stored and independent ZERO receipts, true R2, exact combined
+clearance authority, DEV-calibration-only; predecessor and repair count once)
+
+Q7V3 R3 DIAGNOSTIC: 52c1780 / bcb43e2 (mechanically exact arity-four R3 but
+independently rejected as author-constructed and subsumed by historical TEST)
 
 S3 SOL SEARCH: b23b565; handoff 0fe23b8 (authority manifest
 `6678002a8038ea7cc79ed75d428c669946c67ae66272f1999d4e9d95db8f1595`;
