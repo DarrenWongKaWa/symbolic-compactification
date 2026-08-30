@@ -18,12 +18,12 @@ impossible), with relative paths.
 
 | Package | Lowering | Audited depth | Status | Required verdicts |
 |---|---|---|---|---|
-| `thermal-09-digamma-newton` | symbolic source identity | R2 Newton DD | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
-| `thermal-09-digamma-newton-z1` | fixed `z=1` | R0 | `PACKAGE_READY` | 2 ZERO |
-| `thermal-10-polygamma-order2-recurrence` | fixed `n=2`, symbolic `z` | R1 | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
-| `thermal-11-digamma-duplication` | fixed `n=2`, symbolic `z` | R1 | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
-| `thermal-13-alternating-digamma` | symbolic source identity | R5 | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
-| `thermal-13-alternating-digamma-z1` | fixed `z=1` | R5 fixed instance | `PACKAGE_READY` | 2 ZERO |
+| `thermal-09-digamma-newton` | `SYMBOLIC_SOURCE_OBJECT` | R2 Newton DD | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
+| `thermal-09-digamma-newton-z1` | `FIXED_SCIENTIFIC_INSTANCE` (`z=1`) | R0 | `PACKAGE_READY` | 2 ZERO |
+| `thermal-10-polygamma-order2-recurrence` | `FIXED_SCIENTIFIC_INSTANCE` (`n=2`, symbolic `z`) | R1 | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
+| `thermal-11-digamma-duplication` | `FIXED_SCIENTIFIC_INSTANCE` (`n=2`, symbolic `z`) | R1 | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
+| `thermal-13-alternating-digamma` | `SYMBOLIC_SOURCE_OBJECT` | R5 | `PROOF_REQUIRED` | 1 ZERO, 1 UNKNOWN |
+| `thermal-13-alternating-digamma-z1` | `FIXED_SCIENTIFIC_INSTANCE` (`z=1`) | R5 fixed instance | `PACKAGE_READY` | 2 ZERO |
 
 Totals: **8 ZERO, 4 UNKNOWN, 0 NONZERO**. Only the two all-ZERO fixed
 instances are `PACKAGE_READY`. The four symbolic identities remain

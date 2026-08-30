@@ -6,6 +6,7 @@ import shutil
 import pytest
 
 from research.representation_program_search.packages.thermal.validate import (
+    LOWERING_SCOPES,
     PACKAGE_CONFIG,
     PackageValidationError,
     validate_all,
@@ -22,6 +23,7 @@ def test_thermal_packages_validate_with_expected_fail_closed_totals():
 
 
 def test_ready_gate_and_depth_downgrades_are_explicit():
+    assert {config["lowering_scope"] for config in PACKAGE_CONFIG.values()} <= LOWERING_SCOPES
     assert PACKAGE_CONFIG["thermal-09-digamma-newton-z1"]["audited_depth"].startswith("R0")
     assert PACKAGE_CONFIG["thermal-10-polygamma-order2-recurrence"]["audited_depth"].startswith("R1")
     assert PACKAGE_CONFIG["thermal-11-digamma-duplication"]["audited_depth"].startswith("R1")

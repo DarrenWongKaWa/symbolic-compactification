@@ -66,7 +66,7 @@
     }
   ],
   "audited_depth": "R2_NEWTON_DD",
-  "lowering_scope": "NONE_SYMBOLIC_SOURCE_IDENTITY",
+  "lowering_scope": "SYMBOLIC_SOURCE_OBJECT",
   "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
   "package_id": "thermal-09-digamma-newton",
   "package_status": "PROOF_REQUIRED",

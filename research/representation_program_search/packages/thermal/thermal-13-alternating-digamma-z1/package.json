@@ -70,7 +70,7 @@
     }
   ],
   "audited_depth": "R5_SPECIAL_FUNCTION_FIXED_INSTANCE",
-  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE_Z_EQ_1",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
   "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
   "package_id": "thermal-13-alternating-digamma-z1",
   "package_status": "PACKAGE_READY",

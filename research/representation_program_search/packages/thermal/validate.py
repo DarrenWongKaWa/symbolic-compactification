@@ -27,40 +27,45 @@ from research.representation_program_search.grammar_v1 import (
 
 ROOT = Path(__file__).resolve().parent
 PACKAGE_SCHEMA = "RPSCasePackageV1"
+LOWERING_SCOPES = {
+    "SYMBOLIC_SOURCE_OBJECT",
+    "FIXED_SCIENTIFIC_INSTANCE",
+    "FINITE_INDEX_DIAGNOSTIC",
+}
 PACKAGE_CONFIG = {
     "thermal-09-digamma-newton": {
         "audited_depth": "R2_NEWTON_DD",
-        "lowering_scope": "NONE_SYMBOLIC_SOURCE_IDENTITY",
+        "lowering_scope": "SYMBOLIC_SOURCE_OBJECT",
         "package_status": "PROOF_REQUIRED",
         "source_dossier_id": "thermal-09-digamma-recurrence",
     },
     "thermal-09-digamma-newton-z1": {
         "audited_depth": "R0_REPEATED_STRUCTURE",
-        "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE_Z_EQ_1",
+        "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
         "package_status": "PACKAGE_READY",
         "source_dossier_id": "thermal-09-digamma-recurrence",
     },
     "thermal-10-polygamma-order2-recurrence": {
         "audited_depth": "R1_PARAMETER_FAMILY",
-        "lowering_scope": "FIXED_ORDER_N_EQ_2_SYMBOLIC_Z",
+        "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
         "package_status": "PROOF_REQUIRED",
         "source_dossier_id": "thermal-10-polygamma-recurrence",
     },
     "thermal-11-digamma-duplication": {
         "audited_depth": "R1_PARAMETER_FAMILY",
-        "lowering_scope": "FIXED_MULTIPLICATION_N_EQ_2_SYMBOLIC_Z",
+        "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
         "package_status": "PROOF_REQUIRED",
         "source_dossier_id": "thermal-11-gauss-multiplication-psi",
     },
     "thermal-13-alternating-digamma": {
         "audited_depth": "R5_SPECIAL_FUNCTION_REPRESENTATION",
-        "lowering_scope": "NONE_SYMBOLIC_SOURCE_IDENTITY",
+        "lowering_scope": "SYMBOLIC_SOURCE_OBJECT",
         "package_status": "PROOF_REQUIRED",
         "source_dossier_id": "thermal-13-alternating-fermi-series",
     },
     "thermal-13-alternating-digamma-z1": {
         "audited_depth": "R5_SPECIAL_FUNCTION_FIXED_INSTANCE",
-        "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE_Z_EQ_1",
+        "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
         "package_status": "PACKAGE_READY",
         "source_dossier_id": "thermal-13-alternating-fermi-series",
     },
@@ -218,6 +223,8 @@ def validate_package(package: Path) -> dict[str, int]:
     }.items():
         if manifest.get(key) != expected:
             raise PackageValidationError(f"{package.name}: package.json {key} mismatch")
+    if manifest.get("lowering_scope") not in LOWERING_SCOPES:
+        raise PackageValidationError(f"{package.name}: invalid lowering_scope enum")
 
     recorded = manifest.get("artifact_hashes")
     if not isinstance(recorded, list):

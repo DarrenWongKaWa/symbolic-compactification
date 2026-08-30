@@ -70,7 +70,7 @@
     }
   ],
   "audited_depth": "R0_REPEATED_STRUCTURE",
-  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE_Z_EQ_1",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
   "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
   "package_id": "thermal-09-digamma-newton-z1",
   "package_status": "PACKAGE_READY",

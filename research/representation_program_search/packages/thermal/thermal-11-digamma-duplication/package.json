@@ -66,7 +66,7 @@
     }
   ],
   "audited_depth": "R1_PARAMETER_FAMILY",
-  "lowering_scope": "FIXED_MULTIPLICATION_N_EQ_2_SYMBOLIC_Z",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE",
   "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
   "package_id": "thermal-11-digamma-duplication",
   "package_status": "PROOF_REQUIRED",
