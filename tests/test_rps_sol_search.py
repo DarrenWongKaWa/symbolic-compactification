@@ -21,10 +21,13 @@ from research.representation_program_search.sol_search import (
     SOL_AUTHORITY_COMMIT,
     SOL_AUTHORITY_MANIFEST_SHA256,
     SOL_LAYER,
+    SOL_REPLAY_BACKENDS,
     authority_manifest,
     load_sol_projection,
     route_legal_child,
+    replay_policy_payload,
     sol_conditioned_search,
+    structural_container_metadata,
     validate_local_authority,
 )
 
@@ -105,7 +108,15 @@ def _derivative_bundle() -> dict:
             "text": text,
         })
     return {
-        "backend_status": {"sympy": "AVAILABLE"},
+        "backend_status": {
+            "cadabra": "OPTIONAL / unavailable",
+            "egglog": "OPTIONAL / unavailable",
+            "form": "OPTIONAL / unavailable",
+            "lgg": "AVAILABLE",
+            "matchpy": "OPTIONAL / unavailable",
+            "metatheory": "OPTIONAL / unavailable",
+            "sympy": "AVAILABLE",
+        },
         "canonical_variants": [],
         "expression_summary": {
             "raw_sha256": hashlib.sha256(
@@ -139,6 +150,10 @@ def _derivative_bundle() -> dict:
 
 
 def _artifact(path: Path, case, bundle: dict) -> tuple[Path, str]:
+    bundle = json.loads(json.dumps(bundle))
+    container = structural_container_metadata(case)
+    bundle["expression_summary"]["raw_sha256"] = container["expression_sha256"]
+    bundle["provenance"]["context_keys"] = ["rps_replay_policy"]
     bundle_sha256 = hashlib.sha256(
         json.dumps(
             bundle,
@@ -152,9 +167,29 @@ def _artifact(path: Path, case, bundle: dict) -> tuple[Path, str]:
         "case_binding": _binding(case),
         "replay_attestation": {
             "authority_manifest_sha256": SOL_AUTHORITY_MANIFEST_SHA256,
+            "backend_provenance": {
+                "backend_status": bundle["backend_status"],
+                "backend_versions": {
+                    name: "synthetic-fixture" for name in SOL_REPLAY_BACKENDS
+                },
+                "backends_run": bundle["provenance"]["backends_run"],
+            },
             "bundle_sha256": bundle_sha256,
+            "environment_versions": {
+                "egglog": "synthetic-fixture",
+                "lgg": "synthetic-fixture",
+                "machine": "synthetic",
+                "matchpy": "synthetic-fixture",
+                "python_implementation": "synthetic",
+                "python_version": "synthetic",
+                "sympy": "synthetic-fixture",
+                "system": "synthetic",
+                "system_release": "synthetic",
+            },
             "mode": "READ_ONLY_FROZEN_SOL_REPLAY",
             "public_case_sha256": case.proposer_view_sha256,
+            "replay_policy": replay_policy_payload(),
+            "structural_container": container,
         },
         "schema_version": SOL_ARTIFACT_SCHEMA,
         "sol_authority": {
@@ -268,6 +303,41 @@ def test_projection_rejects_case_drift_node_drift_and_evaluator_paths(tmp_path):
     )
     assert forbidden.status == "UNAVAILABLE"
     assert forbidden.reason_codes == ("SOL_ARTIFACT_PATH_FORBIDDEN",)
+
+
+def test_projection_rejects_extra_replay_attestation_fields(tmp_path):
+    case = _public_case(tmp_path / "case")
+    path, _digest = _artifact(tmp_path / "sol.json", case, _derivative_bundle())
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    raw["replay_attestation"]["target_hint"] = "not allowed"
+    tampered_digest = _json(path, raw)
+    projection = load_sol_projection(case, path, expected_sha256=tampered_digest)
+    assert projection.status == "UNAVAILABLE"
+    assert projection.reason_codes == ("SOL_REPLAY_ATTESTATION_INVALID",)
+
+
+@pytest.mark.parametrize(
+    ("section", "field", "value", "reason"),
+    [
+        ("replay_policy", "timeout_seconds", 13.0, "SOL_REPLAY_ATTESTATION_INVALID"),
+        ("structural_container", "construction", "changed", "SOL_REPLAY_ATTESTATION_INVALID"),
+        ("backend_provenance", "backends_run", [], "SOL_BACKEND_PROVENANCE_INVALID"),
+        ("backend_provenance", "extra", "leak", "SOL_BACKEND_PROVENANCE_INVALID"),
+        ("environment_versions", "extra", "leak", "SOL_ENVIRONMENT_VERSIONS_INVALID"),
+        ("environment_versions", "sympy", "tampered", "SOL_ENVIRONMENT_VERSIONS_INVALID"),
+    ],
+)
+def test_projection_validates_every_replay_attestation_section_exactly(
+    tmp_path, section, field, value, reason,
+):
+    case = _public_case(tmp_path / "case")
+    path, _digest = _artifact(tmp_path / "sol.json", case, _derivative_bundle())
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    raw["replay_attestation"][section][field] = value
+    tampered_digest = _json(path, raw)
+    projection = load_sol_projection(case, path, expected_sha256=tampered_digest)
+    assert projection.status == "UNAVAILABLE"
+    assert projection.reason_codes == (reason,)
 
 
 def test_aggregate_or_unowned_sol_is_explicitly_ineligible(tmp_path):
@@ -493,17 +563,20 @@ def test_s3_modules_do_not_import_sol_execution_verifier_or_evaluator_loaders():
     root = Path("research/representation_program_search/sol_search")
     imported: set[str] = set()
     names: set[str] = set()
+    sol_api_importers: set[str] = set()
     for path in root.glob("*.py"):
         tree = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
             if isinstance(node, ast.ImportFrom):
                 imported.add(node.module or "")
                 names.update(alias.name for alias in node.names)
+                if node.module == "symbolic_compactification.observations.api":
+                    sol_api_importers.add(path.name)
             elif isinstance(node, ast.Import):
                 imported.update(alias.name for alias in node.names)
-    assert "symbolic_compactification.observations.api" not in imported
+    assert sol_api_importers == {"replay.py"}
     assert "symbolic_compactification.verifier" not in imported
     assert "research.representation_program_search.program_ir.loader" not in imported
-    assert "observe" not in names
+    assert "observe" in names
     assert "verify_equivalent" not in names
     assert "load_case_package" not in names

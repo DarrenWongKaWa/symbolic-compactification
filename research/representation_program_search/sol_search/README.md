@@ -4,6 +4,10 @@ This package adds a deterministic priority layer over the exact M2 legal
 frontier. It does not run, modify, or retune SOL, create candidate programs,
 call the verifier, or consume evaluator artifacts.
 
+The separate `build_sol_replay_artifact()` surface performs the one allowed
+read-only replay needed to prepare a future S3 input. It does not search,
+verify, or promote a representation.
+
 ## Frozen authority and input contract
 
 The repository's Structural Observation Layer v1 is frozen at commit
@@ -32,6 +36,45 @@ S3 input. This implementation creates no scientific replay artifacts. Until a
 fresh case-bound read-only replay is produced from the byte-exact frozen
 authority, scientific S3 is explicitly unavailable rather than reconstructed
 from that historical summary.
+
+## Read-only replay builder
+
+The builder accepts a previously loaded `PublicCase`, never a package path. It
+first validates the local frozen-authority source manifest, all in-memory
+member hashes, the public access-path ledger, and each member under the case's
+exact namespace. It never reopens a member, proposer view, assumption file, or
+catalog and rejects any contaminated public ledger or evaluator/reference/
+verification path.
+
+`RPSPublicMemberContainerV1` orders members by exact public id and embeds every
+unchanged member string as the argument of a deterministic opaque unary
+wrapper. The wrapper Add is observation-only: it is never a scientific
+expression, verifier input, source member, or package-member hash. Its
+construction, member order/hashes, wrappers, and full text hash are included
+in the replay attestation.
+
+`RPSSOLReplayPolicyV1` is not caller-tunable:
+
+- backend preset: `relations`;
+- requested backends: `sympy`, `matchpy`, `lgg`, `egglog`;
+- per-backend timeout: 12 seconds;
+- context key: `rps_replay_policy`.
+
+The artifact records requested and actually run backends, complete backend
+statuses, backend versions, Python/SymPy/optional-backend versions, and host
+system identifiers needed to recreate the environment. Projection requires
+the complete frozen status-key set and exact agreement between each replay
+backend version and its corresponding environment version. It is staged in the
+destination directory, fsynced, and passed through `load_sol_projection()`
+before no-overwrite atomic hard-link publication. The containing directory is
+fsynced after link creation and again after staging cleanup. `NO_ELIGIBLE_SOL`
+is a valid replay artifact but still prevents S3 search; `UNAVAILABLE` is
+never published. The returned `SOLReplayResult` reports the final artifact
+SHA-256. Existing outputs are never overwritten.
+
+The replay attestation is not a signature and does not prove that execution
+occurred. It makes the inputs, authority bytes, environment, policy, bundle,
+and output replayable and hash-auditable. Reproduction is the audit.
 
 ## Frozen routing policy
 

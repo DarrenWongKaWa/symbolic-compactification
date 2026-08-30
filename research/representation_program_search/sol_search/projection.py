@@ -27,6 +27,12 @@ from .model import (
     ProjectedSOLRelation,
     SOLProjection,
 )
+from .replay_contract import (
+    SOL_REPLAY_BACKENDS,
+    SOL_REPLAY_STATUS_BACKENDS,
+    replay_policy_payload,
+    structural_container_metadata,
+)
 
 _HASH = re.compile(r"[0-9a-f]{64}\Z")
 _FORBIDDEN_KEYS = frozenset({
@@ -158,6 +164,85 @@ def _case_binding(case: PublicCase) -> dict[str, Any]:
 
 def _bundle_sha256(bundle: Mapping[str, Any]) -> str:
     return _digest(canonical_json(dict(bundle)).encode("utf-8"))
+
+
+def _validate_replay_attestation(
+    case: PublicCase,
+    bundle: Mapping[str, Any],
+    attestation: Any,
+) -> None:
+    if not isinstance(attestation, Mapping) or set(attestation) != {
+        "authority_manifest_sha256",
+        "backend_provenance",
+        "bundle_sha256",
+        "environment_versions",
+        "mode",
+        "public_case_sha256",
+        "replay_policy",
+        "structural_container",
+    }:
+        raise _ProjectionFailure("SOL_REPLAY_ATTESTATION_INVALID")
+    expected_scalars = {
+        "authority_manifest_sha256": authority_manifest()["manifest_sha256"],
+        "bundle_sha256": _bundle_sha256(bundle),
+        "mode": "READ_ONLY_FROZEN_SOL_REPLAY",
+        "public_case_sha256": case.proposer_view_sha256,
+        "replay_policy": replay_policy_payload(),
+        "structural_container": structural_container_metadata(case),
+    }
+    if any(attestation.get(key) != value for key, value in expected_scalars.items()):
+        raise _ProjectionFailure("SOL_REPLAY_ATTESTATION_INVALID")
+    summary = bundle.get("expression_summary")
+    if not isinstance(summary, Mapping) or summary.get("raw_sha256") != (
+        expected_scalars["structural_container"]["expression_sha256"]
+    ):
+        raise _ProjectionFailure("SOL_CONTAINER_HASH_MISMATCH")
+    provenance = bundle.get("provenance")
+    backend_provenance = attestation.get("backend_provenance")
+    if not isinstance(provenance, Mapping) or not isinstance(backend_provenance, Mapping):
+        raise _ProjectionFailure("SOL_BACKEND_PROVENANCE_INVALID")
+    if set(backend_provenance) != {
+        "backend_status", "backend_versions", "backends_run",
+    }:
+        raise _ProjectionFailure("SOL_BACKEND_PROVENANCE_INVALID")
+    backends_run = provenance.get("backends_run")
+    if (
+        backend_provenance.get("backend_status") != bundle.get("backend_status")
+        or backend_provenance.get("backends_run") != backends_run
+        or not isinstance(backends_run, list)
+        or any(item not in SOL_REPLAY_BACKENDS for item in backends_run)
+        or backends_run != [item for item in SOL_REPLAY_BACKENDS if item in backends_run]
+    ):
+        raise _ProjectionFailure("SOL_BACKEND_PROVENANCE_INVALID")
+    backend_versions = backend_provenance.get("backend_versions")
+    if (
+        not isinstance(backend_versions, Mapping)
+        or set(backend_versions) != set(SOL_REPLAY_BACKENDS)
+        or any(value is not None and not isinstance(value, str) for value in backend_versions.values())
+    ):
+        raise _ProjectionFailure("SOL_BACKEND_VERSIONS_INVALID")
+    environment = attestation.get("environment_versions")
+    if (
+        not isinstance(environment, Mapping)
+        or set(environment) != {
+            "egglog",
+            "lgg",
+            "machine",
+            "matchpy",
+            "python_implementation",
+            "python_version",
+            "sympy",
+            "system",
+            "system_release",
+        }
+        or any(value is not None and not isinstance(value, str) for value in environment.values())
+    ):
+        raise _ProjectionFailure("SOL_ENVIRONMENT_VERSIONS_INVALID")
+    if any(
+        environment[name] != backend_versions[name]
+        for name in SOL_REPLAY_BACKENDS
+    ):
+        raise _ProjectionFailure("SOL_ENVIRONMENT_VERSIONS_INVALID")
 
 
 def _member_subexpressions(case: PublicCase) -> dict[str, set[str]]:
@@ -350,16 +435,12 @@ def load_sol_projection(
             raise _ProjectionFailure("SOL_BUNDLE_INVALID")
         if set(bundle) != _BUNDLE_FIELDS:
             raise _ProjectionFailure("SOL_BUNDLE_FIELDS_INVALID")
-        if data.get("replay_attestation") != {
-            "authority_manifest_sha256": authority_manifest()["manifest_sha256"],
-            "bundle_sha256": _bundle_sha256(bundle),
-            "mode": "READ_ONLY_FROZEN_SOL_REPLAY",
-            "public_case_sha256": case.proposer_view_sha256,
-        }:
-            raise _ProjectionFailure("SOL_REPLAY_ATTESTATION_INVALID")
+        _validate_replay_attestation(case, bundle, data.get("replay_attestation"))
         provenance = bundle.get("provenance")
         if not isinstance(provenance, Mapping) or provenance.get("layer") != SOL_LAYER:
             raise _ProjectionFailure("SOL_BUNDLE_PROVENANCE_INVALID")
+        if provenance.get("context_keys") != ["rps_replay_policy"]:
+            raise _ProjectionFailure("SOL_BUNDLE_CONTEXT_INVALID")
         backends_run = provenance.get("backends_run")
         if not isinstance(backends_run, list) or not all(
             isinstance(item, str) for item in backends_run
@@ -370,6 +451,14 @@ def load_sol_projection(
             for item in bundle.get("relations", [])
         ):
             raise _ProjectionFailure("SOL_RELATION_BACKEND_NOT_ATTESTED")
+        backend_status = bundle.get("backend_status")
+        if not isinstance(backend_status, Mapping) or any(
+            not isinstance(key, str) or not isinstance(value, str)
+            for key, value in backend_status.items()
+        ):
+            raise _ProjectionFailure("SOL_BUNDLE_BACKEND_STATUS_INVALID")
+        if set(backend_status) != set(SOL_REPLAY_STATUS_BACKENDS):
+            raise _ProjectionFailure("SOL_BUNDLE_BACKEND_STATUS_INVALID")
         assert_no_interpretation(bundle)
         relations = _project_relations(case, bundle, actual)
     except _ProjectionFailure as exc:
