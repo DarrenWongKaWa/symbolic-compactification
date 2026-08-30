@@ -1,8 +1,31 @@
 # Evaluation aggregation V1
 
-This layer reports search outcomes; it does not run search, compile programs,
-or adjudicate mathematics. Each input record is bound to the SHA-256 of its
-source result and, when available, its search and exact-evidence trace hashes.
+`model.py` and `aggregate.py` report search outcomes; they do not run search,
+compile programs, or adjudicate mathematics. Each input record is bound to the
+SHA-256 of its source result and, when available, its search and exact-evidence
+trace hashes.
+
+## Atomic condition jobs
+
+`runner.py` is the pre-DEV execution boundary. It runs exactly one condition
+per job, so methods, tasks, budgets, seeds, and grammar ablations can be
+parallelized without mutating a shared manifest. Each job consumes:
+
+- one hash-bound public `proposer_view.json`;
+- one independent `RPSCaseClearanceV1` receipt binding `ADMISSION_READY`,
+  complete assumptions, cleared leakage, and the three audit artifact hashes;
+- the frozen grammar, budget, seed, and optional LLM model in an immutable
+  `ExperimentJobSpec`;
+- only for S3, one exact frozen-SOL replay artifact and hash;
+- only for F0, one evaluator-only legacy authority object and hash.
+
+The runner publishes `JOB_MANIFEST.json`, all method-native traces, and
+`JOB_RESULT.json` by atomic directory rename. A method exception becomes a
+preserved `METHOD_ERROR`, never a search failure or a PROGRAM_SUCCESS. Output
+directories cannot be reused. S0--S7 scientific success still comes only from
+exact persisted verifier sessions; F0 uses the separate strict sessioned
+evaluator. F0 has no state-expansion budget and must not be copied across
+search-budget points as if it had performed formal search.
 
 An `AVAILABLE` record enters a denominator only when the case is independently
 `ADMISSION_READY` and leakage is `CLEARED`. `UNAVAILABLE`, `PACKAGING_GAP`,

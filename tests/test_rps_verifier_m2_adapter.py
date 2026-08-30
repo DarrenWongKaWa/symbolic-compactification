@@ -99,6 +99,40 @@ def test_feedback_does_not_mutate_the_legal_frontier(tmp_path):
         adapter.expand(root, "APPROXIMATE")
 
 
+def test_action_order_serializes_one_canonical_m1_program(tmp_path):
+    case = _case(tmp_path)
+    adapter = M2VerifierFrontierAdapter(
+        case, leakage_status="CLEARED", assumption_clearance="CLEARED"
+    )
+    root = adapter.initial_node()
+    create_children = [
+        item
+        for item in adapter.expand(root, None)
+        if item.action_from_parent["action"] == "CREATE_LATENT"
+    ]
+    first, second = create_children[:2]
+    first_latent = first.action_from_parent["payload"]["candidate_id"]
+    second_latent = second.action_from_parent["payload"]["candidate_id"]
+
+    first_then_second = next(
+        item
+        for item in adapter.expand(first, None)
+        if item.action_from_parent["action"] == "CREATE_LATENT"
+        and item.action_from_parent["payload"]["candidate_id"] == second_latent
+    )
+    second_then_first = next(
+        item
+        for item in adapter.expand(second, None)
+        if item.action_from_parent["action"] == "CREATE_LATENT"
+        and item.action_from_parent["payload"]["candidate_id"] == first_latent
+    )
+    assert first_then_second.canonical_hash == second_then_first.canonical_hash
+    assert first_then_second.program_id == second_then_first.program_id
+    assert [item.latent_id for item in first_then_second.program.latent_objects] == sorted(
+        item.latent_id for item in first_then_second.program.latent_objects
+    )
+
+
 def test_leakage_clearance_is_never_inferred(tmp_path):
     case = _case(tmp_path)
     assert M2VerifierFrontierAdapter(case).initial_node().leakage_status == "UNKNOWN"

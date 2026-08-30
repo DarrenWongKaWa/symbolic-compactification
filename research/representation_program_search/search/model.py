@@ -78,6 +78,45 @@ class ObligationEvidence:
         }
 
 
+def _canonical_operator_order(operators: tuple[Operator, ...]) -> tuple[Operator, ...]:
+    """Return a stable topological order with operator-id tie breaking.
+
+    Operator tuple order is not part of search-state identity, but M1 executes
+    operators sequentially.  Canonical serialization therefore needs one
+    deterministic dependency-respecting order for states reached through
+    different legal action sequences.  Invalid/cyclic graphs fall back to a
+    stable suffix and remain fail-closed in the compiler.
+    """
+    producer = {
+        item.output: item.operator_id
+        for item in operators
+        if item.output is not None
+    }
+    remaining = {item.operator_id: item for item in operators}
+    emitted: set[str] = set()
+    ordered: list[Operator] = []
+    while remaining:
+        ready = sorted(
+            (
+                item
+                for item in remaining.values()
+                if all(
+                    reference not in producer or producer[reference] in emitted
+                    for reference in item.inputs
+                )
+            ),
+            key=lambda item: item.operator_id,
+        )
+        if not ready:
+            ordered.extend(sorted(remaining.values(), key=lambda item: item.operator_id))
+            break
+        for item in ready:
+            ordered.append(item)
+            emitted.add(item.operator_id)
+            remaining.pop(item.operator_id)
+    return tuple(ordered)
+
+
 @dataclass(frozen=True)
 class SearchState:
     """Immutable partial program plus method-neutral search metadata."""
@@ -134,15 +173,21 @@ class SearchState:
         return RepresentationProgram(
             grammar_version=GRAMMAR_ID,
             source_members=source_members,
-            latent_objects=self.latent_objects,
-            node_structures=self.node_structures,
-            operators=self.operators,
-            member_assignments=self.member_assignments,
-            assumptions_used=self.assumptions_used,
+            latent_objects=tuple(sorted(
+                self.latent_objects, key=lambda item: item.latent_id
+            )),
+            node_structures=tuple(sorted(
+                self.node_structures, key=lambda item: item.node_id
+            )),
+            operators=_canonical_operator_order(self.operators),
+            member_assignments=tuple(sorted(
+                self.member_assignments, key=lambda item: item.member_id
+            )),
+            assumptions_used=tuple(sorted(self.assumptions_used)),
             assumption_statuses=assumption_statuses,
             obligations=obligations,
             instance_maps=self.instance_maps,
-            unexplained_members=self.unexplained_members,
+            unexplained_members=tuple(sorted(self.unexplained_members)),
         )
 
     def scientific_payload(self) -> dict[str, Any]:
