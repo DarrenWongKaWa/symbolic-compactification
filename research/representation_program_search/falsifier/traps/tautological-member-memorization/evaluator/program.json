@@ -1,0 +1,55 @@
+{
+  "assumptions_used": [
+    "real-x"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "latent_objects": [
+    {
+      "form": "FUNCTION_1",
+      "latent_id": "latent_001",
+      "parameters": [
+        "x"
+      ],
+      "symbolic_core": "x**2 + 1"
+    },
+    {
+      "form": "FUNCTION_1",
+      "latent_id": "latent_002",
+      "parameters": [
+        "x"
+      ],
+      "symbolic_core": "exp(x) + x"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_001",
+    "m002": "op_002"
+  },
+  "node_structures": [],
+  "operators": [
+    {
+      "arguments": {
+        "node": "x"
+      },
+      "latent": "latent_001",
+      "operator": "VALUE",
+      "operator_id": "op_001",
+      "output": "m001"
+    },
+    {
+      "arguments": {
+        "node": "x"
+      },
+      "latent": "latent_002",
+      "operator": "VALUE",
+      "operator_id": "op_002",
+      "output": "m002"
+    }
+  ],
+  "program_id": "4d0bfd8091b67a78a7dd3885844303e723589336a7d932774a31374031b90f08",
+  "reconstruction": {
+    "m001": "evaluator/candidates/m001.txt",
+    "m002": "evaluator/candidates/m002.txt"
+  },
+  "schema_version": "RepresentationProgramAdapterV1"
+}

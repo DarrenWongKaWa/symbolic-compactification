@@ -1,0 +1,14 @@
+{
+  "symbols": [
+    {
+      "name": "s",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "x",
+      "nonzero": false,
+      "real": true
+    }
+  ]
+}

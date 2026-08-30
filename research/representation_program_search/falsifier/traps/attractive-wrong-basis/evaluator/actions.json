@@ -1,0 +1,35 @@
+{
+  "actions": [
+    {
+      "action": "CREATE_BASIS",
+      "payload": {
+        "basis_elements": [
+          "x",
+          "y"
+        ],
+        "latent_id": "latent_001"
+      }
+    },
+    {
+      "action": "RECONSTRUCT_FROM_BASIS",
+      "payload": {
+        "coefficients": [
+          "1",
+          "2"
+        ],
+        "member_id": "m001"
+      }
+    },
+    {
+      "action": "RECONSTRUCT_FROM_BASIS",
+      "payload": {
+        "coefficients": [
+          "2",
+          "1"
+        ],
+        "member_id": "m002"
+      }
+    }
+  ],
+  "schema_version": "RPSFalsifierActionsV1"
+}

@@ -1,0 +1,12 @@
+{
+  "predicates": [
+    {
+      "id": "real-x-y",
+      "label": "DECLARED",
+      "source": "symbols.json",
+      "statement": "x and y are real"
+    }
+  ],
+  "schema_version": "RPSFalsifierAssumptionsV1",
+  "status": "DECLARED"
+}

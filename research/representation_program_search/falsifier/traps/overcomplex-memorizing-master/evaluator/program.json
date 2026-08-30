@@ -1,0 +1,58 @@
+{
+  "assumptions_used": [
+    "real-s-x"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "latent_objects": [
+    {
+      "external_symbols": [
+        "x"
+      ],
+      "form": "FUNCTION_1",
+      "latent_id": "latent_001",
+      "parameters": [
+        "s"
+      ],
+      "symbolic_core": "Piecewise((x + 1, Eq(s, 1)), (x + 2, True))"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_001",
+    "m002": "op_002"
+  },
+  "member_specific_exceptions": [
+    "Piecewise branch for m001",
+    "Piecewise branch for m002"
+  ],
+  "node_structures": [],
+  "operators": [
+    {
+      "arguments": {
+        "parameter": "s",
+        "value": "1"
+      },
+      "latent": "latent_001",
+      "operator": "SUBSTITUTE",
+      "operator_depth": 1,
+      "operator_id": "op_001",
+      "output": "m001"
+    },
+    {
+      "arguments": {
+        "parameter": "s",
+        "value": "2"
+      },
+      "latent": "latent_001",
+      "operator": "SUBSTITUTE",
+      "operator_depth": 1,
+      "operator_id": "op_002",
+      "output": "m002"
+    }
+  ],
+  "program_id": "cd06a9c7a5146c9bf52b1e16e2308575ed1b8b551ac8c10c3f7f60ab5f422ca8",
+  "reconstruction": {
+    "m001": "evaluator/candidates/m001.txt",
+    "m002": "evaluator/candidates/m002.txt"
+  },
+  "schema_version": "RepresentationProgramAdapterV1"
+}

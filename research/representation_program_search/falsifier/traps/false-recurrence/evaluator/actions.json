@@ -1,0 +1,36 @@
+{
+  "actions": [
+    {
+      "action": "CREATE_LATENT",
+      "payload": {
+        "external_symbols": [
+          "x"
+        ],
+        "form": "FUNCTION_1",
+        "latent_id": "latent_001",
+        "parameters": [
+          "k"
+        ],
+        "symbolic_core": "x + k"
+      }
+    },
+    {
+      "action": "ADD_MEMBER",
+      "payload": {
+        "member_id": "m000",
+        "operator": "SUBSTITUTE",
+        "parameter": "k",
+        "value": "0"
+      }
+    },
+    {
+      "action": "ADD_RECURRENCE",
+      "payload": {
+        "base_member": "m000",
+        "member_id": "m001",
+        "step": "2"
+      }
+    }
+  ],
+  "schema_version": "RPSFalsifierActionsV1"
+}

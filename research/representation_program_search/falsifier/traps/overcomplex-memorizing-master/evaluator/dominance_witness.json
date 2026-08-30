@@ -1,0 +1,55 @@
+{
+  "assumptions_used": [
+    "real-s-x"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "latent_objects": [
+    {
+      "external_symbols": [
+        "x"
+      ],
+      "form": "FUNCTION_1",
+      "latent_id": "latent_001",
+      "parameters": [
+        "s"
+      ],
+      "symbolic_core": "x + s"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_001",
+    "m002": "op_002"
+  },
+  "member_specific_exceptions": [],
+  "node_structures": [],
+  "operators": [
+    {
+      "arguments": {
+        "parameter": "s",
+        "value": "1"
+      },
+      "latent": "latent_001",
+      "operator": "SUBSTITUTE",
+      "operator_depth": 1,
+      "operator_id": "op_001",
+      "output": "m001"
+    },
+    {
+      "arguments": {
+        "parameter": "s",
+        "value": "2"
+      },
+      "latent": "latent_001",
+      "operator": "SUBSTITUTE",
+      "operator_depth": 1,
+      "operator_id": "op_002",
+      "output": "m002"
+    }
+  ],
+  "program_id": "d367aac80c145cbba390b5b50da1dc104c58210e6157cebde012f0f0ca62d2ff",
+  "reconstruction": {
+    "m001": "evaluator/candidates/m001.txt",
+    "m002": "evaluator/candidates/m002.txt"
+  },
+  "schema_version": "RepresentationProgramAdapterV1"
+}

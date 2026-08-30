@@ -1,0 +1,53 @@
+{
+  "assumptions_used": [
+    "real-x"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "latent_objects": [
+    {
+      "external_symbols": [
+        "x"
+      ],
+      "form": "FUNCTION_1",
+      "latent_id": "latent_001",
+      "parameters": [
+        "k"
+      ],
+      "symbolic_core": "x + k"
+    }
+  ],
+  "member_assignments": {
+    "m000": "op_001",
+    "m001": "op_002"
+  },
+  "node_structures": [],
+  "operators": [
+    {
+      "arguments": {
+        "parameter": "k",
+        "value": "0"
+      },
+      "latent": "latent_001",
+      "operator": "SUBSTITUTE",
+      "operator_id": "op_001",
+      "output": "m000"
+    },
+    {
+      "arguments": {
+        "base": "op_001",
+        "index": "k",
+        "step": "2"
+      },
+      "latent": "latent_001",
+      "operator": "RECURRENCE",
+      "operator_id": "op_002",
+      "output": "m001"
+    }
+  ],
+  "program_id": "dbf7b9cc5792deb65e3674ad1827aed62a121c35584cbcb5dff471dbe68bad0f",
+  "reconstruction": {
+    "m000": "members/m000.txt",
+    "m001": "evaluator/candidates/m001.txt"
+  },
+  "schema_version": "RepresentationProgramAdapterV1"
+}

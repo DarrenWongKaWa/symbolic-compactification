@@ -1,0 +1,22 @@
+{
+  "admissible_benchmark": false,
+  "candidate_bindings": [
+    {
+      "candidate_path": "evaluator/candidates/m001.txt",
+      "current_path": "members/m001.txt",
+      "member_id": "m001",
+      "run_path": "verification/runs/20260830T113859Z-5855d4"
+    }
+  ],
+  "evaluation_stage": "VERIFIER_NONZERO",
+  "evaluator_only": true,
+  "expected_failure_class": "FALSE_RECURRENCE",
+  "expected_verdict": "NONZERO",
+  "program_path": "evaluator/program.json",
+  "schema_version": "RPSFalsifierTrapV1",
+  "source_member_files": [
+    "members/m000.txt",
+    "members/m001.txt"
+  ],
+  "trap_id": "false-recurrence"
+}

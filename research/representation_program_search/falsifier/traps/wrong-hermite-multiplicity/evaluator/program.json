@@ -1,0 +1,43 @@
+{
+  "assumptions_used": [
+    "real-x-y-z"
+  ],
+  "grammar_version": "RepresentationGrammarV1",
+  "latent_objects": [
+    {
+      "form": "FUNCTION_1",
+      "latent_id": "latent_001",
+      "parameters": [
+        "z"
+      ],
+      "symbolic_core": "z**3"
+    }
+  ],
+  "member_assignments": {
+    "m001": "op_001"
+  },
+  "node_structures": [
+    {
+      "node_id": "nodes_001",
+      "nodes": [
+        "x",
+        "y"
+      ]
+    }
+  ],
+  "operators": [
+    {
+      "arguments": {},
+      "latent": "latent_001",
+      "node_structure": "nodes_001",
+      "operator": "HERMITE_DD",
+      "operator_id": "op_001",
+      "output": "m001"
+    }
+  ],
+  "program_id": "b1030edab1c953ac49fedb786b32121339c413084e98a0fab33fd54a9560da49",
+  "reconstruction": {
+    "m001": "evaluator/candidates/m001.txt"
+  },
+  "schema_version": "RepresentationProgramAdapterV1"
+}
