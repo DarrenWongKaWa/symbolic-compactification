@@ -1,0 +1,88 @@
+{
+  "assumptions_used": [
+    "P001",
+    "P002",
+    "P003"
+  ],
+  "depth_note": "This is an exact fixed z=1 bridge from an alternating infinite pole sum to two digamma values; it is not evidence for a symbolic-z family.",
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "A001": {
+      "z": "1"
+    },
+    "A002": {
+      "z": "1"
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "polygamma(0, u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F0",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": {
+    "A001": {
+      "operator_ids": [
+        "OP0",
+        "OP1",
+        "OP2"
+      ],
+      "reconstruction_path": "reference/reconstructions/O000.txt"
+    },
+    "A002": {
+      "operator_ids": [
+        "OP0",
+        "OP1",
+        "OP2"
+      ],
+      "reconstruction_path": "reference/reconstructions/O001.txt"
+    }
+  },
+  "node_structures": [],
+  "obligations": [
+    "O000",
+    "O001"
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "1"
+      },
+      "latent_id": "F0",
+      "operator": "SUBSTITUTE",
+      "operator_id": "OP0"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "Rational(1, 2)"
+      },
+      "latent_id": "F0",
+      "operator": "SUBSTITUTE",
+      "operator_id": "OP1"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "1",
+          "-1"
+        ],
+        "terms": [
+          "OP0",
+          "OP1"
+        ]
+      },
+      "latent_id": "F0",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP2"
+    }
+  ],
+  "program_id": "b959b27c5136faac706b32c8162ffdf9574e368fed18911842712e2cd3207969",
+  "representation_depth": "R5_SPECIAL_FUNCTION_FIXED_INSTANCE",
+  "unexplained_members": []
+}

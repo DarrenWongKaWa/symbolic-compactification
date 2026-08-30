@@ -1,0 +1,30 @@
+{
+  "obligations": [
+    {
+      "candidate_path": "reference/reconstructions/O000.txt",
+      "current_member_id": "A001",
+      "obligation_id": "O000",
+      "proof_status": "PROVEN",
+      "required": true,
+      "run_id": "20260830T110751Z-a9f283",
+      "step_path": "verification/runs/20260830T110751Z-a9f283/steps/step_001.json",
+      "verdict": "ZERO"
+    },
+    {
+      "candidate_path": "reference/reconstructions/O001.txt",
+      "current_member_id": "A002",
+      "obligation_id": "O001",
+      "proof_status": "PROOF_REQUIRED",
+      "required": true,
+      "run_id": "20260830T110515Z-3fe88f",
+      "step_path": "verification/runs/20260830T110515Z-3fe88f/steps/step_001.json",
+      "verdict": "UNKNOWN"
+    }
+  ],
+  "schema_version": "RPSObligationsV1",
+  "summary": {
+    "NONZERO": 0,
+    "UNKNOWN": 1,
+    "ZERO": 1
+  }
+}

@@ -1,0 +1,1 @@
+(polygamma(0, 2) - polygamma(0, 1))/(2 - 1)

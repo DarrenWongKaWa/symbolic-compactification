@@ -1,0 +1,26 @@
+{
+  "predicates": [
+    {
+      "predicate_id": "P001",
+      "source": "https://dlmf.nist.gov/5.7.ii",
+      "statement": "z is not 0,-1,-2,... .",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P002",
+      "source": "P001 by parity",
+      "statement": "z/2 and (z+1)/2 avoid the digamma pole set under P001.",
+      "status": "DERIVED"
+    },
+    {
+      "predicate_id": "P003",
+      "source": "https://dlmf.nist.gov/5.7.E7",
+      "statement": "k is the nonnegative integer bound variable of the Sum from 0 to infinity.",
+      "status": "DECLARED"
+    }
+  ],
+  "schema_version": "ScientificAssumptionContractV1",
+  "status": "ASSUMPTION_COMPLETE",
+  "symbols_artifact": "symbols.json",
+  "verifier_scope_note": "k is declared for native Sum re-parsing; it is bound, not a free scientific parameter. The exact pole exclusion is carried by this contract."
+}

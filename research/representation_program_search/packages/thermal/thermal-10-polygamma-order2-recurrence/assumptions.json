@@ -1,0 +1,30 @@
+{
+  "contract_delta": {
+    "original_dossier_audit": "PROBLEM_UNDERSPECIFIED",
+    "repair": "The package explicitly declares the complete polygamma pole exclusion instead of deriving it from z != 0; the source dossier is unchanged."
+  },
+  "predicates": [
+    {
+      "predicate_id": "P001",
+      "source": "https://dlmf.nist.gov/5.15.E5",
+      "statement": "The recurrence order is the fixed positive integer n=2.",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P002",
+      "source": "https://dlmf.nist.gov/5.2.E2",
+      "statement": "z is not 0,-1,-2,..., the pole set of polygamma(2,z).",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P003",
+      "source": "P002 by integer translation",
+      "statement": "z+1 is outside the polygamma pole set whenever P002 holds.",
+      "status": "DERIVED"
+    }
+  ],
+  "schema_version": "ScientificAssumptionContractV1",
+  "status": "ASSUMPTION_COMPLETE",
+  "symbols_artifact": "symbols.json",
+  "verifier_scope_note": "The exact discrete pole exclusion is carried by this contract; symbols.json selects complex-probe mode but cannot encode excluded integer sets."
+}

@@ -1,0 +1,80 @@
+{
+  "artifact_hashes": [
+    {
+      "path": "assumptions.json",
+      "sha256": "4eed9f0c40e882a07331a7a77fc83e8be22d223fa7a5f6a9e69bcca29cf95918"
+    },
+    {
+      "path": "members/A001.txt",
+      "sha256": "f88cf696ab9215fe744a8507ac011883742040cd4ea5e9373fe63f143d09b780"
+    },
+    {
+      "path": "members/A002.txt",
+      "sha256": "8d5200c480654f88f957030d73d984da4fa3ff09c5f2f3c18c2535fba78f4e39"
+    },
+    {
+      "path": "proposer_view.json",
+      "sha256": "8d6bc4ca1bbb44e1a5e300acf09fa4bbeb34917ef877c8e3a2a5a04ed8bc796a"
+    },
+    {
+      "path": "reference/obligations.json",
+      "sha256": "53fa853661e8c406a2e6109c622a5c567c41b78cb78274fe1ce94038c9afc0cb"
+    },
+    {
+      "path": "reference/program.json",
+      "sha256": "e5aa87e44ad763f18d955d53b6f0a89133fe0956901ecf2202ae1f8b43a5e6a1"
+    },
+    {
+      "path": "reference/reconstructions/O000.txt",
+      "sha256": "f88cf696ab9215fe744a8507ac011883742040cd4ea5e9373fe63f143d09b780"
+    },
+    {
+      "path": "reference/reconstructions/O001.txt",
+      "sha256": "f88cf696ab9215fe744a8507ac011883742040cd4ea5e9373fe63f143d09b780"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "0fae8e93023a76d6736f5621d1841359c670658903d676d8eebd8da83edc3594"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "35f4661e6dd15932fae46754a3026c996599aa0e61d2b477291338b034a7041c"
+    },
+    {
+      "path": "symbols.json",
+      "sha256": "1742ddb380a269c13e0f21d4e7c91f48dbf1a2a6696e0822b3b3a5f057311502"
+    },
+    {
+      "path": "verification/runs/20260830T110430Z-eb7054/manifest.json",
+      "sha256": "1d7a4857f257e2e0c20b3e38dc476994c5006db592bb14443a3f28056a0e0813"
+    },
+    {
+      "path": "verification/runs/20260830T110430Z-eb7054/steps/step_001.json",
+      "sha256": "d31dcc8199a6a423801cb433b149d443ade147961adbd0116529d00cf0daf7ae"
+    },
+    {
+      "path": "verification/runs/20260830T110751Z-6d5938/final/current.json",
+      "sha256": "9323b2c6afd1ebb24b35278c0cc9b19986911cd88cac0d37ae2ff1744973db0b"
+    },
+    {
+      "path": "verification/runs/20260830T110751Z-6d5938/manifest.json",
+      "sha256": "e5a92bd2799d3f81b96b746f460ebaa05554b301c06fa227ae35037ece08fd4a"
+    },
+    {
+      "path": "verification/runs/20260830T110751Z-6d5938/steps/step_001.json",
+      "sha256": "d8de714d56cf56aac5b150cff5170ffe8af53bb6199ca06e61b332227adb4df5"
+    }
+  ],
+  "audited_depth": "R1_PARAMETER_FAMILY",
+  "lowering_scope": "FIXED_ORDER_N_EQ_2_SYMBOLIC_Z",
+  "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
+  "package_id": "thermal-10-polygamma-order2-recurrence",
+  "package_status": "PROOF_REQUIRED",
+  "schema_version": "RPSCasePackageV1",
+  "source_dossier_id": "thermal-10-polygamma-recurrence",
+  "verdict_totals": {
+    "NONZERO": 0,
+    "UNKNOWN": 1,
+    "ZERO": 1
+  }
+}

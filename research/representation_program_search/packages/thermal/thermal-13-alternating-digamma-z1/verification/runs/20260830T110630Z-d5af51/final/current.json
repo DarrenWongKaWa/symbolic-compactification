@@ -1,0 +1,14 @@
+{
+  "text": "polygamma(0, 1) - polygamma(0, Rational(1, 2))",
+  "sha256": "cafc30a1d18786a17a1a73db4e9a73fe0be65a4a990594fe3c494cf5a267ede2",
+  "sha256_of_text": "e33f544c8d3cc483e6b83a026bf83e371f41d1792c87da451c243f1b243b2899",
+  "promoted_at_step": 1,
+  "symbols": [
+    {
+      "name": "k",
+      "real": true,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

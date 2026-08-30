@@ -1,0 +1,20 @@
+{
+  "predicates": [
+    {
+      "predicate_id": "P001",
+      "source": "https://dlmf.nist.gov/5.5.E2",
+      "statement": "This package is the fixed scientific instance z=1 of DLMF 5.5.2.",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P002",
+      "source": "P001 and https://dlmf.nist.gov/5.2.E2",
+      "statement": "The digamma arguments 1 and 2 avoid all nonpositive-integer poles and the denominator 1 is nonzero.",
+      "status": "DERIVED"
+    }
+  ],
+  "schema_version": "ScientificAssumptionContractV1",
+  "status": "ASSUMPTION_COMPLETE",
+  "symbols_artifact": "symbols.json",
+  "verifier_scope_note": "The source expressions are closed after z=1 substitution. The unused z declaration is only the nonempty namespace carrier required by the v0.3 parser and is not a free scientific variable."
+}

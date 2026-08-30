@@ -1,0 +1,14 @@
+{
+  "text": "polygamma(0, z + 1) - polygamma(0, z)",
+  "sha256": "0999e1ebe2f4fb4376e4c3f18c0b63087b9057e306683fdb3ed35e95e73f1b86",
+  "sha256_of_text": "2c0eb2907ecad9056a39d9546a8121361f467f2df08eee77b8b31798c71a79c4",
+  "promoted_at_step": 1,
+  "symbols": [
+    {
+      "name": "z",
+      "real": false,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

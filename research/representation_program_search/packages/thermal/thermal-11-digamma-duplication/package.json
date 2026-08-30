@@ -1,0 +1,80 @@
+{
+  "artifact_hashes": [
+    {
+      "path": "assumptions.json",
+      "sha256": "c88757364e7f2ac7c5dd0bc711dd7c7407146c87dde115d716dfd7fcab05c33e"
+    },
+    {
+      "path": "members/A001.txt",
+      "sha256": "816049c45731307e7e733da7a240b87669d2192ed939d07ad97f64eb1e7f5771"
+    },
+    {
+      "path": "members/A002.txt",
+      "sha256": "bcce6f2fed2060203b305f220b58dbfe3cf84d500237418ef09a465978107784"
+    },
+    {
+      "path": "proposer_view.json",
+      "sha256": "262938b37645fe6b318cdd65c5efe406d68c1f6f91835e667b0f3933fa5fd5f8"
+    },
+    {
+      "path": "reference/obligations.json",
+      "sha256": "fee3634be4bbb5c245183776cd5bd2c04fe629e88660ffa20962144f3efdb3dc"
+    },
+    {
+      "path": "reference/program.json",
+      "sha256": "311cae0b5159c0fab83a3588ab3b186f39e3f98a76e2b372f5a6d589824d2d77"
+    },
+    {
+      "path": "reference/reconstructions/O000.txt",
+      "sha256": "816049c45731307e7e733da7a240b87669d2192ed939d07ad97f64eb1e7f5771"
+    },
+    {
+      "path": "reference/reconstructions/O001.txt",
+      "sha256": "bcce6f2fed2060203b305f220b58dbfe3cf84d500237418ef09a465978107784"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "26a6cc4be9d65d9c87a75d14d9ad5590f1070e1b1e56746f69f3d5b1253e14c1"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "ca14597a1e9e2f257ef393d1ff6eecef2e5d8856c4ecbbe326e2199686c7b030"
+    },
+    {
+      "path": "symbols.json",
+      "sha256": "1742ddb380a269c13e0f21d4e7c91f48dbf1a2a6696e0822b3b3a5f057311502"
+    },
+    {
+      "path": "verification/runs/20260830T110451Z-9b7139/manifest.json",
+      "sha256": "be21e9d40edf1bcd0964d667ec75d3d2990a874e5a15d613a6ea6a5ad68f9251"
+    },
+    {
+      "path": "verification/runs/20260830T110451Z-9b7139/steps/step_001.json",
+      "sha256": "3d1bb59a2a058db7ecd330e4c444d3b82208de67af1cf1f34254d059ea310597"
+    },
+    {
+      "path": "verification/runs/20260830T110751Z-2c8dbd/final/current.json",
+      "sha256": "f36883572f9dcb90fed700443cd4087ae359360a6116f6d717b41c59a47e1c03"
+    },
+    {
+      "path": "verification/runs/20260830T110751Z-2c8dbd/manifest.json",
+      "sha256": "5f20f08e6ea5630d086d05bb48ba2953da30be798b3045b73770b65a582639b0"
+    },
+    {
+      "path": "verification/runs/20260830T110751Z-2c8dbd/steps/step_001.json",
+      "sha256": "d50f0fef22aca752575ae1d70b566feeb75c224616d94333df3f604588a83332"
+    }
+  ],
+  "audited_depth": "R1_PARAMETER_FAMILY",
+  "lowering_scope": "FIXED_MULTIPLICATION_N_EQ_2_SYMBOLIC_Z",
+  "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
+  "package_id": "thermal-11-digamma-duplication",
+  "package_status": "PROOF_REQUIRED",
+  "schema_version": "RPSCasePackageV1",
+  "source_dossier_id": "thermal-11-gauss-multiplication-psi",
+  "verdict_totals": {
+    "NONZERO": 0,
+    "UNKNOWN": 1,
+    "ZERO": 1
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "assumptions_used": [
+    "P001",
+    "P002",
+    "P003"
+  ],
+  "depth_note": "A fixed-order shift recurrence is not a Hermite divided difference: there is no repeated NODES object and no HERMITE_DD operator.",
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "A001": {
+      "n": "2",
+      "u": [
+        "z",
+        "z + 1"
+      ]
+    },
+    "A002": {
+      "n": "2"
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "polygamma(2, u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F0",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": {
+    "A001": {
+      "operator_ids": [
+        "OP0",
+        "OP1",
+        "OP2"
+      ],
+      "reconstruction_path": "reference/reconstructions/O000.txt"
+    },
+    "A002": {
+      "operator_ids": [
+        "OP3"
+      ],
+      "reconstruction_path": "reference/reconstructions/O001.txt"
+    }
+  },
+  "node_structures": [],
+  "obligations": [
+    "O000",
+    "O001"
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "node": "z"
+      },
+      "latent_id": "F0",
+      "operator": "VALUE",
+      "operator_id": "OP0"
+    },
+    {
+      "arguments": {
+        "base": "z",
+        "delta": "1"
+      },
+      "latent_id": "F0",
+      "operator": "SHIFT",
+      "operator_id": "OP1"
+    },
+    {
+      "arguments": {
+        "terms": [
+          "OP1",
+          "-OP0"
+        ]
+      },
+      "latent_id": "F0",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP2"
+    },
+    {
+      "arguments": {
+        "fixed_index": "2",
+        "index": "n",
+        "step": "1"
+      },
+      "latent_id": "F0",
+      "operator": "RECURRENCE",
+      "operator_id": "OP3"
+    }
+  ],
+  "program_id": "01fa28681520ac68fa8e405a30e42136d989b21c766b61ee030cb4d15f4661c3",
+  "representation_depth": "R1_PARAMETER_FAMILY",
+  "unexplained_members": []
+}

@@ -1,0 +1,17 @@
+{
+  "members": [
+    {
+      "member_id": "A001",
+      "path": "members/A001.txt",
+      "sha256": "f88cf696ab9215fe744a8507ac011883742040cd4ea5e9373fe63f143d09b780",
+      "source_equation_id": "DLMF_5_15_E5"
+    },
+    {
+      "member_id": "A002",
+      "path": "members/A002.txt",
+      "sha256": "8d5200c480654f88f957030d73d984da4fa3ff09c5f2f3c18c2535fba78f4e39",
+      "source_equation_id": "DLMF_5_15_E5"
+    }
+  ],
+  "schema_version": "RPSMemberCatalogV1"
+}

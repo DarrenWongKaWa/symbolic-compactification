@@ -1,0 +1,1 @@
+polygamma(0, 2*z)

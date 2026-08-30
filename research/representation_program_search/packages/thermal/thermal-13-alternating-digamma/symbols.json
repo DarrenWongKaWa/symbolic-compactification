@@ -1,0 +1,14 @@
+{
+  "symbols": [
+    {
+      "name": "k",
+      "nonzero": false,
+      "real": true
+    },
+    {
+      "name": "z",
+      "nonzero": false,
+      "real": false
+    }
+  ]
+}

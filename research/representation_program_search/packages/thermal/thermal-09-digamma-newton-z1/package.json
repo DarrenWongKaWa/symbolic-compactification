@@ -1,0 +1,84 @@
+{
+  "artifact_hashes": [
+    {
+      "path": "assumptions.json",
+      "sha256": "eef2bbbab654218e7f1219b52e18a7cdbb1a2e5c710eafbdbe6affe6ec5a6a70"
+    },
+    {
+      "path": "members/A001.txt",
+      "sha256": "25eff2739b978cc7400ed3aa57fe40f13e12263f80bee8aa35c2e472a85a6f2a"
+    },
+    {
+      "path": "members/A002.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "proposer_view.json",
+      "sha256": "99793ea00c6ee9f14a38f33320c225b6182048e72a02618a62165d62bbeb031c"
+    },
+    {
+      "path": "reference/obligations.json",
+      "sha256": "4afc928b3778a720921d40e1b5a61e7e36ffa08c0c39f92f518067449ca07eb4"
+    },
+    {
+      "path": "reference/program.json",
+      "sha256": "201f07ebbc76934681ae86414eebb29ab2995a98a2600f49379bea5fbd5f8f89"
+    },
+    {
+      "path": "reference/reconstructions/O000.txt",
+      "sha256": "25eff2739b978cc7400ed3aa57fe40f13e12263f80bee8aa35c2e472a85a6f2a"
+    },
+    {
+      "path": "reference/reconstructions/O001.txt",
+      "sha256": "81fe914369d5069ebec4cc69f25206a123a0749b2b9d0a2eb05fa11fc0a020fe"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "18be97ea676e7c8ab653c2003fa9979b3c7ee522f1d701fbfc421c958a37b6f1"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "3cdff62ded619ea9cdad84d2bbd0facd47e08dd3b5d5bc982758ba405f3e1ceb"
+    },
+    {
+      "path": "symbols.json",
+      "sha256": "7cb5e47dd6d958e9bb07d5d96b825653953f63218d497b0dad392192d2eabdef"
+    },
+    {
+      "path": "verification/runs/20260830T110618Z-323e04/final/current.json",
+      "sha256": "a88add23bd505ba9e21cae6eb04e973aee0b399e6e9aeff255896f2af4a143a8"
+    },
+    {
+      "path": "verification/runs/20260830T110618Z-323e04/manifest.json",
+      "sha256": "5ab817be34a5fc1fa294255cf602882a4078bbfe776145caff944d8707d29d9c"
+    },
+    {
+      "path": "verification/runs/20260830T110618Z-323e04/steps/step_001.json",
+      "sha256": "b0c471dd7339d8905b6e7cb63416e7e3ec75f14e59f83c809178ead24299829a"
+    },
+    {
+      "path": "verification/runs/20260830T110750Z-358ee2/final/current.json",
+      "sha256": "8c8c720226eeefb3f9398955bc30aedbe534fa023c8341c2a5f4c653a464bd07"
+    },
+    {
+      "path": "verification/runs/20260830T110750Z-358ee2/manifest.json",
+      "sha256": "7302f27e98006d2ff5b77b546d593752d3bcce963e807cefed2b9d8b4688ebe1"
+    },
+    {
+      "path": "verification/runs/20260830T110750Z-358ee2/steps/step_001.json",
+      "sha256": "4f3bbded7afb1ea7d73e41ac4743b9b5756e7364376f1b3e4272fc516764e48c"
+    }
+  ],
+  "audited_depth": "R0_REPEATED_STRUCTURE",
+  "lowering_scope": "FIXED_SCIENTIFIC_INSTANCE_Z_EQ_1",
+  "manifest_exclusion": "package.json is excluded because a file cannot contain its own stable hash.",
+  "package_id": "thermal-09-digamma-newton-z1",
+  "package_status": "PACKAGE_READY",
+  "schema_version": "RPSCasePackageV1",
+  "source_dossier_id": "thermal-09-digamma-recurrence",
+  "verdict_totals": {
+    "NONZERO": 0,
+    "UNKNOWN": 0,
+    "ZERO": 2
+  }
+}

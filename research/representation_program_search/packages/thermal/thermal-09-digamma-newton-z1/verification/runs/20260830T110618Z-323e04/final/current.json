@@ -1,0 +1,14 @@
+{
+  "text": "(polygamma(0, 2) - polygamma(0, 1))/(2 - 1)",
+  "sha256": "81fe914369d5069ebec4cc69f25206a123a0749b2b9d0a2eb05fa11fc0a020fe",
+  "sha256_of_text": "5071405d5749ce23c27cba7cbf4a0eef747b794056ce394f35c1133b9c78b1a2",
+  "promoted_at_step": 1,
+  "symbols": [
+    {
+      "name": "z",
+      "real": true,
+      "nonzero": false
+    }
+  ],
+  "functions": []
+}

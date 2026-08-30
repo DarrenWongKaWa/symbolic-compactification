@@ -1,0 +1,170 @@
+{
+  "run_id": "20260830T110451Z-9b7139",
+  "created_at": "2026-08-30T11:04:51Z",
+  "repository_version": "0.3.0",
+  "engine_version": "0.3.0",
+  "agent_protocol_version": "0.3.0",
+  "engine_git_sha": "4eb05b2f58aad035699bbefd65981ac84cee07ac",
+  "requested_arm": null,
+  "requested_proposer_mode": "main",
+  "policies": {
+    "parse": {
+      "max_expr_chars": 65536,
+      "max_nodes": 8000,
+      "max_tokens": 16000,
+      "max_nesting_depth": 256,
+      "max_integer_digits": 256,
+      "max_numeric_exponent": 10000,
+      "max_symbols": 40,
+      "allowed_functions": [
+        "Abs",
+        "Rational",
+        "acos",
+        "asin",
+        "atan",
+        "atan2",
+        "conjugate",
+        "cos",
+        "cosh",
+        "exp",
+        "im",
+        "log",
+        "polygamma",
+        "re",
+        "sin",
+        "sinh",
+        "sqrt",
+        "tan",
+        "tanh"
+      ]
+    },
+    "verify": {
+      "simplify_ops_cap": 8000,
+      "structure_first_threshold": 200
+    },
+    "transform": {
+      "ops_cap": 8000
+    },
+    "budget": {
+      "mode": "process",
+      "residual_seconds": 15.0,
+      "expand_seconds": 15.0,
+      "simplify_seconds": 30.0,
+      "probe_simplify_seconds": 10.0,
+      "equals_seconds": 10.0,
+      "expand_complex_seconds": 10.0,
+      "factor_seconds": 15.0,
+      "factor_terms_seconds": 15.0,
+      "together_seconds": 15.0,
+      "cancel_seconds": 15.0,
+      "finite_expand_seconds": 15.0,
+      "kill_grace_seconds": 2.0
+    }
+  },
+  "meta": {
+    "cli": "step"
+  },
+  "current": {
+    "text": "polygamma(0, 2*z)",
+    "sha256": "816049c45731307e7e733da7a240b87669d2192ed939d07ad97f64eb1e7f5771",
+    "source_path": "research/representation_program_search/packages/thermal/thermal-11-digamma-duplication/members/A001.txt",
+    "parsed_expr": null,
+    "symbols": [
+      {
+        "name": "z",
+        "real": false,
+        "nonzero": false
+      }
+    ],
+    "functions": []
+  },
+  "steps": [
+    {
+      "step": 1,
+      "current_hash": "816049c45731307e7e733da7a240b87669d2192ed939d07ad97f64eb1e7f5771",
+      "candidate_hash": "bcce6f2fed2060203b305f220b58dbfe3cf84d500237418ef09a465978107784",
+      "candidate_text": "Rational(1, 2)*(polygamma(0, z) + polygamma(0, z + Rational(1, 2))) + log(2)",
+      "residual": "-polygamma(0, z)/2 + polygamma(0, 2*z) - polygamma(0, z + 1/2)/2 - log(2)",
+      "verdict": "UNKNOWN",
+      "evidence": [
+        {
+          "kind": "simplification_undecided_no_exact_counterexample",
+          "probes_tried": 6
+        }
+      ],
+      "timestamp": "2026-08-30T11:05:06Z",
+      "status": "UNVERIFIED",
+      "telemetry": {
+        "input_chars": 17,
+        "output_chars": 76,
+        "wall_time_seconds": 7.572,
+        "verdict": "UNKNOWN",
+        "timeout_status": "ok",
+        "primitive_reason": "CANDIDATE_EQUIVALENCE_VERIFICATION",
+        "repository_version": "0.3.0",
+        "engine_version": "0.3.0",
+        "agent_protocol_version": "0.3.0",
+        "policies": {
+          "parse": {
+            "max_expr_chars": 65536,
+            "max_nodes": 8000,
+            "max_tokens": 16000,
+            "max_nesting_depth": 256,
+            "max_integer_digits": 256,
+            "max_numeric_exponent": 10000,
+            "max_symbols": 40,
+            "allowed_functions": [
+              "Abs",
+              "Rational",
+              "acos",
+              "asin",
+              "atan",
+              "atan2",
+              "conjugate",
+              "cos",
+              "cosh",
+              "exp",
+              "im",
+              "log",
+              "polygamma",
+              "re",
+              "sin",
+              "sinh",
+              "sqrt",
+              "tan",
+              "tanh"
+            ]
+          },
+          "verify": {
+            "simplify_ops_cap": 8000,
+            "structure_first_threshold": 200
+          },
+          "transform": {
+            "ops_cap": 8000
+          },
+          "budget": {
+            "mode": "process",
+            "residual_seconds": 15.0,
+            "expand_seconds": 15.0,
+            "simplify_seconds": 30.0,
+            "probe_simplify_seconds": 10.0,
+            "equals_seconds": 10.0,
+            "expand_complex_seconds": 10.0,
+            "factor_seconds": 15.0,
+            "factor_terms_seconds": 15.0,
+            "together_seconds": 15.0,
+            "cancel_seconds": 15.0,
+            "finite_expand_seconds": 15.0,
+            "kill_grace_seconds": 2.0
+          }
+        },
+        "count_ops_before_reason": "PARSE_UNAVAILABLE",
+        "count_ops_after": 9
+      },
+      "engine_version": "0.3.0",
+      "engine_git_sha": "4eb05b2f58aad035699bbefd65981ac84cee07ac",
+      "assumption_status": "DECLARED",
+      "proof_status": "PROOF_REQUIRED"
+    }
+  ]
+}

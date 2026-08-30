@@ -1,0 +1,101 @@
+{
+  "assumptions_used": [
+    "P001",
+    "P002",
+    "P003",
+    "P004"
+  ],
+  "depth_note": "Fixing n=2 gives one finite parameter-family reconstruction, not an R7 master library.",
+  "grammar_version": "RepresentationGrammarV1",
+  "instance_maps": {
+    "A001": {
+      "n": "2",
+      "u": "2*z"
+    },
+    "A002": {
+      "n": "2",
+      "u": [
+        "z",
+        "z + Rational(1, 2)"
+      ]
+    }
+  },
+  "latent_objects": [
+    {
+      "expression": "polygamma(0, u)",
+      "form": "FUNCTION_1",
+      "latent_id": "F0",
+      "parameters": [
+        "u"
+      ]
+    }
+  ],
+  "member_assignments": {
+    "A001": {
+      "operator_ids": [
+        "OP0"
+      ],
+      "reconstruction_path": "reference/reconstructions/O000.txt"
+    },
+    "A002": {
+      "operator_ids": [
+        "OP1",
+        "OP2",
+        "OP3"
+      ],
+      "reconstruction_path": "reference/reconstructions/O001.txt"
+    }
+  },
+  "node_structures": [],
+  "obligations": [
+    "O000",
+    "O001"
+  ],
+  "operators": [
+    {
+      "arguments": {
+        "node": "2*z"
+      },
+      "latent_id": "F0",
+      "operator": "VALUE",
+      "operator_id": "OP0"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "z"
+      },
+      "latent_id": "F0",
+      "operator": "SUBSTITUTE",
+      "operator_id": "OP1"
+    },
+    {
+      "arguments": {
+        "parameter": "u",
+        "value": "z + Rational(1, 2)"
+      },
+      "latent_id": "F0",
+      "operator": "SUBSTITUTE",
+      "operator_id": "OP2"
+    },
+    {
+      "arguments": {
+        "coefficients": [
+          "Rational(1, 2)",
+          "Rational(1, 2)"
+        ],
+        "constant": "log(2)",
+        "terms": [
+          "OP1",
+          "OP2"
+        ]
+      },
+      "latent_id": "F0",
+      "operator": "LINEAR_COMBINATION",
+      "operator_id": "OP3"
+    }
+  ],
+  "program_id": "68e630f8f56436b1d618fa38cf7ea7271aabcb3cef1aced7a113b3ac029def6d",
+  "representation_depth": "R1_PARAMETER_FAMILY",
+  "unexplained_members": []
+}

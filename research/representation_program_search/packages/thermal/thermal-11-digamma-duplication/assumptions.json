@@ -1,0 +1,32 @@
+{
+  "predicates": [
+    {
+      "predicate_id": "P001",
+      "source": "https://dlmf.nist.gov/5.5.E9",
+      "statement": "The Gauss multiplication integer is fixed to n=2.",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P002",
+      "source": "https://dlmf.nist.gov/5.5.iii",
+      "statement": "2*z is not 0,-1,-2,... .",
+      "status": "DECLARED"
+    },
+    {
+      "predicate_id": "P003",
+      "source": "P002 by multiplication by 2",
+      "statement": "z and z+1/2 avoid the digamma pole set when P002 holds.",
+      "status": "DERIVED"
+    },
+    {
+      "predicate_id": "P004",
+      "source": "P001 fixes n to the positive integer 2",
+      "statement": "log(2) is the real principal logarithm.",
+      "status": "DERIVED"
+    }
+  ],
+  "schema_version": "ScientificAssumptionContractV1",
+  "status": "ASSUMPTION_COMPLETE",
+  "symbols_artifact": "symbols.json",
+  "verifier_scope_note": "The exact discrete pole exclusion is carried by this contract; symbols.json selects complex-probe mode."
+}
