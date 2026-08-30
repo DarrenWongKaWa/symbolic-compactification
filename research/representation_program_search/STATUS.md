@@ -9,6 +9,11 @@ CURRENT BOTTLENECK: the independent post-package audit found 0/13
 `ADMISSION_READY`. Strict M1 schema repair alone is insufficient: proof,
 assumption, depth, duplicate, leakage, and diagnostic-scope gates remain.
 
+OPEN CONTRACT DEFECT: `real:false` is documented as complex-probe selection
+but is implemented as SymPy `real=False` (provably non-real). Affected
+Piecewise/zero-domain claims fail closed; see
+`audits/REAL_FALSE_NAMESPACE_CONTRACT_DEFECT.md`.
+
 TEST FREEZE STATUS: not started (old AC TEST is HISTORICAL_DIAGNOSTIC)
 
 LLM / SEARCH JOBS: S0/S1 and S6 implementation only; no scientific DEV run and
