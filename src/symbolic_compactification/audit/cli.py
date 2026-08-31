@@ -10,8 +10,9 @@ import json
 
 from ..models import ENGINE_VERSION, PACKAGE_VERSION, RELEASE_VERSION
 from ..security import redact_public_data, redact_text
+from .edges import load_edges
 from .evidence import latest_audit_run_id, load_audit_run, verify_audit
-from .inventory import inventory_equations
+from .inventory import inventory_equations, load_equation_manifest
 from .package import build_reviewer_package
 from .report import generate_audit_report
 from .schema import AUDIT_SCHEMA_VERSION, AuditError
@@ -65,8 +66,28 @@ def cmd_audit_inventory(args) -> int:
     return 0
 
 
+def _optional_layer(func, workspace, warnings, label):
+    try:
+        return func(workspace)
+    except AuditError as exc:
+        if exc.code != "NOT_IMPLEMENTED":
+            raise
+        warnings.append(f"{label}_not_implemented")
+        return None
+
+
 def cmd_audit_inspect(args) -> int:
     workspace = load_audit_workspace(args.directory)
+    warnings: list[str] = []
+    inventory = _optional_layer(load_equation_manifest, workspace, warnings, "inventory")
+    edges = _optional_layer(load_edges, workspace, warnings, "edges")
+    edge_types: dict[str, int] = {}
+    lowered = 0
+    if edges is not None:
+        for edge in edges:
+            edge_types[edge.edge_type] = edge_types.get(edge.edge_type, 0) + 1
+            if edge.lhs or edge.rhs or edge.residual:
+                lowered += 1
     payload = {
         "status": "AUDIT_INSPECT",
         "workspace": str(workspace.root),
@@ -81,6 +102,11 @@ def cmd_audit_inspect(args) -> int:
         "edge_manifest_sha256": workspace.edge_manifest_sha256,
         "assumptions_sha256": workspace.assumptions_sha256,
         "verifier_profile": workspace.config.verifier_profile,
+        "equations": None if inventory is None else len(inventory.equations),
+        "edges": None if edges is None else len(edges),
+        "edge_types": edge_types,
+        "edges_with_expressions": lowered,
+        "integrity_warnings": warnings,
         "note": (
             "inspect counts are workspace inventory, not scientific evidence"
         ),
@@ -93,6 +119,13 @@ def cmd_audit_inspect(args) -> int:
     print(f"audit_name:     {redact_text(workspace.config.audit_name)}")
     print(f"manuscript:     {redact_text(workspace.config.manuscript_source)}")
     print(f"verifier:       {workspace.config.verifier_profile}")
+    if inventory is not None:
+        print(f"equations:      {len(inventory.equations)}")
+    if edges is not None:
+        print(f"edges:          {len(edges)}")
+        print(f"edge_types:     {json.dumps(edge_types, sort_keys=True)}")
+    if warnings:
+        print("warnings:       " + ", ".join(warnings))
     print("note:           counts are not scientific evidence")
     return 0
 

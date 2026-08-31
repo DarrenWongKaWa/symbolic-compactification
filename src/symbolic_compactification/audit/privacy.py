@@ -57,8 +57,13 @@ def refuse_proposer_if_private_offline() -> None:
 
 
 def is_private_relpath(relative: str) -> bool:
-    normalized = relative.replace("\\", "/").lstrip("./")
-    return any(normalized.startswith(prefix) for prefix in PRIVATE_PATH_PREFIXES)
+    normalized = relative.replace("\\", "/")
+    while normalized.startswith("./"):
+        normalized = normalized[2:]
+    return any(
+        normalized == prefix.rstrip("/") or normalized.startswith(prefix)
+        for prefix in PRIVATE_PATH_PREFIXES
+    )
 
 
 def load_denylist(root: Path) -> tuple[str, ...]:
