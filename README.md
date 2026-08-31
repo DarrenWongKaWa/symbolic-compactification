@@ -2,12 +2,12 @@
 
 **Typed derivation audit with fail-closed exact verification.**
 
-**Derivation Audit Alpha** (`0.2.0-alpha`) on
-`engineering/derivation-audit-v0.2`, tag `derivation-audit-v0.2.0-alpha`.
+**Derivation Audit Alpha** (`0.2.1-alpha`) on
+`engineering/derivation-audit-v0.2.1`. This is a patch on tagged
+`derivation-audit-v0.2.0-alpha`. The v0.2 tag is **not** moved.
 This is an additive engineering layer on the still-supported v0.1 **Mode A:
 verify my hypothesis** preview (`0.1.0-alpha`, tag
-`research-preview-v0.1.0-alpha`). It is **not** a stable v1.0 release and is
-**not** merged to `main`.
+`research-preview-v0.1.0-alpha`). It is **not** a stable v1.0 release.
 
 A derivation audit inventories manuscript equations, records typed
 equation-to-equation edges, lowers only supported edges to executable
@@ -38,9 +38,16 @@ This is the public product surface.
 - [Status semantics](docs/STATUS_SEMANTICS.md)
 - [Reviewer package](docs/REVIEWER_PACKAGE.md)
 - [Public demos A/B/C](docs/PUBLIC_DEMOS.md)
+- [Rule certificates](docs/RULE_CERTIFICATES.md)
 - [Privacy](docs/PRIVACY.md)
 - [Limitations](docs/DERIVATION_AUDIT_LIMITATIONS.md)
 - [Threat model](docs/THREAT_MODEL.md)
+
+`ZERO` is never `CERTIFIED_BY_RULE`. A Brillouin-zone integration-by-parts
+parent is certified only as local Leibniz ZERO plus declared
+`BZ_TORUS_PERIODICITY`. The public Guo et al. field validation (evidence,
+not this product tree) lives on
+`engineering/real-paper-validation-arxiv-2511-16422`.
 
 ```bash
 symbolic-compactification audit init my-paper-audit

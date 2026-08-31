@@ -53,11 +53,17 @@ from .io import (
 )
 from .lowering import LoweringResult
 from .schema import (
+    ALLOWED_DECLARED_RULES,
     ASSUMPTION_REQUIRED,
     ASYMPTOTIC_CLAIM,
     AUDIT_PROTOCOL_VERSION,
     AUDIT_SCHEMA_VERSION,
     AUDIT_STATUSES,
+    BZ_IBP_CONCLUSION,
+    BZ_PERIODIC_INTEGRATION_BY_PARTS,
+    BZ_TORUS_PERIODICITY,
+    CERTIFIED_BY_RULE,
+    RuleCertificate,
     COMPILE_FAILURE,
     DEFAULT_VERIFIER_ROUTE,
     EDGE_TYPES,
@@ -74,6 +80,7 @@ from .schema import (
     AuditRecord,
     asymptotic_remainder_certified,
     default_status_for_edge_type,
+    derive_bz_ibp_parent_status,
     derive_split_parent_status,
     integrity_issues,
     lowering_applicability,
@@ -99,7 +106,7 @@ AUTHORITY = "symbolic_compactification.audit.evidence"
 _RUN_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
 _HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
 _TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
-_ASSUMPTION_KEYS = frozenset({"symbols", "functions"})
+_ASSUMPTION_KEYS = frozenset({"symbols", "functions", "rules"})
 _SNAPSHOT_DIRECTORIES = (
     MANUSCRIPT_DIRECTORY,
     EQUATIONS_DIRECTORY,
@@ -155,6 +162,7 @@ class DeclaredAssumptions:
     functions: tuple[str, ...]
     assumptions_hash: str
     names: tuple[str, ...]
+    rules: tuple[str, ...] = ()
 
 
 def verify_audit(
@@ -188,6 +196,7 @@ def verify_audit(
             assumptions=assumptions,
         ))
     sealed = apply_split_parent_statuses(tuple(records))
+    sealed = apply_bz_ibp_parent_statuses(sealed, assumptions.rules)
     runtime = round(max(0.0, time.monotonic() - started), 6)
     run = persist_audit_run(
         workspace,
@@ -401,12 +410,41 @@ def load_declared_assumptions(workspace: AuditWorkspace) -> DeclaredAssumptions:
         raise AuditError(
             "ASSUMPTIONS_SCHEMA_INVALID", exc.code, path=str(path),
         ) from None
+    rules = _parse_declared_rules(mapping.get("rules"), path)
     return DeclaredAssumptions(
         symbols=symbols,
         functions=functions,
         assumptions_hash=sha256_bytes(raw),
         names=tuple(item["name"] for item in symbols),
+        rules=rules,
     )
+
+
+def _parse_declared_rules(raw: Any, path: Path) -> tuple[str, ...]:
+    if raw is None:
+        return ()
+    if not isinstance(raw, list) or not all(
+            isinstance(item, str) and item.strip() for item in raw):
+        raise AuditError(
+            "ASSUMPTIONS_SCHEMA_INVALID",
+            "rules must be a list of non-empty strings",
+            path=str(path),
+        )
+    names = tuple(item.strip() for item in raw)
+    unknown = [name for name in names if name not in ALLOWED_DECLARED_RULES]
+    if unknown:
+        raise AuditError(
+            "ASSUMPTIONS_SCHEMA_INVALID",
+            "unknown declared rule: " + ", ".join(unknown),
+            path=str(path),
+        )
+    if len(names) != len(set(names)):
+        raise AuditError(
+            "ASSUMPTIONS_SCHEMA_INVALID",
+            "duplicate declared rule names",
+            path=str(path),
+        )
+    return names
 
 
 def assumption_gate_status(
@@ -514,6 +552,14 @@ def adjudicate_lowered_edge(
             warnings=warnings, residual_text=stored_residual,
             artifact_relpath=residual_relpath, children=edge.children,
         ))
+    if edge.edge_type == BZ_PERIODIC_INTEGRATION_BY_PARTS:
+        return _seal(_record(
+            workspace, edge, source_refs, bound,
+            status=NOT_LOWERED, result=NOT_LOWERED, executable=False,
+            warnings=(*warnings, "BZ_IBP_NOT_LOCAL_RESIDUAL"),
+            residual_text=stored_residual,
+            artifact_relpath=residual_relpath, children=edge.children,
+        ))
 
     executable = bool(lowering.executable)
     if not executable:
@@ -579,6 +625,55 @@ def apply_split_parent_statuses(
             status = SPLIT
         updated.append(_seal(replace(
             record, status=status, result=status, executable=False,
+        )))
+    return tuple(updated)
+
+
+def apply_bz_ibp_parent_statuses(
+    records: tuple[AuditRecord, ...],
+    declared_rules: tuple[str, ...] | frozenset[str],
+) -> tuple[AuditRecord, ...]:
+    """Seal BZ IBP parents from local children + declared torus periodicity.
+
+    Never engine ZERO. A missing periodicity declaration is
+    ASSUMPTION_REQUIRED, not a fake integral identity.
+    """
+    by_id = {record.edge_id: record for record in records}
+    updated: list[AuditRecord] = []
+    for record in records:
+        if record.edge_type != BZ_PERIODIC_INTEGRATION_BY_PARTS:
+            updated.append(record)
+            continue
+        status = derive_bz_ibp_parent_status(record, by_id, declared_rules)
+        if status == ZERO:
+            status = NOT_LOWERED
+        extra: tuple[str, ...] = ()
+        certificate = None
+        if status == CERTIFIED_BY_RULE:
+            extra = ("BZ_IBP_CERTIFIED_BY_LOCAL_ZERO_AND_DECLARED_TORUS",)
+            children: list[tuple[str, str]] = []
+            for child_id in record.children:
+                child = by_id.get(child_id)
+                children.append(
+                    (child_id, child.status if child is not None else "MISSING"))
+            certificate = RuleCertificate(
+                rule_id=BZ_TORUS_PERIODICITY,
+                local_children=tuple(children),
+                domain=record.ibp_domain,
+                conclusion=BZ_IBP_CONCLUSION,
+                result=CERTIFIED_BY_RULE,
+            )
+        elif status == ASSUMPTION_REQUIRED:
+            extra = ("BZ_TORUS_PERIODICITY_REQUIRED",)
+        elif status == NOT_LOWERED:
+            extra = ("BZ_IBP_NOT_CERTIFIED",)
+        updated.append(_seal(replace(
+            record,
+            status=status,
+            result=status,
+            executable=False,
+            warnings=tuple(dict.fromkeys((*record.warnings, *extra))),
+            rule_certificate=certificate,
         )))
     return tuple(updated)
 
@@ -833,6 +928,8 @@ def _record(
         claim=claim or edge.claim,
         residual_text=residual_text,
         artifact_relpath=artifact_relpath,
+        required_rules=edge.required_rules,
+        ibp_domain=edge.ibp_domain,
     )
 
 
@@ -1129,6 +1226,7 @@ __all__ = [
     "MACHINE_RECORDS_FILE",
     "SourceSnapshot",
     "adjudicate_lowered_edge",
+    "apply_bz_ibp_parent_statuses",
     "apply_split_parent_statuses",
     "assumption_gate_status",
     "bind_hashes",

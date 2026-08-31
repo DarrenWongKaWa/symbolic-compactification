@@ -66,8 +66,10 @@ def test_required_statuses_and_edge_types_are_frozen():
             "INVALID_RECORD"):
         assert name in AUDIT_STATUSES
     assert CERTIFIED_BY_CHILDREN in AUDIT_STATUSES
+    assert "CERTIFIED_BY_RULE" in AUDIT_STATUSES
     assert "ALGEBRAIC_EQUIVALENCE" in EDGE_TYPES
     assert "ASYMPTOTIC_CLAIM" in EDGE_TYPES
+    assert "BZ_PERIODIC_INTEGRATION_BY_PARTS" in EDGE_TYPES
     assert "PAIRWISE_REDUCTION" in EDGE_TYPES
     assert "COMPLETENESS_RECONSTRUCTION" in EDGE_TYPES
 

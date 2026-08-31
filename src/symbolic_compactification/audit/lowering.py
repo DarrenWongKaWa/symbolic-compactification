@@ -13,6 +13,7 @@ from .io import MAX_SOURCE_BYTES, contained_relpath, decode_utf8, read_bytes
 from .schema import (
     ASYMPTOTIC_CLAIM,
     BOOKKEEPING,
+    BZ_PERIODIC_INTEGRATION_BY_PARTS,
     COMPLETENESS_RECONSTRUCTION,
     DEFINITION_INSERTION,
     GLOBAL_SYMMETRY_PAIRING,
@@ -38,6 +39,7 @@ _NEVER_EXECUTABLE_TYPES = frozenset({
     SPLIT_PARENT,
     ASYMPTOTIC_CLAIM,
     INTEGRAL_ARGUMENT,
+    BZ_PERIODIC_INTEGRATION_BY_PARTS,
 })
 
 # PARTIAL types that may execute a supplied residual, but must not treat a
@@ -156,6 +158,8 @@ def lower_edge(
             typed = ("ASYMPTOTIC_REMAINDER_NOT_CERTIFIED",)
         elif edge.edge_type == INTEGRAL_ARGUMENT:
             typed = ("INTEGRAL_ARGUMENT_NOT_LOCAL_RESIDUAL",)
+        elif edge.edge_type == BZ_PERIODIC_INTEGRATION_BY_PARTS:
+            typed = ("BZ_IBP_NOT_LOCAL_RESIDUAL",)
         return finish(executable=False, status=default_status, warnings=typed)
 
     residual_text, residual_path, residual_warnings = _load_expression(

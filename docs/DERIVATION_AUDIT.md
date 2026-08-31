@@ -115,5 +115,7 @@ outside alpha certification.
 - [Public demos](PUBLIC_DEMOS.md)
 - [Privacy](PRIVACY.md)
 - [Limitations](DERIVATION_AUDIT_LIMITATIONS.md)
+- [Rule certificates](RULE_CERTIFICATES.md)
 - [Threat model](THREAT_MODEL.md)
+- [Rule certificates](RULE_CERTIFICATES.md)
 - Mode A (still supported): [engineering/release_v0_1/QUICKSTART.md](../engineering/release_v0_1/QUICKSTART.md)

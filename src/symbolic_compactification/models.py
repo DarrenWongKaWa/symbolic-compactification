@@ -25,8 +25,8 @@ import sympy
 # distribution metadata canonicalizes ``0.1.0-alpha`` to the PEP 440 spelling
 # ``0.1.0a0``; keep both spellings explicit so packaging, runtime provenance,
 # and CLI presentation cannot drift silently.
-RELEASE_VERSION = "0.2.0-alpha"
-PACKAGE_VERSION = "0.2.0a0"
+RELEASE_VERSION = "0.2.1-alpha"
+PACKAGE_VERSION = "0.2.1a0"
 
 # v0.3 keeps the v0.2 ZERO/NONZERO/UNKNOWN meanings but changes parser,
 # resource-lifecycle and certification APIs materially enough to identify a
@@ -225,7 +225,7 @@ RESERVED_NAMES = frozenset({
     # (e.g. the polygamma family, v0.2) reserves its name as a symbol too
     "polygamma",
     # structural builtins (v0.2) are callables only; never declared symbols
-    "Sum", "Product", "Piecewise",
+    "Sum", "Product", "diff", "Piecewise",
     "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
 })
 
@@ -242,7 +242,7 @@ RESERVED_NAMES = frozenset({
 #   rejection applies only to UNDECLARED collisions.
 HARD_RESERVED_NAMES = frozenset({
     "pi", "E", "I", "oo", "Rational",
-    "Sum", "Product", "Piecewise",
+    "Sum", "Product", "diff", "Piecewise",
     "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
 })
 FUNCTION_RESERVED_NAMES = RESERVED_NAMES - HARD_RESERVED_NAMES

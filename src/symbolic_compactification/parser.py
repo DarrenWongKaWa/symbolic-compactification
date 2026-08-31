@@ -193,6 +193,7 @@ def _strict_or(*args):
 _STRUCTURAL_BUILTINS: dict = {
     "Sum": sympy.Sum,
     "Product": sympy.Product,
+    "diff": sympy.diff,
     "Piecewise": _piecewise_preserved,
     "Eq": sympy.Eq,
     "Ne": sympy.Ne,

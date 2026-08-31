@@ -36,7 +36,8 @@ physical usefulness, the rest of a manuscript, or a broader domain.
 | `RECORDED` | Bookkeeping or non-executable reconstruction tracking. | STRUCTURAL |
 | `SPLIT` | Parent delegated; children incomplete or not all `ZERO`. | STRUCTURAL |
 | `CERTIFIED_BY_CHILDREN` | Every required child is integrity-ok `ZERO`. Displayed as `SPLIT — all children certified`. Never shown as `ZERO`. | STRUCTURAL |
-| `NOT_LOWERED` | No executable residual. Distinct from `UNKNOWN`. | UNCERTIFIED |
+| `CERTIFIED_BY_RULE` | Local child `ZERO` plus a declared global theorem (BZ-torus IBP). Displayed as `CERTIFIED_BY_RULE — local ZERO + declared BZ-torus IBP`. Never shown as `ZERO`. SymPy did not evaluate the integral. | STRUCTURAL |
+| `NOT_LOWERED` | No executable residual, or a typed global rule is missing required children/domain. Distinct from `UNKNOWN`. | UNCERTIFIED |
 
 `SPLIT_PARENT` cannot have `status=ZERO`. Missing, `UNKNOWN`, or `NONZERO`
 children block `CERTIFIED_BY_CHILDREN`.
