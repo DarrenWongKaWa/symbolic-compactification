@@ -28,14 +28,16 @@ See [SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) and
 
 ## Start here
 
-### 1. Derivation audit (v0.2, in development)
+### 1. Derivation audit (v0.2 Research Preview Alpha)
+
+This is the public product surface.
 
 - [Overview](docs/DERIVATION_AUDIT.md)
 - [Quickstart](docs/AUDIT_QUICKSTART.md)
 - [Edge types](docs/EDGE_TYPES.md)
 - [Status semantics](docs/STATUS_SEMANTICS.md)
 - [Reviewer package](docs/REVIEWER_PACKAGE.md)
-- [Public demos](docs/PUBLIC_DEMOS.md)
+- [Public demos A/B/C](docs/PUBLIC_DEMOS.md)
 - [Privacy](docs/PRIVACY.md)
 - [Limitations](docs/DERIVATION_AUDIT_LIMITATIONS.md)
 - [Threat model](docs/THREAT_MODEL.md)
@@ -44,6 +46,10 @@ See [SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) and
 symbolic-compactification audit init my-paper-audit
 # inventory → inspect → verify → table → report → package
 ```
+
+Public examples: `engineering/derivation_audit_v0_2/demos/{A,B,C}/`.
+Demo C is intentional: coefficient identities can be `ZERO` while the
+enclosing asymptotic remainder stays `UNKNOWN`.
 
 ### 2. Mode A: verify my hypothesis (v0.1, still supported)
 
@@ -83,18 +89,40 @@ Closed campaigns, capability boundary, and frozen negatives:
 
 ## Install
 
-The alpha release gate uses CPython 3.12. From a checkout:
+The alpha release gate uses CPython 3.12. From the v0.2 tag:
 
 ```bash
+git clone --branch derivation-audit-v0.2.0-alpha \
+  https://github.com/DarrenWongKaWa/symbolic-compactification.git
+cd symbolic-compactification
 python3.12 -m venv .venv
 .venv/bin/python -m pip install .
 .venv/bin/symbolic-compactification --version
 ```
 
 The shorter `ssc` entry point is equivalent. Core verification requires no
-model service and no API key.
+model service and no API key. This tag is **not** on `main`.
 
-## Canonical researcher workflow (Mode A)
+## Canonical researcher workflow (derivation audit)
+
+```bash
+symbolic-compactification audit init my-paper-audit
+# add manuscript.tex / expressions / edges
+symbolic-compactification audit inventory my-paper-audit
+symbolic-compactification audit inspect my-paper-audit
+symbolic-compactification audit verify my-paper-audit
+symbolic-compactification audit table my-paper-audit
+symbolic-compactification audit package my-paper-audit
+cd my-paper-audit/reviewer-verification-package
+./reproduce.sh
+```
+
+`verify` records a run. It does not mean the derivation is certified.
+Only rows in `TABLE_VERIFIED.md` with engine `ZERO` and integrity PASS are
+machine-verified. The verified table is generated from those records, not
+authored.
+
+## Mode A workflow (v0.1, still supported)
 
 Create a workspace at a path that does not already exist:
 

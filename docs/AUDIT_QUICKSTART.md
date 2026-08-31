@@ -1,7 +1,7 @@
 # Derivation-audit quickstart
 
-v0.2 derivation-audit alpha in development on
-`engineering/derivation-audit-v0.2`. No model and no API key are required.
+v0.2 Research Preview Alpha on `engineering/derivation-audit-v0.2`
+(tag `derivation-audit-v0.2.0-alpha`). No model and no API key are required.
 
 Mode A (`symbolic-compactification init`) remains supported; this page is the
 **audit** workspace only.
