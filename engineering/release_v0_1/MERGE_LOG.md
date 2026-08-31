@@ -16,3 +16,17 @@ Coordinator integrated foundation result: **99 targeted tests passed**.
 
 No path under the frozen scientific research evidence was modified by these
 three integrations.
+
+| lane | source commit | integrated commit | scope | verification |
+|---|---|---|---|---|
+| E4 Python API | `2d1aff2` | `5fc1909` | fail-closed workspace verification/reporting | 35 focused passed |
+| E6 security | `2dd7e87` | `ede6bd9` | production redaction and secret audit | 70 lane tests; 38 coordinator security/API tests passed |
+| E8 docs | `09cbb0f` | `1dbd28d` | physicist-oriented user contract | documentation checks and 38 foundation tests passed |
+| E3 CLI | `35cc78b` | `bfe0a46` | init/inspect/verify/report with legacy compatibility | 72 affected and 48 compatibility tests passed |
+| E9 demos | `8618a42` | `6227c1e` | exactly three immutable workspaces | ZERO/ZERO/UNKNOWN; 25 lane tests passed |
+| E7 fail-closed | `04c00d5` | `6c4230a` | public statuses and release-critical marker | 12/12 current release-critical tests pass |
+| E11 user simulation | `98f26ae`, `c4c89a0` | `578368c`, `707fc29` | fresh-install external UX rejection/retest | blockers recorded, never hidden |
+| alpha blocker fix | `4b25910` | `590bc1c` | version, deps, reports, diagnostics | 62 focused and 12 release-critical passed |
+| final blocker fix | `f106469` | `73169db` | wheel source revision and root README | 60 focused; source/wheel installed provenance passed |
+
+Frozen scientific evidence changed by integrations: **none**.
