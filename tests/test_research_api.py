@@ -231,4 +231,3 @@ def test_all_zero_multiple_obligations_aggregate_zero(tmp_path):
     assert result.result == ZERO
     assert [item.verdict for item in result.obligations] == [ZERO, ZERO]
     _read_run(root, result)
-
