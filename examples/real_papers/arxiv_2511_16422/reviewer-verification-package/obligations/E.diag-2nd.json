@@ -1,0 +1,28 @@
+{
+  "artifact_relpath": null,
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "multiband diagonal second-derivative identity is introduced as a stated key identity",
+  "declared_assumptions": [],
+  "edge_id": "E.diag-2nd",
+  "edge_type": "DEFINITION_INSERTION",
+  "engine_version": "0.3.0",
+  "executable": false,
+  "lhs_hash": null,
+  "obligation_hash": "13fd6f91047a6cb1e81c5e33c68c1d7049e556945f16050d3f96913c3a014114",
+  "remainder_certificate_hash": null,
+  "residual_hash": null,
+  "residual_text": null,
+  "result": "DEFINITION",
+  "rhs_hash": null,
+  "runtime_seconds": 0.0,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.E-128"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "DEFINITION",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

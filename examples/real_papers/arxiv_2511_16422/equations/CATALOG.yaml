@@ -1,0 +1,1159 @@
+schema_version: PublicEquationCatalogV1
+arxiv: 2511.16422v2
+numbering_note: >
+  Printed numbers are the arXiv HTML/PDF tags. They do not reset per
+  appendix because \theequation uses \thesection-\arabic{equation}
+  without a per-section reset. Appendix D therefore begins at (D-57).
+  local_id is 1-based within that appendix (local D-1 = printed D-57).
+n_numbered: 189
+equations:
+  - equation_id: eq.1
+    printed: "1"
+    local_id: null
+    appendix: "main"
+    preview: "\\displaystyle\\begin{aligned} \\sigma_{abc}=\\frac{1}{\\Gamma^{2}}\\sigma_{abc}^{(-2)}+\\frac{1}{\\Gamma}\\sigma_{abc}^{(-1)}+\\sigma_{abc}^{(0)}+{\\cal O}(\\Gamma),\\end{a"
+  - equation_id: eq.2
+    printed: "2"
+    local_id: null
+    appendix: "main"
+    preview: "\\sigma_{abc}^{(-2)}=-\\frac{1}{4}\\sum_{n,{\\bf k}}\\partial_{a}(v_{n}^{b}v_{n}^{c})f_{0,n}^{\\prime},"
+  - equation_id: eq.3
+    printed: "3"
+    local_id: null
+    appendix: "main"
+    preview: "\\sigma_{abc}^{(-1)}=\\frac{1}{2}\\sum_{n,{\\bf k}}(v_{n}^{c}\\Omega_{ab}^{n}+v_{n}^{b}\\Omega_{ac}^{n})f_{0,n}^{\\prime}."
+  - equation_id: eq.4
+    printed: "4"
+    local_id: null
+    appendix: "main"
+    preview: "\\sigma_{abc}^{(0)}=\\sigma_{abc}^{\\text{kin}}+\\sigma_{abc}^{\\text{geo}}."
+  - equation_id: eq.5
+    printed: "5"
+    local_id: null
+    appendix: "main"
+    preview: "\\sigma^{\\text{kin}}_{abc}=\\sum_{n,{\\bf k}}\\frac{1}{24}v_{n}^{a}v_{n}^{b}v_{n}^{c}f_{0,n}^{(4)}."
+  - equation_id: eq.6
+    printed: "6"
+    local_id: null
+    appendix: "main"
+    preview: "\\sigma^{\\text{geo}}_{abc}=\\sum_{n,{\\bf k}}\\left[(G_{n}^{ab}v_{n}^{c}+G_{n}^{ac}v_{n}^{b}-2G_{n}^{bc}v_{n}^{a})-\\frac{\\partial_{a}g_{n}^{bc}}{2}\\right]2f_{0,n}^{"
+  - equation_id: eq.7
+    printed: "7"
+    local_id: null
+    appendix: "main"
+    preview: "\\displaystyle{\\cal H}({\\bf k})=v\\tau_{x}\\left[\\sin(k_{x}a)\\sigma_{x}+\\sin(k_{y}a)\\sigma_{y}\\right]+M({\\bf k})\\tau_{z},"
+  - equation_id: eq.8
+    printed: "8"
+    local_id: null
+    appendix: "main"
+    preview: "\\displaystyle{\\cal H}^{\\prime}({\\bf k})=\\begin{bmatrix}h({\\bf k})&0\\\\\n0&h^{*}({\\bf k})\\end{bmatrix},\\quad h({\\bf k})=\\begin{pmatrix}M_{{\\bf k}}&v_{-}\\\\\nv_{+}&-M"
+  - equation_id: eq.A-9
+    printed: "A-9"
+    local_id: "A-1"
+    appendix: "A"
+    tex_lines: [337, 342]
+    preview: "\\begin{align} H (t) = \\begin{bmatrix} H_S (t) & H_{SB} \\\\ H_{SB}^\\dagger & H_B \\end{bmatrix} . \\end{align}"
+  - equation_id: eq.A-10
+    printed: "A-10"
+    local_id: "A-2"
+    appendix: "A"
+    tex_lines: [350, 352]
+    preview: "\\begin{align} \\rho_S(t) = \\rho^{(0)} + \\rho^{(1)}(t) + \\rho^{(2)}(t) + {\\cal O}(V^3). \\end{align}"
+  - equation_id: eq.A-11
+    printed: "A-11"
+    local_id: "A-3"
+    appendix: "A"
+    tex_lines: [354, 361]
+    tex_labels: ["eq:SM_rho0"]
+    preview: "\\begin{align} \\rho_{m n}^{(0)} = \\delta_{m n} \\int_{-\\infty}^{\\infty} \\frac{\\text{d} \\omega_b}{2 \\pi} \\frac{ 2 \\Gamma } {\\omega_b^2 + \\Gamma^2} f_0(\\epsilon_{m}"
+  - equation_id: eq.A-12
+    printed: "A-12"
+    local_id: "A-4"
+    appendix: "A"
+    tex_lines: [365, 372]
+    tex_labels: ["eq:SM_rho1"]
+    preview: "\\begin{align} \\rho_{m n}^{(1)} (\\omega) = V_{m n} (\\omega) \\, \\tilde{\\rho}_{m n}^{(1)} (\\omega) , \\quad \\tilde{\\rho}_{m n}^{(1)} (\\omega) = \\int_{-\\infty}^{\\inf"
+  - equation_id: eq.A-13
+    printed: "A-13"
+    local_id: "A-5"
+    appendix: "A"
+    tex_lines: [382, 386]
+    tex_labels: ["eq:SM_rho2"]
+    preview: "& \\quad + \\frac{f_0(\\epsilon_{n} + \\omega_b )}{ ( \\omega_1 + \\omega_2 + \\omega_b + \\epsilon_{n m} + i \\Gamma ) (\\omega_2 + \\omega_b + \\epsilon_{n l} + i \\Gamma "
+  - equation_id: eq.A-14
+    printed: "A-14"
+    local_id: "A-6"
+    appendix: "A"
+    tex_lines: [394, 404]
+    tex_labels: ["rho_0_supp"]
+    preview: "\\begin{align} \\rho_{m n}^{(0)} = \\delta_{m n} \\frac{1}{2} \\Big[ f_+ (\\epsilon_n) + f_- (\\epsilon_n) \\Big] \\equiv \\tilde{\\rho}_n^{(0)}, \\quad f_\\pm (\\epsilon) = "
+  - equation_id: eq.A-15
+    printed: "A-15"
+    local_id: "A-7"
+    appendix: "A"
+    tex_lines: [407, 409]
+    preview: "\\begin{align} \\lim_{\\Gamma \\to 0} \\tilde{\\rho}_n^{(0)} = \\frac{1}{1+\\exp[\\beta (\\epsilon_n - \\mu)]} , \\end{align}"
+  - equation_id: eq.A-16
+    printed: "A-16"
+    local_id: "A-8"
+    appendix: "A"
+    tex_lines: [412, 420]
+    tex_labels: ["tilde-rho_1_supp"]
+    preview: "\\begin{align} & \\tilde{\\rho}_{m n}^{(1)} (\\omega) = \\frac{ \\tilde{\\rho}_n^{(0)} - \\tilde{\\rho}_m^{(0)} } { \\omega + \\epsilon_{n m} + 2 i \\Gamma } + \\frac{r_+^{("
+  - equation_id: eq.A-17
+    printed: "A-17"
+    local_id: "A-9"
+    appendix: "A"
+    tex_lines: [422, 428]
+    preview: "\\begin{align} r_+^{(1)} (\\omega, \\epsilon_m, \\epsilon_n) = i \\Gamma \\frac{ f_+ (\\epsilon_n) - f_+ (\\epsilon_m - \\omega) }{\\omega + \\epsilon_{n m} }, \\quad r_-^{"
+  - equation_id: eq.A-18
+    printed: "A-18"
+    local_id: "A-10"
+    appendix: "A"
+    tex_lines: [430, 442]
+    preview: "\\begin{align} & \\tilde{\\rho}_{m l n}^{(2)} (\\omega_1,\\omega_2) = \\frac{ \\tilde{\\rho}_{l n}^{(1)} (\\omega_2) - \\tilde{\\rho}_{m l}^{(1)} (\\omega_1) } { \\omega_1 +"
+  - equation_id: eq.A-19
+    printed: "A-19"
+    local_id: "A-11"
+    appendix: "A"
+    tex_lines: [444, 450]
+    preview: "\\begin{align} r_+^{(2)} (\\omega_1, \\omega_2, \\epsilon_m, \\epsilon_l, \\epsilon_n) = \\frac{ r_+^{(1)} (\\omega_2,\\epsilon_l,\\epsilon_n) - r_+^{(1)} (\\omega_1, \\eps"
+  - equation_id: eq.A-20
+    printed: "A-20"
+    local_id: "A-12"
+    appendix: "A"
+    tex_lines: [451, 458]
+    tex_labels: ["tilde-rho_2_supp"]
+    preview: "\\begin{align} r_-^{(2)} (\\omega_1, \\omega_2, \\epsilon_m, \\epsilon_l, \\epsilon_n) = \\frac{ r_-^{(1)} (\\omega_2, \\epsilon_l+\\omega_1, \\epsilon_n+\\omega_1) - r_-^{"
+  - equation_id: eq.B-21
+    printed: "B-21"
+    local_id: "B-1"
+    appendix: "B"
+    tex_lines: [467, 473]
+    preview: "\\begin{align} V(t) &= V^{(1)}(t) + V^{(2)}(t) + {\\cal O}(A^3) = \\sum_b (-\\partial_b H_0) A_b(t) + \\sum_{b,c} \\frac{1}{2} (\\partial_b \\partial_c H_0) A_b(t) A_c("
+  - equation_id: eq.B-22
+    printed: "B-22"
+    local_id: "B-2"
+    appendix: "B"
+    tex_lines: [471, 473]
+    preview: "J_a(t) &= J_a^{(0)} + J_a^{(1)}(t) + J_a^{(2)}(t) + {\\cal O}(A^3) = (\\partial_a H_0) + \\sum_c (-\\partial_a \\partial_c H_0) A_c(t) + \\sum_{b,c} \\frac{1}{2} (\\par"
+  - equation_id: eq.B-23
+    printed: "B-23"
+    local_id: "B-3"
+    appendix: "B"
+    tex_lines: [475, 477]
+    preview: "\\begin{align} j_a^{(2)}(t) = \\text{Tr}\\big[ \\rho^{(0)} J_a^{(2)}(t) \\big] + \\text{Tr}\\big[ \\rho^{(1)}(t) J_a^{(1)}(t) \\big] + \\text{Tr}\\big[ \\rho^{(2)}(t) J_a^{"
+  - equation_id: eq.B-24
+    printed: "B-24"
+    local_id: "B-4"
+    appendix: "B"
+    tex_lines: [484, 489]
+    preview: "\\begin{align} j_a^{(2)}(t) = \\underbrace{\\text{Tr}[\\rho^{(0)} J_a^{(2)}(t)]}_{\\text{(I)}} + \\underbrace{\\text{Tr}[\\rho^{(1)}[V^{(1)}] J_a^{(1)}(t)]}_{\\text{(II)"
+  - equation_id: eq.B-25
+    printed: "B-25"
+    local_id: "B-5"
+    appendix: "B"
+    tex_lines: [500, 511]
+    tex_labels: ["eq:SM_sigma_full"]
+    preview: "+ & \\underbrace{ V_{mn}^{(b)} \\tilde{\\rho}_{mn}^{(1)} (\\omega_1) J_{nm}^{(ac)} }_{\\text{from (II): } \\rho^{(1)}[V^{(1)}] J^{(1)}} + \\underbrace{ \\rho_{mn}^{(0)}"
+  - equation_id: eq.B-26
+    printed: "B-26"
+    local_id: "B-6"
+    appendix: "B"
+    tex_lines: [515, 518]
+    preview: "\\begin{align} \\sigma_{abc} \\equiv \\lim_{\\omega_1 \\to 0} \\Big[\\lim_{\\omega_2 \\to -\\omega_1} \\sigma_{abc}(\\omega_1, \\omega_2) \\Big] , \\end{align}"
+  - equation_id: eq.C-27
+    printed: "C-27"
+    local_id: "C-1"
+    appendix: "C"
+    tex_lines: [528, 531]
+    preview: "\\begin{align} \\tilde{\\rho}_{m n}^{(1)} (\\omega) = \\sum_{k=0}^{\\infty} {\\cal C}_{mn}^{(1, k)} \\, \\omega^k, \\quad \\tilde{\\rho}_{m l n}^{(2)} (\\omega, -\\omega) = \\"
+  - equation_id: eq.C-28
+    printed: "C-28"
+    local_id: "C-2"
+    appendix: "C"
+    tex_lines: [533, 538]
+    preview: "\\begin{align} \\begin{aligned} z_{n, \\pm} = \\frac{1}{2} + \\frac{\\beta}{2\\pi}(\\Gamma \\pm i(\\epsilon_n - \\mu)) \\quad z_{n, \\pm}^0 = \\frac{1}{2} \\pm \\frac{i \\beta}{"
+  - equation_id: eq.C-29
+    printed: "C-29"
+    local_id: "C-3"
+    appendix: "C"
+    tex_lines: [547, 548]
+    preview: "& + (\\beta \\Gamma)^2 \\left(\\psi^{(3)}(z_{n,+}) + \\psi^{(3)}(z_{n,-})\\right) \\bigg] \\end{align}"
+  - equation_id: eq.C-30
+    printed: "C-30"
+    local_id: "C-4"
+    appendix: "C"
+    tex_lines: [550, 552]
+    preview: "\\begin{align} {\\cal C}_{nn}^{(1, 2)} = & \\frac{1}{\\Gamma^2} \\left[ \\frac{\\beta}{16\\pi^2} \\sum_{\\pm} \\psi^{(1)}(z_{n,\\pm}^0) \\right] + \\left[ \\frac{\\beta^3}{384\\"
+  - equation_id: eq.C-31
+    printed: "C-31"
+    local_id: "C-5"
+    appendix: "C"
+    tex_lines: [560, 562]
+    preview: "& + \\beta^2 \\Gamma \\epsilon_{nm}^2 (2 \\Gamma + i \\epsilon_{nm}) \\left( \\psi^{(2)}(z_{n,+}) + \\psi^{(2)}(z_{m,-}) \\right) \\Bigg] \\end{align}"
+  - equation_id: eq.C-32
+    printed: "C-32"
+    local_id: "C-6"
+    appendix: "C"
+    tex_lines: [564, 566]
+    preview: "\\begin{align} {\\cal C}_{nm}^{(1, 2)} = -\\frac{i}{2\\pi \\epsilon_{nm}^3} \\left[ \\psi^{(0)}(z_{n,-}^0) - \\psi^{(0)}(z_{n,+}^0) - \\psi^{(0)}(z_{m,-}^0) + \\psi^{(0)}"
+  - equation_id: eq.C-33
+    printed: "C-33"
+    local_id: "C-7"
+    appendix: "C"
+    tex_lines: [572, 574]
+    preview: "\\begin{align} {\\cal C}_{nnn}^{(2, 2)} = \\frac{i \\beta^4}{768 \\pi^5} \\left[ \\psi^{(4)}(z_{n,+}) - \\psi^{(4)}(z_{n,-}) \\right] \\end{align}"
+  - equation_id: eq.C-34
+    printed: "C-34"
+    local_id: "C-8"
+    appendix: "C"
+    tex_lines: [576, 578]
+    preview: "\\begin{align} {\\cal C}_{nnn}^{(2, 2)} = \\frac{i \\beta^4}{768 \\pi^5} \\left[ \\psi^{(4)}(z_{n,+}^0) - \\psi^{(4)}(z_{n,-}^0) \\right] + {\\cal O}(\\Gamma) \\end{align}"
+  - equation_id: eq.C-35
+    printed: "C-35"
+    local_id: "C-9"
+    appendix: "C"
+    tex_lines: [583, 585]
+    preview: "\\begin{align} {\\cal C}_{nmn}^{(2, 2)} = P_0 + P_1 + P_2 \\end{align}"
+  - equation_id: eq.C-36
+    printed: "C-36"
+    local_id: "C-10"
+    appendix: "C"
+    tex_lines: [587, 589]
+    preview: "\\begin{align} P_0 &= -\\frac{6 i \\pi}{4 \\pi^2 \\epsilon_{nm}^4} \\left[ \\psi^{(0)}(z_{n,+}) - \\psi^{(0)}(z_{m,+}) - \\psi^{(0)}(z_{n,-}) + \\psi^{(0)}(z_{m,-}) \\righ"
+  - equation_id: eq.C-37
+    printed: "C-37"
+    local_id: "C-11"
+    appendix: "C"
+    tex_lines: [595, 597]
+    preview: "& - 2 i \\Gamma (4 i \\Gamma + 3 \\epsilon_{nm}) (2 i \\Gamma - \\epsilon_{nm})^2 \\psi^{(1)}(z_{m,+}) \\Bigg] \\end{align}"
+  - equation_id: eq.C-38
+    printed: "C-38"
+    local_id: "C-12"
+    appendix: "C"
+    tex_lines: [603, 606]
+    preview: "& + \\epsilon_{nm} (2 i \\Gamma - \\epsilon_{nm}) \\psi^{(2)}(z_{n,-}) - 2 \\Gamma (2 \\Gamma - i \\epsilon_{nm}) \\psi^{(2)}(z_{m,-}) \\Bigg] \\end{align}"
+  - equation_id: eq.C-39
+    printed: "C-39"
+    local_id: "C-13"
+    appendix: "C"
+    tex_lines: [610, 611]
+    preview: "& + \\frac{\\beta}{4\\pi^2\\epsilon_{nm}^3} \\sum_{\\pm} \\psi^{(1)}(z_{n,\\pm}^0) - \\frac{i\\beta^2}{16\\pi^3\\epsilon_{nm}^2} \\left( \\psi^{(2)}(z_{n,+}^0) - \\psi^{(2)}(z"
+  - equation_id: eq.C-40
+    printed: "C-40"
+    local_id: "C-14"
+    appendix: "C"
+    tex_lines: [615, 617]
+    preview: "\\begin{align} {\\cal C}_{nnm}^{(2, 2)} = \\frac{1}{96 \\pi^4 (2 i \\Gamma - \\epsilon_{nm})} \\left[ Q_0 + Q_1 + Q_2 + Q_3 \\right] \\end{align}"
+  - equation_id: eq.C-41
+    printed: "C-41"
+    local_id: "C-15"
+    appendix: "C"
+    tex_lines: [623, 626]
+    preview: "& + (2 \\Gamma + i \\epsilon_{nm}) \\psi^{(0)}(z_{m,-}) - i (-2 i \\Gamma + \\epsilon_{nm}) \\psi^{(0)}(z_{m,+}) \\Bigg] \\end{align}"
+  - equation_id: eq.C-42
+    printed: "C-42"
+    local_id: "C-16"
+    appendix: "C"
+    tex_lines: [631, 633]
+    preview: "& + \\left(-\\frac{1}{\\Gamma^2} + \\frac{4}{\\epsilon_{nm}^2} - \\frac{8 i \\Gamma}{\\epsilon_{nm}^3} - \\frac{4}{(2 i \\Gamma - \\epsilon_{nm})^2}\\right) \\psi^{(1)}(z_{n"
+  - equation_id: eq.C-43
+    printed: "C-43"
+    local_id: "C-17"
+    appendix: "C"
+    tex_lines: [634, 638]
+    preview: "\\begin{align} Q_2 = 3 \\pi \\beta^2 \\Bigg[ \\frac{4 \\Gamma^2 + \\epsilon_{nm}^2}{\\Gamma \\epsilon_{nm}^2} \\psi^{(2)}(z_{n,-}) + \\frac{1}{\\Gamma} \\left(1 + \\frac{8 \\G"
+  - equation_id: eq.C-44
+    printed: "C-44"
+    local_id: "C-18"
+    appendix: "C"
+    tex_lines: [639, 641]
+    preview: "\\begin{align} Q_3 = \\frac{\\beta^3 (2 i \\Gamma - \\epsilon_{nm})}{\\epsilon_{nm}} \\left[ \\psi^{(3)}(z_{n,-}) + \\psi^{(3)}(z_{n,+}) \\right] \\end{align}"
+  - equation_id: eq.C-45
+    printed: "C-45"
+    local_id: "C-19"
+    appendix: "C"
+    tex_lines: [646, 647]
+    preview: "& \\qquad + \\frac{i}{2\\pi\\epsilon_{nm}^4} \\left( \\psi^{(0)}(z_{n,-}^0) - \\psi^{(0)}(z_{n,+}^0) - \\psi^{(0)}(z_{m,-}^0) + \\psi^{(0)}(z_{m,+}^0) \\right) \\bigg] + {"
+  - equation_id: eq.C-46
+    printed: "C-46"
+    local_id: "C-20"
+    appendix: "C"
+    tex_lines: [651, 653]
+    preview: "\\begin{align} {\\cal C}_{nmm}^{(2, 2)} = \\frac{1}{96 \\pi^4 (2 i \\Gamma - \\epsilon_{nm})} \\left[ U_0 + U_1 + U_2 + U_3 \\right] \\end{align}"
+  - equation_id: eq.C-47
+    printed: "C-47"
+    local_id: "C-21"
+    appendix: "C"
+    tex_lines: [659, 662]
+    preview: "& - i (-2 i \\Gamma + \\epsilon_{nm}) \\psi^{(0)}(z_{m,-}) + (2 \\Gamma + i \\epsilon_{nm}) \\psi^{(0)}(z_{m,+}) \\Bigg] \\end{align}"
+  - equation_id: eq.C-48
+    printed: "C-48"
+    local_id: "C-22"
+    appendix: "C"
+    tex_lines: [666, 668]
+    preview: "& + \\frac{1}{\\Gamma^2} \\left(1 + 4 \\Gamma^2 \\left(\\frac{1}{(2 i \\Gamma - \\epsilon_{nm})^2} + \\frac{2 i \\Gamma - \\epsilon_{nm}}{\\epsilon_{nm}^3}\\right)\\right) \\p"
+  - equation_id: eq.C-49
+    printed: "C-49"
+    local_id: "C-23"
+    appendix: "C"
+    tex_lines: [672, 674]
+    preview: "& + \\frac{1}{\\Gamma} \\left(-1 + \\frac{4 \\Gamma^2}{\\epsilon_{nm}^2} \\left(2 - \\frac{2 i \\Gamma}{2 i \\Gamma - \\epsilon_{nm}}\\right)\\right) \\psi^{(2)}(z_{m,-}) \\Bi"
+  - equation_id: eq.C-50
+    printed: "C-50"
+    local_id: "C-24"
+    appendix: "C"
+    tex_lines: [675, 677]
+    preview: "\\begin{align} U_3 = \\frac{\\beta^3 (-2 i \\Gamma + \\epsilon_{nm})}{\\epsilon_{nm}} \\left[ \\psi^{(3)}(z_{m,-}) + \\psi^{(3)}(z_{m,+}) \\right] \\end{align}"
+  - equation_id: eq.C-51
+    printed: "C-51"
+    local_id: "C-25"
+    appendix: "C"
+    tex_lines: [682, 683]
+    preview: "& \\qquad - \\frac{i}{2\\pi\\epsilon_{nm}^4} \\left( \\psi^{(0)}(z_{n,-}^0) - \\psi^{(0)}(z_{n,+}^0) - \\psi^{(0)}(z_{m,-}^0) + \\psi^{(0)}(z_{m,+}^0) \\right) \\bigg] + {"
+  - equation_id: eq.C-52
+    printed: "C-52"
+    local_id: "C-26"
+    appendix: "C"
+    tex_lines: [689, 691]
+    preview: "\\begin{equation} {\\cal C}_{nml}^{(2, 2)} = \\frac{1}{2i\\Gamma - \\epsilon_{nm}}(R_0 + R_1 + R_2) \\end{equation}"
+  - equation_id: eq.C-53
+    printed: "C-53"
+    local_id: "C-27"
+    appendix: "C"
+    tex_lines: [693, 699]
+    preview: "\\begin{equation} \\begin{aligned} R_0 = & \\psi^{(0)}(z_{n-}) \\frac{2 \\Gamma + i \\epsilon_{nm}}{2 \\pi \\epsilon_{nm} \\epsilon_{nl}^3} - \\frac{i \\psi^{(0)}(z_{n+}) "
+  - equation_id: eq.C-54
+    printed: "C-54"
+    local_id: "C-28"
+    appendix: "C"
+    tex_lines: [701, 707]
+    preview: "\\begin{equation} \\begin{aligned} R_1 = & -\\beta \\Gamma \\psi^{(1)}(z_{m-}) \\frac{(\\Gamma - i \\epsilon_{ml})}{\\pi^2 \\epsilon_{ml}^2 (2 i \\Gamma + \\epsilon_{ml})^2"
+  - equation_id: eq.C-55
+    printed: "C-55"
+    local_id: "C-29"
+    appendix: "C"
+    tex_lines: [709, 714]
+    preview: "\\begin{equation} \\begin{aligned} R_2 = & -\\frac{\\beta^2 \\Gamma \\psi^{(2)}(z_{m-})}{8 \\pi^3 \\epsilon_{ml} (2 i \\Gamma + \\epsilon_{ml})} + \\frac{\\beta^2 \\Gamma \\p"
+  - equation_id: eq.C-56
+    printed: "C-56"
+    local_id: "C-30"
+    appendix: "C"
+    tex_lines: [717, 723]
+    preview: "\\begin{equation} \\begin{aligned} {\\cal C}_{nml}^{(2, 2)} &= \\frac{i}{2} \\Bigg( \\psi^{(0)}(z_{n+}^0) \\frac{1}{\\pi \\epsilon_{nm} \\epsilon_{nl}^3} - \\psi^{(0)}(z_{"
+  - equation_id: eq.D-57
+    printed: "D-57"
+    local_id: "D-1"
+    appendix: "D"
+    tex_lines: [733, 737]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc} = \\frac{1}{\\Gamma^2}\\sigma_{abc}^{(-2)} + \\frac{1}{\\Gamma}\\sigma_{abc}^{(-1)} + \\sigma_{abc}^{(0)} + {\\cal O}(\\Gamma)"
+  - equation_id: eq.D-58
+    printed: "D-58"
+    local_id: "D-2"
+    appendix: "D"
+    tex_lines: [768, 772]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-2)} = \\frac{1}{8\\epsilon_{12}} [ -K_1 f_1' + K_2 f_2' ] \\end{aligned} \\end{align}"
+  - equation_id: eq.D-59
+    printed: "D-59"
+    local_id: "D-3"
+    appendix: "D"
+    tex_lines: [774, 779]
+    preview: "\\begin{align} \\begin{aligned} K_1 &= \\underbrace{v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c)}_{K_{1A}} + \\underbrace{("
+  - equation_id: eq.D-60
+    printed: "D-60"
+    local_id: "D-4"
+    appendix: "D"
+    tex_lines: [784, 788]
+    preview: "\\begin{align} \\begin{aligned} K_{1A} &= v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c) = 2\\epsilon_{12}^2 (v_1^c g_"
+  - equation_id: eq.D-61
+    printed: "D-61"
+    local_id: "D-5"
+    appendix: "D"
+    tex_lines: [791, 796]
+    tex_labels: ["TA-2"]
+    preview: "\\begin{align} \\begin{aligned} T_A^{(-2)} &= \\frac{2\\epsilon_{12}^2}{8\\epsilon_{12}} [ -(v_1^c g_{ab} + v_1^b g_{ac}) f_1' + (v_2^c g_{ab} + v_2^b g_{ac}) f_2' ]"
+  - equation_id: eq.D-62
+    printed: "D-62"
+    local_id: "D-6"
+    appendix: "D"
+    tex_lines: [800, 805]
+    preview: "\\begin{align} \\begin{aligned} T_B^{(-2)} &= \\frac{1}{8\\epsilon_{12}} [ -K_{1B} f_1' + K_{2B} f_2' ] = \\frac{\\epsilon_{12}}{8\\epsilon_{12}} [ -(v_{11}^{ac} v_1^b"
+  - equation_id: eq.D-63
+    printed: "D-63"
+    local_id: "D-7"
+    appendix: "D"
+    tex_lines: [807, 811]
+    preview: "\\begin{align} \\begin{aligned} T_B^{(-2)} = -\\frac{1}{8} \\sum_n \\left[ (\\partial_a \\partial_c \\epsilon_n - 2 \\epsilon_{n\\bar{n}} g_{ac}) v_n^b + (\\partial_a \\par"
+  - equation_id: eq.D-64
+    printed: "D-64"
+    local_id: "D-8"
+    appendix: "D"
+    tex_lines: [813, 817]
+    preview: "\\begin{align} \\begin{aligned} T_{B}^{(-2)} &= T_{B, \\text{intra}}^{(-2)} + T_{B, \\text{geo}}^{(-2)}, \\end{aligned} \\end{align}"
+  - equation_id: eq.D-65
+    printed: "D-65"
+    local_id: "D-9"
+    appendix: "D"
+    tex_lines: [819, 823]
+    preview: "\\begin{align} \\begin{aligned} T_{B, \\text{intra}}^{(-2)} &= -\\frac{1}{8} \\sum_n (\\partial_a \\partial_c \\epsilon_n v_n^b + \\partial_a \\partial_b \\epsilon_n v_n^c"
+  - equation_id: eq.D-66
+    printed: "D-66"
+    local_id: "D-10"
+    appendix: "D"
+    tex_lines: [825, 829]
+    preview: "\\begin{align} \\begin{aligned} T_{B, \\text{geo}}^{(-2)} &= -\\frac{1}{8} \\sum_n (-2 \\epsilon_{n\\bar{n}}) (g_{ac} v_n^b + g_{ab} v_n^c) f_n' = \\frac{1}{4} \\left[ \\"
+  - equation_id: eq.D-67
+    printed: "D-67"
+    local_id: "D-11"
+    appendix: "D"
+    tex_lines: [831, 836]
+    tex_labels: ["TB-2geo"]
+    preview: "\\begin{align} \\begin{aligned} T_{B, \\text{geo}}^{(-2)} = \\frac{\\epsilon_{12}}{4} \\left[ (g_{ac} v_1^b + g_{ab} v_1^c) f_1' - (g_{ac} v_2^b + g_{ab} v_2^c) f_2' "
+  - equation_id: eq.D-68
+    printed: "D-68"
+    local_id: "D-12"
+    appendix: "D"
+    tex_lines: [841, 845]
+    preview: "\\begin{align} \\begin{aligned} T_A^{(-2)} + T_{B, \\text{geo}}^{(-2)} = 0 \\end{aligned} \\end{align}"
+  - equation_id: eq.D-69
+    printed: "D-69"
+    local_id: "D-13"
+    appendix: "D"
+    tex_lines: [847, 853]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-2)} = T_{B, \\text{intra}}^{(-2)} = -\\frac{1}{8} \\sum_{n=1,2} \\partial_a(v_n^b v_n^c) f_n', \\qquad f_n' = 2 f_{0,n}"
+  - equation_id: eq.D-70
+    printed: "D-70"
+    local_id: "D-14"
+    appendix: "D"
+    tex_lines: [860, 865]
+    tex_labels: ["sigma_abc_-1"]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-1)} = -\\frac{i}{4\\epsilon_{12}^2} [ C_1 f_1' + C_2 f_2' ] \\label{sigma_abc_-1} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-71
+    printed: "D-71"
+    local_id: "D-15"
+    appendix: "D"
+    tex_lines: [867, 872]
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) - v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c) \\\\ C_2 &= -v_{21}^a(v_2^b v_{12}^c + "
+  - equation_id: eq.D-72
+    printed: "D-72"
+    local_id: "D-16"
+    appendix: "D"
+    tex_lines: [874, 880]
+    tex_labels: ["C1C2-1"]
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_1^c (v_{21}^a v_{12}^b - v_{12}^a v_{21}^b) + v_1^b (v_{21}^a v_{12}^c - v_{12}^a v_{21}^c) \\\\ C_2 &= v_2^c (v_{12}^a v_{"
+  - equation_id: eq.D-73
+    printed: "D-73"
+    local_id: "D-17"
+    appendix: "D"
+    tex_lines: [883, 891]
+    tex_labels: ["Vab-1"]
+    preview: "\\begin{align} \\begin{aligned} V_{ab} &= (-i\\epsilon_{12} A_{21}^a)(-i\\epsilon_{21} A_{12}^b) - (-i\\epsilon_{21} A_{12}^a)(-i\\epsilon_{12} A_{21}^b) = (-1)(\\epsi"
+  - equation_id: eq.D-74
+    printed: "D-74"
+    local_id: "D-18"
+    appendix: "D"
+    tex_lines: [896, 900]
+    preview: "\\begin{align} \\begin{aligned} A_{21}^a A_{12}^b - A_{12}^a A_{21}^b = -(A_{12}^a A_{21}^b - A_{12}^b A_{21}^a) = -(-i \\Omega_{ab}^1) = i \\Omega_{ab}^1 \\end{alig"
+  - equation_id: eq.D-75
+    printed: "D-75"
+    local_id: "D-19"
+    appendix: "D"
+    tex_lines: [902, 906]
+    preview: "\\begin{align} \\begin{aligned} V_{ab} = i \\epsilon_{12}^2 \\Omega_{ab}^1 \\end{aligned} \\end{align}"
+  - equation_id: eq.D-76
+    printed: "D-76"
+    local_id: "D-20"
+    appendix: "D"
+    tex_lines: [909, 915]
+    preview: "\\begin{align} \\begin{aligned} C_1 = i \\epsilon_{12}^2 (v_1^c \\Omega_{ab}^1 + v_1^b \\Omega_{ac}^1), \\qquad C_2 = -i \\epsilon_{12}^2 (v_2^c \\Omega_{ab}^1 + v_2^b "
+  - equation_id: eq.D-77
+    printed: "D-77"
+    local_id: "D-21"
+    appendix: "D"
+    tex_lines: [917, 922]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-1)} &= -\\frac{i}{4\\epsilon_{12}^2} (i \\epsilon_{12}^2) \\left[ (v_1^c \\Omega_{ab}^1 + v_1^b \\Omega_{ac}^1) f_1' - ("
+  - equation_id: eq.D-78
+    printed: "D-78"
+    local_id: "D-22"
+    appendix: "D"
+    tex_lines: [924, 930]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-1)} = \\frac{1}{4} \\sum_{n=1,2} (v_n^c \\Omega_{ab}^n + v_n^b \\Omega_{ac}^n) f_n', \\qquad f_n' = 2f_{0,n}' \\end{alig"
+  - equation_id: eq.D-79
+    printed: "D-79"
+    local_id: "D-23"
+    appendix: "D"
+    tex_lines: [941, 945]
+    preview: "\\begin{align} \\begin{aligned} T_4 = \\sum_{n=1,2} \\frac{1}{4!} v_n^a v_n^b v_n^c f_n^{(4)} = \\sum_{n=1,2} \\frac{1}{24} v_n^a v_n^b v_n^c f_n^{(4)}, \\end{aligned}"
+  - equation_id: eq.D-80
+    printed: "D-80"
+    local_id: "D-24"
+    appendix: "D"
+    tex_lines: [951, 955]
+    preview: "\\begin{align} \\begin{aligned} T_3 = \\frac{1}{48\\epsilon_{12}} \\left[ K_1 f_1^{(3)} - K_2 f_2^{(3)} \\right] \\end{aligned} \\end{align}"
+  - equation_id: eq.D-81
+    printed: "D-81"
+    local_id: "D-25"
+    appendix: "D"
+    tex_lines: [957, 962]
+    preview: "\\begin{align} \\begin{aligned} K_1 &= \\underbrace{v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c)}_{K_{1A}} + \\underbrace{("
+  - equation_id: eq.D-82
+    printed: "D-82"
+    local_id: "D-26"
+    appendix: "D"
+    tex_lines: [966, 970]
+    preview: "\\begin{align} \\begin{aligned} T_{3A} &= \\frac{2\\epsilon_{12}^2}{48\\epsilon_{12}} \\left[ (v_1^c g_{ab} + v_1^b g_{ac}) f_1^{(3)} - (v_2^c g_{ab} + v_2^b g_{ac}) "
+  - equation_id: eq.D-83
+    printed: "D-83"
+    local_id: "D-27"
+    appendix: "D"
+    tex_lines: [973, 978]
+    preview: "\\begin{align} \\begin{aligned} T_{3B} &= \\frac{1}{48\\epsilon_{12}} \\left[ K_{1B} f_1^{(3)} - K_{2B} f_2^{(3)} \\right] = \\frac{\\epsilon_{12}}{48\\epsilon_{12}} \\le"
+  - equation_id: eq.D-84
+    printed: "D-84"
+    local_id: "D-28"
+    appendix: "D"
+    tex_lines: [981, 985]
+    preview: "\\begin{align} \\begin{aligned} T_{3B} = \\frac{1}{48} \\sum_n & \\left[ (\\partial_a \\partial_c \\epsilon_n - 2 \\epsilon_{n\\bar{n}} g_{ac})v_n^b + (\\partial_a \\partia"
+  - equation_id: eq.D-85
+    printed: "D-85"
+    local_id: "D-29"
+    appendix: "D"
+    tex_lines: [987, 991]
+    preview: "\\begin{align} \\begin{aligned} T_{3B}^{\\text{intra}} &= \\frac{1}{48} \\sum_n (\\partial_a \\partial_c \\epsilon_n v_n^b + \\partial_a \\partial_b \\epsilon_n v_n^c) f_n"
+  - equation_id: eq.D-86
+    printed: "D-86"
+    local_id: "D-30"
+    appendix: "D"
+    tex_lines: [992, 996]
+    preview: "\\begin{align} \\begin{aligned} T_{3B}^{\\text{inter}} &= -\\frac{2}{48} \\sum_n \\epsilon_{n\\bar{n}} (g_{ac}v_n^b + g_{ab}v_n^c) f_n^{(3)} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-87
+    printed: "D-87"
+    local_id: "D-31"
+    appendix: "D"
+    tex_lines: [1000, 1005]
+    tex_labels: ["Term3-0"]
+    preview: "\\begin{align} \\begin{aligned} T_3 = \\frac{1}{48} \\sum_{n=1,2} \\partial_a(v_n^b v_n^c) f_n^{(3)} \\label{Term3-0} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-88
+    printed: "D-88"
+    local_id: "D-32"
+    appendix: "D"
+    tex_lines: [1011, 1015]
+    preview: "\\begin{align} \\begin{aligned} T_2 = \\frac{1}{4\\epsilon_{12}^2} \\sum_n v_n^a (v_{21}^b v_{12}^c + v_{12}^b v_{21}^c) f_n^{(2)} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-89
+    printed: "D-89"
+    local_id: "D-33"
+    appendix: "D"
+    tex_lines: [1017, 1022]
+    tex_labels: ["Term2-0"]
+    preview: "\\begin{align} \\begin{aligned} T_2 &= \\frac{1}{4\\epsilon_{12}^2} \\sum_n v_n^a (2\\epsilon_{12}^2 g_{bc}) f_n^{(2)} = \\frac{1}{2} g_{bc} \\sum_n v_n^a f_n^{(2)} \\la"
+  - equation_id: eq.D-90
+    printed: "D-90"
+    local_id: "D-34"
+    appendix: "D"
+    tex_lines: [1028, 1032]
+    preview: "\\begin{align} \\begin{aligned} T_1 = \\frac{1}{2\\epsilon_{12}^3} \\left[ C_1 f_1^{(1)} - C_2 f_2^{(1)} \\right] \\end{aligned} \\end{align}"
+  - equation_id: eq.D-91
+    printed: "D-91"
+    local_id: "D-35"
+    appendix: "D"
+    tex_lines: [1034, 1039]
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c) - v_1^a(v_{21}^b v_{12}^c + v_{12}^b "
+  - equation_id: eq.D-92
+    printed: "D-92"
+    local_id: "D-36"
+    appendix: "D"
+    tex_lines: [1041, 1046]
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c) - v_1^a(v_{21}^b v_{12}^c + v_{"
+  - equation_id: eq.D-93
+    printed: "D-93"
+    local_id: "D-37"
+    appendix: "D"
+    tex_lines: [1048, 1054]
+    tex_labels: ["Term1-0"]
+    preview: "\\begin{align} \\begin{aligned} T_1 &= \\frac{2\\epsilon_{12}^2}{2\\epsilon_{12}^3} \\left[ (v_1^c g_{ab} + v_1^b g_{ac} - v_1^a g_{bc}) f_1' - (v_2^c g_{ab} + v_2^b "
+  - equation_id: eq.D-94
+    printed: "D-94"
+    local_id: "D-38"
+    appendix: "D"
+    tex_lines: [1059, 1064]
+    tex_labels: ["Term0"]
+    preview: "\\begin{align} \\begin{aligned} T_0 = \\frac{f_1 - f_2}{2\\epsilon_{12}^4} \\times C_0 \\label{Term0} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-95
+    printed: "D-95"
+    local_id: "D-39"
+    appendix: "D"
+    tex_lines: [1067, 1073]
+    preview: "\\begin{align} \\begin{aligned} A &= 3 (v_2^a - v_1^a) (v_{21}^b v_{12}^c + v_{12}^b v_{21}^c) \\\\ B &= (v_2^b-v_1^b)(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c) + (v_2"
+  - equation_id: eq.D-96
+    printed: "D-96"
+    local_id: "D-40"
+    appendix: "D"
+    tex_lines: [1076, 1081]
+    tex_labels: ["A_Term0"]
+    preview: "\\begin{align} \\begin{aligned} A = 3 (v_2^a - v_1^a) (2\\epsilon_{12}^2 g_{bc}) = 6\\epsilon_{12}^2 g_{bc} (v_2^a - v_1^a) \\label{A_Term0} \\end{aligned} \\end{align"
+  - equation_id: eq.D-97
+    printed: "D-97"
+    local_id: "D-41"
+    appendix: "D"
+    tex_lines: [1082, 1087]
+    tex_labels: ["B_Term0"]
+    preview: "\\begin{align} \\begin{aligned} B = 2\\epsilon_{12}^2 [ g_{ac}(v_2^b-v_1^b) + g_{ab}(v_2^c-v_1^c) ] \\label{B_Term0} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-98
+    printed: "D-98"
+    local_id: "D-42"
+    appendix: "D"
+    tex_lines: [1091, 1095]
+    preview: "\\begin{align} \\begin{aligned} S_{ab;c} &= (\\partial_a v_{21}^b) v_{12}^c + (\\partial_a v_{12}^b) v_{21}^c - i K_{ab;c} = \\partial_a(v_{21}^b v_{12}^c) - i K_{ab"
+  - equation_id: eq.D-99
+    printed: "D-99"
+    local_id: "D-43"
+    appendix: "D"
+    tex_lines: [1098, 1102]
+    preview: "\\begin{align} \\begin{aligned} S_{ac;b} + S_{ab;c} &= \\partial_a(v_{21}^c v_{12}^b + v_{21}^b v_{12}^c) - i K_{abc} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-100
+    printed: "D-100"
+    local_id: "D-44"
+    appendix: "D"
+    tex_lines: [1104, 1108]
+    preview: "\\begin{align} \\begin{aligned} S_{ac;b} + S_{ab;c} = \\partial_a (2 \\epsilon_{12}^2 g_{bc}) - i K_{abc} \\end{aligned} \\end{align}"
+  - equation_id: eq.D-101
+    printed: "D-101"
+    local_id: "D-45"
+    appendix: "D"
+    tex_lines: [1111, 1116]
+    preview: "\\begin{align} \\begin{aligned} [A^a, v^b]_{12} &= A_{12}^a (v_2^b - v_1^b) + v_{12}^b (A_{11}^a - A_{22}^a) \\\\ [A^a, v^b]_{21} &= A_{21}^a (v_1^b - v_2^b) + v_{2"
+  - equation_id: eq.D-102
+    printed: "D-102"
+    local_id: "D-46"
+    appendix: "D"
+    tex_lines: [1118, 1122]
+    preview: "\\begin{align} \\begin{aligned} K_{ab;c} = (v_2^b - v_1^b) (A_{12}^a v_{21}^c - A_{21}^a v_{12}^c) + (A_{11}^a - A_{22}^a) (v_{12}^b v_{21}^c - v_{21}^b v_{12}^c)"
+  - equation_id: eq.D-103
+    printed: "D-103"
+    local_id: "D-47"
+    appendix: "D"
+    tex_lines: [1124, 1128]
+    preview: "\\begin{align} \\begin{aligned} P_\\text{gauge} = (A_{11}^a - A_{22}^a) [ (v_{12}^c v_{21}^b - v_{21}^c v_{12}^b) + (v_{12}^b v_{21}^c - v_{21}^b v_{12}^c) ] \\end{"
+  - equation_id: eq.D-104
+    printed: "D-104"
+    local_id: "D-48"
+    appendix: "D"
+    tex_lines: [1132, 1136]
+    preview: "\\begin{align} \\begin{aligned} K_{abc} = (v_2^c - v_1^c) (A_{12}^a v_{21}^b - A_{21}^a v_{12}^b) + (v_2^b - v_1^b) (A_{12}^a v_{21}^c - A_{21}^a v_{12}^c) \\end{a"
+  - equation_id: eq.D-105
+    printed: "D-105"
+    local_id: "D-49"
+    appendix: "D"
+    tex_lines: [1138, 1142]
+    preview: "\\begin{align} \\begin{aligned} A_{12}^a v_{21}^b - A_{21}^a v_{12}^b &= A_{12}^a (-i\\epsilon_{12} A_{21}^b) - A_{21}^a (-i\\epsilon_{21} A_{12}^b) = -i\\epsilon_{1"
+  - equation_id: eq.D-106
+    printed: "D-106"
+    local_id: "D-50"
+    appendix: "D"
+    tex_lines: [1144, 1148]
+    preview: "\\begin{align} \\begin{aligned} K_{abc} = -2i \\epsilon_{12} \\left[ (v_2^c - v_1^c) g_{ab} + (v_2^b - v_1^b) g_{ac} \\right] \\end{aligned} \\end{align}"
+  - equation_id: eq.D-107
+    printed: "D-107"
+    local_id: "D-51"
+    appendix: "D"
+    tex_lines: [1150, 1154]
+    preview: "\\begin{align} \\begin{aligned} S_{ac;b} + S_{ab;c} &= \\partial_a (2 \\epsilon_{12}^2 g_{bc}) - i K_{abc} = \\partial_a (2 \\epsilon_{12}^2 g_{bc}) - 2 \\epsilon_{12}"
+  - equation_id: eq.D-108
+    printed: "D-108"
+    local_id: "D-52"
+    appendix: "D"
+    tex_lines: [1156, 1160]
+    preview: "\\begin{align} \\begin{aligned} \\partial_a (2 \\epsilon_{12}^2 g_{bc}) &= 4 \\epsilon_{12} (\\partial_a \\epsilon_{12}) g_{bc} + 2 \\epsilon_{12}^2 (\\partial_a g_{bc})"
+  - equation_id: eq.D-109
+    printed: "D-109"
+    local_id: "D-53"
+    appendix: "D"
+    tex_lines: [1162, 1167]
+    tex_labels: ["E_Term0"]
+    preview: "\\begin{align} \\begin{aligned} E &= 4 \\epsilon_{12}^2 (v_1^a - v_2^a) g_{bc} + 2 \\epsilon_{12}^3 (\\partial_a g_{bc}) - 2 \\epsilon_{12}^2 \\left[ g_{ab} (v_2^c - v"
+  - equation_id: eq.D-110
+    printed: "D-110"
+    local_id: "D-54"
+    appendix: "D"
+    tex_lines: [1170, 1174]
+    preview: "\\begin{align} \\begin{aligned} C_0 &= \\underbrace{6\\epsilon_{12}^2 g_{bc} (v_2^a - v_1^a)}_{A} + \\underbrace{2\\epsilon_{12}^2 [ g_{ac}(v_2^b-v_1^b) + g_{ab}(v_2^"
+  - equation_id: eq.D-111
+    printed: "D-111"
+    local_id: "D-55"
+    appendix: "D"
+    tex_lines: [1176, 1182]
+    preview: "\\begin{align} \\begin{aligned} C_0 &= \\epsilon_{12}^2 g_{bc} [ 6(v_2^a-v_1^a) + 4(v_1^a-v_2^a) ] \\\\ & \\quad + \\epsilon_{12}^2 g_{ac} [ 2(v_2^b-v_1^b) - 2(v_2^b-v"
+  - equation_id: eq.D-112
+    printed: "D-112"
+    local_id: "D-56"
+    appendix: "D"
+    tex_lines: [1184, 1188]
+    preview: "\\begin{align} \\begin{aligned} C_0 &= 2\\epsilon_{12}^2 g_{bc} (v_2^a-v_1^a) + 2\\epsilon_{12}^3 (\\partial_a g_{bc}) \\end{aligned} \\end{align}"
+  - equation_id: eq.D-113
+    printed: "D-113"
+    local_id: "D-57"
+    appendix: "D"
+    tex_lines: [1191, 1195]
+    preview: "\\begin{align} \\begin{aligned} T_0 &= (f_1 - f_2) \\left[ \\frac{g_{bc} (v_2^a-v_1^a)}{\\epsilon_{12}^2} + \\frac{\\partial_a g_{bc}}{\\epsilon_{12}} \\right] \\end{alig"
+  - equation_id: eq.D-114
+    printed: "D-114"
+    local_id: "D-58"
+    appendix: "D"
+    tex_lines: [1197, 1202]
+    tex_labels: ["Term0-0"]
+    preview: "\\begin{align} \\begin{aligned} T_0 = (f_1 - f_2) \\left[ \\frac{(\\partial_a g_{bc})\\epsilon_{12} - g_{bc}(\\partial_a \\epsilon_{12})}{\\epsilon_{12}^2} \\right] = (f_"
+  - equation_id: eq.D-115
+    printed: "D-115"
+    local_id: "D-59"
+    appendix: "D"
+    tex_lines: [1214, 1218]
+    preview: "\\begin{align} \\begin{aligned} T_3 \\quad \\xrightarrow{\\text{IBP}} \\quad & -\\frac{1}{48} \\sum_n (v_n^b v_n^c) \\partial_a (f_n^{(3)}) \\end{aligned} \\end{align}"
+  - equation_id: eq.D-116
+    printed: "D-116"
+    local_id: "D-60"
+    appendix: "D"
+    tex_lines: [1220, 1224]
+    preview: "\\begin{align} \\begin{aligned} T_3 \\quad \\xrightarrow{\\text{IBP}} \\quad & -\\frac{1}{48} \\sum_n v_n^a v_n^b v_n^c f_n^{(4)} = -\\frac{1}{2} T_4 \\end{aligned} \\end{"
+  - equation_id: eq.D-117
+    printed: "D-117"
+    local_id: "D-61"
+    appendix: "D"
+    tex_lines: [1226, 1233]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{kin}} = T_3 + T_4 = \\frac{1}{2}T_4 = \\sum_{n=1,2} \\frac{1}{48} v_n^a v_n^b v_n^c f_n^{(4)} =\\sum_{n=1,2} \\frac"
+  - equation_id: eq.D-118
+    printed: "D-118"
+    local_id: "D-62"
+    appendix: "D"
+    tex_lines: [1237, 1239]
+    preview: "\\begin{equation} \\sigma^{\\text{kin}}_{abc} = \\sum_{n} \\frac{1}{12} \\left( \\frac{\\partial^3 \\epsilon_n}{\\partial k_a \\partial k_b \\partial k_c} \\right) f_{0,n}^{"
+  - equation_id: eq.D-119
+    printed: "D-119"
+    local_id: "D-63"
+    appendix: "D"
+    tex_lines: [1243, 1247]
+    preview: "\\begin{align} \\begin{aligned} T_0 \\quad \\xrightarrow{\\text{IBP}} \\quad & - \\left[ \\partial_a (f_1 - f_2) \\right] \\left( \\frac{g_{bc}}{\\epsilon_{12}} \\right) = -"
+  - equation_id: eq.D-120
+    printed: "D-120"
+    local_id: "D-64"
+    appendix: "D"
+    tex_lines: [1250, 1255]
+    tex_labels: ["Term0+Term1-0"]
+    preview: "\\begin{align} \\begin{aligned} T_0 + T_1 &= \\frac{1}{\\epsilon_{12}} \\left[ g_{bc}(v_2^a f_2' - v_1^a f_1') + (v_1^c g_{ab} + v_1^b g_{ac} - v_1^a g_{bc}) f_1' - "
+  - equation_id: eq.D-121
+    printed: "D-121"
+    local_id: "D-65"
+    appendix: "D"
+    tex_lines: [1257, 1261]
+    preview: "\\begin{align} \\begin{aligned} T_0 + T_1 &= \\frac{1}{\\epsilon_{12}} \\left[ f_1' (v_1^c g_{ab} + v_1^b g_{ac} - 2v_1^a g_{bc}) - f_2' (v_2^c g_{ab} + v_2^b g_{ac}"
+  - equation_id: eq.D-122
+    printed: "D-122"
+    local_id: "D-66"
+    appendix: "D"
+    tex_lines: [1263, 1267]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = \\frac{1}{2} g_{bc} \\sum_n v_n^a f_n'' + (T_0+T_1) \\end{aligned} \\end{align}"
+  - equation_id: eq.D-123
+    printed: "D-123"
+    local_id: "D-67"
+    appendix: "D"
+    tex_lines: [1269, 1273]
+    preview: "\\begin{align} \\begin{aligned} T_2 = \\sum_n (\\frac{1}{2} g_{bc}) \\partial_a(f_n') \\end{aligned} \\end{align}"
+  - equation_id: eq.D-124
+    printed: "D-124"
+    local_id: "D-68"
+    appendix: "D"
+    tex_lines: [1275, 1279]
+    preview: "\\begin{align} \\begin{aligned} T_2 \\quad \\xrightarrow{\\text{IBP}} \\quad & - \\sum_n \\left[ \\partial_a (\\frac{1}{2} g_{bc}) \\right] f_n' = -\\frac{1}{2} (\\partial_a"
+  - equation_id: eq.D-125
+    printed: "D-125"
+    local_id: "D-69"
+    appendix: "D"
+    tex_lines: [1283, 1288]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = & \\quad f_1' \\left[ -\\frac{1}{2} (\\partial_a g_{bc}) + \\frac{1}{\\epsilon_{12}} (v_1^c g_{ab} + v_1^b g"
+  - equation_id: eq.D-126
+    printed: "D-126"
+    local_id: "D-70"
+    appendix: "D"
+    tex_lines: [1290, 1295]
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = & \\quad f_1' \\left[ -\\frac{1}{2} (\\partial_a g_{bc}) + \\frac{1}{\\epsilon_{12}} (g_{ab} v_1^c + g_{ac} "
+  - equation_id: eq.D-127
+    printed: "D-127"
+    local_id: "D-71"
+    appendix: "D"
+    tex_lines: [1297, 1305]
+    tex_labels: ["Two-band Geometric"]
+    preview: "\\begin{align} \\label{Two-band Geometric} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = \\sum_{n=1,2} 2 f_{0,n}'\\left[ -\\frac{1}{2} (\\partial_a g_{bc}) + \\frac{1}{\\"
+  - equation_id: eq.E-128
+    printed: "E-128"
+    local_id: "E-1"
+    appendix: "E"
+    tex_lines: [1334, 1336]
+    preview: " \\begin{equation} v^{ab}_{nn} = \\partial_a \\partial_b \\epsilon_n - {\\textstyle \\sum_{m}'}\\frac{v^a_{nm}v^b_{mn} + v^b_{nm}v^a_{mn}}{\\epsilon_{nm}}. \\end{equatio"
+  - equation_id: eq.E-129
+    printed: "E-129"
+    local_id: "E-2"
+    appendix: "E"
+    tex_lines: [1339, 1343]
+    preview: " \\begin{equation} v^{ab}_{nm} = -iR^{ab}_{nm}v^b_{nm} + \\frac{v^b_{nm}\\Delta^a_{nm}}{\\epsilon_{nm}} + \\frac{v^a_{nm}\\Delta^b_{nm}}{\\epsilon_{nm}} - {\\textstyle "
+  - equation_id: eq.E-130
+    printed: "E-130"
+    local_id: "E-3"
+    appendix: "E"
+    tex_lines: [1352, 1359]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-2)}_{abc} & =-\\frac{1}{8} {\\textstyle \\sum_{n}}f^{(1)}_n \\Big[ v^{ac}_{nn}v^b_{n} + v^{ab}_{nn}v^c_{n} + {\\textstyle "
+  - equation_id: eq.E-131
+    printed: "E-131"
+    local_id: "E-4"
+    appendix: "E"
+    tex_lines: [1364, 1372]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-2)}_{abc} &= -\\frac{1}{8} {\\textstyle \\sum_{n}}f^{(1)}_n \\Big(\\partial_a\\partial_c\\epsilon_n v^b_{n} + \\partial_a\\par"
+  - equation_id: eq.E-132
+    printed: "E-132"
+    local_id: "E-5"
+    appendix: "E"
+    tex_lines: [1377, 1383]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-1)}_{abc} &= -\\frac{i}{4} {\\textstyle \\sum_{nm}'} f^{(1)}_n \\Big(v^c_{n}\\frac{v^{a}_{mn}v^b_{nm} - v^{b}_{mn}v^a_{nm}"
+  - equation_id: eq.E-133
+    printed: "E-133"
+    local_id: "E-6"
+    appendix: "E"
+    tex_lines: [1385, 1390]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-1)}_{abc} &= \\frac{1}{4} {\\textstyle \\sum_{n}} f^{(1)}_n \\Big(v^c_{n}\\Omega^{ab}_n + v^b_{n}\\Omega^{ac}_n \\Big) \\end{"
+  - equation_id: eq.E-134
+    printed: "E-134"
+    local_id: "E-7"
+    appendix: "E"
+    tex_lines: [1395, 1397]
+    preview: "\\begin{equation} \\sigma^{(0)}_{abc} = T_0 + T_1 + T_2 + T_3 + T_4 , \\end{equation}"
+  - equation_id: eq.E-135
+    printed: "E-135"
+    local_id: "E-8"
+    appendix: "E"
+    tex_lines: [1402, 1408]
+    tex_labels: ["s-rec-T4"]
+    preview: "\\begin{equation} \\begin{aligned} T_4 &= \\frac{1}{4!} {\\textstyle \\sum_{n}} v^a_{n}v^{b}_{n}v^c_{n} f^{(4)}_n \\label{s-rec-T4} \\end{aligned} \\end{equation}"
+  - equation_id: eq.E-136
+    printed: "E-136"
+    local_id: "E-9"
+    appendix: "E"
+    tex_lines: [1412, 1417]
+    preview: "\\begin{equation} \\begin{aligned} T_3 &= {\\textstyle \\sum_{n}} \\frac{f^{(3)}_n}{2\\times 4!} \\Big[v^{ac}_{nn}v^b_{n} + v^{ab}_{nn}v^c_{n} + {\\textstyle \\sum_{m}'}"
+  - equation_id: eq.E-137
+    printed: "E-137"
+    local_id: "E-10"
+    appendix: "E"
+    tex_lines: [1419, 1424]
+    preview: "\\begin{equation} \\begin{aligned} T_3 = {\\textstyle \\sum_{n}} \\frac{1}{2\\times 4!} \\Big(\\partial_a \\partial_c \\epsilon_n v^b_{n} + \\partial_a \\partial_b \\epsilon"
+  - equation_id: eq.E-138
+    printed: "E-138"
+    local_id: "E-11"
+    appendix: "E"
+    tex_lines: [1428, 1433]
+    preview: "\\begin{equation} \\begin{aligned} T_2 &= \\frac{1}{4} {\\textstyle \\sum_{nm}'} f^{(2)}_n v^a_{n} \\frac{v^b_{nm}v^c_{mn}+v^c_{nm}v^b_{mn}}{\\epsilon^2_{nm}} \\\\ \\end{"
+  - equation_id: eq.E-139
+    printed: "E-139"
+    local_id: "E-12"
+    appendix: "E"
+    tex_lines: [1435, 1437]
+    preview: "\\begin{equation} T_2 = \\frac{1}{2}{\\textstyle \\sum_{n}}f^{(2)}_n v^a_n g^{bc}_n \\end{equation}"
+  - equation_id: eq.E-140
+    printed: "E-140"
+    local_id: "E-13"
+    appendix: "E"
+    tex_lines: [1441, 1446]
+    preview: "\\begin{equation} \\begin{aligned} T_1 &= {\\textstyle \\sum_{nm}'}\\frac{1}{2} f^{(1)}_n \\Big[v^b_{n} \\frac{v^a_{nm}v^c_{mn} + v^c_{nm}v^a_{mn}}{\\epsilon_{nm}^3} + "
+  - equation_id: eq.E-141
+    printed: "E-141"
+    local_id: "E-14"
+    appendix: "E"
+    tex_lines: [1448, 1452]
+    tex_labels: ["multiband-T1"]
+    preview: "\\begin{equation} T_1 = {\\textstyle \\sum_{n}} f^{(1)}_n \\Big[v^b_{n} \\mathcal{G}^{ac}_{n} + v^c_{n} \\mathcal{G}^{ab}_{n} - v^a_{n} \\mathcal{G}^{bc}_{n} \\Big] \\la"
+  - equation_id: eq.E-142
+    printed: "E-142"
+    local_id: "E-15"
+    appendix: "E"
+    tex_lines: [1457, 1468]
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'}\\frac{1}{2}f_n\\Big[3\\Delta^a_{mn}\\frac{v^{b}_{nm}v^{c}_{mn} + v^{c}_{nm}v^{b}_{mn}}{\\epsilon_{nm}"
+  - equation_id: eq.E-143
+    printed: "E-143"
+    local_id: "E-16"
+    appendix: "E"
+    tex_lines: [1470, 1483]
+    preview: "\\begin{equation} \\begin{aligned} \\mathcal{M} &= {\\textstyle \\sum_{nml}'} \\frac{1}{2}f_n \\Big[\\Big( \\frac{v^a_{ln}v^b_{nm}v^c_{ml}}{\\epsilon_{ln}\\epsilon^3_{mn}}"
+  - equation_id: eq.E-144
+    printed: "E-144"
+    local_id: "E-17"
+    appendix: "E"
+    tex_lines: [1486, 1493]
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'} \\frac{1}{2}f_n\\Big[3\\Delta^a_{mn}\\frac{v^{b}_{nm}v^{c}_{mn} + v^{c}_{nm}v^{b}_{mn}}{\\epsilon_{nm"
+  - equation_id: eq.E-145
+    printed: "E-145"
+    local_id: "E-18"
+    appendix: "E"
+    tex_lines: [1495, 1500]
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'}\\frac{1}{2}f_n\\Big[ \\frac{\\partial_a (A^{c}_{nm}A^{b}_{mn} + A^{b}_{nm}A^{c}_{mn})}{\\epsilon_{nm}"
+  - equation_id: eq.E-146
+    printed: "E-146"
+    local_id: "E-19"
+    appendix: "E"
+    tex_lines: [1503, 1509]
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'} \\frac{1}{2}f_n\\Big[ \\frac{\\partial_a (A^{c}_{nm}A^{b}_{mn} + A^{b}_{nm}A^{c}_{mn})}{\\epsilon_{nm"
+  - equation_id: eq.E-147
+    printed: "E-147"
+    local_id: "E-20"
+    appendix: "E"
+    tex_lines: [1516, 1518]
+    preview: "\\begin{equation} T_3 \\xrightarrow{\\text{IBP}} -{\\textstyle \\sum_{n}} \\frac{1}{2\\times 4!} (v^a_{n} v^c_{n} v^b_{n})f^{(4)}_n = -\\frac{1}{2}T_4 \\end{equation}"
+  - equation_id: eq.E-148
+    printed: "E-148"
+    local_id: "E-21"
+    appendix: "E"
+    tex_lines: [1521, 1525]
+    preview: "\\begin{equation} \\sigma^{\\text{kin}}_{abc} = \\frac{1}{2}T_4 = {\\textstyle \\sum_{n}}\\frac{1}{48} v^{a}_{n}v^{b}_{n}v^c_{n}f^{(4)}_{n}, \\quad f_n^{(4)} = 2 f_{0,n"
+  - equation_id: eq.E-149
+    printed: "E-149"
+    local_id: "E-22"
+    appendix: "E"
+    tex_lines: [1530, 1532]
+    preview: "\\begin{equation} T_0 \\xrightarrow{\\text{IBP}} - {\\textstyle \\sum_{n}} f^{(1)}_n v_n^a \\mathcal{G}^{bc}_{n} \\end{equation}"
+  - equation_id: eq.E-150
+    printed: "E-150"
+    local_id: "E-23"
+    appendix: "E"
+    tex_lines: [1535, 1537]
+    preview: "\\begin{equation} T_2 \\xrightarrow{\\text{IBP}}-\\frac{1}{2} {\\textstyle \\sum_{n}}f^{(1)}_n \\partial_{a}g^{bc}_n \\end{equation}"
+  - equation_id: eq.E-151
+    printed: "E-151"
+    local_id: "E-24"
+    appendix: "E"
+    tex_lines: [1540, 1547]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{geo}}_{abc} &= -\\frac{1}{2} {\\textstyle \\sum_{n}}f^{(1)}_n \\partial_{a}g^{bc}_n + {\\textstyle \\sum_{n}} f^{(1)}_n"
+  - equation_id: eq.F-152
+    printed: "F-152"
+    local_id: "F-1"
+    appendix: "F"
+    tex_lines: [1563, 1565]
+    preview: "\\begin{equation} \\sigma_{abc}^{\\text{SHG}} = \\frac{1}{\\Gamma^2}\\sigma_{abc}^{\\text{SHG}(-2)} + \\frac{1}{\\Gamma}\\sigma_{abc}^{\\text{SHG}(-1)} + \\sigma_{abc}^{\\te"
+  - equation_id: eq.F-153
+    printed: "F-153"
+    local_id: "F-2"
+    appendix: "F"
+    tex_lines: [1570, 1575]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-2)}_{abc} &= {\\textstyle \\sum_{n}}\\frac{1}{2}f^{(2)}_n v^a_n v^b_n v^c_n + \\frac{1}{8} {\\textstyle \\sum_{n}"
+  - equation_id: eq.F-154
+    printed: "F-154"
+    local_id: "F-3"
+    appendix: "F"
+    tex_lines: [1578, 1584]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-2)}_{abc} &= {\\textstyle \\sum_{n}}\\Big[\\frac{1}{2}f^{(2)}_n v^a_n v^b_n v^c_n + \\frac{1}{8} f^{(1)}_{n} \\Bi"
+  - equation_id: eq.F-155
+    printed: "F-155"
+    local_id: "F-4"
+    appendix: "F"
+    tex_lines: [1589, 1593]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-1)}_{abc} &= -\\frac{i}{4} {\\textstyle \\sum_{nm}'} f^{(1)}_n \\Big(v^c_{n}\\frac{v^{a}_{mn}v^b_{nm} - v^{b}_{m"
+  - equation_id: eq.F-156
+    printed: "F-156"
+    local_id: "F-5"
+    appendix: "F"
+    tex_lines: [1595, 1600]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-1)}_{abc} &= \\frac{1}{4} {\\textstyle \\sum_{n}} f^{(1)}_n \\Big(v^c_{n}\\Omega^{ab}_n + v^b_{n}\\Omega^{ac}_n \\"
+  - equation_id: eq.F-157
+    printed: "F-157"
+    local_id: "F-6"
+    appendix: "F"
+    tex_lines: [1605, 1607]
+    preview: "\\begin{equation} \\sigma_{abc}^{\\text{SHG}(0)} = T^{\\text{SHG}}_0 + T^{\\text{SHG}}_1 + T^{\\text{SHG}}_2 + T^{\\text{SHG}}_3 + T^{\\text{SHG}}_4. \\end{equation}"
+  - equation_id: eq.F-158
+    printed: "F-158"
+    local_id: "F-7"
+    appendix: "F"
+    tex_lines: [1611, 1613]
+    preview: "\\begin{equation} T^{\\text{SHG}}_4 = -T_4 = -\\frac{1}{4!} {\\textstyle \\sum_{n}} v^a_{n} v^{b}_{n}v^c_{n} f^{(4)}_n \\end{equation}"
+  - equation_id: eq.F-159
+    printed: "F-159"
+    local_id: "F-8"
+    appendix: "F"
+    tex_lines: [1617, 1622]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_3 &= -\\frac{1}{2 \\times 4!} {\\textstyle \\sum_{n}} f^{(3)}_n \\Big[v^{ac}_{nn} v^b_{n} + v^{ab}_{nn}v^c_{n} + 4v^{"
+  - equation_id: eq.F-160
+    printed: "F-160"
+    local_id: "F-9"
+    appendix: "F"
+    tex_lines: [1624, 1629]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_3 &= -\\frac{1}{2 \\times 4!} {\\textstyle \\sum_{n}} f^{(3)}_n \\Big[\\partial_a\\partial_c \\epsilon_n \\partial_b \\eps"
+  - equation_id: eq.F-161
+    printed: "F-161"
+    local_id: "F-10"
+    appendix: "F"
+    tex_lines: [1633, 1637]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_2 = \\frac{1}{2}{\\textstyle \\sum_{n}} f^{(2)}_n v^{a}_ng^{bc}_n \\end{aligned} \\end{equation}"
+  - equation_id: eq.F-162
+    printed: "F-162"
+    local_id: "F-11"
+    appendix: "F"
+    tex_lines: [1641, 1645]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_1 &= - {\\textstyle \\sum_{nm}'}\\frac{1}{2} f^{(1)}_n \\Big[v^a_{n} \\frac{v^b_{nm}v^c_{mn} + v^c_{nm}v^b_{mn}}{\\eps"
+  - equation_id: eq.F-163
+    printed: "F-163"
+    local_id: "F-12"
+    appendix: "F"
+    tex_lines: [1647, 1652]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_1 &= - {\\textstyle \\sum_{n}} f^{(1)}_n \\Big[v^b_{n} \\mathcal{G}^{ac}_{n} + v^c_{n} \\mathcal{G}^{ab}_{n} + v^a_{n"
+  - equation_id: eq.F-164
+    printed: "F-164"
+    local_id: "F-13"
+    appendix: "F"
+    tex_lines: [1658, 1660]
+    preview: "\\begin{equation} T^{\\text{SHG}}_{0, 1} = \\frac{1}{2} {\\textstyle \\sum_{nm}'} f_n \\Big[\\frac{\\Delta_{nm}^a (v^b_{mn}v^c_{nm} + v^c_{mn}v^b_{nm})}{\\epsilon^4_{nm}"
+  - equation_id: eq.F-165
+    printed: "F-165"
+    local_id: "F-14"
+    appendix: "F"
+    tex_lines: [1661, 1666]
+    preview: "\\begin{equation} T^{\\text{SHG}}_{0, 2} = -\\frac{1}{2} {\\textstyle \\sum_{nm}'} f_n \\Big(\\frac{v^{ac}_{nm}v^b_{mn}}{\\epsilon_{nm}^3} + \\frac{v^{ab}_{nm}v^c_{mn}}{"
+  - equation_id: eq.F-166
+    printed: "F-166"
+    local_id: "F-15"
+    appendix: "F"
+    tex_lines: [1667, 1676]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 3} &= -\\frac{1}{2} {\\textstyle \\sum_{nml}'} f_n \\Big( \\frac{v^{a}_{nl}v^b_{mn}v^c_{lm}}{\\epsilon_{nl}\\epsilo"
+  - equation_id: eq.F-167
+    printed: "F-167"
+    local_id: "F-16"
+    appendix: "F"
+    tex_lines: [1677, 1686]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 4} &= - {\\textstyle \\sum_{nml}'} f_n \\Big( \\frac{v^{a}_{nl}v^b_{mn}v^c_{lm}}{\\epsilon^2_{nl}\\epsilon^2_{nm}}"
+  - equation_id: eq.F-168
+    printed: "F-168"
+    local_id: "F-17"
+    appendix: "F"
+    tex_lines: [1687, 1696]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 5} &= -2 {\\textstyle \\sum_{nml}'} f_n \\Big( \\frac{v^{a}_{nl}v^b_{mn}v^c_{lm}}{\\epsilon^3_{nl}\\epsilon_{nm}} "
+  - equation_id: eq.F-169
+    printed: "F-169"
+    local_id: "F-18"
+    appendix: "F"
+    tex_lines: [1700, 1720]
+    preview: "\\begin{equation} \\begin{aligned} &T^{\\text{SHG}}_{0, 2} =- \\frac{1}{2} {\\textstyle \\sum_{nm}'} \\frac{f_n}{\\epsilon^3_{nm}}\\Big[\\partial_a(\\ln A^{c}_{nm}) v^c_{n"
+  - equation_id: eq.F-170
+    printed: "F-170"
+    local_id: "F-19"
+    appendix: "F"
+    tex_lines: [1722, 1729]
+    preview: "\\begin{equation} \\begin{aligned} &-i(A^c_{mm} - A^c_{nn})v^b_{mn} v^{a}_{nm} -i (A^b_{nn} - A^b_{mm})v^c_{nm} v^{a}_{mn} \\\\ &= -\\partial_a(\\ln A^{c}_{nm}) v^c_{"
+  - equation_id: eq.F-171
+    printed: "F-171"
+    local_id: "F-20"
+    appendix: "F"
+    tex_lines: [1733, 1757]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 2+3} &= T^{\\text{SHG}}_{0, 2} + T^{\\text{SHG}}_{0, 3} \\\\ &=- \\frac{1}{2} {\\textstyle \\sum_{nm}'} \\frac{f_n}{"
+  - equation_id: eq.F-172
+    printed: "F-172"
+    local_id: "F-21"
+    appendix: "F"
+    tex_lines: [1760, 1784]
+    preview: "\\begin{equation} \\begin{aligned} &\\mathcal{M} = T^{\\text{SHG; multiband} }_{0, 2+3} + T^{\\text{SHG}}_{0, 4} + T^{\\text{SHG}}_{0, 5} \\\\ &= - \\frac{1}{2} {\\textst"
+  - equation_id: eq.F-173
+    printed: "F-173"
+    local_id: "F-22"
+    appendix: "F"
+    tex_lines: [1786, 1794]
+    preview: "\\begin{equation} \\begin{aligned} \\mathcal{M} & = \\frac{1}{2} {\\textstyle \\sum_{nml}'} f_n\\Big[ (2v^a_{lm}v^b_{mn}v^c_{nl} + 2v^a_{lm}v^c_{mn}v^b_{nl}) \\Big(\\fra"
+  - equation_id: eq.F-174
+    printed: "F-174"
+    local_id: "F-23"
+    appendix: "F"
+    tex_lines: [1797, 1807]
+    preview: "\\begin{equation} \\begin{aligned} &T^{\\text{SHG}}_{0} = T^{\\text{SHG}}_{0, 1} + T^{\\text{SHG; two-band}}_{0, 2+3} \\\\ &=- \\frac{1}{2} {\\textstyle \\sum_{nm}'} \\fra"
+  - equation_id: eq.F-175
+    printed: "F-175"
+    local_id: "F-24"
+    appendix: "F"
+    tex_lines: [1809, 1815]
+    preview: "\\begin{equation} \\begin{aligned} &T^{\\text{SHG}}_{0} = \\frac{1}{2} {\\textstyle \\sum_{nm}'} f_n \\Big[\\frac{\\partial_{a}(A^{c}_{nm}A^{b}_{mn} + A^{b}_{nm}A^{c}_{m"
+  - equation_id: eq.F-176
+    printed: "F-176"
+    local_id: "F-25"
+    appendix: "F"
+    tex_lines: [1817, 1822]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0} &= -{\\textstyle \\sum_{n}} f_n (2\\partial_c\\mathcal{G}^{ab}_n + 2\\partial_b\\mathcal{G}^{ac}_n - \\partial_a\\ma"
+  - equation_id: eq.F-177
+    printed: "F-177"
+    local_id: "F-26"
+    appendix: "F"
+    tex_lines: [1830, 1836]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_3 &= -\\frac{1}{2 \\times 4!} {\\textstyle \\sum_{n}} f^{(3)}_n \\Big[\\partial_a\\partial_c \\epsilon_n \\partial_b \\eps"
+  - equation_id: eq.F-178
+    printed: "F-178"
+    local_id: "F-27"
+    appendix: "F"
+    tex_lines: [1838, 1845]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}; \\text{kin}}_{abc} &= -\\frac{1}{4!} {\\textstyle \\sum_{n}} v^a_{n} v^{b}_{n}v^c_{n} f^{(4)}_n + \\frac{3}{2 \\t"
+  - equation_id: eq.F-179
+    printed: "F-179"
+    local_id: "F-28"
+    appendix: "F"
+    tex_lines: [1850, 1855]
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0} \\xrightarrow{\\text{IBP}}& {\\textstyle \\sum_{n}} f^{(1)}_n (2v^c_n\\mathcal{G}^{ab}_n + 2v^b_n\\mathcal{G}^{ac}"
+  - equation_id: eq.F-180
+    printed: "F-180"
+    local_id: "F-29"
+    appendix: "F"
+    tex_lines: [1857, 1860]
+    preview: "\\begin{equation} T^{\\text{SHG}}_{2} \\xrightarrow{\\text{IBP}} -\\frac{1}{2}{\\textstyle \\sum_{n}} f^{(1)}_n \\partial_{a}g^{bc}_n \\end{equation}"
+  - equation_id: eq.F-181
+    printed: "F-181"
+    local_id: "F-30"
+    appendix: "F"
+    tex_lines: [1862, 1869]
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}; \\text{geo}}_{abc} &= -\\frac{1}{2}{\\textstyle \\sum_{n}} f^{(1)}_n \\partial_{a}g^{bc}_n -{\\textstyle \\sum_{n}"
+  - equation_id: eq.G-182
+    printed: "G-182"
+    local_id: "G-1"
+    appendix: "G"
+    tex_lines: [1884, 1886]
+    preview: "\\begin{equation} \\rho_S(t) = \\sum_{n, j} f_0(\\varepsilon_{j}) \\ket{\\psi^{j}_n (t)}\\bra{\\psi^{j}_n (t)} \\end{equation}"
+  - equation_id: eq.G-183
+    printed: "G-183"
+    local_id: "G-2"
+    appendix: "G"
+    tex_lines: [1888, 1890]
+    preview: "\\begin{equation} i\\partial_t \\ket{\\psi^{j}_n (t)} = [H_S(t) - i\\Gamma]\\ket{\\psi^{j}_n (t)} + \\lambda \\exp [-i\\varepsilon_j (t-t_0)] \\ket{\\chi_n} . \\end{equation"
+  - equation_id: eq.G-184
+    printed: "G-184"
+    local_id: "G-3"
+    appendix: "G"
+    tex_lines: [1894, 1902]
+    preview: "\\begin{equation} \\begin{aligned} i\\partial_t \\rho_S(t) &= i\\sum_{n, j} f_0(\\varepsilon_{j})\\Big[\\Big(\\partial_t \\ket{\\psi^{j}_n (t)}\\Big)\\bra{\\psi^{j}_n (t)} + "
+  - equation_id: eq.G-185
+    printed: "G-185"
+    local_id: "G-4"
+    appendix: "G"
+    tex_lines: [1907, 1909]
+    preview: "\\begin{equation} \\ket{\\psi^{j}_n (t)} = - \\frac{\\lambda}{\\epsilon_n - i\\Gamma - \\varepsilon_j} e^{-i\\varepsilon_j (t-t_0)} \\ket{\\chi_n} \\end{equation}"
+  - equation_id: eq.G-186
+    printed: "G-186"
+    local_id: "G-5"
+    appendix: "G"
+    tex_lines: [1910, 1915]
+    preview: "\\begin{equation} \\begin{aligned} {\\cal S}[\\psi^{j}_n (t)] & = \\sum_{n, j} f_0(\\varepsilon_j) \\frac{2i\\lambda^2 \\Gamma}{(\\epsilon_n - \\varepsilon_j)^2 + \\Gamma^2"
+  - equation_id: eq.G-187
+    printed: "G-187"
+    local_id: "G-6"
+    appendix: "G"
+    tex_lines: [1919, 1924]
+    preview: "\\begin{equation} \\begin{aligned} {\\cal S}[\\psi^{j}_n (t)] & = 2i\\Gamma \\sum_{n} \\int^{\\infty}_{-\\infty} \\frac{d\\omega_b}{\\pi} f_0(\\omega_b) \\frac{\\Gamma}{(\\epsi"
+  - equation_id: eq.G-188
+    printed: "G-188"
+    local_id: "G-7"
+    appendix: "G"
+    tex_lines: [1926, 1928]
+    preview: "\\begin{align} \\int \\frac{d \\omega_b}{\\pi} f_0\\left(\\omega_b\\right) \\frac{\\Gamma}{\\left(\\epsilon_n-\\omega_b\\right)^2+\\Gamma^2}=\\frac{1}{2 \\pi} \\int d k \\tilde{f}"
+  - equation_id: eq.G-189
+    printed: "G-189"
+    local_id: "G-8"
+    appendix: "G"
+    tex_lines: [1931, 1935]
+    preview: "\\begin{equation} \\begin{aligned} \\partial_t \\rho_S(t) &= -i[H_S(t), \\rho_S(t)] - \\frac{\\rho_S(t) - \\rho_0}{\\tau} \\\\ \\end{aligned} \\end{equation}"

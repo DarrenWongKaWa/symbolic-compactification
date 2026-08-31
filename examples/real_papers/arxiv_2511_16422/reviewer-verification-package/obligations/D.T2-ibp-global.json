@@ -1,0 +1,31 @@
+{
+  "artifact_relpath": null,
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "integration by parts converts T2 ~ g ∂_a(f') into a - (∂_a g) f' Fermi-surface term",
+  "declared_assumptions": [],
+  "edge_id": "D.T2-ibp-global",
+  "edge_type": "INTEGRAL_ARGUMENT",
+  "engine_version": "0.3.0",
+  "executable": false,
+  "lhs_hash": null,
+  "obligation_hash": "d9562ad03e59778b10e49e645e401bd20c85ec4f3263217d08851fb69963e5dc",
+  "remainder_certificate_hash": null,
+  "residual_hash": null,
+  "residual_text": null,
+  "result": "NOT_LOWERED",
+  "rhs_hash": null,
+  "runtime_seconds": 0.0,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-123",
+    "eq.D-124"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "NOT_LOWERED",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": [
+    "INTEGRAL_ARGUMENT_NOT_LOCAL_RESIDUAL"
+  ]
+}

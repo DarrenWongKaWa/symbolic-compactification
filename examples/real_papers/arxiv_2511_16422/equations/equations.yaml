@@ -1,0 +1,242 @@
+schema_version: DerivationAuditV1
+equations:
+  - equation_id: eq.B-23
+    label: eq:B-23
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "B-23"
+    local_id: "B-3"
+    body: "j_a^{(2)}(t) = \\mathrm{Tr}[\\rho^{(0)} J_a^{(2)}(t)] + \\mathrm{Tr}[\\rho^{(1)}(t) J_a^{(1)}(t)] + \\mathrm{Tr}[\\rho^{(2)}(t) J_a^{(0)}]"
+  - equation_id: eq.B-24
+    label: eq:B-24
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "B-24"
+    local_id: "B-4"
+    body: "j_a^{(2)}(t) = \\mathrm{Tr}[\\rho^{(0)} J_a^{(2)}(t)]_{(I)} + \\mathrm{Tr}[\\rho^{(1)}[V^{(1)}] J_a^{(1)}(t)]_{(II)} + \\mathrm{Tr}[\\rho^{(1)}[V^{(2)}] J_a^{(0)}]_{(III)} + \\mathrm{Tr}[\\rho^{(2)}[V^{(1)},V"
+  - equation_id: eq.B-25
+    label: eq:B-25
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "B-25"
+    local_id: "B-5"
+    body: "\\sigma_{abc}(\\omega_1,\\omega_2)=\\frac{i}{\\omega_1}\\frac{i}{\\omega_2} \\sum_{m,l,n}\\Big[ V_{ml}^{(b)}V_{ln}^{(c)}\\tilde\\rho_{mln}^{(2)} J_{nm}^{(a)} + V_{mn}^{(bc)}\\tilde\\rho_{mn}^{(1)} J_{nm}^{(a)} + V"
+  - equation_id: eq.D-57
+    label: eq:D-57
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-57"
+    local_id: "D-1"
+    body: "\\sigma_{abc}=\\Gamma^{-2}\\sigma_{abc}^{(-2)}+\\Gamma^{-1}\\sigma_{abc}^{(-1)}+\\sigma_{abc}^{(0)}+\\mathcal{O}(\\Gamma)"
+  - equation_id: eq.D-key-identities
+    label: eq:D-key-identities
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-key-identities"
+    local_id: null
+    body: "v_{12}^{a}v_{21}^{b}+v_{12}^{b}v_{21}^{a}=2\\epsilon_{12}^{2} g_{ab}"
+  - equation_id: eq.D-59
+    label: eq:D-59
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-59"
+    local_id: "D-3"
+    body: "K_{1A}=v_{21}^{a}(v_{12}^{b}v_{1}^{c}+v_{1}^{b}v_{12}^{c})+v_{12}^{a}(v_{21}^{b}v_{1}^{c}+v_{1}^{b}v_{21}^{c})"
+  - equation_id: eq.D-60
+    label: eq:D-60
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-60"
+    local_id: "D-4"
+    body: "K_{1A}=v_{1}^{c}(v_{21}^{a}v_{12}^{b}+v_{12}^{a}v_{21}^{b})+v_{1}^{b}(v_{21}^{a}v_{12}^{c}+v_{12}^{a}v_{21}^{c})=2\\epsilon_{12}^{2}(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac})"
+  - equation_id: eq.D-61
+    label: eq:D-61
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-61"
+    local_id: "D-5"
+    body: "T_{A}^{(-2)}=\\frac{2\\epsilon_{12}^{2}}{8\\epsilon_{12}}[\\cdots]=\\frac{\\epsilon_{12}}{4}[(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})f_{2}'-(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b})f_{1}']"
+  - equation_id: eq.D-66
+    label: eq:D-66
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-66"
+    local_id: "D-10"
+    body: "T_{B,\\mathrm{geo}}^{(-2)}=\\frac{1}{4}[\\epsilon_{12}(g_{ac}v_{1}^{b}+g_{ab}v_{1}^{c})f_{1}'+\\epsilon_{21}(g_{ac}v_{2}^{b}+g_{ab}v_{2}^{c})f_{2}']"
+  - equation_id: eq.D-67
+    label: eq:D-67
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-67"
+    local_id: "D-11"
+    body: "T_{B,\\mathrm{geo}}^{(-2)}=\\frac{\\epsilon_{12}}{4}[(g_{ac}v_{1}^{b}+g_{ab}v_{1}^{c})f_{1}'-(g_{ac}v_{2}^{b}+g_{ab}v_{2}^{c})f_{2}']"
+  - equation_id: eq.D-68
+    label: eq:D-68
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-68"
+    local_id: "D-12"
+    body: "T_{A}^{(-2)}+T_{B,\\mathrm{geo}}^{(-2)}=0"
+  - equation_id: eq.D-70
+    label: eq:D-70
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-70"
+    local_id: "D-14"
+    body: "\\sigma_{abc}^{(-1)}=-\\frac{i}{4\\epsilon_{12}^{2}}[C_{1}f_{1}'+C_{2}f_{2}']"
+  - equation_id: eq.D-71
+    label: eq:D-71
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-71"
+    local_id: "D-15"
+    body: "C_{1}=v_{21}^{a}(v_{12}^{b}v_{1}^{c}+v_{1}^{b}v_{12}^{c})-v_{12}^{a}(v_{21}^{b}v_{1}^{c}+v_{1}^{b}v_{21}^{c})"
+  - equation_id: eq.D-72
+    label: eq:D-72
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-72"
+    local_id: "D-16"
+    body: "C_{1}=v_{1}^{c}(v_{21}^{a}v_{12}^{b}-v_{12}^{a}v_{21}^{b})+v_{1}^{b}(v_{21}^{a}v_{12}^{c}-v_{12}^{a}v_{21}^{c})"
+  - equation_id: eq.D-73
+    label: eq:D-73
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-73"
+    local_id: "D-17"
+    body: "V_{ab}=(-i\\epsilon_{12}A_{21}^{a})(-i\\epsilon_{21}A_{12}^{b})-(-i\\epsilon_{21}A_{12}^{a})(-i\\epsilon_{12}A_{21}^{b})"
+  - equation_id: eq.D-74
+    label: eq:D-74
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-74"
+    local_id: "D-18"
+    body: "A_{21}^{a}A_{12}^{b}-A_{12}^{a}A_{21}^{b}=-(A_{12}^{a}A_{21}^{b}-A_{12}^{b}A_{21}^{a})=i\\Omega_{ab}^{1}"
+  - equation_id: eq.D-75
+    label: eq:D-75
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-75"
+    local_id: "D-19"
+    body: "V_{ab}=i\\epsilon_{12}^{2}\\Omega_{ab}^{1}"
+  - equation_id: eq.D-77
+    label: eq:D-77
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-77"
+    local_id: "D-21"
+    body: "\\sigma_{abc}^{(-1)}=-\\frac{i}{4\\epsilon_{12}^{2}}(i\\epsilon_{12}^{2})[\\cdots]=\\frac{1}{4}[(v_{1}^{c}\\Omega_{ab}^{1}+v_{1}^{b}\\Omega_{ac}^{1})f_{1}'-(v_{2}^{c}\\Omega_{ab}^{1}+v_{2}^{b}\\Omega_{ac}^{1})f"
+  - equation_id: eq.D-78
+    label: eq:D-78
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-78"
+    local_id: "D-22"
+    body: "\\sigma_{abc}^{(-1)}=\\frac{1}{4}\\sum_{n=1,2}(v_{n}^{c}\\Omega_{ab}^{n}+v_{n}^{b}\\Omega_{ac}^{n})f_{n}'"
+  - equation_id: eq.D-114
+    label: eq:D-114
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-114"
+    local_id: "D-58"
+    body: "T_{0}=(f_{1}-f_{2})\\partial_{a}(g_{bc}/\\epsilon_{12})"
+  - equation_id: eq.D-119
+    label: eq:D-119
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-119"
+    local_id: "D-63"
+    body: "T_{0}\\xrightarrow{\\mathrm{IBP}}-[\\partial_{a}(f_{1}-f_{2})](g_{bc}/\\epsilon_{12})=-(f_{1}'v_{1}^{a}-f_{2}'v_{2}^{a})(g_{bc}/\\epsilon_{12})"
+  - equation_id: eq.D-120
+    label: eq:D-120
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-120"
+    local_id: "D-64"
+    body: "T_{0}+T_{1}=\\frac{1}{\\epsilon_{12}}[g_{bc}(v_{2}^{a}f_{2}'-v_{1}^{a}f_{1}')+(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac}-v_{1}^{a}g_{bc})f_{1}'-(v_{2}^{c}g_{ab}+v_{2}^{b}g_{ac}-v_{2}^{a}g_{bc})f_{2}']"
+  - equation_id: eq.D-121
+    label: eq:D-121
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-121"
+    local_id: "D-65"
+    body: "T_{0}+T_{1}=\\frac{1}{\\epsilon_{12}}[f_{1}'(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac}-2v_{1}^{a}g_{bc})-f_{2}'(v_{2}^{c}g_{ab}+v_{2}^{b}g_{ac}-2v_{2}^{a}g_{bc})]"
+  - equation_id: eq.D-122
+    label: eq:D-122
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-122"
+    local_id: "D-66"
+    body: "\\sigma_{abc}^{\\mathrm{geo}}=\\frac{1}{2}g_{bc}\\sum_{n}v_{n}^{a}f_{n}''+(T_{0}+T_{1})"
+  - equation_id: eq.D-123
+    label: eq:D-123
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-123"
+    local_id: "D-67"
+    body: "T_{2}=\\sum_{n}(\\frac{1}{2}g_{bc})\\partial_{a}(f_{n}')"
+  - equation_id: eq.D-124
+    label: eq:D-124
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-124"
+    local_id: "D-68"
+    body: "T_{2}\\xrightarrow{\\mathrm{IBP}}-\\sum_{n}[\\partial_{a}(\\frac{1}{2}g_{bc})]f_{n}'=-\\frac{1}{2}(\\partial_{a}g_{bc})(f_{1}'+f_{2}')"
+  - equation_id: eq.D-125
+    label: eq:D-125
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-125"
+    local_id: "D-69"
+    body: "\\sigma_{abc}^{\\mathrm{geo}}=f_{1}'[-\\frac{1}{2}(\\partial_{a}g_{bc})+\\frac{1}{\\epsilon_{12}}(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac}-2v_{1}^{a}g_{bc})]+f_{2}'[-\\frac{1}{2}(\\partial_{a}g_{bc})-\\frac{1}{\\epsilon"
+  - equation_id: eq.D-126
+    label: eq:D-126
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-126"
+    local_id: "D-70"
+    body: "\\sigma_{abc}^{\\mathrm{geo}}=f_{1}'[-\\frac{1}{2}(\\partial_{a}g_{bc})+\\frac{1}{\\epsilon_{12}}(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b}-2g_{bc}v_{1}^{a})]+f_{2}'[-\\frac{1}{2}(\\partial_{a}g_{bc})+\\frac{1}{\\epsilon"
+  - equation_id: eq.D-127
+    label: eq:D-127
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "D-127"
+    local_id: "D-71"
+    body: "\\sigma_{abc}^{\\mathrm{geo}}=\\sum_{n=1,2}2f_{0,n}'[-\\frac{1}{2}(\\partial_{a}g_{bc})+\\frac{1}{\\epsilon_{n\\bar n}}(g_{ab}v_{n}^{c}+g_{ac}v_{n}^{b}-2g_{bc}v_{n}^{a})]"
+  - equation_id: eq.E-128
+    label: eq:E-128
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    printed: "E-128"
+    local_id: "E-1"
+    body: "v_{nn}^{ab}=\\partial_{a}\\partial_{b}\\epsilon_{n}-\\sum_{m}'(v_{nm}^{a}v_{mn}^{b}+v_{nm}^{b}v_{mn}^{a})/\\epsilon_{nm}"

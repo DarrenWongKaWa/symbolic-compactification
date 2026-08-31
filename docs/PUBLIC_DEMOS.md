@@ -65,3 +65,7 @@ and not required to interpret A/B/C.
 
 Mode A v0.1 demos remain at
 [engineering/release_v0_1/DEMOS.md](../engineering/release_v0_1/DEMOS.md).
+
+A separate **public real-paper field validation** (not a synthetic demo) lives
+at [`examples/real_papers/arxiv_2511_16422/`](../examples/real_papers/arxiv_2511_16422/).
+It uses the same audit CLI. It does not replace A/B/C.

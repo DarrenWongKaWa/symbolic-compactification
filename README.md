@@ -3,11 +3,11 @@
 **Typed derivation audit with fail-closed exact verification.**
 
 **Derivation Audit Alpha** (`0.2.0-alpha`) on
-`engineering/derivation-audit-v0.2`, tag `derivation-audit-v0.2.0-alpha`.
+`engineering/derivation-audit-v0.2`, tag `derivation-audit-v0.2.0-alpha`
+(this is also the current `main` tip).
 This is an additive engineering layer on the still-supported v0.1 **Mode A:
 verify my hypothesis** preview (`0.1.0-alpha`, tag
-`research-preview-v0.1.0-alpha`). It is **not** a stable v1.0 release and is
-**not** merged to `main`.
+`research-preview-v0.1.0-alpha`). It is **not** a stable v1.0 release.
 
 A derivation audit inventories manuscript equations, records typed
 equation-to-equation edges, lowers only supported edges to executable
@@ -50,6 +50,22 @@ symbolic-compactification audit init my-paper-audit
 Public examples: `engineering/derivation_audit_v0_2/demos/{A,B,C}/`.
 Demo C is intentional: coefficient identities can be `ZERO` while the
 enclosing asymptotic remainder stays `UNKNOWN`.
+
+### Public real-paper validation
+
+The Derivation Audit workflow has been exercised end-to-end on a published
+theoretical-physics derivation:
+
+Guo et al., "Dissipation-Shaped Quantum Geometry in Nonlinear Transport,"
+Phys. Rev. Lett. 136, 206303 (2026), arXiv:2511.16422.
+
+The audit package records which equation-level identities were certified,
+which were structural, and which remained outside exact local
+certification.
+
+See [`examples/real_papers/arxiv_2511_16422/`](examples/real_papers/arxiv_2511_16422/).
+This is a field validation of selected supplement steps, not a verification
+of the entire paper.
 
 ### 2. Mode A: verify my hypothesis (v0.1, still supported)
 
@@ -101,7 +117,7 @@ python3.12 -m venv .venv
 ```
 
 The shorter `ssc` entry point is equivalent. Core verification requires no
-model service and no API key. This tag is **not** on `main`.
+model service and no API key. `main` currently tracks this v0.2 alpha tag.
 
 ## Canonical researcher workflow (derivation audit)
 

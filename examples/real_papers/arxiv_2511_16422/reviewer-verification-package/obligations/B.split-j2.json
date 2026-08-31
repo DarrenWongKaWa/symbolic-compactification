@@ -1,0 +1,29 @@
+{
+  "artifact_relpath": null,
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "second-order current j_a^{(2)} is decomposed into four O(A^2) channels (I)-(IV)",
+  "declared_assumptions": [],
+  "edge_id": "B.split-j2",
+  "edge_type": "SPLIT_PARENT",
+  "engine_version": "0.3.0",
+  "executable": false,
+  "lhs_hash": null,
+  "obligation_hash": "4fc37dc7cc230e53d931369231179bde38f442dd3b6cfed2dda78134553ba8f2",
+  "remainder_certificate_hash": null,
+  "residual_hash": null,
+  "residual_text": null,
+  "result": "SPLIT",
+  "rhs_hash": null,
+  "runtime_seconds": 0.0,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.B-23",
+    "eq.B-24"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "SPLIT",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

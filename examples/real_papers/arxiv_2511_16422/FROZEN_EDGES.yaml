@@ -1,0 +1,155 @@
+schema_version: FrozenEdgeSetV1
+paper: arXiv:2511.16422v2
+product: derivation-audit-v0.2.0-alpha
+n_edges: 25
+edges:
+  - edge_id: B.split-j2
+    printed_from: eq.B-23
+    printed_to: eq.B-24
+    edge_type: SPLIT_PARENT
+    expected_status_prediction: SPLIT
+    expected_status_is_not_authority: true
+  - edge_id: B.j2-to-sigma
+    printed_from: eq.B-24
+    printed_to: eq.B-25
+    edge_type: BOOKKEEPING
+    expected_status_prediction: RECORDED
+    expected_status_is_not_authority: true
+  - edge_id: D.mv-identity
+    printed_from: eq.D-key-identities
+    printed_to: eq.D-key-identities
+    edge_type: DEFINITION_INSERTION
+    expected_status_prediction: DEFINITION
+    expected_status_is_not_authority: true
+  - edge_id: E.diag-2nd
+    printed_from: eq.E-128
+    printed_to: eq.E-128
+    edge_type: DEFINITION_INSERTION
+    expected_status_prediction: DEFINITION
+    expected_status_is_not_authority: true
+  - edge_id: D.gamma-asymptotic
+    printed_from: eq.D-57
+    printed_to: eq.D-57
+    edge_type: ASYMPTOTIC_CLAIM
+    expected_status_prediction: UNKNOWN
+    expected_status_is_not_authority: true
+  - edge_id: D.T0-ibp-global
+    printed_from: eq.D-114
+    printed_to: eq.D-119
+    edge_type: INTEGRAL_ARGUMENT
+    expected_status_prediction: NOT_LOWERED
+    expected_status_is_not_authority: true
+  - edge_id: D.T2-ibp-global
+    printed_from: eq.D-123
+    printed_to: eq.D-124
+    edge_type: INTEGRAL_ARGUMENT
+    expected_status_prediction: NOT_LOWERED
+    expected_status_is_not_authority: true
+  - edge_id: D.K1A-regroup
+    printed_from: eq.D-59
+    printed_to: eq.D-60
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.metric-pair
+    printed_from: eq.D-key-identities
+    printed_to: eq.D-60
+    edge_type: PAIRWISE_REDUCTION
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.K1A-metric-subst
+    printed_from: eq.D-60
+    printed_to: eq.D-60
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.TA-prefactor
+    printed_from: eq.D-60
+    printed_to: eq.D-61
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.TBgeo-eps21
+    printed_from: eq.D-66
+    printed_to: eq.D-67
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.TA-TBgeo-cancel
+    printed_from: eq.D-61
+    printed_to: eq.D-68
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.C12-regroup
+    printed_from: eq.D-71
+    printed_to: eq.D-72
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.Vab-expand
+    printed_from: eq.D-73
+    printed_to: eq.D-73
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.Vab-eps21
+    printed_from: eq.D-73
+    printed_to: eq.D-73
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.A-antisym
+    printed_from: eq.D-74
+    printed_to: eq.D-74
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.A-to-Omega
+    printed_from: eq.D-74
+    printed_to: eq.D-75
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.sigma-m1-Ii
+    printed_from: eq.D-70
+    printed_to: eq.D-77
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.Omega2-relabel
+    printed_from: eq.D-77
+    printed_to: eq.D-78
+    edge_type: INDEX_RELABELING
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.T0-local-sign
+    printed_from: eq.D-119
+    printed_to: eq.D-119
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.T0T1-regroup
+    printed_from: eq.D-120
+    printed_to: eq.D-121
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.geo-T2-subst
+    printed_from: eq.D-122
+    printed_to: eq.D-125
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.eps21-symmetrize
+    printed_from: eq.D-125
+    printed_to: eq.D-126
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
+  - edge_id: D.compact-nbar
+    printed_from: eq.D-126
+    printed_to: eq.D-127
+    edge_type: INDEX_RELABELING
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true

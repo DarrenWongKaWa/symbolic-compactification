@@ -1,0 +1,1 @@
+(f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/(-e12))*(gab*v2c + gac*v2b - 2*gbc*v2a)))

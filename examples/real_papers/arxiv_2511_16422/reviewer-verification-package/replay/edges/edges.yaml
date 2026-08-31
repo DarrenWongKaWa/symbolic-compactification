@@ -1,0 +1,400 @@
+schema_version: DerivationAuditV1
+edges:
+  - edge_id: B.split-j2
+    source_from: eq.B-23
+    source_to: eq.B-24
+    edge_type: SPLIT_PARENT
+    assumptions_used: []
+    claim: "second-order current j_a^{(2)} is decomposed into four O(A^2) channels (I)-(IV)"
+    notes: "Printed Eq. (B-23)->(B-24); appendix-B local B-3->B-4. Order bookkeeping, not a scalar residual."
+  - edge_id: B.j2-to-sigma
+    source_from: eq.B-24
+    source_to: eq.B-25
+    edge_type: BOOKKEEPING
+    assumptions_used: []
+    claim: "the four current channels are translated into the frequency-space conductivity kernel"
+    notes: "Printed Eq. (B-24)->(B-25); appendix-B local B-4->B-5. Mapping uses A=E/(i omega) and NESS kernels; not a local residual."
+  - edge_id: D.mv-identity
+    source_from: eq.D-key-identities
+    source_to: eq.D-key-identities
+    edge_type: DEFINITION_INSERTION
+    lhs: expressions/mv_velocity_pair.txt
+    rhs: expressions/mv_metric_form.txt
+    assumptions_used:
+      - v12a
+      - v21b
+      - v12b
+      - v21a
+      - e12
+      - gab
+    claim: "two-band metric-velocity relation is introduced as a stated identity"
+    notes: "Public supplement Appendix D, Key Identities item 2. Not proved here from Berry connection; used as a declared substitution in later edges."
+  - edge_id: E.diag-2nd
+    source_from: eq.E-128
+    source_to: eq.E-128
+    edge_type: DEFINITION_INSERTION
+    assumptions_used: []
+    claim: "multiband diagonal second-derivative identity is introduced as a stated key identity"
+    notes: "Printed Eq. (E-128); appendix-E local E-1. Not lowered to a summation residual in this field validation."
+  - edge_id: D.gamma-asymptotic
+    source_from: eq.D-57
+    source_to: eq.D-57
+    edge_type: ASYMPTOTIC_CLAIM
+    assumptions_used: []
+    claim: "DC conductivity admits a Gamma expansion through O(Gamma^0) with remainder O(Gamma)"
+    notes: "Printed Eq. (D-57); appendix-D local D-1. Remainder is not rewritten as sigma - truncated_series = 0. No remainder certificate."
+  - edge_id: D.T0-ibp-global
+    source_from: eq.D-114
+    source_to: eq.D-119
+    edge_type: INTEGRAL_ARGUMENT
+    assumptions_used: []
+    claim: "integration by parts in k-space converts the T0 Fermi-sea form into a Fermi-surface form"
+    notes: "Printed Eq. (D-114)->(D-119). Global BZ IBP requires periodicity/boundary assumptions not encoded in the local exact verifier."
+  - edge_id: D.T2-ibp-global
+    source_from: eq.D-123
+    source_to: eq.D-124
+    edge_type: INTEGRAL_ARGUMENT
+    assumptions_used: []
+    claim: "integration by parts converts T2 ~ g \u2202_a(f') into a - (\u2202_a g) f' Fermi-surface term"
+    notes: "Printed Eq. (D-123)->(D-124). Global IBP is not a local residual. Downstream algebra uses the IBP result as a declared upstream relation."
+  - edge_id: D.K1A-regroup
+    source_from: eq.D-59
+    source_to: eq.D-60
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/K1A_expanded.txt
+    rhs: expressions/K1A_regrouped.txt
+    residual: expressions/R_K1A_regroup.txt
+    assumptions_used:
+      - v21a
+      - v12b
+      - v1c
+      - v1b
+      - v12c
+      - v12a
+      - v21b
+      - v21c
+    claim: "K_{1A} factors by regrouping commuting velocity products"
+    notes: "Printed Eq. (D-59)->(D-60) first equality. Two-band commuting scalars. Does not yet insert the metric."
+  - edge_id: D.metric-pair
+    source_from: eq.D-key-identities
+    source_to: eq.D-60
+    edge_type: PAIRWISE_REDUCTION
+    lhs: expressions/mv_pair_paper_order.txt
+    rhs: expressions/mv_pair_K1A_order.txt
+    residual: expressions/R_metric_pair.txt
+    assumptions_used:
+      - v12a
+      - v21b
+      - v12b
+      - v21a
+    claim: "the metric-velocity pair in paper index order equals the pair appearing in regrouped K_{1A}"
+    notes: "Local pair identity on commuting scalars. Does not certify the identification with g_ab."
+  - edge_id: D.K1A-metric-subst
+    source_from: eq.D-60
+    source_to: eq.D-60
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/K1A_regrouped.txt
+    rhs: expressions/K1A_metric.txt
+    residual: expressions/R_K1A_metric.txt
+    assumptions_used:
+      - v1c
+      - v21a
+      - v12b
+      - v12a
+      - v21b
+      - v1b
+      - v12c
+      - v21c
+      - e12
+      - gab
+      - gac
+    claim: "after substituting the declared metric-velocity pair for g_ab and g_ac, regrouped K_{1A} equals 2 e12^2 (v1^c g_ab + v1^b g_ac)"
+    notes: "Printed Eq. (D-60) second equality. g is expanded via the declared identity, then cancelled. Does not prove the Berry-connection origin of g."
+  - edge_id: D.TA-prefactor
+    source_from: eq.D-60
+    source_to: eq.D-61
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/TA_unreduced.txt
+    rhs: expressions/TA_reduced.txt
+    residual: expressions/R_TA_prefactor.txt
+    assumptions_used:
+      - e12
+      - v1c
+      - gab
+      - v1b
+      - gac
+      - f1p
+      - v2c
+      - v2b
+      - f2p
+    claim: "the T_A^{(-2)} prefactor 2 e12^2 / (8 e12) equals e12/4 and the two written T_A forms agree"
+    notes: "Printed Eq. (D-61). Rational prefactor cancellation plus commuting metric-velocity products."
+  - edge_id: D.TBgeo-eps21
+    source_from: eq.D-66
+    source_to: eq.D-67
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/TBgeo_e21.txt
+    rhs: expressions/TBgeo_e12.txt
+    residual: expressions/R_TBgeo_eps21.txt
+    assumptions_used:
+      - e12
+      - gac
+      - v1b
+      - gab
+      - v1c
+      - f1p
+      - e21
+      - v2b
+      - v2c
+      - f2p
+    claim: "two-band T_{B,geo}^{(-2)} with e21 rewritten by e21=-e12 matches the e12 form"
+    notes: "Printed Eq. (D-66)->(D-67). Parameter identity e21=-e12 is substituted into the residual (v0.2 cannot encode parameter identities as machine assumptions)."
+  - edge_id: D.TA-TBgeo-cancel
+    source_from: eq.D-61
+    source_to: eq.D-68
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/TA_plus_TBgeo.txt
+    rhs: expressions/zero.txt
+    residual: expressions/R_TA_TBgeo.txt
+    assumptions_used:
+      - e12
+      - gab
+      - v2c
+      - gac
+      - v2b
+      - f2p
+      - v1c
+      - v1b
+      - f1p
+    claim: "geometric pieces T_A^{(-2)} + T_{B,geo}^{(-2)} cancel"
+    notes: "Printed Eq. (D-61) and (D-67) summed to Eq. (D-68)."
+  - edge_id: D.C12-regroup
+    source_from: eq.D-71
+    source_to: eq.D-72
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/C12_expanded.txt
+    rhs: expressions/C12_regrouped.txt
+    residual: expressions/R_C12_regroup.txt
+    assumptions_used:
+      - v21a
+      - v12b
+      - v1c
+      - v1b
+      - v12c
+      - v12a
+      - v21b
+      - v21c
+      - v2b
+      - v2c
+    claim: "C1 and C2 factor by regrouping commuting velocity products"
+    notes: "Printed Eq. (D-71)->(D-72). Combined residual C1_lhs-C1_rhs + C2_lhs-C2_rhs."
+  - edge_id: D.Vab-expand
+    source_from: eq.D-73
+    source_to: eq.D-73
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/Vab_FH.txt
+    rhs: expressions/Vab_factored.txt
+    residual: expressions/R_Vab_expand.txt
+    assumptions_used:
+      - e12
+      - A21a
+      - e21
+      - A12b
+      - A12a
+      - A21b
+    claim: "the Feynman-Hellmann substituted V_ab product expands to (-1)(e12 e21) times the A bilinear"
+    notes: "Printed Eq. (D-73) first equality. v already replaced by -i epsilon A as written in the public equation."
+  - edge_id: D.Vab-eps21
+    source_from: eq.D-73
+    source_to: eq.D-73
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/Vab_factored_subst.txt
+    rhs: expressions/Vab_e12sq.txt
+    residual: expressions/R_Vab_eps21.txt
+    assumptions_used:
+      - e12
+      - A21a
+      - A12b
+      - A12a
+      - A21b
+    claim: "using e12 e21 = -e12^2 converts the factored V_ab prefactor into e12^2"
+    notes: "Printed Eq. (D-73) second equality. e21=-e12 substituted into the residual."
+  - edge_id: D.A-antisym
+    source_from: eq.D-74
+    source_to: eq.D-74
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/A_pair.txt
+    rhs: expressions/A_pair_swapped.txt
+    residual: expressions/R_A_antisym.txt
+    assumptions_used:
+      - A21a
+      - A12b
+      - A12a
+      - A21b
+    claim: "A21^a A12^b - A12^a A21^b equals -(A12^a A21^b - A12^b A21^a) for commuting scalars"
+    notes: "Printed Eq. (D-74) first equality."
+  - edge_id: D.A-to-Omega
+    source_from: eq.D-74
+    source_to: eq.D-75
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/A_pair_swapped.txt
+    rhs: expressions/i_Omega.txt
+    residual: expressions/R_A_to_Omega.txt
+    assumptions_used:
+      - A12a
+      - A21b
+      - A12b
+      - A21a
+      - Oab1
+    claim: "after inserting Omega_ab^1 = I (A12^a A21^b - A12^b A21^a), the A bilinear equals I Omega"
+    notes: "Printed Eq. (D-74) second equality into Eq. (D-75) companion. Omega definition substituted."
+  - edge_id: D.sigma-m1-Ii
+    source_from: eq.D-70
+    source_to: eq.D-77
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/sigma_m1_with_i.txt
+    rhs: expressions/sigma_m1_simplified.txt
+    residual: expressions/R_sigma_m1_Ii.txt
+    assumptions_used:
+      - e12
+      - v1c
+      - Oab1
+      - v1b
+      - Oac1
+      - f1p
+      - v2c
+      - v2b
+      - f2p
+    claim: "(-I)/(4 e12^2) * (I e12^2) cancels to 1/4 on the sigma^{(-1)} kernel"
+    notes: "Printed Eq. (D-77) internal equality. I is the imaginary unit builtin."
+  - edge_id: D.Omega2-relabel
+    source_from: eq.D-77
+    source_to: eq.D-78
+    edge_type: INDEX_RELABELING
+    lhs: expressions/sigma_m1_simplified.txt
+    rhs: expressions/sigma_m1_band_sum.txt
+    residual: expressions/R_Omega2_relabel.txt
+    assumptions_used:
+      - v1c
+      - Oab1
+      - v1b
+      - Oac1
+      - f1p
+      - v2c
+      - v2b
+      - f2p
+      - Oab2
+      - Oac2
+    claim: "using Omega^2 = -Omega^1, the two-band sigma^{(-1)} compactifies to a sum over n=1,2"
+    notes: "Printed Eq. (D-77)->(D-78). Two-band opposite-curvature relation substituted into the residual."
+  - edge_id: D.T0-local-sign
+    source_from: eq.D-119
+    source_to: eq.D-119
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/T0_chain.txt
+    rhs: expressions/T0_surface.txt
+    residual: expressions/R_T0_local_sign.txt
+    assumptions_used:
+      - f1p
+      - v1a
+      - f2p
+      - v2a
+      - gbc
+      - e12
+    claim: "after the chain rule, the last two written members of the T0 display are algebraically equal"
+    notes: "Printed Eq. (D-119) local algebra only. Does not certify the global IBP step."
+  - edge_id: D.T0T1-regroup
+    source_from: eq.D-120
+    source_to: eq.D-121
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/T0T1_mixed.txt
+    rhs: expressions/T0T1_grouped.txt
+    residual: expressions/R_T0T1_regroup.txt
+    assumptions_used:
+      - e12
+      - gbc
+      - v2a
+      - f2p
+      - v1a
+      - f1p
+      - v1c
+      - gab
+      - v1b
+      - gac
+      - v2c
+      - v2b
+    claim: "T0+T1 regroups by f1' and f2'"
+    notes: "Printed Eq. (D-120)->(D-121)."
+  - edge_id: D.geo-T2-subst
+    source_from: eq.D-122
+    source_to: eq.D-125
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/geo_T2_plus_T0T1.txt
+    rhs: expressions/geo_fnp.txt
+    residual: expressions/R_geo_T2_subst.txt
+    assumptions_used:
+      - dagbc
+      - f1p
+      - f2p
+      - e12
+      - v1c
+      - gab
+      - v1b
+      - gac
+      - v1a
+      - gbc
+      - v2c
+      - v2b
+      - v2a
+    claim: "substituting the declared T2 IBP result into sigma^geo and grouping by f_n' reproduces Eq. (D-125)"
+    notes: "Printed Eq. (D-122)+(D-124)->(D-125). Global IBP authority remains on D.T2-ibp-global; this edge is the subsequent local algebra."
+  - edge_id: D.eps21-symmetrize
+    source_from: eq.D-125
+    source_to: eq.D-126
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/geo_fnp_subst.txt
+    rhs: expressions/geo_eps21.txt
+    residual: expressions/R_eps21_symmetrize.txt
+    assumptions_used:
+      - f1p
+      - dagbc
+      - e12
+      - v1c
+      - gab
+      - v1b
+      - gac
+      - v1a
+      - gbc
+      - f2p
+      - v2c
+      - v2b
+      - v2a
+      - e21
+    claim: "rewriting the band-2 denominator with e21=-e12 yields the symmetric two-band form"
+    notes: "Printed Eq. (D-125)->(D-126). e21=-e12 substituted; commuting g v products."
+  - edge_id: D.compact-nbar
+    source_from: eq.D-126
+    source_to: eq.D-127
+    edge_type: INDEX_RELABELING
+    lhs: expressions/geo_eps21_fprime.txt
+    rhs: expressions/geo_nbar.txt
+    residual: expressions/R_compact_nbar.txt
+    assumptions_used:
+      - f1p
+      - dagbc
+      - e12
+      - gab
+      - v1c
+      - gac
+      - v1b
+      - gbc
+      - v1a
+      - f2p
+      - e21
+      - v2c
+      - v2b
+      - v2a
+      - f01p
+      - f02p
+    claim: "the n=1,2 form with e_{n nbar} and f_n' = 2 f_{0,n}' matches the compact rewrite"
+    notes: "Printed Eq. (D-126)->(D-127). Convention f' = 2 f_0' substituted; e_{1 1bar}=e12, e_{2 2bar}=e21."

@@ -1,0 +1,43 @@
+{
+  "artifact_relpath": "expressions/R_TBgeo_eps21.txt",
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "two-band T_{B,geo}^{(-2)} with e21 rewritten by e21=-e12 matches the e12 form",
+  "declared_assumptions": [
+    "e12",
+    "gac",
+    "v1b",
+    "gab",
+    "v1c",
+    "f1p",
+    "e21",
+    "v2b",
+    "v2c",
+    "f2p"
+  ],
+  "edge_id": "D.TBgeo-eps21",
+  "edge_type": "ALGEBRAIC_EQUIVALENCE",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "lhs_hash": "5197d7345e682ecaabfc48b0a2488ae9a935f82cec908b983140421e4e8773f4",
+  "obligation_hash": "50cd291c0d6527aebaa94535464cf517681a8858654995260efd8595692e13d0",
+  "remainder_certificate_hash": null,
+  "residual_hash": "b0db9434ab7733cf4439365ee8f9e2102c6ca9fdab5eadff379715ec16769425",
+  "residual_text": "((1/4)*(e12*(gac*v1b + gab*v1c)*f1p + (-e12)*(gac*v2b + gab*v2c)*f2p)) - ((e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p))\n",
+  "result": "ZERO",
+  "rhs_hash": "4418684dd2c2d2d0555efd8544ec664f5afc1dd33fa636a87b8e1c7570f2f917",
+  "runtime_seconds": 0.7081,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-66",
+    "eq.D-67",
+    "expressions/TBgeo_e21.txt",
+    "expressions/TBgeo_e12.txt",
+    "expressions/R_TBgeo_eps21.txt"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

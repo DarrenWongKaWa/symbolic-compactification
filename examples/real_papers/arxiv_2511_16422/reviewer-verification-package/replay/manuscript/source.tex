@@ -1,0 +1,170 @@
+\documentclass{article}
+\begin{document}
+% Equation-only public transcription stub for Derivation Audit v0.2.
+% Not a substitute for Guo et al., arXiv:2511.16422v2 / PRL 136, 206303 (2026).
+% Full paper: https://arxiv.org/abs/2511.16422v2
+% Inventory extracts labels only; algebra lives in expressions/.
+
+\begin{equation}
+\label{eq:B-23}
+j_a^{(2)}(t) = \mathrm{Tr}[\rho^{(0)} J_a^{(2)}(t)]
++ \mathrm{Tr}[\rho^{(1)}(t) J_a^{(1)}(t)]
++ \mathrm{Tr}[\rho^{(2)}(t) J_a^{(0)}]
+\end{equation}
+
+\begin{equation}
+\label{eq:B-24}
+j_a^{(2)}(t) =
+\mathrm{Tr}[\rho^{(0)} J_a^{(2)}(t)]_{(I)}
++ \mathrm{Tr}[\rho^{(1)}[V^{(1)}] J_a^{(1)}(t)]_{(II)}
++ \mathrm{Tr}[\rho^{(1)}[V^{(2)}] J_a^{(0)}]_{(III)}
++ \mathrm{Tr}[\rho^{(2)}[V^{(1)},V^{(1)}] J_a^{(0)}]_{(IV)}
+\end{equation}
+
+\begin{equation}
+\label{eq:B-25}
+\sigma_{abc}(\omega_1,\omega_2)=\frac{i}{\omega_1}\frac{i}{\omega_2}
+\sum_{m,l,n}\Big[
+V_{ml}^{(b)}V_{ln}^{(c)}\tilde\rho_{mln}^{(2)} J_{nm}^{(a)}
++ V_{mn}^{(bc)}\tilde\rho_{mn}^{(1)} J_{nm}^{(a)}
++ V_{mn}^{(b)}\tilde\rho_{mn}^{(1)} J_{nm}^{(ac)}
++ \rho_{mn}^{(0)} J_{nm}^{(abc)}\Big]
++ (b\leftrightarrow c,\;\omega_1\leftrightarrow\omega_2)
+\end{equation}
+
+\begin{equation}
+\label{eq:D-57}
+\sigma_{abc}=\Gamma^{-2}\sigma_{abc}^{(-2)}+\Gamma^{-1}\sigma_{abc}^{(-1)}+\sigma_{abc}^{(0)}+\mathcal{O}(\Gamma)
+\end{equation}
+
+\begin{equation}
+\label{eq:D-key-identities}
+v_{12}^{a}v_{21}^{b}+v_{12}^{b}v_{21}^{a}=2\epsilon_{12}^{2} g_{ab}
+\end{equation}
+
+\begin{equation}
+\label{eq:D-59}
+K_{1A}=v_{21}^{a}(v_{12}^{b}v_{1}^{c}+v_{1}^{b}v_{12}^{c})+v_{12}^{a}(v_{21}^{b}v_{1}^{c}+v_{1}^{b}v_{21}^{c})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-60}
+K_{1A}=v_{1}^{c}(v_{21}^{a}v_{12}^{b}+v_{12}^{a}v_{21}^{b})+v_{1}^{b}(v_{21}^{a}v_{12}^{c}+v_{12}^{a}v_{21}^{c})=2\epsilon_{12}^{2}(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-61}
+T_{A}^{(-2)}=\frac{2\epsilon_{12}^{2}}{8\epsilon_{12}}[\cdots]=\frac{\epsilon_{12}}{4}[(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})f_{2}'-(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b})f_{1}']
+\end{equation}
+
+\begin{equation}
+\label{eq:D-66}
+T_{B,\mathrm{geo}}^{(-2)}=\frac{1}{4}[\epsilon_{12}(g_{ac}v_{1}^{b}+g_{ab}v_{1}^{c})f_{1}'+\epsilon_{21}(g_{ac}v_{2}^{b}+g_{ab}v_{2}^{c})f_{2}']
+\end{equation}
+
+\begin{equation}
+\label{eq:D-67}
+T_{B,\mathrm{geo}}^{(-2)}=\frac{\epsilon_{12}}{4}[(g_{ac}v_{1}^{b}+g_{ab}v_{1}^{c})f_{1}'-(g_{ac}v_{2}^{b}+g_{ab}v_{2}^{c})f_{2}']
+\end{equation}
+
+\begin{equation}
+\label{eq:D-68}
+T_{A}^{(-2)}+T_{B,\mathrm{geo}}^{(-2)}=0
+\end{equation}
+
+\begin{equation}
+\label{eq:D-70}
+\sigma_{abc}^{(-1)}=-\frac{i}{4\epsilon_{12}^{2}}[C_{1}f_{1}'+C_{2}f_{2}']
+\end{equation}
+
+\begin{equation}
+\label{eq:D-71}
+C_{1}=v_{21}^{a}(v_{12}^{b}v_{1}^{c}+v_{1}^{b}v_{12}^{c})-v_{12}^{a}(v_{21}^{b}v_{1}^{c}+v_{1}^{b}v_{21}^{c})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-72}
+C_{1}=v_{1}^{c}(v_{21}^{a}v_{12}^{b}-v_{12}^{a}v_{21}^{b})+v_{1}^{b}(v_{21}^{a}v_{12}^{c}-v_{12}^{a}v_{21}^{c})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-73}
+V_{ab}=(-i\epsilon_{12}A_{21}^{a})(-i\epsilon_{21}A_{12}^{b})-(-i\epsilon_{21}A_{12}^{a})(-i\epsilon_{12}A_{21}^{b})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-74}
+A_{21}^{a}A_{12}^{b}-A_{12}^{a}A_{21}^{b}=-(A_{12}^{a}A_{21}^{b}-A_{12}^{b}A_{21}^{a})=i\Omega_{ab}^{1}
+\end{equation}
+
+\begin{equation}
+\label{eq:D-75}
+V_{ab}=i\epsilon_{12}^{2}\Omega_{ab}^{1}
+\end{equation}
+
+\begin{equation}
+\label{eq:D-77}
+\sigma_{abc}^{(-1)}=-\frac{i}{4\epsilon_{12}^{2}}(i\epsilon_{12}^{2})[\cdots]=\frac{1}{4}[(v_{1}^{c}\Omega_{ab}^{1}+v_{1}^{b}\Omega_{ac}^{1})f_{1}'-(v_{2}^{c}\Omega_{ab}^{1}+v_{2}^{b}\Omega_{ac}^{1})f_{2}']
+\end{equation}
+
+\begin{equation}
+\label{eq:D-78}
+\sigma_{abc}^{(-1)}=\frac{1}{4}\sum_{n=1,2}(v_{n}^{c}\Omega_{ab}^{n}+v_{n}^{b}\Omega_{ac}^{n})f_{n}'
+\end{equation}
+
+\begin{equation}
+\label{eq:D-114}
+T_{0}=(f_{1}-f_{2})\partial_{a}(g_{bc}/\epsilon_{12})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-119}
+T_{0}\xrightarrow{\mathrm{IBP}}-[\partial_{a}(f_{1}-f_{2})](g_{bc}/\epsilon_{12})=-(f_{1}'v_{1}^{a}-f_{2}'v_{2}^{a})(g_{bc}/\epsilon_{12})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-120}
+T_{0}+T_{1}=\frac{1}{\epsilon_{12}}[g_{bc}(v_{2}^{a}f_{2}'-v_{1}^{a}f_{1}')+(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac}-v_{1}^{a}g_{bc})f_{1}'-(v_{2}^{c}g_{ab}+v_{2}^{b}g_{ac}-v_{2}^{a}g_{bc})f_{2}']
+\end{equation}
+
+\begin{equation}
+\label{eq:D-121}
+T_{0}+T_{1}=\frac{1}{\epsilon_{12}}[f_{1}'(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac}-2v_{1}^{a}g_{bc})-f_{2}'(v_{2}^{c}g_{ab}+v_{2}^{b}g_{ac}-2v_{2}^{a}g_{bc})]
+\end{equation}
+
+\begin{equation}
+\label{eq:D-122}
+\sigma_{abc}^{\mathrm{geo}}=\frac{1}{2}g_{bc}\sum_{n}v_{n}^{a}f_{n}''+(T_{0}+T_{1})
+\end{equation}
+
+\begin{equation}
+\label{eq:D-123}
+T_{2}=\sum_{n}(\frac{1}{2}g_{bc})\partial_{a}(f_{n}')
+\end{equation}
+
+\begin{equation}
+\label{eq:D-124}
+T_{2}\xrightarrow{\mathrm{IBP}}-\sum_{n}[\partial_{a}(\frac{1}{2}g_{bc})]f_{n}'=-\frac{1}{2}(\partial_{a}g_{bc})(f_{1}'+f_{2}')
+\end{equation}
+
+\begin{equation}
+\label{eq:D-125}
+\sigma_{abc}^{\mathrm{geo}}=f_{1}'[-\frac{1}{2}(\partial_{a}g_{bc})+\frac{1}{\epsilon_{12}}(v_{1}^{c}g_{ab}+v_{1}^{b}g_{ac}-2v_{1}^{a}g_{bc})]+f_{2}'[-\frac{1}{2}(\partial_{a}g_{bc})-\frac{1}{\epsilon_{12}}(v_{2}^{c}g_{ab}+v_{2}^{b}g_{ac}-2v_{2}^{a}g_{bc})]
+\end{equation}
+
+\begin{equation}
+\label{eq:D-126}
+\sigma_{abc}^{\mathrm{geo}}=f_{1}'[-\frac{1}{2}(\partial_{a}g_{bc})+\frac{1}{\epsilon_{12}}(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b}-2g_{bc}v_{1}^{a})]+f_{2}'[-\frac{1}{2}(\partial_{a}g_{bc})+\frac{1}{\epsilon_{21}}(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b}-2g_{bc}v_{2}^{a})]
+\end{equation}
+
+\begin{equation}
+\label{eq:D-127}
+\sigma_{abc}^{\mathrm{geo}}=\sum_{n=1,2}2f_{0,n}'[-\frac{1}{2}(\partial_{a}g_{bc})+\frac{1}{\epsilon_{n\bar n}}(g_{ab}v_{n}^{c}+g_{ac}v_{n}^{b}-2g_{bc}v_{n}^{a})]
+\end{equation}
+
+\begin{equation}
+\label{eq:E-128}
+v_{nn}^{ab}=\partial_{a}\partial_{b}\epsilon_{n}-\sum_{m}'(v_{nm}^{a}v_{mn}^{b}+v_{nm}^{b}v_{mn}^{a})/\epsilon_{nm}
+\end{equation}
+
+\end{document}

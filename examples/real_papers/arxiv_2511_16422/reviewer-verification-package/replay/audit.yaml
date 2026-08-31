@@ -1,0 +1,8 @@
+schema_version: DerivationAuditV1
+audit_name: arxiv-2511-16422-v2-field-validation
+manuscript_source: manuscript/source.tex
+equation_manifest: equations/equations.yaml
+edge_manifest: edges/edges.yaml
+assumptions: assumptions/assumptions.yaml
+output_dir: reports
+verifier_profile: python_sympy_exact_v1

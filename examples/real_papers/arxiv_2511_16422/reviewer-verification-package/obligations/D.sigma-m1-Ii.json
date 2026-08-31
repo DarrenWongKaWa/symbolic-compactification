@@ -1,0 +1,42 @@
+{
+  "artifact_relpath": "expressions/R_sigma_m1_Ii.txt",
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "(-I)/(4 e12^2) * (I e12^2) cancels to 1/4 on the sigma^{(-1)} kernel",
+  "declared_assumptions": [
+    "e12",
+    "v1c",
+    "Oab1",
+    "v1b",
+    "Oac1",
+    "f1p",
+    "v2c",
+    "v2b",
+    "f2p"
+  ],
+  "edge_id": "D.sigma-m1-Ii",
+  "edge_type": "ALGEBRAIC_EQUIVALENCE",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "lhs_hash": "238428a94334730ee06861ef8e5bddef24ab829ce0c738a27316598fb85d0dc6",
+  "obligation_hash": "067c2899405a2121792224f0885ad4ca4359e459de1bc95ed6799adf03183453",
+  "remainder_certificate_hash": null,
+  "residual_hash": "d6f83227cece1ba072efd0a2086bac62ca88b9ba1b58e845d34689946965fb58",
+  "residual_text": "((-I)/(4*e12**2)*(I*e12**2)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)) - ((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p))\n",
+  "result": "ZERO",
+  "rhs_hash": "d1470c1d253dc9db0f3c11741bc264c816c3963a7d8218e026b52184cdd253d2",
+  "runtime_seconds": 0.7402,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-70",
+    "eq.D-77",
+    "expressions/sigma_m1_with_i.txt",
+    "expressions/sigma_m1_simplified.txt",
+    "expressions/R_sigma_m1_Ii.txt"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

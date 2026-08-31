@@ -1,0 +1,37 @@
+{
+  "artifact_relpath": "expressions/R_Vab_eps21.txt",
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "using e12 e21 = -e12^2 converts the factored V_ab prefactor into e12^2",
+  "declared_assumptions": [
+    "e12",
+    "A21a",
+    "A12b",
+    "A12a",
+    "A21b"
+  ],
+  "edge_id": "D.Vab-eps21",
+  "edge_type": "ALGEBRAIC_EQUIVALENCE",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "lhs_hash": "716d2c3b2319d37de29d591d42352730872643bd1297fdd430d7a89b146b19b0",
+  "obligation_hash": "d2304b9653d5787f401cc48382af9169c4e183cf2ce5de5a25dc77fbda2cd62d",
+  "remainder_certificate_hash": null,
+  "residual_hash": "21ee55c67866e13dfe82667e3adc26fa6bc58ec9476e67de504d9807ffe66385",
+  "residual_text": "((-1)*(e12*(-e12))*(A21a*A12b - A12a*A21b)) - (e12**2*(A21a*A12b - A12a*A21b))\n",
+  "result": "ZERO",
+  "rhs_hash": "4bacdc8de5368e10ca92de978eee90355d24b13f7bde2dffc941e2c7afe2193a",
+  "runtime_seconds": 0.7481,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-73",
+    "expressions/Vab_factored_subst.txt",
+    "expressions/Vab_e12sq.txt",
+    "expressions/R_Vab_eps21.txt"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

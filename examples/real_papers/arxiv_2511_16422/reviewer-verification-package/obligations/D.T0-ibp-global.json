@@ -1,0 +1,31 @@
+{
+  "artifact_relpath": null,
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "integration by parts in k-space converts the T0 Fermi-sea form into a Fermi-surface form",
+  "declared_assumptions": [],
+  "edge_id": "D.T0-ibp-global",
+  "edge_type": "INTEGRAL_ARGUMENT",
+  "engine_version": "0.3.0",
+  "executable": false,
+  "lhs_hash": null,
+  "obligation_hash": "8e5638b5496ab97adb3d691aceef9fa5773ef0c23be4844bcac46511b824592d",
+  "remainder_certificate_hash": null,
+  "residual_hash": null,
+  "residual_text": null,
+  "result": "NOT_LOWERED",
+  "rhs_hash": null,
+  "runtime_seconds": 0.0,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-114",
+    "eq.D-119"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "NOT_LOWERED",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": [
+    "INTEGRAL_ARGUMENT_NOT_LOCAL_RESIDUAL"
+  ]
+}

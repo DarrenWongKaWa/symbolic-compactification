@@ -1,0 +1,43 @@
+{
+  "artifact_relpath": "expressions/R_Omega2_relabel.txt",
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "using Omega^2 = -Omega^1, the two-band sigma^{(-1)} compactifies to a sum over n=1,2",
+  "declared_assumptions": [
+    "v1c",
+    "Oab1",
+    "v1b",
+    "Oac1",
+    "f1p",
+    "v2c",
+    "v2b",
+    "f2p",
+    "Oab2",
+    "Oac2"
+  ],
+  "edge_id": "D.Omega2-relabel",
+  "edge_type": "INDEX_RELABELING",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "lhs_hash": "d1470c1d253dc9db0f3c11741bc264c816c3963a7d8218e026b52184cdd253d2",
+  "obligation_hash": "a8535ac13101366f407f67df4ec184b8117f715d1a7d7109c58ef939921b45c6",
+  "remainder_certificate_hash": null,
+  "residual_hash": "8bc6dbb15f60fe7b45606be4ec2bc36dc6daef7d76125aac6a11c7ac5928490b",
+  "residual_text": "((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)) - ((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p + (v2c*(-Oab1) + v2b*(-Oac1))*f2p))\n",
+  "result": "ZERO",
+  "rhs_hash": "15024413b279fdd165e2aa47b86cb73dff7b907017c89b1375862ee4215c64ac",
+  "runtime_seconds": 0.8395,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-77",
+    "eq.D-78",
+    "expressions/sigma_m1_simplified.txt",
+    "expressions/sigma_m1_band_sum.txt",
+    "expressions/R_Omega2_relabel.txt"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

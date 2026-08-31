@@ -1,0 +1,43 @@
+{
+  "artifact_relpath": "expressions/R_K1A_metric.txt",
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "after substituting the declared metric-velocity pair for g_ab and g_ac, regrouped K_{1A} equals 2 e12^2 (v1^c g_ab + v1^b g_ac)",
+  "declared_assumptions": [
+    "v1c",
+    "v21a",
+    "v12b",
+    "v12a",
+    "v21b",
+    "v1b",
+    "v12c",
+    "v21c",
+    "e12",
+    "gab",
+    "gac"
+  ],
+  "edge_id": "D.K1A-metric-subst",
+  "edge_type": "ALGEBRAIC_EQUIVALENCE",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "lhs_hash": "46c22f6f22a4935cb4380961f82966e83ff70d6444f5c79fa5c23d65e5dcd6f4",
+  "obligation_hash": "47bde9a534d4e388f8c1f712055b2fc4804600721e6f100f8542bcef15f36c70",
+  "remainder_certificate_hash": null,
+  "residual_hash": "c1cbe76ef13e5df3ba5f6477858a20fd136e166e3a02ee24ca9062af06f0e29b",
+  "residual_text": "(v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)) - (v1c*(v12a*v21b + v12b*v21a) + v1b*(v12a*v21c + v12c*v21a))\n",
+  "result": "ZERO",
+  "rhs_hash": "b0db6e3fd03659455efdd27fb52f60cd1d7963eb84cfca886b88c2dc9b476966",
+  "runtime_seconds": 0.7291,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-60",
+    "expressions/K1A_regrouped.txt",
+    "expressions/K1A_metric.txt",
+    "expressions/R_K1A_metric.txt"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

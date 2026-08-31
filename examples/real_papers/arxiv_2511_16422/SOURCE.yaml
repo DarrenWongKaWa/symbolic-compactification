@@ -1,0 +1,27 @@
+schema_version: PublicPaperSourceV1
+arxiv_id: "2511.16422"
+arxiv_version: v2
+title: "Dissipation-Shaped Quantum Geometry in Nonlinear Transport"
+authors:
+  - Zhichao Guo
+  - Xing-Yuan Liu
+  - Hua Wang
+  - Li-kun Shi
+  - Kai Chang
+journal: "Phys. Rev. Lett. 136, 206303 (2026)"
+journal_doi: "https://doi.org/10.1103/rbck-mt1k"
+arxiv_abs: "https://arxiv.org/abs/2511.16422"
+arxiv_abs_versioned: "https://arxiv.org/abs/2511.16422v2"
+arxiv_pdf: "https://arxiv.org/pdf/2511.16422"
+arxiv_html: "https://arxiv.org/html/2511.16422v2"
+arxiv_source: "https://arxiv.org/src/2511.16422v2"
+license: "arXiv.org non-exclusive distribution license 1.0"
+retrieved_utc: "2026-08-31T22:16:01Z"
+local_pdf_sha256: "de29f96e77cac8daf3c16867a14eb73862f3b9a7056f399fa5188533532771a2"
+local_eprint_sha256: "f074c3045aa17627ddf974895847ed5842e84cbf7b7c755a66700ff2fa01a9e9"
+local_main_tex_sha256: "d2f82d48b19816bffbae22330d89c64f95027c4228c8d6f342036e981079220d"
+notes:
+  - "PDF and arXiv source tarball are NOT committed; reconstruct from the public URL."
+  - "Compiled equation numbers do not reset per appendix (A-9..A-20, B-21..B-26, D-57..D-127, ...)."
+  - "Appendix-local indices (D-1 meaning the first equation in Appendix D) are recorded as local_id."
+  - "Public scientific authority is the arXiv v2 source, not the local PDF hash."

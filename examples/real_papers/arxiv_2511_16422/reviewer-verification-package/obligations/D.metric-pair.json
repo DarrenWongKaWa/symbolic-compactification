@@ -1,0 +1,37 @@
+{
+  "artifact_relpath": "expressions/R_metric_pair.txt",
+  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "the metric-velocity pair in paper index order equals the pair appearing in regrouped K_{1A}",
+  "declared_assumptions": [
+    "v12a",
+    "v21b",
+    "v12b",
+    "v21a"
+  ],
+  "edge_id": "D.metric-pair",
+  "edge_type": "PAIRWISE_REDUCTION",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "lhs_hash": "8121ebebb120348ae4c14fffea3918157642340628e8db153eb8fe6bfaaa6086",
+  "obligation_hash": "6a710541fb4344585c80cc2930f1c0396b4c4e3b724afb85ea09cb2ca94cf397",
+  "remainder_certificate_hash": null,
+  "residual_hash": "d5302dcbb6a6b54078f95941641cd75141defe313dc232c673d780064d1b3bf4",
+  "residual_text": "(v12a*v21b + v12b*v21a) - (v21a*v12b + v12a*v21b)\n",
+  "result": "ZERO",
+  "rhs_hash": "062cfa109a1c858c3ddce151aac7b2992c5f6efc4094f6579d2d4e93ff80d569",
+  "runtime_seconds": 0.7218,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-key-identities",
+    "eq.D-60",
+    "expressions/mv_pair_paper_order.txt",
+    "expressions/mv_pair_K1A_order.txt",
+    "expressions/R_metric_pair.txt"
+  ],
+  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

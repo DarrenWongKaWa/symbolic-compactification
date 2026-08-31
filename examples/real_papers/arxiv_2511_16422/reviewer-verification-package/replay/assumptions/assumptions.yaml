@@ -1,0 +1,92 @@
+symbols:
+  - name: v12a
+    real: true
+    nonzero: false
+  - name: v12b
+    real: true
+    nonzero: false
+  - name: v12c
+    real: true
+    nonzero: false
+  - name: v21a
+    real: true
+    nonzero: false
+  - name: v21b
+    real: true
+    nonzero: false
+  - name: v21c
+    real: true
+    nonzero: false
+  - name: v1a
+    real: true
+    nonzero: false
+  - name: v1b
+    real: true
+    nonzero: false
+  - name: v1c
+    real: true
+    nonzero: false
+  - name: v2a
+    real: true
+    nonzero: false
+  - name: v2b
+    real: true
+    nonzero: false
+  - name: v2c
+    real: true
+    nonzero: false
+  - name: A12a
+    real: true
+    nonzero: false
+  - name: A12b
+    real: true
+    nonzero: false
+  - name: A21a
+    real: true
+    nonzero: false
+  - name: A21b
+    real: true
+    nonzero: false
+  - name: gab
+    real: true
+    nonzero: false
+  - name: gac
+    real: true
+    nonzero: false
+  - name: gbc
+    real: true
+    nonzero: false
+  - name: e12
+    real: true
+    nonzero: true
+  - name: e21
+    real: true
+    nonzero: true
+  - name: f1p
+    real: true
+    nonzero: false
+  - name: f2p
+    real: true
+    nonzero: false
+  - name: f01p
+    real: true
+    nonzero: false
+  - name: f02p
+    real: true
+    nonzero: false
+  - name: Oab1
+    real: true
+    nonzero: false
+  - name: Oac1
+    real: true
+    nonzero: false
+  - name: Oab2
+    real: true
+    nonzero: false
+  - name: Oac2
+    real: true
+    nonzero: false
+  - name: dagbc
+    real: true
+    nonzero: false
+functions: []
