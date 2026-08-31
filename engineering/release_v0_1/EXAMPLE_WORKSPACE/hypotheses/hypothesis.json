@@ -1,0 +1,23 @@
+{
+  "assumptions_used": [
+    "x"
+  ],
+  "hypothesis_type": "equivalence",
+  "instance_maps": {},
+  "latent_object": null,
+  "members": [
+    "expressions/current.txt",
+    "expressions/candidate.txt"
+  ],
+  "operators": [],
+  "proof_obligations": [
+    {
+      "left": "expressions/current.txt",
+      "obligation_id": "equivalence-1",
+      "relation": "equivalent",
+      "right": "expressions/candidate.txt"
+    }
+  ],
+  "reconstruction_rule": "current is exactly equivalent to candidate",
+  "schema_version": 1
+}

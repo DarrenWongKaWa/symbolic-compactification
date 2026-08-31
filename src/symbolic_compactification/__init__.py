@@ -58,6 +58,9 @@ from .reporting import (CERTIFIED_EXPRESSION_NAME, FINAL_ARTIFACT_NAME,
                         render_final_report)
 from .fidelity import (FIDELITY_CLASSES, translation_fidelity)
 from .pipeline import StepOutcome, adjudicate_candidate
+from .workspace import (HypothesisObligation, ResearchWorkspace,
+                        WorkspaceError, WorkspaceHypothesis, WorkspaceProject,
+                        WorkspaceSource, initialize_workspace, load_workspace)
 
 __all__ = [
     "__version__",
@@ -106,4 +109,8 @@ __all__ = [
     "translation_fidelity", "FIDELITY_CLASSES",
     # stable source-to-state pipeline
     "StepOutcome", "adjudicate_candidate",
+    # external researcher workspace (read-only ingestion; no run mutation)
+    "HypothesisObligation", "ResearchWorkspace", "WorkspaceError",
+    "WorkspaceHypothesis", "WorkspaceProject", "WorkspaceSource",
+    "initialize_workspace", "load_workspace",
 ]
