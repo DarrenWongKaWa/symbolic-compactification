@@ -9,6 +9,7 @@ description = "Agent-native symbolic compactification and exact certification en
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "PyYAML>=6,<7",
     "sympy>=1.12,<2",
 ]
 
