@@ -38,24 +38,46 @@ ENGINE_VERSION = "0.3.0"
 AGENT_PROTOCOL_VERSION = "0.3.0"
 
 
-def engine_git_sha() -> str:
-    """Best-effort git HEAD sha of the engine checkout; ``"unknown"`` fallback.
+_FULL_GIT_SHA_RE = re.compile(r"[0-9a-f]{40}\Z")
 
-    Provenance metadata only: a failure to read git NEVER fails a session
-    write.
+
+def _built_source_git_sha() -> Optional[str]:
+    """Return the immutable revision embedded in a built distribution."""
+    try:
+        from ._build_info import SOURCE_GIT_COMMIT, SOURCE_GIT_DIRTY
+    except (ImportError, AttributeError):
+        return None
+    if (not isinstance(SOURCE_GIT_COMMIT, str)
+            or not _FULL_GIT_SHA_RE.fullmatch(SOURCE_GIT_COMMIT)
+            or not isinstance(SOURCE_GIT_DIRTY, bool)):
+        return None
+    suffix = "-dirty" if SOURCE_GIT_DIRTY else ""
+    return f"{SOURCE_GIT_COMMIT}{suffix}"
+
+
+def engine_git_sha() -> str:
+    """Return the built source revision or checkout HEAD.
+
+    Non-editable distributions carry build-time source identity in a generated
+    package module.  Editable/source checkouts fall back to Git.  A dirty
+    checkout appends ``-dirty``; inability to resolve either source is
+    recorded as ``"unknown"`` and never fails a session write.
     """
+    built = _built_source_git_sha()
+    if built is not None:
+        return built
     try:
         out = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
+            ["git", "rev-parse", "--verify", "HEAD"],
             cwd=str(Path(__file__).resolve().parent),
             capture_output=True, text=True, timeout=5)
-        sha = out.stdout.strip()
-        if out.returncode == 0 and sha:
+        sha = out.stdout.strip().lower()
+        if out.returncode == 0 and _FULL_GIT_SHA_RE.fullmatch(sha):
             dirty = subprocess.run(
-                ["git", "status", "--porcelain", "--untracked-files=no"],
+                ["git", "status", "--porcelain", "--untracked-files=normal"],
                 cwd=str(Path(__file__).resolve().parent),
                 capture_output=True, text=True, timeout=5)
-            if dirty.returncode == 0 and dirty.stdout.strip():
+            if dirty.returncode != 0 or dirty.stdout.strip():
                 return f"{sha}-dirty"
             return sha
     except Exception:

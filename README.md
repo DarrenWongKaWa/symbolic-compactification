@@ -1,215 +1,205 @@
 # symbolic-compactification
 
-**Context-grounded symbolic hypotheses with fail-closed verification.** A
-researcher supplies the scientific workspace and candidate relation; only an
-exact `ZERO` certifies the declared obligation. `NONZERO` refutes it under the
-verification route, and `UNKNOWN` never promotes scientific state.
+**Context-grounded symbolic hypotheses with fail-closed verification.**
 
-A coding agent inspects structure and proposes candidates. Deterministic
-Python/SymPy code is the only judge.
+Status: v0.1 research-preview engineering candidate.
+Scientific experimentation is closed during this consolidation phase; this
+repository is not opening a new discovery campaign. The alpha name is earned
+only if the installation, safety, reproducibility, demo, and release-review
+gates pass.
+See [SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) for
+the research-line lock.
 
-This repository is not a CAS replacement, not an automatic theorem prover,
-not an LLM runtime, and not a machine that discovers new physics. Approximate
-numeric agreement never counts. UNKNOWN is not a pass.
+The release-critical workflow is **Mode A: verify my hypothesis**. A researcher
+provides expressions, assumptions, notes, references, and a candidate symbolic
+relation. The tool grounds that relation to named source files, compiles its
+explicit proof obligations, runs the deterministic verifier, and writes an
+immutable, provenance-rich run report.
 
-**Current evidence** (`research/PUBLICATION_DECISION.md`): fail-closed
-ZERO/NONZERO/UNKNOWN works; Method v2 can name closed auxiliaries after a
-shallow ZERO; it does **not** currently beat CAS at discovery or certify
-the Guo PRB closed form. Publication decision: **E** (more evidence
-needed). No paper snapshot is frozen.
+The verifier—not a model, explanation, or confidence score—is the only judge.
+Only `ZERO` certifies the submitted obligation under the declared engine
+semantics and assumptions.
 
-A **separate** structure-discovery line lives in
-`research/structure_discovery/` (closed v0.1: typed exact-pattern protocol
-works; invention unsolved). Frozen B9 is the Layer-1 baseline.
+## Start here
 
-**Infrastructure (not a paper claim):** a Structural Observation Layer
-(`symbolic-compactification observe` / `ssc observe`) wraps SymPy, optional
-MatchPy/egglog, frozen LGG, and optional Cadabra2/FORM CLIs. It reports
-typed relations with provenance. It does **not** infer Φ_Γ or promote
-state. See `research/preprocessing_integration/SOL_V1.md`.
+- [Quickstart](engineering/release_v0_1/QUICKSTART.md) — the canonical CLI and
+  Python workflows
+- [Installation](engineering/release_v0_1/INSTALLATION.md) — Python 3.12,
+  editable, ordinary, and wheel installation
+- [Workspace format](engineering/release_v0_1/WORKSPACE_FORMAT.md) — source
+  files and stable hypothesis schema
+- [Result semantics](engineering/release_v0_1/SEMANTICS.md) — exact meanings,
+  composite obligations, and exit codes
+- [Limitations](engineering/release_v0_1/LIMITATIONS.md) — coverage and claim
+  boundaries that must be read before scientific use
+- [Security](engineering/release_v0_1/SECURITY.md) — secret handling and
+  bounded run metadata
+- [Release demos](engineering/release_v0_1/DEMOS.md) — `ZERO`, grounded
+  `ZERO`, and intentional `UNKNOWN`
 
-Layer 2 (`research/abstraction_invention/`): first-order LGG is **closed**
-(`LGG_CLOSED.md`) — it solves substitution-level abstraction (v0.1 TEST
-5/5 vs frozen B9 0/5), not scientific invention in general. Beyond-LGG
-controls: distributivity is canonicalization (not invention); operator
-graphs recover derivative/permutation edges; a gold-free score drops
-`I*mu*theta0` below a polygamma family. LLM cell still BLOCKED. Decision
-**E**. No paper.
+## Install
 
+The alpha release gate uses CPython 3.12. From a checkout:
 
-The Grok skill is
-[`.grok/skills/symbolic-compactification/`](.grok/skills/symbolic-compactification/SKILL.md).
-Agents operating a run must also read [AGENTS.md](AGENTS.md).
+```bash
+python3.12 -m venv .venv
+.venv/bin/python -m pip install .
+.venv/bin/symbolic-compactification --version
+```
 
-## Proposer modes
+The shorter `ssc` entry point is equivalent. Core verification requires no
+model service and no API key.
 
-Default is `main`: the main agent writes candidates. No sub-agent
-infrastructure is required. Subagent is never the unique path.
+## Canonical researcher workflow
 
-| Mode | When |
+Create a workspace at a path that does not already exist:
+
+```bash
+symbolic-compactification init my-symbolic-project
+```
+
+The generated workspace is deliberately small:
+
+```text
+my-symbolic-project/
+├── project.yaml
+├── expressions/
+│   ├── current.txt
+│   └── candidate.txt
+├── notes/research_notes.md
+├── assumptions/assumptions.yaml
+├── references/README.md
+├── hypotheses/hypothesis.json
+└── runs/
+```
+
+Replace the example expressions and declare every scientific/domain
+assumption. Then inspect, verify, and render the report:
+
+```bash
+symbolic-compactification inspect my-symbolic-project
+symbolic-compactification verify my-symbolic-project
+symbolic-compactification report my-symbolic-project
+```
+
+`inspect` reads and summarizes the workspace without changing source files.
+`verify` creates a new run under `runs/<run_id>/`. `report` renders from that
+recorded run. Original expressions, notes, assumptions, references, and
+hypotheses are never overwritten by these commands.
+
+## Result contract
+
+| Result | Meaning |
 |---|---|
-| `main` (default) | Everyday use; stays main unless you ask otherwise |
-| `subagent` | Optional isolation you request when the working directory is noisy or the expression is extremely long |
-| `auto` | Only if you ask: Skill then picks `subagent` for large expressions |
+| `ZERO` | Exact certification that the declared obligation vanishes under the recorded engine semantics and assumptions. |
+| `NONZERO` | Exact evidence refutes the submitted universal identity under the recorded verification route. |
+| `UNKNOWN` | The verifier cannot decide. Nothing is certified or promoted. |
+| `PARSE_FAILURE` | A source cannot be parsed safely in the supported expression language. |
+| `COMPILE_FAILURE` | The hypothesis cannot be lowered to a supported obligation without changing its meaning. |
+| `ASSUMPTION_REQUIRED` | A missing scientific/domain choice must be supplied explicitly by the researcher. |
 
-Record intent: `init-session --proposer-mode main|subagent|auto`.
-The verifier path is identical in every mode. Promote only on ZERO.
-
-## Examples
-
-- [`examples/basic/`](examples/basic/) — 5-minute identities
-- [`examples/medium/`](examples/medium/) — `Sum` compactification
-- [`examples/long/`](examples/long/) — real Guo σ_abc DC source (input only;
-  not a certified compact form)
-
-## Install and test
-
-Python 3.10 or newer is required. Check the interpreter explicitly because
-some systems still map `python3` to an older release.
-
-```bash
-python3 --version
-python3 -m venv .venv
-.venv/bin/python -m pip install --upgrade pip
-.venv/bin/pip install -e '.[dev]'
-.venv/bin/pytest tests/ -q
-```
-
-The direct runtime dependencies are SymPy and PyYAML. The `dev` extra adds
-pytest.
-
-## Five-minute workflow
-
-Committed fixtures do not need a workspace copy:
-
-```bash
-symbolic-compactification verify \
-  --current examples/medium/current.txt \
-  --candidate examples/medium/candidate.txt \
-  --symbols examples/medium/symbols.json
-```
-
-Exit 0 is ZERO. A wrong candidate exits 2 (NONZERO):
-
-```bash
-symbolic-compactification verify \
-  --current examples/medium/current.txt \
-  --candidate examples/medium/mutation.txt \
-  --symbols examples/medium/symbols.json
-```
-
-`verify` is stateless. For a reproducible run, copy inputs under
-`workspace/input/` (runtime files stay untracked) and use the session
-pipeline. Default proposer is `main`:
-
-```bash
-symbolic-compactification inspect \
-  examples/medium/current.txt \
-  --symbols examples/medium/symbols.json --json
-
-symbolic-compactification init-session \
-  --workspace workspace \
-  --current examples/medium/current.txt \
-  --symbols examples/medium/symbols.json \
-  --proposer-mode main --json
-
-symbolic-compactification step --run RUN_ID --workspace workspace \
-  --candidate examples/medium/candidate.txt \
-  --symbols examples/medium/symbols.json
-
-symbolic-compactification finalize --run RUN_ID --workspace workspace
-```
-
-Long Wolfram input (inspect only; JSON `text` is the full native translation):
-
-```bash
-symbolic-compactification inspect \
-  examples/long/Guo_Sigma_abc_dc_exact.txt --format wolfram --json
-```
-
-`step` goes through one library pipeline: verify, persist the verdict, and
-promote only when exact ZERO evidence is bound to that exact current/candidate
-pair. `finalize` prints the explicit `FINAL CERTIFIED FORM` and writes both
-`final/certified_expression.txt` and
-`final/FINAL_CERTIFIED_FORM.md`.
-
-Every command supports `--help`; every subcommand also accepts `--json` for a
-single machine-readable result object.
-
-## Verdicts and state
-
-| Verdict | Meaning | CLI exit |
-|---|---|---:|
-| `ZERO` | Exact symbolic proof that current − candidate is zero | 0 |
-| `NONZERO` | Exact counterexample proves the difference nonzero | 2 |
-| `UNKNOWN` | Proof is unresolved or a resource/policy boundary was reached | 3 |
-
-Parse, policy, persistence, and usage errors exit with 4. Approximate numeric
-agreement never produces ZERO or NONZERO. UNKNOWN always blocks promotion.
-
-The lifecycle (`HYPOTHESIS`, `UNVERIFIED`, `CERTIFIED`) is independent of the
-verdict. Assumption state and proof state are separate as well; in particular,
-`HUMAN_REQUIRED` is not the same as `PROOF_REQUIRED`.
-
-## Representations
-
-Reasoning representation and execution representation are deliberately
-different. Ingestion retains `Sum`, `Product`, `Piecewise`, undefined/indexed
-function calls, and common structure. The verifier may perform a targeted,
-budgeted lowering for one proof attempt, but it never replaces the recorded
-semantic source with a flattened diagnostic form.
-
-The Wolfram adapter translates text only; it does not execute Mathematica or
-use a Wolfram kernel.
+`UNKNOWN` is not likely true, likely false, partial success, or permission to
+advance scientific state. Approximate numerical agreement never becomes
+`ZERO` or `NONZERO`.
 
 ## Python API
 
-The stateful entry point is intentionally small:
+The workspace façade mirrors the CLI:
 
 ```python
 from symbolic_compactification import (
-    adjudicate_candidate, init_session, load_expression, set_current,
+    generate_report,
+    load_workspace,
+    verify_hypothesis,
 )
 
-current = load_expression("current.txt", ["x", "y"])
-candidate = load_expression("candidate.txt", ["x", "y"])
-session = init_session("workspace")
-set_current(session, current)
-outcome = adjudicate_candidate(session, candidate)
-print(outcome.result.verdict, outcome.promoted)
+workspace = load_workspace("my-symbolic-project")
+run = verify_hypothesis(workspace)
+print(run.result)
+
+report = generate_report(workspace, run)
+print(report.path)
 ```
 
-`verify_equivalent()` remains available for stateless exact adjudication.
-Direct `record_step()` and `promote()` are low-level persistence APIs and still
-enforce sequence, state-hash, proof-status, assumption-gate, candidate-text,
-and exact-evidence checks.
+`load_workspace(...)` validates a read-only snapshot,
+`verify_hypothesis(...)` compiles and adjudicates its declared obligations,
+and `generate_report(...)` renders persisted evidence. Fail-closed statuses are
+returned as structured results; they are not success-like exceptions.
 
-## Versions
+## Provenance and source safety
 
-The research-preview release identity is `0.1.0-alpha`; installed Python
-distribution metadata uses the PEP 440 canonical spelling `0.1.0a0`. It is
-separate from two frozen semantic identities:
+Each run records the tool and semantic versions, Python and direct dependency
+versions, verifier route, runtime, warnings, source hashes, hypothesis and
+assumption hashes, and the exact source revision of an installed build when it
+was built from a Git checkout. Credential-shaped values are excluded or
+redacted; `.env` files and unrelated process environment variables are not
+inventoried.
 
-- release/package version: `0.1.0-alpha` / `0.1.0a0`;
-- engine version: `0.3.0` (deterministic parser/verifier/resource policy);
-- agent protocol version: `0.3.0` (proposer/state/provenance contract).
+Generated build provenance is written into the build artifact, never into the
+source package at runtime. The dirty-state policy and `unknown` fallback are
+documented in [Installation](engineering/release_v0_1/INSTALLATION.md).
 
-All three are recorded in run artifacts. The meanings of
-ZERO/NONZERO/UNKNOWN remain unchanged from engine v0.2.
+## Capability boundary
 
-## More detail
+The preview supports exact hypothesis adjudication in covered domains,
+explicit source grounding, structured observations, provenance, and
+reproducible runs. It does **not** establish robust mathematical
+representation invention, universal scientific simplification, or general
+exact limit certification.
 
-- [AGENTS.md](AGENTS.md) — authoritative harness-neutral operating contract
-- [Architecture](docs/ARCHITECTURE.md) — module map, invariants, state machine,
-  budgets, process guarantees, provenance, and errors
-- [Engineering guidelines](docs/ENGINEERING_GUIDELINES.md) — change discipline
-- [STRUCTURAL_PROPOSER](roles/STRUCTURAL_PROPOSER.md) — optional native
-  subagent role contract; the repository provides no agent runtime
-- [Project skill](.grok/skills/symbolic-compactification/SKILL.md) —
-  operating skill; default proposer `main`, optional `subagent` / `auto`
-- [A/B experiment protocol](docs/AB_EXPERIMENT_PROTOCOL.md) — experiment
-  appendix, not the default user path
-- [Skill vs blank (σ_abc)](docs/experiments/2026-08-21-skill-vs-blank.md) —
-  live isolated-agent probe
-- [Progress vs PRB closed form](docs/experiments/2026-08-21-progress-vs-prb-closed-form.md) —
-  how far each agent got, and what is still missing
+Context-conditioned representation invention remains unestablished and was
+not tested at realistic scale because too few adjudicable real scientific
+tasks were available. That is an evidence boundary, not a finding that the
+idea works or fails. Finite Laurent coefficients alone never certify an exact
+limit without supported remainder control.
+
+This tool is not an autonomous theoretical physicist, a universal theorem
+prover, or a guaranteed simplifier. Verification coverage is incomplete;
+`UNKNOWN` is expected on hard expressions. Scientific assumptions must be
+declared by the researcher, and exactness is always relative to the recorded
+engine semantics. Reference ingestion is lightweight: file paths, notes,
+curated excerpts, and optional metadata—not full paper understanding or RAG.
+
+## Mode B: propose then verify
+
+Model-assisted proposal is optional and experimental. It is not required for
+the v0.1 release and no workspace-level `propose` command is promised by this
+preview. Any proposed candidate must be typed, grounded to source members,
+compiled into obligations, and sent through the same verifier. Proposer text
+can never promote state.
+
+## Legacy and advanced compatibility
+
+The researcher workspace above is the primary external interface. Existing
+file-oriented and session commands remain available for established users:
+
+```bash
+symbolic-compactification inspect expression.txt --symbols symbols.json
+symbolic-compactification verify \
+  --current current.txt --candidate candidate.txt --symbols symbols.json
+symbolic-compactification init-session --help
+symbolic-compactification step --help
+symbolic-compactification summary --help
+symbolic-compactification finalize --help
+```
+
+The lower-level Python APIs `load_expression(...)`,
+`verify_equivalent(...)`, and the stateful session functions remain
+compatibility surfaces. Their files and namespace schemas are different from
+the researcher-workspace YAML format; do not translate scientific assumptions
+silently.
+
+Structural observation (`symbolic-compactification observe`) is also retained
+as an analysis surface. Observations and named patterns are hypotheses, not
+proof, until the required obligations receive `ZERO`.
+
+## Development identities
+
+- research-preview release: `0.1.0-alpha` (PEP 440: `0.1.0a0`)
+- deterministic engine: `0.3.0`
+- agent protocol: `0.3.0`
+
+Engine and protocol identities remain frozen in this engineering program. For
+developer installation, tests, architecture, and the agent-native operating
+contract, see [Installation](engineering/release_v0_1/INSTALLATION.md),
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).

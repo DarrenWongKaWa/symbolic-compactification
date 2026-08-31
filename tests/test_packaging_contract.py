@@ -5,7 +5,12 @@ clean-environment replay documented in engineering/release_v0_1/INSTALLATION.md.
 """
 
 from importlib import metadata
+import json
+import os
 from pathlib import Path
+import re
+import subprocess
+import sys
 import tomllib
 
 from packaging.requirements import Requirement
@@ -63,3 +68,135 @@ def test_both_supported_console_entry_points_are_packaged() -> None:
     target = "symbolic_compactification.cli:main"
     assert entry_points["symbolic-compactification"] == target
     assert entry_points["ssc"] == target
+
+
+def _checkout_identity(repository: Path) -> str:
+    commit = subprocess.run(
+        ["git", "rev-parse", "--verify", "HEAD"],
+        cwd=repository,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
+    status = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=normal"],
+        cwd=repository,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    assert re.fullmatch(r"[0-9a-f]{40}", commit)
+    return f"{commit}{'-dirty' if status.strip() else ''}"
+
+
+@pytest.mark.parametrize("install_kind", ["source", "wheel"])
+def test_non_editable_install_records_build_revision_outside_checkout(
+        tmp_path, install_kind) -> None:
+    """Exercise both PEP 517 install paths without importing checkout code."""
+    repository = Path(__file__).resolve().parents[1]
+    expected = _checkout_identity(repository)
+    install_root = tmp_path / f"installed-{install_kind}"
+    outside = tmp_path / f"outside-{install_kind}"
+    outside.mkdir()
+    source: Path = repository
+
+    environment = os.environ.copy()
+    environment["PIP_DISABLE_PIP_VERSION_CHECK"] = "1"
+    environment.pop("PYTHONPATH", None)
+    if install_kind == "wheel":
+        wheel_directory = tmp_path / "wheelhouse"
+        wheel_directory.mkdir()
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "pip",
+                "wheel",
+                "--no-cache-dir",
+                "--no-deps",
+                "--wheel-dir",
+                str(wheel_directory),
+                str(repository),
+            ],
+            cwd=outside,
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        source = next(wheel_directory.glob("*.whl"))
+
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--no-cache-dir",
+            "--no-deps",
+            "--target",
+            str(install_root),
+            str(source),
+        ],
+        cwd=outside,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    # ``--target`` intentionally reuses the test interpreter's dependencies,
+    # while PYTHONPATH forces the non-editable built package to be imported.
+    runtime_environment = environment.copy()
+    runtime_environment["PYTHONPATH"] = str(install_root)
+    workspace = outside / "workspace"
+    init = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "symbolic_compactification.cli",
+            "init",
+            str(workspace),
+            "--json",
+        ],
+        cwd=outside,
+        env=runtime_environment,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert json.loads(init.stdout)["status"] == "WORKSPACE_INITIALIZED"
+    verified = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "symbolic_compactification.cli",
+            "verify",
+            str(workspace),
+            "--json",
+        ],
+        cwd=outside,
+        env=runtime_environment,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    payload = json.loads(verified.stdout)
+    provenance = json.loads(
+        Path(payload["provenance_path"]).read_text(encoding="utf-8")
+    )
+
+    assert payload["result"] == "ZERO"
+    assert provenance["git_commit"] == expected
+    assert re.fullmatch(r"[0-9a-f]{40}(?:-dirty)?", expected)
+
+
+def test_packaged_readme_is_the_research_preview_entrypoint() -> None:
+    readme = Path("README.md").read_text(encoding="utf-8")
+
+    assert "Scientific experimentation is closed" in readme
+    assert "Mode A: verify my hypothesis" in readme
+    assert all(verdict in readme for verdict in ("ZERO", "NONZERO", "UNKNOWN"))
+    assert "engineering/release_v0_1/QUICKSTART.md" in readme
+    assert "Publication decision: **E**" not in readme
+    assert "AI discovers physics" not in readme

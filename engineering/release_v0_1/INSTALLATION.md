@@ -26,6 +26,23 @@ The runtime installation includes bounded dependencies for exact symbolic
 work (`sympy>=1.12,<2`) and the researcher workspace format
 (`PyYAML>=6,<7`). Optional observation backends are not installed by default.
 
+### Installed-build revision provenance
+
+An ordinary install or wheel built from a Git checkout embeds the checkout's
+exact 40-character lowercase `HEAD` commit in the built package. The generated
+module is written only to setuptools' build directory; building or running the
+package does not create or rewrite a file under `src/`. Consequently a CLI run
+outside the checkout still records its originating revision in
+`provenance.json`.
+
+The dirty policy is conservative and explicit. If Git reports any tracked
+change or non-ignored untracked file when the artifact is built, provenance
+uses `<40-hex-commit>-dirty`. A clean release artifact must record the bare
+40-character commit. Editable/source-checkout runs use the same live-Git
+fallback. A build made where no exact Git identity is available records
+`unknown`; such an artifact is usable fail-closed, but it does not satisfy the
+alpha release provenance gate.
+
 ## Editable developer install
 
 ```bash
@@ -55,6 +72,17 @@ python3.12 -m venv .venv-wheel
 .venv-wheel/bin/python -m pip install dist/symbolic_compactification-*.whl
 .venv-wheel/bin/symbolic-compactification --help
 .venv-wheel/bin/ssc --help
+```
+
+Run a workspace verification from a directory outside the checkout and inspect
+the embedded revision:
+
+```bash
+cd /tmp
+/path/to/.venv-wheel/bin/symbolic-compactification init revision-check
+/path/to/.venv-wheel/bin/symbolic-compactification verify revision-check
+python3.12 -c \
+  'import json,pathlib; p=max(pathlib.Path("revision-check/runs").glob("*/provenance.json")); print(json.loads(p.read_text())["git_commit"])'
 ```
 
 Do not infer scientific readiness from successful installation. Installation

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from importlib import metadata
 from pathlib import Path
 
@@ -177,6 +178,9 @@ def test_provenance_hashes_are_exact_deterministic_and_bounded(tmp_path):
         timestamp="2026-08-31T01:02:03Z",
     )
     provenance = json.loads(result.provenance_path.read_text(encoding="utf-8"))
+    assert re.fullmatch(
+        r"[0-9a-f]{40}(?:-dirty)?", provenance["git_commit"]
+    )
     candidate = root / "expressions/candidate.txt"
     assert provenance["expression_hashes"]["expressions/candidate.txt"] == (
         sha256_file(candidate)
