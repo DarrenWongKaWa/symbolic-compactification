@@ -46,7 +46,12 @@ my-symbolic-project/
 
 Replace the example text in `expressions/current.txt` and
 `expressions/candidate.txt`. Edit `assumptions/assumptions.yaml` so every
-symbol and allowed undefined function is declared. Update
+symbol and allowed undefined function is declared. The alpha machine-enforces
+only the symbol `real`/`nonzero` flags and the declared function namespace. It
+cannot represent positivity, general inequalities, excluded poles, parameter
+identities, boundary conditions, symmetries, or limit order. A hypothesis that
+depends on any such predicate is outside the supported alpha certification
+boundary; adding prose to notes or references does not change that. Update
 `hypotheses/hypothesis.json` so its members and obligations point to the exact
 source files being compared.
 
@@ -83,7 +88,9 @@ Interpret the result literally:
 - `PARSE_FAILURE`: at least one source cannot be parsed safely.
 - `COMPILE_FAILURE`: the hypothesis cannot be lowered to a supported proof
   obligation without changing its meaning.
-- `ASSUMPTION_REQUIRED`: a new scientific/domain choice needs the researcher.
+- `ASSUMPTION_REQUIRED`: `assumptions_used` is missing or omits a symbol
+  already declared in the assumptions file. It does not discover assumptions
+  that the formula needs.
 
 Exit status and generated JSON are automation aids; the named scientific
 result remains authoritative. See [SEMANTICS.md](SEMANTICS.md).

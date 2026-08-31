@@ -80,6 +80,14 @@ but explicit objects are preferred in external workspaces because they make
 domain choices visible. Assumptions are never inferred from notation, notes,
 references, or common physical practice.
 
+This schema's complete machine-enforced assumption surface is the symbol
+`real` and `nonzero` flags plus the declared undefined-function names. It does
+not encode positivity, general inequalities, excluded poles, parameter
+identities, boundary conditions, symmetries, or limit order. Those predicates
+may be recorded as context, but context does not affect the verifier. A
+hypothesis whose validity depends on one of them is outside supported alpha
+certification.
+
 Do not use `real: false` as an informal synonym for an unconstrained complex
 symbol until the documented namespace-contract defect is resolved. Affected
 claims fail closed; see [LIMITATIONS.md](LIMITATIONS.md).
@@ -123,7 +131,9 @@ Fields have these meanings:
 - `instance_maps`: explicit mappings from members to parameters/instances.
 - `reconstruction_rule`: readable statement of how members are reconstructed.
 - `assumptions_used`: every declared symbol name. Omission returns
-  `ASSUMPTION_REQUIRED` rather than being repaired silently.
+  `ASSUMPTION_REQUIRED` rather than being repaired silently. This field
+  acknowledges existing declarations; it does not ask the engine to discover
+  which additional assumptions the mathematics needs.
 - `proof_obligations`: exact member-to-member relations for compilation.
 
 A simple equivalence form may contain only `hypothesis_type`, two `members`,

@@ -20,6 +20,7 @@ from symbolic_compactification import (
     PACKAGE_VERSION,
     RELEASE_VERSION,
     UNKNOWN,
+    WorkspaceError,
     ZERO,
     build_run_record,
     generate_report,
@@ -208,6 +209,73 @@ def test_provenance_hashes_are_exact_deterministic_and_bounded(tmp_path):
     assert _source_snapshot(root) == before
 
 
+@pytest.mark.parametrize(
+    ("relative_path", "replacement", "hash_field", "summary_assertion"),
+    [
+        (
+            "project.yaml",
+            b"project_name: replaced\nobjective: replaced\n"
+            b"expression_entrypoint: expressions/current.txt\n"
+            b"assumptions_file: assumptions/assumptions.yaml\n",
+            ("input_hashes", "project.yaml"),
+            lambda summary: summary["project"]["objective"].startswith(
+                "Test an exact"),
+        ),
+        (
+            "assumptions/assumptions.yaml",
+            b"symbols:\n  - name: x\n    real: true\n"
+            b"    nonzero: true\nfunctions: []\n",
+            ("assumptions_hash", None),
+            lambda summary: summary["assumptions"]["symbols"][0][
+                "nonzero"] is False,
+        ),
+        (
+            "hypotheses/hypothesis.json",
+            b'{"hypothesis_type":"unsupported","members":['
+            b'"expressions/current.txt","expressions/candidate.txt"],'
+            b'"assumptions_used":["x"]}',
+            ("hypothesis_hash", None),
+            lambda summary: summary["hypothesis"]["hypothesis_type"]
+            == "equivalence",
+        ),
+    ],
+)
+def test_run_provenance_is_bound_to_the_single_parsed_metadata_snapshot(
+        tmp_path, monkeypatch, relative_path, replacement, hash_field,
+        summary_assertion):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    target = root / relative_path
+    original_read_bytes = Path.read_bytes
+    original = original_read_bytes(target)
+    expected_hash = hashlib.sha256(original).hexdigest()
+    target_resolved = target.resolve()
+    target_reads = 0
+
+    def mutate_after_snapshot(path):
+        nonlocal target_reads
+        raw = original_read_bytes(path)
+        if path.resolve() == target_resolved:
+            target_reads += 1
+            if target_reads == 1:
+                path.write_bytes(replacement)
+        return raw
+
+    monkeypatch.setattr(Path, "read_bytes", mutate_after_snapshot)
+
+    result = verify_hypothesis(
+        root, run_id=f"snapshot-{target.name.replace('.', '-')}")
+    provenance = json.loads(result.provenance_path.read_text(encoding="utf-8"))
+
+    assert result.result == ZERO
+    assert target_reads == 1
+    container, key = hash_field
+    recorded_hash = provenance[container] if key is None else provenance[container][key]
+    assert recorded_hash == expected_hash
+    assert summary_assertion(result.workspace_summary)
+    assert original_read_bytes(target) == replacement
+
+
 def test_parse_failure_artifacts_redact_secret_like_input(tmp_path):
     root = tmp_path / "workspace"
     initialize_workspace(root)
@@ -238,7 +306,54 @@ def test_report_generation_uses_persisted_run_and_not_source_mutation(tmp_path):
     assert "Dependency versions" in report.text
     assert "Expression members" in report.text
     assert "Generated artifact inventory" in report.text
+    assert "Assumption coverage in v0.1" in report.text
+    assert "only declared `real` and `nonzero` symbol flags" in report.text
+    assert "hypothesis `assumptions_used` list" in report.text
+    assert "does not mean the tool discovered" in report.text
     assert _source_snapshot(root) == before
+
+
+def test_report_symlink_and_forged_plain_file_fail_code_only_without_canary(
+        tmp_path, capsys):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    _set_unknown_pair(root)
+    result = verify_hypothesis(root, run_id="unknown-report-integrity")
+    assert result.result == UNKNOWN
+    canary = "GENERIC_PRIVATE_CANARY_7M2Q"
+    forged = f"# forged\nResult: **ZERO**\n{canary}\n"
+    outside = tmp_path / "outside-private.txt"
+    outside.write_text(forged, encoding="utf-8")
+
+    result.report_path.unlink()
+    result.report_path.symlink_to(outside)
+    with pytest.raises(WorkspaceError) as symlink_error:
+        generate_report(root, result.run_id)
+    assert symlink_error.value.code == "RUN_REPORT_INVALID"
+    assert canary not in str(symlink_error.value)
+
+    assert cli.main([
+        "report", str(root), "--run", result.run_id,
+    ]) == cli.EXIT_ERROR
+    symlink_output = capsys.readouterr()
+    assert symlink_output.out == ""
+    assert symlink_output.err.splitlines() == ["error: RUN_REPORT_INVALID"]
+    assert canary not in symlink_output.err
+
+    result.report_path.unlink()
+    result.report_path.write_text(forged, encoding="utf-8")
+    with pytest.raises(WorkspaceError) as forged_error:
+        generate_report(root, result.run_id)
+    assert forged_error.value.code == "RUN_REPORT_MISMATCH"
+    assert canary not in str(forged_error.value)
+
+    assert cli.main([
+        "report", str(root), "--run", result.run_id,
+    ]) == cli.EXIT_ERROR
+    forged_output = capsys.readouterr()
+    assert forged_output.out == ""
+    assert forged_output.err.splitlines() == ["error: RUN_REPORT_MISMATCH"]
+    assert canary not in forged_output.err
 
 
 def test_finite_laurent_coefficients_without_remainder_never_certify():

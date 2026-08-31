@@ -60,6 +60,7 @@ from .provenance import ProvenanceError
 from .research_api import (ASSUMPTION_REQUIRED, COMPILE_FAILURE,
                            PARSE_FAILURE, PUBLIC_RESULTS,
                            RESULT_SCHEMA_VERSION, _action_hint_for_error,
+                           _read_run_artifact_bytes,
                            _safe_workspace_error_source, generate_report,
                            verify_hypothesis)
 from .security import redact_public_data, redact_text
@@ -285,15 +286,23 @@ def _workspace_result_explanation(result: str) -> str:
     }.get(result, "the run returned an unsupported fail-closed status")
 
 
-def _safe_json_object(path: Path) -> Optional[dict]:
-    """Read bounded run metadata without following a final-component symlink."""
+def _safe_json_object(
+    path: Path,
+    *,
+    runs_directory: Path,
+    run_directory: Path,
+) -> Optional[dict]:
+    """Read bounded run metadata through the shared artifact boundary."""
     try:
-        if path.is_symlink() or not path.is_file():
-            return None
-        if path.stat().st_size > _MAX_RUN_METADATA_BYTES:
-            return None
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        raw = _read_run_artifact_bytes(
+            path,
+            "RUN_METADATA_INVALID",
+            runs_directory=runs_directory,
+            run_directory=run_directory,
+            max_bytes=_MAX_RUN_METADATA_BYTES,
+        )
+        value = json.loads(raw.decode("utf-8"))
+    except (WorkspaceError, UnicodeDecodeError, json.JSONDecodeError):
         return None
     return value if isinstance(value, dict) else None
 
@@ -331,8 +340,16 @@ def _latest_safe_run_id(workspace_path: str) -> str:
                 or not _SAFE_RUN_ID_RE.fullmatch(run_directory.name)):
             continue
         provenance_path = run_directory / "provenance.json"
-        provenance = _safe_json_object(provenance_path)
-        result = _safe_json_object(run_directory / "result.json")
+        provenance = _safe_json_object(
+            provenance_path,
+            runs_directory=runs,
+            run_directory=run_directory,
+        )
+        result = _safe_json_object(
+            run_directory / "result.json",
+            runs_directory=runs,
+            run_directory=run_directory,
+        )
         if provenance is None or result is None:
             continue
         timestamp = provenance.get("timestamp")

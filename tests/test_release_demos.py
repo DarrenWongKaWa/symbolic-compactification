@@ -66,7 +66,7 @@ def test_demo_runner_produces_zero_zero_unknown_with_complete_artifacts(tmp_path
     } == EXPECTED
     assert summaries["demo_a_zero"]["obligation_results"] == [ZERO]
     assert summaries["demo_b_grounded_newton_dd"]["obligation_results"] == [
-        ZERO, ZERO, ZERO, ZERO
+        ZERO
     ]
     assert summaries["demo_c_unknown"]["obligation_results"] == [UNKNOWN]
 
@@ -111,5 +111,45 @@ def test_demo_scientific_boundaries_are_explicit():
     normalized_newton_notes = " ".join(newton_notes.split())
     assert "not** a discovery result" in normalized_newton_notes
     assert "does not show that an AI" in normalized_newton_notes
+    assert "does not certify the full symbolic `C9H4` family" in newton_notes
+    assert "nodes are `10/9` and `25/9`" in newton_notes
+    assert "difference is `5/3`" in newton_notes
     assert "UNKNOWN" in unknown_notes
     assert "no scientific state may be promoted" in unknown_notes
+
+
+def test_demo_b_is_a_fixed_denominator_safe_frozen_instance():
+    root = DEMO_ROOT / "demo_b_grounded_newton_dd"
+    workspace = load_workspace(root)
+    hypothesis = json.loads(
+        (root / "hypotheses/hypothesis.json").read_text(encoding="utf-8")
+    )
+
+    assert [item["name"] for item in workspace.symbols] == ["scale"]
+    assert workspace.symbols[0] == {
+        "name": "scale", "real": True, "nonzero": False,
+    }
+    assert hypothesis["assumptions_used"] == ["scale"]
+    fixed = hypothesis["instance_maps"]["M9H1_FIXED"]
+    assert fixed["source_member"] == "C9H4/M9H1"
+    assert fixed["rational_substitution"] == {
+        "alpha": "1/3",
+        "x1_old": "0",
+        "x1_new": "1",
+        "x2_hold": "1",
+    }
+    assert fixed["left_node"] == "10/9"
+    assert fixed["right_node"] == "25/9"
+    assert len(workspace.hypothesis.proof_obligations) == 1
+
+    source = (root / "expressions/m9h1_fixed_source.txt").read_text(
+        encoding="utf-8"
+    )
+    candidate = (root / "expressions/m9h1_fixed_newton_dd.txt").read_text(
+        encoding="utf-8"
+    )
+    assert "sqrt(10/9)" in source and "sqrt(25/9)" in source
+    assert "((25/9)-(10/9))" in candidate
+    assert not any(name in source + candidate for name in (
+        "alpha", "beta", "x1_old", "x1_new", "x2_hold",
+    ))

@@ -6,6 +6,7 @@ import json
 
 import pytest
 
+import symbolic_compactification.cli as cli
 from symbolic_compactification.provenance import (
     ProvenanceError,
     build_run_record,
@@ -18,7 +19,13 @@ from symbolic_compactification.security import (
     redact_text,
 )
 from symbolic_compactification.verifier import verify_equivalent
-from symbolic_compactification import initialize_workspace, verify_hypothesis
+from symbolic_compactification import (
+    UNKNOWN,
+    WorkspaceError,
+    generate_report,
+    initialize_workspace,
+    verify_hypothesis,
+)
 
 
 @pytest.mark.parametrize(
@@ -218,6 +225,56 @@ def test_workspace_summary_and_report_redact_metadata_and_omit_context_contents(
     assert "note-only-content" not in blob
     assert "reference-only-content" not in blob
     assert REDACTED in blob
+
+
+@pytest.mark.parametrize(
+    ("replacement", "expected_code"),
+    [
+        ("symlink", "RUN_REPORT_INVALID"),
+        ("plain", "RUN_REPORT_MISMATCH"),
+    ],
+)
+def test_untrusted_report_never_returns_or_prints_generic_canary(
+        tmp_path, capsys, replacement, expected_code):
+    root = tmp_path / f"workspace-{replacement}"
+    initialize_workspace(root)
+    (root / "assumptions/assumptions.yaml").write_text(
+        "symbols:\n"
+        "  - name: x\n"
+        "    real: true\n"
+        "    nonzero: false\n"
+        "functions:\n"
+        "  - f\n"
+        "  - g\n",
+        encoding="utf-8",
+    )
+    (root / "expressions/current.txt").write_text("f(x)\n", encoding="utf-8")
+    (root / "expressions/candidate.txt").write_text("g(x)\n", encoding="utf-8")
+    result = verify_hypothesis(root, run_id=f"untrusted-report-{replacement}")
+    assert result.result == UNKNOWN
+
+    canary = "ORDINARY_LOCAL_FILE_CANARY_X4T9"
+    forged = f"# forged\nResult: **ZERO**\n{canary}\n"
+    result.report_path.unlink()
+    if replacement == "symlink":
+        outside = tmp_path / "outside-private.txt"
+        outside.write_text(forged, encoding="utf-8")
+        result.report_path.symlink_to(outside)
+    else:
+        result.report_path.write_text(forged, encoding="utf-8")
+
+    with pytest.raises(WorkspaceError) as excinfo:
+        generate_report(root, result.run_id)
+    assert excinfo.value.code == expected_code
+    assert canary not in str(excinfo.value)
+
+    assert cli.main([
+        "report", str(root), "--run", result.run_id,
+    ]) == cli.EXIT_ERROR
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err.splitlines() == [f"error: {expected_code}"]
+    assert canary not in captured.err
 
 
 @pytest.mark.parametrize(("current", "candidate"), [

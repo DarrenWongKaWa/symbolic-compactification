@@ -48,7 +48,8 @@ Supported for the preview:
 
 - strict ingestion of a small, human-readable workspace;
 - exact equivalence checks in the documented parser/verifier coverage;
-- explicit assumptions and source-member grounding;
+- explicit real/nonzero symbol flags, declared functions, and source-member
+  grounding;
 - hashes and bounded run provenance;
 - reports that distinguish proof, refutation, and proof gaps.
 
@@ -58,6 +59,12 @@ Experimental or outside the preview contract:
 - general mathematical representation invention;
 - arbitrary matrix, tensor, limit, and special-function certification;
 - automatic extraction of scientific meaning from papers.
+
+The alpha assumptions schema does not represent positivity, general
+inequalities, excluded poles, parameter identities, boundary conditions,
+symmetries, or limit order. Any claim that depends on one of those predicates
+is outside supported alpha certification, even if the predicate appears in a
+note or reference.
 
 This is not an autonomous theoretical physicist, a universal simplifier, or a
 general formal proof system. See [LIMITATIONS.md](LIMITATIONS.md) before using a

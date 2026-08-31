@@ -66,19 +66,19 @@ nearby relation.
 
 ### `ASSUMPTION_REQUIRED`
 
-Verification requires a genuinely new scientific/domain choice that was not
-declared: for example positivity, nonzero conditions, boundary behavior,
-symmetry, integration by parts, or an order of limits. The tool stops and asks
-the researcher to decide explicitly.
+In the v0.1 equivalence workflow this status has one operational trigger: a
+hypothesis's `assumptions_used` field is missing or omits a symbol already
+present in the researcher-owned assumptions file. The tool stops rather than
+silently repairing that declaration mismatch.
 
-In the v0.1 equivalence workflow, the operational trigger is narrower and
-fully explicit: a hypothesis that omits a symbol already present in the
-researcher-owned assumptions file from `assumptions_used` returns
-`ASSUMPTION_REQUIRED`. The engine does not attempt to infer other missing
-domain predicates from the formula.
+`ASSUMPTION_REQUIRED` is **not** needed-assumption discovery. The engine does
+not infer from a formula that positivity, an inequality, an excluded pole,
+a parameter identity, a boundary condition, a symmetry, or a limit order is
+required.
 
-This differs from `UNKNOWN`. `ASSUMPTION_REQUIRED` is an assumption gate;
-`UNKNOWN` is a proof gap after the available assumptions have been applied.
+This differs from `UNKNOWN`. `ASSUMPTION_REQUIRED` is a declaration-consistency
+gate; `UNKNOWN` is a proof gap after the machine-supported assumptions have
+been applied.
 
 ## Multi-obligation hypotheses
 
@@ -97,7 +97,17 @@ failure behind a majority, score, or successful sub-obligation.
 ## Assumptions and domains
 
 Exactness is always conditional on the declared engine namespace and
-assumptions. The tool does not silently:
+machine-supported assumptions. The alpha enforces only symbol `real` and
+`nonzero` flags and the declared undefined-function namespace.
+
+The alpha cannot represent or enforce positivity, general inequalities,
+excluded poles, parameter identities, boundary conditions, symmetries, or
+limit order. A scientific hypothesis that depends on any of these is outside
+supported alpha certification. Writing such a predicate in notes, references,
+or a reconstruction rule records context only and cannot extend a `ZERO`
+verdict.
+
+The tool does not silently:
 
 - assume variables are real, positive, or nonzero;
 - add physical folklore;
@@ -106,8 +116,9 @@ assumptions. The tool does not silently:
 - reorder limits;
 - change domains or boundary conditions.
 
-If such a choice is scientifically necessary, it belongs in researcher-owned
-input and run provenance before verification.
+If one of the unsupported choices is scientifically necessary, do not treat
+the workspace equivalence result as alpha certification of that scientific
+claim.
 
 ## Reports and provenance
 

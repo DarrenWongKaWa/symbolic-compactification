@@ -73,8 +73,12 @@ my-symbolic-project/
 └── runs/
 ```
 
-Replace the example expressions and declare every scientific/domain
-assumption. Then inspect, verify, and render the report:
+Replace the example expressions and declare every symbol and allowed undefined
+function. The alpha operationally supports only symbol `real`/`nonzero` flags
+and declared functions. It cannot enforce positivity, general inequalities,
+excluded poles, parameter identities, boundary conditions, symmetries, or
+limit order. Do not submit a claim that depends on one of those predicates as
+being within alpha certification. Then inspect, verify, and render the report:
 
 ```bash
 symbolic-compactification inspect my-symbolic-project
@@ -96,7 +100,7 @@ hypotheses are never overwritten by these commands.
 | `UNKNOWN` | The verifier cannot decide. Nothing is certified or promoted. |
 | `PARSE_FAILURE` | A source cannot be parsed safely in the supported expression language. |
 | `COMPILE_FAILURE` | The hypothesis cannot be lowered to a supported obligation without changing its meaning. |
-| `ASSUMPTION_REQUIRED` | A missing scientific/domain choice must be supplied explicitly by the researcher. |
+| `ASSUMPTION_REQUIRED` | `assumptions_used` is missing or omits a symbol already declared in the assumptions file; this is not needed-assumption discovery. |
 
 `UNKNOWN` is not likely true, likely false, partial success, or permission to
 advance scientific state. Approximate numerical agreement never becomes
@@ -153,12 +157,17 @@ tasks were available. That is an evidence boundary, not a finding that the
 idea works or fails. Finite Laurent coefficients alone never certify an exact
 limit without supported remainder control.
 
+The alpha cannot machine-enforce positivity, general inequalities, excluded
+poles, parameter identities, boundaries, symmetries, or limit order. Claims
+that depend on those predicates are outside its supported certification
+boundary; contextual prose does not extend verifier semantics.
+
 This tool is not an autonomous theoretical physicist, a universal theorem
 prover, or a guaranteed simplifier. Verification coverage is incomplete;
-`UNKNOWN` is expected on hard expressions. Scientific assumptions must be
-declared by the researcher, and exactness is always relative to the recorded
-engine semantics. Reference ingestion is lightweight: file paths, notes,
-curated excerpts, and optional metadata—not full paper understanding or RAG.
+`UNKNOWN` is expected on hard expressions. Exactness is always relative to the
+recorded, machine-supported engine semantics. Reference ingestion is
+lightweight: file paths, notes, curated excerpts, and optional metadata—not
+full paper understanding or RAG.
 
 ## Mode B: propose then verify
 

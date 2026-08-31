@@ -5,12 +5,15 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from symbolic_compactification import (
     ASSUMPTION_REQUIRED,
     COMPILE_FAILURE,
     NONZERO,
     PARSE_FAILURE,
     UNKNOWN,
+    WorkspaceError,
     ZERO,
     HypothesisVerificationResult,
     generate_report,
@@ -230,6 +233,65 @@ def test_generate_report_returns_existing_or_regenerates_missing_report(tmp_path
     assert regenerated.path == result.report_path
     assert regenerated.path.is_file()
     assert regenerated.text == existing.text
+
+
+@pytest.mark.parametrize(
+    ("artifact_name", "expected_code"),
+    [
+        ("provenance.json", "RUN_PROVENANCE_INVALID"),
+        ("result.json", "RUN_RESULT_INVALID"),
+        ("REPORT.md", "RUN_REPORT_INVALID"),
+    ],
+)
+def test_generate_report_rejects_symlinked_run_artifacts_without_reading_target(
+        tmp_path, artifact_name, expected_code):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    result = verify_hypothesis(root, run_id=f"symlink-{artifact_name[:3]}")
+    outside = tmp_path / f"outside-{artifact_name}"
+    canary = "GENERIC_OUTSIDE_CANARY_DO_NOT_RETURN"
+    outside.write_text(
+        f"# forged artifact\nResult: **ZERO**\n{canary}\n",
+        encoding="utf-8",
+    )
+    artifact = result.run_directory / artifact_name
+    artifact.unlink()
+    artifact.symlink_to(outside)
+
+    with pytest.raises(WorkspaceError) as excinfo:
+        generate_report(root, result.run_id)
+
+    assert excinfo.value.code == expected_code
+    assert canary not in str(excinfo.value)
+    assert outside.read_text(encoding="utf-8").endswith(f"{canary}\n")
+
+
+@pytest.mark.parametrize(
+    ("artifact_name", "expected_code"),
+    [
+        ("provenance.json", "RUN_PROVENANCE_INVALID"),
+        ("result.json", "RUN_RESULT_INVALID"),
+        ("REPORT.md", "RUN_REPORT_INVALID"),
+    ],
+)
+def test_generate_report_rejects_nonregular_and_oversized_run_artifacts(
+        tmp_path, artifact_name, expected_code):
+    root = tmp_path / f"workspace-{artifact_name[:3]}"
+    initialize_workspace(root)
+    result = verify_hypothesis(root, run_id=f"unsafe-{artifact_name[:3]}")
+    artifact = result.run_directory / artifact_name
+
+    artifact.unlink()
+    artifact.mkdir()
+    with pytest.raises(WorkspaceError) as nonregular:
+        generate_report(root, result.run_id)
+    assert nonregular.value.code == expected_code
+
+    artifact.rmdir()
+    artifact.write_bytes(b"x" * 1_048_577)
+    with pytest.raises(WorkspaceError) as oversized:
+        generate_report(root, result.run_id)
+    assert oversized.value.code == expected_code
 
 
 def test_result_persists_bounded_grounding_context_and_report_is_complete(

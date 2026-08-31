@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import stat
 import tempfile
 import time
 from dataclasses import dataclass
@@ -50,6 +51,7 @@ _SUMMARY_MAX_STRING = 2_048
 _SUMMARY_MAX_ITEMS = 128
 _SUMMARY_MAX_DEPTH = 12
 _TRUNCATED = "[TRUNCATED]"
+_MAX_RUN_ARTIFACT_BYTES = 1_048_576
 
 _ARTIFACT_INVENTORY = (
     {"path": "provenance.json", "role": "immutable run provenance"},
@@ -323,11 +325,13 @@ def generate_report(
     workspace: PathLike | ResearchWorkspace,
     run: str | HypothesisVerificationResult,
 ) -> GeneratedReport:
-    """Return an existing run report, regenerating it if it is absent.
+    """Return a validated run report, regenerating it if it is absent.
 
     Regeneration uses only the persisted bounded ``result.json`` and
     ``provenance.json`` records.  It never rereads or modifies scientific
-    source files.
+    source files.  An existing report is never trusted as authority: it must
+    be a bounded regular file whose bytes exactly match a fresh render of the
+    validated structured artifacts.
     """
     root = _workspace_root(workspace)
     runs_directory = _safe_runs_directory(root)
@@ -353,21 +357,57 @@ def generate_report(
             "RUN_NOT_FOUND", "run is not a regular directory", path=run_directory)
 
     result_payload = _read_json_object(
-        resolved_run / RESULT_FILE_NAME, "RUN_RESULT_INVALID")
+        resolved_run / RESULT_FILE_NAME,
+        "RUN_RESULT_INVALID",
+        runs_directory=runs_directory,
+        run_directory=resolved_run,
+    )
     provenance = _read_json_object(
-        resolved_run / "provenance.json", "RUN_PROVENANCE_INVALID")
+        resolved_run / "provenance.json",
+        "RUN_PROVENANCE_INVALID",
+        runs_directory=runs_directory,
+        run_directory=resolved_run,
+    )
     _validate_persisted_run(selected_run_id, result_payload, provenance)
+    text = _render_report(result_payload, provenance)
+    rendered = text.encode("utf-8")
+    if len(rendered) > _MAX_RUN_ARTIFACT_BYTES:
+        raise WorkspaceError(
+            "RUN_REPORT_INVALID",
+            "freshly rendered report exceeds the safe artifact limit",
+            path=resolved_run / REPORT_FILE_NAME,
+        )
+
     report_path = resolved_run / REPORT_FILE_NAME
-    if report_path.exists():
-        try:
-            text = report_path.read_text(encoding="utf-8")
-        except (OSError, UnicodeDecodeError):
+    if _path_entry_exists(report_path):
+        existing = _read_run_artifact_bytes(
+            report_path,
+            "RUN_REPORT_INVALID",
+            runs_directory=runs_directory,
+            run_directory=resolved_run,
+        )
+        if existing != rendered:
             raise WorkspaceError(
-                "RUN_REPORT_UNREADABLE", "report is not readable UTF-8",
-                path=report_path) from None
+                "RUN_REPORT_MISMATCH",
+                "existing report does not match validated run artifacts",
+                path=report_path,
+            )
     else:
-        text = _render_report(result_payload, provenance)
         _write_text_atomic(report_path, text)
+        # Fail closed if another process replaced the generated artifact before
+        # it could be returned to the caller.
+        persisted = _read_run_artifact_bytes(
+            report_path,
+            "RUN_REPORT_INVALID",
+            runs_directory=runs_directory,
+            run_directory=resolved_run,
+        )
+        if persisted != rendered:
+            raise WorkspaceError(
+                "RUN_REPORT_MISMATCH",
+                "generated report does not match validated run artifacts",
+                path=report_path,
+            )
     return GeneratedReport(
         run_id=selected_run_id,
         result=result_payload["result"],
@@ -708,6 +748,21 @@ def _render_report(result: Mapping[str, Any], provenance: Mapping[str, Any]) -> 
             "",
         ])
 
+    lines.extend([
+        "### Assumption coverage in v0.1",
+        "",
+        "The verifier machine-applies only declared `real` and `nonzero` "
+        "symbol flags and the declared function namespace. Other domain "
+        "predicates, physical conditions, boundary conditions, and regularity "
+        "requirements are not inferred or certified by v0.1.",
+        "",
+        "`ASSUMPTION_REQUIRED` has one narrow operational meaning in v0.1: "
+        "a symbol already declared in the assumptions file was omitted from "
+        "the hypothesis `assumptions_used` list. It does not mean the tool "
+        "discovered every additional predicate needed by the science.",
+        "",
+    ])
+
     obligations = result.get("obligations", [])
     if obligations:
         lines.extend(["## Proof obligations", ""])
@@ -811,10 +866,152 @@ def _status_explanation(status: str) -> str:
     }[status]
 
 
-def _read_json_object(path: Path, code: str) -> dict[str, Any]:
+def _path_entry_exists(path: Path) -> bool:
+    """Return whether a directory entry exists without following symlinks."""
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        os.lstat(path)
+    except FileNotFoundError:
+        return False
+    except OSError:
+        # An unreadable entry must flow through the fail-closed artifact reader
+        # rather than being mistaken for an absent report that may be replaced.
+        return True
+    return True
+
+
+def _read_run_artifact_bytes(
+    path: Path,
+    code: str,
+    *,
+    runs_directory: Path,
+    run_directory: Path,
+    max_bytes: int = _MAX_RUN_ARTIFACT_BYTES,
+) -> bytes:
+    """Read one bounded regular artifact without following a symlink.
+
+    Both enclosing directories are trusted inputs established by the caller.
+    This function revalidates their containment, opens the run directory and
+    artifact by file descriptor, rejects every non-regular final component,
+    and detects changes during the bounded read.  Artifact bytes never appear
+    in an exception.
+    """
+
+    def fail(detail: str) -> WorkspaceError:
+        return WorkspaceError(code, detail, path=path)
+
+    if (isinstance(max_bytes, bool) or not isinstance(max_bytes, int)
+            or max_bytes < 1):
+        raise fail("run artifact size limit is invalid")
+
+    candidate = Path(path)
+    run_root = Path(run_directory)
+    runs_root = Path(runs_directory)
+    try:
+        if runs_root.is_symlink() or run_root.is_symlink():
+            raise ValueError
+        resolved_runs = runs_root.resolve(strict=True)
+        resolved_run = run_root.resolve(strict=True)
+        resolved_run.relative_to(resolved_runs)
+        if not resolved_runs.is_dir() or not resolved_run.is_dir():
+            raise ValueError
+        if candidate.name in ("", ".", ".."):
+            raise ValueError
+        if candidate.parent.resolve(strict=True) != resolved_run:
+            raise ValueError
+    except (OSError, ValueError):
+        raise fail("run artifact path is outside the validated run") from None
+
+    directory_flags = os.O_RDONLY
+    directory_flags |= getattr(os, "O_CLOEXEC", 0)
+    directory_flags |= getattr(os, "O_DIRECTORY", 0)
+    directory_flags |= getattr(os, "O_NOFOLLOW", 0)
+    artifact_flags = os.O_RDONLY
+    artifact_flags |= getattr(os, "O_CLOEXEC", 0)
+    artifact_flags |= getattr(os, "O_NOFOLLOW", 0)
+
+    directory_fd: Optional[int] = None
+    artifact_fd: Optional[int] = None
+    try:
+        directory_fd = os.open(resolved_run, directory_flags)
+        before_entry = os.stat(
+            candidate.name, dir_fd=directory_fd, follow_symlinks=False)
+        if not stat.S_ISREG(before_entry.st_mode):
+            raise fail("run artifact must be a regular file")
+        if before_entry.st_size > max_bytes:
+            raise fail("run artifact exceeds the safe size limit")
+
+        artifact_fd = os.open(
+            candidate.name, artifact_flags, dir_fd=directory_fd)
+        before_open = os.fstat(artifact_fd)
+        if (not stat.S_ISREG(before_open.st_mode)
+                or (before_entry.st_dev, before_entry.st_ino)
+                != (before_open.st_dev, before_open.st_ino)):
+            raise fail("run artifact changed before it could be read safely")
+        if before_open.st_size > max_bytes:
+            raise fail("run artifact exceeds the safe size limit")
+
+        chunks: list[bytes] = []
+        remaining = max_bytes + 1
+        while remaining:
+            block = os.read(artifact_fd, min(65_536, remaining))
+            if not block:
+                break
+            chunks.append(block)
+            remaining -= len(block)
+        payload = b"".join(chunks)
+        after_open = os.fstat(artifact_fd)
+        if len(payload) > max_bytes:
+            raise fail("run artifact exceeds the safe size limit")
+        before_identity = (
+            before_open.st_dev,
+            before_open.st_ino,
+            before_open.st_size,
+            before_open.st_mtime_ns,
+            before_open.st_ctime_ns,
+        )
+        after_identity = (
+            after_open.st_dev,
+            after_open.st_ino,
+            after_open.st_size,
+            after_open.st_mtime_ns,
+            after_open.st_ctime_ns,
+        )
+        if before_identity != after_identity or len(payload) != after_open.st_size:
+            raise fail("run artifact changed while it was being read")
+        return payload
+    except WorkspaceError:
+        raise
+    except OSError:
+        raise fail("run artifact is missing, unsafe, or unreadable") from None
+    finally:
+        if artifact_fd is not None:
+            try:
+                os.close(artifact_fd)
+            except OSError:
+                pass
+        if directory_fd is not None:
+            try:
+                os.close(directory_fd)
+            except OSError:
+                pass
+
+
+def _read_json_object(
+    path: Path,
+    code: str,
+    *,
+    runs_directory: Path,
+    run_directory: Path,
+) -> dict[str, Any]:
+    try:
+        raw = _read_run_artifact_bytes(
+            path,
+            code,
+            runs_directory=runs_directory,
+            run_directory=run_directory,
+        )
+        value = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
         raise WorkspaceError(code, "run artifact is missing or invalid", path=path) from None
     if not isinstance(value, dict):
         raise WorkspaceError(code, "run artifact must be an object", path=path)

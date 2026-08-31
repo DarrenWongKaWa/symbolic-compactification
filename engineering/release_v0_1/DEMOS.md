@@ -7,10 +7,12 @@ copied workspace's `runs/<run_id>/` directory.
 | demo | purpose | required result |
 |---|---|---|
 | `demo_a_zero` | researcher-supplied exact algebraic factorization | `ZERO` |
-| `demo_b_grounded_newton_dd` | four grounded obligations for the frozen C9H4 Newton divided-difference reference object | `ZERO` |
+| `demo_b_grounded_newton_dd` | one fixed, denominator-safe rational instance of the frozen C9H4/M9H1 Newton divided-difference evidence | `ZERO` |
 | `demo_c_unknown` | frozen order-two polygamma recurrence proof gap | `UNKNOWN` |
 
-Demo B is a verification demonstration, not a search or discovery result.
+Demo B is a verification demonstration, not a search or discovery result. It
+does not certify the full symbolic C9H4 family: its nodes are the fixed
+positive rationals `10/9` and `25/9`, with fixed nonzero difference `5/3`.
 Demo C makes the fail-closed contract visible: `UNKNOWN` does not promote the
 hypothesis and is neither likely true nor likely false.
 

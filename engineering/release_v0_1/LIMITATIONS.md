@@ -23,9 +23,19 @@ namespace, assumptions, and verifier route. It does not validate undeclared
 physical assumptions, provenance outside the hashed workspace, or a broader
 domain than the one tested.
 
-Scientific assumptions must be explicit. The tool does not authorize
-positivity, nonzero conditions, boundary terms, symmetry, integration by
-parts, analytic continuation, or changes in limit order.
+Machine-supported assumptions must be explicit. The tool does not authorize
+positivity, boundary terms, symmetry, integration by parts, analytic
+continuation, or changes in limit order.
+
+The alpha can machine-enforce only symbol `real`/`nonzero` flags and declared
+undefined functions. It cannot represent positivity, general inequalities,
+excluded poles, parameter identities, boundary conditions, symmetries, or
+limit order. A hypothesis that depends on one of those predicates is outside
+supported alpha certification. Notes and references may document the issue,
+but do not make it operational. `ASSUMPTION_REQUIRED` only catches a missing
+`hypothesis.assumptions_used` field or a symbol already declared in the
+assumptions file but omitted from that field; it does not discover missing
+mathematical or physical assumptions.
 
 The documented `real: false` namespace convention has a known contract defect:
 the current symbolic construction can encode "provably non-real" instead of

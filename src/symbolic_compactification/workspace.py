@@ -178,14 +178,14 @@ def _read_bytes(path: Path, *, metadata: bool = False) -> bytes:
         if not path.is_file():
             raise WorkspaceError(
                 "SOURCE_FILE_MISSING", "expected a regular file", path=path)
-        size = path.stat().st_size
-        if metadata and size > _MAX_METADATA_BYTES:
+        raw = path.read_bytes()
+        if metadata and len(raw) > _MAX_METADATA_BYTES:
             raise WorkspaceError(
                 "METADATA_TOO_LARGE",
                 f"metadata exceeds {_MAX_METADATA_BYTES} bytes",
                 path=path,
             )
-        return path.read_bytes()
+        return raw
     except WorkspaceError:
         raise
     except OSError as exc:
@@ -200,8 +200,15 @@ def _decode_text(raw: bytes, path: Path, code: str) -> str:
         raise WorkspaceError(code, "file must be UTF-8", path=path) from None
 
 
-def _source(path: Path, root: Path, kind: str, *, text: bool) -> WorkspaceSource:
-    raw = _read_bytes(path)
+def _source_from_bytes(
+    path: Path,
+    root: Path,
+    kind: str,
+    raw: bytes,
+    *,
+    text: bool,
+) -> WorkspaceSource:
+    """Build provenance from the exact immutable bytes used by the parser."""
     content = _decode_text(raw, path, "SOURCE_FILE_NOT_UTF8") if text else None
     return WorkspaceSource(
         kind=kind,
@@ -213,8 +220,12 @@ def _source(path: Path, root: Path, kind: str, *, text: bool) -> WorkspaceSource
     )
 
 
-def _safe_yaml_mapping(path: Path, code: str) -> dict:
-    raw = _read_bytes(path, metadata=True)
+def _source(path: Path, root: Path, kind: str, *, text: bool) -> WorkspaceSource:
+    return _source_from_bytes(
+        path, root, kind, _read_bytes(path), text=text)
+
+
+def _safe_yaml_mapping(raw: bytes, path: Path, code: str) -> dict:
     text = _decode_text(raw, path, code)
     try:
         tokens = yaml.scan(text)
@@ -232,8 +243,7 @@ def _safe_yaml_mapping(path: Path, code: str) -> dict:
     return value
 
 
-def _strict_json_mapping(path: Path, code: str) -> dict:
-    raw = _read_bytes(path, metadata=True)
+def _strict_json_mapping(raw: bytes, path: Path, code: str) -> dict:
     text = _decode_text(raw, path, code)
 
     def no_duplicates(pairs):
@@ -329,7 +339,8 @@ def _assert_contained(root: Path, candidate: Path, field: str) -> None:
 def _load_project(root: Path) -> tuple[WorkspaceProject, WorkspaceSource]:
     path = root / PROJECT_FILE
     _assert_contained(root, path, PROJECT_FILE)
-    raw = _safe_yaml_mapping(path, "PROJECT_PARSE_FAILURE")
+    source_bytes = _read_bytes(path, metadata=True)
+    raw = _safe_yaml_mapping(source_bytes, path, "PROJECT_PARSE_FAILURE")
     _keys(raw, allowed=_PROJECT_KEYS, required=_PROJECT_REQUIRED,
           code="PROJECT_SCHEMA_INVALID", path=path)
     notes = _string_list(raw.get("optional_notes"), "optional_notes",
@@ -351,14 +362,17 @@ def _load_project(root: Path) -> tuple[WorkspaceProject, WorkspaceSource]:
         optional_notes=notes,
         optional_references=references,
     )
-    return project, _source(path, root, "project", text=True)
+    return project, _source_from_bytes(
+        path, root, "project", source_bytes, text=True)
 
 
 def _load_assumptions(root: Path, relative: str) -> tuple[
         tuple[dict, ...], tuple[str, ...], WorkspaceSource]:
     normalized, path = _contained_path(
         root, relative, "assumptions_file", ASSUMPTIONS_DIRECTORY)
-    raw = _safe_yaml_mapping(path, "ASSUMPTIONS_PARSE_FAILURE")
+    source_bytes = _read_bytes(path, metadata=True)
+    raw = _safe_yaml_mapping(
+        source_bytes, path, "ASSUMPTIONS_PARSE_FAILURE")
     _keys(raw, allowed=_ASSUMPTION_KEYS, required=frozenset({"symbols"}),
           code="ASSUMPTIONS_SCHEMA_INVALID", path=path)
     try:
@@ -370,15 +384,17 @@ def _load_assumptions(root: Path, relative: str) -> tuple[
     except AdapterError as exc:
         raise WorkspaceError(
             "ASSUMPTIONS_SCHEMA_INVALID", exc.code, path=path) from None
-    return tuple(symbols), tuple(functions), _source(
-        path, root, "assumptions", text=True)
+    return tuple(symbols), tuple(functions), _source_from_bytes(
+        path, root, "assumptions", source_bytes, text=True)
 
 
 def _load_hypothesis(root: Path, symbol_names: set[str]) -> tuple[
         WorkspaceHypothesis, WorkspaceSource]:
     path = root / HYPOTHESES_DIRECTORY / "hypothesis.json"
     _assert_contained(root, path, "hypothesis")
-    raw = _strict_json_mapping(path, "HYPOTHESIS_PARSE_FAILURE")
+    source_bytes = _read_bytes(path, metadata=True)
+    raw = _strict_json_mapping(
+        source_bytes, path, "HYPOTHESIS_PARSE_FAILURE")
     if "assumptions_used" not in raw:
         raise WorkspaceError(
             "DECLARED_ASSUMPTIONS_OMITTED",
@@ -488,7 +504,8 @@ def _load_hypothesis(root: Path, symbol_names: set[str]) -> tuple[
         proof_obligations=tuple(obligations),
         normalized_simple_form=simple,
     )
-    return hypothesis, _source(path, root, "hypothesis", text=True)
+    return hypothesis, _source_from_bytes(
+        path, root, "hypothesis", source_bytes, text=True)
 
 
 def load_workspace(path: str | Path) -> ResearchWorkspace:

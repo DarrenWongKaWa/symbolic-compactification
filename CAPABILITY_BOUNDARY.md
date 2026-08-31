@@ -18,6 +18,19 @@ scientific representation-discovery campaign remains closed.
 - Structural observation as non-proof context.
 - Reproducible CLI and Python workflows for the supported workspace schema.
 
+The alpha's machine-enforced assumption namespace is deliberately small: each
+declared symbol has only `real` and `nonzero` flags, and undefined functions
+must be named explicitly. Positivity, general inequalities, excluded poles,
+parameter identities, boundary conditions, symmetries, and limit order cannot
+be represented or enforced. A scientific claim that depends on any such
+predicate is outside supported alpha certification; putting the predicate in
+notes or references does not make it operational.
+
+`ASSUMPTION_REQUIRED` is also narrow: it detects that
+`hypothesis.assumptions_used` is missing or omits a symbol already declared in
+the assumptions file. It does not discover which mathematical or physical
+assumptions a hypothesis needs.
+
 ## Experimental
 
 - AI-assisted proposal generation.

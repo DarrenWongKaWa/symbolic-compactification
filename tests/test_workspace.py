@@ -76,6 +76,67 @@ def test_load_is_read_only_for_all_source_files(tmp_path):
         (root / "hypotheses/hypothesis.json").read_bytes()).hexdigest()
 
 
+@pytest.mark.parametrize(
+    ("relative_path", "replacement", "source_attribute", "semantic_check"),
+    [
+        (
+            "project.yaml",
+            b"project_name: replaced\nobjective: replaced\n"
+            b"expression_entrypoint: expressions/current.txt\n"
+            b"assumptions_file: assumptions/assumptions.yaml\n",
+            "project_source",
+            lambda workspace: workspace.project.objective.startswith("Test an exact"),
+        ),
+        (
+            "assumptions/assumptions.yaml",
+            b"symbols:\n  - name: y\n    real: true\n"
+            b"    nonzero: false\nfunctions: []\n",
+            "assumptions_source",
+            lambda workspace: [item["name"] for item in workspace.symbols] == ["x"],
+        ),
+        (
+            "hypotheses/hypothesis.json",
+            b'{"hypothesis_type":"unsupported","members":['
+            b'"expressions/current.txt","expressions/candidate.txt"],'
+            b'"assumptions_used":["x"]}',
+            "hypothesis_source",
+            lambda workspace: workspace.hypothesis.hypothesis_type == "equivalence",
+        ),
+    ],
+)
+def test_critical_metadata_parse_and_hash_share_one_immutable_byte_snapshot(
+        tmp_path, monkeypatch, relative_path, replacement, source_attribute,
+        semantic_check):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    target = root / relative_path
+    original = target.read_bytes()
+    expected_digest = hashlib.sha256(original).hexdigest()
+    original_read_bytes = Path.read_bytes
+    target_resolved = target.resolve()
+    target_reads = 0
+
+    def mutate_after_snapshot(path):
+        nonlocal target_reads
+        raw = original_read_bytes(path)
+        if path.resolve() == target_resolved:
+            target_reads += 1
+            if target_reads == 1:
+                path.write_bytes(replacement)
+        return raw
+
+    monkeypatch.setattr(Path, "read_bytes", mutate_after_snapshot)
+
+    loaded = load_workspace(root)
+
+    source = getattr(loaded, source_attribute)
+    assert target_reads == 1
+    assert source.sha256 == expected_digest
+    assert source.text == original.decode("utf-8")
+    assert semantic_check(loaded)
+    assert target.read_bytes() == replacement
+
+
 def test_simple_equivalence_form_is_normalized_predictably(tmp_path):
     root = tmp_path / "workspace"
     initialize_workspace(root)
