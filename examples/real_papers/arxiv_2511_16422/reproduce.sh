@@ -30,3 +30,12 @@ ssc_audit verify "$ROOT"
 ssc_audit table "$ROOT"
 ssc_audit report "$ROOT"
 ssc_audit package "$ROOT"
+
+# Overlay cannot create ZERO; it only annotates machine TABLE_VERIFIED rows.
+if command -v python3 >/dev/null 2>&1; then
+  python3 "$ROOT/annotate_strength.py"
+elif command -v python >/dev/null 2>&1; then
+  python "$ROOT/annotate_strength.py"
+else
+  die "python3 is required to annotate verification strength"
+fi

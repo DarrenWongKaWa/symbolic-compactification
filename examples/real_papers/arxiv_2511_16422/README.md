@@ -25,8 +25,18 @@ A frozen set of 25 derivation edges from the public supplement:
 - two Brillouin-zone integration-by-parts steps classified as integral
   arguments, not local zeros.
 
+**18 executable equation-level identities were machine-verified as exact
+ZERO under the declared symbolic semantics. One asymptotic remainder claim
+remained UNKNOWN, and two global integration-by-parts steps remained
+NOT_LOWERED.**
+
+Of the 18 ZERO rows, **12 are `DIRECT_EXACT`** and **6 are
+`SUBSTITUTION_EXACT`** (exact given a declared upstream identity such as
+$\epsilon_{21}=-\epsilon_{12}$; not an independent proof of that identity).
+
 Only engine `ZERO` rows may appear in `TABLE_VERIFIED.md`. LLM text cannot
-create that table.
+create that table. Strength is an overlay on those machine rows and cannot
+add a ZERO.
 
 ## Equation numbering
 
@@ -57,9 +67,14 @@ symbolic-compactification audit report .
 symbolic-compactification audit package .
 ```
 
-Read `reports/TABLE_VERIFIED.md` for machine-verified identities.
-Read `TABLE_STRUCTURAL.md`, `TABLE_UNCERTIFIED.md`, and `TABLE_NONZERO.md`
-for everything else.
+Read:
+
+- [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md) — field-validation writeup
+- [`reports/TABLE_VERIFIED.md`](reports/TABLE_VERIFIED.md) — machine-authoritative ZERO table
+- [`reports/TABLE_VERIFIED_STRENGTH.md`](reports/TABLE_VERIFIED_STRENGTH.md) — same rows with `DIRECT_EXACT` / `SUBSTITUTION_EXACT`
+- `TABLE_STRUCTURAL.md`, `TABLE_UNCERTIFIED.md`, `TABLE_NONZERO.md`
+
+UNKNOWN / NOT_LOWERED rows are soundness evidence, not a failed paper.
 
 ## Wording
 
@@ -88,6 +103,8 @@ Those substitutions are documented on the corresponding edges.
 ```
 SOURCE.yaml                 bibliographic provenance
 FROZEN_EDGES.yaml           frozen edge set (predictions are not authority)
+VALIDATION_REPORT.md        field-validation writeup
+verification_strength.yaml  DIRECT_EXACT / SUBSTITUTION_EXACT overlay
 audit.yaml                  v0.2 workspace config
 manuscript/source.tex       equation-only public stub (not the paper)
 equations/                  curated ids + full printed-number catalog

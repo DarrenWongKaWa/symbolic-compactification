@@ -1,10 +1,10 @@
 # Derivation Audit Alpha — symbolic-compactification 0.2.0-alpha
 
-**Pre-release / Research Preview Alpha.** Not a stable v1.0. Not merged to `main`.
+**Pre-release / Research Preview Alpha.** Not a stable v1.0.
 
 Machine-auditable symbolic derivation verification for theoretical and
-mathematical physics, with source-grounded proof obligations and fail-closed
-exact adjudication.
+mathematical physics, validated end-to-end on a published PRL derivation,
+with source-grounded proof obligations and fail-closed exact adjudication.
 
 - Tag: `derivation-audit-v0.2.0-alpha`
 - Branch: `engineering/derivation-audit-v0.2`
@@ -91,3 +91,23 @@ python3.12 -m venv .venv
 
 Read `docs/DERIVATION_AUDIT_LIMITATIONS.md` before using a result in
 scientific work.
+
+## Post-release validation
+
+After the `derivation-audit-v0.2.0-alpha` tag, the frozen pipeline was
+exercised on a published paper **without changing the verifier core** and
+**without retagging v0.2**:
+
+Guo et al., arXiv:2511.16422v2 / Phys. Rev. Lett. 136, 206303 (2026).
+
+- 25 selected derivation edges
+- 18 executable identities returned exact ZERO (12 `DIRECT_EXACT`, 6 `SUBSTITUTION_EXACT`)
+- 0 NONZERO
+- Eq. (D-57) $\mathcal{O}(\Gamma)$ remainder remained `UNKNOWN`
+- two global BZ integration-by-parts steps remained `NOT_LOWERED`
+
+This is an equation-level derivation audit, not a proof of the paper.
+
+Branch: `engineering/real-paper-validation-arxiv-2511-16422`  
+Report: `examples/real_papers/arxiv_2511_16422/VALIDATION_REPORT.md`  
+Reproduce: `examples/real_papers/arxiv_2511_16422/reproduce.sh`

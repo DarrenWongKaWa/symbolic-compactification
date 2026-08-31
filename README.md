@@ -1,6 +1,6 @@
 # symbolic-compactification
 
-**Typed derivation audit with fail-closed exact verification.**
+**Machine-auditable symbolic derivation verification for theoretical and mathematical physics, validated end-to-end on a published PRL derivation.**
 
 **Derivation Audit Alpha** (`0.2.0-alpha`) on
 `engineering/derivation-audit-v0.2`, tag `derivation-audit-v0.2.0-alpha`
@@ -38,6 +38,7 @@ This is the public product surface.
 - [Status semantics](docs/STATUS_SEMANTICS.md)
 - [Reviewer package](docs/REVIEWER_PACKAGE.md)
 - [Public demos A/B/C](docs/PUBLIC_DEMOS.md)
+- [Public real-paper validation](examples/real_papers/arxiv_2511_16422/VALIDATION_REPORT.md)
 - [Privacy](docs/PRIVACY.md)
 - [Limitations](docs/DERIVATION_AUDIT_LIMITATIONS.md)
 - [Threat model](docs/THREAT_MODEL.md)
@@ -53,19 +54,25 @@ enclosing asymptotic remainder stays `UNKNOWN`.
 
 ### Public real-paper validation
 
-The Derivation Audit workflow has been exercised end-to-end on a published
-theoretical-physics derivation:
+The v0.2 Derivation Audit pipeline was exercised on Guo *et al.*,
+arXiv:2511.16422v2 / Phys. Rev. Lett. 136, 206303 (2026).
+25 derivation edges were selected; 18 executable identities returned exact
+ZERO, with no NONZERO results. One asymptotic remainder claim remained
+UNKNOWN and two global BZ integration-by-parts steps remained outside local
+exact certification.
 
-Guo et al., "Dissipation-Shaped Quantum Geometry in Nonlinear Transport,"
-Phys. Rev. Lett. 136, 206303 (2026), arXiv:2511.16422.
+18 executable equation-level identities were machine-verified as exact ZERO
+under the declared symbolic semantics. Of those, 12 are `DIRECT_EXACT` and
+6 are `SUBSTITUTION_EXACT` (exact given a declared upstream identity such as
+$\epsilon_{21}=-\epsilon_{12}$, not an independent proof of that identity).
 
-The audit package records which equation-level identities were certified,
-which were structural, and which remained outside exact local
-certification.
+This is an equation-level derivation audit, not a proof of the paper or
+confirmation of its physical conclusions.
 
-See [`examples/real_papers/arxiv_2511_16422/`](examples/real_papers/arxiv_2511_16422/).
-This is a field validation of selected supplement steps, not a verification
-of the entire paper.
+- Report: [`examples/real_papers/arxiv_2511_16422/VALIDATION_REPORT.md`](examples/real_papers/arxiv_2511_16422/VALIDATION_REPORT.md)
+- Machine table: [`TABLE_VERIFIED.md`](examples/real_papers/arxiv_2511_16422/reports/TABLE_VERIFIED.md)
+- Strength split: [`TABLE_VERIFIED_STRENGTH.md`](examples/real_papers/arxiv_2511_16422/reports/TABLE_VERIFIED_STRENGTH.md)
+- Reproduce: [`examples/real_papers/arxiv_2511_16422/reproduce.sh`](examples/real_papers/arxiv_2511_16422/reproduce.sh)
 
 ### 2. Mode A: verify my hypothesis (v0.1, still supported)
 

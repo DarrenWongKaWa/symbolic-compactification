@@ -1,0 +1,63 @@
+schema_version: VerificationStrengthV1
+paper: arXiv:2511.16422v2
+authority: overlay_on_machine_TABLE_VERIFIED
+cannot_create_zero: true
+note: >
+  Strength classifies how a machine-ZERO residual was encoded.
+  It is not a second verifier and cannot add a TABLE_VERIFIED row.
+  DIRECT_EXACT: the displayed residual is an unsubstituted local identity.
+  SUBSTITUTION_EXACT: the residual is exact after a declared upstream
+  identity was written into the native text. That does not independently
+  prove the upstream identity.
+
+legend:
+  DIRECT_EXACT: unsubstituted local exact residual
+  SUBSTITUTION_EXACT: exact given a declared upstream identity
+  CERTIFIED_BY_CHILDREN: split parent (never itself ZERO)
+
+# R2 caveat: these six ZERO rows are substitution-weak.
+substitution_exact:
+  D.K1A-metric-subst:
+    paper_eqs: "Eq. (D-60)"
+    substitution: "two-band metric-velocity pair for g_ab and g_ac"
+  D.TBgeo-eps21:
+    paper_eqs: "Eq. (D-66) → Eq. (D-67)"
+    substitution: "epsilon_21 = -epsilon_12"
+  D.A-to-Omega:
+    paper_eqs: "Eq. (D-74) → Eq. (D-75)"
+    substitution: "Omega_ab^1 := I (A12^a A21^b - A12^b A21^a)"
+  D.Omega2-relabel:
+    paper_eqs: "Eq. (D-77) → Eq. (D-78)"
+    substitution: "Omega^2 = -Omega^1"
+  D.eps21-symmetrize:
+    paper_eqs: "Eq. (D-125) → Eq. (D-126)"
+    substitution: "epsilon_21 = -epsilon_12"
+  D.compact-nbar:
+    paper_eqs: "Eq. (D-126) → Eq. (D-127)"
+    substitution: "f_n' = 2 f_{0,n}'"
+
+direct_exact:
+  D.K1A-regroup:
+    paper_eqs: "Eq. (D-59) → Eq. (D-60)"
+  D.metric-pair:
+    paper_eqs: "metric-velocity pair (unnumbered) → Eq. (D-60)"
+  D.TA-prefactor:
+    paper_eqs: "Eq. (D-60) → Eq. (D-61)"
+  D.TA-TBgeo-cancel:
+    paper_eqs: "Eq. (D-61) + Eq. (D-67) → Eq. (D-68)"
+  D.C12-regroup:
+    paper_eqs: "Eq. (D-71) → Eq. (D-72)"
+  D.Vab-expand:
+    paper_eqs: "Eq. (D-73)"
+  D.Vab-eps21:
+    paper_eqs: "Eq. (D-73)"
+  D.A-antisym:
+    paper_eqs: "Eq. (D-74)"
+  D.sigma-m1-Ii:
+    paper_eqs: "Eq. (D-70) → Eq. (D-77)"
+  D.T0-local-sign:
+    paper_eqs: "Eq. (D-119) (local members only)"
+  D.T0T1-regroup:
+    paper_eqs: "Eq. (D-120) → Eq. (D-121)"
+  D.geo-T2-subst:
+    paper_eqs: "Eq. (D-122) + declared Eq. (D-124) → Eq. (D-125)"

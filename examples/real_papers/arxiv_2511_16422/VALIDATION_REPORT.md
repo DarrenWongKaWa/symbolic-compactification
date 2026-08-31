@@ -93,14 +93,29 @@ Covered regions:
 | D.eps21-symmetrize | (D-125)→(D-126) | ALGEBRAIC_EQUIVALENCE |
 | D.compact-nbar | (D-126)→(D-127) | INDEX_RELABELING |
 
+**18 ZERO = 12 `DIRECT_EXACT` + 6 `SUBSTITUTION_EXACT`.** See
+`reports/TABLE_VERIFIED_STRENGTH.md`. Strength cannot add a ZERO row.
+
+`DIRECT_EXACT` (12): unsubstituted local identities
+(`D.K1A-regroup`, `D.metric-pair`, `D.TA-prefactor`, `D.TA-TBgeo-cancel`,
+`D.C12-regroup`, `D.Vab-expand`, `D.Vab-eps21`, `D.A-antisym`,
+`D.sigma-m1-Ii`, `D.T0-local-sign`, `D.T0T1-regroup`, `D.geo-T2-subst`).
+
+`SUBSTITUTION_EXACT` (6): exact *given* a declared upstream identity written
+into the residual — not an independent proof of that identity:
+
+| Edge | Substituted identity |
+|---|---|
+| D.K1A-metric-subst | metric-velocity pair for $g_{ab}$, $g_{ac}$ |
+| D.TBgeo-eps21 | $\epsilon_{21}=-\epsilon_{12}$ |
+| D.A-to-Omega | $\Omega_{ab}^{1}:=I(A_{12}^{a}A_{21}^{b}-A_{12}^{b}A_{21}^{a})$ |
+| D.Omega2-relabel | $\Omega^{2}=-\Omega^{1}$ |
+| D.eps21-symmetrize | $\epsilon_{21}=-\epsilon_{12}$ |
+| D.compact-nbar | $f_{n}'=2f_{0,n}'$ |
+
 `D.compact-nbar` is the compact rewrite **after** substituting the paper’s
 stated convention $f_n'=2f_{0,n}'$. It is not an independent discovery of that
 factor of two.
-
-Six ZERO rows (`D.K1A-metric-subst`, `D.TBgeo-eps21`, `D.A-to-Omega`,
-`D.Omega2-relabel`, `D.eps21-symmetrize`, `D.compact-nbar`) certify the
-**substituted residual**, not unsubstituted identity of the cited lhs/rhs
-files. That is the v0.2 assumption-surface limit, disclosed on those edges.
 
 ## 7. NONZERO results
 
@@ -163,8 +178,9 @@ engine run to manufacture ZERO. `CORRECTIONS.md` is empty.
 
 ## 14. Machine-verified table
 
-Generated: `reports/TABLE_VERIFIED.md` (18 rows).
-Copied into `reviewer-verification-package/TABLE_VERIFIED.md`.
+Generated: `reports/TABLE_VERIFIED.md` (18 rows; machine-authoritative).
+Annotated view: `reports/TABLE_VERIFIED_STRENGTH.md` (12 `DIRECT_EXACT` +
+6 `SUBSTITUTION_EXACT`). Copied into `reviewer-verification-package/`.
 
 Inclusion used `schema.may_appear_in_verified_table` / `schema.table_bucket`
 only. Markdown cannot create ZERO.
