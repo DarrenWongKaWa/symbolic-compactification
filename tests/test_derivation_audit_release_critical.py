@@ -209,7 +209,9 @@ def test_public_demo_a_all_zero(tmp_path, capsys):
         and "reviewer-verification-package" not in p.relative_to(root).parts
     }
     assert cli.main(["audit", "verify", str(root), "--json"]) == 0
-    capsys.readouterr()
+    verify_payload = json.loads(capsys.readouterr().out)
+    assert verify_payload["status"] == "AUDIT_RUN_RECORDED"
+    assert verify_payload["status_counts"].get("ZERO") == 2
     assert cli.main(["audit", "table", str(root), "--json"]) == 0
     capsys.readouterr()
     grouped = _rows_by_status(root / "reports/verification_table.json")
@@ -277,6 +279,35 @@ def test_forged_markdown_zero_is_restored_from_machine_records(tmp_path, capsys)
     restored_nonzero = nonzero.read_text(encoding="utf-8")
     assert "POTENTIAL DERIVATION MISMATCHES" in restored_nonzero
     assert "the paper is wrong" not in restored_nonzero.lower()
+
+
+def test_mode_a_refuses_audit_workspace(tmp_path, capsys):
+    root = tmp_path / "audit-dir"
+    assert cli.main(["audit", "init", str(root), "--json"]) == 0
+    capsys.readouterr()
+    assert cli.main(["inspect", str(root), "--json"]) == 4
+    err = capsys.readouterr()
+    assert "USE_AUDIT_COMMAND" in err.out + err.err
+    assert cli.main(["verify", str(root), "--json"]) == 4
+    err = capsys.readouterr()
+    assert "USE_AUDIT_COMMAND" in err.out + err.err
+
+
+def test_audit_verify_does_not_claim_verified_on_empty_graph(tmp_path, capsys):
+    root = tmp_path / "empty-audit"
+    assert cli.main(["audit", "init", str(root), "--json"]) == 0
+    capsys.readouterr()
+    assert cli.main(["audit", "verify", str(root), "--json"]) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "AUDIT_RUN_RECORDED"
+    assert payload["records"] == 0
+    assert "VERIFIED" not in payload["status"]
+
+
+def test_colon_equation_label_is_a_legal_edge_id(tmp_path):
+    from symbolic_compactification.audit.schema import _ID_RE
+    assert _ID_RE.fullmatch("eq:placeholder")
+    assert _ID_RE.fullmatch("A.binomial-expand")
 
 
 def test_reviewer_package_and_replay(tmp_path, capsys):

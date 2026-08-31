@@ -129,6 +129,17 @@ def initialize_audit_workspace(path: PathLike) -> AuditWorkspace:
         ))
         write_new(requested / EDGE_MANIFEST, (
             f"schema_version: {AUDIT_SCHEMA_VERSION}\n"
+            "# Edge ids may use letters, digits, '.', '_', '-', and ':' "
+            "(for example eq:12).\n"
+            "# Required fields: id (or edge_id) and type (or edge_type).\n"
+            "# Example:\n"
+            "# edges:\n"
+            "#   - id: eq:placeholder\n"
+            "#     from: eq:placeholder\n"
+            "#     to: eq:placeholder\n"
+            "#     type: ALGEBRAIC_EQUIVALENCE\n"
+            "#     lhs: expressions/left.txt\n"
+            "#     rhs: expressions/right.txt\n"
             "edges: []\n"
         ))
         write_new(requested / ASSUMPTIONS_FILE, (

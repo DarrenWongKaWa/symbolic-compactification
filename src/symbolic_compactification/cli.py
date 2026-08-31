@@ -405,9 +405,26 @@ def cmd_init_workspace(args) -> int:
     print(f"next:        {redact_text(payload['next_command'])}")
     return EXIT_ZERO
 
+def _reject_audit_directory_for_mode_a(path: Path, action: str) -> None:
+    """Mode A must not silently ingest a derivation-audit workspace."""
+    audit_yaml = path / "audit.yaml"
+    project_yaml = path / "project.yaml"
+    try:
+        if audit_yaml.is_file() and not project_yaml.is_file():
+            raise WorkspaceError(
+                "USE_AUDIT_COMMAND",
+                f"this directory is a derivation-audit workspace; "
+                f"use symbolic-compactification audit {action} {path}",
+                path=path,
+            )
+    except OSError:
+        return
+
+
 def cmd_inspect(args) -> int:
     target = Path(args.expr)
     if target.is_dir():
+        _reject_audit_directory_for_mode_a(target, "inspect")
         if args.symbols or args.format != "native":
             raise WorkspaceError(
                 "WORKSPACE_INSPECT_OPTIONS_UNSUPPORTED",
@@ -560,6 +577,7 @@ def cmd_verify(args) -> int:
     if workspace_path is not None:
         if any(value is not None for value in legacy_values):
             raise AdapterError("VERIFY_MODES_MIXED")
+        _reject_audit_directory_for_mode_a(Path(workspace_path), "verify")
         result = verify_hypothesis(workspace_path)
         if args.json:
             _print_json(result.to_dict())
@@ -620,6 +638,7 @@ def _print_workspace_verification(workspace_path: str, result) -> None:
 
 
 def cmd_report(args) -> int:
+    _reject_audit_directory_for_mode_a(Path(args.workspace), "report")
     run_id = args.run or _latest_safe_run_id(args.workspace)
     report = generate_report(args.workspace, run_id)
     if args.json:

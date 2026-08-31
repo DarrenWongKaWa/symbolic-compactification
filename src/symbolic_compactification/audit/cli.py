@@ -15,7 +15,7 @@ from .evidence import latest_audit_run_id, load_audit_run, verify_audit
 from .inventory import inventory_equations, load_equation_manifest
 from .package import build_reviewer_package
 from .report import generate_audit_report
-from .schema import AUDIT_SCHEMA_VERSION, AuditError
+from .schema import AUDIT_SCHEMA_VERSION, NONZERO, AuditError, table_bucket
 from .tables import generate_tables
 from .workspace import initialize_audit_workspace, load_audit_workspace
 
@@ -133,20 +133,35 @@ def cmd_audit_inspect(args) -> int:
 def cmd_audit_verify(args) -> int:
     workspace = load_audit_workspace(args.directory)
     run = verify_audit(workspace)
+    status_counts: dict[str, int] = {}
+    bucket_counts: dict[str, int] = {}
+    for record in run.records:
+        status_counts[record.status] = status_counts.get(record.status, 0) + 1
+        bucket = table_bucket(record)
+        bucket_counts[bucket] = bucket_counts.get(bucket, 0) + 1
     payload = {
-        "status": "AUDIT_VERIFIED",
+        "status": "AUDIT_RUN_RECORDED",
         "workspace": str(workspace.root),
         "run_id": run.run_id,
         "records": len(run.records),
         "run_directory": str(run.directory),
+        "status_counts": status_counts,
+        "table_counts": bucket_counts,
+        "note": (
+            "a recorded run is not a claim that the derivation is verified; "
+            "read TABLE_VERIFIED.md after `audit table`"
+        ),
     }
     if args.json:
         _print_json(payload)
-        return 0
-    print("status:      AUDIT_VERIFIED")
-    print(f"run_id:      {run.run_id}")
-    print(f"records:     {len(run.records)}")
-    return 0
+        return 2 if status_counts.get(NONZERO, 0) else 0
+    print("status:         AUDIT_RUN_RECORDED")
+    print(f"run_id:         {run.run_id}")
+    print(f"records:        {len(run.records)}")
+    print("status_counts:  " + json.dumps(status_counts, sort_keys=True))
+    print("table_counts:   " + json.dumps(bucket_counts, sort_keys=True))
+    print("note:           recorded != machine-verified; run audit table")
+    return 2 if status_counts.get(NONZERO, 0) else 0
 
 
 def cmd_audit_table(args) -> int:

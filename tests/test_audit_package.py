@@ -137,9 +137,10 @@ def test_build_reviewer_package_writes_required_files(tmp_path):
     assert (dest / "replay" / "assumptions" / "assumptions.yaml").is_file()
     assert (dest / "replay" / "equations" / "equations.yaml").is_file()
     assert (dest / "replay" / "edges" / "edges.yaml").is_file()
-    assert (dest / "TABLE_VERIFIED.md").read_text(encoding="utf-8") == (
-        "verified-row\n"
-    )
+    verified = (dest / "TABLE_VERIFIED.md").read_text(encoding="utf-8")
+    assert "E001" in verified
+    assert "ZERO" in verified
+    assert "verified-row" not in verified
 
 
 def test_reproduce_sh_is_executable_and_replays_verify_then_table(tmp_path):
@@ -197,9 +198,10 @@ def test_private_validation_is_not_copied_even_if_present(tmp_path):
         assert "secret-kernel" not in text
 
 
-def test_generate_tables_is_called_only_when_reports_missing(
+def test_generate_tables_is_always_called_even_if_reports_exist(
         tmp_path, monkeypatch):
     workspace = _workspace(tmp_path)
+    _seed_tables(workspace, verified="LLM_FORGED ZERO\n")
     run = _fake_run(workspace)
     called = {"count": 0}
 
@@ -234,12 +236,14 @@ def test_generate_tables_is_called_only_when_reports_missing(
     assert (dest / "TABLE_VERIFIED.md").read_text(encoding="utf-8") == (
         "generated-TABLE_VERIFIED.md\n"
     )
+    assert "LLM_FORGED" not in (dest / "TABLE_VERIFIED.md").read_text(
+        encoding="utf-8")
     assert (dest / "machine_results" / "verification_table.json").is_file()
 
     called["count"] = 0
     dest_again = build_reviewer_package(
         workspace, run, dest=tmp_path / "second-export")
-    assert called["count"] == 0
+    assert called["count"] == 1
     assert (dest_again / "TABLE_VERIFIED.md").read_text(encoding="utf-8") == (
         "generated-TABLE_VERIFIED.md\n"
     )

@@ -177,27 +177,15 @@ def _ensure_reviewer_tables(
     workspace: AuditWorkspace,
     run: AuditRun,
 ) -> dict[str, Path]:
-    reports = workspace.root / workspace.config.output_dir
-    sources = {name: reports / name for name in _TABLE_MD_NAMES}
-    missing = [
-        name for name, path in sources.items()
-        if path.is_symlink() or not path.is_file()
-    ]
-    if missing:
-        artifacts = generate_tables(workspace, run)
-        sources = {
-            "TABLE_VERIFIED.md": artifacts.verified_md,
-            "TABLE_STRUCTURAL.md": artifacts.structural_md,
-            "TABLE_UNCERTIFIED.md": artifacts.uncertified_md,
-            "TABLE_NONZERO.md": artifacts.nonzero_md,
-            VERIFICATION_TABLE_JSON: artifacts.table_json,
-            VERIFICATION_TABLE_CSV: artifacts.table_csv,
-        }
-    else:
-        for name in (VERIFICATION_TABLE_JSON, VERIFICATION_TABLE_CSV):
-            candidate = reports / name
-            if candidate.is_file() and not candidate.is_symlink():
-                sources[name] = candidate
+    artifacts = generate_tables(workspace, run)
+    sources = {
+        "TABLE_VERIFIED.md": artifacts.verified_md,
+        "TABLE_STRUCTURAL.md": artifacts.structural_md,
+        "TABLE_UNCERTIFIED.md": artifacts.uncertified_md,
+        "TABLE_NONZERO.md": artifacts.nonzero_md,
+        VERIFICATION_TABLE_JSON: artifacts.table_json,
+        VERIFICATION_TABLE_CSV: artifacts.table_csv,
+    }
     for name in _TABLE_MD_NAMES:
         path = sources.get(name)
         if path is None or path.is_symlink() or not path.is_file():

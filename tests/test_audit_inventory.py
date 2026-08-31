@@ -69,7 +69,8 @@ def test_extract_labeled_equation_from_tiny_article(tmp_path):
     assert preview.source_hash == hashlib.sha256(TINY_ARTICLE.encode("utf-8")).hexdigest()
     assert preview.duplicate_labels == ()
 
-    written = inventory_equations(workspace, write=True)
+    written = inventory_equations(
+        workspace, write=True, update_manifest=True)
     assert sidecar.is_file()
     loaded = load_equation_manifest(workspace)
     assert [item.equation_id for item in loaded.equations] == ["eq:add"]
@@ -79,7 +80,8 @@ def test_extract_labeled_equation_from_tiny_article(tmp_path):
 
 def test_duplicate_labels_reported(tmp_path):
     workspace, _manuscript = _workspace_with_manuscript(tmp_path, DUPLICATE_ARTICLE)
-    inventory = inventory_equations(workspace, write=True)
+    inventory = inventory_equations(
+        workspace, write=True, update_manifest=True)
     assert len(inventory.equations) == 2
     assert inventory.duplicate_labels == ("eq:dup",)
     assert inventory.equations[0].label == "eq:dup"
@@ -93,7 +95,8 @@ def test_duplicate_labels_reported(tmp_path):
 
 def test_curated_mapping_preserved_on_rewrite(tmp_path):
     workspace, _manuscript = _workspace_with_manuscript(tmp_path, TINY_ARTICLE)
-    first = inventory_equations(workspace, write=True)
+    first = inventory_equations(
+        workspace, write=True, update_manifest=True)
     assert first.equations[0].equation_id == "eq:add"
     assert first.equations[0].curated is False
 
@@ -112,7 +115,8 @@ def test_curated_mapping_preserved_on_rewrite(tmp_path):
         encoding="utf-8",
     )
 
-    rewritten = inventory_equations(workspace, write=True)
+    rewritten = inventory_equations(
+        workspace, write=True, update_manifest=True)
     assert len(rewritten.equations) == 1
     equation = rewritten.equations[0]
     assert equation.equation_id == "E001"
@@ -129,6 +133,16 @@ def test_curated_mapping_preserved_on_rewrite(tmp_path):
     loaded = load_equation_manifest(workspace)
     assert loaded.equations[0].equation_id == "E001"
     assert loaded.equations[0].curated is True
+
+
+def test_default_write_does_not_rewrite_equation_manifest(tmp_path):
+    workspace, _manuscript = _workspace_with_manuscript(tmp_path, TINY_ARTICLE)
+    manifest = workspace.root / "equations" / "equations.yaml"
+    before = manifest.read_bytes()
+    inventory_equations(workspace, write=True)
+    assert manifest.read_bytes() == before
+    sidecar = workspace.root / "reports" / "inventory.json"
+    assert sidecar.is_file()
 
 
 def test_manuscript_bytes_unchanged(tmp_path):

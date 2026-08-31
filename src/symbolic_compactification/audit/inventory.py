@@ -91,13 +91,13 @@ def inventory_equations(
     workspace: AuditWorkspace,
     *,
     write: bool = False,
+    update_manifest: bool = False,
 ) -> EquationInventory:
     """Extract equation references from the manuscript.
 
-    ``write=True`` may merge non-destructive updates into
-    ``equations/equations.yaml`` (preserving ``curated: true`` rows and
-    manual id mappings) and writes the tool-owned sidecar
-    ``reports/inventory.json``. Manuscript sources are never rewritten.
+    ``write=True`` writes the tool-owned sidecar ``reports/inventory.json``.
+    Researcher-owned ``equations/equations.yaml`` is updated only when
+    ``update_manifest=True``. Manuscript sources are never rewritten.
     """
     manifest_path, document, existing_rows = _load_manifest_document(workspace)
     source_rel, _source_path, source_text, source_hash, source_warnings = (
@@ -128,8 +128,9 @@ def inventory_equations(
         warnings=warnings,
     )
     if write:
-        _write_manifest(manifest_path, document, merged_rows)
         _write_sidecar(workspace, inventory, source_rel)
+        if update_manifest:
+            _write_manifest(manifest_path, document, merged_rows)
     return inventory
 
 
