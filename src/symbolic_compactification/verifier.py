@@ -37,6 +37,7 @@ from .budgets import BudgetExceeded, run_symbolic_operation
 from .models import (AdapterError, NONZERO, UNKNOWN, VERIFIER_NAME, ZERO,
                      VerificationResult, normalize_symbols)
 from .parser import parse_expression
+from .security import redact_public_data
 from .transforms import TARGETED_PRIMITIVES
 
 # --------------------------------------------------------------------------- #
@@ -194,7 +195,8 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
         return _unknown_result(
             "construction_or_parse_failed",
             {"code": exc.code,
-             **({"assumptions": assumptions} if assumptions else {})},
+             **({"assumptions": redact_public_data(assumptions)}
+                if assumptions else {})},
             _seconds())
     except Exception:  # defensive: never raise to the caller
         return _unknown_result("construction_or_parse_failed", {"code": "UNEXPECTED"},
@@ -273,7 +275,8 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
         )
         if assumptions:
             result.evidence.append({"kind": "declared_assumptions",
-                                    "assumptions": assumptions})
+                                    "assumptions": redact_public_data(
+                                        assumptions)})
         result.evidence.extend(pre_evidence)
 
         # exact symbolic zero

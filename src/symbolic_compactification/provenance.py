@@ -32,6 +32,7 @@ from typing import Iterable, Mapping, Optional, Union
 
 from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, PACKAGE_VERSION,
                      engine_git_sha)
+from .security import redact_text
 
 PathLike = Union[str, os.PathLike]
 
@@ -73,28 +74,6 @@ _HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
 _TIMESTAMP_RE = re.compile(
     r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
 _GIT_RE = re.compile(r"(?:[0-9a-f]{7,64}(?:-dirty)?|unknown)\Z")
-
-# A small production-local redaction boundary.  The repository's older,
-# broader sanitizer lives under ``research/`` and importing it would couple a
-# release API to frozen experiment code.  These patterns cover the credential
-# forms that may plausibly occur in verifier warnings.  Crucially, this module
-# never reads environment/config/request data in the first place.
-_SECRET_PATTERNS = (
-    re.compile(r"sk-[A-Za-z0-9_-]{8,}"),
-    re.compile(r"(?:gh[pousr]_[A-Za-z0-9_]{8,}|github_pat_[A-Za-z0-9_]{8,})",
-               re.IGNORECASE),
-    re.compile(r"(?:xox[baprs]-[A-Za-z0-9-]{8,}|AKIA[A-Z0-9]{12,})"),
-    re.compile(r"AIza[A-Za-z0-9_-]{16,}"),
-)
-_AUTH_RE = re.compile(
-    r"(?i)(\bauthorization\s*[:=]\s*)(?:(?:bearer|basic)\s+)?[^\s,;]+")
-_BEARER_RE = re.compile(r"(?i)(\bbearer\s+)[^\s,;]+")
-_ASSIGNMENT_RE = re.compile(
-    r"(?i)(\b(?:api[_-]?key|apikey|access[_-]?token|refresh[_-]?token|"
-    r"auth[_-]?token|password|passwd|secret|client[_-]?secret|"
-    r"x-api-key|[A-Z0-9_]*API_KEY)\s*[:=]\s*)"
-    r"(?:\"[^\"]*\"|'[^']*'|[^\s,;]+)")
-
 
 class ProvenanceError(ValueError):
     """Stable error raised before an unsafe or ambiguous record is written."""
@@ -167,7 +146,7 @@ def dependency_versions(
             version = metadata.version(raw_name)
         except metadata.PackageNotFoundError:
             version = "not-installed"
-        result[name] = _redact_text(str(version))
+        result[name] = redact_text(str(version))
     return {name: result[name] for name in sorted(result)}
 
 
@@ -321,7 +300,7 @@ def _normalize_timestamp(value: str) -> str:
 def _normalize_run_id(value: str) -> str:
     if not isinstance(value, str) or not _RUN_ID_RE.fullmatch(value):
         raise ProvenanceError("PROVENANCE_RUN_ID_INVALID")
-    if _redact_text(value) != value:
+    if redact_text(value) != value:
         raise ProvenanceError("PROVENANCE_UNSAFE_VALUE")
     return value
 
@@ -329,7 +308,7 @@ def _normalize_run_id(value: str) -> str:
 def _normalize_route(value: str) -> str:
     if not isinstance(value, str) or not _ROUTE_RE.fullmatch(value):
         raise ProvenanceError("PROVENANCE_VERIFIER_ROUTE_INVALID")
-    if _redact_text(value) != value:
+    if redact_text(value) != value:
         raise ProvenanceError("PROVENANCE_UNSAFE_VALUE")
     return value
 
@@ -359,6 +338,8 @@ def _normalize_label(value: str) -> str:
         raise ProvenanceError("PROVENANCE_FILE_LABEL_INVALID")
     if "\x00" in value or "\n" in value or "\r" in value:
         raise ProvenanceError("PROVENANCE_FILE_LABEL_INVALID")
+    if redact_text(value) != value:
+        raise ProvenanceError("PROVENANCE_UNSAFE_VALUE")
     return value
 
 
@@ -389,9 +370,11 @@ def _normalize_dependencies(value: Mapping[str, str]) -> dict[str, str]:
     for raw_name, raw_version in value.items():
         if not isinstance(raw_name, str) or not _DIST_RE.fullmatch(raw_name):
             raise ProvenanceError("PROVENANCE_DEPENDENCY_NAME_INVALID")
+        if redact_text(raw_name) != raw_name:
+            raise ProvenanceError("PROVENANCE_UNSAFE_VALUE")
         if not isinstance(raw_version, str) or len(raw_version) > 256:
             raise ProvenanceError("PROVENANCE_DEPENDENCY_VERSION_INVALID")
-        normalized[raw_name.lower()] = _redact_text(raw_version)
+        normalized[raw_name.lower()] = redact_text(raw_version)
     return {name: normalized[name] for name in sorted(normalized)}
 
 
@@ -408,17 +391,8 @@ def _normalize_warnings(values: Iterable[str]) -> list[str]:
             raise ProvenanceError("PROVENANCE_WARNINGS_INVALID")
         # Bounded warning text prevents accidental persistence of entire crash
         # dumps or configuration files.  Redaction happens before truncation.
-        normalized.append(_redact_text(warning)[:2048])
+        normalized.append(redact_text(warning)[:2048])
     return normalized
-
-
-def _redact_text(value: str) -> str:
-    redacted = _AUTH_RE.sub(r"\1[REDACTED]", value)
-    redacted = _BEARER_RE.sub(r"\1[REDACTED]", redacted)
-    redacted = _ASSIGNMENT_RE.sub(r"\1[REDACTED]", redacted)
-    for pattern in _SECRET_PATTERNS:
-        redacted = pattern.sub("[REDACTED]", redacted)
-    return redacted
 
 
 def _record_for_write(record: Mapping) -> dict:

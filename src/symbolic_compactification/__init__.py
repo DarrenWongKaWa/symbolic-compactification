@@ -86,6 +86,7 @@ from .research_api import (
     generate_report,
     verify_hypothesis,
 )
+from .security import REDACTED, redact_public_data, redact_text
 
 __all__ = [
     "__version__",
@@ -148,4 +149,6 @@ __all__ = [
     "RESULT_FILE_NAME", "RESULT_SCHEMA_VERSION", "GeneratedReport",
     "HypothesisVerificationResult", "ObligationVerification",
     "generate_report", "verify_hypothesis",
+    # public-output secret redaction (defence in depth; not an env reader)
+    "REDACTED", "redact_public_data", "redact_text",
 ]

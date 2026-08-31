@@ -49,6 +49,7 @@ import sympy
 from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, PACKAGE_VERSION, ZERO,
                      AdapterError, SessionState, sha256_text)
 from .parser import get_parse_policy, parse_expression
+from .security import redact_public_data, redact_text
 from .session import run_summary
 
 __all__ = ["render_final_report", "FINAL_ARTIFACT_NAME",
@@ -429,23 +430,26 @@ def render_final_report(source: Union[SessionState, str, Path], *,
         human_render_verified = False
 
     try:
-        summary = run_summary(run_root)
+        summary = redact_public_data(run_summary(run_root))
     except AdapterError:
         summary = None
 
     manifest = _read_json(run_root / "manifest.json") or {}
     report = {
-        "run_id": manifest.get("run_id")
-                  or (source.run_id if isinstance(source, SessionState)
-                      else None),
+        "run_id": redact_text(str(
+            manifest.get("run_id")
+            or (source.run_id if isinstance(source, SessionState)
+                else "unknown"))),
         "certified_text": certified_text,
         "certified_state_sha256": certified_sha,
-        "repository_version": manifest.get(
-            "repository_version", PACKAGE_VERSION),
-        "engine_version": manifest.get("engine_version", ENGINE_VERSION),
-        "agent_protocol_version": manifest.get(
-            "agent_protocol_version", AGENT_PROTOCOL_VERSION),
-        "engine_git_sha": manifest.get("engine_git_sha", "unknown"),
+        "repository_version": redact_text(str(manifest.get(
+            "repository_version", PACKAGE_VERSION))),
+        "engine_version": redact_text(str(manifest.get(
+            "engine_version", ENGINE_VERSION))),
+        "agent_protocol_version": redact_text(str(manifest.get(
+            "agent_protocol_version", AGENT_PROTOCOL_VERSION))),
+        "engine_git_sha": redact_text(str(manifest.get(
+            "engine_git_sha", "unknown"))),
         "human_form": human_form,
         "definitions": dict(definitions),
         "expansion_check": expansion_check,
