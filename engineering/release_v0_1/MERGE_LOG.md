@@ -47,3 +47,14 @@ was verified locally before the current clean-room replay. Targeted result:
 `17 passed` (`pytest -q -m release_critical tests`) and `96 passed` on the
 workspace/API/provenance/security/demo/packaging set. `git diff 284997c --
 research/` is empty.
+
+| lane | source commit | integrated commit | scope | verification |
+|---|---|---|---|---|
+| HEAD clean-room | `8681003` | `4168672` | ordinary+wheel replay at `bd6f0a1` | 17 release-critical; demos ZERO/ZERO/UNKNOWN |
+| final reviewer A | `d887b86` | `d887b86` | physicist UX | `ALPHA_READY` |
+| final reviewer B | `98bb150` | `98bb150` | software/reproducibility | `ALPHA_READY` |
+| final reviewer C | `a7a333a` | `a7a333a` | safety/claims | `ALPHA_READY` |
+
+Coordinator decision: **`RESEARCH_PREVIEW_ALPHA`**. Product SHA remains
+`bd6f0a1ecb766526be3eb5cc596eeb337e4b69d0`. Frozen scientific evidence
+changed by this program: **none**.

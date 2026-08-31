@@ -1,7 +1,7 @@
 # symbolic-compactification Research Preview v0.1
 
-Status: engineering release candidate. `RESEARCH_PREVIEW_ALPHA` is granted
-only after the integrated release gates pass.
+Status: `RESEARCH_PREVIEW_ALPHA` for the bounded Mode A researcher-workspace
+workflow. Scientific experimentation remains closed.
 
 symbolic-compactification is a research harness for proposing, grounding, and
 checking symbolic scientific structures. Its reliable core is
@@ -79,7 +79,7 @@ commands remain separate from certification.
 
 ## Release-gate note
 
-These documents state the v0.1 external interface. The coordinator must verify
-the integrated `init`, workspace-path `inspect`, workspace-path `verify`,
-`report`, and Python API examples before declaring the alpha ready. Successful
-installation alone is not evidence of scientific readiness.
+The integrated `init`, workspace `inspect`/`verify`/`report`, Python API,
+clean-room replay, and three independent reviews passed for this preview.
+Successful installation is still not evidence of scientific discovery. See
+[FINAL_ENGINEERING_RELEASE.md](../../FINAL_ENGINEERING_RELEASE.md).

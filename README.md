@@ -2,13 +2,12 @@
 
 **Context-grounded symbolic hypotheses with fail-closed verification.**
 
-Status: v0.1 research-preview engineering candidate.
-Scientific experimentation is closed during this consolidation phase; this
-repository is not opening a new discovery campaign. The alpha name is earned
-only if the installation, safety, reproducibility, demo, and release-review
-gates pass.
+Status: `RESEARCH_PREVIEW_ALPHA` (`0.1.0-alpha`). Scientific experimentation
+remains closed; this repository is not opening a new discovery campaign.
 See [SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) for
-the research-line lock.
+the research-line lock and
+[FINAL_ENGINEERING_RELEASE.md](FINAL_ENGINEERING_RELEASE.md) for the
+engineering decision.
 
 The release-critical workflow is **Mode A: verify my hypothesis**. A researcher
 provides expressions, assumptions, notes, references, and a candidate symbolic
