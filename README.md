@@ -1,58 +1,85 @@
 # symbolic-compactification
 
-**Context-grounded symbolic hypothesis generation with fail-closed
-verification.**
+**Typed derivation audit with fail-closed exact verification.**
 
-Research Preview Alpha — experimental proposer, verified hypothesis checking.
+v0.2 derivation-audit alpha in development on
+`engineering/derivation-audit-v0.2`. This is an additive engineering layer on
+the still-supported v0.1 **Mode A: verify my hypothesis** preview
+(`0.1.0-alpha`, tag `research-preview-v0.1.0-alpha`, branch
+`engineering/research-preview-alpha-v0.1`). It is **not** a stable v1.0
+release and is **not** merged to `main`.
 
-Status: `RESEARCH_PREVIEW_ALPHA` (`0.1.0-alpha`). This is **not** a stable
-v1.0 release and is **not** merged to `main`. Use tag
-`research-preview-v0.1.0-alpha` or branch
-`engineering/research-preview-alpha-v0.1`.
+A derivation audit inventories manuscript equations, records typed
+equation-to-equation edges, lowers only supported edges to executable
+residuals, and lets the deterministic verifier judge each residual. LLM text
+cannot create verified status. The verified table is generated, not authored.
 
-Scientific experimentation remains closed. See
-[SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) and
+Exact algebraic and local structural identities that were lowered to
+executable residuals were evaluated under the declared symbolic semantics.
+Only obligations returning exact ZERO are listed as machine-verified.
+
+Definitions, integral-level arguments, asymptotic remainder claims, and
+unsupported transformations are tracked separately rather than being
+misreported as exact algebraic identities.
+
+This tool does not write papers. Scientific experimentation remains closed.
+See [SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) and
 [FINAL_ENGINEERING_RELEASE.md](FINAL_ENGINEERING_RELEASE.md).
 
-The supported workflow is **Mode A: verify my hypothesis**. A researcher
-provides expressions, assumptions, notes, references, and a candidate symbolic
-relation. The tool grounds that relation to named source files, compiles its
-explicit proof obligations, runs the deterministic verifier, and writes an
-immutable, provenance-rich run report (`init` → `inspect` → `verify` →
-`report`). The proposer is experimental and never promotes scientific state.
-The verifier—not a model, explanation, or confidence score—is the only judge.
-Only `ZERO` certifies the submitted obligation under the declared engine
-semantics and assumptions.
+## Start here
 
-This tool does not discover physics and is not an autonomous theoretical
-physicist.
+### 1. Derivation audit (v0.2, in development)
 
-Release gates that passed: clean install, CLI, Python API, workspace,
+- [Overview](docs/DERIVATION_AUDIT.md)
+- [Quickstart](docs/AUDIT_QUICKSTART.md)
+- [Edge types](docs/EDGE_TYPES.md)
+- [Status semantics](docs/STATUS_SEMANTICS.md)
+- [Reviewer package](docs/REVIEWER_PACKAGE.md)
+- [Public demos](docs/PUBLIC_DEMOS.md)
+- [Privacy](docs/PRIVACY.md)
+- [Limitations](docs/DERIVATION_AUDIT_LIMITATIONS.md)
+- [Threat model](docs/THREAT_MODEL.md)
+
+```bash
+symbolic-compactification audit init my-paper-audit
+# inventory → inspect → verify → table → report → package
+```
+
+### 2. Mode A: verify my hypothesis (v0.1, still supported)
+
+A researcher provides expressions, assumptions, notes, references, and a
+candidate symbolic relation. The tool grounds that relation to named source
+files, compiles its explicit proof obligations, runs the deterministic
+verifier, and writes an immutable, provenance-rich run report
+(`init` → `inspect` → `verify` → `report`). The proposer is experimental and
+never promotes scientific state. The verifier—not a model, explanation, or
+confidence score—is the only judge. Only `ZERO` certifies the submitted
+obligation under the declared engine semantics and assumptions.
+
+- [Quickstart](engineering/release_v0_1/QUICKSTART.md)
+- [Installation](engineering/release_v0_1/INSTALLATION.md)
+- [Workspace format](engineering/release_v0_1/WORKSPACE_FORMAT.md)
+- [Result semantics](engineering/release_v0_1/SEMANTICS.md)
+- [Limitations](engineering/release_v0_1/LIMITATIONS.md)
+- [Security](engineering/release_v0_1/SECURITY.md)
+- [Release demos](engineering/release_v0_1/DEMOS.md)
+
+v0.1 release gates that passed: clean install, CLI, Python API, workspace,
 provenance, fail-closed semantics, security, three demos, documentation, and
-reproducibility. Release-critical tests: **17/17**. Clean-room replay: **PASS**.
-Three independent reviewers: **ALPHA_READY**.
+reproducibility. Release-critical tests: **17/17**. Clean-room replay:
+**PASS**. Three independent reviewers: **ALPHA_READY**.
 
 The historical full test suite is **not** fully green:
 `2049 passed, 24 failed`. Those failures are frozen historical authority
 drift, one optional client, and cache enumeration. They were disclosed, not
 rewritten, to make a release.
 
-## Start here
+### 3. Research history
 
-- [Quickstart](engineering/release_v0_1/QUICKSTART.md) — the canonical CLI and
-  Python workflows
-- [Installation](engineering/release_v0_1/INSTALLATION.md) — Python 3.12,
-  editable, ordinary, and wheel installation
-- [Workspace format](engineering/release_v0_1/WORKSPACE_FORMAT.md) — source
-  files and stable hypothesis schema
-- [Result semantics](engineering/release_v0_1/SEMANTICS.md) — exact meanings,
-  composite obligations, and exit codes
-- [Limitations](engineering/release_v0_1/LIMITATIONS.md) — coverage and claim
-  boundaries that must be read before scientific use
-- [Security](engineering/release_v0_1/SECURITY.md) — secret handling and
-  bounded run metadata
-- [Release demos](engineering/release_v0_1/DEMOS.md) — `ZERO`, grounded
-  `ZERO`, and intentional `UNKNOWN`
+Closed campaigns, capability boundary, and frozen negatives:
+[SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md),
+[CAPABILITY_BOUNDARY.md](CAPABILITY_BOUNDARY.md),
+[NEGATIVE_RESULTS.md](NEGATIVE_RESULTS.md).
 
 ## Install
 
@@ -67,7 +94,7 @@ python3.12 -m venv .venv
 The shorter `ssc` entry point is equivalent. Core verification requires no
 model service and no API key.
 
-## Canonical researcher workflow
+## Canonical researcher workflow (Mode A)
 
 Create a workspace at a path that does not already exist:
 
@@ -125,9 +152,12 @@ hypotheses are never overwritten by these commands.
 advance scientific state. Approximate numerical agreement never becomes
 `ZERO` or `NONZERO`.
 
+Audit-workspace statuses such as `NOT_LOWERED`, `DEFINITION`, `RECORDED`, and
+`SPLIT` are documented in [docs/STATUS_SEMANTICS.md](docs/STATUS_SEMANTICS.md).
+
 ## Python API
 
-The workspace façade mirrors the CLI:
+The Mode A workspace façade mirrors the CLI:
 
 ```python
 from symbolic_compactification import (
@@ -149,6 +179,9 @@ print(report.path)
 and `generate_report(...)` renders persisted evidence. Fail-closed statuses are
 returned as structured results; they are not success-like exceptions.
 
+Audit workspaces use `symbolic-compactification audit …` and
+`symbolic_compactification.audit.workspace`.
+
 ## Provenance and source safety
 
 Each run records the tool and semantic versions, Python and direct dependency
@@ -166,9 +199,10 @@ documented in [Installation](engineering/release_v0_1/INSTALLATION.md).
 
 The preview supports exact hypothesis adjudication in covered domains,
 explicit source grounding, structured observations, provenance, and
-reproducible runs. It does **not** establish robust mathematical
-representation invention, universal scientific simplification, or general
-exact limit certification.
+reproducible runs. The derivation-audit layer additionally tracks typed
+derivation edges and generates reviewer tables from machine records. It does
+**not** establish robust mathematical representation invention, universal
+scientific simplification, or general exact limit certification.
 
 Context-conditioned representation invention remains unestablished and was
 not tested at realistic scale because too few adjudicable real scientific
@@ -181,7 +215,7 @@ poles, parameter identities, boundaries, symmetries, or limit order. Claims
 that depend on those predicates are outside its supported certification
 boundary; contextual prose does not extend verifier semantics.
 
-This tool is not an autonomous theoretical physicist, a universal theorem
+This tool is not a substitute for a scientist, a universal theorem
 prover, or a guaranteed simplifier. Verification coverage is incomplete;
 `UNKNOWN` is expected on hard expressions. Exactness is always relative to the
 recorded, machine-supported engine semantics. Reference ingestion is
@@ -198,7 +232,7 @@ can never promote state.
 
 ## Legacy and advanced compatibility
 
-The researcher workspace above is the primary external interface. Existing
+The researcher workspace above is the primary v0.1 external interface. Existing
 file-oriented and session commands remain available for established users:
 
 ```bash
@@ -226,6 +260,8 @@ proof, until the required obligations receive `ZERO`.
 - research-preview release: `0.1.0-alpha` (PEP 440: `0.1.0a0`)
 - deterministic engine: `0.3.0`
 - agent protocol: `0.3.0`
+- derivation-audit protocol: `0.2.0` (alpha in development; package identity
+  unchanged)
 
 Engine and protocol identities remain frozen in this engineering program. For
 developer installation, tests, architecture, and the agent-native operating
