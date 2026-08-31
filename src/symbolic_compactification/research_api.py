@@ -72,6 +72,10 @@ _ERROR_ACTION_HINTS = {
     "ASSUMPTIONS_SCHEMA_INVALID": (
         "Declare each symbol/function using the assumptions schema; do not infer it."
     ),
+    "UNSUPPORTED_COMPLEX_SYMBOL_SEMANTICS": (
+        "Use only real:true symbols in the v0.1 workspace; real:false is "
+        "rejected by the fail-closed complex-domain safety boundary."
+    ),
     "HYPOTHESIS_PARSE_FAILURE": (
         "Validate hypotheses/hypothesis.json as UTF-8 JSON with unique keys."
     ),
@@ -575,7 +579,8 @@ def _safe_workspace_error_source(
 
     if error.code.startswith("PROJECT_"):
         return "project.yaml"
-    if error.code.startswith("ASSUMPTIONS_"):
+    if (error.code.startswith("ASSUMPTIONS_")
+            or error.code == "UNSUPPORTED_COMPLEX_SYMBOL_SEMANTICS"):
         return "declared assumptions file"
     if (error.code.startswith("HYPOTHESIS_")
             or error.code == "DECLARED_ASSUMPTIONS_OMITTED"):

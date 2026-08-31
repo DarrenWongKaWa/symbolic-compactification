@@ -97,8 +97,10 @@ failure behind a majority, score, or successful sub-obligation.
 ## Assumptions and domains
 
 Exactness is always conditional on the declared engine namespace and
-machine-supported assumptions. The alpha enforces only symbol `real` and
-`nonzero` flags and the declared undefined-function namespace.
+machine-supported assumptions. The alpha enforces only `real: true` symbols,
+an optional `nonzero` flag, and the declared undefined-function namespace.
+`real: false` is rejected because safe unconstrained-complex semantics are not
+available.
 
 The alpha cannot represent or enforce positivity, general inequalities,
 excluded poles, parameter identities, boundary conditions, symmetries, or

@@ -179,6 +179,23 @@ def test_yaml_aliases_are_rejected(tmp_path):
     assert "anchors and aliases" in error.detail
 
 
+def test_workspace_rejects_real_false_fail_closed(tmp_path):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    (root / "assumptions/assumptions.yaml").write_text(
+        "symbols:\n  - name: x\n    real: false\n    nonzero: false\n"
+        "functions: []\n",
+        encoding="utf-8",
+    )
+
+    error = _expect(
+        "UNSUPPORTED_COMPLEX_SYMBOL_SEMANTICS",
+        lambda: load_workspace(root),
+    )
+
+    assert "rejects real:false" in error.detail
+
+
 def test_hypothesis_rejects_duplicate_json_keys(tmp_path):
     root = tmp_path / "workspace"
     initialize_workspace(root)

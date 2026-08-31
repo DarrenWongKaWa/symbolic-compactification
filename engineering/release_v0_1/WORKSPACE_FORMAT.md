@@ -80,17 +80,16 @@ but explicit objects are preferred in external workspaces because they make
 domain choices visible. Assumptions are never inferred from notation, notes,
 references, or common physical practice.
 
-This schema's complete machine-enforced assumption surface is the symbol
-`real` and `nonzero` flags plus the declared undefined-function names. It does
+This schema's complete machine-enforced assumption surface is `real: true`,
+the optional `nonzero` flag, and declared undefined-function names. It does
 not encode positivity, general inequalities, excluded poles, parameter
 identities, boundary conditions, symmetries, or limit order. Those predicates
 may be recorded as context, but context does not affect the verifier. A
 hypothesis whose validity depends on one of them is outside supported alpha
 certification.
 
-Do not use `real: false` as an informal synonym for an unconstrained complex
-symbol until the documented namespace-contract defect is resolved. Affected
-claims fail closed; see [LIMITATIONS.md](LIMITATIONS.md).
+The workspace rejects `real: false` fail-closed. It is not an informal synonym
+for an unconstrained complex symbol; see [LIMITATIONS.md](LIMITATIONS.md).
 
 ## `hypotheses/hypothesis.json`
 

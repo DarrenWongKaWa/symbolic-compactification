@@ -19,8 +19,10 @@ scientific representation-discovery campaign remains closed.
 - Reproducible CLI and Python workflows for the supported workspace schema.
 
 The alpha's machine-enforced assumption namespace is deliberately small: each
-declared symbol has only `real` and `nonzero` flags, and undefined functions
-must be named explicitly. Positivity, general inequalities, excluded poles,
+declared symbol must use `real: true`, may use `nonzero`, and undefined
+functions must be named explicitly. `real: false` is rejected because the
+complex-domain namespace contract is unsafe for certification. Positivity,
+general inequalities, excluded poles,
 parameter identities, boundary conditions, symmetries, and limit order cannot
 be represented or enforced. A scientific claim that depends on any such
 predicate is outside supported alpha certification; putting the predicate in

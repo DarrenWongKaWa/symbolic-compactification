@@ -48,7 +48,7 @@ Supported for the preview:
 
 - strict ingestion of a small, human-readable workspace;
 - exact equivalence checks in the documented parser/verifier coverage;
-- explicit real/nonzero symbol flags, declared functions, and source-member
+- explicit `real: true`/optional-nonzero symbol flags, declared functions, and source-member
   grounding;
 - hashes and bounded run provenance;
 - reports that distinguish proof, refutation, and proof gaps.

@@ -375,8 +375,18 @@ def _load_assumptions(root: Path, relative: str) -> tuple[
         source_bytes, path, "ASSUMPTIONS_PARSE_FAILURE")
     _keys(raw, allowed=_ASSUMPTION_KEYS, required=frozenset({"symbols"}),
           code="ASSUMPTIONS_SCHEMA_INVALID", path=path)
+    raw_symbols = raw["symbols"]
+    if isinstance(raw_symbols, list) and any(
+            isinstance(item, dict) and item.get("real") is False
+            for item in raw_symbols):
+        raise WorkspaceError(
+            "UNSUPPORTED_COMPLEX_SYMBOL_SEMANTICS",
+            "the v0.1 workspace rejects real:false because its complex-symbol "
+            "semantics are not currently safe for certification",
+            path=path,
+        )
     try:
-        symbols = normalize_symbols(raw["symbols"])
+        symbols = normalize_symbols(raw_symbols)
         functions = normalize_functions(
             raw.get("functions"),
             declared_symbol_names={item["name"] for item in symbols},

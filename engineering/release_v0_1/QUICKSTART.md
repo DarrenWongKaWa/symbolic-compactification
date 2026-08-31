@@ -47,8 +47,9 @@ my-symbolic-project/
 Replace the example text in `expressions/current.txt` and
 `expressions/candidate.txt`. Edit `assumptions/assumptions.yaml` so every
 symbol and allowed undefined function is declared. The alpha machine-enforces
-only the symbol `real`/`nonzero` flags and the declared function namespace. It
-cannot represent positivity, general inequalities, excluded poles, parameter
+only `real: true` symbols, an optional `nonzero` flag, and the declared
+function namespace. It rejects `real: false` fail-closed. It cannot represent
+positivity, general inequalities, excluded poles, parameter
 identities, boundary conditions, symmetries, or limit order. A hypothesis that
 depends on any such predicate is outside the supported alpha certification
 boundary; adding prose to notes or references does not change that. Update

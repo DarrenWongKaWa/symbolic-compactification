@@ -74,8 +74,10 @@ my-symbolic-project/
 ```
 
 Replace the example expressions and declare every symbol and allowed undefined
-function. The alpha operationally supports only symbol `real`/`nonzero` flags
-and declared functions. It cannot enforce positivity, general inequalities,
+function. The alpha operationally supports only `real: true` symbols, an
+optional `nonzero` flag, and declared functions. It rejects `real: false`
+because the complex-domain namespace contract is not safe for certification.
+It cannot enforce positivity, general inequalities,
 excluded poles, parameter identities, boundary conditions, symmetries, or
 limit order. Do not submit a claim that depends on one of those predicates as
 being within alpha certification. Then inspect, verify, and render the report:

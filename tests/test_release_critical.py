@@ -375,3 +375,23 @@ def test_finite_laurent_coefficients_without_remainder_never_certify():
     assert verdict == HOP_UNKNOWN
     assert verdict != ZERO
     assert level == LEVEL_B
+
+
+def test_real_false_namespace_defect_is_rejected_before_verification(tmp_path):
+    root = tmp_path / "complex-namespace"
+    initialize_workspace(root)
+    (root / "assumptions/assumptions.yaml").write_text(
+        "symbols:\n  - name: x\n    real: false\n    nonzero: false\n"
+        "functions: []\n",
+        encoding="utf-8",
+    )
+    (root / "expressions/current.txt").write_text(
+        "Piecewise((1, Eq(x, 0)), (0, True))\n", encoding="utf-8")
+    (root / "expressions/candidate.txt").write_text("0\n", encoding="utf-8")
+
+    result = verify_hypothesis(root, run_id="complex-namespace-gate")
+
+    assert result.result == PARSE_FAILURE
+    assert result.error_code == "UNSUPPORTED_COMPLEX_SYMBOL_SEMANTICS"
+    assert result.obligations == ()
+    assert "real:false" in result.action_hint
