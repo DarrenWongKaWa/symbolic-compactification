@@ -1,0 +1,191 @@
+"""Audit subcommand handlers. E7 fills verify/table/report/package/inventory.
+
+``audit init`` and ``audit inspect`` are implemented against the frozen
+workspace loader. Other commands call the layer functions; those layers may
+still raise NOT_IMPLEMENTED until their owners land.
+"""
+from __future__ import annotations
+
+import json
+
+from ..models import ENGINE_VERSION, PACKAGE_VERSION, RELEASE_VERSION
+from ..security import redact_public_data, redact_text
+from .evidence import latest_audit_run_id, load_audit_run, verify_audit
+from .inventory import inventory_equations
+from .package import build_reviewer_package
+from .report import generate_audit_report
+from .schema import AUDIT_SCHEMA_VERSION, AuditError
+from .tables import generate_tables
+from .workspace import initialize_audit_workspace, load_audit_workspace
+
+
+def _print_json(payload: dict) -> None:
+    print(json.dumps(
+        redact_public_data(payload), sort_keys=True, ensure_ascii=False))
+
+
+def cmd_audit_init(args) -> int:
+    workspace = initialize_audit_workspace(args.directory)
+    payload = {
+        "status": "AUDIT_INITIALIZED",
+        "workspace": str(workspace.root),
+        "audit_name": workspace.config.audit_name,
+        "schema_version": AUDIT_SCHEMA_VERSION,
+        "next_command": (
+            f"symbolic-compactification audit inventory {workspace.root}"
+        ),
+    }
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:      AUDIT_INITIALIZED")
+    print(f"workspace:   {redact_text(str(workspace.root))}")
+    print(f"audit_name:  {redact_text(workspace.config.audit_name)}")
+    print(f"next:        {redact_text(payload['next_command'])}")
+    return 0
+
+
+def cmd_audit_inventory(args) -> int:
+    workspace = load_audit_workspace(args.directory)
+    inventory = inventory_equations(workspace, write=True)
+    payload = {
+        "status": "AUDIT_INVENTORY",
+        "workspace": str(workspace.root),
+        "equations": len(inventory.equations),
+        "duplicate_labels": list(inventory.duplicate_labels),
+        "source_hash": inventory.source_hash,
+        "warnings": list(inventory.warnings),
+    }
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:      AUDIT_INVENTORY")
+    print(f"equations:   {len(inventory.equations)}")
+    print(f"duplicates:  {len(inventory.duplicate_labels)}")
+    return 0
+
+
+def cmd_audit_inspect(args) -> int:
+    workspace = load_audit_workspace(args.directory)
+    payload = {
+        "status": "AUDIT_INSPECT",
+        "workspace": str(workspace.root),
+        "audit_name": workspace.config.audit_name,
+        "schema_version": AUDIT_SCHEMA_VERSION,
+        "release_version": RELEASE_VERSION,
+        "package_version": PACKAGE_VERSION,
+        "engine_version": ENGINE_VERSION,
+        "manuscript_source": workspace.config.manuscript_source,
+        "manuscript_sha256": workspace.manuscript_sha256,
+        "equation_manifest_sha256": workspace.equation_manifest_sha256,
+        "edge_manifest_sha256": workspace.edge_manifest_sha256,
+        "assumptions_sha256": workspace.assumptions_sha256,
+        "verifier_profile": workspace.config.verifier_profile,
+        "note": (
+            "inspect counts are workspace inventory, not scientific evidence"
+        ),
+    }
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:         AUDIT_INSPECT")
+    print(f"workspace:      {redact_text(str(workspace.root))}")
+    print(f"audit_name:     {redact_text(workspace.config.audit_name)}")
+    print(f"manuscript:     {redact_text(workspace.config.manuscript_source)}")
+    print(f"verifier:       {workspace.config.verifier_profile}")
+    print("note:           counts are not scientific evidence")
+    return 0
+
+
+def cmd_audit_verify(args) -> int:
+    workspace = load_audit_workspace(args.directory)
+    run = verify_audit(workspace)
+    payload = {
+        "status": "AUDIT_VERIFIED",
+        "workspace": str(workspace.root),
+        "run_id": run.run_id,
+        "records": len(run.records),
+        "run_directory": str(run.directory),
+    }
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:      AUDIT_VERIFIED")
+    print(f"run_id:      {run.run_id}")
+    print(f"records:     {len(run.records)}")
+    return 0
+
+
+def cmd_audit_table(args) -> int:
+    workspace = load_audit_workspace(args.directory)
+    run_id = args.run or latest_audit_run_id(workspace)
+    run = load_audit_run(workspace, run_id)
+    artifacts = generate_tables(workspace, run)
+    payload = {
+        "status": "AUDIT_TABLES",
+        "run_id": run.run_id,
+        "verified": str(artifacts.verified_md),
+        "structural": str(artifacts.structural_md),
+        "uncertified": str(artifacts.uncertified_md),
+        "nonzero": str(artifacts.nonzero_md),
+        "json": str(artifacts.table_json),
+        "csv": str(artifacts.table_csv),
+    }
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:      AUDIT_TABLES")
+    print(f"verified:    {redact_text(str(artifacts.verified_md))}")
+    print(f"structural:  {redact_text(str(artifacts.structural_md))}")
+    print(f"uncertified: {redact_text(str(artifacts.uncertified_md))}")
+    print(f"nonzero:     {redact_text(str(artifacts.nonzero_md))}")
+    return 0
+
+
+def cmd_audit_report(args) -> int:
+    workspace = load_audit_workspace(args.directory)
+    run_id = args.run or latest_audit_run_id(workspace)
+    run = load_audit_run(workspace, run_id)
+    path = generate_audit_report(workspace, run)
+    payload = {"status": "AUDIT_REPORT", "path": str(path), "run_id": run.run_id}
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:      AUDIT_REPORT")
+    print(f"path:        {redact_text(str(path))}")
+    return 0
+
+
+def cmd_audit_package(args) -> int:
+    workspace = load_audit_workspace(args.directory)
+    run_id = args.run or latest_audit_run_id(workspace)
+    run = load_audit_run(workspace, run_id)
+    dest = build_reviewer_package(workspace, run, dest=args.dest)
+    payload = {
+        "status": "AUDIT_PACKAGE",
+        "path": str(dest),
+        "run_id": run.run_id,
+    }
+    if args.json:
+        _print_json(payload)
+        return 0
+    print("status:      AUDIT_PACKAGE")
+    print(f"path:        {redact_text(str(dest))}")
+    return 0
+
+
+def dispatch_audit(args) -> int:
+    command = getattr(args, "audit_command", None)
+    handlers = {
+        "init": cmd_audit_init,
+        "inventory": cmd_audit_inventory,
+        "inspect": cmd_audit_inspect,
+        "verify": cmd_audit_verify,
+        "table": cmd_audit_table,
+        "report": cmd_audit_report,
+        "package": cmd_audit_package,
+    }
+    handler = handlers.get(command)
+    if handler is None:
+        raise AuditError("AUDIT_COMMAND_INVALID", f"unknown audit command {command!r}")
+    return handler(args)

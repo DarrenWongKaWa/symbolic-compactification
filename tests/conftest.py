@@ -13,9 +13,12 @@ def pytest_ignore_collect(collection_path, config):
 
     Other marker expressions and ordinary test invocations are unchanged.
     """
-    if config.getoption("markexpr") != "release_critical":
-        return None
+    markexpr = config.getoption("markexpr")
     if (collection_path.suffix == ".py"
             and collection_path.name.startswith("test_")):
-        return collection_path.name != "test_release_critical.py"
+        if markexpr == "release_critical":
+            return collection_path.name != "test_release_critical.py"
+        if markexpr == "derivation_audit_release_critical":
+            return collection_path.name != (
+                "test_derivation_audit_release_critical.py")
     return None

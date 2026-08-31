@@ -23,6 +23,8 @@ finalize       --run RUN_ID [--workspace W]
                render the FINAL CERTIFIED FORM deliverable (human-readable
                certified expression + definitions + provenance header) and
                write final/FINAL_CERTIFIED_FORM.md
+audit init|inventory|inspect|verify|table|report|package
+               derivation-audit workspace (additive v0.2 layer)
 
 Exit codes: 0 = ZERO, 2 = NONZERO, 3 = UNKNOWN, 4 = parse/load/usage error.
 
@@ -69,6 +71,8 @@ from .structure import structure_summary
 from .verifier import verify_equivalent
 from .workspace import (ResearchWorkspace, WorkspaceError,
                         initialize_workspace, load_workspace)
+from .audit.schema import AuditError
+from .audit.cli import dispatch_audit
 
 EXIT_ZERO = 0
 EXIT_NONZERO = 2
@@ -891,9 +895,53 @@ def build_parser() -> argparse.ArgumentParser:
     p_be.add_argument("--json", action="store_true")
     p_be.set_defaults(func=cmd_backends)
 
+    p_audit = sub.add_parser(
+        "audit",
+        help="machine-auditable derivation audit (additive v0.2 layer)")
+    audit_sub = p_audit.add_subparsers(dest="audit_command", required=True)
+    p_audit_init = audit_sub.add_parser(
+        "init", help="create a derivation-audit workspace")
+    p_audit_init.add_argument(
+        "directory", help="new audit directory (must not already exist)")
+    p_audit_init.add_argument(
+        "--json", action="store_true",
+        help="emit one machine-readable JSON object")
+    p_audit_inventory = audit_sub.add_parser(
+        "inventory", help="extract equation labels from manuscript source")
+    p_audit_inventory.add_argument("directory", help="audit workspace")
+    p_audit_inventory.add_argument("--json", action="store_true")
+    p_audit_inspect = audit_sub.add_parser(
+        "inspect", help="summarize a derivation-audit workspace")
+    p_audit_inspect.add_argument("directory", help="audit workspace")
+    p_audit_inspect.add_argument("--json", action="store_true")
+    p_audit_verify = audit_sub.add_parser(
+        "verify", help="verify executable derivation-audit obligations")
+    p_audit_verify.add_argument("directory", help="audit workspace")
+    p_audit_verify.add_argument("--json", action="store_true")
+    p_audit_table = audit_sub.add_parser(
+        "table", help="generate reviewer tables from machine evidence")
+    p_audit_table.add_argument("directory", help="audit workspace")
+    p_audit_table.add_argument("--run", help="recorded audit run id")
+    p_audit_table.add_argument("--json", action="store_true")
+    p_audit_report = audit_sub.add_parser(
+        "report", help="generate the derivation-audit REPORT.md")
+    p_audit_report.add_argument("directory", help="audit workspace")
+    p_audit_report.add_argument("--run", help="recorded audit run id")
+    p_audit_report.add_argument("--json", action="store_true")
+    p_audit_package = audit_sub.add_parser(
+        "package", help="export a reviewer verification package")
+    p_audit_package.add_argument("directory", help="audit workspace")
+    p_audit_package.add_argument("--run", help="recorded audit run id")
+    p_audit_package.add_argument(
+        "--dest", help="optional destination directory")
+    p_audit_package.add_argument("--json", action="store_true")
+    p_audit.set_defaults(func=dispatch_audit)
+
     for command_parser in (
             p_workspace_init, p_inspect, p_verify, p_report, p_init,
-            p_summary, p_step, p_finalize, p_obs, p_be):
+            p_summary, p_step, p_finalize, p_obs, p_be, p_audit,
+            p_audit_init, p_audit_inventory, p_audit_inspect, p_audit_verify,
+            p_audit_table, p_audit_report, p_audit_package):
         _add_debug_argument(command_parser)
 
     return parser
@@ -956,6 +1004,10 @@ def main(argv: Optional[list[str]] = None) -> int:
             if args.debug:
                 raise
             return _emit_workspace_error(args, exc)
+        except AuditError as exc:
+            if args.debug:
+                raise
+            return _emit_cli_error(args, exc.code, source=exc.path)
         except ProvenanceError as exc:
             if args.debug:
                 raise

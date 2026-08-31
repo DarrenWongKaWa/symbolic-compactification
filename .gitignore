@@ -40,3 +40,6 @@ workspace/input/expressions/*
 
 .env
 .env.*
+
+# Local unpublished validation (never commit; never package)
+.private_validation/
