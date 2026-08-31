@@ -1,0 +1,66 @@
+schema_version: DerivationAuditV1
+edges:
+  # expected_status: DEFINITION
+  - edge_id: B.define-K
+    source_from: eq.K-def
+    source_to: eq.K-def
+    edge_type: DEFINITION_INSERTION
+    lhs: expressions/K_call.txt
+    rhs: expressions/K_poly.txt
+    assumptions_used:
+      - m
+      - n
+    claim: "K(m, n) is defined to be m + n"
+    notes: "Name introduction only. Not an exact-residual proof."
+  # expected_status: ZERO
+  - edge_id: B.index-swap
+    source_from: eq.K-def
+    source_to: eq.K-swap
+    edge_type: INDEX_RELABELING
+    lhs: expressions/K_poly.txt
+    rhs: expressions/K_swapped.txt
+    residual: expressions/index_residual.txt
+    assumptions_used:
+      - m
+      - n
+    claim: "after the definition, m + n equals n + m"
+    notes: "Dummy-index swap of the explicit polynomial K(m,n)=m+n."
+  # expected_status: ZERO
+  - edge_id: B.projector-P
+    source_from: eq.projector
+    source_to: eq.projector
+    edge_type: PROJECTOR_IDENTITY
+    lhs: expressions/P2_minus_P.txt
+    rhs: expressions/zero.txt
+    residual: expressions/P2_minus_P.txt
+    assumptions_used: []
+    claim: "the 2x2 matrix [[0, 0], [0, 1]] satisfies P**2 - P = 0"
+    notes: "Frobenius residual is the sum of the four entries of P^2 - P."
+  # expected_status: ZERO
+  - edge_id: B.pairwise-sym
+    source_from: eq.pairwise
+    source_to: eq.pairwise
+    edge_type: PAIRWISE_REDUCTION
+    lhs: expressions/pairwise_sum.txt
+    rhs: expressions/twice_S.txt
+    residual: expressions/pairwise_residual.txt
+    assumptions_used:
+      - m
+      - n
+    claim: "A(m, n) + A(n, m) equals 2*S with S = (A(m, n) + A(n, m))/2"
+    notes: "Local pair identity. A global sum is not claimed."
+  # expected_status: RECORDED
+  - edge_id: B.worksheet
+    source_from: eq.K-def
+    source_to: eq.pairwise
+    edge_type: BOOKKEEPING
+    children:
+      - B.define-K
+      - B.index-swap
+      - B.projector-P
+      - B.pairwise-sym
+    assumptions_used:
+      - m
+      - n
+    claim: "collect the local identities onto one worksheet"
+    notes: "Assembly bookkeeping, not an exact residual."

@@ -1,0 +1,30 @@
+schema_version: DerivationAuditV1
+equations:
+  - equation_id: eq.K-def
+    label: eq:K-def
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/K_poly.txt
+    body: "K(m,n) := m+n"
+  - equation_id: eq.K-swap
+    label: eq:K-swap
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/K_swapped.txt
+    body: "K(n,m) = n+m"
+  - equation_id: eq.projector
+    label: eq:projector
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/P2_minus_P.txt
+    body: "P^{2}-P = 0"
+  - equation_id: eq.pairwise
+    label: eq:pairwise
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/pairwise_residual.txt
+    body: "A(m,n)+A(n,m)-2S = 0"

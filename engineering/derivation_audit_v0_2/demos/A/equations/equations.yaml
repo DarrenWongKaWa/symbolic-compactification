@@ -1,0 +1,30 @@
+schema_version: DerivationAuditV1
+equations:
+  - equation_id: eq.binomial-left
+    label: eq:binomial-left
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/binomial_lhs.txt
+    body: "(x+1)^{2}"
+  - equation_id: eq.binomial-right
+    label: eq:binomial-right
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/binomial_rhs.txt
+    body: "x^{2} + 2x + 1"
+  - equation_id: eq.twice-left
+    label: eq:twice-left
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/twice_lhs.txt
+    body: "2(x+1)"
+  - equation_id: eq.twice-right
+    label: eq:twice-right
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/twice_rhs.txt
+    body: "2x + 2"
