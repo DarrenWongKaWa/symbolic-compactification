@@ -1,5 +1,30 @@
 # Rule certificates
 
+Frozen product principles (do not silently weaken):
+
+1. `ZERO` is never `CERTIFIED_BY_RULE`.
+2. Certificate class describes **provenance**, not a ranking of mathematical
+   truth. `DIRECT_EXACT`, `SUBSTITUTION_EXACT`, and `RULE_CERTIFICATE` tell
+   a reviewer what the conclusion depends on.
+3. Rule growth is **field-driven**. Add a named rule only when a real public
+   derivation exposes a missing adapter with explicit fail-closed conditions.
+   Do not pre-load TRACE_CYCLICITY, STOKES, HERMITICITY, COMPLETENESS, or
+   similar catalogues.
+
+Lineage:
+
+```text
+v0.2.0-alpha  (tag derivation-audit-v0.2.0-alpha, do not move)
+    → public real-paper validation (evidence branch)
+    → v0.2.1-alpha  (generic BZ IBP adapter)
+```
+
+Product code and case evidence stay separate:
+
+- product patch: `engineering/derivation-audit-v0.2.1`
+- public Guo evidence: `engineering/real-paper-validation-arxiv-2511-16422`
+- unpublished local manuscripts never enter public provenance
+
 `ZERO` is never the same as `CERTIFIED_BY_RULE`.
 
 ```
