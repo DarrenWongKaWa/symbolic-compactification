@@ -1,20 +1,26 @@
 {
   "artifact_relpath": null,
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
-  "children": [],
-  "claim": "integration by parts in k-space converts the T0 Fermi-sea form into a Fermi-surface form",
+  "children": [
+    "D.leibniz-product-rule"
+  ],
+  "claim": "BZ-torus IBP converts the T0 Fermi-sea density into a Fermi-surface density",
   "declared_assumptions": [],
   "edge_id": "D.T0-ibp-global",
-  "edge_type": "INTEGRAL_ARGUMENT",
+  "edge_type": "BZ_PERIODIC_INTEGRATION_BY_PARTS",
   "engine_version": "0.3.0",
   "executable": false,
+  "ibp_domain": "BRILLOUIN_ZONE_TORUS",
   "lhs_hash": null,
-  "obligation_hash": "8e5638b5496ab97adb3d691aceef9fa5773ef0c23be4844bcac46511b824592d",
+  "obligation_hash": "3ff6d53373f044d029d7718e250347ea4169995411f865a75ded0dfc582c037f",
   "remainder_certificate_hash": null,
+  "required_rules": [
+    "BZ_TORUS_PERIODICITY"
+  ],
   "residual_hash": null,
   "residual_text": null,
-  "result": "NOT_LOWERED",
+  "result": "CERTIFIED_BY_RULE",
   "rhs_hash": null,
   "runtime_seconds": 0.0,
   "schema_version": "DerivationAuditV1",
@@ -22,10 +28,11 @@
     "eq.D-114",
     "eq.D-119"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
-  "status": "NOT_LOWERED",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
+  "status": "CERTIFIED_BY_RULE",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": [
-    "INTEGRAL_ARGUMENT_NOT_LOCAL_RESIDUAL"
+    "BZ_IBP_NOT_LOCAL_RESIDUAL",
+    "BZ_IBP_CERTIFIED_BY_LOCAL_ZERO_AND_DECLARED_TORUS"
   ]
 }

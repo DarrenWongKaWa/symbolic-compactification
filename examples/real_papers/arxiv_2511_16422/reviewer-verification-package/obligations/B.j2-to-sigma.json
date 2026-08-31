@@ -1,6 +1,6 @@
 {
   "artifact_relpath": null,
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "the four current channels are translated into the frequency-space conductivity kernel",
@@ -9,9 +9,11 @@
   "edge_type": "BOOKKEEPING",
   "engine_version": "0.3.0",
   "executable": false,
+  "ibp_domain": null,
   "lhs_hash": null,
-  "obligation_hash": "f34d84eb01b8050a03573d98dacd344945845b1c0fd627238b3a78806d4b31c4",
+  "obligation_hash": "7eea4a701a6d6985e100bab1daa07dbfc74f76a5ef8b72f8110cefa4ae77be87",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": null,
   "residual_text": null,
   "result": "RECORDED",
@@ -22,7 +24,7 @@
     "eq.B-24",
     "eq.B-25"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "RECORDED",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

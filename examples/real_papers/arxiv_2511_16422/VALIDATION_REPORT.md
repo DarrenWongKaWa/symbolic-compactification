@@ -33,7 +33,7 @@ Public scientific authority is the arXiv v2 source, not the local hash.
 Field validation of the frozen v0.2 public API on selected supplement edges.
 Not an exhaustive referee report. Not a new verifier. Not a novelty judgment.
 
-Frozen set: **25** edges (12–25 required).
+Frozen set: **26** edges after adding a shared local Leibniz child for BZ IBP.
 
 ## 3. Equation inventory
 
@@ -66,7 +66,8 @@ Covered regions:
 
 ## 5. Exact executable edges
 
-**18** edges lowered to native residuals and judged by `python_sympy_exact_v1`.
+**19** edges lowered to native residuals and judged by `python_sympy_exact_v1`
+(the original 18 paper identities plus the shared Leibniz product rule).
 
 ## 6. ZERO results
 
@@ -93,10 +94,11 @@ Covered regions:
 | D.eps21-symmetrize | (D-125)→(D-126) | ALGEBRAIC_EQUIVALENCE |
 | D.compact-nbar | (D-126)→(D-127) | INDEX_RELABELING |
 
-**18 ZERO = 12 `DIRECT_EXACT` + 6 `SUBSTITUTION_EXACT`.** See
+**19 ZERO = 13 `DIRECT_EXACT` + 6 `SUBSTITUTION_EXACT`.** See
 `reports/TABLE_VERIFIED_STRENGTH.md`. Strength cannot add a ZERO row.
 
-`DIRECT_EXACT` (12): unsubstituted local identities
+`DIRECT_EXACT` (13): unsubstituted local identities, including
+`D.leibniz-product-rule`. Original paper-algebra set:
 (`D.K1A-regroup`, `D.metric-pair`, `D.TA-prefactor`, `D.TA-TBgeo-cancel`,
 `D.C12-regroup`, `D.Vab-expand`, `D.Vab-eps21`, `D.A-antisym`,
 `D.sigma-m1-Ii`, `D.T0-local-sign`, `D.T0T1-regroup`, `D.geo-T2-subst`).
@@ -128,8 +130,14 @@ A legitimate NONZERO would not by itself fail the field validation.
 | Edge | Printed eqs | Status | Why not TABLE_VERIFIED |
 |---|---|---|---|
 | D.gamma-asymptotic | (D-57) | UNKNOWN | `ASYMPTOTIC_CLAIM`; remainder $O(\Gamma)$ is not a local residual |
-| D.T0-ibp-global | (D-114)→(D-119) | NOT_LOWERED | `INTEGRAL_ARGUMENT`; BZ integration by parts |
-| D.T2-ibp-global | (D-123)→(D-124) | NOT_LOWERED | `INTEGRAL_ARGUMENT`; BZ integration by parts |
+
+The two BZ IBP parents are **not** uncertified now; they are
+`CERTIFIED_BY_RULE` in `TABLE_STRUCTURAL` / `TABLE_IBP.md`.
+
+| Edge | Printed eqs | Status | Why not TABLE_VERIFIED |
+|---|---|---|---|
+| D.T0-ibp-global | (D-114)→(D-119) | CERTIFIED_BY_RULE | local Leibniz ZERO + declared `BZ_TORUS_PERIODICITY`; not an engine integral ZERO |
+| D.T2-ibp-global | (D-123)→(D-124) | CERTIFIED_BY_RULE | same rule; integrand is the gauge-invariant metric combination |
 
 ## 9. Structural edges
 
@@ -139,6 +147,8 @@ A legitimate NONZERO would not by itself fail the field validation.
 | B.j2-to-sigma | BOOKKEEPING | RECORDED |
 | D.mv-identity | DEFINITION_INSERTION | DEFINITION |
 | E.diag-2nd | DEFINITION_INSERTION | DEFINITION |
+| D.T0-ibp-global | BZ_PERIODIC_INTEGRATION_BY_PARTS | CERTIFIED_BY_RULE |
+| D.T2-ibp-global | BZ_PERIODIC_INTEGRATION_BY_PARTS | CERTIFIED_BY_RULE |
 
 ## 10. Asymptotic handling
 
@@ -149,10 +159,15 @@ UNKNOWN.
 
 ## 11. Global integration handling
 
-Eqs. (D-119) and (D-124) IBP arrows are `INTEGRAL_ARGUMENT` / `NOT_LOWERED`.
-Local sign algebra after the chain rule on (D-119) is a separate ZERO edge.
-Algebra that *uses* the declared $T_2$ IBP result is a separate ZERO edge.
-Global IBP authority is not transferred to those local zeros.
+Eqs. (D-114)→(D-119) and (D-123)→(D-124) use
+`BZ_PERIODIC_INTEGRATION_BY_PARTS`. The local Leibniz product rule is a
+child residual (`D.leibniz-product-rule`, engine ZERO). The parents are
+`CERTIFIED_BY_RULE` because `assumptions.yaml` declares
+`BZ_TORUS_PERIODICITY` on domain `BRILLOUIN_ZONE_TORUS` for the
+gauge-invariant integrand combinations. That is **not** SymPy evaluating
+$\int_{\mathrm{BZ}}$. Without the declared rule the parents would be
+`ASSUMPTION_REQUIRED`. Generic `INTEGRAL_ARGUMENT` remains available for
+integrals that have no such adapter.
 
 ## 12. Assumptions
 
@@ -188,8 +203,8 @@ only. Markdown cannot create ZERO.
 ## 15. Evidence integrity
 
 `ssc audit verify` token: `AUDIT_RUN_RECORDED`.
-Status counts: ZERO 18, DEFINITION 2, RECORDED 1, SPLIT 1, NOT_LOWERED 2,
-UNKNOWN 1.
+Status counts: ZERO 19, CERTIFIED_BY_RULE 2, DEFINITION 2, RECORDED 1,
+SPLIT 1, UNKNOWN 1.
 
 No PARSE_FAILURE, COMPILE_FAILURE, GROUNDING_FAILURE, INVALID_RECORD, or
 NONZERO.
@@ -207,12 +222,11 @@ replay workspace, `reproduce.sh`, `MANIFEST.json`, and bibliographic
 From a copy of researcher-owned sources only (no runs/reports/package):
 
 ```
-status_counts: ZERO 18, DEFINITION 2, RECORDED 1, SPLIT 1, NOT_LOWERED 2, UNKNOWN 1
-TABLE_VERIFIED ids: identical
-TABLE_UNCERTIFIED ids: D.T0-ibp-global, D.T2-ibp-global, D.gamma-asymptotic
+status_counts: ZERO 19, CERTIFIED_BY_RULE 2, DEFINITION 2, RECORDED 1, SPLIT 1, UNKNOWN 1
+TABLE_VERIFIED: 19 ZERO
+TABLE_UNCERTIFIED: D.gamma-asymptotic
+TABLE_STRUCTURAL includes D.T0-ibp-global and D.T2-ibp-global as CERTIFIED_BY_RULE
 ```
-
-Packaged `reproduce.sh` replayed the same 18/4/3 split.
 
 Authored markdown ZERO cannot add a verified row.
 
@@ -220,9 +234,12 @@ No private/unpublished data is required.
 
 ## 18. Product friction
 
-No generic production code was changed (budget 300 LOC unused).
+Generic adapter added (not a new scientific algorithm):
+`BZ_PERIODIC_INTEGRATION_BY_PARTS` + `CERTIFIED_BY_RULE` + optional
+`assumptions.yaml` `rules: [BZ_TORUS_PERIODICITY]`. Local Leibniz uses
+parser `diff`. The parent is never engine ZERO.
 
-Recorded friction, not v0.3 work:
+Remaining friction:
 
 - `assumptions.yaml` cannot encode $\epsilon_{21}=-\epsilon_{12}$ (must substitute).
 - `factorial` is not in the parser whitelist (`4!=24` was skipped).
@@ -245,15 +262,15 @@ Coordinator PASS is the A–I machine criteria, not unanimous ALPHA_READY.
 
 | Criterion | Result |
 |---|---|
-| A. ≥10 public executable residuals | 18 |
-| B. ≥8 ZERO | 18 |
+| A. ≥10 public executable residuals | 19 |
+| B. ≥8 ZERO | 19 |
 | C. no unauthorized TABLE_VERIFIED row | pass |
 | D. verified rows map to public eqs | pass |
-| E. ≥4 edge types overall | 8 types |
-| F. asymptotic/global not promoted to ZERO | pass |
+| E. ≥4 edge types overall | 9 types including `BZ_PERIODIC_INTEGRATION_BY_PARTS` |
+| F. asymptotic/global not promoted to engine ZERO | pass (`UNKNOWN` / `CERTIFIED_BY_RULE`) |
 | G. reviewer package reproduces | pass |
 | H. no private/unpublished data | pass |
-| I. no verifier-core change | pass |
+| I. no SymPy integral fake-ZERO | pass; additive BZ IBP adapter only |
 
 **REAL_PAPER_VALIDATION_PASS**
 

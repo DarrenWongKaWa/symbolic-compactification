@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_eps21_symmetrize.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "rewriting the band-2 denominator with e21=-e12 yields the symmetric two-band form",
@@ -24,14 +24,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "0d2b6f34ddff662b58ed9eeea8ed561bd2f052e1a01d476924da785a45558566",
-  "obligation_hash": "453cfd59c23c01b2258b18b90cd81130472ed3cf9a316917af074d5b186fd0f8",
+  "obligation_hash": "43619990d5ca99e4053f67f3843bd645104c8c0ef3a950fb46443fd6e665924f",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "c20a84da9ba7fd71fdc81f859dc350b5f7a3595baf507fff3a1267ea60c22364",
   "residual_text": "(f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/(-e12))*(gab*v2c + gac*v2b - 2*gbc*v2a)))\n",
   "result": "ZERO",
   "rhs_hash": "99eff26780c8a633d84bed87ff3dc7d94102e08244df490f4d0ecb9bcf90564b",
-  "runtime_seconds": 0.7167,
+  "runtime_seconds": 0.686,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-125",
@@ -40,7 +42,7 @@
     "expressions/geo_eps21.txt",
     "expressions/R_eps21_symmetrize.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

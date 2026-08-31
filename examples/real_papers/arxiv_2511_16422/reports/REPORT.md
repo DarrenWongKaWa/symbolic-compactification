@@ -9,8 +9,8 @@ Markdown cannot create ZERO, VERIFIED, or CERTIFIED status.
 - Protocol version: `0.2.0`
 - Audit name: `arxiv-2511-16422-v2-field-validation`
 - Audit id: `arxiv-2511-16422-v2-field-validation`
-- Run id: `20260831T224354Z-5082de88`
-- Record count: `25`
+- Run id: `20260831T230107Z-d4683eb4`
+- Record count: `26`
 - Verifier profile: `python_sympy_exact_v1`
 
 ## Declared semantics
@@ -29,28 +29,28 @@ Exact algebraic and local structural identities that were lowered to executable 
 - config_sha256: `39c74759b1bb5f6dfdd63345089f9bdc7f19f8e10f7fa87308182d9eed2ad22c`
 - manuscript_sha256: `356f644c736b2dabebec651c88265133a060ab566755a32e4f2460c519e3a35a`
 - equation_manifest_sha256: `f838690d679a0522cb2d73b676be0cc5d19e8f063759bf82e792f2d892a6ab95`
-- edge_manifest_sha256: `935c1455cf3a3f712d3696729373fa1f73c3adae8d11356ccbf3b028ec51f2be`
-- assumptions_sha256: `4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a`
-- record source_snapshot_hash values: `9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5`
+- edge_manifest_sha256: `b0cd1afc2b684bb9c2bd2abc3c3ba3a137ede5e6eda22956175ba136ef3101a3`
+- assumptions_sha256: `aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd`
+- record source_snapshot_hash values: `98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93`
 - record engine_version values: `0.3.0`
 
 ## Verification summary
 
 | Table | Rows |
 | --- | --- |
-| `TABLE_VERIFIED` | 18 |
-| `TABLE_STRUCTURAL` | 4 |
+| `TABLE_VERIFIED` | 19 |
+| `TABLE_STRUCTURAL` | 6 |
 | `TABLE_NONZERO` | 0 |
-| `TABLE_UNCERTIFIED` | 3 |
+| `TABLE_UNCERTIFIED` | 1 |
 
 | Status | Public label | Count |
 | --- | --- | --- |
+| `CERTIFIED_BY_RULE` | CERTIFIED_BY_RULE — local ZERO + declared BZ-torus IBP | 2 |
 | `DEFINITION` | DEFINITION | 2 |
-| `NOT_LOWERED` | NOT_LOWERED | 2 |
 | `RECORDED` | RECORDED | 1 |
 | `SPLIT` | SPLIT | 1 |
 | `UNKNOWN` | UNKNOWN | 1 |
-| `ZERO` | ZERO | 18 |
+| `ZERO` | ZERO | 19 |
 
 - integrity FAIL records: `0`
 
@@ -76,6 +76,7 @@ Exact algebraic and local structural identities that were lowered to executable 
 | D.compact-nbar | eq.D-126, eq.D-127, expressions/geo_eps21_fprime.txt, expressions/geo_nbar.txt, expressions/R_compact_nbar.txt | the n=1,2 form with e_{n nbar} and f_n' = 2 f_{0,n}' matches the compact rewrite | ((2*f01p)*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + (2*f02p)*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))) - (2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a)))  | INDEX_RELABELING | f1p, dagbc, e12, gab, v1c, gac, v1b, gbc, v1a, f2p, e21, v2c, v2b, v2a, f01p, f02p | python_sympy_exact_v1 | ZERO | expressions/R_compact_nbar.txt |
 | D.eps21-symmetrize | eq.D-125, eq.D-126, expressions/geo_fnp_subst.txt, expressions/geo_eps21.txt, expressions/R_eps21_symmetrize.txt | rewriting the band-2 denominator with e21=-e12 yields the symmetric two-band form | (f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/(-e12))*(gab*v2c + gac*v2b - 2*gbc*v2a)))  | ALGEBRAIC_EQUIVALENCE | f1p, dagbc, e12, v1c, gab, v1b, gac, v1a, gbc, f2p, v2c, v2b, v2a, e21 | python_sympy_exact_v1 | ZERO | expressions/R_eps21_symmetrize.txt |
 | D.geo-T2-subst | eq.D-122, eq.D-125, expressions/geo_T2_plus_T0T1.txt, expressions/geo_fnp.txt, expressions/R_geo_T2_subst.txt | substituting the declared T2 IBP result into sigma^geo and grouping by f_n' reproduces Eq. (D-125) | ((-Rational(1,2)*dagbc*(f1p + f2p)) + (1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc)))  | ALGEBRAIC_EQUIVALENCE | dagbc, f1p, f2p, e12, v1c, gab, v1b, gac, v1a, gbc, v2c, v2b, v2a | python_sympy_exact_v1 | ZERO | expressions/R_geo_T2_subst.txt |
+| D.leibniz-product-rule | eq.D-114, eq.D-119, expressions/R_leibniz_product_rule.txt | local Leibniz rule d_k(u v) = (d_k u) v + u (d_k v) | diff(u(k)*v(k), k) - (diff(u(k), k)*v(k) + u(k)*diff(v(k), k))  | ALGEBRAIC_EQUIVALENCE | k | python_sympy_exact_v1 | ZERO | expressions/R_leibniz_product_rule.txt |
 | D.metric-pair | eq.D-key-identities, eq.D-60, expressions/mv_pair_paper_order.txt, expressions/mv_pair_K1A_order.txt, expressions/R_metric_pair.txt | the metric-velocity pair in paper index order equals the pair appearing in regrouped K_{1A} | (v12a*v21b + v12b*v21a) - (v21a*v12b + v12a*v21b)  | PAIRWISE_REDUCTION | v12a, v21b, v12b, v21a | python_sympy_exact_v1 | ZERO | expressions/R_metric_pair.txt |
 | D.sigma-m1-Ii | eq.D-70, eq.D-77, expressions/sigma_m1_with_i.txt, expressions/sigma_m1_simplified.txt, expressions/R_sigma_m1_Ii.txt | (-I)/(4 e12^2) * (I e12^2) cancels to 1/4 on the sigma^{(-1)} kernel | ((-I)/(4*e12**2)*(I*e12**2)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)) - ((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p))  | ALGEBRAIC_EQUIVALENCE | e12, v1c, Oab1, v1b, Oac1, f1p, v2c, v2b, f2p | python_sympy_exact_v1 | ZERO | expressions/R_sigma_m1_Ii.txt |
 
@@ -87,6 +88,8 @@ DEFINITION, RECORDED, SPLIT, and CERTIFIED_BY_CHILDREN records. CERTIFIED_BY_CHI
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | B.j2-to-sigma | eq.B-24, eq.B-25 | the four current channels are translated into the frequency-space conductivity kernel |  | BOOKKEEPING |  | python_sympy_exact_v1 | RECORDED |  |
 | B.split-j2 | eq.B-23, eq.B-24 | second-order current j_a^{(2)} is decomposed into four O(A^2) channels (I)-(IV) |  | SPLIT_PARENT |  | python_sympy_exact_v1 | SPLIT |  |
+| D.T0-ibp-global | eq.D-114, eq.D-119 | BZ-torus IBP converts the T0 Fermi-sea density into a Fermi-surface density |  | BZ_PERIODIC_INTEGRATION_BY_PARTS |  | python_sympy_exact_v1 | CERTIFIED_BY_RULE — local ZERO + declared BZ-torus IBP |  |
+| D.T2-ibp-global | eq.D-123, eq.D-124 | BZ-torus IBP converts T2 ~ g d_a(f') into a -(d_a g) f' Fermi-surface term |  | BZ_PERIODIC_INTEGRATION_BY_PARTS |  | python_sympy_exact_v1 | CERTIFIED_BY_RULE — local ZERO + declared BZ-torus IBP |  |
 | D.mv-identity | eq.D-key-identities, expressions/mv_velocity_pair.txt, expressions/mv_metric_form.txt | two-band metric-velocity relation is introduced as a stated identity | (v12a*v21b + v12b*v21a ) - (2*e12**2*gab ) | DEFINITION_INSERTION | v12a, v21b, v12b, v21a, e12, gab | python_sympy_exact_v1 | DEFINITION |  |
 | E.diag-2nd | eq.E-128 | multiband diagonal second-derivative identity is introduced as a stated key identity |  | DEFINITION_INSERTION |  | python_sympy_exact_v1 | DEFINITION |  |
 
@@ -104,17 +107,16 @@ Definitions, integral-level arguments, asymptotic remainder claims, and unsuppor
 
 | Edge ID | Manuscript equation reference(s) | Claim / transformation | Executable residual | Derivation type | Declared assumptions | Verifier | Result | Artifact link |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| D.T0-ibp-global | eq.D-114, eq.D-119 | integration by parts in k-space converts the T0 Fermi-sea form into a Fermi-surface form |  | INTEGRAL_ARGUMENT |  | python_sympy_exact_v1 | NOT_LOWERED |  |
-| D.T2-ibp-global | eq.D-123, eq.D-124 | integration by parts converts T2 ~ g ∂_a(f') into a - (∂_a g) f' Fermi-surface term |  | INTEGRAL_ARGUMENT |  | python_sympy_exact_v1 | NOT_LOWERED |  |
 | D.gamma-asymptotic | eq.D-57 | DC conductivity admits a Gamma expansion through O(Gamma^0) with remainder O(Gamma) |  | ASYMPTOTIC_CLAIM |  | python_sympy_exact_v1 | UNKNOWN |  |
 
-- asymptotic/limit/integral records: `3`
+- asymptotic/limit/integral records: `1`
 
 ## Assumptions
 
-- workspace assumptions_sha256: `4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a`
+- workspace assumptions_sha256: `aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd`
 - Declared assumptions on records:
 - `D.mv-identity`: `v12a`, `v21b`, `v12b`, `v21a`, `e12`, `gab`
+- `D.leibniz-product-rule`: `k`
 - `D.K1A-regroup`: `v21a`, `v12b`, `v1c`, `v1b`, `v12c`, `v12a`, `v21b`, `v21c`
 - `D.metric-pair`: `v12a`, `v21b`, `v12b`, `v21a`
 - `D.K1A-metric-subst`: `v1c`, `v21a`, `v12b`, `v12a`, `v21b`, `v1b`, `v12c`, `v21c`, `e12`, `gab`, `gac`
@@ -141,8 +143,8 @@ Assumptions are those declared on the workspace and records. None were inferred.
 Tables and this report are regenerated from immutable machine records. Existing markdown is not evidence and is overwritten.
 
 ```
-symbolic-compactification audit table <workspace> --run 20260831T224354Z-5082de88
-symbolic-compactification audit report <workspace> --run 20260831T224354Z-5082de88
+symbolic-compactification audit table <workspace> --run 20260831T230107Z-d4683eb4
+symbolic-compactification audit report <workspace> --run 20260831T230107Z-d4683eb4
 ```
 
 ## Limitations

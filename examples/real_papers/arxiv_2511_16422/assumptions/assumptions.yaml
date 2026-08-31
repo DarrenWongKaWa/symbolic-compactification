@@ -89,4 +89,11 @@ symbols:
   - name: dagbc
     real: true
     nonzero: false
-functions: []
+  - name: k
+    real: true
+    nonzero: false
+functions:
+  - u
+  - v
+rules:
+  - BZ_TORUS_PERIODICITY

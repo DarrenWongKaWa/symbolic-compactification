@@ -56,15 +56,16 @@ enclosing asymptotic remainder stays `UNKNOWN`.
 
 The v0.2 Derivation Audit pipeline was exercised on Guo *et al.*,
 arXiv:2511.16422v2 / Phys. Rev. Lett. 136, 206303 (2026).
-25 derivation edges were selected; 18 executable identities returned exact
+26 derivation edges were selected; 19 executable identities returned exact
 ZERO, with no NONZERO results. One asymptotic remainder claim remained
-UNKNOWN and two global BZ integration-by-parts steps remained outside local
-exact certification.
+UNKNOWN. Two Brillouin-zone integration-by-parts parents are
+`CERTIFIED_BY_RULE` (local Leibniz ZERO + declared torus periodicity), not
+engine integral ZERO.
 
-18 executable equation-level identities were machine-verified as exact ZERO
-under the declared symbolic semantics. Of those, 12 are `DIRECT_EXACT` and
-6 are `SUBSTITUTION_EXACT` (exact given a declared upstream identity such as
-$\epsilon_{21}=-\epsilon_{12}$, not an independent proof of that identity).
+Of the machine ZERO rows, 13 are `DIRECT_EXACT` (including the shared
+Leibniz product rule) and 6 are `SUBSTITUTION_EXACT` (exact given a declared
+upstream identity such as $\epsilon_{21}=-\epsilon_{12}$, not an independent
+proof of that identity).
 
 This is an equation-level derivation audit, not a proof of the paper or
 confirmation of its physical conclusions.

@@ -6,7 +6,7 @@ Exact algebraic and local structural identities that were lowered to executable 
 
 Definitions, integral-level arguments, asymptotic remainder claims, and unsupported transformations are tracked separately rather than being misreported as exact algebraic identities.
 
-- Run id: `20260831T224354Z-5082de88`
+- Run id: `20260831T230107Z-d4683eb4`
 - Audit id: `arxiv-2511-16422-v2-field-validation`
 - Engine version: `0.3.0`
 - Schema: `DerivationAuditV1`

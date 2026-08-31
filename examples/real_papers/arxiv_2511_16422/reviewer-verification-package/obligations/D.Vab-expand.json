@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_Vab_expand.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "the Feynman-Hellmann substituted V_ab product expands to (-1)(e12 e21) times the A bilinear",
@@ -16,14 +16,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "b25a89e1f4d66250fc52033e7eb7a96433d072647150c4b960ad71325f7289d1",
-  "obligation_hash": "60683de6c3e00431bfc5839e378c6e98298989baa0d02b3c1daef2f18c47c931",
+  "obligation_hash": "23d35aa2657e4174e9b360118b7d8019c2079d5dcd785cc51b2e12ed2e8416f5",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "41595ab7498e74b71538750c72cd4878baf8f92f8417f410be5cee0a6f63aec6",
   "residual_text": "((-I*e12*A21a)*(-I*e21*A12b) - (-I*e21*A12a)*(-I*e12*A21b)) - ((-1)*(e12*e21)*(A21a*A12b - A12a*A21b))\n",
   "result": "ZERO",
   "rhs_hash": "d86055cf9b5d442a1972893dd1c48926c2b58f1906e206d332e4b4adbfdef97d",
-  "runtime_seconds": 0.7285,
+  "runtime_seconds": 0.7668,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-73",
@@ -31,7 +33,7 @@
     "expressions/Vab_factored.txt",
     "expressions/R_Vab_expand.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

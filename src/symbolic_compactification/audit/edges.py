@@ -39,6 +39,8 @@ class AuditEdge:
     assumptions_used: tuple[str, ...] = ()
     claim: str = ""
     notes: str = ""
+    required_rules: tuple[str, ...] = ()
+    ibp_domain: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -57,6 +59,7 @@ EDGE_FIELD_KEYS = frozenset({
     "id", "edge_id", "from", "source_from", "to", "source_to",
     "type", "edge_type", "lhs", "rhs", "residual",
     "children", "assumptions_used", "claim", "notes",
+    "required_rules", "ibp_domain",
 })
 EDGE_FIELD_REQUIRED = frozenset()
 _ID_ALIASES = ("id", "edge_id")
@@ -182,6 +185,8 @@ def _parse_edge(item: Any, path: Path) -> AuditEdge:
         assumptions_used=_optional_string_tuple(item, "assumptions_used", path),
         claim=_optional_text(item, "claim", path),
         notes=_optional_text(item, "notes", path),
+        required_rules=_optional_string_tuple(item, "required_rules", path),
+        ibp_domain=_optional_string(item, "ibp_domain", path),
     )
 
 

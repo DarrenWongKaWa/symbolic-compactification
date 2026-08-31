@@ -159,7 +159,41 @@ def main() -> int:
     OUT_MD.write_text(text, encoding="utf-8")
     if PACKAGE_MD.parent.is_dir():
         PACKAGE_MD.write_text(text, encoding="utf-8")
+    ibp_rows = [
+        row for row in payload.get("rows", [])
+        if row.get("edge_type") == "BZ_PERIODIC_INTEGRATION_BY_PARTS"
+    ]
+    ibp_path = ROOT / "reports" / "TABLE_IBP.md"
+    ibp_lines = [
+        "# Brillouin-zone integration by parts",
+        "",
+        "These parents are **not** engine ZERO. SymPy did not evaluate a BZ integral.",
+        "Certificate = local Leibniz `ZERO` + declared `BZ_TORUS_PERIODICITY` on",
+        "`BRILLOUIN_ZONE_TORUS`. Missing periodicity would be `ASSUMPTION_REQUIRED`.",
+        "",
+        "| Paper step | Local identity | Global rule | Assumptions | Status |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    paper = {
+        "D.T0-ibp-global": "Eq. (D-114) → Eq. (D-119)",
+        "D.T2-ibp-global": "Eq. (D-123) → Eq. (D-124)",
+    }
+    for row in sorted(ibp_rows, key=lambda item: item.get("edge_id") or ""):
+        ibp_lines.append(
+            "| {paper} | `D.leibniz-product-rule` ZERO | BZ periodic IBP | "
+            "periodic smooth gauge-invariant integrand on BZ torus | `{status}` |".format(
+                paper=paper.get(row.get("edge_id") or "", row.get("edge_id") or ""),
+                status=row.get("status") or "",
+            )
+        )
+    ibp_lines.append("")
+    ibp_text = "\n".join(ibp_lines)
+    ibp_path.write_text(ibp_text, encoding="utf-8")
+    pkg_ibp = ROOT / "reviewer-verification-package" / "TABLE_IBP.md"
+    if pkg_ibp.parent.is_dir():
+        pkg_ibp.write_text(ibp_text, encoding="utf-8")
     print(f"wrote {OUT_MD.relative_to(ROOT)} ({n_direct} DIRECT_EXACT, {n_subst} SUBSTITUTION_EXACT)")
+    print(f"wrote {ibp_path.relative_to(ROOT)} ({len(ibp_rows)} IBP parents)")
     return 0
 
 

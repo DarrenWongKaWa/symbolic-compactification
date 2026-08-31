@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_K1A_regroup.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "K_{1A} factors by regrouping commuting velocity products",
@@ -18,14 +18,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "570818a0c70c0cebe7e46e169b968f617d2fe95fec9d4e9b166d313ac035e9bf",
-  "obligation_hash": "a2701350bd0f5ad8c017113b860e474ec7fce80db7f2e7393e396df10d5f252d",
+  "obligation_hash": "8e673790b7270d5194b6eea8c95fdfd2c532a88e9871d6507ef964b3d4138273",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "051d8044d89908e46fdeb9eb84f0195c752e2925bcf81ddc02b15f070d9bfbe7",
   "residual_text": "(v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)) - (v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c))\n",
   "result": "ZERO",
   "rhs_hash": "46c22f6f22a4935cb4380961f82966e83ff70d6444f5c79fa5c23d65e5dcd6f4",
-  "runtime_seconds": 0.8204,
+  "runtime_seconds": 0.7544,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-59",
@@ -34,7 +36,7 @@
     "expressions/K1A_regrouped.txt",
     "expressions/R_K1A_regroup.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

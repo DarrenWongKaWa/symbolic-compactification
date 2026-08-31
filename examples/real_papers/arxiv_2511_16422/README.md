@@ -15,22 +15,22 @@ committed; reconstruct them from `SOURCE.yaml`.
 
 ## What was audited
 
-A frozen set of 25 derivation edges from the public supplement:
+A frozen set of 26 derivation edges from the public supplement:
 
 - local algebraic rearrangements and index rewrites that lower to executable
   residuals;
 - stated identities recorded as definitions;
 - one $\Gamma$ asymptotic remainder claim that is **not** rewritten as an
   exact residual;
-- two Brillouin-zone integration-by-parts steps classified as integral
-  arguments, not local zeros.
+- two Brillouin-zone IBP parents certified by local Leibniz ZERO plus a
+  declared torus-periodicity theorem (`CERTIFIED_BY_RULE`, not engine
+  integral ZERO).
 
-**18 executable equation-level identities were machine-verified as exact
+**19 executable equation-level identities were machine-verified as exact
 ZERO under the declared symbolic semantics. One asymptotic remainder claim
-remained UNKNOWN, and two global integration-by-parts steps remained
-NOT_LOWERED.**
+remained UNKNOWN. Two BZ IBP steps are `CERTIFIED_BY_RULE`.**
 
-Of the 18 ZERO rows, **12 are `DIRECT_EXACT`** and **6 are
+Of the ZERO rows, **13 are `DIRECT_EXACT`** and **6 are
 `SUBSTITUTION_EXACT`** (exact given a declared upstream identity such as
 $\epsilon_{21}=-\epsilon_{12}$; not an independent proof of that identity).
 
@@ -72,6 +72,7 @@ Read:
 - [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md) — field-validation writeup
 - [`reports/TABLE_VERIFIED.md`](reports/TABLE_VERIFIED.md) — machine-authoritative ZERO table
 - [`reports/TABLE_VERIFIED_STRENGTH.md`](reports/TABLE_VERIFIED_STRENGTH.md) — same rows with `DIRECT_EXACT` / `SUBSTITUTION_EXACT`
+- [`reports/TABLE_IBP.md`](reports/TABLE_IBP.md) — BZ IBP parents (`CERTIFIED_BY_RULE`)
 - `TABLE_STRUCTURAL.md`, `TABLE_UNCERTIFIED.md`, `TABLE_NONZERO.md`
 
 UNKNOWN / NOT_LOWERED rows are soundness evidence, not a failed paper.

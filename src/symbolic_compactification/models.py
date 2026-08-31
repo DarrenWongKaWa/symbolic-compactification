@@ -225,7 +225,7 @@ RESERVED_NAMES = frozenset({
     # (e.g. the polygamma family, v0.2) reserves its name as a symbol too
     "polygamma",
     # structural builtins (v0.2) are callables only; never declared symbols
-    "Sum", "Product", "Piecewise",
+    "Sum", "Product", "diff", "Piecewise",
     "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
 })
 
@@ -242,7 +242,7 @@ RESERVED_NAMES = frozenset({
 #   rejection applies only to UNDECLARED collisions.
 HARD_RESERVED_NAMES = frozenset({
     "pi", "E", "I", "oo", "Rational",
-    "Sum", "Product", "Piecewise",
+    "Sum", "Product", "diff", "Piecewise",
     "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or", "Not", "True", "False",
 })
 FUNCTION_RESERVED_NAMES = RESERVED_NAMES - HARD_RESERVED_NAMES

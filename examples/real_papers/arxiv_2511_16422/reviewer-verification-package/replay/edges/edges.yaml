@@ -43,20 +43,39 @@ edges:
     assumptions_used: []
     claim: "DC conductivity admits a Gamma expansion through O(Gamma^0) with remainder O(Gamma)"
     notes: "Printed Eq. (D-57); appendix-D local D-1. Remainder is not rewritten as sigma - truncated_series = 0. No remainder certificate."
+  - edge_id: D.leibniz-product-rule
+    source_from: eq.D-114
+    source_to: eq.D-119
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    residual: expressions/R_leibniz_product_rule.txt
+    assumptions_used:
+      - k
+    claim: "local Leibniz rule d_k(u v) = (d_k u) v + u (d_k v)"
+    notes: "Local algebra only. Shared by both BZ IBP parents. Not a global integral."
   - edge_id: D.T0-ibp-global
     source_from: eq.D-114
     source_to: eq.D-119
-    edge_type: INTEGRAL_ARGUMENT
+    edge_type: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    children:
+      - D.leibniz-product-rule
+    ibp_domain: BRILLOUIN_ZONE_TORUS
+    required_rules:
+      - BZ_TORUS_PERIODICITY
     assumptions_used: []
-    claim: "integration by parts in k-space converts the T0 Fermi-sea form into a Fermi-surface form"
-    notes: "Printed Eq. (D-114)->(D-119). Global BZ IBP requires periodicity/boundary assumptions not encoded in the local exact verifier."
+    claim: "BZ-torus IBP converts the T0 Fermi-sea density into a Fermi-surface density"
+    notes: "Printed Eq. (D-114)->(D-119). Certificate is local Leibniz ZERO plus declared BZ_TORUS_PERIODICITY on the gauge-invariant combination (f1-f2)(g_bc/e12). Not an engine integral ZERO."
   - edge_id: D.T2-ibp-global
     source_from: eq.D-123
     source_to: eq.D-124
-    edge_type: INTEGRAL_ARGUMENT
+    edge_type: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    children:
+      - D.leibniz-product-rule
+    ibp_domain: BRILLOUIN_ZONE_TORUS
+    required_rules:
+      - BZ_TORUS_PERIODICITY
     assumptions_used: []
-    claim: "integration by parts converts T2 ~ g \u2202_a(f') into a - (\u2202_a g) f' Fermi-surface term"
-    notes: "Printed Eq. (D-123)->(D-124). Global IBP is not a local residual. Downstream algebra uses the IBP result as a declared upstream relation."
+    claim: "BZ-torus IBP converts T2 ~ g d_a(f') into a -(d_a g) f' Fermi-surface term"
+    notes: "Printed Eq. (D-123)->(D-124). Same local Leibniz child and torus rule. Integrand is the gauge-invariant metric combination (1/2) g_bc f_n'. Not an engine integral ZERO."
   - edge_id: D.K1A-regroup
     source_from: eq.D-59
     source_to: eq.D-60

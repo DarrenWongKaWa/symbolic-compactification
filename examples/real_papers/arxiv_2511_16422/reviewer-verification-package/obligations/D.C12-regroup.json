@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_C12_regroup.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "C1 and C2 factor by regrouping commuting velocity products",
@@ -20,14 +20,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "517fd7f5ea331dcc8f7041d9785ba06f79bc1a2be12192a1c3a0412d48c14064",
-  "obligation_hash": "1da596349a05193081333b4209fa50b0b4d4089c8333268c1ac7d2e2d9d0eef9",
+  "obligation_hash": "fa0dc6495f9a0cbc44cbc150c5d6f3a4f51ec06c7d22db6582068f212e80f75d",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "973f8ae50e7f81f0b9f4c2b0296051f7fd1968d98a3e77c26289724e147b1491",
   "residual_text": "((v21a*(v12b*v1c + v1b*v12c) - v12a*(v21b*v1c + v1b*v21c)) - (v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c))) + ((-v21a*(v2b*v12c + v12b*v2c) + v12a*(v2b*v21c + v21b*v2c)) - (v2c*(v12a*v21b - v21a*v12b) + v2b*(v12a*v21c - v21a*v12c)))\n",
   "result": "ZERO",
   "rhs_hash": "a856a3e39527e5effe28dfc9c19f17974ebb102bc3d6faa355a8e163ef8c619d",
-  "runtime_seconds": 0.9002,
+  "runtime_seconds": 0.7287,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-71",
@@ -36,7 +38,7 @@
     "expressions/C12_regrouped.txt",
     "expressions/R_C12_regroup.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

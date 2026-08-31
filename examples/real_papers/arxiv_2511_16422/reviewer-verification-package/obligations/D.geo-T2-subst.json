@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_geo_T2_subst.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "substituting the declared T2 IBP result into sigma^geo and grouping by f_n' reproduces Eq. (D-125)",
@@ -23,14 +23,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "5e7f3ec7dbd7afe7d38f82a269be7322d15b1b4aeba5343388cc3f70513c1b52",
-  "obligation_hash": "34dac54ef0208d42b1db5770a7af0699aec1574b9767e37d17098a3006cb70d2",
+  "obligation_hash": "6d890adc363d6bde2c3480e8db0e9fff2cffc5b7efca14075dbb7e2484e796ef",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "d59736d82a50cc76acf228173d4b83542c571d517fa5e014cf028b20391996d4",
   "residual_text": "((-Rational(1,2)*dagbc*(f1p + f2p)) + (1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc)))\n",
   "result": "ZERO",
   "rhs_hash": "0d2b6f34ddff662b58ed9eeea8ed561bd2f052e1a01d476924da785a45558566",
-  "runtime_seconds": 0.7815,
+  "runtime_seconds": 0.8586,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-122",
@@ -39,7 +41,7 @@
     "expressions/geo_fnp.txt",
     "expressions/R_geo_T2_subst.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

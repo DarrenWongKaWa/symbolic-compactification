@@ -61,3 +61,5 @@ direct_exact:
     paper_eqs: "Eq. (D-120) → Eq. (D-121)"
   D.geo-T2-subst:
     paper_eqs: "Eq. (D-122) + declared Eq. (D-124) → Eq. (D-125)"
+  D.leibniz-product-rule:
+    paper_eqs: "local Leibniz rule for Eq. (D-114)→(D-119) and Eq. (D-123)→(D-124)"

@@ -1,6 +1,6 @@
 {
   "artifact_relpath": null,
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "two-band metric-velocity relation is introduced as a stated identity",
@@ -16,9 +16,11 @@
   "edge_type": "DEFINITION_INSERTION",
   "engine_version": "0.3.0",
   "executable": false,
+  "ibp_domain": null,
   "lhs_hash": "b54fe791b47327ea366ddbea6147c059469af8aee6c32ad0dfcf09f6fbc495c6",
-  "obligation_hash": "32c9d36867d9e5d84070d96d203de983a3f3cfbcdd584f10a037de1f48947ebb",
+  "obligation_hash": "91ffcbd63bcc0ff60570ecde446b95e08cb97aa33b7cb865153005aef1b5157d",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "31c5cc8af56051d740c358965fdf1bcebb2bf3ba55719d710c12a44796d9c8c0",
   "residual_text": "(v12a*v21b + v12b*v21a\n) - (2*e12**2*gab\n)",
   "result": "DEFINITION",
@@ -30,7 +32,7 @@
     "expressions/mv_velocity_pair.txt",
     "expressions/mv_metric_form.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "DEFINITION",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_compact_nbar.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "the n=1,2 form with e_{n nbar} and f_n' = 2 f_{0,n}' matches the compact rewrite",
@@ -26,14 +26,16 @@
   "edge_type": "INDEX_RELABELING",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "99eff26780c8a633d84bed87ff3dc7d94102e08244df490f4d0ecb9bcf90564b",
-  "obligation_hash": "1d17223a926e4da0e9c31b2fde5aa51601886eba587393d357f0d66711e99c73",
+  "obligation_hash": "4ddc8e535ca0e54e811538a0b919b282be6e81e12bdeb701257126d1a95b5426",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "fa47aa286a266547583ac752b62827c969478c13bcf8bde511242e84bdca4ee1",
   "residual_text": "((2*f01p)*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + (2*f02p)*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))) - (2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a)))\n",
   "result": "ZERO",
   "rhs_hash": "8d5acf18254f85897b072bd5376e17dceb5813aff223005551570253f847988e",
-  "runtime_seconds": 0.7882,
+  "runtime_seconds": 0.7516,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-126",
@@ -42,7 +44,7 @@
     "expressions/geo_nbar.txt",
     "expressions/R_compact_nbar.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

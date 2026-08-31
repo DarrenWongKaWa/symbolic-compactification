@@ -5,7 +5,7 @@ Generated from `reports/verification_table.json` plus
 A row appears here only if the machine table already lists it as
 integrity-PASS engine ZERO.
 
-**18 machine ZERO** = **12 DIRECT_EXACT** + **6 SUBSTITUTION_EXACT**.
+**19 machine ZERO** = **13 DIRECT_EXACT** + **6 SUBSTITUTION_EXACT**.
 
 18 executable equation-level identities were machine-verified as exact ZERO under the declared symbolic semantics. One asymptotic remainder claim remained UNKNOWN, and two global integration-by-parts steps remained NOT_LOWERED.
 
@@ -33,6 +33,7 @@ integrity-PASS engine ZERO.
 | Eq. (D-73) | using e12 e21 = -e12^2 converts the factored V_ab prefactor into e12^2 | `ALGEBRAIC_EQUIVALENCE` | `DIRECT_EXACT` | `ZERO` | `expressions/R_Vab_eps21.txt` |
 | Eq. (D-73) | the Feynman-Hellmann substituted V_ab product expands to (-1)(e12 e21) times the A bilinear | `ALGEBRAIC_EQUIVALENCE` | `DIRECT_EXACT` | `ZERO` | `expressions/R_Vab_expand.txt` |
 | Eq. (D-122) + declared Eq. (D-124) → Eq. (D-125) | substituting the declared T2 IBP result into sigma^geo and grouping by f_n' reproduces Eq. (D-125) | `ALGEBRAIC_EQUIVALENCE` | `DIRECT_EXACT` | `ZERO` | `expressions/R_geo_T2_subst.txt` |
+| local Leibniz rule for Eq. (D-114)→(D-119) and Eq. (D-123)→(D-124) | local Leibniz rule d_k(u v) = (d_k u) v + u (d_k v) | `ALGEBRAIC_EQUIVALENCE` | `DIRECT_EXACT` | `ZERO` | `expressions/R_leibniz_product_rule.txt` |
 | metric-velocity pair (unnumbered) → Eq. (D-60) | the metric-velocity pair in paper index order equals the pair appearing in regrouped K_{1A} | `PAIRWISE_REDUCTION` | `DIRECT_EXACT` | `ZERO` | `expressions/R_metric_pair.txt` |
 | Eq. (D-70) → Eq. (D-77) | (-I)/(4 e12^2) * (I e12^2) cancels to 1/4 on the sigma^{(-1)} kernel | `ALGEBRAIC_EQUIVALENCE` | `DIRECT_EXACT` | `ZERO` | `expressions/R_sigma_m1_Ii.txt` |
 

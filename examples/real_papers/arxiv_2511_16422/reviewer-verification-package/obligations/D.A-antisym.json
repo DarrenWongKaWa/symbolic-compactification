@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_A_antisym.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "A21^a A12^b - A12^a A21^b equals -(A12^a A21^b - A12^b A21^a) for commuting scalars",
@@ -14,14 +14,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "fdb82fb1805133f9181f640cf4b973eff62faae21296153f9894274b4dc9bd22",
-  "obligation_hash": "73a36b06413b09fda680e1bae614c3013bac51fc7c406754629be73704d2147a",
+  "obligation_hash": "92f939e0e019cec51e55d0a7c70d5d1c25bc556f42fe9a458bdd194344275281",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "d3286a097f2311fbbeb359c7ef5a7b3bef098160281337b4d9035e7b9459a971",
   "residual_text": "(A21a*A12b - A12a*A21b) - (-(A12a*A21b - A12b*A21a))\n",
   "result": "ZERO",
   "rhs_hash": "88a503b07187492f26171cab4984c797595b49fb32c5dc6184e9e073347fdca0",
-  "runtime_seconds": 0.7659,
+  "runtime_seconds": 0.7256,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-74",
@@ -29,7 +31,7 @@
     "expressions/A_pair_swapped.txt",
     "expressions/R_A_antisym.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

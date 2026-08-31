@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_T0T1_regroup.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "T0+T1 regroups by f1' and f2'",
@@ -22,14 +22,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "9a53b753cb359a17fc30feac74ab04102a1bfbc0a09e808f3036183f2efc8fcf",
-  "obligation_hash": "a2fb31a33cc65736121ae551e6696ba144d647f9e88608f875387d185af0a1d6",
+  "obligation_hash": "fc06e4a4e34df362db7b9039fc1d9361282ba9ee072e2316283b3ff6c1eece3c",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "a3d0a042516b0041f2bfbdeddd6517d5ff7195ffc621df0622a3abd4880268ca",
   "residual_text": "((1/e12)*(gbc*(v2a*f2p - v1a*f1p) + (v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)) - ((1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc)))\n",
   "result": "ZERO",
   "rhs_hash": "0e466f942a29c740e4bca16d5a9244e495785738d8f4866de6880e263e0b1c67",
-  "runtime_seconds": 0.7697,
+  "runtime_seconds": 0.7712,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-120",
@@ -38,7 +40,7 @@
     "expressions/T0T1_grouped.txt",
     "expressions/R_T0T1_regroup.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

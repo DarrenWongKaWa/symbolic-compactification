@@ -1,6 +1,6 @@
 {
   "artifact_relpath": null,
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "DC conductivity admits a Gamma expansion through O(Gamma^0) with remainder O(Gamma)",
@@ -9,9 +9,11 @@
   "edge_type": "ASYMPTOTIC_CLAIM",
   "engine_version": "0.3.0",
   "executable": false,
+  "ibp_domain": null,
   "lhs_hash": null,
-  "obligation_hash": "d34d4c893e44f215c7acdddd485820280df3ead00f5a73bc28f7bffd53d100ce",
+  "obligation_hash": "e9046c0cced0fab62f176ae2e163cc782416941b2240803c0ca7fdc7bd1d0a08",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": null,
   "residual_text": null,
   "result": "UNKNOWN",
@@ -21,7 +23,7 @@
   "source_refs": [
     "eq.D-57"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "UNKNOWN",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": [

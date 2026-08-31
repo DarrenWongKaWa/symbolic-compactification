@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_A_to_Omega.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "after inserting Omega_ab^1 = I (A12^a A21^b - A12^b A21^a), the A bilinear equals I Omega",
@@ -15,14 +15,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "88a503b07187492f26171cab4984c797595b49fb32c5dc6184e9e073347fdca0",
-  "obligation_hash": "3b20fc556e1718c58cf2318abb189f724048852cca5ffa4083986ea09ca1a6ef",
+  "obligation_hash": "67d4aeca94af8b1664764fa2f9c5301fbf88405a1014604713b0a3998d672d9a",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "8cdec5a6e63d2d3904c101cdae36db1a839817abc9f75552e079bfbc484b0f33",
   "residual_text": "(-(A12a*A21b - A12b*A21a)) - (I*(I*(A12a*A21b - A12b*A21a)))\n",
   "result": "ZERO",
   "rhs_hash": "669eb2230986d04dfa3da9eee29a462451629b93ecd9d5b595af5c8dfe4292d0",
-  "runtime_seconds": 0.7371,
+  "runtime_seconds": 0.6551,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-74",
@@ -31,7 +33,7 @@
     "expressions/i_Omega.txt",
     "expressions/R_A_to_Omega.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

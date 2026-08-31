@@ -1,0 +1,34 @@
+{
+  "artifact_relpath": "expressions/R_leibniz_product_rule.txt",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
+  "audit_id": "arxiv-2511-16422-v2-field-validation",
+  "children": [],
+  "claim": "local Leibniz rule d_k(u v) = (d_k u) v + u (d_k v)",
+  "declared_assumptions": [
+    "k"
+  ],
+  "edge_id": "D.leibniz-product-rule",
+  "edge_type": "ALGEBRAIC_EQUIVALENCE",
+  "engine_version": "0.3.0",
+  "executable": true,
+  "ibp_domain": null,
+  "lhs_hash": null,
+  "obligation_hash": "48387d7288c993d280520f76edeb596eca084f31f7d7cca56c82bbf7abf5fb5f",
+  "remainder_certificate_hash": null,
+  "required_rules": [],
+  "residual_hash": "d55d276f1b5eb765e55a94dd4df409725a21beb312969aa11f5ad15f1d20cca1",
+  "residual_text": "diff(u(k)*v(k), k) - (diff(u(k), k)*v(k) + u(k)*diff(v(k), k))\n",
+  "result": "ZERO",
+  "rhs_hash": null,
+  "runtime_seconds": 0.7507,
+  "schema_version": "DerivationAuditV1",
+  "source_refs": [
+    "eq.D-114",
+    "eq.D-119",
+    "expressions/R_leibniz_product_rule.txt"
+  ],
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
+  "status": "ZERO",
+  "verifier_route": "python_sympy_exact_v1",
+  "warnings": []
+}

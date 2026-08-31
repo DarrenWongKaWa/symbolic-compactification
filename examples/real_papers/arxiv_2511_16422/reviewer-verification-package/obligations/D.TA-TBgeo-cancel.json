@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_TA_TBgeo.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "geometric pieces T_A^{(-2)} + T_{B,geo}^{(-2)} cancel",
@@ -19,14 +19,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "0e070d1219df2bae7caf494ab848d486481312a8d21a86a7c6d49c86f6298e5f",
-  "obligation_hash": "03e270c5a5375d4df1f9f300ccf05faa02ba30ee7678d0496b72b9068fb2a983",
+  "obligation_hash": "eabd3ff36e5222abfca66ad08bddee0c44f7c3cb7a812904724b1fb3f6218f44",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "ad42bd9e2c3465cd09c1b9a4479a5daefab3084811388444fb0d8ed93189dbf7",
   "residual_text": "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p) + (e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)\n",
   "result": "ZERO",
   "rhs_hash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-  "runtime_seconds": 0.7562,
+  "runtime_seconds": 0.7548,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-61",
@@ -35,7 +37,7 @@
     "expressions/zero.txt",
     "expressions/R_TA_TBgeo.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

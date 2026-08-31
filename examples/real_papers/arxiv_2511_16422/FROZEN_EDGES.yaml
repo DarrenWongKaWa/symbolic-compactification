@@ -1,7 +1,7 @@
 schema_version: FrozenEdgeSetV1
 paper: arXiv:2511.16422v2
 product: derivation-audit-v0.2.0-alpha
-n_edges: 25
+n_edges: 26
 edges:
   - edge_id: B.split-j2
     printed_from: eq.B-23
@@ -33,17 +33,23 @@ edges:
     edge_type: ASYMPTOTIC_CLAIM
     expected_status_prediction: UNKNOWN
     expected_status_is_not_authority: true
+  - edge_id: D.leibniz-product-rule
+    printed_from: eq.D-114
+    printed_to: eq.D-119
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status_prediction: ZERO
+    expected_status_is_not_authority: true
   - edge_id: D.T0-ibp-global
     printed_from: eq.D-114
     printed_to: eq.D-119
-    edge_type: INTEGRAL_ARGUMENT
-    expected_status_prediction: NOT_LOWERED
+    edge_type: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    expected_status_prediction: CERTIFIED_BY_RULE
     expected_status_is_not_authority: true
   - edge_id: D.T2-ibp-global
     printed_from: eq.D-123
     printed_to: eq.D-124
-    edge_type: INTEGRAL_ARGUMENT
-    expected_status_prediction: NOT_LOWERED
+    edge_type: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    expected_status_prediction: CERTIFIED_BY_RULE
     expected_status_is_not_authority: true
   - edge_id: D.K1A-regroup
     printed_from: eq.D-59

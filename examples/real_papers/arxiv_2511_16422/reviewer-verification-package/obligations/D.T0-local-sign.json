@@ -1,6 +1,6 @@
 {
   "artifact_relpath": "expressions/R_T0_local_sign.txt",
-  "assumptions_hash": "4fe1705cd8c427b2d989836d35dcc035366091569e7094925baf7f8bbaefa91a",
+  "assumptions_hash": "aabccc4dc385b54f607021098e9fdbf2d25cd8fc0a04ffbdc4b632fd758411cd",
   "audit_id": "arxiv-2511-16422-v2-field-validation",
   "children": [],
   "claim": "after the chain rule, the last two written members of the T0 display are algebraically equal",
@@ -16,14 +16,16 @@
   "edge_type": "ALGEBRAIC_EQUIVALENCE",
   "engine_version": "0.3.0",
   "executable": true,
+  "ibp_domain": null,
   "lhs_hash": "7a31853a1befcf69cea96057dd7af5c1ba98e59dcd11458a579e48c6de7b9368",
-  "obligation_hash": "5a70da9d090cf785316f00028ded95119609d1d5386d6bfe53758b495c1b77cd",
+  "obligation_hash": "ebe1d1b06077fc76571721f9000ca1e0de5726f7f1fca784320f526ad1e9912f",
   "remainder_certificate_hash": null,
+  "required_rules": [],
   "residual_hash": "0eafa3e8e4ed7f5783d9dfc948254e097af2337e82a718ff53d50ab301d3890b",
   "residual_text": "(-(f1p*v1a - f2p*v2a)*(gbc/e12)) - (gbc*(v2a*f2p - v1a*f1p)/e12)\n",
   "result": "ZERO",
   "rhs_hash": "b1a67978ab53938e88fb70b93c28dd23b4d3bab77d3522e98752e71b24d41764",
-  "runtime_seconds": 0.8111,
+  "runtime_seconds": 0.7279,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-119",
@@ -31,7 +33,7 @@
     "expressions/T0_surface.txt",
     "expressions/R_T0_local_sign.txt"
   ],
-  "source_snapshot_hash": "9df8f5e011cae94b406ebe2d955d08c24c1fa8e2e8f1bac6d19e4bd600f53df5",
+  "source_snapshot_hash": "98d135fce3409692d14da02458a1020b97f7a8813b5ce9c3f54ee39e450a2d93",
   "status": "ZERO",
   "verifier_route": "python_sympy_exact_v1",
   "warnings": []

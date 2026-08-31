@@ -100,11 +100,12 @@ exercised on a published paper **without changing the verifier core** and
 
 Guo et al., arXiv:2511.16422v2 / Phys. Rev. Lett. 136, 206303 (2026).
 
-- 25 selected derivation edges
-- 18 executable identities returned exact ZERO (12 `DIRECT_EXACT`, 6 `SUBSTITUTION_EXACT`)
+- 26 selected derivation edges
+- 19 executable identities returned exact ZERO (13 `DIRECT_EXACT`, 6 `SUBSTITUTION_EXACT`)
 - 0 NONZERO
 - Eq. (D-57) $\mathcal{O}(\Gamma)$ remainder remained `UNKNOWN`
-- two global BZ integration-by-parts steps remained `NOT_LOWERED`
+- two BZ IBP parents are `CERTIFIED_BY_RULE` (local Leibniz ZERO + declared
+  `BZ_TORUS_PERIODICITY`), not engine integral ZERO
 
 This is an equation-level derivation audit, not a proof of the paper.
 
