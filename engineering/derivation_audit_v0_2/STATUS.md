@@ -2,15 +2,15 @@
 
 Branch: `engineering/derivation-audit-v0.2`
 Base: `research-preview-v0.1.0-alpha` (`c27378f`)
-Target: `DERIVATION_AUDIT_ALPHA_READY` / `0.2.0-alpha`
+Target: `DERIVATION_AUDIT_ALPHA_READY` / `0.2.0-alpha` — granted locally.
 
 Scientific discovery remains closed. This upgrade is an additive engineering
 layer on the existing fail-closed verifier.
 
 ## Current phase
 
-Implementation swarm merged. Public demos A/B/C verify as specified.
-Next: clean-room replay and release review.
+`DERIVATION_AUDIT_ALPHA_READY`. Tag intent `derivation-audit-v0.2.0-alpha`.
+Not pushed; not merged to `main`.
 
 ## Privacy
 

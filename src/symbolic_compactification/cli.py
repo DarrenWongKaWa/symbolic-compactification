@@ -799,8 +799,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="symbolic-compactification",
         description=(
-            "Context-grounded symbolic hypotheses with fail-closed exact "
-            "verification."))
+            "Machine-auditable derivation verification with fail-closed "
+            "exact adjudication."))
     parser.add_argument(
         "--version", action="version",
         version=(f"%(prog)s {RELEASE_VERSION} "

@@ -2,12 +2,12 @@
 
 **Typed derivation audit with fail-closed exact verification.**
 
-v0.2 derivation-audit alpha in development on
-`engineering/derivation-audit-v0.2`. This is an additive engineering layer on
-the still-supported v0.1 **Mode A: verify my hypothesis** preview
-(`0.1.0-alpha`, tag `research-preview-v0.1.0-alpha`, branch
-`engineering/research-preview-alpha-v0.1`). It is **not** a stable v1.0
-release and is **not** merged to `main`.
+**Derivation Audit Alpha** (`0.2.0-alpha`) on
+`engineering/derivation-audit-v0.2`, tag `derivation-audit-v0.2.0-alpha`.
+This is an additive engineering layer on the still-supported v0.1 **Mode A:
+verify my hypothesis** preview (`0.1.0-alpha`, tag
+`research-preview-v0.1.0-alpha`). It is **not** a stable v1.0 release and is
+**not** merged to `main`.
 
 A derivation audit inventories manuscript equations, records typed
 equation-to-equation edges, lowers only supported edges to executable

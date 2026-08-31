@@ -34,9 +34,9 @@ pytestmark = pytest.mark.release_critical
 
 
 def test_release_identity_keeps_engine_and_protocol_semantics_separate():
-    assert RELEASE_VERSION == "0.1.0-alpha"
+    assert RELEASE_VERSION == "0.2.0-alpha"
     assert PACKAGE_VERSION == metadata.version(
-        "symbolic-compactification") == "0.1.0a0"
+        "symbolic-compactification") == "0.2.0a0"
     assert ENGINE_VERSION == AGENT_PROTOCOL_VERSION == "0.3.0"
 
 
