@@ -61,6 +61,19 @@ from .pipeline import StepOutcome, adjudicate_candidate
 from .workspace import (HypothesisObligation, ResearchWorkspace,
                         WorkspaceError, WorkspaceHypothesis, WorkspaceProject,
                         WorkspaceSource, initialize_workspace, load_workspace)
+from .provenance import (
+    PROVENANCE_FILE_NAME,
+    PROVENANCE_RESULTS,
+    PROVENANCE_SCHEMA_VERSION,
+    ProvenanceError,
+    RecordedRun,
+    build_run_record,
+    dependency_versions,
+    hash_named_files,
+    record_research_run,
+    sha256_file,
+    write_run_record,
+)
 
 __all__ = [
     "__version__",
@@ -113,4 +126,9 @@ __all__ = [
     "HypothesisObligation", "ResearchWorkspace", "WorkspaceError",
     "WorkspaceHypothesis", "WorkspaceProject", "WorkspaceSource",
     "initialize_workspace", "load_workspace",
+    # bounded researcher-workspace run provenance
+    "PROVENANCE_FILE_NAME", "PROVENANCE_RESULTS",
+    "PROVENANCE_SCHEMA_VERSION", "ProvenanceError", "RecordedRun",
+    "build_run_record", "dependency_versions", "hash_named_files",
+    "record_research_run", "sha256_file", "write_run_record",
 ]
