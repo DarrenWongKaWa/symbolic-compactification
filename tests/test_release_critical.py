@@ -307,7 +307,8 @@ def test_report_generation_uses_persisted_run_and_not_source_mutation(tmp_path):
     assert "Expression members" in report.text
     assert "Generated artifact inventory" in report.text
     assert "Assumption coverage in v0.1" in report.text
-    assert "only declared `real` and `nonzero` symbol flags" in report.text
+    assert "only `real: true` symbols" in report.text
+    assert "`real: false` is rejected fail-closed" in report.text
     assert "hypothesis `assumptions_used` list" in report.text
     assert "does not mean the tool discovered" in report.text
     assert _source_snapshot(root) == before

@@ -756,8 +756,9 @@ def _render_report(result: Mapping[str, Any], provenance: Mapping[str, Any]) -> 
     lines.extend([
         "### Assumption coverage in v0.1",
         "",
-        "The verifier machine-applies only declared `real` and `nonzero` "
-        "symbol flags and the declared function namespace. Other domain "
+        "The workspace verifier machine-applies only `real: true` symbols, "
+        "optional `nonzero` flags, and the declared function namespace; "
+        "`real: false` is rejected fail-closed. Other domain "
         "predicates, physical conditions, boundary conditions, and regularity "
         "requirements are not inferred or certified by v0.1.",
         "",

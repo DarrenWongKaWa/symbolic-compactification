@@ -28,7 +28,8 @@ or frozen research evidence was changed.
    is verification of frozen evidence, not discovery or generic-family
    certification.
 4. Public workflow documentation, the capability boundary, and generated
-   reports now state the exact v0.1 assumption surface: symbol `real`/`nonzero`
+   reports now state the exact v0.1 assumption surface: `real: true`/optional
+   `nonzero`
    flags and declared functions only. Positivity, general inequalities,
    excluded poles, parameter identities, boundary conditions, symmetries, and
    limit order are not machine-enforceable, so hypotheses depending on them are
