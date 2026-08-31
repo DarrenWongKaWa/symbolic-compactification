@@ -116,6 +116,12 @@ includes exact source hashes, hypothesis and assumptions hashes, verifier
 route, result, runtime, versions, commit, and warnings. A report explains that
 record; it does not strengthen the verifier outcome.
 
+The report includes the bounded project/hypothesis snapshot, declared
+symbols/functions, complete input and expression hash inventories, direct
+dependency versions, warnings, and generated artifact inventory. Parsing and
+compilation failures include only stable codes, workspace-relative locations,
+and fixed remediation hints; raw exception or source text is not persisted.
+
 Source hashes establish which bytes were tested. Grounding establishes which
 source objects a hypothesis names. Neither constitutes mathematical proof
 without `ZERO`.

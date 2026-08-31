@@ -68,8 +68,9 @@ On 2026-08-31 the installation lane was replayed on macOS arm64 using CPython
 3.12.13 and pip 25.0.1 in newly created virtual environments:
 
 - editable install with development dependencies: PASS;
-- package/metadata version consistency: PASS (`0.3.0` on the integration
-  baseline);
+- package/metadata version consistency: PASS on the earlier integration
+  baseline. The release source now declares `0.1.0-alpha`, canonically
+  installed as `0.1.0a0`; final confirmation belongs to clean-room replay;
 - both console entry points: PASS;
 - 36 focused packaging, verifier, and reporting tests: PASS;
 - wheel build and isolated wheel install: PASS;
@@ -80,6 +81,9 @@ On 2026-08-31 the installation lane was replayed on macOS arm64 using CPython
 
 The wheel hash is build-instance evidence, not a published release hash. The
 final clean-room replay must build a fresh artifact and record its own hash.
+
+`--version` distinguishes the alpha release identity from the unchanged
+deterministic engine and agent-protocol identities (`0.3.0` each).
 
 ## Troubleshooting
 

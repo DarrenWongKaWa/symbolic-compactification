@@ -15,6 +15,7 @@ from symbolic_compactification.provenance import (
     PROVENANCE_SCHEMA_VERSION,
     ProvenanceError,
     build_run_record,
+    dependency_versions,
     hash_named_files,
     record_research_run,
     sha256_file,
@@ -96,6 +97,13 @@ def test_record_has_every_required_field_and_only_bounded_metadata():
     assert record["dependency_versions"] == {"sympy": "1.14.0"}
     assert record["result"] == "ZERO"
     assert record["verifier_route"] == "python_sympy_exact_v1"
+
+
+def test_default_dependency_inventory_contains_all_direct_runtime_dependencies():
+    versions = dependency_versions()
+
+    assert set(versions) == {"pyyaml", "sympy"}
+    assert all(version != "not-installed" for version in versions.values())
 
 
 def test_fixed_inputs_produce_byte_identical_json_in_distinct_roots(tmp_path):

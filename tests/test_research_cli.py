@@ -149,8 +149,49 @@ def test_workspace_verify_maps_parse_and_compile_failures_to_exit_four(
     payload = json.loads(capsys.readouterr().out)
     assert payload["result"] == expected_result
     assert payload["error_code"] == expected_code
+    assert payload["error_source"]
+    assert payload["action_hint"]
     assert Path(payload["provenance_path"]).is_file()
     assert _source_snapshot(root) == before
+
+
+def test_workspace_parse_and_compile_hints_are_safe_specific_and_stable(
+        tmp_path, capsys):
+    parse_root = _initialize(tmp_path, capsys, "safe-parse")
+    _set_candidate(parse_root, "x + undeclared_name\n")
+
+    assert cli.main(["inspect", str(parse_root)]) == cli.EXIT_ERROR
+    parse_error = capsys.readouterr().err
+    assert "error: EXPRESSION_PARSE_FAILURE" in parse_error
+    assert "source: expressions/candidate.txt" in parse_error
+    assert "hint:" in parse_error
+    assert "undeclared_name" not in parse_error
+
+    compile_root = _initialize(tmp_path, capsys, "safe-compile")
+    hypothesis_path = compile_root / "hypotheses/hypothesis.json"
+    hypothesis = json.loads(hypothesis_path.read_text(encoding="utf-8"))
+    hypothesis["proof_obligations"][0]["relation"] = "secret-relation-value"
+    hypothesis_path.write_text(json.dumps(hypothesis), encoding="utf-8")
+
+    assert cli.main(["verify", str(compile_root)]) == cli.EXIT_ERROR
+    compile_error = capsys.readouterr().out
+    assert "error_code:  UNSUPPORTED_RELATION" in compile_error
+    assert ("source:      hypotheses/hypothesis.json#/proof_obligations/0/relation"
+            in compile_error)
+    assert "hint:" in compile_error
+    assert "secret-relation-value" not in compile_error
+
+
+def test_cli_version_distinguishes_release_engine_and_protocol(capsys):
+    with pytest.raises(SystemExit) as excinfo:
+        cli.main(["--version"])
+
+    assert excinfo.value.code == 0
+    output = " ".join(capsys.readouterr().out.split())
+    assert "0.1.0-alpha" in output
+    assert "PEP 440 0.1.0a0" in output
+    assert "engine 0.3.0" in output
+    assert "protocol 0.3.0" in output
 
 
 def test_report_uses_explicit_or_latest_safe_research_run(tmp_path, capsys):

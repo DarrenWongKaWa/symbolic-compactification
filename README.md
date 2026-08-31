@@ -1,8 +1,9 @@
 # symbolic-compactification
 
-**Propose a more compact expression, then prove `current − candidate` is
-exactly zero.** Only a ZERO residual is promoted. The result is an auditable
-certified compact form.
+**Context-grounded symbolic hypotheses with fail-closed verification.** A
+researcher supplies the scientific workspace and candidate relation; only an
+exact `ZERO` certifies the declared obligation. `NONZERO` refutes it under the
+verification route, and `UNKNOWN` never promotes scientific state.
 
 A coding agent inspects structure and proposes candidates. Deterministic
 Python/SymPy code is the only judge.
@@ -74,7 +75,8 @@ python3 -m venv .venv
 .venv/bin/pytest tests/ -q
 ```
 
-The runtime dependency is only SymPy. The `dev` extra adds pytest.
+The direct runtime dependencies are SymPy and PyYAML. The `dev` extra adds
+pytest.
 
 ## Five-minute workflow
 
@@ -184,11 +186,13 @@ and exact-evidence checks.
 
 ## Versions
 
-Version 0.3.0 distinguishes three identities:
+The research-preview release identity is `0.1.0-alpha`; installed Python
+distribution metadata uses the PEP 440 canonical spelling `0.1.0a0`. It is
+separate from two frozen semantic identities:
 
-- repository/package version: release and installable API generation;
-- engine version: deterministic parser/verifier/resource-policy generation;
-- agent protocol version: proposer, state, provenance, and reporting contract.
+- release/package version: `0.1.0-alpha` / `0.1.0a0`;
+- engine version: `0.3.0` (deterministic parser/verifier/resource policy);
+- agent protocol version: `0.3.0` (proposer/state/provenance contract).
 
 All three are recorded in run artifacts. The meanings of
 ZERO/NONZERO/UNKNOWN remain unchanged from engine v0.2.

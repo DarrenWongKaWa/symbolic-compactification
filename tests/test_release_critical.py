@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from importlib import metadata
 from pathlib import Path
 
 import pytest
@@ -13,6 +14,10 @@ from symbolic_compactification import (
     COMPILE_FAILURE,
     NONZERO,
     PARSE_FAILURE,
+    AGENT_PROTOCOL_VERSION,
+    ENGINE_VERSION,
+    PACKAGE_VERSION,
+    RELEASE_VERSION,
     UNKNOWN,
     ZERO,
     build_run_record,
@@ -24,6 +29,13 @@ from symbolic_compactification import (
 )
 
 pytestmark = pytest.mark.release_critical
+
+
+def test_release_identity_keeps_engine_and_protocol_semantics_separate():
+    assert RELEASE_VERSION == "0.1.0-alpha"
+    assert PACKAGE_VERSION == metadata.version(
+        "symbolic-compactification") == "0.1.0a0"
+    assert ENGINE_VERSION == AGENT_PROTOCOL_VERSION == "0.3.0"
 
 
 def _source_snapshot(root: Path) -> dict[str, tuple[bytes, int, int]]:
@@ -143,6 +155,8 @@ def test_parse_compile_and_assumption_gates_never_verify_or_promote(
 
     assert result.result == expected
     assert result.error_code == error_code
+    assert result.error_source
+    assert result.action_hint
     assert result.obligations == ()
     assert json.loads(result.provenance_path.read_text(
         encoding="utf-8"))["result"] == expected
@@ -169,6 +183,7 @@ def test_provenance_hashes_are_exact_deterministic_and_bounded(tmp_path):
     )
     assert provenance["hypothesis_hash"] == hashlib.sha256(
         (root / "hypotheses/hypothesis.json").read_bytes()).hexdigest()
+    assert set(provenance["dependency_versions"]) == {"pyyaml", "sympy"}
 
     digest = hashlib.sha256(b"fixed input").hexdigest()
     kwargs = {
@@ -214,6 +229,11 @@ def test_report_generation_uses_persisted_run_and_not_source_mutation(tmp_path):
     assert report.path.is_file()
     assert "Result: **ZERO**" in report.text
     assert "Git commit" in report.text
+    assert "Workspace and grounded hypothesis" in report.text
+    assert "Declared symbols" in report.text
+    assert "Dependency versions" in report.text
+    assert "Expression members" in report.text
+    assert "Generated artifact inventory" in report.text
     assert _source_snapshot(root) == before
 
 

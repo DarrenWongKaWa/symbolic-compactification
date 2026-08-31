@@ -157,6 +157,12 @@ commit, exact input/expression/hypothesis/assumption hashes, verifier route,
 result, runtime, and warnings. It never records `.env` content, API keys, auth
 headers, or an unrelated process-environment inventory.
 
+`result.json` also stores a bounded, credential-redacted workspace summary so
+`REPORT.md` can be regenerated without rereading source files. The summary
+contains project metadata, declared symbols/functions, the typed hypothesis,
+and path/hash/size grounding metadata for notes and references. It never copies
+note or reference contents.
+
 ## Immutability contract
 
 `inspect`, `verify`, and `report` do not modify expressions, assumptions,

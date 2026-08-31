@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "symbolic-compactification"
-version = "0.3.0"
-description = "Agent-native symbolic compactification and exact certification engine."
+version = "0.1.0-alpha"
+description = "Context-grounded symbolic hypotheses with fail-closed verification."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

@@ -131,11 +131,12 @@ def hash_named_files(files: Optional[Mapping[str, PathLike]]) -> dict[str, str]:
 
 
 def dependency_versions(
-        distributions: Iterable[str] = ("sympy",)) -> dict[str, str]:
+        distributions: Iterable[str] = ("PyYAML", "sympy")) -> dict[str, str]:
     """Capture installed versions for an explicit dependency allow-list.
 
-    No package inventory or environment state is collected.  Missing optional
-    distributions are represented as ``"not-installed"``.
+    The default allow-list is exactly the package's two direct runtime
+    dependencies.  No package inventory or environment state is collected.
+    Missing distributions are represented as ``"not-installed"``.
     """
     result: dict[str, str] = {}
     for raw_name in distributions:

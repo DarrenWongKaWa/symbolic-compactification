@@ -232,6 +232,65 @@ def test_generate_report_returns_existing_or_regenerates_missing_report(tmp_path
     assert regenerated.text == existing.text
 
 
+def test_result_persists_bounded_grounding_context_and_report_is_complete(
+        tmp_path):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    hypothesis_path = root / "hypotheses/hypothesis.json"
+    hypothesis = json.loads(hypothesis_path.read_text(encoding="utf-8"))
+    hypothesis.update({
+        "latent_object": "F(z)",
+        "operators": ["VALUE", "SUBSTITUTE"],
+        "instance_maps": {"current": {"z": "x"}},
+        "reconstruction_rule": "substitute the declared instance map",
+    })
+    hypothesis_path.write_text(json.dumps(hypothesis), encoding="utf-8")
+
+    result = verify_hypothesis(root, run_id="rich-report-run")
+    provenance, details, report = _read_run(root, result)
+
+    summary = details["workspace_summary"]
+    assert summary["project"]["project_name"] == "workspace"
+    assert summary["project"]["objective"]
+    assert summary["assumptions"]["symbols"][0]["name"] == "x"
+    assert summary["assumptions"]["functions"] == []
+    persisted_hypothesis = summary["hypothesis"]
+    assert persisted_hypothesis["hypothesis_type"] == "equivalence"
+    assert persisted_hypothesis["members"] == [
+        "expressions/current.txt", "expressions/candidate.txt"]
+    assert persisted_hypothesis["latent_object"] == "F(z)"
+    assert persisted_hypothesis["operators"] == ["VALUE", "SUBSTITUTE"]
+    assert persisted_hypothesis["instance_maps"] == {"current": {"z": "x"}}
+    assert persisted_hypothesis["reconstruction_rule"]
+    assert persisted_hypothesis["assumptions_used"] == ["x"]
+    assert summary["grounding"]["notes"][0]["path"] == (
+        "notes/research_notes.md")
+    assert summary["grounding"]["references"][0]["path"] == (
+        "references/README.md")
+    assert {item["path"] for item in details["artifact_inventory"]} == {
+        "provenance.json", "result.json", "REPORT.md"}
+
+    for required in (
+        "Workspace and grounded hypothesis",
+        "Declared symbols",
+        "Declared functions",
+        "Notes/references grounding inventory",
+        "Dependency versions",
+        "Warnings",
+        "Input files",
+        "Expression members",
+        "Generated artifact inventory",
+        provenance["input_hashes"]["project.yaml"],
+        provenance["expression_hashes"]["expressions/current.txt"],
+        "pyyaml",
+    ):
+        assert required in report
+
+    result.report_path.unlink()
+    regenerated = generate_report(root, result.run_id)
+    assert regenerated.text == report
+
+
 def test_all_zero_multiple_obligations_aggregate_zero(tmp_path):
     root = tmp_path / "workspace"
     initialize_workspace(root)

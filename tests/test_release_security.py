@@ -18,6 +18,7 @@ from symbolic_compactification.security import (
     redact_text,
 )
 from symbolic_compactification.verifier import verify_equivalent
+from symbolic_compactification import initialize_workspace, verify_hypothesis
 
 
 @pytest.mark.parametrize(
@@ -181,6 +182,42 @@ def test_certified_report_redacts_untrusted_manifest_metadata(tmp_path):
 def test_redactor_rejects_non_strings_instead_of_using_repr():
     with pytest.raises(TypeError, match="requires a string"):
         redact_text(RuntimeError("Authorization: Bearer synthetic-secret"))
+
+
+def test_workspace_summary_and_report_redact_metadata_and_omit_context_contents(
+        tmp_path):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    secret = "sk-synthetic-workspace-report-secret"
+    project = root / "project.yaml"
+    project.write_text(
+        project.read_text(encoding="utf-8").replace(
+            "Test an exact symbolic hypothesis without modifying source files.",
+            secret,
+        ),
+        encoding="utf-8",
+    )
+    (root / "notes/research_notes.md").write_text(
+        f"note-only-content {secret}\n", encoding="utf-8")
+    (root / "references/README.md").write_text(
+        f"reference-only-content {secret}\n", encoding="utf-8")
+    hypothesis_path = root / "hypotheses/hypothesis.json"
+    hypothesis = json.loads(hypothesis_path.read_text(encoding="utf-8"))
+    hypothesis["latent_object"] = secret
+    hypothesis["instance_maps"] = {"api_key": secret}
+    hypothesis_path.write_text(json.dumps(hypothesis), encoding="utf-8")
+
+    result = verify_hypothesis(root, run_id="summary-redaction")
+    blob = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in sorted(result.run_directory.iterdir())
+        if path.is_file()
+    )
+
+    assert secret not in blob
+    assert "note-only-content" not in blob
+    assert "reference-only-content" not in blob
+    assert REDACTED in blob
 
 
 @pytest.mark.parametrize(("current", "candidate"), [

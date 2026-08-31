@@ -18,7 +18,8 @@ Kernel modules:
 """
 
 from .models import (AGENT_PROTOCOL_VERSION, ASSUMPTION_STATUS_VALUES,
-                     ENGINE_VERSION, PACKAGE_VERSION, ZERO, NONZERO,
+                     ENGINE_VERSION, PACKAGE_VERSION, RELEASE_VERSION,
+                     ZERO, NONZERO,
                      UNKNOWN, VERIFIER_NAME, AdapterError, ExpressionRecord,
                      HARD_RESERVED_NAMES, PROOF_STATUS_VALUES,
                      PROPOSAL_EVIDENCE_KIND,
@@ -96,7 +97,8 @@ __all__ = [
     "AdapterError", "ExpressionRecord", "VerificationResult",
     "StepRecord", "SessionState", "normalize_symbols", "sha256_text",
     "RESERVED_NAMES", "HARD_RESERVED_NAMES",
-    "PACKAGE_VERSION", "ENGINE_VERSION", "AGENT_PROTOCOL_VERSION",
+    "PACKAGE_VERSION", "RELEASE_VERSION", "ENGINE_VERSION",
+    "AGENT_PROTOCOL_VERSION",
     "PROPOSAL_EVIDENCE_KIND",
     "engine_git_sha", "STEP_STATUSES",
     "ASSUMPTION_STATUS_VALUES", "PROOF_STATUS_VALUES", "derive_status_axes",

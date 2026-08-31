@@ -53,13 +53,14 @@ from typing import Optional
 import sympy
 
 from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, PACKAGE_VERSION,
-                     NONZERO, UNKNOWN, ZERO, AdapterError)
+                     RELEASE_VERSION, NONZERO, UNKNOWN, ZERO, AdapterError)
 from .parser import infer_namespace, load_expression
 from .pipeline import adjudicate_candidate
 from .provenance import ProvenanceError
 from .research_api import (ASSUMPTION_REQUIRED, COMPILE_FAILURE,
                            PARSE_FAILURE, PUBLIC_RESULTS,
-                           RESULT_SCHEMA_VERSION, generate_report,
+                           RESULT_SCHEMA_VERSION, _action_hint_for_error,
+                           _safe_workspace_error_source, generate_report,
                            verify_hypothesis)
 from .security import redact_public_data, redact_text
 from .session import init_session, load_session, run_summary, set_current
@@ -575,7 +576,11 @@ def _print_workspace_verification(workspace_path: str, result) -> None:
     print(f"semantics:   {_workspace_result_explanation(result.result)}")
     if result.error_code:
         print(f"error_code:  {redact_text(result.error_code)}")
-        print("action:      correct the declared workspace or hypothesis and retry")
+        if result.error_source:
+            print(f"source:      {redact_text(result.error_source)}")
+        if result.action_hint:
+            print(f"hint:        {redact_text(result.action_hint)}")
+        print("action:      correct the researcher-owned source explicitly and retry")
     for obligation in result.obligations:
         print("obligation:  "
               f"{redact_text(obligation.obligation_id)} -> {obligation.verdict}")
@@ -758,8 +763,9 @@ def build_parser() -> argparse.ArgumentParser:
             "verification."))
     parser.add_argument(
         "--version", action="version",
-        version=(f"%(prog)s {PACKAGE_VERSION} "
-                 f"(engine {ENGINE_VERSION}, protocol {AGENT_PROTOCOL_VERSION})"))
+        version=(f"%(prog)s {RELEASE_VERSION} "
+                 f"(PEP 440 {PACKAGE_VERSION}; "
+                 f"engine {ENGINE_VERSION}, protocol {AGENT_PROTOCOL_VERSION})"))
     parser.add_argument(
         "--debug", action="store_true",
         help="show developer tracebacks instead of concise user errors")
@@ -876,12 +882,47 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _emit_cli_error(args, code: str) -> int:
+def _emit_cli_error(
+    args,
+    code: str,
+    *,
+    source: Optional[str] = None,
+    hint: Optional[str] = None,
+) -> int:
     if getattr(args, "json", False):
-        _print_json({"error": {"code": code}})
+        error = {"code": code}
+        if source:
+            error["source"] = source
+        if hint:
+            error["hint"] = hint
+        _print_json({"error": error})
     else:
         _eprint(f"error: {code}")
+        if source:
+            _eprint(f"source: {source}")
+        if hint:
+            _eprint(f"hint: {hint}")
     return EXIT_ERROR
+
+
+def _emit_workspace_error(args, error: WorkspaceError) -> int:
+    """Render a stable workspace diagnostic without raw exception detail."""
+    hint = _action_hint_for_error(error.code)
+    raw_root = getattr(args, "workspace", None)
+    if raw_root is None and getattr(args, "command", None) == "inspect":
+        raw_root = getattr(args, "expr", None)
+    source = None
+    if hint is not None and raw_root is not None:
+        try:
+            source = _safe_workspace_error_source(Path(raw_root), error)
+        except (OSError, TypeError, ValueError):
+            source = None
+    return _emit_cli_error(
+        args,
+        error.code,
+        source=source,
+        hint=hint,
+    )
 
 
 def main(argv: Optional[list[str]] = None) -> int:
@@ -897,7 +938,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         except WorkspaceError as exc:
             if args.debug:
                 raise
-            return _emit_cli_error(args, exc.code)
+            return _emit_workspace_error(args, exc)
         except ProvenanceError as exc:
             if args.debug:
                 raise

@@ -24,6 +24,7 @@ from typing import Any, Mapping, Optional, Union
 
 from .models import NONZERO, UNKNOWN, ZERO, VerificationResult
 from .provenance import build_run_record, sha256_file, write_run_record
+from .security import REDACTED, redact_public_data, redact_text
 from .verifier import verify_equivalent
 from .workspace import ResearchWorkspace, WorkspaceError, load_workspace
 
@@ -45,6 +46,52 @@ PUBLIC_RESULTS = frozenset({
 _ASSUMPTION_GATE_CODES = frozenset({"DECLARED_ASSUMPTIONS_OMITTED"})
 
 _RUN_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
+_SUMMARY_MAX_STRING = 2_048
+_SUMMARY_MAX_ITEMS = 128
+_SUMMARY_MAX_DEPTH = 12
+_TRUNCATED = "[TRUNCATED]"
+
+_ARTIFACT_INVENTORY = (
+    {"path": "provenance.json", "role": "immutable run provenance"},
+    {"path": "result.json", "role": "structured result and bounded workspace summary"},
+    {"path": "REPORT.md", "role": "human-readable verification report"},
+)
+
+_ERROR_ACTION_HINTS = {
+    "PROJECT_PARSE_FAILURE": (
+        "Validate project.yaml as UTF-8 YAML with only the documented fields."
+    ),
+    "PROJECT_SCHEMA_INVALID": (
+        "Correct project.yaml to the minimal schema documented in WORKSPACE_FORMAT.md."
+    ),
+    "ASSUMPTIONS_PARSE_FAILURE": (
+        "Validate the declared assumptions YAML and avoid aliases or anchors."
+    ),
+    "ASSUMPTIONS_SCHEMA_INVALID": (
+        "Declare each symbol/function using the assumptions schema; do not infer it."
+    ),
+    "HYPOTHESIS_PARSE_FAILURE": (
+        "Validate hypotheses/hypothesis.json as UTF-8 JSON with unique keys."
+    ),
+    "HYPOTHESIS_SCHEMA_INVALID": (
+        "Correct the hypothesis members, assumptions, and obligations to schema version 1."
+    ),
+    "DECLARED_ASSUMPTIONS_OMITTED": (
+        "List every declared symbol explicitly in hypothesis.assumptions_used."
+    ),
+    "EXPRESSION_PARSE_FAILURE": (
+        "Correct the named expression and declare every symbol/function in the assumptions file."
+    ),
+    "UNSUPPORTED_HYPOTHESIS_TYPE": (
+        "Set hypothesis_type to 'equivalence'; other types are not compiled in v0.1."
+    ),
+    "NO_PROOF_OBLIGATIONS": (
+        "Add at least one explicit equivalence proof obligation."
+    ),
+    "UNSUPPORTED_RELATION": (
+        "Set the named proof-obligation relation to 'equivalent'."
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -84,8 +131,12 @@ class HypothesisVerificationResult:
     report_path: Path
     obligations: tuple[ObligationVerification, ...]
     runtime_seconds: float
+    workspace_summary: Optional[dict[str, Any]] = None
+    artifact_inventory: tuple[dict[str, str], ...] = _ARTIFACT_INVENTORY
     warnings: tuple[str, ...] = ()
     error_code: Optional[str] = None
+    error_source: Optional[str] = None
+    action_hint: Optional[str] = None
     error_detail: Optional[str] = None
 
     @property
@@ -113,6 +164,10 @@ class HypothesisVerificationResult:
             "runtime_seconds": self.runtime_seconds,
             "warnings": list(self.warnings),
             "error_code": self.error_code,
+            "error_source": self.error_source,
+            "action_hint": self.action_hint,
+            "workspace_summary": self.workspace_summary,
+            "artifact_inventory": [dict(item) for item in self.artifact_inventory],
             "obligations": [item.to_dict() for item in self.obligations],
         }
 
@@ -138,9 +193,10 @@ class GeneratedReport:
 class HypothesisCompileError(ValueError):
     """Internal compiler boundary with a stable, non-sensitive code."""
 
-    def __init__(self, code: str, detail: str):
+    def __init__(self, code: str, detail: str, *, source: str):
         self.code = code
         self.detail = detail
+        self.source = source
         super().__init__(f"{code}: {detail}")
 
 
@@ -167,6 +223,8 @@ def verify_hypothesis(
     obligations: tuple[ObligationVerification, ...] = ()
     result = PARSE_FAILURE
     error_code: Optional[str] = None
+    error_source: Optional[str] = None
+    action_hint: Optional[str] = None
     error_detail: Optional[str] = None
     warnings: tuple[str, ...] = ()
 
@@ -174,6 +232,8 @@ def verify_hypothesis(
         loaded = load_workspace(root)
     except WorkspaceError as exc:
         error_code = exc.code
+        error_source = _safe_workspace_error_source(root, exc)
+        action_hint = _action_hint_for_error(exc.code)
         error_detail = exc.detail
         if exc.code in _ASSUMPTION_GATE_CODES:
             result = ASSUMPTION_REQUIRED
@@ -186,6 +246,8 @@ def verify_hypothesis(
         except HypothesisCompileError as exc:
             result = COMPILE_FAILURE
             error_code = exc.code
+            error_source = exc.source
+            action_hint = _action_hint_for_error(exc.code)
             error_detail = exc.detail
             warnings = (f"hypothesis_compile_failure:{exc.code}",)
         else:
@@ -212,6 +274,10 @@ def verify_hypothesis(
                 ))
             obligations = tuple(checked)
             result = _aggregate_verdicts(item.verdict for item in obligations)
+
+    workspace_summary, summary_truncated = _workspace_summary(loaded)
+    if summary_truncated:
+        warnings = (*warnings, "workspace_summary_truncated")
 
     runtime_seconds = round(max(0.0, time.monotonic() - started), 6)
     input_hashes, expression_hashes, hypothesis_hash, assumptions_hash = (
@@ -240,8 +306,11 @@ def verify_hypothesis(
         report_path=run_directory / REPORT_FILE_NAME,
         obligations=obligations,
         runtime_seconds=runtime_seconds,
+        workspace_summary=workspace_summary,
         warnings=tuple(provenance["warnings"]),
         error_code=error_code,
+        error_source=error_source,
+        action_hint=action_hint,
         error_detail=error_detail,
     )
     _write_json_atomic(provisional.result_path, provisional._artifact_payload())
@@ -347,17 +416,21 @@ def _compile_equivalence_obligations(workspace: ResearchWorkspace):
         raise HypothesisCompileError(
             "UNSUPPORTED_HYPOTHESIS_TYPE",
             "v0.1 supports only hypothesis_type 'equivalence'",
+            source="hypotheses/hypothesis.json#/hypothesis_type",
         )
     if not hypothesis.proof_obligations:
         raise HypothesisCompileError(
             "NO_PROOF_OBLIGATIONS",
             "an equivalence hypothesis must declare at least one obligation",
+            source="hypotheses/hypothesis.json#/proof_obligations",
         )
-    for obligation in hypothesis.proof_obligations:
+    for index, obligation in enumerate(hypothesis.proof_obligations):
         if obligation.relation != "equivalent":
             raise HypothesisCompileError(
                 "UNSUPPORTED_RELATION",
                 "v0.1 supports only relation 'equivalent'",
+                source=("hypotheses/hypothesis.json#/proof_obligations/"
+                        f"{index}/relation"),
             )
     return hypothesis.proof_obligations
 
@@ -436,6 +509,144 @@ def _fallback_hashes(root: Path):
     return inputs, expressions, hypothesis_hash, assumptions_hash
 
 
+def _action_hint_for_error(code: str) -> Optional[str]:
+    """Return one stable remediation hint without echoing user input."""
+    return _ERROR_ACTION_HINTS.get(code)
+
+
+def _safe_workspace_error_source(
+    root: Path,
+    error: WorkspaceError,
+) -> Optional[str]:
+    """Return a bounded workspace-relative location for a public diagnostic.
+
+    Raw exception detail and absolute host paths never cross this boundary.
+    If the reported path cannot be proven to be inside the workspace, a fixed
+    schema location is used instead.
+    """
+    if error.path:
+        try:
+            relative = Path(error.path).resolve(strict=False).relative_to(
+                root.resolve(strict=True)).as_posix()
+        except (OSError, ValueError):
+            relative = ""
+        if relative and len(relative) <= 512:
+            return redact_text(relative)
+
+    if error.code.startswith("PROJECT_"):
+        return "project.yaml"
+    if error.code.startswith("ASSUMPTIONS_"):
+        return "declared assumptions file"
+    if (error.code.startswith("HYPOTHESIS_")
+            or error.code == "DECLARED_ASSUMPTIONS_OMITTED"):
+        return "hypotheses/hypothesis.json"
+    if error.code == "EXPRESSION_PARSE_FAILURE":
+        return "declared expression member"
+    return None
+
+
+def _bounded_public_value(value: Any) -> tuple[Any, bool]:
+    """Redact and bound a JSON-like summary before it is persisted."""
+    safe = redact_public_data(value)
+
+    def bound(item: Any, depth: int) -> tuple[Any, bool]:
+        if depth > _SUMMARY_MAX_DEPTH:
+            return REDACTED, True
+        if item is None or isinstance(item, (bool, int, float)):
+            return item, False
+        if isinstance(item, str):
+            if len(item) <= _SUMMARY_MAX_STRING:
+                return item, False
+            return item[:_SUMMARY_MAX_STRING] + _TRUNCATED, True
+        if isinstance(item, list):
+            output = []
+            truncated = len(item) > _SUMMARY_MAX_ITEMS
+            for child in item[:_SUMMARY_MAX_ITEMS]:
+                normalized, child_truncated = bound(child, depth + 1)
+                output.append(normalized)
+                truncated = truncated or child_truncated
+            return output, truncated
+        if isinstance(item, Mapping):
+            output = {}
+            keys = sorted(item, key=str)
+            truncated = len(keys) > _SUMMARY_MAX_ITEMS
+            for key in keys[:_SUMMARY_MAX_ITEMS]:
+                normalized, child_truncated = bound(item[key], depth + 1)
+                output[str(key)[:_SUMMARY_MAX_STRING]] = normalized
+                truncated = truncated or child_truncated
+            return output, truncated
+        return REDACTED, True
+
+    return bound(safe, 0)
+
+
+def _workspace_summary(
+    workspace: Optional[ResearchWorkspace],
+) -> tuple[Optional[dict[str, Any]], bool]:
+    """Build the bounded context needed to regenerate a grounded report.
+
+    Notes and references contribute path/hash/size metadata only.  Their
+    contents are deliberately absent, as are expression contents.
+    """
+    if workspace is None:
+        return None, False
+    raw = {
+        "project": {
+            "project_name": workspace.project.project_name,
+            "objective": workspace.project.objective,
+            "expression_entrypoint": workspace.project.expression_entrypoint,
+        },
+        "assumptions": {
+            "symbols": list(workspace.symbols),
+            "functions": list(workspace.functions),
+        },
+        "hypothesis": workspace.hypothesis.to_dict(),
+        "grounding": {
+            "notes": [
+                {
+                    "path": source.relative_path,
+                    "sha256": source.sha256,
+                    "size_bytes": source.size_bytes,
+                }
+                for source in workspace.notes
+            ],
+            "references": [
+                {
+                    "path": source.relative_path,
+                    "sha256": source.sha256,
+                    "size_bytes": source.size_bytes,
+                }
+                for source in workspace.references
+            ],
+        },
+    }
+    bounded, truncated = _bounded_public_value(raw)
+    return bounded, truncated
+
+
+def _append_json_field(lines: list[str], label: str, value: Any) -> None:
+    """Append a safely redacted JSON value as an indented Markdown block."""
+    lines.extend([f"**{label}**", ""])
+    encoded = json.dumps(
+        redact_public_data(value), sort_keys=True, indent=2, ensure_ascii=False)
+    lines.extend(f"    {line}" for line in encoded.splitlines())
+    lines.append("")
+
+
+def _append_hashes(
+    lines: list[str],
+    title: str,
+    values: Mapping[str, str],
+) -> None:
+    lines.extend([f"### {title}", ""])
+    if not values:
+        lines.extend(["None recorded.", ""])
+        return
+    for label in sorted(values):
+        lines.append(f"- `{redact_text(label)}`: `{values[label]}`")
+    lines.append("")
+
+
 def _render_report(result: Mapping[str, Any], provenance: Mapping[str, Any]) -> str:
     status = result["result"]
     lines = [
@@ -456,10 +667,47 @@ def _render_report(result: Mapping[str, Any], provenance: Mapping[str, Any]) -> 
         lines.extend([
             "## Action required",
             "",
-            f"The run stopped with `{error_code}`. Correct the declared "
-            "workspace or hypothesis and run verification again.",
+            f"- Stable error code: `{error_code}`",
+        ])
+        if result.get("error_source"):
+            lines.append(f"- Source: `{result['error_source']}`")
+        if result.get("action_hint"):
+            lines.append(f"- Safe hint: {result['action_hint']}")
+        lines.extend([
+            "",
+            "Correct the researcher-owned source explicitly, then run "
+            "verification again. No scientific meaning was repaired silently.",
             "",
         ])
+
+    summary = result.get("workspace_summary")
+    lines.extend(["## Workspace and grounded hypothesis", ""])
+    if isinstance(summary, Mapping):
+        project = summary.get("project", {})
+        assumptions = summary.get("assumptions", {})
+        hypothesis = summary.get("hypothesis", {})
+        grounding = summary.get("grounding", {})
+        _append_json_field(lines, "Project", project)
+        _append_json_field(
+            lines, "Declared symbols", assumptions.get("symbols", []))
+        _append_json_field(
+            lines, "Declared functions", assumptions.get("functions", []))
+        _append_json_field(lines, "Hypothesis", hypothesis)
+        _append_json_field(
+            lines, "Notes/references grounding inventory", grounding)
+        lines.extend([
+            "Only note/reference metadata is shown; their contents are not "
+            "copied into this report.",
+            "",
+        ])
+    else:
+        lines.extend([
+            "A bounded workspace summary is unavailable because validation "
+            "stopped before the workspace could be loaded. Available source "
+            "hashes remain recorded below.",
+            "",
+        ])
+
     obligations = result.get("obligations", [])
     if obligations:
         lines.extend(["## Proof obligations", ""])
@@ -486,11 +734,42 @@ def _render_report(result: Mapping[str, Any], provenance: Mapping[str, Any]) -> 
         f"- Timestamp: `{provenance['timestamp']}`",
         f"- Tool version: `{provenance['package_version']}`",
         f"- Engine version: `{provenance['engine_version']}`",
+        f"- Agent protocol version: `{provenance['agent_protocol_version']}`",
         f"- Git commit: `{provenance['git_commit']}`",
-        f"- Python: `{provenance['python_version']}`",
+        f"- Python: `{provenance['python_implementation']} "
+        f"{provenance['python_version']}`",
+        f"- Verifier route: `{provenance['verifier_route']}`",
+        f"- Runtime: `{provenance['runtime_seconds']:.6f}` seconds",
         f"- Hypothesis SHA-256: `{provenance['hypothesis_hash']}`",
         f"- Assumptions SHA-256: `{provenance['assumptions_hash']}`",
-        "- Complete input and expression hashes: `provenance.json`",
+        "",
+        "### Dependency versions",
+        "",
+    ])
+    for name, version in sorted(provenance["dependency_versions"].items()):
+        lines.append(f"- `{name}`: `{version}`")
+    lines.extend(["", "### Warnings", ""])
+    warnings = provenance.get("warnings", [])
+    if warnings:
+        lines.extend(f"- `{warning}`" for warning in warnings)
+    else:
+        lines.append("None.")
+    lines.append("")
+
+    lines.extend(["## Source hashes", ""])
+    _append_hashes(lines, "Input files", provenance["input_hashes"])
+    _append_hashes(lines, "Expression members", provenance["expression_hashes"])
+
+    lines.extend(["## Generated artifact inventory", ""])
+    inventory = result.get("artifact_inventory", _ARTIFACT_INVENTORY)
+    if isinstance(inventory, (list, tuple)):
+        for artifact in inventory:
+            if isinstance(artifact, Mapping):
+                lines.append(
+                    f"- `{redact_text(str(artifact.get('path', 'unknown')))}` — "
+                    f"{redact_text(str(artifact.get('role', 'generated artifact')))}"
+                )
+    lines.extend([
         "",
         "Generated files are under this run directory. Researcher source "
         "files were not modified.",
