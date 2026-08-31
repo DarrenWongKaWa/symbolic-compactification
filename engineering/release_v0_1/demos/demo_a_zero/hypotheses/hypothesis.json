@@ -1,0 +1,32 @@
+{
+  "assumptions_used": [
+    "x"
+  ],
+  "hypothesis_type": "equivalence",
+  "instance_maps": {
+    "expressions/candidate.txt": {
+      "presentation": "factored"
+    },
+    "expressions/current.txt": {
+      "presentation": "expanded"
+    }
+  },
+  "latent_object": null,
+  "members": [
+    "expressions/current.txt",
+    "expressions/candidate.txt"
+  ],
+  "operators": [
+    "FACTOR"
+  ],
+  "proof_obligations": [
+    {
+      "left": "expressions/current.txt",
+      "obligation_id": "factorization-equivalence",
+      "relation": "equivalent",
+      "right": "expressions/candidate.txt"
+    }
+  ],
+  "reconstruction_rule": "Expand the factored candidate and compare it exactly with the current expression.",
+  "schema_version": 1
+}
