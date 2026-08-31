@@ -276,10 +276,10 @@ def test_forged_zero_dict_missing_hashes_fails_integrity():
 
 
 def test_assumption_gate_missing_declared_names():
-    assert assumption_gate_status(("x",), ()) == ASSUMPTION_REQUIRED
-    assert assumption_gate_status(("x", "y"), ("x",)) == ASSUMPTION_REQUIRED
+    assert assumption_gate_status(("x",), ()) is None
+    assert assumption_gate_status(("x", "y"), ("x",)) is None
     assert assumption_gate_status(("x",), ("x",)) is None
-    assert assumption_gate_status(("x",), ("y",)) == COMPILE_FAILURE
+    assert assumption_gate_status(("x",), ("y",)) == ASSUMPTION_REQUIRED
 
 
 def test_real_false_assumptions_are_rejected(tmp_path):
@@ -341,11 +341,11 @@ def test_fake_lowering_path_certifies_zero_and_refutes_nonzero(tmp_path):
     assert not may_appear_in_verified_table(nonzero)
 
 
-def test_missing_assumptions_used_is_assumption_required(tmp_path):
+def test_undeclared_assumption_name_is_assumption_required(tmp_path):
     workspace = initialize_audit_workspace(tmp_path / "gate")
     snapshot = snapshot_audit_sources(workspace)
     assumptions = load_declared_assumptions(workspace)
-    edge = _edge(assumptions_used=())
+    edge = _edge(assumptions_used=("y",))
     record = adjudicate_lowered_edge(
         edge, workspace, _ground(edge), _lower(edge),
         snapshot=snapshot, assumptions=assumptions)

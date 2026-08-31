@@ -2,9 +2,7 @@
 
 These three workspaces are **independent textbook constructions**. They
 are not extracted from, renamed from, or structurally cloned from any
-unpublished physics manuscript. No condensed-matter response tensors,
-Berry/Christoffel curvature factorizations, six-orbit permutation
-thermal kernels, private dictionaries, or private paper nicknames appear.
+unpublished source.
 
 Expected statuses are the demo contract. They do not bypass the verifier:
 LLM text cannot create `ZERO`.

@@ -9,8 +9,8 @@ layer on the existing fail-closed verifier.
 
 ## Current phase
 
-PHASE 0 interface freeze is in progress. Implementation swarm follows this
-commit.
+Implementation swarm merged. Public demos A/B/C verify as specified.
+Next: clean-room replay and release review.
 
 ## Privacy
 

@@ -54,10 +54,15 @@ class GroundingResult:
 EDGE_DOCUMENT_KEYS = frozenset({"schema_version", "edges"})
 EDGE_DOCUMENT_REQUIRED = frozenset({"schema_version", "edges"})
 EDGE_FIELD_KEYS = frozenset({
-    "id", "from", "to", "type", "lhs", "rhs", "residual",
+    "id", "edge_id", "from", "source_from", "to", "source_to",
+    "type", "edge_type", "lhs", "rhs", "residual",
     "children", "assumptions_used", "claim", "notes",
 })
-EDGE_FIELD_REQUIRED = frozenset({"id", "type"})
+EDGE_FIELD_REQUIRED = frozenset()
+_ID_ALIASES = ("id", "edge_id")
+_FROM_ALIASES = ("from", "source_from")
+_TO_ALIASES = ("to", "source_to")
+_TYPE_ALIASES = ("type", "edge_type")
 
 # Bound expression files are workspace-relative; labels use the eq: prefix.
 _PATH_SUFFIXES = frozenset({
@@ -154,11 +159,11 @@ def _parse_edge(item: Any, path: Path) -> AuditEdge:
     require_keys(
         item, allowed=EDGE_FIELD_KEYS, required=EDGE_FIELD_REQUIRED,
         code="EDGE_SCHEMA_INVALID", path=path)
-    edge_id = require_string(item["id"], "id", "EDGE_SCHEMA_INVALID", path)
+    edge_id = _aliased_string(item, _ID_ALIASES, path, required=True)
     if not _ID_RE.fullmatch(edge_id):
         raise AuditError(
             "EDGE_ID_INVALID", f"invalid edge id {edge_id!r}", path=str(path))
-    edge_type = require_string(item["type"], "type", "EDGE_SCHEMA_INVALID", path)
+    edge_type = _aliased_string(item, _TYPE_ALIASES, path, required=True)
     if edge_type not in EDGE_TYPES:
         raise AuditError(
             "UNKNOWN_EDGE_TYPE",
@@ -167,8 +172,8 @@ def _parse_edge(item: Any, path: Path) -> AuditEdge:
         )
     return AuditEdge(
         edge_id=edge_id,
-        source_from=_optional_string(item, "from", path),
-        source_to=_optional_string(item, "to", path),
+        source_from=_aliased_string(item, _FROM_ALIASES, path, required=False),
+        source_to=_aliased_string(item, _TO_ALIASES, path, required=False),
         edge_type=edge_type,
         lhs=_optional_string(item, "lhs", path),
         rhs=_optional_string(item, "rhs", path),
@@ -178,6 +183,41 @@ def _parse_edge(item: Any, path: Path) -> AuditEdge:
         claim=_optional_text(item, "claim", path),
         notes=_optional_text(item, "notes", path),
     )
+
+
+def _aliased_string(
+    item: dict,
+    aliases: tuple[str, ...],
+    path: Path,
+    *,
+    required: bool,
+) -> Optional[str]:
+    present = [name for name in aliases if name in item and item[name] is not None]
+    if not present:
+        if required:
+            raise AuditError(
+                "EDGE_SCHEMA_INVALID",
+                f"missing fields: {aliases[0]}",
+                path=str(path),
+            )
+        return None
+    values = []
+    for name in present:
+        value = item[name]
+        if not isinstance(value, str) or not value.strip():
+            raise AuditError(
+                "EDGE_SCHEMA_INVALID",
+                f"{name} must be a non-empty string",
+                path=str(path),
+            )
+        values.append(value.strip())
+    if len(set(values)) > 1:
+        raise AuditError(
+            "EDGE_SCHEMA_INVALID",
+            f"conflicting aliases {', '.join(present)}",
+            path=str(path),
+        )
+    return values[0]
 
 
 def _optional_string(item: dict, field: str, path: Path) -> Optional[str]:

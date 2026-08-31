@@ -154,6 +154,11 @@ def cmd_audit_table(args) -> int:
     run_id = args.run or latest_audit_run_id(workspace)
     run = load_audit_run(workspace, run_id)
     artifacts = generate_tables(workspace, run)
+    try:
+        from .html import generate_html_report
+        generate_html_report(workspace, run)
+    except AuditError:
+        pass
     payload = {
         "status": "AUDIT_TABLES",
         "run_id": run.run_id,

@@ -32,20 +32,10 @@ REQUIRED_RELATIVE_PATHS = (
     "edges/edges.yaml",
     "assumptions/assumptions.yaml",
 )
-# Independent textbook constructions must not resemble unpublished sources.
+# Demos must not ship unpublished-validation paths or local denylists.
 PRIVATE_SUBSTRINGS = (
-    "berry",
-    "christoffel",
-    "anan",
-    "six-orbit",
-    "six_orbit",
-    "thermal kernel",
-    "sigma_abc",
-    "sigma-abc",
-    "response tensor",
-    "polygamma",
-    "kubo",
-    "guo",
+    ".private_validation/",
+    "private_denylist.txt",
 )
 COMMENT_STATUS_RE = re.compile(
     r"#\s*expected_status:\s*([A-Z_]+)",

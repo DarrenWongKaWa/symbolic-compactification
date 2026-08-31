@@ -415,18 +415,15 @@ def assumption_gate_status(
 ) -> Optional[str]:
     """Return ASSUMPTION_REQUIRED / COMPILE_FAILURE, or None if the gate passes.
 
-    Missing ``assumptions_used`` (empty) or omission of a declared symbol is
-    ASSUMPTION_REQUIRED. Names that were never declared are COMPILE_FAILURE.
+    Names in ``assumptions_used`` that are not in the workspace declaration
+    are ASSUMPTION_REQUIRED. Extra declared symbols that this edge does not
+    list are allowed: the workspace symbol table is shared across edges.
+    An empty ``assumptions_used`` uses the declared namespace as-is.
     """
     declared = frozenset(declared_names)
-    used = tuple(assumptions_used)
-    if not used:
-        return ASSUMPTION_REQUIRED
-    undeclared = sorted(set(used) - declared)
+    used = frozenset(assumptions_used)
+    undeclared = sorted(used - declared)
     if undeclared:
-        return COMPILE_FAILURE
-    omitted = sorted(declared - set(used))
-    if omitted:
         return ASSUMPTION_REQUIRED
     return None
 

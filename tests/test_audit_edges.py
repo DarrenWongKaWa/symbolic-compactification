@@ -179,3 +179,23 @@ def test_snapshot_hash_changes_when_bound_expression_file_changes(tmp_path):
     assert first.source_snapshot_hash != second.source_snapshot_hash
     assert len(first.source_snapshot_hash) == 64
     assert len(second.source_snapshot_hash) == 64
+
+
+def test_load_dataclass_field_name_aliases(tmp_path):
+    root = tmp_path / "paper-audit"
+    initialize_audit_workspace(root)
+    _write_edges(root, """\
+schema_version: DerivationAuditV1
+edges:
+  - edge_id: A.binomial-expand
+    source_from: eq.binomial-left
+    source_to: eq.binomial-right
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/left.txt
+    rhs: expressions/right.txt
+""")
+    workspace = load_audit_workspace(root)
+    edges = load_edges(workspace)
+    assert edges[0].edge_id == "A.binomial-expand"
+    assert edges[0].source_from == "eq.binomial-left"
+    assert edges[0].edge_type == "ALGEBRAIC_EQUIVALENCE"
