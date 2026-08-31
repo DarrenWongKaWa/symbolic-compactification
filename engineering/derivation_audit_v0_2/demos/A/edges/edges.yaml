@@ -1,0 +1,26 @@
+schema_version: DerivationAuditV1
+edges:
+  # expected_status: ZERO
+  - edge_id: A.binomial-expand
+    source_from: eq.binomial-left
+    source_to: eq.binomial-right
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/binomial_lhs.txt
+    rhs: expressions/binomial_rhs.txt
+    residual: expressions/binomial_residual.txt
+    assumptions_used:
+      - x
+    claim: "(x + 1)**2 equals x**2 + 2*x + 1"
+    notes: "Freshman binomial expansion. Exact algebraic residual."
+  # expected_status: ZERO
+  - edge_id: A.distributivity
+    source_from: eq.twice-left
+    source_to: eq.twice-right
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    lhs: expressions/twice_lhs.txt
+    rhs: expressions/twice_rhs.txt
+    residual: expressions/twice_residual.txt
+    assumptions_used:
+      - x
+    claim: "2*(x + 1) equals 2*x + 2"
+    notes: "Freshman distributivity. Exact algebraic residual."

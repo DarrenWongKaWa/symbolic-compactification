@@ -1,0 +1,37 @@
+\documentclass{article}
+\begin{document}
+This note records three local linear-algebra identities on a two-index
+polynomial and a $2\times 2$ coordinate projector. It is a synthetic
+public demo, not a research manuscript.
+
+Define the two-index polynomial
+\begin{equation}
+\label{eq:K-def}
+K(m,n) := m+n.
+\end{equation}
+Swapping the two arguments is a dummy relabeling
+\begin{equation}
+\label{eq:K-swap}
+K(n,m) = n+m,
+\end{equation}
+and therefore $K(m,n)=K(n,m)$.
+
+Let $P$ be the $2\times 2$ matrix that keeps the second coordinate and
+discards the first,
+\begin{equation}
+\label{eq:projector}
+P = \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix},
+\qquad
+P^{2}-P = 0.
+\end{equation}
+
+For a generic two-index array $A(m,n)$, the local pair equals twice the
+symmetric part $S=(A(m,n)+A(n,m))/2$,
+\begin{equation}
+\label{eq:pairwise}
+A(m,n)+A(n,m)-2S = 0.
+\end{equation}
+
+The three local identities are collected on one worksheet; that assembly
+step is bookkeeping, not an additional exact residual.
+\end{document}

@@ -1,0 +1,21 @@
+schema_version: DerivationAuditV1
+demo_id: B
+title: Generic 2-index polynomial, 2x2 projector, and pairwise symmetrization
+synthetic: true
+privacy: Independent sophomore linear algebra. Not derived from any unpublished manuscript.
+expected_edges:
+  - edge_id: B.define-K
+    edge_type: DEFINITION_INSERTION
+    expected_status: DEFINITION
+  - edge_id: B.index-swap
+    edge_type: INDEX_RELABELING
+    expected_status: ZERO
+  - edge_id: B.projector-P
+    edge_type: PROJECTOR_IDENTITY
+    expected_status: ZERO
+  - edge_id: B.pairwise-sym
+    edge_type: PAIRWISE_REDUCTION
+    expected_status: ZERO
+  - edge_id: B.worksheet
+    edge_type: BOOKKEEPING
+    expected_status: RECORDED

@@ -1,0 +1,10 @@
+symbols:
+  - name: m
+    real: true
+    nonzero: false
+  - name: n
+    real: true
+    nonzero: false
+functions:
+  - K
+  - A

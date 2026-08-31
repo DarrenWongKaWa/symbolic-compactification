@@ -1,0 +1,5 @@
+symbols:
+  - name: x
+    real: true
+    nonzero: false
+functions: []

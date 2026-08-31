@@ -1,0 +1,12 @@
+schema_version: DerivationAuditV1
+demo_id: A
+title: Freshman binomial and distributivity identities
+synthetic: true
+privacy: Independent textbook algebra. Not derived from any unpublished manuscript.
+expected_edges:
+  - edge_id: A.binomial-expand
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status: ZERO
+  - edge_id: A.distributivity
+    edge_type: ALGEBRAIC_EQUIVALENCE
+    expected_status: ZERO
