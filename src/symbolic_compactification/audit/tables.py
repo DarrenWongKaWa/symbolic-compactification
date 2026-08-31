@@ -385,6 +385,12 @@ def _json_row(record: AuditRecord, table_name: str) -> dict[str, Any]:
         "remainder_certificate_hash": record.remainder_certificate_hash,
         "may_appear_in_verified_table": may_appear_in_verified_table(record),
         "table_bucket": table_bucket(record),
+        "required_rules": list(record.required_rules),
+        "ibp_domain": record.ibp_domain,
+        "rule_certificate": (
+            None if record.rule_certificate is None
+            else record.rule_certificate.to_dict()
+        ),
     }
 
 

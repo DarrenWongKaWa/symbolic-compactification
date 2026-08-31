@@ -334,6 +334,69 @@ def lowering_applicability(edge_type: str) -> str:
     return spec.lowering
 
 
+BZ_IBP_CONCLUSION = "integral_of_total_derivative = 0"
+
+
+@dataclass(frozen=True)
+class RuleCertificate:
+    """Second-class certificate: local engine ZERO plus a declared theorem.
+
+    Never an engine ZERO for the global claim. Field-driven: add a rule only
+    when a real paper exposes a missing adapter with explicit conditions.
+    """
+
+    rule_id: str
+    local_children: tuple[tuple[str, str], ...]
+    domain: Optional[str]
+    conclusion: str
+    result: str
+    integrand_periodic: str = "declared"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "rule_id": self.rule_id,
+            "local_children": [
+                {"edge_id": edge_id, "status": status}
+                for edge_id, status in self.local_children
+            ],
+            "requirements": {
+                "domain": self.domain,
+                "integrand_periodic": self.integrand_periodic,
+            },
+            "conclusion": self.conclusion,
+            "result": self.result,
+        }
+
+
+def rule_certificate_from_mapping(data: Any) -> Optional["RuleCertificate"]:
+    if data is None:
+        return None
+    if not isinstance(data, Mapping):
+        raise AuditError("INVALID_RECORD", "rule_certificate must be an object")
+    children_raw = data.get("local_children") or ()
+    children: list[tuple[str, str]] = []
+    if isinstance(children_raw, list):
+        for item in children_raw:
+            if isinstance(item, Mapping) and item.get("edge_id") and item.get("status"):
+                children.append((str(item["edge_id"]), str(item["status"])))
+    requirements = data.get("requirements") or {}
+    domain = None
+    periodic = "declared"
+    if isinstance(requirements, Mapping):
+        if requirements.get("domain"):
+            domain = str(requirements["domain"])
+        if requirements.get("integrand_periodic"):
+            periodic = str(requirements["integrand_periodic"])
+    return RuleCertificate(
+        rule_id=str(data.get("rule_id") or ""),
+        local_children=tuple(children),
+        domain=domain,
+        conclusion=str(data.get("conclusion") or ""),
+        result=str(data.get("result") or CERTIFIED_BY_RULE),
+        integrand_periodic=periodic,
+    )
+
+
 def asymptotic_remainder_certified(remainder_certificate_hash: Optional[str]) -> bool:
     """Finite coefficient agreement is not a remainder proof."""
     return bool(remainder_certificate_hash) and bool(
@@ -376,6 +439,7 @@ class AuditRecord:
     schema_version: str = AUDIT_SCHEMA_VERSION
     required_rules: tuple[str, ...] = ()
     ibp_domain: Optional[str] = None
+    rule_certificate: Optional[RuleCertificate] = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -405,6 +469,10 @@ class AuditRecord:
             "artifact_relpath": self.artifact_relpath,
             "required_rules": list(self.required_rules),
             "ibp_domain": self.ibp_domain,
+            "rule_certificate": (
+                None if self.rule_certificate is None
+                else self.rule_certificate.to_dict()
+            ),
         }
 
 
@@ -633,6 +701,8 @@ def record_from_mapping(data: Mapping[str, Any]) -> AuditRecord:
             schema_version=str(data.get("schema_version") or AUDIT_SCHEMA_VERSION),
             required_rules=_tuple("required_rules"),
             ibp_domain=_opt_str("ibp_domain"),
+            rule_certificate=rule_certificate_from_mapping(
+                data.get("rule_certificate")),
         )
     except (KeyError, TypeError, ValueError) as exc:
         raise AuditError("INVALID_RECORD", str(exc)) from None

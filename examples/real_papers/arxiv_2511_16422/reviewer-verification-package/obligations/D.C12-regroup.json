@@ -29,7 +29,8 @@
   "residual_text": "((v21a*(v12b*v1c + v1b*v12c) - v12a*(v21b*v1c + v1b*v21c)) - (v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c))) + ((-v21a*(v2b*v12c + v12b*v2c) + v12a*(v2b*v21c + v21b*v2c)) - (v2c*(v12a*v21b - v21a*v12b) + v2b*(v12a*v21c - v21a*v12c)))\n",
   "result": "ZERO",
   "rhs_hash": "a856a3e39527e5effe28dfc9c19f17974ebb102bc3d6faa355a8e163ef8c619d",
-  "runtime_seconds": 0.7287,
+  "rule_certificate": null,
+  "runtime_seconds": 0.7007,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-71",

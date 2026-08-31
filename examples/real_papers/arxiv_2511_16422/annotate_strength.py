@@ -145,11 +145,10 @@ def main() -> int:
         "",
         "## Outside this table (soundness, not failure)",
         "",
-        "See `TABLE_UNCERTIFIED.md`:",
+        "See `TABLE_EVIDENCE.md` for the full epistemic hierarchy.",
         "",
         "- Eq. (D-57) full $\\Gamma$ expansion: `ASYMPTOTIC_CLAIM` / `UNKNOWN`",
-        "- Eq. (D-114) → (D-119) global BZ IBP: `INTEGRAL_ARGUMENT` / `NOT_LOWERED`",
-        "- Eq. (D-123) → (D-124) global BZ IBP: `INTEGRAL_ARGUMENT` / `NOT_LOWERED`",
+        "- Eq. (D-114) → (D-119) and Eq. (D-123) → (D-124): `CERTIFIED_BY_RULE`",
         "",
         "The machine-authoritative residual table remains `TABLE_VERIFIED.md`.",
         "",
@@ -192,8 +191,61 @@ def main() -> int:
     pkg_ibp = ROOT / "reviewer-verification-package" / "TABLE_IBP.md"
     if pkg_ibp.parent.is_dir():
         pkg_ibp.write_text(ibp_text, encoding="utf-8")
+    evidence_lines = [
+        "# Evidence hierarchy",
+        "",
+        "Certificate class is **provenance type**, not mathematical truth ranking.",
+        "`DIRECT_EXACT` residuals are unsubstituted engine ZERO.",
+        "`SUBSTITUTION_EXACT` residuals are ZERO after a declared upstream identity.",
+        "`RULE_CERTIFICATE` is local child ZERO plus a declared theorem/domain;",
+        "it is **not** engine ZERO for the global claim.",
+        "`ASYMPTOTIC` remainder claims stay UNKNOWN without a remainder certificate.",
+        "",
+        "This table cannot create ZERO. Engine ZERO rows are copied from",
+        "`verification_table.json` (`may_appear_in_verified_table`).",
+        "",
+        "| Paper step | Certificate class | Machine child | Rule / assumption | Status |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for eid in sorted(verified_ids):
+        kind, meta = declared[eid]
+        row = by_id[eid]
+        child = "`" + (row.get("artifact_relpath") or "residual") + "` ZERO"
+        rule = "—" if kind == "DIRECT_EXACT" else (meta.get("substitution") or "declared identity")
+        evidence_lines.append(
+            "| {paper} | `{klass}` | {child} | {rule} | `ZERO` |".format(
+                paper=_cell(meta.get("paper_eqs") or eid),
+                klass=kind,
+                child=_cell(child),
+                rule=_cell(str(rule)),
+            )
+        )
+    for row in sorted(ibp_rows, key=lambda item: item.get("edge_id") or ""):
+        cert = row.get("rule_certificate") or {}
+        kids = cert.get("local_children") or []
+        child_txt = ", ".join(
+            f"`{item.get('edge_id')}` {item.get('status')}" for item in kids
+        ) or "`D.leibniz-product-rule` ZERO"
+        evidence_lines.append(
+            "| {paper} | `RULE_CERTIFICATE` | {child} | BZ torus periodicity | `{status}` |".format(
+                paper=_cell(paper.get(row.get("edge_id") or "", row.get("edge_id") or "")),
+                child=_cell(child_txt),
+                status=row.get("status") or "",
+            )
+        )
+    evidence_lines.append(
+        "| Eq. (D-57) | `ASYMPTOTIC` | coefficient children not claimed as remainder | remainder absent | `UNKNOWN` |"
+    )
+    evidence_lines.append("")
+    evidence_path = ROOT / "reports" / "TABLE_EVIDENCE.md"
+    evidence_text = "\n".join(evidence_lines)
+    evidence_path.write_text(evidence_text, encoding="utf-8")
+    pkg_ev = ROOT / "reviewer-verification-package" / "TABLE_EVIDENCE.md"
+    if pkg_ev.parent.is_dir():
+        pkg_ev.write_text(evidence_text, encoding="utf-8")
     print(f"wrote {OUT_MD.relative_to(ROOT)} ({n_direct} DIRECT_EXACT, {n_subst} SUBSTITUTION_EXACT)")
     print(f"wrote {ibp_path.relative_to(ROOT)} ({len(ibp_rows)} IBP parents)")
+    print(f"wrote {evidence_path.relative_to(ROOT)}")
     return 0
 
 

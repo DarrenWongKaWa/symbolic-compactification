@@ -19,6 +19,7 @@
     "residual_text": null,
     "result": "SPLIT",
     "rhs_hash": null,
+    "rule_certificate": null,
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -50,6 +51,7 @@
     "residual_text": null,
     "result": "RECORDED",
     "rhs_hash": null,
+    "rule_certificate": null,
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -88,6 +90,7 @@
     "residual_text": "(v12a*v21b + v12b*v21a\n) - (2*e12**2*gab\n)",
     "result": "DEFINITION",
     "rhs_hash": "25aea56fdd091170850f153651beed4f85c79886448e4c6a0000174832456dd8",
+    "rule_certificate": null,
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -120,6 +123,7 @@
     "residual_text": null,
     "result": "DEFINITION",
     "rhs_hash": null,
+    "rule_certificate": null,
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -150,6 +154,7 @@
     "residual_text": null,
     "result": "UNKNOWN",
     "rhs_hash": null,
+    "rule_certificate": null,
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -184,7 +189,8 @@
     "residual_text": "diff(u(k)*v(k), k) - (diff(u(k), k)*v(k) + u(k)*diff(v(k), k))\n",
     "result": "ZERO",
     "rhs_hash": null,
-    "runtime_seconds": 0.7507,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7667,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-114",
@@ -220,6 +226,21 @@
     "residual_text": null,
     "result": "CERTIFIED_BY_RULE",
     "rhs_hash": null,
+    "rule_certificate": {
+      "conclusion": "integral_of_total_derivative = 0",
+      "local_children": [
+        {
+          "edge_id": "D.leibniz-product-rule",
+          "status": "ZERO"
+        }
+      ],
+      "requirements": {
+        "domain": "BRILLOUIN_ZONE_TORUS",
+        "integrand_periodic": "declared"
+      },
+      "result": "CERTIFIED_BY_RULE",
+      "rule_id": "BZ_TORUS_PERIODICITY"
+    },
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -258,6 +279,21 @@
     "residual_text": null,
     "result": "CERTIFIED_BY_RULE",
     "rhs_hash": null,
+    "rule_certificate": {
+      "conclusion": "integral_of_total_derivative = 0",
+      "local_children": [
+        {
+          "edge_id": "D.leibniz-product-rule",
+          "status": "ZERO"
+        }
+      ],
+      "requirements": {
+        "domain": "BRILLOUIN_ZONE_TORUS",
+        "integrand_periodic": "declared"
+      },
+      "result": "CERTIFIED_BY_RULE",
+      "rule_id": "BZ_TORUS_PERIODICITY"
+    },
     "runtime_seconds": 0.0,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
@@ -301,7 +337,8 @@
     "residual_text": "(v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)) - (v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c))\n",
     "result": "ZERO",
     "rhs_hash": "46c22f6f22a4935cb4380961f82966e83ff70d6444f5c79fa5c23d65e5dcd6f4",
-    "runtime_seconds": 0.7544,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7709,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-59",
@@ -340,7 +377,8 @@
     "residual_text": "(v12a*v21b + v12b*v21a) - (v21a*v12b + v12a*v21b)\n",
     "result": "ZERO",
     "rhs_hash": "062cfa109a1c858c3ddce151aac7b2992c5f6efc4094f6579d2d4e93ff80d569",
-    "runtime_seconds": 0.7149,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7282,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-key-identities",
@@ -386,7 +424,8 @@
     "residual_text": "(v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)) - (v1c*(v12a*v21b + v12b*v21a) + v1b*(v12a*v21c + v12c*v21a))\n",
     "result": "ZERO",
     "rhs_hash": "b0db6e3fd03659455efdd27fb52f60cd1d7963eb84cfca886b88c2dc9b476966",
-    "runtime_seconds": 0.7705,
+    "rule_certificate": null,
+    "runtime_seconds": 0.6874,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-60",
@@ -429,7 +468,8 @@
     "residual_text": "((2*e12**2)/(8*e12)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)) - ((e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p))\n",
     "result": "ZERO",
     "rhs_hash": "00ce3547b6666640786adddd929175a5bef81f3b1bedf09006404d8aca4fd563",
-    "runtime_seconds": 0.7835,
+    "rule_certificate": null,
+    "runtime_seconds": 0.738,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-60",
@@ -474,7 +514,8 @@
     "residual_text": "((1/4)*(e12*(gac*v1b + gab*v1c)*f1p + (-e12)*(gac*v2b + gab*v2c)*f2p)) - ((e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p))\n",
     "result": "ZERO",
     "rhs_hash": "4418684dd2c2d2d0555efd8544ec664f5afc1dd33fa636a87b8e1c7570f2f917",
-    "runtime_seconds": 0.8169,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7574,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-66",
@@ -518,7 +559,8 @@
     "residual_text": "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p) + (e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)\n",
     "result": "ZERO",
     "rhs_hash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-    "runtime_seconds": 0.7548,
+    "rule_certificate": null,
+    "runtime_seconds": 0.816,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-61",
@@ -563,7 +605,8 @@
     "residual_text": "((v21a*(v12b*v1c + v1b*v12c) - v12a*(v21b*v1c + v1b*v21c)) - (v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c))) + ((-v21a*(v2b*v12c + v12b*v2c) + v12a*(v2b*v21c + v21b*v2c)) - (v2c*(v12a*v21b - v21a*v12b) + v2b*(v12a*v21c - v21a*v12c)))\n",
     "result": "ZERO",
     "rhs_hash": "a856a3e39527e5effe28dfc9c19f17974ebb102bc3d6faa355a8e163ef8c619d",
-    "runtime_seconds": 0.7287,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7007,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-71",
@@ -604,7 +647,8 @@
     "residual_text": "((-I*e12*A21a)*(-I*e21*A12b) - (-I*e21*A12a)*(-I*e12*A21b)) - ((-1)*(e12*e21)*(A21a*A12b - A12a*A21b))\n",
     "result": "ZERO",
     "rhs_hash": "d86055cf9b5d442a1972893dd1c48926c2b58f1906e206d332e4b4adbfdef97d",
-    "runtime_seconds": 0.7668,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7934,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-73",
@@ -643,7 +687,8 @@
     "residual_text": "((-1)*(e12*(-e12))*(A21a*A12b - A12a*A21b)) - (e12**2*(A21a*A12b - A12a*A21b))\n",
     "result": "ZERO",
     "rhs_hash": "4bacdc8de5368e10ca92de978eee90355d24b13f7bde2dffc941e2c7afe2193a",
-    "runtime_seconds": 0.8139,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7781,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-73",
@@ -681,7 +726,8 @@
     "residual_text": "(A21a*A12b - A12a*A21b) - (-(A12a*A21b - A12b*A21a))\n",
     "result": "ZERO",
     "rhs_hash": "88a503b07187492f26171cab4984c797595b49fb32c5dc6184e9e073347fdca0",
-    "runtime_seconds": 0.7256,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7812,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-74",
@@ -720,7 +766,8 @@
     "residual_text": "(-(A12a*A21b - A12b*A21a)) - (I*(I*(A12a*A21b - A12b*A21a)))\n",
     "result": "ZERO",
     "rhs_hash": "669eb2230986d04dfa3da9eee29a462451629b93ecd9d5b595af5c8dfe4292d0",
-    "runtime_seconds": 0.6551,
+    "rule_certificate": null,
+    "runtime_seconds": 0.8152,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-74",
@@ -764,7 +811,8 @@
     "residual_text": "((-I)/(4*e12**2)*(I*e12**2)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)) - ((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p))\n",
     "result": "ZERO",
     "rhs_hash": "d1470c1d253dc9db0f3c11741bc264c816c3963a7d8218e026b52184cdd253d2",
-    "runtime_seconds": 0.789,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7578,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-70",
@@ -809,7 +857,8 @@
     "residual_text": "((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)) - ((1/4)*((v1c*Oab1 + v1b*Oac1)*f1p + (v2c*(-Oab1) + v2b*(-Oac1))*f2p))\n",
     "result": "ZERO",
     "rhs_hash": "15024413b279fdd165e2aa47b86cb73dff7b907017c89b1375862ee4215c64ac",
-    "runtime_seconds": 0.7581,
+    "rule_certificate": null,
+    "runtime_seconds": 0.6925,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-77",
@@ -850,7 +899,8 @@
     "residual_text": "(-(f1p*v1a - f2p*v2a)*(gbc/e12)) - (gbc*(v2a*f2p - v1a*f1p)/e12)\n",
     "result": "ZERO",
     "rhs_hash": "b1a67978ab53938e88fb70b93c28dd23b4d3bab77d3522e98752e71b24d41764",
-    "runtime_seconds": 0.7279,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7384,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-119",
@@ -896,7 +946,8 @@
     "residual_text": "((1/e12)*(gbc*(v2a*f2p - v1a*f1p) + (v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)) - ((1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc)))\n",
     "result": "ZERO",
     "rhs_hash": "0e466f942a29c740e4bca16d5a9244e495785738d8f4866de6880e263e0b1c67",
-    "runtime_seconds": 0.7712,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7842,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-120",
@@ -944,7 +995,8 @@
     "residual_text": "((-Rational(1,2)*dagbc*(f1p + f2p)) + (1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc)))\n",
     "result": "ZERO",
     "rhs_hash": "0d2b6f34ddff662b58ed9eeea8ed561bd2f052e1a01d476924da785a45558566",
-    "runtime_seconds": 0.8586,
+    "rule_certificate": null,
+    "runtime_seconds": 0.8388,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-122",
@@ -993,7 +1045,8 @@
     "residual_text": "(f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/(-e12))*(gab*v2c + gac*v2b - 2*gbc*v2a)))\n",
     "result": "ZERO",
     "rhs_hash": "99eff26780c8a633d84bed87ff3dc7d94102e08244df490f4d0ecb9bcf90564b",
-    "runtime_seconds": 0.686,
+    "rule_certificate": null,
+    "runtime_seconds": 0.8408,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-125",
@@ -1044,7 +1097,8 @@
     "residual_text": "((2*f01p)*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + (2*f02p)*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))) - (2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a)))\n",
     "result": "ZERO",
     "rhs_hash": "8d5acf18254f85897b072bd5376e17dceb5813aff223005551570253f847988e",
-    "runtime_seconds": 0.7516,
+    "rule_certificate": null,
+    "runtime_seconds": 0.7534,
     "schema_version": "DerivationAuditV1",
     "source_refs": [
       "eq.D-126",

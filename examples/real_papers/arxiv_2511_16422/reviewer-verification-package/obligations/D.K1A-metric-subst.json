@@ -30,7 +30,8 @@
   "residual_text": "(v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)) - (v1c*(v12a*v21b + v12b*v21a) + v1b*(v12a*v21c + v12c*v21a))\n",
   "result": "ZERO",
   "rhs_hash": "b0db6e3fd03659455efdd27fb52f60cd1d7963eb84cfca886b88c2dc9b476966",
-  "runtime_seconds": 0.7705,
+  "rule_certificate": null,
+  "runtime_seconds": 0.6874,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-60",

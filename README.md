@@ -39,6 +39,7 @@ This is the public product surface.
 - [Reviewer package](docs/REVIEWER_PACKAGE.md)
 - [Public demos A/B/C](docs/PUBLIC_DEMOS.md)
 - [Public real-paper validation](examples/real_papers/arxiv_2511_16422/VALIDATION_REPORT.md)
+- [Rule certificates](docs/RULE_CERTIFICATES.md)
 - [Privacy](docs/PRIVACY.md)
 - [Limitations](docs/DERIVATION_AUDIT_LIMITATIONS.md)
 - [Threat model](docs/THREAT_MODEL.md)

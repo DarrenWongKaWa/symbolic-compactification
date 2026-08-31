@@ -28,7 +28,8 @@
   "residual_text": "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p) + (e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)\n",
   "result": "ZERO",
   "rhs_hash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-  "runtime_seconds": 0.7548,
+  "rule_certificate": null,
+  "runtime_seconds": 0.816,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-61",

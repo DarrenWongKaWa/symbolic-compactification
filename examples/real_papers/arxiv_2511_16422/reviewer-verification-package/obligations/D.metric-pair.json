@@ -23,7 +23,8 @@
   "residual_text": "(v12a*v21b + v12b*v21a) - (v21a*v12b + v12a*v21b)\n",
   "result": "ZERO",
   "rhs_hash": "062cfa109a1c858c3ddce151aac7b2992c5f6efc4094f6579d2d4e93ff80d569",
-  "runtime_seconds": 0.7149,
+  "rule_certificate": null,
+  "runtime_seconds": 0.7282,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-key-identities",

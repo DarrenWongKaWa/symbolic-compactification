@@ -25,7 +25,8 @@
   "residual_text": "((-I*e12*A21a)*(-I*e21*A12b) - (-I*e21*A12a)*(-I*e12*A21b)) - ((-1)*(e12*e21)*(A21a*A12b - A12a*A21b))\n",
   "result": "ZERO",
   "rhs_hash": "d86055cf9b5d442a1972893dd1c48926c2b58f1906e206d332e4b4adbfdef97d",
-  "runtime_seconds": 0.7668,
+  "rule_certificate": null,
+  "runtime_seconds": 0.7934,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-73",

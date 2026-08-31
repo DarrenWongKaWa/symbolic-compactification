@@ -59,8 +59,11 @@ from .schema import (
     AUDIT_PROTOCOL_VERSION,
     AUDIT_SCHEMA_VERSION,
     AUDIT_STATUSES,
+    BZ_IBP_CONCLUSION,
     BZ_PERIODIC_INTEGRATION_BY_PARTS,
+    BZ_TORUS_PERIODICITY,
     CERTIFIED_BY_RULE,
+    RuleCertificate,
     COMPILE_FAILURE,
     DEFAULT_VERIFIER_ROUTE,
     EDGE_TYPES,
@@ -645,8 +648,21 @@ def apply_bz_ibp_parent_statuses(
         if status == ZERO:
             status = NOT_LOWERED
         extra: tuple[str, ...] = ()
+        certificate = None
         if status == CERTIFIED_BY_RULE:
             extra = ("BZ_IBP_CERTIFIED_BY_LOCAL_ZERO_AND_DECLARED_TORUS",)
+            children: list[tuple[str, str]] = []
+            for child_id in record.children:
+                child = by_id.get(child_id)
+                children.append(
+                    (child_id, child.status if child is not None else "MISSING"))
+            certificate = RuleCertificate(
+                rule_id=BZ_TORUS_PERIODICITY,
+                local_children=tuple(children),
+                domain=record.ibp_domain,
+                conclusion=BZ_IBP_CONCLUSION,
+                result=CERTIFIED_BY_RULE,
+            )
         elif status == ASSUMPTION_REQUIRED:
             extra = ("BZ_TORUS_PERIODICITY_REQUIRED",)
         elif status == NOT_LOWERED:
@@ -657,6 +673,7 @@ def apply_bz_ibp_parent_statuses(
             result=status,
             executable=False,
             warnings=tuple(dict.fromkeys((*record.warnings, *extra))),
+            rule_certificate=certificate,
         )))
     return tuple(updated)
 

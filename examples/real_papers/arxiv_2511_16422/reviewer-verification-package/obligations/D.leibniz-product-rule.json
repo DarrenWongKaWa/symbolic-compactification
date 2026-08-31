@@ -20,7 +20,8 @@
   "residual_text": "diff(u(k)*v(k), k) - (diff(u(k), k)*v(k) + u(k)*diff(v(k), k))\n",
   "result": "ZERO",
   "rhs_hash": null,
-  "runtime_seconds": 0.7507,
+  "rule_certificate": null,
+  "runtime_seconds": 0.7667,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-114",

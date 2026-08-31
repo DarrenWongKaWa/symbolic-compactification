@@ -50,10 +50,9 @@ integrity-PASS engine ZERO.
 
 ## Outside this table (soundness, not failure)
 
-See `TABLE_UNCERTIFIED.md`:
+See `TABLE_EVIDENCE.md` for the full epistemic hierarchy.
 
 - Eq. (D-57) full $\Gamma$ expansion: `ASYMPTOTIC_CLAIM` / `UNKNOWN`
-- Eq. (D-114) → (D-119) global BZ IBP: `INTEGRAL_ARGUMENT` / `NOT_LOWERED`
-- Eq. (D-123) → (D-124) global BZ IBP: `INTEGRAL_ARGUMENT` / `NOT_LOWERED`
+- Eq. (D-114) → (D-119) and Eq. (D-123) → (D-124): `CERTIFIED_BY_RULE`
 
 The machine-authoritative residual table remains `TABLE_VERIFIED.md`.

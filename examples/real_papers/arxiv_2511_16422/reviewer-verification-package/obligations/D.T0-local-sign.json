@@ -25,7 +25,8 @@
   "residual_text": "(-(f1p*v1a - f2p*v2a)*(gbc/e12)) - (gbc*(v2a*f2p - v1a*f1p)/e12)\n",
   "result": "ZERO",
   "rhs_hash": "b1a67978ab53938e88fb70b93c28dd23b4d3bab77d3522e98752e71b24d41764",
-  "runtime_seconds": 0.7279,
+  "rule_certificate": null,
+  "runtime_seconds": 0.7384,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-119",

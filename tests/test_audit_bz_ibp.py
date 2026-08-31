@@ -148,6 +148,15 @@ edges:
     assert parent.executable is False
     assert not may_appear_in_verified_table(parent)
     assert table_bucket(parent) == TABLE_STRUCTURAL
+    assert parent.rule_certificate is not None
+    cert = parent.rule_certificate.to_dict()
+    assert cert["rule_id"] == "BZ_TORUS_PERIODICITY"
+    assert cert["requirements"]["domain"] == "BRILLOUIN_ZONE_TORUS"
+    assert cert["conclusion"] == "integral_of_total_derivative = 0"
+    assert cert["result"] == CERTIFIED_BY_RULE
+    assert cert["local_children"] == [
+        {"edge_id": "local.leibniz", "status": ZERO},
+    ]
 
 
 def test_bz_ibp_not_lowered_without_local_child(tmp_path: Path):

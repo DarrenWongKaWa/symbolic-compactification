@@ -23,7 +23,8 @@
   "residual_text": "(A21a*A12b - A12a*A21b) - (-(A12a*A21b - A12b*A21a))\n",
   "result": "ZERO",
   "rhs_hash": "88a503b07187492f26171cab4984c797595b49fb32c5dc6184e9e073347fdca0",
-  "runtime_seconds": 0.7256,
+  "rule_certificate": null,
+  "runtime_seconds": 0.7812,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-74",

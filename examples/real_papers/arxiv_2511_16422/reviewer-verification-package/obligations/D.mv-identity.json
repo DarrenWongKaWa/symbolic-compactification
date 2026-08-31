@@ -25,6 +25,7 @@
   "residual_text": "(v12a*v21b + v12b*v21a\n) - (2*e12**2*gab\n)",
   "result": "DEFINITION",
   "rhs_hash": "25aea56fdd091170850f153651beed4f85c79886448e4c6a0000174832456dd8",
+  "rule_certificate": null,
   "runtime_seconds": 0.0,
   "schema_version": "DerivationAuditV1",
   "source_refs": [

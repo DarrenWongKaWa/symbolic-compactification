@@ -22,6 +22,21 @@
   "residual_text": null,
   "result": "CERTIFIED_BY_RULE",
   "rhs_hash": null,
+  "rule_certificate": {
+    "conclusion": "integral_of_total_derivative = 0",
+    "local_children": [
+      {
+        "edge_id": "D.leibniz-product-rule",
+        "status": "ZERO"
+      }
+    ],
+    "requirements": {
+      "domain": "BRILLOUIN_ZONE_TORUS",
+      "integrand_periodic": "declared"
+    },
+    "result": "CERTIFIED_BY_RULE",
+    "rule_id": "BZ_TORUS_PERIODICITY"
+  },
   "runtime_seconds": 0.0,
   "schema_version": "DerivationAuditV1",
   "source_refs": [

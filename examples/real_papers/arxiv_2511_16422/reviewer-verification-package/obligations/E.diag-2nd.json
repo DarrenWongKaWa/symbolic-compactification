@@ -18,6 +18,7 @@
   "residual_text": null,
   "result": "DEFINITION",
   "rhs_hash": null,
+  "rule_certificate": null,
   "runtime_seconds": 0.0,
   "schema_version": "DerivationAuditV1",
   "source_refs": [

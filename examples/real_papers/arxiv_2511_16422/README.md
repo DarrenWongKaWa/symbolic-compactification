@@ -72,6 +72,7 @@ Read:
 - [`VALIDATION_REPORT.md`](VALIDATION_REPORT.md) — field-validation writeup
 - [`reports/TABLE_VERIFIED.md`](reports/TABLE_VERIFIED.md) — machine-authoritative ZERO table
 - [`reports/TABLE_VERIFIED_STRENGTH.md`](reports/TABLE_VERIFIED_STRENGTH.md) — same rows with `DIRECT_EXACT` / `SUBSTITUTION_EXACT`
+- [`reports/TABLE_EVIDENCE.md`](reports/TABLE_EVIDENCE.md) — DIRECT / SUBSTITUTION / RULE / ASYMPTOTIC in one table
 - [`reports/TABLE_IBP.md`](reports/TABLE_IBP.md) — BZ IBP parents (`CERTIFIED_BY_RULE`)
 - `TABLE_STRUCTURAL.md`, `TABLE_UNCERTIFIED.md`, `TABLE_NONZERO.md`
 

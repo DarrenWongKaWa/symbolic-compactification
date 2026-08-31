@@ -33,7 +33,8 @@
   "residual_text": "(f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))) - (f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/(-e12))*(gab*v2c + gac*v2b - 2*gbc*v2a)))\n",
   "result": "ZERO",
   "rhs_hash": "99eff26780c8a633d84bed87ff3dc7d94102e08244df490f4d0ecb9bcf90564b",
-  "runtime_seconds": 0.686,
+  "rule_certificate": null,
+  "runtime_seconds": 0.8408,
   "schema_version": "DerivationAuditV1",
   "source_refs": [
     "eq.D-125",
