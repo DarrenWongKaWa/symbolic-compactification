@@ -116,7 +116,11 @@ Not run.  The protocol permits publication reviewers only after treatment.
 ## 26. Exact commits / hashes / artifacts
 
 Campaign input SHA-256: `982eff695c4e5142eddc2116f62b3c3e626f985b07e536ab877abe07ebb57715`.
-The prior fixed-five feasibility artifact is commit `209e844fb397c8d8794e2dd6ca4a917239630e9a` and is superseded for this campaign.  The final closure commit and artifact hashes are recorded in the handoff after this report is committed.
+The admission closure is commit `ad39ac39f13ce56469e1e80f8536ba25e86682c8`.
+The earlier fixed-five feasibility artifact is commit
+`209e844fb397c8d8794e2dd6ca4a917239630e9a` and is superseded for this
+campaign. Exact artifact hashes and the no-treatment record are in
+[CLOSURE_MANIFEST.json](CLOSURE_MANIFEST.json).
 
 ## 27. Permanent scientific closure statement
 

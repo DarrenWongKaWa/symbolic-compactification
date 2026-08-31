@@ -168,6 +168,16 @@
       "known_failure_classes": ["ASSUMPTION_INCOMPLETENESS", "UNKNOWN_LEVEL_B"],
       "verification_semantics": "Authority remains UNKNOWN LEVEL_B; no promotion, new assumptions, or RPS search is permitted.",
       "publication_status": "SEALED_HISTORICAL_CONTROL"
+    },
+    {
+      "name": "context_grounded_verified_representation_discovery",
+      "status": "NOT_SUPPORTED",
+      "disposition": "CLOSED_PRE_TREATMENT",
+      "evidence_sha": "ad39ac39f13ce56469e1e80f8536ba25e86682c8",
+      "supported_input_class": "No multi-family scientific task corpus was admitted under the final evaluator-first protocol.",
+      "known_failure_classes": ["INSUFFICIENT_ADJUDICABLE_REAL_TASKS", "NO_CURRENT_OPERATIONAL_EVALUATOR", "PACKAGING_GAP", "PROBLEM_UNDERSPECIFIED", "TARGET_LEAKAGE", "HISTORICAL_SUPERFAMILY"],
+      "verification_semantics": "One source-derived scalar Feshbach feasibility task has exact obligations, but no model treatment, context comparison, or discovery result occurred.",
+      "publication_status": "SCIENTIFIC_EXPERIMENT_NOT_ADMITTED_AND_CLOSED"
     }
   ]
 }

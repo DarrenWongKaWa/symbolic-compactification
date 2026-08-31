@@ -1,0 +1,26 @@
+{
+  "schema_version": "ContextGroundedClosureManifestV1",
+  "campaign_id": "context-grounded-verified-representation-discovery-final",
+  "campaign_input_sha256": "982eff695c4e5142eddc2116f62b3c3e626f985b07e536ab877abe07ebb57715",
+  "admission_decision": "INSUFFICIENT_ADJUDICABLE_REAL_TASKS",
+  "admission_commit": "ad39ac39f13ce56469e1e80f8536ba25e86682c8",
+  "treatment_started": false,
+  "publication_decision": "SCIENTIFIC_EXPERIMENT_NOT_ADMITTED_AND_CLOSED",
+  "engineering_release_decision": "INTERNAL_ONLY",
+  "artifacts": {
+    "SCIENTIFIC_EXPERIMENTS_CLOSED.md": "9d0be2c6d97f861095817173752d62ae950931a200fc5d5b7eab69abeab39402",
+    "CANDIDATE_POOL.json": "7693c8a52f0c683081896adb158b822a724a09472b69baf45bf4077c994a49a5",
+    "ADMISSION_DECISION.json": "d45addedc06fb9fcef891b8ac3cb2b89238fa526da78ab26667148213d1200ca",
+    "FINAL_PROJECT_SCIENTIFIC_VERDICT.md": "93349fd970edc9dad01e3f51c4ef2fe24d4609d29e4d420cb4c71381b7ee6e68",
+    "ENGINEERING_READINESS.md": "7cab41d890b827ad277961d2e321cdab3ff62e06953dad4f3dd11f8e7ca664f6"
+  },
+  "not_run": [
+    "pretreatment_freeze",
+    "deepseek_v4_pro_treatment",
+    "deepseek_v4_flash_replication",
+    "symbolic_baseline_treatment",
+    "treatment_verification",
+    "publication_reviewer_cluster",
+    "full_root_suite"
+  ]
+}

@@ -113,11 +113,24 @@ frozen result.
   fix the contract retrospectively inside a frozen experiment or use affected
   failures as scientific evidence.
 
+## NR-013 — Final context-grounded campaign closed before treatment
+
+- Authority: `ad39ac39f13ce56469e1e80f8536ba25e86682c8`,
+  `research/context_grounded_representation/ADMISSION_DECISION.json`.
+- Result: an evaluator-first pool of 11 fresh candidates across seven families
+  produced one provisional source-derived scalar Feshbach task, below the
+  predeclared three-task/three-family minimum. Matrix, IBP,
+  continued-fraction, special-function, and Lehmann leads failed source,
+  domain, leakage, duplicate, or current-evaluator gates.
+- Permanent boundary: no context condition, model, seed, symbolic baseline,
+  or distractor was run. Do not call this an AI negative result, report a
+  context effect, or reopen a successor campaign automatically.
+
 ## Closure rule
 
 Future agents must read this file and `CAPABILITIES.json` before proposing a
-new method. The next legitimate step is not Representation Search V2 by
-default. It is a separately authorized, predeclared feasibility study of
-fresh R3–R6 scientific cases and scientific IR that does not use V1 reference
-paths as evaluation data and does not opportunistically expand the parser for
-a target case.
+method. The final context-grounded campaign authorizes no automatic successor.
+Any future representation-discovery study requires a new explicit human
+decision and a separately predeclared protocol; it may not reuse this
+campaign's source-derived feasibility object as discovery evidence or expand a
+parser opportunistically for a target case.

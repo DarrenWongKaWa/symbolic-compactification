@@ -2,7 +2,9 @@
 
 Authority: the closed Assumption-Complete Representation result at `0cdde49`,
 the Verified Representation Program Search gate closure at `b542567`, and the
-nine-reviewer synthesis in `reviews/final/REVIEW_SYNTHESIS.json`.
+nine-reviewer synthesis in `reviews/final/REVIEW_SYNTHESIS.json`. The final
+context-grounded campaign closed pre-treatment at `ad39ac3`; see
+`SCIENTIFIC_EXPERIMENTS_CLOSED.md`.
 
 This repertoire distinguishes production capability, research infrastructure,
 baselines, and diagnostics. Implemented software is not promoted to a
@@ -83,6 +85,9 @@ implemented-but-unevaluated research infrastructure.
   assumptions.
 - RPS V1 stopped before scientific treatment; it provides no support for
   structured-search invention and no algorithmic null result.
+- The terminal context-grounded campaign found only one admissible task across
+  seven searched families, below its three-task/three-family threshold. It ran
+  no model or context comparison and provides no AI or context-effect estimate.
 - `PACKAGING_GAP`, `TYPE_ONLY`, reference-program ZERO, and evaluator-only
   traps are not program-search successes.
 
@@ -221,17 +226,12 @@ reachability engineering, and an independently cleared pre-treatment gate.
   certification.
 - That an absent benchmark produces a success rate of zero.
 
-## O. What the next legitimate research frontier is
+## O. No automatic next research frontier
 
-The next legitimate frontier is **scientific-case and representation-interface
-feasibility before search**: determine, under a separately frozen protocol,
-whether a fresh, source-displayed, assumption-complete R3–R6 suite can be
-packaged without giving away the target and without expanding the production
-parser opportunistically. This is a benchmark/scientific-IR question first,
-not a prompt, search-policy, or AI question.
-
-Only after such a gate is independently cleared would a new, predeclared
-program-search experiment be scientifically meaningful. Until then, the
+The terminal context-grounded campaign is closed. No new
+representation-discovery, representation-search, verifier, Hermite, or
+benchmark campaign is automatically authorized. A future effort would need a
+new explicit human decision and its own predeclared protocol. Until then, the
 production repertoire remains exact verification plus structure observation,
 grounding, and assumption discipline; program search remains research code.
 
