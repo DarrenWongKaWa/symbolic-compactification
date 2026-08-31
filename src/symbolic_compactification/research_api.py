@@ -36,9 +36,13 @@ VERIFIER_ROUTE = "python_sympy_exact_v1"
 
 PARSE_FAILURE = "PARSE_FAILURE"
 COMPILE_FAILURE = "COMPILE_FAILURE"
+ASSUMPTION_REQUIRED = "ASSUMPTION_REQUIRED"
 PUBLIC_RESULTS = frozenset({
     ZERO, NONZERO, UNKNOWN, PARSE_FAILURE, COMPILE_FAILURE,
+    ASSUMPTION_REQUIRED,
 })
+
+_ASSUMPTION_GATE_CODES = frozenset({"DECLARED_ASSUMPTIONS_OMITTED"})
 
 _RUN_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
 
@@ -171,7 +175,11 @@ def verify_hypothesis(
     except WorkspaceError as exc:
         error_code = exc.code
         error_detail = exc.detail
-        warnings = (f"workspace_parse_failure:{exc.code}",)
+        if exc.code in _ASSUMPTION_GATE_CODES:
+            result = ASSUMPTION_REQUIRED
+            warnings = (f"assumption_required:{exc.code}",)
+        else:
+            warnings = (f"workspace_parse_failure:{exc.code}",)
     else:
         try:
             compiled = _compile_equivalence_obligations(loaded)
@@ -515,6 +523,12 @@ def _status_explanation(status: str) -> str:
             "supported v0.1 equivalence-obligation language and no scientific "
             "relation was checked."
         ),
+        ASSUMPTION_REQUIRED: (
+            "`ASSUMPTION_REQUIRED` means the hypothesis omitted a declared "
+            "scientific assumption. No scientific relation was checked and "
+            "nothing was silently inferred; update the researcher-owned "
+            "hypothesis explicitly before retrying."
+        ),
     }[status]
 
 
@@ -574,6 +588,7 @@ def _write_bytes_atomic(path: Path, payload: bytes) -> None:
 
 
 __all__ = [
+    "ASSUMPTION_REQUIRED",
     "COMPILE_FAILURE",
     "GeneratedReport",
     "HypothesisVerificationResult",

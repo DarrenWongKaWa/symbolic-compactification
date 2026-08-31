@@ -57,7 +57,8 @@ from .models import (AGENT_PROTOCOL_VERSION, ENGINE_VERSION, PACKAGE_VERSION,
 from .parser import infer_namespace, load_expression
 from .pipeline import adjudicate_candidate
 from .provenance import ProvenanceError
-from .research_api import (COMPILE_FAILURE, PARSE_FAILURE, PUBLIC_RESULTS,
+from .research_api import (ASSUMPTION_REQUIRED, COMPILE_FAILURE,
+                           PARSE_FAILURE, PUBLIC_RESULTS,
                            RESULT_SCHEMA_VERSION, generate_report,
                            verify_hypothesis)
 from .security import redact_public_data, redact_text
@@ -77,6 +78,7 @@ _WORKSPACE_RESULT_EXIT = {
     **_VERDICT_EXIT,
     PARSE_FAILURE: EXIT_ERROR,
     COMPILE_FAILURE: EXIT_ERROR,
+    ASSUMPTION_REQUIRED: EXIT_ERROR,
 }
 _SAFE_RUN_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
 _UTC_TIMESTAMP_RE = re.compile(
@@ -274,6 +276,10 @@ def _workspace_result_explanation(result: str) -> str:
         COMPILE_FAILURE: (
             "the hypothesis is outside the supported v0.1 obligation "
             "language; no scientific relation was checked"
+        ),
+        ASSUMPTION_REQUIRED: (
+            "the hypothesis omitted a declared scientific assumption; "
+            "nothing was inferred and no scientific relation was checked"
         ),
     }.get(result, "the run returned an unsupported fail-closed status")
 

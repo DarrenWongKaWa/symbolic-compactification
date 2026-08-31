@@ -122,8 +122,8 @@ Fields have these meanings:
   their mathematical validity.
 - `instance_maps`: explicit mappings from members to parameters/instances.
 - `reconstruction_rule`: readable statement of how members are reconstructed.
-- `assumptions_used`: every declared symbol name. Omission is rejected rather
-  than repaired silently.
+- `assumptions_used`: every declared symbol name. Omission returns
+  `ASSUMPTION_REQUIRED` rather than being repaired silently.
 - `proof_obligations`: exact member-to-member relations for compilation.
 
 A simple equivalence form may contain only `hypothesis_type`, two `members`,

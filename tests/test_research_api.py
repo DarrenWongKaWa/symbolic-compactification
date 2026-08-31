@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from symbolic_compactification import (
+    ASSUMPTION_REQUIRED,
     COMPILE_FAILURE,
     NONZERO,
     PARSE_FAILURE,
@@ -154,6 +155,27 @@ def test_parse_failure_is_persisted_without_raw_failure_content(tmp_path):
     assert details["obligations"] == []
     assert secret not in artifact_blob
     assert "Result: **PARSE_FAILURE**" in report
+    assert _source_snapshot(root) == before
+
+
+def test_declared_assumption_omission_is_an_explicit_gate(tmp_path):
+    root = tmp_path / "workspace"
+    initialize_workspace(root)
+    hypothesis_path = root / "hypotheses/hypothesis.json"
+    hypothesis = json.loads(hypothesis_path.read_text(encoding="utf-8"))
+    hypothesis["assumptions_used"] = []
+    hypothesis_path.write_text(json.dumps(hypothesis), encoding="utf-8")
+    before = _source_snapshot(root)
+
+    result = verify_hypothesis(root, run_id="assumption-run")
+
+    assert result.result == ASSUMPTION_REQUIRED
+    assert result.error_code == "DECLARED_ASSUMPTIONS_OMITTED"
+    provenance, details, report = _read_run(root, result)
+    assert provenance["result"] == ASSUMPTION_REQUIRED
+    assert details["obligations"] == []
+    assert "Result: **ASSUMPTION_REQUIRED**" in report
+    assert "nothing was silently inferred" in report
     assert _source_snapshot(root) == before
 
 

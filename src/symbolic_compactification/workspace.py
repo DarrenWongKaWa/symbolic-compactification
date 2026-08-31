@@ -379,6 +379,13 @@ def _load_hypothesis(root: Path, symbol_names: set[str]) -> tuple[
     path = root / HYPOTHESES_DIRECTORY / "hypothesis.json"
     _assert_contained(root, path, "hypothesis")
     raw = _strict_json_mapping(path, "HYPOTHESIS_PARSE_FAILURE")
+    if "assumptions_used" not in raw:
+        raise WorkspaceError(
+            "DECLARED_ASSUMPTIONS_OMITTED",
+            "assumptions_used is required and must list every declared "
+            "symbol; omitted: " + ", ".join(sorted(symbol_names)),
+            path=path,
+        )
     _keys(raw, allowed=_HYPOTHESIS_KEYS, required=_HYPOTHESIS_REQUIRED,
           code="HYPOTHESIS_SCHEMA_INVALID", path=path)
     schema_version = raw.get("schema_version", 1)
@@ -409,7 +416,7 @@ def _load_hypothesis(root: Path, symbol_names: set[str]) -> tuple[
     omitted = sorted(symbol_names - set(assumptions_used))
     if omitted:
         raise WorkspaceError(
-            "HYPOTHESIS_SCHEMA_INVALID",
+            "DECLARED_ASSUMPTIONS_OMITTED",
             "assumptions_used must list every declared symbol; omitted: "
             + ", ".join(omitted),
             path=path,

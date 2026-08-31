@@ -125,6 +125,8 @@ def test_workspace_verify_unknown_is_first_class_not_success(tmp_path, capsys):
     [
         ("parse", "PARSE_FAILURE", "EXPRESSION_PARSE_FAILURE"),
         ("compile", "COMPILE_FAILURE", "UNSUPPORTED_HYPOTHESIS_TYPE"),
+        ("assumption", "ASSUMPTION_REQUIRED",
+         "DECLARED_ASSUMPTIONS_OMITTED"),
     ],
 )
 def test_workspace_verify_maps_parse_and_compile_failures_to_exit_four(
@@ -135,7 +137,10 @@ def test_workspace_verify_maps_parse_and_compile_failures_to_exit_four(
     else:
         path = root / "hypotheses/hypothesis.json"
         hypothesis = json.loads(path.read_text(encoding="utf-8"))
-        hypothesis["hypothesis_type"] = "recurrence"
+        if mutation == "compile":
+            hypothesis["hypothesis_type"] = "recurrence"
+        else:
+            hypothesis["assumptions_used"] = []
         path.write_text(json.dumps(hypothesis), encoding="utf-8")
     before = _source_snapshot(root)
 

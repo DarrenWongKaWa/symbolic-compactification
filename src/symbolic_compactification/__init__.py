@@ -75,6 +75,7 @@ from .provenance import (
     write_run_record,
 )
 from .research_api import (
+    ASSUMPTION_REQUIRED,
     COMPILE_FAILURE,
     PARSE_FAILURE,
     REPORT_FILE_NAME,
@@ -145,7 +146,8 @@ __all__ = [
     "build_run_record", "dependency_versions", "hash_named_files",
     "record_research_run", "sha256_file", "write_run_record",
     # stable researcher Python API (v0.1 equivalence obligations)
-    "COMPILE_FAILURE", "PARSE_FAILURE", "REPORT_FILE_NAME",
+    "ASSUMPTION_REQUIRED", "COMPILE_FAILURE", "PARSE_FAILURE",
+    "REPORT_FILE_NAME",
     "RESULT_FILE_NAME", "RESULT_SCHEMA_VERSION", "GeneratedReport",
     "HypothesisVerificationResult", "ObligationVerification",
     "generate_report", "verify_hypothesis",

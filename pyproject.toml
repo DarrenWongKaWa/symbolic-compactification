@@ -30,3 +30,8 @@ ssc = "symbolic_compactification.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+markers = [
+    "release_critical: fast fail-closed research-preview release gate",
+]

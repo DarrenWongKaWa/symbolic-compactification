@@ -71,6 +71,12 @@ declared: for example positivity, nonzero conditions, boundary behavior,
 symmetry, integration by parts, or an order of limits. The tool stops and asks
 the researcher to decide explicitly.
 
+In the v0.1 equivalence workflow, the operational trigger is narrower and
+fully explicit: a hypothesis that omits a symbol already present in the
+researcher-owned assumptions file from `assumptions_used` returns
+`ASSUMPTION_REQUIRED`. The engine does not attempt to infer other missing
+domain predicates from the formula.
+
 This differs from `UNKNOWN`. `ASSUMPTION_REQUIRED` is an assumption gate;
 `UNKNOWN` is a proof gap after the available assumptions have been applied.
 

@@ -177,7 +177,7 @@ def test_hypothesis_cannot_hide_a_declared_assumption(tmp_path):
     hypothesis = json.loads(path.read_text(encoding="utf-8"))
     hypothesis["assumptions_used"] = []
     path.write_text(json.dumps(hypothesis), encoding="utf-8")
-    error = _expect("HYPOTHESIS_SCHEMA_INVALID", lambda: load_workspace(root))
+    error = _expect("DECLARED_ASSUMPTIONS_OMITTED", lambda: load_workspace(root))
     assert "omitted: x" in error.detail
 
 
