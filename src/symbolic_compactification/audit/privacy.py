@@ -57,9 +57,12 @@ def refuse_proposer_if_private_offline() -> None:
 
 
 def is_private_relpath(relative: str) -> bool:
+    # Strip only "./" and leading slashes. str.lstrip("./") would also
+    # consume the leading dots of ".private_validation/".
     normalized = relative.replace("\\", "/")
     while normalized.startswith("./"):
         normalized = normalized[2:]
+    normalized = normalized.lstrip("/")
     return any(
         normalized == prefix.rstrip("/") or normalized.startswith(prefix)
         for prefix in PRIVATE_PATH_PREFIXES
@@ -91,3 +94,45 @@ def scan_text_for_denylist(text: str, denylist: Iterable[str]) -> tuple[str, ...
         if item and item in text:
             hits.append(item)
     return tuple(hits)
+
+
+def _relative_posix(path: Path, root: Path) -> str:
+    try:
+        return path.relative_to(root).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def scan_paths(directory: Path, *, root: Optional[Path] = None) -> bool:
+    """True if any UTF-8 file under ``directory`` matches the denylist.
+
+    Denylist is loaded from ``root`` (default: ``directory``). A missing
+    denylist is empty and returns False (public CI). Private validation
+    paths are skipped so the denylist file cannot self-match.
+    """
+    directory = Path(directory)
+    denylist_root = Path(root) if root is not None else directory
+    denylist = load_denylist(denylist_root)
+    if not denylist:
+        return False
+    try:
+        if not directory.is_dir():
+            return False
+    except OSError:
+        return False
+    for path in directory.rglob("*"):
+        try:
+            if not path.is_file() or path.is_symlink():
+                continue
+        except OSError:
+            continue
+        relative = _relative_posix(path, denylist_root)
+        if is_private_relpath(relative) or PRIVATE_VALIDATION_DIRNAME in path.parts:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        if scan_text_for_denylist(text, denylist):
+            return True
+    return False
