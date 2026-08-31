@@ -1,13 +1,19 @@
 # symbolic-compactification Research Preview v0.1
 
+**Context-grounded symbolic hypothesis generation with fail-closed
+verification.**
+
+Research Preview Alpha — experimental proposer, verified hypothesis checking.
+
 Status: `RESEARCH_PREVIEW_ALPHA` for the bounded Mode A researcher-workspace
-workflow. Scientific experimentation remains closed.
+workflow. This is **not** a stable v1.0 release. Scientific experimentation
+remains closed.
 
 symbolic-compactification is a research harness for proposing, grounding, and
-checking symbolic scientific structures. Its reliable core is
-context-grounded symbolic hypothesis generation with fail-closed verification:
-a researcher supplies expressions, assumptions, context, and a hypothesis;
-the verifier returns `ZERO`, `NONZERO`, or `UNKNOWN` and records provenance.
+checking symbolic scientific structures. Its reliable core is verified
+hypothesis checking: a researcher supplies expressions, assumptions, context,
+and a hypothesis; the verifier returns `ZERO`, `NONZERO`, or `UNKNOWN` and
+records provenance. The proposer is experimental.
 
 The tool is designed to remain useful when no AI proposer is present. The
 release-critical workflow is **Mode A: verify my hypothesis**. **Mode B:

@@ -1,11 +1,15 @@
 # symbolic-compactification Research Preview v0.1
 
-Status: **`RESEARCH_PREVIEW_ALPHA`**. Scientific experimentation remains closed.
+**Context-grounded symbolic hypothesis generation with fail-closed
+verification.**
 
-This package is the external researcher-facing slice of the v0.1 preview. It
-is a research harness for proposing, grounding, and checking symbolic
-scientific structures. The reliable core is context-grounded symbolic
-hypothesis generation with fail-closed verification.
+Research Preview Alpha — experimental proposer, verified hypothesis checking.
+
+Status: **`RESEARCH_PREVIEW_ALPHA`** (`0.1.0-alpha`). This is **not** a stable
+v1.0 release. Scientific experimentation remains closed.
+
+This package is the external researcher-facing slice of the v0.1 preview. The
+reliable core is verified hypothesis checking. The proposer is experimental.
 
 Install and run from a full repository checkout of tag
 `research-preview-v0.1.0-alpha`. This directory is documentation and an

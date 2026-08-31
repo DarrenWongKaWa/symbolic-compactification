@@ -1,23 +1,41 @@
 # symbolic-compactification
 
-**Context-grounded symbolic hypotheses with fail-closed verification.**
+**Context-grounded symbolic hypothesis generation with fail-closed
+verification.**
 
-Status: `RESEARCH_PREVIEW_ALPHA` (`0.1.0-alpha`). Scientific experimentation
-remains closed; this repository is not opening a new discovery campaign.
-See [SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) for
-the research-line lock and
-[FINAL_ENGINEERING_RELEASE.md](FINAL_ENGINEERING_RELEASE.md) for the
-engineering decision.
+Research Preview Alpha — experimental proposer, verified hypothesis checking.
 
-The release-critical workflow is **Mode A: verify my hypothesis**. A researcher
+Status: `RESEARCH_PREVIEW_ALPHA` (`0.1.0-alpha`). This is **not** a stable
+v1.0 release and is **not** merged to `main`. Use tag
+`research-preview-v0.1.0-alpha` or branch
+`engineering/research-preview-alpha-v0.1`.
+
+Scientific experimentation remains closed. See
+[SCIENTIFIC_EXPERIMENTS_CLOSED.md](SCIENTIFIC_EXPERIMENTS_CLOSED.md) and
+[FINAL_ENGINEERING_RELEASE.md](FINAL_ENGINEERING_RELEASE.md).
+
+The supported workflow is **Mode A: verify my hypothesis**. A researcher
 provides expressions, assumptions, notes, references, and a candidate symbolic
 relation. The tool grounds that relation to named source files, compiles its
 explicit proof obligations, runs the deterministic verifier, and writes an
-immutable, provenance-rich run report.
-
+immutable, provenance-rich run report (`init` → `inspect` → `verify` →
+`report`). The proposer is experimental and never promotes scientific state.
 The verifier—not a model, explanation, or confidence score—is the only judge.
 Only `ZERO` certifies the submitted obligation under the declared engine
 semantics and assumptions.
+
+This tool does not discover physics and is not an autonomous theoretical
+physicist.
+
+Release gates that passed: clean install, CLI, Python API, workspace,
+provenance, fail-closed semantics, security, three demos, documentation, and
+reproducibility. Release-critical tests: **17/17**. Clean-room replay: **PASS**.
+Three independent reviewers: **ALPHA_READY**.
+
+The historical full test suite is **not** fully green:
+`2049 passed, 24 failed`. Those failures are frozen historical authority
+drift, one optional client, and cache enumeration. They were disclosed, not
+rewritten, to make a release.
 
 ## Start here
 

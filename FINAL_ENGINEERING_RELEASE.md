@@ -128,4 +128,7 @@ Independent final reviews:
 - Software/reproducibility: `ALPHA_READY`
 - Safety/claim-boundary: `ALPHA_READY`
 
-Do not publish this tag externally unless repository policy allows it.
+Public update path: push this release branch, push tag
+`research-preview-v0.1.0-alpha`, and publish these notes. Do **not** merge to
+`main` as a substitute for that path, and do **not** label this a stable
+v1.0.

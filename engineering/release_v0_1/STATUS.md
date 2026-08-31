@@ -1,6 +1,6 @@
 # Research Preview v0.1 Status
 
-CURRENT_PHASE: `RELEASE_DECISION`
+CURRENT_PHASE: `PUBLIC_PREVIEW_PUBLISH`
 
 BLOCKERS: none for the bounded Mode A research-preview workflow.
 
@@ -33,4 +33,4 @@ RELEASE_CRITICAL_TESTS: `PASS` (17 tests at `bd6f0a1`)
 
 ALPHA_READINESS: `RESEARCH_PREVIEW_ALPHA`
 
-NEXT_AUTO_ACTION: `No scientific work. Optional later engineering: apply the workspace real:false gate to the legacy symbols.json/session CLI.`
+NEXT_AUTO_ACTION: `Public update is branch + tag + notes, not a main merge and not stable v1.0. Optional later engineering: apply the workspace real:false gate to the legacy symbols.json/session CLI.`
