@@ -1,0 +1,17 @@
+{
+  "schema_version": "ContextGroundedAdmissionDecisionV1",
+  "campaign_id": "context-grounded-verified-representation-discovery-final",
+  "campaign_input_sha256": "982eff695c4e5142eddc2116f62b3c3e626f985b07e536ab877abe07ebb57715",
+  "decision": "INSUFFICIENT_ADJUDICABLE_REAL_TASKS",
+  "admitted_task_count": 1,
+  "minimum_task_count": 3,
+  "admitted_representation_family_count": 1,
+  "minimum_representation_family_count": 3,
+  "surviving_task": "CCR-B-SCALAR-FESHBACH-PHOTONIC-TRIMER-01",
+  "pretreatment_freeze_created": false,
+  "treatment_started": false,
+  "llm_calls": 0,
+  "scientific_interpretation": "No causal claim about scientific context or AI representation discovery is estimable.",
+  "publication_decision": "SCIENTIFIC_EXPERIMENT_NOT_ADMITTED_AND_CLOSED",
+  "next_campaign_authority": "A new explicit human decision is required; this campaign authorizes no automatic successor."
+}

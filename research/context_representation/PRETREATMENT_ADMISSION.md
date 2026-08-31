@@ -1,5 +1,11 @@
 # Pre-Treatment Admission — Context-Conditioned Verified Scientific Representation Discovery
 
+> Superseded for the active final campaign by the explicit
+> Context-Grounded Verified Representation Discovery protocol (input SHA-256
+> `982eff695c4e5142eddc2116f62b3c3e626f985b07e536ab877abe07ebb57715`).
+> This record is retained as the earlier fixed-five feasibility audit; its
+> five-task threshold and terminal language do not govern the later campaign.
+
 Status: **PRE_TREATMENT_NOT_ADMITTED**
 
 Date: 2026-08-31
