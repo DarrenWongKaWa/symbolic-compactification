@@ -49,3 +49,10 @@ context-hypothesis evaluation interface are not ready.
 
 No additional representation-invention experiment is automatically
 authorized.  A future effort requires a new explicit human decision.
+
+## Engineering consolidation note
+
+Scientific experimentation remains closed during v0.1 engineering
+consolidation. This file is not a release decision and must not be edited to
+reopen a discovery campaign. Engineering readiness is recorded separately
+under `engineering/release_v0_1/`.

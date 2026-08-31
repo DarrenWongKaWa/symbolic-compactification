@@ -28,5 +28,22 @@ three integrations.
 | E11 user simulation | `98f26ae`, `c4c89a0` | `578368c`, `707fc29` | fresh-install external UX rejection/retest | blockers recorded, never hidden |
 | alpha blocker fix | `4b25910` | `590bc1c` | version, deps, reports, diagnostics | 62 focused and 12 release-critical passed |
 | final blocker fix | `f106469` | `73169db` | wheel source revision and root README | 60 focused; source/wheel installed provenance passed |
+| integration evidence | n/a | `eb02da4` | full-suite disclosure and gate evidence | recorded; 24 historical failures triaged as non-release |
+| first clean-room | `c7dcbb9` | `21a512f` | ordinary-install replay at `eb02da4` | 12 release-critical; demos ZERO/ZERO/UNKNOWN |
+| E11 final user retest | user-final | `aca1864` | first-time researcher Mode A retest | `ALPHA_READY` for UX lane at `eb02da4` |
+| reviewer A (first) | `d91accb` | `5742e73` | physicist UX rejection | Demo B domain + assumption-schema blockers |
+| reviewer B (first) | `80c7cbd` | `7fc1985` | software/reproducibility | `ALPHA_READY` |
+| reviewer C (first) | `18f1072` | `26a6234` | safety/claim rejection | report symlink + double-read hash |
+| reviewer-blocker fix | `99f04c7` | `3de1a90` | Demo B specialization, snapshot hashes, report integrity | 16 release-critical; 88 affected |
+| final clean-room | `02dd318` | `4956008` | ordinary+wheel replay at `3de1a90` | 16 release-critical; demos ZERO/ZERO/UNKNOWN |
+| physicist re-review | `b4c9faf` | `9379453` | UX rejection of `real: false` | documented contract not enforced |
+| complex-namespace gate | parse-failure WT | `f9692c1` | reject `real: false` fail-closed | release-critical regression added |
+| report contract align | parse-failure WT | `bd6f0a1` | report/docs/test wording for that gate | 17 release-critical; 96 affected at HEAD |
 
 Frozen scientific evidence changed by integrations: **none**.
+
+Coordinator note (takeover after prior-session crash): product HEAD `bd6f0a1`
+was verified locally before the current clean-room replay. Targeted result:
+`17 passed` (`pytest -q -m release_critical tests`) and `96 passed` on the
+workspace/API/provenance/security/demo/packaging set. `git diff 284997c --
+research/` is empty.
