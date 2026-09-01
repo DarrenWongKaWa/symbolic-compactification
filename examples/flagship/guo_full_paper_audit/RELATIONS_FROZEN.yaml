@@ -1,7 +1,7 @@
 schema_version: FlagshipRelationsFrozenV1
 paper: "Zhichao Guo et al., Phys. Rev. Lett. 136, 206303 (2026)"
 arxiv: "2511.16422v2"
-n_relations: 137
+n_relations: 147
 note: >
   Frozen before verification. Claimed move is independent of engine outcome.
   Printed equation numbers are the public identifiers.
@@ -107,6 +107,17 @@ relations:
     helper: false
     condition: "none"
   - internal_id: R009
+    display: "Eq. (A-9)"
+    cue: "total Hamiltonian $H(t)$ as system+bath block matrix"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "the total Hamiltonian is $H(t)=H_S(t)+H_B+H_{SB}$, with components given by"
+    sources: ["A-9"]
+    targets: ["A-9"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R010
     display: "Eq. (A-10)"
     cue: "$\\rho_S=\\rho^{(0)}+\\rho^{(1)}+\\rho^{(2)}+O(V^3)$"
     move: "asymptotic expansion"
@@ -118,7 +129,7 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(V^3)$ remainder"
-  - internal_id: R010
+  - internal_id: R011
     display: "Eq. (A-11) -> Eq. (A-14)"
     cue: "bath integral $\\to$ polygamma $f_\\pm$"
     move: "special function identity"
@@ -129,7 +140,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R011
+  - internal_id: R012
     display: "Eq. (A-14) -> Eq. (A-15)"
     cue: "$\\Gamma\\to 0$ recovers $f_0$"
     move: "limit"
@@ -140,7 +151,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R012
+  - internal_id: R013
     display: "Eq. (A-12) -> Eq. (A-16)"
     cue: "$\\tilde\\rho^{(1)}$ residue form"
     move: "special function identity"
@@ -151,7 +162,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R013
+  - internal_id: R014
     display: "Eq. (A-17) -> Eq. (A-16)"
     cue: "$r_\\pm^{(1)}$ inserted in $\\tilde\\rho^{(1)}$"
     move: "definition"
@@ -162,7 +173,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R014
+  - internal_id: R015
     display: "Eq. (A-13) -> Eq. (A-18)"
     cue: "$\\tilde\\rho^{(2)}$ residue form"
     move: "special function identity"
@@ -173,7 +184,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R015
+  - internal_id: R016
     display: "Eqs. (A-19), (A-20) -> Eq. (A-18)"
     cue: "$r_\\pm^{(2)}$ inserted in $\\tilde\\rho^{(2)}$"
     move: "definition"
@@ -184,9 +195,55 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R016
+  - internal_id: R017
+    display: "Eq. (A-17) -> Eq. (A-19)"
+    cue: "$r_+^{(2)}$ as divided difference of $r_+^{(1)}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "in which (the $r_+^{(2)}$ kernel is written from $r_+^{(1)}$)"
+    sources: ["A-17"]
+    targets: ["A-19"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R018
+    display: "Eq. (A-17) -> Eq. (A-20)"
+    cue: "$r_-^{(2)}$ as divided difference of $r_-^{(1)}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "in which (the $r_-^{(2)}$ kernel is written from $r_-^{(1)}$)"
+    sources: ["A-17"]
+    targets: ["A-20"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R019
+    display: "Eq. (B-21)"
+    cue: "$V=V^{(1)}+V^{(2)}+O(A^3)$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "the perturbation $V(t)$ and the current operator $J_a(t)$ are expanded in powers of the vector potential"
+    sources: ["B-21"]
+    targets: ["B-21"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(A^3)$ remainder"
+  - internal_id: R020
+    display: "Eq. (B-22)"
+    cue: "$J_a=J_a^{(0)}+J_a^{(1)}+J_a^{(2)}+O(A^3)$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "the perturbation $V(t)$ and the current operator $J_a(t)$ are expanded in powers of the vector potential"
+    sources: ["B-22"]
+    targets: ["B-22"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(A^3)$ remainder"
+  - internal_id: R021
     display: "Eq. (B-23) -> Eq. (B-24)"
-    cue: "$j_a^{(2)}$ split into (I)--(IV)"
+    cue: "$j_a^{(2)}$ split into (I)-(IV)"
     move: "bookkeeping"
     claimed: SPLIT_PARENT
     prose: "this leads to four distinct contributions to the second-order current"
@@ -196,7 +253,7 @@ relations:
     helper: false
     regression: B.split-j2
     condition: "none"
-  - internal_id: R017
+  - internal_id: R022
     display: "Eq. (B-24) -> Eq. (B-25)"
     cue: "four channels $\\to$ $\\sigma_{abc}(\\omega_1,\\omega_2)$"
     move: "bookkeeping"
@@ -208,7 +265,7 @@ relations:
     helper: false
     regression: B.j2-to-sigma
     condition: "none"
-  - internal_id: R018
+  - internal_id: R023
     display: "Eq. (B-25) -> Eq. (B-26)"
     cue: "DC limit $\\omega_1\\to 0$, $\\omega_2\\to-\\omega_1$"
     move: "limit"
@@ -219,7 +276,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R019
+  - internal_id: R024
     display: "Eq. (C-27)"
     cue: "Taylor kernels $\\mathcal{C}^{(1,k)}$, $\\mathcal{C}^{(2,k)}$"
     move: "definition"
@@ -230,7 +287,18 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R020
+  - internal_id: R025
+    display: "Eq. (C-28)"
+    cue: "polygamma arguments $z_{n,\\pm}$ and $z_{n,\\pm}^0$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "where $z_{n,\\pm}$ are the polygamma arguments appearing in the coefficient formulae"
+    sources: ["C-28"]
+    targets: ["C-28"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R026
     display: "Eq. (C-29) -> Eq. (C-30)"
     cue: "intraband $\\mathcal{C}_{nn}^{(1,2)}$ in $\\Gamma$"
     move: "asymptotic expansion"
@@ -242,7 +310,7 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R021
+  - internal_id: R027
     display: "Eq. (C-31) -> Eq. (C-32)"
     cue: "interband $\\mathcal{C}_{nm}^{(1,2)}$ in $\\Gamma$"
     move: "asymptotic expansion"
@@ -254,7 +322,7 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R022
+  - internal_id: R028
     display: "Eq. (C-33) -> Eq. (C-34)"
     cue: "$\\mathcal{C}_{nnn}^{(2,2)}$ in $\\Gamma$"
     move: "asymptotic expansion"
@@ -266,7 +334,7 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R023
+  - internal_id: R029
     display: "Eqs. (C-36), (C-37), (C-38) -> Eq. (C-35)"
     cue: "$\\mathcal{C}_{nmn}^{(2,2)}=P_0+P_1+P_2$"
     move: "bookkeeping"
@@ -277,7 +345,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R024
+  - internal_id: R030
     display: "Eq. (C-35) -> Eq. (C-39)"
     cue: "mixed $\\mathcal{C}_{nmn}^{(2,2)}$ in $\\Gamma$"
     move: "asymptotic expansion"
@@ -289,8 +357,8 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R025
-    display: "Eqs. (C-41)--(C-44) -> Eq. (C-40)"
+  - internal_id: R031
+    display: "Eqs. (C-41), (C-42), (C-43), (C-44) -> Eq. (C-40)"
     cue: "$\\mathcal{C}_{nnm}^{(2,2)}\\propto Q_0+Q_1+Q_2+Q_3$"
     move: "definition"
     claimed: DEFINITION_INSERTION
@@ -300,7 +368,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R026
+  - internal_id: R032
     display: "Eq. (C-40) -> Eq. (C-45)"
     cue: "$\\mathcal{C}_{nnm}^{(2,2)}$ Laurent in $\\Gamma$"
     move: "asymptotic expansion"
@@ -312,8 +380,8 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R027
-    display: "Eqs. (C-47)--(C-50) -> Eq. (C-46)"
+  - internal_id: R033
+    display: "Eqs. (C-47), (C-48), (C-49), (C-50) -> Eq. (C-46)"
     cue: "$\\mathcal{C}_{nmm}^{(2,2)}\\propto U_0+\\cdots+U_3$"
     move: "definition"
     claimed: DEFINITION_INSERTION
@@ -323,7 +391,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R028
+  - internal_id: R034
     display: "Eq. (C-46) -> Eq. (C-51)"
     cue: "$\\mathcal{C}_{nmm}^{(2,2)}$ Laurent in $\\Gamma$"
     move: "asymptotic expansion"
@@ -335,7 +403,7 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R029
+  - internal_id: R035
     display: "Eqs. (C-53), (C-54), (C-55) -> Eq. (C-52)"
     cue: "$\\mathcal{C}_{nml}^{(2,2)}\\propto R_0+R_1+R_2$"
     move: "definition"
@@ -346,7 +414,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R030
+  - internal_id: R036
     display: "Eq. (C-52) -> Eq. (C-56)"
     cue: "fully interband $\\mathcal{C}_{nml}^{(2,2)}$ in $\\Gamma$"
     move: "asymptotic expansion"
@@ -358,7 +426,18 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R031
+  - internal_id: R037
+    display: "Eq. (D-58)"
+    cue: "$\\sigma^{(-2)}$ written in $K_1,K_2$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "the $\\sigma_{abc}^{(-2)}$ is proportional to $1/\\Gamma^2$ and is"
+    sources: ["D-58"]
+    targets: ["D-58"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R038
     display: "Eq. (D-57)"
     cue: "$\\sigma_{abc}=\\Gamma^{-2}\\sigma^{(-2)}+\\Gamma^{-1}\\sigma^{(-1)}+\\sigma^{(0)}+O(\\Gamma)$"
     move: "asymptotic expansion"
@@ -371,7 +450,7 @@ relations:
     parent_status: UNKNOWN_REMAINDER
     regression: D.gamma-asymptotic
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R032
+  - internal_id: R039
     display: "Eq. (D-59) -> Eq. (D-60)"
     cue: "$K_{1A}$ regroup"
     move: "algebra"
@@ -385,8 +464,8 @@ relations:
     condition: "none"
     left: "v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)"
     right: "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)"
-  - internal_id: R033
-    display: "Key Identities -> Eq. (D-60)"
+  - internal_id: R040
+    display: "unnumbered metric-velocity identity -> Eq. (D-60)"
     cue: "metric-velocity pair index order"
     move: "algebra"
     claimed: PAIRWISE_REDUCTION
@@ -399,7 +478,7 @@ relations:
     condition: "none"
     left: "v12a*v21b + v12b*v21a"
     right: "v21a*v12b + v12a*v21b"
-  - internal_id: R034
+  - internal_id: R041
     display: "Eq. (D-60)"
     cue: "$K_{1A}\\to 2\\epsilon_{12}^2(v_1^c g_{ab}+v_1^b g_{ac})$"
     move: "substitution"
@@ -414,7 +493,7 @@ relations:
     subst: {"v21a*v12b + v12a*v21b": "2*e12**2*gab", "v21a*v12c + v12a*v21c": "2*e12**2*gac"}
     left: "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)"
     right: "2*e12**2*(v1c*gab + v1b*gac)"
-  - internal_id: R035
+  - internal_id: R042
     display: "Eq. (D-60) -> Eq. (D-61)"
     cue: "$T_A^{(-2)}$ prefactor $2\\epsilon_{12}^2/(8\\epsilon_{12})=\\epsilon_{12}/4$"
     move: "algebra"
@@ -428,7 +507,7 @@ relations:
     condition: "none"
     left: "(2*e12**2)/(8*e12)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)"
     right: "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p)"
-  - internal_id: R036
+  - internal_id: R043
     display: "Eq. (D-62)"
     cue: "$T_B^{(-2)}$ prefactor from $K_{nB}$"
     move: "algebra"
@@ -441,7 +520,7 @@ relations:
     condition: "none"
     left: "(1/(8*e12))*(-((v11ac*v1b + v11ab*v1c)*e12)*f1p + (-(v22ac*v2b + v22ab*v2c)*e12)*f2p)"
     right: "(e12/(8*e12))*(-(v11ac*v1b + v11ab*v1c)*f1p - (v22ac*v2b + v22ab*v2c)*f2p)"
-  - internal_id: R037
+  - internal_id: R044
     display: "Eq. (D-62) -> Eq. (D-63)"
     cue: "insert $v_{nn}^{ab}=\\partial_a\\partial_b\\epsilon_n-2\\epsilon_{n\\bar n}g_{ab}$"
     move: "definition"
@@ -452,7 +531,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R038
+  - internal_id: R045
     display: "Eq. (D-63) -> Eq. (D-64)"
     cue: "$T_B=T_{B,\\mathrm{intra}}+T_{B,\\mathrm{geo}}$"
     move: "definition"
@@ -463,7 +542,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R039
+  - internal_id: R046
     display: "Eq. (D-64) -> Eq. (D-65)"
     cue: "$T_{B,\\mathrm{intra}}=-\\frac18\\sum_n\\partial_a(v_n^b v_n^c)f_n'$"
     move: "algebra"
@@ -474,7 +553,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R040
+  - internal_id: R047
     display: "Eq. (D-64) -> Eq. (D-66)"
     cue: "$T_{B,\\mathrm{geo}}$ two-band form"
     move: "algebra"
@@ -487,7 +566,7 @@ relations:
     condition: "none"
     left: "(-Rational(1,8))*(-2)*e12*(gac*v1b + gab*v1c)*f1p + (-Rational(1,8))*(-2)*e21*(gac*v2b + gab*v2c)*f2p"
     right: "Rational(1,4)*(e12*(gac*v1b + gab*v1c)*f1p + e21*(gac*v2b + gab*v2c)*f2p)"
-  - internal_id: R041
+  - internal_id: R048
     display: "Eq. (D-66) -> Eq. (D-67)"
     cue: "$T_{B,\\mathrm{geo}}$ with $\\epsilon_{21}=-\\epsilon_{12}$"
     move: "substitution"
@@ -502,7 +581,7 @@ relations:
     subst: {"e21": "-e12"}
     left: "(1/4)*(e12*(gac*v1b + gab*v1c)*f1p + e21*(gac*v2b + gab*v2c)*f2p)"
     right: "(e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)"
-  - internal_id: R042
+  - internal_id: R049
     display: "Eqs. (D-61), (D-67) -> Eq. (D-68)"
     cue: "$T_A+T_{B,\\mathrm{geo}}$ cancellation"
     move: "algebra"
@@ -516,7 +595,7 @@ relations:
     condition: "none"
     left: "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p) + (e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)"
     right: "0"
-  - internal_id: R043
+  - internal_id: R050
     display: "Eqs. (D-65), (D-68) -> Eq. (D-69)"
     cue: "$\\sigma^{(-2)}$ purely intraband"
     move: "substitution"
@@ -527,7 +606,7 @@ relations:
     executable: false
     helper: false
     condition: "after $T_A+T_{B,\\mathrm{geo}}=0$; convention $f_n'=2f_{0,n}'$"
-  - internal_id: R044
+  - internal_id: R051
     display: "Eq. (D-71) -> Eq. (D-72)"
     cue: "$C_1,C_2$ regroup"
     move: "algebra"
@@ -541,9 +620,9 @@ relations:
     condition: "none"
     left: "(v21a*(v12b*v1c + v1b*v12c) - v12a*(v21b*v1c + v1b*v21c)) + (-v21a*(v2b*v12c + v12b*v2c) + v12a*(v2b*v21c + v21b*v2c))"
     right: "(v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c)) + (v2c*(v12a*v21b - v21a*v12b) + v2b*(v12a*v21c - v21a*v12c))"
-  - internal_id: R045
+  - internal_id: R052
     display: "Eq. (D-73)"
-    cue: "$V_{ab}$ Feynman--Hellmann expansion"
+    cue: "$V_{ab}$ Feynman-Hellmann expansion"
     move: "algebra"
     claimed: ALGEBRAIC_EQUIVALENCE
     prose: "we utilize the Feynman-Hellmann identity ($v_{nm}^a=-i\\epsilon_{mn}A_{nm}^a$)"
@@ -555,7 +634,7 @@ relations:
     condition: "none"
     left: "(-I*e12*A21a)*(-I*e21*A12b) - (-I*e21*A12a)*(-I*e12*A21b)"
     right: "(-1)*(e12*e21)*(A21a*A12b - A12a*A21b)"
-  - internal_id: R046
+  - internal_id: R053
     display: "Eq. (D-73) (second equality)"
     cue: "$V_{ab}$ with $\\epsilon_{12}\\epsilon_{21}=-\\epsilon_{12}^2$"
     move: "substitution"
@@ -570,7 +649,7 @@ relations:
     subst: {"e21": "-e12"}
     left: "(-1)*(e12*e21)*(A21a*A12b - A12a*A21b)"
     right: "e12**2*(A21a*A12b - A12a*A21b)"
-  - internal_id: R047
+  - internal_id: R054
     display: "Eq. (D-74)"
     cue: "$A_{21}^a A_{12}^b-A_{12}^a A_{21}^b=-(A_{12}^a A_{21}^b-A_{12}^b A_{21}^a)$"
     move: "algebra"
@@ -584,7 +663,7 @@ relations:
     condition: "none"
     left: "A21a*A12b - A12a*A21b"
     right: "-(A12a*A21b - A12b*A21a)"
-  - internal_id: R048
+  - internal_id: R055
     display: "Eq. (D-74) -> Eq. (D-75)"
     cue: "$V_{ab}=i\\epsilon_{12}^2\\Omega_{ab}^1$"
     move: "substitution"
@@ -599,7 +678,7 @@ relations:
     subst: {"Oab1": "I*(A12a*A21b - A12b*A21a)"}
     left: "-(A12a*A21b - A12b*A21a)"
     right: "I*Oab1"
-  - internal_id: R049
+  - internal_id: R056
     display: "Eqs. (D-72), (D-75) -> Eq. (D-76)"
     cue: "$C_1,C_2$ in $\\Omega$"
     move: "substitution"
@@ -612,7 +691,7 @@ relations:
     condition: "none"
     left: "v1c*(I*e12**2*Oab1) + v1b*(I*e12**2*Oac1)"
     right: "I*e12**2*(v1c*Oab1 + v1b*Oac1)"
-  - internal_id: R050
+  - internal_id: R057
     display: "Eqs. (D-70), (D-76) -> Eq. (D-77)"
     cue: "$(-i)(i\\epsilon_{12}^2)/(4\\epsilon_{12}^2)=1/4$"
     move: "algebra"
@@ -626,7 +705,7 @@ relations:
     condition: "none"
     left: "(-I)/(4*e12**2)*(I*e12**2)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)"
     right: "(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)"
-  - internal_id: R051
+  - internal_id: R058
     display: "Eq. (D-77) -> Eq. (D-78)"
     cue: "$\\Omega^2=-\\Omega^1$ compactification"
     move: "index relabeling"
@@ -641,7 +720,7 @@ relations:
     subst: {"Oab2": "-Oab1", "Oac2": "-Oac1"}
     left: "(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)"
     right: "(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p + (v2c*Oab2 + v2b*Oac2)*f2p)"
-  - internal_id: R052
+  - internal_id: R059
     display: "Eq. (D-79)"
     cue: "$1/4!=1/24$ in $T_4$"
     move: "algebra"
@@ -654,7 +733,18 @@ relations:
     condition: "none"
     left: "(1/(4*3*2*1))*va*vb*vc*f4"
     right: "Rational(1,24)*va*vb*vc*f4"
-  - internal_id: R053
+  - internal_id: R060
+    display: "Eq. (D-80)"
+    cue: "$T_3$ written in $K_1,K_2$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "this term is proportional to the third derivative"
+    sources: ["D-80"]
+    targets: ["D-80"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R061
     display: "Eq. (D-81) -> Eq. (D-82)"
     cue: "$T_{3A}$ prefactor $2\\epsilon_{12}^2/(48\\epsilon_{12})=\\epsilon_{12}/24$"
     move: "algebra"
@@ -667,7 +757,7 @@ relations:
     condition: "after substituting the metric-velocity pair into $K_{nA}$"
     left: "(2*e12**2)/(48*e12)*((v1c*gab + v1b*gac)*f13 - (v2c*gab + v2b*gac)*f23)"
     right: "(e12/24)*((gab*v1c + gac*v1b)*f13 - (gab*v2c + gac*v2b)*f23)"
-  - internal_id: R054
+  - internal_id: R062
     display: "Eq. (D-81) -> Eq. (D-83)"
     cue: "$T_{3B}$ prefactor from $K_{nB}$"
     move: "algebra"
@@ -680,7 +770,7 @@ relations:
     condition: "none"
     left: "(1/(48*e12))*(((v11ac*v1b + v11ab*v1c)*e12)*f13 - ((-(v22ac*v2b + v22ab*v2c)*e12))*f23)"
     right: "(e12/(48*e12))*((v11ac*v1b + v11ab*v1c)*f13 + (v22ac*v2b + v22ab*v2c)*f23)"
-  - internal_id: R055
+  - internal_id: R063
     display: "Eq. (D-83) -> Eq. (D-84)"
     cue: "insert diagonal second-derivative identity into $T_{3B}$"
     move: "definition"
@@ -691,7 +781,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R056
+  - internal_id: R064
     display: "Eq. (D-84) -> Eqs. (D-85), (D-86)"
     cue: "$T_{3B}^{\\mathrm{intra}}$ and $T_{3B}^{\\mathrm{inter}}$"
     move: "definition"
@@ -702,7 +792,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R057
+  - internal_id: R065
     display: "Eqs. (D-82), (D-86)"
     cue: "$T_{3B}^{\\mathrm{inter}}=-T_{3A}$"
     move: "substitution"
@@ -716,7 +806,7 @@ relations:
     subst: {"e21": "-e12"}
     left: "(-Rational(2,48))*(e12*(gac*v1b + gab*v1c)*f13 + e21*(gac*v2b + gab*v2c)*f23)"
     right: "-((e12/24)*((gab*v1c + gac*v1b)*f13 - (gab*v2c + gac*v2b)*f23))"
-  - internal_id: R058
+  - internal_id: R066
     display: "Eqs. (D-82), (D-85), (D-86) -> Eq. (D-87)"
     cue: "$T_3=T_{3B}^{\\mathrm{intra}}$ after geometric cancel"
     move: "algebra"
@@ -727,7 +817,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R059
+  - internal_id: R067
     display: "Eq. (D-88) -> Eq. (D-89)"
     cue: "$T_2$ metric substitution"
     move: "substitution"
@@ -741,7 +831,7 @@ relations:
     subst: {"v21b*v12c + v12b*v21c": "2*e12**2*gbc"}
     left: "(1/(4*e12**2))*va*(v21b*v12c + v12b*v21c)*fn2"
     right: "Rational(1,2)*gbc*va*fn2"
-  - internal_id: R060
+  - internal_id: R068
     display: "Eq. (D-91) -> Eq. (D-92)"
     cue: "$T_1$ coefficient $C_1$ regroup and metric"
     move: "substitution"
@@ -755,7 +845,7 @@ relations:
     subst: {"v21a*v12b + v12a*v21b": "2*e12**2*gab", "v21a*v12c + v12a*v21c": "2*e12**2*gac", "v21b*v12c + v12b*v21c": "2*e12**2*gbc"}
     left: "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c) - v1a*(v21b*v12c + v12b*v21c)"
     right: "v1c*(2*e12**2*gab) + v1b*(2*e12**2*gac) - v1a*(2*e12**2*gbc)"
-  - internal_id: R061
+  - internal_id: R069
     display: "Eqs. (D-90), (D-92) -> Eq. (D-93)"
     cue: "$T_1$ prefactor $2\\epsilon_{12}^2/(2\\epsilon_{12}^3)=1/\\epsilon_{12}$"
     move: "algebra"
@@ -768,7 +858,7 @@ relations:
     condition: "none"
     left: "(2*e12**2)/(2*e12**3)*((v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)"
     right: "(1/e12)*((v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)"
-  - internal_id: R062
+  - internal_id: R070
     display: "Eq. (D-95) -> Eq. (D-96)"
     cue: "$A=6\\epsilon_{12}^2 g_{bc}(v_2^a-v_1^a)$"
     move: "substitution"
@@ -782,7 +872,7 @@ relations:
     subst: {"v21b*v12c + v12b*v21c": "2*e12**2*gbc"}
     left: "3*(v2a - v1a)*(v21b*v12c + v12b*v21c)"
     right: "6*e12**2*gbc*(v2a - v1a)"
-  - internal_id: R063
+  - internal_id: R071
     display: "Eq. (D-95) -> Eq. (D-97)"
     cue: "$B=2\\epsilon_{12}^2[g_{ac}(v_2^b-v_1^b)+g_{ab}(v_2^c-v_1^c)]$"
     move: "substitution"
@@ -796,7 +886,7 @@ relations:
     subst: {"v21a*v12c + v12a*v21c": "2*e12**2*gac", "v21a*v12b + v12a*v21b": "2*e12**2*gab"}
     left: "(v2b-v1b)*(v21a*v12c + v12a*v21c) + (v2c-v1c)*(v21a*v12b + v12a*v21b)"
     right: "2*e12**2*(gac*(v2b-v1b) + gab*(v2c-v1c))"
-  - internal_id: R064
+  - internal_id: R072
     display: "Eq. (D-98) -> Eq. (D-99)"
     cue: "$S_{ac;b}+S_{ab;c}$"
     move: "algebra"
@@ -807,7 +897,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R065
+  - internal_id: R073
     display: "Eq. (D-99) -> Eq. (D-100)"
     cue: "metric-velocity inside $\\partial_a(v_{21}^c v_{12}^b+\\cdots)$"
     move: "substitution"
@@ -821,7 +911,7 @@ relations:
     subst: {"v21c*v12b + v21b*v12c": "2*e12**2*gbc"}
     left: "v21c*v12b + v21b*v12c"
     right: "2*e12**2*gbc"
-  - internal_id: R066
+  - internal_id: R074
     display: "Eq. (D-101) -> Eq. (D-102)"
     cue: "two-band commutators into $K_{ab;c}$"
     move: "algebra"
@@ -832,7 +922,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R067
+  - internal_id: R075
     display: "Eq. (D-103)"
     cue: "$P_{\\mathrm{gauge}}=0$ by commuting velocities"
     move: "algebra"
@@ -845,9 +935,9 @@ relations:
     condition: "none"
     left: "(A11a - A22a)*((v12c*v21b - v21c*v12b) + (v12b*v21c - v21b*v12c))"
     right: "0"
-  - internal_id: R068
+  - internal_id: R076
     display: "Eq. (D-105)"
-    cue: "$A_{12}^a v_{21}^b-A_{21}^a v_{12}^b=-2i\\epsilon_{12}g_{ab}$"
+    cue: "$A_{12}^a v_{21}^b-A_{21}^a v_{12}^b=-i\\epsilon_{12}(A_{12}^a A_{21}^b+A_{21}^a A_{12}^b)$"
     move: "substitution"
     claimed: ALGEBRAIC_EQUIVALENCE
     prose: "we evaluate the bracketed terms using the Feynman-Hellmann identity"
@@ -855,11 +945,11 @@ relations:
     targets: ["D-105"]
     executable: true
     helper: false
-    condition: "Feynman--Hellmann and $g_{ab}=\\mathrm{Re}(A_{12}^a A_{21}^b)$; $\\epsilon_{21}=-\\epsilon_{12}$"
-    subst: {"e21": "-e12", "A12a*A21b + A21a*A12b": "2*gab"}
+    condition: "substitute $\\epsilon_{21}=-\\epsilon_{12}$; last paper equality $A_{12}^a A_{21}^b+A_{21}^a A_{12}^b=2g_{ab}$ is the declared metric convention"
+    subst: {"e21": "-e12"}
     left: "A12a*(-I*e12*A21b) - A21a*(-I*e21*A12b)"
-    right: "-2*I*e12*gab"
-  - internal_id: R069
+    right: "-I*e12*(A12a*A21b + A21a*A12b)"
+  - internal_id: R077
     display: "Eqs. (D-104), (D-105) -> Eq. (D-106)"
     cue: "$K_{abc}=-2i\\epsilon_{12}[(v_2^c-v_1^c)g_{ab}+\\cdots]$"
     move: "substitution"
@@ -872,7 +962,7 @@ relations:
     condition: "none"
     left: "(v2c-v1c)*(-2*I*e12*gab) + (v2b-v1b)*(-2*I*e12*gac)"
     right: "-2*I*e12*((v2c-v1c)*gab + (v2b-v1b)*gac)"
-  - internal_id: R070
+  - internal_id: R078
     display: "Eqs. (D-100), (D-106) -> Eq. (D-107)"
     cue: "$-i K_{abc}$ becomes $-2\\epsilon_{12}[\\cdots]$"
     move: "algebra"
@@ -885,7 +975,7 @@ relations:
     condition: "none"
     left: "-I*(-2*I*e12*((v2c-v1c)*gab + (v2b-v1b)*gac))"
     right: "-2*e12*(gab*(v2c-v1c) + gac*(v2b-v1b))"
-  - internal_id: R071
+  - internal_id: R079
     display: "Eq. (D-108)"
     cue: "$\\partial_a(2\\epsilon_{12}^2 g_{bc})=4\\epsilon_{12}(v_1^a-v_2^a)g_{bc}+2\\epsilon_{12}^2\\partial_a g_{bc}$"
     move: "algebra"
@@ -899,7 +989,7 @@ relations:
     subst: {"dae12": "v1a - v2a"}
     left: "4*e12*dae12*gbc + 2*e12**2*dagbc"
     right: "4*e12*(v1a-v2a)*gbc + 2*e12**2*dagbc"
-  - internal_id: R072
+  - internal_id: R080
     display: "Eqs. (D-107), (D-108) -> Eq. (D-109)"
     cue: "$E=(S_{ac;b}+S_{ab;c})\\epsilon_{12}$"
     move: "algebra"
@@ -912,7 +1002,7 @@ relations:
     condition: "none"
     left: "(4*e12*(v1a-v2a)*gbc + 2*e12**2*dagbc - 2*e12*(gab*(v2c-v1c) + gac*(v2b-v1b)))*e12"
     right: "4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c) + gac*(v2b-v1b))"
-  - internal_id: R073
+  - internal_id: R081
     display: "Eqs. (D-96), (D-97), (D-109) -> Eq. (D-110)"
     cue: "$C_0=A+B+E$"
     move: "algebra"
@@ -925,7 +1015,7 @@ relations:
     condition: "none"
     left: "6*e12**2*gbc*(v2a-v1a) + 2*e12**2*(gac*(v2b-v1b)+gab*(v2c-v1c)) + (4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c)+gac*(v2b-v1b)))"
     right: "6*e12**2*gbc*(v2a-v1a) + 2*e12**2*(gac*(v2b-v1b)+gab*(v2c-v1c)) + 4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c)+gac*(v2b-v1b))"
-  - internal_id: R074
+  - internal_id: R082
     display: "Eq. (D-110) -> Eq. (D-111)"
     cue: "$C_0$ grouped by $g_{bc},g_{ac},g_{ab}$"
     move: "algebra"
@@ -938,7 +1028,7 @@ relations:
     condition: "none"
     left: "6*e12**2*gbc*(v2a-v1a) + 2*e12**2*(gac*(v2b-v1b)+gab*(v2c-v1c)) + 4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c)+gac*(v2b-v1b))"
     right: "e12**2*gbc*(6*(v2a-v1a)+4*(v1a-v2a)) + e12**2*gac*(2*(v2b-v1b)-2*(v2b-v1b)) + e12**2*gab*(2*(v2c-v1c)-2*(v2c-v1c)) + 2*e12**3*dagbc"
-  - internal_id: R075
+  - internal_id: R083
     display: "Eq. (D-111) -> Eq. (D-112)"
     cue: "$g_{ac}$ and $g_{ab}$ coefficients cancel"
     move: "algebra"
@@ -951,7 +1041,7 @@ relations:
     condition: "none"
     left: "e12**2*gbc*(6*(v2a-v1a)+4*(v1a-v2a)) + e12**2*gac*(2*(v2b-v1b)-2*(v2b-v1b)) + e12**2*gab*(2*(v2c-v1c)-2*(v2c-v1c)) + 2*e12**3*dagbc"
     right: "2*e12**2*gbc*(v2a-v1a) + 2*e12**3*dagbc"
-  - internal_id: R076
+  - internal_id: R084
     display: "Eqs. (D-94), (D-112) -> Eq. (D-113)"
     cue: "$T_0$ after simplified $C_0$"
     move: "algebra"
@@ -964,7 +1054,7 @@ relations:
     condition: "none"
     left: "(f1-f2)/(2*e12**4)*(2*e12**2*gbc*(v2a-v1a) + 2*e12**3*dagbc)"
     right: "(f1-f2)*(gbc*(v2a-v1a)/e12**2 + dagbc/e12)"
-  - internal_id: R077
+  - internal_id: R085
     display: "Eq. (D-113) -> Eq. (D-114)"
     cue: "$T_0=(f_1-f_2)\\partial_a(g_{bc}/\\epsilon_{12})$"
     move: "algebra"
@@ -978,7 +1068,7 @@ relations:
     subst: {"v2a - v1a": "-dae12"}
     left: "gbc*(v2a-v1a)/e12**2 + dagbc/e12"
     right: "(dagbc*e12 - gbc*dae12)/e12**2"
-  - internal_id: R078
+  - internal_id: R086
     display: "local Leibniz rule for Eqs. (D-114)->(D-119) and (D-123)->(D-124)"
     cue: "$\\partial_k(uv)=(\\partial_k u)v+u(\\partial_k v)$"
     move: "algebra"
@@ -992,7 +1082,7 @@ relations:
     condition: "none"
     left: "diff(u(k)*v(k), k)"
     right: "diff(u(k), k)*v(k) + u(k)*diff(v(k), k)"
-  - internal_id: R079
+  - internal_id: R087
     display: "Eq. (D-114) -> Eq. (D-119)"
     cue: "$T_0$ BZ integration by parts"
     move: "BZ integration by parts"
@@ -1005,7 +1095,7 @@ relations:
     parent_status: CERTIFIED_BY_RULE
     regression: D.T0-ibp-global
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R080
+  - internal_id: R088
     display: "Eq. (D-119)"
     cue: "$T_0$ local sign algebra after IBP"
     move: "algebra"
@@ -1019,7 +1109,7 @@ relations:
     condition: "none"
     left: "-(f1p*v1a - f2p*v2a)*(gbc/e12)"
     right: "gbc*(v2a*f2p - v1a*f1p)/e12"
-  - internal_id: R081
+  - internal_id: R089
     display: "Eq. (D-87) -> Eq. (D-115)"
     cue: "$T_3$ IBP"
     move: "BZ integration by parts"
@@ -1031,7 +1121,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R082
+  - internal_id: R090
     display: "Eq. (D-115) -> Eq. (D-116)"
     cue: "chain rule $\\partial_a f_n^{(3)}=f_n^{(4)} v_n^a$; $T_3=-\\frac12 T_4$"
     move: "algebra"
@@ -1044,7 +1134,7 @@ relations:
     condition: "none"
     left: "-Rational(1,48)*va*vb*vc*f4"
     right: "-Rational(1,2)*Rational(1,24)*va*vb*vc*f4"
-  - internal_id: R083
+  - internal_id: R091
     display: "Eqs. (D-79), (D-116) -> Eq. (D-117)"
     cue: "$\\sigma^{\\mathrm{kin}}=T_3+T_4=\\frac12 T_4$"
     move: "substitution"
@@ -1058,7 +1148,7 @@ relations:
     subst: {"f4": "2*f04"}
     left: "Rational(1,24)*va*vb*vc*f4 + (-Rational(1,48)*va*vb*vc*f4)"
     right: "Rational(1,24)*va*vb*vc*f04"
-  - internal_id: R084
+  - internal_id: R092
     display: "Eq. (D-117) -> Eq. (D-118)"
     cue: "further BZ IBP $\\sigma^{\\mathrm{kin}}\\propto(\\partial_a\\partial_b\\partial_c\\epsilon_n)f_0^{(2)}$"
     move: "BZ integration by parts"
@@ -1070,7 +1160,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R085
+  - internal_id: R093
     display: "Eqs. (D-119), (D-93) -> Eq. (D-120)"
     cue: "$T_0+T_1$ combined $f'$ terms"
     move: "algebra"
@@ -1081,7 +1171,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R086
+  - internal_id: R094
     display: "Eq. (D-120) -> Eq. (D-121)"
     cue: "$T_0+T_1$ regroup by $f_1',f_2'$"
     move: "algebra"
@@ -1095,7 +1185,7 @@ relations:
     condition: "none"
     left: "(1/e12)*(gbc*(v2a*f2p - v1a*f1p) + (v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)"
     right: "(1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))"
-  - internal_id: R087
+  - internal_id: R095
     display: "Eqs. (D-89), (D-121) -> Eq. (D-122)"
     cue: "$\\sigma^{\\mathrm{geo}}=T_2+(T_0+T_1)$"
     move: "bookkeeping"
@@ -1106,7 +1196,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R088
+  - internal_id: R096
     display: "Eq. (D-89) -> Eq. (D-123)"
     cue: "$v_n^a f_n^{(2)}=\\partial_a(f_n')$"
     move: "algebra"
@@ -1117,7 +1207,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R089
+  - internal_id: R097
     display: "Eq. (D-123) -> Eq. (D-124)"
     cue: "$T_2$ BZ integration by parts"
     move: "BZ integration by parts"
@@ -1130,7 +1220,7 @@ relations:
     parent_status: CERTIFIED_BY_RULE
     regression: D.T2-ibp-global
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R090
+  - internal_id: R098
     display: "Eqs. (D-122), (D-124) -> Eq. (D-125)"
     cue: "$\\sigma^{\\mathrm{geo}}$ after declared $T_2$ IBP"
     move: "algebra"
@@ -1144,7 +1234,7 @@ relations:
     condition: "none"
     left: "(-Rational(1,2)*dagbc*(f1p + f2p)) + (1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))"
     right: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))"
-  - internal_id: R091
+  - internal_id: R099
     display: "Eq. (D-125) -> Eq. (D-126)"
     cue: "$\\epsilon_{21}=-\\epsilon_{12}$ symmetrization"
     move: "substitution"
@@ -1159,7 +1249,7 @@ relations:
     subst: {"e21": "-e12"}
     left: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))"
     right: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))"
-  - internal_id: R092
+  - internal_id: R100
     display: "Eq. (D-126) -> Eq. (D-127)"
     cue: "compact $n,\\bar n$ form with $f_n'=2f_{0,n}'$"
     move: "index relabeling"
@@ -1174,7 +1264,18 @@ relations:
     subst: {"f1p": "2*f01p", "f2p": "2*f02p"}
     left: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))"
     right: "2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))"
-  - internal_id: R093
+  - internal_id: R101
+    display: "Eq. (E-129)"
+    cue: "multiband off-diagonal $v_{nm}^{ab}$ identity"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "multiband off-diagonal second derivative"
+    sources: ["E-129"]
+    targets: ["E-129"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R102
     display: "Eq. (E-128)"
     cue: "multiband $v_{nn}^{ab}$ identity"
     move: "definition"
@@ -1186,7 +1287,7 @@ relations:
     helper: false
     regression: E.diag-2nd
     condition: "none"
-  - internal_id: R094
+  - internal_id: R103
     display: "Eq. (E-130) -> Eq. (E-131)"
     cue: "multiband $\\sigma^{(-2)}$ after diagonal $v_{nn}^{ab}$"
     move: "definition"
@@ -1197,7 +1298,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R095
+  - internal_id: R104
     display: "Eq. (E-132) -> Eq. (E-133)"
     cue: "multiband $\\sigma^{(-1)}$ via curvature-velocity"
     move: "definition"
@@ -1208,7 +1309,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R096
+  - internal_id: R105
     display: "Eq. (E-134)"
     cue: "$\\sigma^{(0)}=T_0+\\cdots+T_4$"
     move: "definition"
@@ -1219,7 +1320,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R097
+  - internal_id: R106
     display: "Eq. (E-135)"
     cue: "$T_4=\\frac{1}{4!}\\sum_n v_n^a v_n^b v_n^c f_n^{(4)}$"
     move: "algebra"
@@ -1232,7 +1333,7 @@ relations:
     condition: "none"
     left: "(1/(4*3*2*1))*va*vb*vc*f4"
     right: "Rational(1,24)*va*vb*vc*f4"
-  - internal_id: R098
+  - internal_id: R107
     display: "Eq. (E-136) -> Eq. (E-137)"
     cue: "multiband $T_3$ after diagonal $v_{nn}^{ab}$"
     move: "definition"
@@ -1243,7 +1344,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R099
+  - internal_id: R108
     display: "Eq. (E-138) -> Eq. (E-139)"
     cue: "multiband $T_2$ via metric-velocity"
     move: "definition"
@@ -1254,7 +1355,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R100
+  - internal_id: R109
     display: "Eq. (E-140) -> Eq. (E-141)"
     cue: "multiband $T_1$ via $\\mathcal{G}$"
     move: "definition"
@@ -1265,7 +1366,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R101
+  - internal_id: R110
     display: "Eq. (E-142) -> Eq. (E-143)"
     cue: "multiband remainder $\\mathcal{M}=0$"
     move: "algebra"
@@ -1276,7 +1377,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R102
+  - internal_id: R111
     display: "Eqs. (E-142), (E-143) -> Eq. (E-144)"
     cue: "$T_0$ reduces to two-band index terms"
     move: "bookkeeping"
@@ -1287,7 +1388,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R103
+  - internal_id: R112
     display: "Eq. (E-144) -> Eq. (E-145)"
     cue: "shift-vector identity in $T_0$"
     move: "definition"
@@ -1298,7 +1399,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R104
+  - internal_id: R113
     display: "Eq. (E-145) -> Eq. (E-146)"
     cue: "$T_0=\\sum_n f_n\\partial_a\\mathcal{G}_n^{bc}$"
     move: "algebra"
@@ -1309,7 +1410,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R105
+  - internal_id: R114
     display: "Eq. (E-137) -> Eq. (E-147)"
     cue: "multiband $T_3$ IBP $=-\\frac12 T_4$"
     move: "BZ integration by parts"
@@ -1321,7 +1422,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R106
+  - internal_id: R115
     display: "Eqs. (E-135), (E-147) -> Eq. (E-148)"
     cue: "$\\sigma^{\\mathrm{kin}}=\\frac12 T_4$"
     move: "algebra"
@@ -1335,7 +1436,7 @@ relations:
     subst: {"f4": "2*f04"}
     left: "Rational(1,24)*va*vb*vc*f4 + (-Rational(1,2)*Rational(1,24)*va*vb*vc*f4)"
     right: "Rational(1,24)*va*vb*vc*f04"
-  - internal_id: R107
+  - internal_id: R116
     display: "Eq. (E-146) -> Eq. (E-149)"
     cue: "multiband $T_0$ IBP"
     move: "BZ integration by parts"
@@ -1347,7 +1448,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R108
+  - internal_id: R117
     display: "Eq. (E-139) -> Eq. (E-150)"
     cue: "multiband $T_2$ IBP"
     move: "BZ integration by parts"
@@ -1359,7 +1460,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R109
+  - internal_id: R118
     display: "Eqs. (E-141), (E-149), (E-150) -> Eq. (E-151)"
     cue: "multiband $\\sigma^{\\mathrm{geo}}$ assembly"
     move: "algebra"
@@ -1372,7 +1473,7 @@ relations:
     condition: "none"
     left: "-Rational(1,2)*f1p*dag + f1p*(vb*Gac + vc*Gab - va*Gbc) - f1p*va*Gbc"
     right: "f1p*(vb*Gac + vc*Gab - 2*va*Gbc - dag/2)"
-  - internal_id: R110
+  - internal_id: R119
     display: "Eq. (F-152)"
     cue: "SHG $\\Gamma$ expansion"
     move: "asymptotic expansion"
@@ -1384,7 +1485,7 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma)$ remainder"
-  - internal_id: R111
+  - internal_id: R120
     display: "Eq. (F-153) -> Eq. (F-154)"
     cue: "SHG $\\sigma^{(-2)}$ after $v_{nn}^{ab}$ and IBP"
     move: "BZ integration by parts"
@@ -1396,7 +1497,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R112
+  - internal_id: R121
     display: "Eq. (F-155) -> Eq. (F-156)"
     cue: "SHG $\\sigma^{(-1)}$ via curvature-velocity"
     move: "definition"
@@ -1407,7 +1508,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R113
+  - internal_id: R122
     display: "Eq. (F-157)"
     cue: "$\\sigma^{\\mathrm{SHG}(0)}=T_0^{\\mathrm{SHG}}+\\cdots+T_4^{\\mathrm{SHG}}$"
     move: "definition"
@@ -1418,7 +1519,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R114
+  - internal_id: R123
     display: "Eq. (E-135) -> Eq. (F-158)"
     cue: "$T_4^{\\mathrm{SHG}}=-T_4$"
     move: "algebra"
@@ -1431,7 +1532,7 @@ relations:
     condition: "none"
     left: "-Rational(1,24)*va*vb*vc*f4"
     right: "-((1/(4*3*2*1))*va*vb*vc*f4)"
-  - internal_id: R115
+  - internal_id: R124
     display: "Eq. (F-159) -> Eq. (F-160)"
     cue: "$T_3^{\\mathrm{SHG}}$ after diagonal $v_{nn}^{ab}$"
     move: "definition"
@@ -1442,7 +1543,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R116
+  - internal_id: R125
     display: "Eq. (F-161)"
     cue: "$T_2^{\\mathrm{SHG}}=T_2$"
     move: "bookkeeping"
@@ -1453,7 +1554,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R117
+  - internal_id: R126
     display: "Eq. (F-162) -> Eq. (F-163)"
     cue: "$T_1^{\\mathrm{SHG}}$ via $\\mathcal{G}$"
     move: "definition"
@@ -1464,8 +1565,8 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R118
-    display: "Eqs. (F-164)--(F-168) -> Eq. (F-157)"
+  - internal_id: R127
+    display: "Eqs. (F-164), (F-165), (F-166), (F-167), (F-168) -> Eq. (F-157)"
     cue: "$T_0^{\\mathrm{SHG}}$ split into five pieces"
     move: "definition"
     claimed: SPLIT_PARENT
@@ -1475,7 +1576,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R119
+  - internal_id: R128
     display: "Eq. (F-165) -> Eq. (F-169)"
     cue: "expand off-diagonal $v_{nm}^{ab}$ in $T_{0,2}^{\\mathrm{SHG}}$"
     move: "definition"
@@ -1486,7 +1587,18 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R120
+  - internal_id: R129
+    display: "Eq. (F-169) -> Eq. (F-170)"
+    cue: "rewrite $A_{nn}-A_{mm}$ by off-diagonal $v_{nm}^{ab}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "then we try to rewrite Berry-connection-difference part like $(A^c_{nn}-A^c_{mm})v^b_{nm}v^a_{mn}$ by using properties of off-diagonal second derivative again"
+    sources: ["F-169"]
+    targets: ["F-170"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R130
     display: "Eqs. (F-166), (F-169) -> Eq. (F-171)"
     cue: "$T_{0,2}+T_{0,3}$ two-band vs multiband split"
     move: "bookkeeping"
@@ -1497,7 +1609,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R121
+  - internal_id: R131
     display: "Eqs. (F-167), (F-168), (F-171) -> Eq. (F-172)"
     cue: "SHG multiband remainder $\\mathcal{M}$"
     move: "bookkeeping"
@@ -1508,7 +1620,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R122
+  - internal_id: R132
     display: "Eq. (F-172) -> Eq. (F-173)"
     cue: "SHG $\\mathcal{M}=0$ after dummy-index reclassification"
     move: "algebra"
@@ -1519,7 +1631,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R123
+  - internal_id: R133
     display: "Eqs. (F-164), (F-171), (F-173) -> Eq. (F-174)"
     cue: "$T_0^{\\mathrm{SHG}}$ reduces to two-band terms"
     move: "bookkeeping"
@@ -1530,9 +1642,9 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R124
+  - internal_id: R134
     display: "Eq. (F-174) -> Eq. (F-175)"
-    cue: "Feynman--Hellmann rewrite of $T_0^{\\mathrm{SHG}}$"
+    cue: "Feynman-Hellmann rewrite of $T_0^{\\mathrm{SHG}}$"
     move: "definition"
     claimed: DEFINITION_INSERTION
     prose: "by invoking the Feynman-Hellmann identity, this expression can be further transformed"
@@ -1541,7 +1653,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R125
+  - internal_id: R135
     display: "Eq. (F-175) -> Eq. (F-176)"
     cue: "$T_0^{\\mathrm{SHG}}=-\\sum_n f_n(2\\partial_c\\mathcal{G}^{ab}+\\cdots)$"
     move: "algebra"
@@ -1552,7 +1664,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R126
+  - internal_id: R136
     display: "Eq. (F-160) -> Eq. (F-177)"
     cue: "$T_3^{\\mathrm{SHG}}$ IBP using $4\\partial_b\\partial_c\\epsilon\\,\\partial_a\\epsilon$ identity"
     move: "BZ integration by parts"
@@ -1564,7 +1676,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R127
+  - internal_id: R137
     display: "Eqs. (F-158), (F-177) -> Eq. (F-178)"
     cue: "SHG $\\sigma^{\\mathrm{kin}}$: $-\\frac1{24}+\\frac{3}{48}=\\frac1{48}$"
     move: "algebra"
@@ -1577,7 +1689,7 @@ relations:
     condition: "none"
     left: "-Rational(1,24)*va*vb*vc*f4 + Rational(3,48)*va*vb*vc*f4"
     right: "Rational(1,48)*va*vb*vc*f4"
-  - internal_id: R128
+  - internal_id: R138
     display: "Eq. (F-176) -> Eq. (F-179)"
     cue: "$T_0^{\\mathrm{SHG}}$ IBP"
     move: "BZ integration by parts"
@@ -1589,7 +1701,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R129
+  - internal_id: R139
     display: "Eq. (F-161) -> Eq. (F-180)"
     cue: "$T_2^{\\mathrm{SHG}}$ IBP"
     move: "BZ integration by parts"
@@ -1601,7 +1713,7 @@ relations:
     helper: false
     parent_status: CERTIFIED_BY_RULE
     condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
-  - internal_id: R130
+  - internal_id: R140
     display: "Eqs. (F-163), (F-179), (F-180) -> Eq. (F-181)"
     cue: "SHG $\\sigma^{\\mathrm{geo}}$ assembly"
     move: "algebra"
@@ -1614,9 +1726,9 @@ relations:
     condition: "none"
     left: "-Rational(1,2)*f1p*dag - f1p*(vb*Gac + vc*Gab + va*Gbc) + f1p*(2*vc*Gab + 2*vb*Gac - va*Gbc)"
     right: "f1p*(vb*Gac + vc*Gab - 2*va*Gbc - dag/2)"
-  - internal_id: R131
+  - internal_id: R141
     display: "Eq. (G-182) -> Eq. (G-183)"
-    cue: "open-system Schr\u00f6dinger equation for $\\ket{\\psi_n^j}$"
+    cue: "open-system Schr\u00f6dinger equation for $\\psi_n^j$"
     move: "definition"
     claimed: DEFINITION_INSERTION
     prose: "the exact equation of motion for $\\ket{\\psi_n^j(t)}$ is given by"
@@ -1625,7 +1737,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R132
+  - internal_id: R142
     display: "Eqs. (G-182), (G-183) -> Eq. (G-184)"
     cue: "$i\\partial_t\\rho_S=[H_S,\\rho_S]-2i\\Gamma\\rho_S+\\mathcal{S}$"
     move: "algebra"
@@ -1636,9 +1748,9 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R133
+  - internal_id: R143
     display: "Eq. (G-184) -> Eq. (G-185)"
-    cue: "static-Hamiltonian approximation for $\\ket{\\psi_n^j}$"
+    cue: "static-Hamiltonian approximation for $\\psi_n^j$"
     move: "definition"
     claimed: DEFINITION_INSERTION
     prose: "one must artificially freeze the system Hamiltonian ... $H_S(t)\\to H_S(0)$"
@@ -1647,7 +1759,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R134
+  - internal_id: R144
     display: "Eq. (G-185) -> Eq. (G-186)"
     cue: "source $\\mathcal{S}$ after static approximation"
     move: "algebra"
@@ -1658,7 +1770,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R135
+  - internal_id: R145
     display: "Eq. (G-186) -> Eq. (G-187)"
     cue: "$\\Gamma$ truncation $\\mathcal{S}=2i\\Gamma\\rho_0+O(\\Gamma^2)$"
     move: "asymptotic expansion"
@@ -1670,9 +1782,9 @@ relations:
     helper: false
     parent_status: UNKNOWN_REMAINDER
     condition: "author-declared $O(\\Gamma^2)$ remainder plus static-Hamiltonian approximation"
-  - internal_id: R136
+  - internal_id: R146
     display: "Eq. (G-187) -> Eq. (G-188)"
-    cue: "Lorentzian as Fourier convolution $e^{-\\Gamma|k|}$"
+    cue: "Lorentzian as Fourier convolution $e^{-\\Gamma k}$"
     move: "special function identity"
     claimed: SPECIAL_FUNCTION_IDENTITY
     prose: "these higher-order contributions can be systematically extracted by expressing the integral as a convolution"
@@ -1681,7 +1793,7 @@ relations:
     executable: false
     helper: false
     condition: "none"
-  - internal_id: R137
+  - internal_id: R147
     display: "Eq. (G-187) -> Eq. (G-189)"
     cue: "RTA/IFR Liouville equation after two approximations"
     move: "definition"

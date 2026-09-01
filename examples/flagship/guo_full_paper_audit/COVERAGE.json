@@ -1,0 +1,20 @@
+{
+  "n_numbered": 189,
+  "n_inventoried": 189,
+  "coverage": "189/189",
+  "standalone_no_relation": [],
+  "n_relations": 146,
+  "n_helpers": 1,
+  "n_executable": 53,
+  "final_counts": {
+    "UNKNOWN_REMAINDER": 15,
+    "STRUCTURAL": 47,
+    "ZERO_UNDER_SUBSTITUTION": 21,
+    "UNSUPPORTED": 18,
+    "UNKNOWN": 2,
+    "EXACT_ZERO": 32,
+    "CERTIFIED_BY_RULE": 11
+  },
+  "false_promotions": 0,
+  "n_controls": 155
+}

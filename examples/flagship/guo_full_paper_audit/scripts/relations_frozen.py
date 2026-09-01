@@ -162,6 +162,16 @@ RELATIONS: list[dict] = [
     ),
     # ----- Appendix A -----
     R(
+        "Eq. (A-9)",
+        r"total Hamiltonian $H(t)$ as system+bath block matrix",
+        "definition",
+        "DEFINITION_INSERTION",
+        r"the total Hamiltonian is $H(t)=H_S(t)+H_B+H_{SB}$, with components given by",
+        ["A-9"],
+        ["A-9"],
+        tex_lines=[337, 342],
+    ),
+    R(
         "Eq. (A-10)",
         r"$\rho_S=\rho^{(0)}+\rho^{(1)}+\rho^{(2)}+O(V^3)$",
         "asymptotic expansion",
@@ -233,10 +243,54 @@ RELATIONS: list[dict] = [
         ["A-18"],
         tex_lines=[443, 457],
     ),
+    R(
+        "Eq. (A-17) -> Eq. (A-19)",
+        r"$r_+^{(2)}$ as divided difference of $r_+^{(1)}$",
+        "definition",
+        "DEFINITION_INSERTION",
+        "in which (the $r_+^{(2)}$ kernel is written from $r_+^{(1)}$)",
+        ["A-17"],
+        ["A-19"],
+        tex_lines=[444, 450],
+    ),
+    R(
+        "Eq. (A-17) -> Eq. (A-20)",
+        r"$r_-^{(2)}$ as divided difference of $r_-^{(1)}$",
+        "definition",
+        "DEFINITION_INSERTION",
+        "in which (the $r_-^{(2)}$ kernel is written from $r_-^{(1)}$)",
+        ["A-17"],
+        ["A-20"],
+        tex_lines=[451, 457],
+    ),
+    R(
+        "Eq. (B-21)",
+        r"$V=V^{(1)}+V^{(2)}+O(A^3)$",
+        "asymptotic expansion",
+        "ASYMPTOTIC_CLAIM",
+        r"the perturbation $V(t)$ and the current operator $J_a(t)$ are expanded in powers of the vector potential",
+        ["B-21"],
+        ["B-21"],
+        parent_status="UNKNOWN_REMAINDER",
+        condition=r"author-declared $O(A^3)$ remainder",
+        tex_lines=[467, 470],
+    ),
+    R(
+        "Eq. (B-22)",
+        r"$J_a=J_a^{(0)}+J_a^{(1)}+J_a^{(2)}+O(A^3)$",
+        "asymptotic expansion",
+        "ASYMPTOTIC_CLAIM",
+        r"the perturbation $V(t)$ and the current operator $J_a(t)$ are expanded in powers of the vector potential",
+        ["B-22"],
+        ["B-22"],
+        parent_status="UNKNOWN_REMAINDER",
+        condition=r"author-declared $O(A^3)$ remainder",
+        tex_lines=[471, 473],
+    ),
     # ----- Appendix B -----
     R(
         "Eq. (B-23) -> Eq. (B-24)",
-        r"$j_a^{(2)}$ split into (I)--(IV)",
+        r"$j_a^{(2)}$ split into (I)-(IV)",
         "bookkeeping",
         "SPLIT_PARENT",
         "this leads to four distinct contributions to the second-order current",
@@ -276,6 +330,16 @@ RELATIONS: list[dict] = [
         ["C-27"],
         ["C-27"],
         tex_lines=[527, 531],
+    ),
+    R(
+        "Eq. (C-28)",
+        r"polygamma arguments $z_{n,\pm}$ and $z_{n,\pm}^0$",
+        "definition",
+        "DEFINITION_INSERTION",
+        r"where $z_{n,\pm}$ are the polygamma arguments appearing in the coefficient formulae",
+        ["C-28"],
+        ["C-28"],
+        tex_lines=[533, 538],
     ),
     R(
         "Eq. (C-29) -> Eq. (C-30)",
@@ -336,7 +400,7 @@ RELATIONS: list[dict] = [
         tex_lines=[583, 611],
     ),
     R(
-        "Eqs. (C-41)--(C-44) -> Eq. (C-40)",
+        "Eqs. (C-41), (C-42), (C-43), (C-44) -> Eq. (C-40)",
         r"$\mathcal{C}_{nnm}^{(2,2)}\propto Q_0+Q_1+Q_2+Q_3$",
         "definition",
         "DEFINITION_INSERTION",
@@ -358,7 +422,7 @@ RELATIONS: list[dict] = [
         tex_lines=[615, 647],
     ),
     R(
-        "Eqs. (C-47)--(C-50) -> Eq. (C-46)",
+        "Eqs. (C-47), (C-48), (C-49), (C-50) -> Eq. (C-46)",
         r"$\mathcal{C}_{nmm}^{(2,2)}\propto U_0+\cdots+U_3$",
         "definition",
         "DEFINITION_INSERTION",
@@ -410,6 +474,16 @@ RELATIONS: list[dict] = [
 def extend_d() -> list[dict]:
     return [
         R(
+            "Eq. (D-58)",
+            r"$\sigma^{(-2)}$ written in $K_1,K_2$",
+            "definition",
+            "DEFINITION_INSERTION",
+            r"the $\sigma_{abc}^{(-2)}$ is proportional to $1/\Gamma^2$ and is",
+            ["D-58"],
+            ["D-58"],
+            tex_lines=[768, 772],
+        ),
+        R(
             "Eq. (D-57)",
             r"$\sigma_{abc}=\Gamma^{-2}\sigma^{(-2)}+\Gamma^{-1}\sigma^{(-1)}+\sigma^{(0)}+O(\Gamma)$",
             "asymptotic expansion",
@@ -437,7 +511,7 @@ def extend_d() -> list[dict]:
             tex_lines=[782, 788],
         ),
         R(
-            "Key Identities -> Eq. (D-60)",
+            "unnumbered metric-velocity identity -> Eq. (D-60)",
             r"metric-velocity pair index order",
             "algebra",
             "PAIRWISE_REDUCTION",
@@ -596,7 +670,7 @@ def extend_d() -> list[dict]:
         ),
         R(
             "Eq. (D-73)",
-            r"$V_{ab}$ Feynman--Hellmann expansion",
+            r"$V_{ab}$ Feynman-Hellmann expansion",
             "algebra",
             "ALGEBRAIC_EQUIVALENCE",
             r"we utilize the Feynman-Hellmann identity ($v_{nm}^a=-i\epsilon_{mn}A_{nm}^a$)",
@@ -709,6 +783,16 @@ def extend_d() -> list[dict]:
             left="(1/(4*3*2*1))*va*vb*vc*f4",
             right="Rational(1,24)*va*vb*vc*f4",
             tex_lines=[941, 945],
+        ),
+        R(
+            "Eq. (D-80)",
+            r"$T_3$ written in $K_1,K_2$",
+            "definition",
+            "DEFINITION_INSERTION",
+            r"this term is proportional to the third derivative",
+            ["D-80"],
+            ["D-80"],
+            tex_lines=[951, 955],
         ),
         R(
             "Eq. (D-81) -> Eq. (D-82)",
@@ -912,7 +996,7 @@ def extend_d() -> list[dict]:
         ),
         R(
             "Eq. (D-105)",
-            r"$A_{12}^a v_{21}^b-A_{21}^a v_{12}^b=-2i\epsilon_{12}g_{ab}$",
+            r"$A_{12}^a v_{21}^b-A_{21}^a v_{12}^b=-i\epsilon_{12}(A_{12}^a A_{21}^b+A_{21}^a A_{12}^b)$",
             "substitution",
             "ALGEBRAIC_EQUIVALENCE",
             r"we evaluate the bracketed terms using the Feynman-Hellmann identity",
@@ -920,9 +1004,9 @@ def extend_d() -> list[dict]:
             ["D-105"],
             executable=True,
             left="A12a*(-I*e12*A21b) - A21a*(-I*e21*A12b)",
-            right="-2*I*e12*gab",
-            subst={"e21": "-e12", "A12a*A21b + A21a*A12b": "2*gab"},
-            condition=r"Feynman--Hellmann and $g_{ab}=\mathrm{Re}(A_{12}^a A_{21}^b)$; $\epsilon_{21}=-\epsilon_{12}$",
+            right="-I*e12*(A12a*A21b + A21a*A12b)",
+            subst={"e21": "-e12"},
+            condition=r"substitute $\epsilon_{21}=-\epsilon_{12}$; last paper equality $A_{12}^a A_{21}^b+A_{21}^a A_{12}^b=2g_{ab}$ is the declared metric convention",
             tex_lines=[1136, 1142],
         ),
         R(
@@ -1249,6 +1333,16 @@ def extend_d() -> list[dict]:
 def extend_e() -> list[dict]:
     return [
         R(
+            "Eq. (E-129)",
+            r"multiband off-diagonal $v_{nm}^{ab}$ identity",
+            "definition",
+            "DEFINITION_INSERTION",
+            r"multiband off-diagonal second derivative",
+            ["E-129"],
+            ["E-129"],
+            tex_lines=[1339, 1344],
+        ),
+        R(
             "Eq. (E-128)",
             r"multiband $v_{nn}^{ab}$ identity",
             "definition",
@@ -1529,7 +1623,7 @@ def extend_f() -> list[dict]:
             tex_lines=[1646, 1652],
         ),
         R(
-            "Eqs. (F-164)--(F-168) -> Eq. (F-157)",
+            "Eqs. (F-164), (F-165), (F-166), (F-167), (F-168) -> Eq. (F-157)",
             r"$T_0^{\mathrm{SHG}}$ split into five pieces",
             "definition",
             "SPLIT_PARENT",
@@ -1547,6 +1641,16 @@ def extend_f() -> list[dict]:
             ["F-165"],
             ["F-169"],
             tex_lines=[1697, 1720],
+        ),
+        R(
+            "Eq. (F-169) -> Eq. (F-170)",
+            r"rewrite $A_{nn}-A_{mm}$ by off-diagonal $v_{nm}^{ab}$",
+            "definition",
+            "DEFINITION_INSERTION",
+            r"then we try to rewrite Berry-connection-difference part like $(A^c_{nn}-A^c_{mm})v^b_{nm}v^a_{mn}$ by using properties of off-diagonal second derivative again",
+            ["F-169"],
+            ["F-170"],
+            tex_lines=[1721, 1729],
         ),
         R(
             "Eqs. (F-166), (F-169) -> Eq. (F-171)",
@@ -1590,7 +1694,7 @@ def extend_f() -> list[dict]:
         ),
         R(
             "Eq. (F-174) -> Eq. (F-175)",
-            r"Feynman--Hellmann rewrite of $T_0^{\mathrm{SHG}}$",
+            r"Feynman-Hellmann rewrite of $T_0^{\mathrm{SHG}}$",
             "definition",
             "DEFINITION_INSERTION",
             r"by invoking the Feynman-Hellmann identity, this expression can be further transformed",
@@ -1677,7 +1781,7 @@ def extend_g() -> list[dict]:
     return [
         R(
             "Eq. (G-182) -> Eq. (G-183)",
-            r"open-system Schrödinger equation for $\ket{\psi_n^j}$",
+            r"open-system Schrödinger equation for $\psi_n^j$",
             "definition",
             "DEFINITION_INSERTION",
             r"the exact equation of motion for $\ket{\psi_n^j(t)}$ is given by",
@@ -1697,7 +1801,7 @@ def extend_g() -> list[dict]:
         ),
         R(
             "Eq. (G-184) -> Eq. (G-185)",
-            r"static-Hamiltonian approximation for $\ket{\psi_n^j}$",
+            r"static-Hamiltonian approximation for $\psi_n^j$",
             "definition",
             "DEFINITION_INSERTION",
             r"one must artificially freeze the system Hamiltonian ... $H_S(t)\to H_S(0)$",
@@ -1729,7 +1833,7 @@ def extend_g() -> list[dict]:
         ),
         R(
             "Eq. (G-187) -> Eq. (G-188)",
-            r"Lorentzian as Fourier convolution $e^{-\Gamma|k|}$",
+            r"Lorentzian as Fourier convolution $e^{-\Gamma k}$",
             "special function identity",
             "SPECIAL_FUNCTION_IDENTITY",
             r"these higher-order contributions can be systematically extracted by expressing the integral as a convolution",

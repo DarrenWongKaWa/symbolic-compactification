@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TEX_PATH = ROOT / "source_anchors" / "main.tex"
 HTML_PATH = ROOT / "source_anchors" / "arxiv_html_v2.html"
+HTML_NUMS_PATH = ROOT / "source_anchors" / "html_printed_numbers.json"
 OUT_YAML = ROOT / "EQUATION_INVENTORY.yaml"
 OUT_JSON = ROOT / "source_anchors" / "numbering_crosscheck.json"
 
@@ -258,7 +259,12 @@ def main() -> None:
     tex_text = TEX_PATH.read_text()
     lines = tex_text.splitlines(keepends=True)
     tex_eqs = reconstruct_tex(lines)
-    html_nums = html_printed_numbers(HTML_PATH.read_text(errors="replace"))
+    if HTML_PATH.exists():
+        html_nums = html_printed_numbers(HTML_PATH.read_text(errors="replace"))
+        html_hash = sha256(HTML_PATH)
+    else:
+        html_nums = json.loads(HTML_NUMS_PATH.read_text())["printed"]
+        html_hash = sha256(HTML_NUMS_PATH)
     tex_nums = [e["public_printed_number"] for e in tex_eqs]
 
     discrepancies = []
@@ -294,7 +300,7 @@ def main() -> None:
         "paper": "Zhichao Guo et al., Phys. Rev. Lett. 136, 206303 (2026)",
         "arxiv": "2511.16422v2",
         "main_tex_sha256": sha256(TEX_PATH),
-        "html_sha256": sha256(HTML_PATH),
+        "html_sha256": html_hash,
         "numbering_note": (
             "Printed numbers come from independent Route A (TeX counters) and "
             "Route B (arXiv HTML ltx_tag). After \\appendix, \\theequation is "
