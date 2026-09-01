@@ -1,63 +1,29 @@
-# Pre-registered contributions
+# Contributions (v2 two-mode)
 
-Scientific contributions C1–C7 remain frozen. draft-v1 Introduction
-compresses them into four paper-level claims mapped to sections.
+Paper type: Technique with cross-domain framing.
 
-Paper-level (Introduction paragraph 6):
+## C1 — Unified formulation (Sections 2–3)
 
-1. Problem formulation: loss of epistemic type; derivation as typed evidence graph (Section 2). Maps to C1, C6.
-2. Certificate provenance, not a ranking of truth; ZERO ≠ CERTIFIED_BY_RULE (Section 3). Maps to C2, C5, C6.
-3. Authority separation: generated-not-authored tables (Sections 4–5). Maps to C3, C4.
-4. Evaluation as RQ1–RQ3, including public PRL field validation that preserves types (Section 6). Maps to C7.
+Constructive symbolic derivation and retrospective manuscript audit are
+operations on one typed evidence graph.
 
-Do not inflate them.
+## C2 — Typed fail-closed evidence semantics (Section 3)
 
-## C1 — Typed derivation graph
+Differentiate claim type, certificate provenance, engine adjudication,
+theorem-mediated certificate, structural record, and unsupported/unknown
+claim. Preserve `ZERO ≠ CERTIFIED_BY_RULE`.
 
-A theoretical derivation is represented as typed edges rather than treating
-every neighboring pair of equations as lhs–rhs equality.
+## C3 — Verification-gated iterative derivation (Section 4, RQ1)
 
-## C2 — Fail-closed adjudication
+Candidate transformations may come from humans, rules, or AI. State
+advancement requires independent evidence. Do not overclaim autonomous
+discovery quality.
 
-Exact executable obligations return `ZERO`, `NONZERO`, or `UNKNOWN`, with
-no narrative promotion of `UNKNOWN`.
+## C4 — Parallel manuscript audit (Sections 5 and 7, RQ3)
 
-## C3 — Evidence provenance
+Existing derivation paths can be typed and audited edge-by-edge, producing
+generated reviewer tables and reproducible evidence packages. Include the
+public Guo formative field validation.
 
-Machine records bind source, expression, assumptions, obligation, verifier,
-and result through immutable hashes / provenance.
-
-## C4 — Generated verification tables
-
-A verified table cannot be authored by an LLM. It is generated only from
-integrity-valid machine records.
-
-## C5 — Rule certificates
-
-Some derivation steps combine a local engine certificate with a declared
-mathematical theorem / domain. These receive `CERTIFIED_BY_RULE`, not fake
-engine `ZERO`.
-
-```text
-ZERO ≠ CERTIFIED_BY_RULE
-```
-
-## C6 — Explicit epistemic typing
-
-Distinguish:
-
-- `DIRECT_EXACT`
-- `SUBSTITUTION_EXACT`
-- `RULE_CERTIFICATE`
-- `STRUCTURAL`
-- `ASYMPTOTIC` / `UNKNOWN`
-
-These labels describe provenance, not mathematical-truth ranking.
-
-## C7 — Real-paper field validation
-
-Demonstrate the frozen pipeline on a published theoretical-physics
-derivation without modifying the verifier core (engine `0.3.0`
-`ZERO`/`NONZERO`/`UNKNOWN` semantics). A missing Brillouin-zone
-integration-by-parts adapter was a generic product gap, not a new
-scientific algorithm, and is recorded as the v0.2.1 patch.
+Authority slogan (not a contribution by itself):
+An AI may propose a derivation; it may not certify itself.

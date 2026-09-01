@@ -1,12 +1,15 @@
-# Figures (draft-v1)
+# Figure specifications (v2 two-mode)
 
-Load-bearing figures follow Supervisor-Skills figure-designer. Artwork is specified, not yet journal SVG/PDF. Do not generate new scientific results to fill a panel.
+Load-bearing figures (draw as vector SVG/PDF; these markdown files are specs):
 
-| Figure | Type | Paradigm | Job |
-|---|---|---|---|
-| 1 | Motivated example | Existing vs Ours | Untyped equation list collapses \(E_{17}\to E_{18}\) to “verified”; typed evidence graph keeps definition, algebra, IBP, remainder distinct. Running example: public Guo supplement. |
-| 2 | Solution overview | Pipeline plus output vocabulary | Source → typed claim → obligation → verifier → generated table. Output is certificate provenance, not pass/fail. |
-| 3 | Experimental / case | Real-paper graph | Public Guo selected edges coloured by certificate class. Headline: types preserved, not 19/19 passed. |
-| 4 | Experimental / soundness | Fail-closed remainder | Coefficient ZERO with parent UNKNOWN (Demo C and Guo D-57). |
+1. `fig1-two-workflows.md` — one graph, two directions (conceptual overview)
+2. `fig2-two-axis.md` — claim semantics \(\tau\) versus certificate provenance \(c\)
+3. `fig3-forward-mode.md` — gating of untrusted candidates (RQ1)
+4. `fig4-guo-audit.md` — heterogeneous statuses on the public Guo path (RQ3)
 
-Colour-blind-safe encoding: shape plus colour (circle DIRECT, square SUBSTITUTION, diamond RULE, triangle UNKNOWN, hexagon STRUCTURAL). No colour-only legend.
+Historical specs (not authoritative for v2 numbering):
+`fig1-architecture.md`, `fig2-certificate-taxonomy.md`,
+`fig3-real-paper-graph.md`, `fig4-fail-closed-asymptotic.md`
+
+No decorative AI artwork. Colour-blind dual encoding (colour + shape).
+Caption first sentence is the finding.

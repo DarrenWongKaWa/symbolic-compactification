@@ -1,18 +1,17 @@
-# Paper program status
+# Paper workspace status
 
-| Item | Status |
-|---|---|
-| Engineering v0.2 | CLOSED |
-| Product tag | `derivation-audit-v0.2.1-alpha` @ `783ec64` |
-| Story lock (Supervisor-Skills) | New Problem/Setting: typed evidence graph as scientific object |
-| Title | Machine-Auditable Theoretical Derivations through Typed Evidence Graphs |
-| Skeleton | `working/thinking-template.md` — four consistency checks pass |
-| Evidence map | `working/evidence-map.md` |
-| Manuscript | `manuscript/draft-v2.md` (evidence arithmetic, formative RQ3, RW defense) |
-| Prior drafts | `draft-v1.md`, `draft-v0.md` (kept) |
-| Figures | specified from existing evidence; not yet journal SVG/PDF |
-| New product capabilities | none |
-| New experiments | none |
-| Private unpublished manuscripts | excluded |
+Branch: `paper/derivation-audit-method`
+Engineering: CLOSED (`ENGINEERING_V0_2_CLOSED.md`)
+Current manuscript: `manuscript/draft-v2.md` (two-mode restructuring)
 
-draft-v2 addresses the four v1 revision items. Next: paper-polish → figures → pre-submission review. Not camera-ready. Author must verify every paragraph against tag `derivation-audit-v0.2.1-alpha` and evidence `69ad474`.
+Product freeze: tag `derivation-audit-v0.2.1-alpha` peels
+`783ec64c0bb4ffd0b4b6ad33f33ead96dba49087`
+Evidence: `engineering/real-paper-validation-arxiv-2511-16422` @
+`69ad474a43ebea55cb2e524934d982e518db026b`
+
+Historical audit-only drafts preserved:
+`manuscript/draft-v0.md`, `draft-v1.md`, `draft-v2-audit-only.md`
+
+Paper type: Technique with cross-domain framing.
+Do not run `pre-submission-reviewer` until vector figures and venue are frozen.
+See `working/pre-submission-checklist-v2.md`.

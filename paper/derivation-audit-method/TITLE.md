@@ -2,27 +2,30 @@
 
 ## Primary working title
 
-Machine-Auditable Theoretical Derivations through Typed Evidence Graphs
+Verified Symbolic Reasoning for Theoretical Physics
+through Typed Evidence Graphs
 
-## Subtitle
+## Preferred subtitle
 
-A fail-closed audit layer for AI-assisted symbolic science
+From stepwise derivation to manuscript audit
 
-## Alternative (problem-first)
+## Alternative
 
-A Fail-Closed Audit Layer for AI-Assisted Theoretical Derivations
+A Fail-Closed Framework for AI-Assisted Symbolic Derivations
+in Theoretical Physics
 
-## Previous title (kept as option)
+## Previous titles (historical)
 
-Machine-Auditable Derivation Verification for Theoretical Physics
+- Machine-Auditable Theoretical Derivations through Typed Evidence Graphs
+- Machine-Auditable Derivation Verification for Theoretical Physics
 
 ## Do not use
 
 - Autonomous Theoretical Physicist
 - AI Discovers Physics
-- AI Proves Your Paper
-- Complete Formal Verification of Theoretical Physics
+- AI Proves Physics
+- Universal Symbolic Reasoner
 
 ## Headline (not a title)
 
-Derivation Audit turns a derivation into a typed, provenance-bearing evidence graph.
+One evidence graph, two directions: construct a derivation or audit an existing derivation.

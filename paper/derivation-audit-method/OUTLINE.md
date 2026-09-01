@@ -1,22 +1,32 @@
-# Paper structure (draft-v1, five-act)
+# Outline (v2 two-mode)
 
-1. Introduction — loss of epistemic type; proposal is not authority
-2. Derivation as a typed evidence graph — proximity \(\neq\) equality
-3. Certificate provenance — dependency, not confidence
-4. Separating proposal from authority — the model must not be its own notary
-5. Implementation — hashes and generated tables (short, late)
-6. Evaluation
-    6.1 RQ1 Can tested narrative attacks populate the verified table?
-    6.2 RQ2 Do heterogeneous steps retain type? Synthetic demos.
-    6.3 RQ3 Formative field validation (not held-out generalisation).
-7. Related work — CAS / kernels / PCC / hidden verification / certified CAS / workflow provenance / LLM+tool / FAIR
-   plus comparison table
-8. Discussion — authors, reviewers, AI for science
-9. Conclusion — an AI may propose a derivation; it may not certify itself
-
-Figures:
-
-- Figure 1 Motivated example: untyped equation list versus typed evidence graph (Guo fragment)
-- Figure 2 Certificate taxonomy (provenance, not ranking)
-- Figure 3 Public Guo derivation graph (field validation)
-- Figure 4 Fail-closed remainder: coefficient ZERO, parent UNKNOWN
+1. Introduction (six-paragraph Technique Introduction)
+2. Problem formulation: one evidence graph, two workflows
+3. Typed evidence graph
+   3.1 Claim semantics
+   3.2 Certificate provenance
+   3.3 Fail-closed status semantics
+4. Forward symbolic derivation
+   4.1 Context and candidate generation
+   4.2 Candidate grounding
+   4.3 Verification-gated state advancement
+   4.4 Explicit capability boundary of the proposer
+5. Retrospective manuscript audit
+   5.1 Equation inventory
+   5.2 Parallel edge verification
+   5.3 Rule certificates and structural steps
+   5.4 Generated reviewer evidence
+6. Authority, integrity, and implementation
+   6.1 Proposal ≠ authority
+   6.2 Provenance-bound records
+   6.3 Generated-not-authored tables
+   6.4 Reproducibility
+7. Evaluation
+   RQ1 Forward verified workflow (gating, not discovery)
+   RQ2 Fail-closed / adversarial integrity
+   RQ3 Real-paper retrospective audit (formative)
+8. Related work
+9. Discussion and limitations
+10. Conclusion
+Appendix A Guo accounting
+Appendix B `schema.py` inclusion functions (normative)

@@ -5,48 +5,47 @@ product semantics.
 
 | Field | Value |
 |---|---|
-| Working title | Machine-Auditable Theoretical Derivations through Typed Evidence Graphs |
-| Subtitle | A fail-closed audit layer for AI-assisted symbolic science |
-| Forbidden titles | Autonomous Theoretical Physicist; AI Discovers Physics |
-| Product tag | `derivation-audit-v0.2.1-alpha` (`783ec64`) |
+| Working title | Verified Symbolic Reasoning for Theoretical Physics through Typed Evidence Graphs |
+| Subtitle | From stepwise derivation to manuscript audit |
+| Paper type | Technique with cross-domain framing |
+| Forbidden titles | Autonomous Theoretical Physicist; AI Discovers Physics; AI Proves Physics; Universal Symbolic Reasoner |
+| Product tag | `derivation-audit-v0.2.1-alpha` (peels `783ec64`) |
 | Evidence branch | `engineering/real-paper-validation-arxiv-2511-16422` (`69ad474`) |
 | Current draft | `manuscript/draft-v2.md` |
-| Prior drafts | `draft-v1.md`, `draft-v0.md` |
+| Prior drafts | `draft-v2-audit-only.md`, `draft-v1.md`, `draft-v0.md` |
 | Engineering | CLOSED |
 
 ## One-sentence story
 
-Modern theoretical derivations mix human reasoning, AI proposals, CAS
-manipulations, substitutions, symmetry arguments, global theorems, and
-asymptotics. The missing object is an audit layer that records exactly
-what was claimed, what was actually checked, under which assumptions,
-and with what machine evidence.
+Theoretical physics has two complementary symbolic workflows: constructing a
+derivation and auditing an existing one. We represent both as operations on
+the same typed evidence graph, where candidate transformations may be
+proposed freely but may advance a derivation, or enter a reviewer-facing
+verified table, only through explicit fail-closed evidence.
 
-Derivation Audit turns a derivation into a typed, provenance-bearing
-evidence graph.
+Shorter: one evidence graph, two directions.
+
+An AI may propose a derivation; it may not certify itself.
 
 ## Headline (remember this, not 19 ZEROs)
 
-The system preserved different epistemic statuses on a real derivation.
-
-An AI may propose a derivation; it may not certify itself.
+The same evidence system supports stepwise construction and manuscript
+audit, and it preserves distinct epistemic statuses on a real derivation.
 
 ## Layout
 
 ```text
-manuscript/draft-v2.md    current journal draft (read this)
-manuscript/draft-v1.md    five-act rewrite before accounting/RW fixes
-manuscript/draft-v0.md    earlier complete draft
-working/                  Supervisor-Skills skeleton, evidence map
-figures/                  Figure 1–4 specifications
-tables/                   Table 1–4 plans
+manuscript/draft-v2.md              current two-mode journal draft
+manuscript/draft-v2-humanized.md    after humanizer
+manuscript/draft-v2-prehumanizer.md before humanizer
+manuscript/draft-v2-audit-only.md   previous audit-only v2 (preserved)
+manuscript/draft-v1.md              five-act audit-only rewrite
+manuscript/draft-v0.md              earlier complete draft
+working/paper-repositioning-v2.md   tech-paper-template
+working/related-work-audit-v2.md
+working/venue-v2.md
+working/pre-submission-checklist-v2.md
+working/future-product-gaps.md      record only; do not implement
+figures/                            vector specs (not drawn yet)
+tables/
 ```
-
-## Evaluation as three questions
-
-- RQ1. Can the tested narrative/record attacks populate the verified table? Under the implemented threat model, no.
-- RQ2. Can heterogeneous steps retain type? Synthetic demos.
-- RQ3. Formative field validation: can the architecture represent a published derivation without false certificates? Not a held-out generalisation test.
-
-Guo is a stress test of the epistemic architecture, not the story subject.
-189 numbered equations → 25 selected paper steps; 18 paper-level ZERO plus one Leibniz helper.
