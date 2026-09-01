@@ -257,6 +257,8 @@ For AI-assisted scientific calculation, a model may propose the next transformat
 
 Limitations are specific. Forward Mode's public demos remain one-shot researcher hypotheses. The masked Guo replay is an experiment tree on a frozen product, not a shipped `propose` command, and substitution-conditioned next states still cannot be promoted until identities are compiled rather than left in notes. Representation invention is unestablished. Inventory does not parse LaTeX as algebra. Transcription can be wrong. Generic integrals remain `NOT_LOWERED`. Remainder certification is unsupported. Parameter identities cannot be machine assumptions. Complex-domain certification is rejected. The system does not prove physical conclusions and does not understand PDFs. Guo is formative: the BZ IBP adapter was added because that paper needed it, so the case cannot be sold as independent generalisation to unseen manuscripts. Unpublished local scientific manuscripts are excluded from this public paper.
 
+A remaining class of theoretical derivation steps is approximation-mediated reasoning. A future extension should separate the provenance of an approximation from the exact verification of algebra performed after that approximation, rather than weakening the meaning of engine `ZERO`. That split is an RQ4 candidate, not a claim of this paper.
+
 The verifier is the authority layer that makes both workflows trustworthy, not the scientific goal. The goal is a derivation whose steps carry explicit evidence, whether those steps are being constructed or being reread.
 
 ---

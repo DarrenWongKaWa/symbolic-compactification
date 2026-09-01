@@ -33,6 +33,12 @@ These gaps are **not** implementation tasks.
 10. No PDF understanding or literature RAG.
 11. Session CLI (`init-session` / `step`) is documented as compatibility,
     not as the v0.1 workspace contract.
+12. Approximation-mediated steps have no product parent status. Experiment
+    `experiment/approximation-authority-v1` records an overlay
+    `CERTIFIED_UNDER_DECLARED_APPROXIMATION` that must not be implemented
+    as engine `ZERO`. Remainder control stays `DECLARED_ONLY` without a
+    remainder certificate (item 5). Substitution identities stay item 7,
+    not approximations.
 
 Do not implement any of the above in this repository as part of the paper
 task.

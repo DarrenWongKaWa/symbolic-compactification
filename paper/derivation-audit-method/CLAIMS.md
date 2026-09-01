@@ -18,6 +18,14 @@ Central question:
 - explicit distinction between local exact and theorem-mediated certificates
 - `ZERO ≠ CERTIFIED_BY_RULE`
 
+## RQ4 candidate (not a claim of this draft)
+
+Approximation-mediated reasoning: provenance of an approximation is
+independent of exact verification of algebra after that approximation.
+`ZERO` must not be weakened. Experiment
+`experiment/approximation-authority-v1` distinguished four diagnostic
+cases. Do not promote this to a core contribution until a later decision.
+
 ## The paper MUST NOT claim
 
 - robust autonomous representation invention
