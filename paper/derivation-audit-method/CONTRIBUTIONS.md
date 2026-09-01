@@ -22,8 +22,8 @@ discovery quality.
 ## C4 — Parallel manuscript audit (Sections 5 and 7, RQ3)
 
 Existing derivation paths can be typed and audited edge-by-edge, producing
-generated reviewer tables and reproducible evidence packages. Include the
-public Guo formative field validation.
+generated reviewer tables. Depth: complete numbered-equation inventory of
+Guo et al. Breadth: sampled five-paper stress test. Neither is a paper proof.
 
 Authority slogan (not a contribution by itself):
 An AI may propose a derivation; it may not certify itself.

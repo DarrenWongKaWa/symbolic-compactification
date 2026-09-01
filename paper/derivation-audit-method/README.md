@@ -9,9 +9,9 @@ product semantics.
 | Subtitle | From stepwise derivation to manuscript audit |
 | Paper type | Technique with cross-domain framing |
 | Forbidden titles | Autonomous Theoretical Physicist; AI Discovers Physics; AI Proves Physics; Universal Symbolic Reasoner |
-| Product tag | `derivation-audit-v0.2.1-alpha` (peels `783ec64`) |
-| Evidence branch | `engineering/real-paper-validation-arxiv-2511-16422` (`69ad474`) |
-| Current draft | `manuscript/draft-v2.md` |
+| Product tag | `v0.3.0-alpha` (peels `f1d225e`) |
+| Evidence | archive tags in `SOFTWARE_AUTHORITY.md` |
+| Current draft | `manuscript/draft-v3.md` |
 | Prior drafts | `draft-v2-audit-only.md`, `draft-v1.md`, `draft-v0.md` |
 | Engineering | CLOSED |
 
@@ -27,15 +27,18 @@ Shorter: one evidence graph, two directions.
 
 An AI may propose a derivation; it may not certify itself.
 
-## Headline (remember this, not 19 ZEROs)
+## Headline (remember this, not a pass rate)
 
 The same evidence system supports stepwise construction and manuscript
-audit, and it preserves distinct epistemic statuses on a real derivation.
+audit. Guo flagship is a 189/189 inventory with typed statuses, not
+"189 equations proved."
 
 ## Layout
 
 ```text
-manuscript/draft-v2.md              current two-mode journal draft
+SOFTWARE_AUTHORITY.md              v0.3.0-alpha freeze lock
+manuscript/draft-v3.md              current draft (authority realignment)
+manuscript/draft-v2.md              pre-v0.3 two-mode draft (preserved)
 manuscript/draft-v2-humanized.md    after humanizer
 manuscript/draft-v2-prehumanizer.md before humanizer
 manuscript/draft-v2-audit-only.md   previous audit-only v2 (preserved)

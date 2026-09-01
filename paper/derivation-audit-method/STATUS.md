@@ -1,17 +1,16 @@
 # Paper workspace status
 
 Branch: `paper/derivation-audit-method`
-Engineering: CLOSED (`ENGINEERING_V0_2_CLOSED.md`)
-Current manuscript: `manuscript/draft-v2.md` (two-mode restructuring)
+Product engineering: **FROZEN** at `v0.3.0-alpha`.
+Current manuscript: `manuscript/draft-v3.md` (authority realignment in progress)
 
-Product freeze: tag `derivation-audit-v0.2.1-alpha` peels
-`783ec64c0bb4ffd0b4b6ad33f33ead96dba49087`
-Evidence: `engineering/real-paper-validation-arxiv-2511-16422` @
-`69ad474a43ebea55cb2e524934d982e518db026b`
+Software authority: tag `v0.3.0-alpha` peels
+`f1d225e46eec3aac17381fb2f7618fa830a8ec79`
+See `SOFTWARE_AUTHORITY.md`. Do not chase `main`.
 
-Historical audit-only drafts preserved:
-`manuscript/draft-v0.md`, `draft-v1.md`, `draft-v2-audit-only.md`
+Prior drafts (preserved, pre-v0.3 authority):
+`manuscript/draft-v2.md`, `draft-v2-audit-only.md`, `draft-v1.md`, `draft-v0.md`
 
 Paper type: Technique with cross-domain framing.
-Do not run `pre-submission-reviewer` until vector figures and venue are frozen.
-See `working/pre-submission-checklist-v2.md`.
+Do not run `pre-submission-reviewer` until draft-v3 numbers, figures, and
+venue are frozen against `SOFTWARE_AUTHORITY.md`.

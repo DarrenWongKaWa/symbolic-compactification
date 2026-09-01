@@ -24,9 +24,11 @@
 7. Evaluation
    RQ1 Forward verified workflow (gating, not discovery)
    RQ2 Fail-closed / adversarial integrity
-   RQ3 Real-paper retrospective audit (formative)
+   RQ3 Depth: Guo full-paper flagship (189/189 inventory)
+   Field sample: five-paper stress (not five complete audits)
 8. Related work
 9. Discussion and limitations
 10. Conclusion
-Appendix A Guo accounting
+Appendix A Guo flagship accounting
+Appendix A2 selected-edge precursor (historical)
 Appendix B `schema.py` inclusion functions (normative)

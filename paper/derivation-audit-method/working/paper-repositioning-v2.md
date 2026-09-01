@@ -153,21 +153,10 @@ Representation-invention campaigns remain closed.
 
 ---
 
-## 9. Guo accounting lock (RQ3)
+## 9. Guo accounting lock (RQ3) — superseded by SOFTWARE_AUTHORITY.md
 
-Formative field validation, not held-out generalisation.
+Canonical counts are the v0.3.0-alpha flagship table (189/189 inventory,
+146 relations). The 25/26 selected-edge arithmetic below is lineage only.
 
-```
-189 numbered equations → 25 selected paper steps
-Paper-level engine ZERO = 18
-    DIRECT_EXACT = 12
-    SUBSTITUTION_EXACT = 6
-RULE_CERTIFICATE = 2
-ASYMPTOTIC UNKNOWN = 1
-Structural records = 4
-Complete-run ZERO = 19  (18 paper-level + 1 shared Leibniz helper)
-NONZERO = 0
-```
-
-Do not mix 25 selected paper steps with 19 complete-run ZERO records.
-Headline is type preservation, not "19 equations passed."
+Do not mix 189 inventoried equations with 32 `EXACT_ZERO` rows.
+Headline is type preservation on a complete inventory, not "189 passed."

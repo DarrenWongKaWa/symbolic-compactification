@@ -1,106 +1,80 @@
-# Engineering Closure and Paper Handoff
+# Paper handoff after v0.3.0-alpha freeze
+
+Canonical software lock: `SOFTWARE_AUTHORITY.md`.
 
 ## GitHub release URL
 
-https://github.com/DarrenWongKaWa/symbolic-compactification/releases/tag/derivation-audit-v0.2.1-alpha
+https://github.com/DarrenWongKaWa/symbolic-compactification/releases/tag/v0.3.0-alpha
 
-Pre-release title: **Derivation Audit Alpha 0.2.1**. Marked `PRE-RELEASE`.
-Generic product notes only. No unpublished manuscript information. No claim
-that entire papers are proven.
+Pre-release title: **symbolic-compactification v0.3.0-alpha**.
+Unified Research Preview. Not a stable v1.0.
 
-## v0.2.1 tag / SHA
+## v0.3.0-alpha tag / SHA
 
 | Item | Value |
 |---|---|
-| Tag | `derivation-audit-v0.2.1-alpha` |
-| Peel | `783ec64c0bb4ffd0b4b6ad33f33ead96dba49087` |
-| Branch | `engineering/derivation-audit-v0.2.1` |
-| Package | `0.2.1-alpha` (PEP 440 `0.2.1a0`) |
+| Tag | `v0.3.0-alpha` |
+| Peel | `f1d225e46eec3aac17381fb2f7618fa830a8ec79` |
+| Package | `0.3.0-alpha` (PEP 440 `0.3.0a0`) |
 | Engine | `0.3.0` |
-| Protocol | `0.2.1` |
+| Protocol | `0.3.0` |
 
-Historical tag `derivation-audit-v0.2.0-alpha` still peels to `aaf1199`.
-**Not moved.** `origin/main` remains at `aaf1199` (v0.2.0). This handoff
-does not fast-forward `main`.
+Historical tags `derivation-audit-v0.2.0-alpha` (`aaf1199`) and
+`derivation-audit-v0.2.1-alpha` (`783ec64`) are unmoved lineage.
 
-## Evidence branch / SHA
+Post-tag `main` may contain test-import hygiene. It is not the paper's
+software identity.
 
-| Item | Value |
-|---|---|
-| Branch | `engineering/real-paper-validation-arxiv-2511-16422` |
-| SHA | `69ad474a43ebea55cb2e524934d982e518db026b` |
-| Workspace | `examples/real_papers/arxiv_2511_16422/` |
+## Evidence tags (not live branches)
 
-Evidence, not a product tag. Approved public metrics: 25 selected paper
-steps; 19 machine `ZERO` (13 `DIRECT_EXACT` + 6 `SUBSTITUTION_EXACT`);
-2 BZ periodic IBP `RULE_CERTIFICATE`; 1 asymptotic `UNKNOWN`; 0 `NONZERO`.
+Live experiment/engineering branches were deleted after archival.
+Cite archive tags, not deleted branch names, as the durable pointer.
+
+| Evidence | Archive tag | Peel |
+|---|---|---|
+| Guo full-paper flagship | `archive/guo-full-paper-audit-flagship-v1` | `d92f3ec` |
+| Five-paper sampled stress | `archive/prd-cross-paper-stress-v1` | `4f12401` |
+| Forward proposer replay | `archive/forward-proposer-replay-v1` | `b9b6972` |
+| Guo selected-edge precursor | `archive/guo-selected-edge-validation-v1` | `69ad474` |
+| Approximation authority (RQ4 candidate) | `archive/approximation-authority-v1` | `5477cf2` |
 
 ## Engineering freeze status
 
-**CLOSED.** Recorded in repository-root `ENGINEERING_V0_2_CLOSED.md` on
-branch `paper/derivation-audit-method`.
-
-No automatic v0.2.2, theorem-rule catalogue, verifier expansion, benchmark
-expansion, or second-paper engineering campaign is authorized. Future
-engineering requires real external use + a concrete generic product gap +
-explicit human authorization.
+**Product engineering CLOSED at v0.3.0-alpha.**
+No automatic v0.3.1, theorem-rule catalogue, verifier expansion, or
+additional full-paper audit campaign is authorized. Future engineering
+requires a user-visible bug, install failure, or certificate-semantics
+bug, plus explicit human authorization.
 
 ## Public privacy audit
 
-Product tree at `783ec64`:
-
-| Check | Result |
-|---|---|
-| `HEAD == 783ec64` | PASS |
-| `derivation-audit-v0.2.0-alpha` → `aaf1199` | PASS |
-| `examples/real_papers/` | absent |
-| `manuscripts/` | absent |
-| `.private_validation/` | absent |
-| v0.2.1 patch files | generic adapter, tests, docs only |
-| Unpublished formulas/paths/hashes added in v0.2.1 | none |
-| Historical public Guo benchmark files already on `v0.2.0`/`main` | unchanged; not this patch |
-
-Paper workspace contains only public Guo et al. (arXiv:2511.16422v2)
-discussion. Unpublished local scientific manuscripts are not cited,
-described, counted, or reproduced.
+Unpublished local scientific manuscripts are not cited, described, counted,
+or reproduced. Flagship source is public Guo et al. (arXiv:2511.16422v2).
 
 ## Methods-paper directory
 
-`paper/derivation-audit-method/` on branch `paper/derivation-audit-method`
-(cut from product SHA `783ec64`). Writing and analysis only; does not
-modify product semantics.
+`paper/derivation-audit-method/` on branch `paper/derivation-audit-method`.
+Writing and analysis only; does not modify product semantics.
 
-Working title: **Machine-Auditable Derivation Verification for Theoretical Physics**.
+Working title: **Verified Symbolic Reasoning for Theoretical Physics
+through Typed Evidence Graphs**.
 
-Central question: how can AI-assisted symbolic derivations be made
-machine-auditable without granting the AI authority to certify its own
-claims?
+Central question: how can constructive symbolic derivation and retrospective
+manuscript audit share one machine-auditable evidence contract, without
+granting a proposer the authority to certify its own claims?
 
-## Frozen paper claims
+Evidence chain the paper now defends:
 
-MAY: equation-level machine-auditable verification; fail-closed
-adjudication; source-grounded provenance; local exact vs theorem-mediated
-certificates; reproducible reviewer packages; public real-paper validation.
+```
+proposal/extraction is untrusted
+  → typed scientific claim
+  → deterministic evidence
+  → fail-closed scientific state
+```
 
-MUST NOT: full formal proof of a manuscript; physical-conclusion
-verification; autonomous discovery; general theorem proving; complete
-integrals/limits/asymptotics; robust representation invention.
-
-## Available figures / tables
-
-Planned from existing evidence (not newly computed science):
-
-- Figure 1 architecture
-- Figure 2 certificate taxonomy
-- Figure 3 public Guo derivation graph
-- Figure 4 fail-closed asymptotic remainder
-- Table 1 status / certificate semantics
-- Table 2 field-validation summary
-- Table 3 adversarial integrity attacks
-- Table 4 capability boundary (SUPPORTED / PARTIAL / UNSUPPORTED)
-
-## First-draft status
-
-Complete section-by-section first draft: `manuscript/draft-v0.md`
-(§1–12 + appendices). Not a submission PDF. Figures are specified, not
-yet journal-rendered. No new experiment was run to produce the draft.
+Forward shows a candidate cannot certify itself.
+Audit shows a paper relation cannot certify itself by prose.
+Guo flagship shows the contract covers one 189-equation theoretical
+derivation, not a handful of toy identities.
+The five-paper sample shows the same statuses travel beyond one manuscript,
+without claiming five complete-paper proofs.

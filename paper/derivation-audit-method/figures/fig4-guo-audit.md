@@ -5,8 +5,10 @@ Supersedes `fig3-real-paper-graph.md` numbering (that content belongs here).
 `fig4-fail-closed-asymptotic.md` can remain as an optional supplement on
 Demo C remainder soundness; it is not one of the four load-bearing figures.
 
-Public evidence only: `69ad474`,
-`examples/real_papers/arxiv_2511_16422/VALIDATION_REPORT.md`.
+Public evidence: `v0.3.0-alpha` `examples/flagship/guo/RESULTS.md`
+and `archive/guo-full-paper-audit-flagship-v1`. Printed equation numbers
+are the public identifiers. The selected-edge table at `69ad474` is
+lineage only.
 
 ---
 

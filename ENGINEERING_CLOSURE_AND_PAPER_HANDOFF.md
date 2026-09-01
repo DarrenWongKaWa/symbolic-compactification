@@ -1,6 +1,9 @@
 # Engineering Closure and Paper Handoff
 
-See `paper/derivation-audit-method/HANDOFF.md` for the canonical copy.
+Canonical lock after product freeze: `paper/derivation-audit-method/SOFTWARE_AUTHORITY.md`
+and `paper/derivation-audit-method/HANDOFF.md`.
+
+Software authority is `v0.3.0-alpha` (peel `f1d225e`), not the v0.2.1 tag below.
 
 ## GitHub release URL
 

@@ -1,8 +1,9 @@
 # Table — Masked forward replay on Guo (RQ1 supplement)
 
-Public experiment on `experiment/forward-proposer-replay-v1`, frozen
-product peel `783ec64`. Not a leaderboard. Gold is a pipeline control,
-not proposer success. Equivalent mathematical forms count as recovery.
+Public experiment on `archive/forward-proposer-replay-v1` (`b9b6972`),
+frozen product peel `783ec64` (engine `0.3.0`, same kernel as
+`v0.3.0-alpha`). Not a leaderboard. Gold is a pipeline control, not
+proposer success. Equivalent mathematical forms count as recovery.
 
 | Source | Role | TargetRecovery | Promoted vs \(E_t\) | False promotion |
 |---|---|---|---|---|
@@ -20,4 +21,4 @@ not block a later gold candidate of the original state.
 
 Substitution gap: FR-06 and FR-08 recover the hidden printed form and
 remain `NONZERO` versus current, because \(\varepsilon_{21}=-\varepsilon_{12}\)
-and \(f_{n}'=2f_{0,n}'\) are not Mode A assumptions.
+and \(f_{n}'=2f_{0,n}'\) are not machine-enforced workspace assumptions.
