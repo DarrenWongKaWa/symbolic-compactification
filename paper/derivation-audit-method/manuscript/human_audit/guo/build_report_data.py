@@ -23,6 +23,18 @@ import sympy as sp
 import yaml
 
 HERE = Path(__file__).resolve().parent
+
+
+def default_flagship_dir() -> Path:
+    """Prefer the sibling flagship tree on main; else walk up to examples/flagship/guo."""
+    sibling = HERE.parent
+    if (sibling / "RESULTS.md").exists():
+        return sibling
+    for parent in HERE.parents:
+        cand = parent / "examples" / "flagship" / "guo"
+        if (cand / "RESULTS.md").exists():
+            return cand
+    return sibling
 SOFTWARE_COMMIT = "f1d225e46eec3aac17381fb2f7618fa830a8ec79"
 SOFTWARE_TAG = "v0.3.0-alpha"
 ENGINE = "python_sympy_exact_v1 0.3.0"
@@ -1233,7 +1245,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "--flagship",
-        default=str(HERE.parent),
+        default=str(default_flagship_dir()),
         help="Path to frozen flagship directory (RESULTS.md + RELATIONS_FROZEN.yaml)",
     )
     ap.add_argument("--out", default=str(HERE))
