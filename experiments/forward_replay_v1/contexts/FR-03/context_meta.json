@@ -1,0 +1,8 @@
+{
+  "task_id": "FR-03",
+  "role": "recovery",
+  "expected_claim_type": "ALGEBRAIC_EQUIVALENCE",
+  "printed": "(D-71)->(D-72)",
+  "current_sha256": "8c6f0e4392d29991d505dc557657552e73a414fc0dafe8c7f222f4b7769f397b",
+  "notes_sha256": "5b647385702bde304f64fd740b148507d54fb3a65af8612ee7fa64d82e04c5c8"
+}

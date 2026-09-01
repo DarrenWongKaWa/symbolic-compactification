@@ -1,0 +1,216 @@
+schema_version: ForwardReplayTaskSetV1
+product_tag: derivation-audit-v0.2.1-alpha
+product_commit: 783ec64c0bb4ffd0b4b6ad33f33ead96dba49087
+evidence_commit: 69ad474a43ebea55cb2e524934d982e518db026b
+paper: Guo et al., Phys. Rev. Lett. 136, 206303 (2026), arXiv:2511.16422v2
+n_recovery_tasks: 8
+n_negative_controls: 1
+multi_step:
+  rollout_id: MS-01
+  description: Three public Guo algebraic steps as a forward session (K1A regroup,
+    TA prefactor, C12 regroup). Intermediate paper steps between these printed numbers
+    exist; the session tests promote/refuse, not paper adjacency.
+  steps:
+  - step: 0
+    task_id: FR-01
+  - step: 1
+    task_id: FR-02
+  - step: 2
+    task_id: FR-03
+tasks:
+- task_id: FR-01
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-59)->(D-60)
+  public_edge_id: D.K1A-regroup
+  current_state_file: K1A_expanded.txt
+  hidden_target_file: K1A_regrouped.txt
+  hidden_target_sha256: aadc81d3dfb259d59b26d108726a2e3209319cb48f3dea2354b47f6ea5429be8
+  allowed_context:
+  - contexts/FR-01/
+  excluded_context:
+  - hidden/targets/K1A_regrouped.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Direct algebraic regroup of a velocity kernel; Mode A ZERO
+    in the public audit.
+  allowed_identities: []
+  context_sha256: 074a8ac94b2c7edd4bead1d3046ca27fa4ef831778f26f68e9e6326f8a4923e7
+- task_id: FR-02
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-60)->(D-61)
+  public_edge_id: D.TA-prefactor
+  current_state_file: TA_unreduced.txt
+  hidden_target_file: TA_reduced.txt
+  hidden_target_sha256: 8fd3bc2d66bbcbad2e29c017f59e412b243bb3a4aed77a7314d5c222610794de
+  allowed_context:
+  - contexts/FR-02/
+  excluded_context:
+  - hidden/targets/TA_reduced.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Prefactor simplification of T_A; local exact algebra.
+  allowed_identities: []
+  context_sha256: 9d74f3c4d401d51207bda53c16f3cfedaa688d14983332c3062bfe9c6da3eaea
+- task_id: FR-03
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-71)->(D-72)
+  public_edge_id: D.C12-regroup
+  current_state_file: C12_expanded.txt
+  hidden_target_file: C12_regrouped.txt
+  hidden_target_sha256: 0ccf3662a3c18a1688ff00ceece155392cd967f283502678185a44f71451302f
+  allowed_context:
+  - contexts/FR-03/
+  excluded_context:
+  - hidden/targets/C12_regrouped.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Algebraic regroup of the C_{1,2} kernel.
+  allowed_identities: []
+  context_sha256: 8c6f0e4392d29991d505dc557657552e73a414fc0dafe8c7f222f4b7769f397b
+- task_id: FR-04
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-120)->(D-121)
+  public_edge_id: D.T0T1-regroup
+  current_state_file: T0T1_mixed.txt
+  hidden_target_file: T0T1_grouped.txt
+  hidden_target_sha256: 843629a94558e77b11441e44097b8a41d874d1bd2e65300ead5938e4771bcdea
+  allowed_context:
+  - contexts/FR-04/
+  excluded_context:
+  - hidden/targets/T0T1_grouped.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Local regroup of T0+T1 after the IBP surface term is already
+    local.
+  allowed_identities: []
+  context_sha256: c7576d30a3fa76955360a99515cff4b2007feca33fe56eeff50be9ce646c1f1a
+- task_id: FR-05
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-74)
+  public_edge_id: D.A-antisym
+  current_state_file: A_pair.txt
+  hidden_target_file: A_pair_swapped.txt
+  hidden_target_sha256: 4024efcd4ad1f5a5fcd950801d152cd787b46ed96de7d29fa89201201d37dab1
+  allowed_context:
+  - contexts/FR-05/
+  excluded_context:
+  - hidden/targets/A_pair_swapped.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Antisymmetric pair identity on Berry-connection products.
+  allowed_identities: []
+  context_sha256: 78281ace099b12b9d39b7ace24da45afe900cf372f520bafdb586c9668bad6c5
+- task_id: FR-06
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-66)->(D-67)
+  public_edge_id: D.TBgeo-eps21
+  current_state_file: TBgeo_e12.txt
+  hidden_target_file: TBgeo_e21.txt
+  hidden_target_sha256: 8d661e50a6a5de0d3366e463b296cb5dc7148b35454eb0758a40cfb9fc77a016
+  allowed_context:
+  - contexts/FR-06/
+  excluded_context:
+  - hidden/targets/TBgeo_e21.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: 'Substitution-conditioned algebra: e21=-e12 is allowed context,
+    not the target formula.'
+  allowed_identities:
+  - e21 = -e12
+  context_sha256: 1e231ebb1e9417a000d648510f798e9e1853c4acb42c85296a26230d27042683
+- task_id: FR-07
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-122)+(D-124)->(D-125)
+  public_edge_id: D.geo-T2-subst
+  current_state_file: geo_T2_plus_T0T1.txt
+  hidden_target_file: geo_fnp_subst.txt
+  hidden_target_sha256: 99fcd9355dc1fdeff70ba7218e2fb31f7bc8231966033660788ecac57839da1c
+  allowed_context:
+  - contexts/FR-07/
+  excluded_context:
+  - hidden/targets/geo_fnp_subst.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ALGEBRAIC_EQUIVALENCE
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Distribute f1p/f2p through the T0+T1+T2 combination.
+  allowed_identities: []
+  context_sha256: 1468698428c3c8a197036b4b74c0ddc49985f42357c3b187f7591e534e132c47
+- task_id: FR-08
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-126)->(D-127)
+  public_edge_id: D.compact-nbar
+  current_state_file: geo_eps21.txt
+  hidden_target_file: geo_nbar.txt
+  hidden_target_sha256: 17247c528508fae0b51423488e9a1cc0c719442f846ef8eea68c0bf8e56b512e
+  allowed_context:
+  - contexts/FR-08/
+  excluded_context:
+  - hidden/targets/geo_nbar.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: INDEX_RELABELING
+  verification_route: python_sympy_exact_v1
+  role: recovery
+  reason_for_selection: Compact rewrite after the paper convention f_n' = 2 f_0,n'.
+  allowed_identities:
+  - f1p = 2*f01p
+  - f2p = 2*f02p
+  context_sha256: 1eedc2019ea4a2867b220c813cb6910e594bf3ec413bc766080ae915cfc728f6
+- task_id: FR-NC-01
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed_equation_source: (D-57) remainder control
+  public_edge_id: D.gamma-asymptotic
+  current_state_file: K1A_expanded.txt
+  hidden_target_file: zero.txt
+  hidden_target_sha256: 9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa
+  allowed_context:
+  - contexts/FR-NC-01/
+  excluded_context:
+  - hidden/targets/zero.txt
+  - examples/real_papers/
+  - reports/
+  - VALIDATION_REPORT.md
+  - TABLE_EVIDENCE.md
+  expected_claim_type: ASYMPTOTIC_CLAIM
+  verification_route: python_sympy_exact_v1
+  role: negative_control
+  reason_for_selection: Unsupported remainder-style collapse to 0 must not promote.
+    Target 0 is NOT a recovery target; gold control is omitted.
+  allowed_identities: []
+  context_sha256: 074a8ac94b2c7edd4bead1d3046ca27fa4ef831778f26f68e9e6326f8a4923e7

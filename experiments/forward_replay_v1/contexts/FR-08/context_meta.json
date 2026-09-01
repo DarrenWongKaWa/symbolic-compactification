@@ -1,0 +1,8 @@
+{
+  "task_id": "FR-08",
+  "role": "recovery",
+  "expected_claim_type": "INDEX_RELABELING",
+  "printed": "(D-126)->(D-127)",
+  "current_sha256": "1eedc2019ea4a2867b220c813cb6910e594bf3ec413bc766080ae915cfc728f6",
+  "notes_sha256": "980bb87ecbff0ec21b289e6f47874f4874aed1992323c836cce6eee3cad83d53"
+}

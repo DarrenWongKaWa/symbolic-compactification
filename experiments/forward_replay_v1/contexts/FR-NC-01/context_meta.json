@@ -1,0 +1,8 @@
+{
+  "task_id": "FR-NC-01",
+  "role": "negative_control",
+  "expected_claim_type": "ASYMPTOTIC_CLAIM",
+  "printed": "(D-57) remainder control",
+  "current_sha256": "074a8ac94b2c7edd4bead1d3046ca27fa4ef831778f26f68e9e6326f8a4923e7",
+  "notes_sha256": "e147de59e39b0906cb18207656ec15ecde1ba1091187919f4bc7441034191d83"
+}
