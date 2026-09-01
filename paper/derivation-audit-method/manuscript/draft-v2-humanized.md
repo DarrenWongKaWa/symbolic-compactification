@@ -285,9 +285,9 @@ Product tag `derivation-audit-v0.2.1-alpha` and public evidence commit `69ad474`
 
 [8] L. Moreau, B. Ludäscher, et al., "The First Provenance Challenge," Concurr. Comput. Pract. Exp., vol. 20, no. 5, pp. 409-418, 2008.
 
-[9] L. de Moura and S. Ullrich, "The Lean 4 theorem prover and programming language," in Proc. CADE-28, 2021.
+[9] L. de Moura and S. Ullrich, "The Lean 4 theorem prover and programming language," in Proc. CADE-28, 2021, pp. 625-635.
 
-[10] T. Nipkow, L. C. Paulson, and M. Wenzel, Isabelle/HOL: A Proof Assistant for Higher-Order Logic. Berlin: Springer, 2002.
+[10] T. Nipkow, L. C. Paulson, and M. Wenzel, Isabelle/HOL: A Proof Assistant for Higher-Order Logic (LNCS 2283). Berlin: Springer, 2002.
 
 [11] S. Polu and I. Sutskever, "Generative language modeling for automated theorem proving," arXiv:2009.03393, 2020.
 
@@ -303,7 +303,7 @@ Product tag `derivation-audit-v0.2.1-alpha` and public evidence commit `69ad474`
 
 [17] P. Song, K. Yang, and A. Anandkumar, "Lean Copilot: large language models as copilots for theorem proving in Lean," arXiv:2404.12534, 2024.
 
-[18] J. Tooby-Smith, "HepLean: digitalising high energy physics," arXiv:2405.08863, 2024.
+[18] J. Tooby-Smith, "HepLean: digitalising high energy physics," Comput. Phys. Commun., vol. 308, p. 109457, 2025, arXiv:2405.08863.
 
 ---
 
