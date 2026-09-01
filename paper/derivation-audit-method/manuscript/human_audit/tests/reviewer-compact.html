@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compact reviewer view — Guo audit (UX test)</title>
+  <link rel="stylesheet" href="tests.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+      options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <p class="test-banner"><strong>PRESENTATION TEST ONLY.</strong>
+      Disposable compact view for HUMAN_AUDIT_HTML_UX_STRESS_V1.
+      Statuses are copied from frozen machine records. This page does not assign verdicts.
+      It is not the canonical Guo HTML.</p>
+
+    <p class="kicker">Paper audit · compact reviewer view</p>
+    <h1>Guo et al., PRL 136, 206303</h1>
+    <p class="subtitle" style="margin:0 0 0.35rem;">Dissipation-Shaped Quantum Geometry in Nonlinear Transport</p>
+    <p class="source">Source: <a href="https://arxiv.org/abs/2511.16422v2">arXiv:2511.16422v2</a></p>
+
+    <p class="note"><strong>189/189 is inventory coverage, not certification.</strong>
+      Every numbered equation was found and listed. That does not mean every equation was proved by the machine.</p>
+
+    <div class="metrics" aria-label="Coverage">
+      <div class="metric"><span class="n">189 / 189</span><span class="l">numbered equations inventoried</span></div>
+      <div class="metric"><span class="n">146</span><span class="l">source-grounded relations</span></div>
+      <div class="metric"><span class="n">53</span><span class="l">executable relations</span></div>
+    </div>
+
+    <h2>What was checked</h2>
+    <p>Only relations the paper actually claims were recorded. Adjacent equation numbers are not treated as derivations.
+      Four flagship transitions show how different evidence classes work.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Printed relation</th><th>What the paper is doing</th><th>Final status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Eq. (D-59) → Eq. (D-60)</td>
+            <td>Regroup \(K_{1A}\)</td>
+            <td><span class="badge EXACT_ZERO">EXACT_ZERO</span></td>
+          </tr>
+          <tr>
+            <td>Eq. (D-66) → Eq. (D-67)</td>
+            <td>Rewrite \(T_{B,\mathrm{geo}}\) using \(\epsilon_{21}=-\epsilon_{12}\)</td>
+            <td><span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span></td>
+          </tr>
+          <tr>
+            <td>Eq. (D-114) → Eq. (D-119)</td>
+            <td>Brillouin-zone integration by parts on \(T_0\)</td>
+            <td><span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span></td>
+          </tr>
+          <tr>
+            <td>Eq. (D-57)</td>
+            <td>\(\Gamma\)-expansion of \(\sigma_{abc}\) with an \(O(\Gamma)\) remainder</td>
+            <td><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Derivation topology (Appendix D excerpts)</h2>
+    <p>Arrows below are frozen source-grounded relations, not consecutive numbering.</p>
+
+    <article class="chain">
+      <h3>Small-\(\Gamma\) expansion</h3>
+      <div class="flow">
+        <div class="node UNKNOWN_REMAINDER">
+          <span class="eq">Eq. (D-57)</span>
+          \(\sigma_{abc}=\Gamma^{-2}\sigma^{(-2)}+\Gamma^{-1}\sigma^{(-1)}+\sigma^{(0)}+O(\Gamma)\)
+          <div><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span></div>
+        </div>
+      </div>
+      <p>The author declares an \(O(\Gamma)\) remainder. No general remainder certificate is in the frozen record.
+        This is not a claim that the expansion is false.</p>
+    </article>
+
+    <article class="chain">
+      <h3>Geometric \(T_A^{(-2)}\)</h3>
+      <div class="flow">
+        <div class="node EXACT_ZERO"><span class="eq">Eq. (D-59)</span>\(K_{1A}\)</div>
+        <div class="edge EXACT_ZERO">algebra · <span class="badge EXACT_ZERO">EXACT_ZERO</span></div>
+        <div class="arrow">↓</div>
+        <div class="node EXACT_ZERO"><span class="eq">Eq. (D-60)</span>regrouped \(K_{1A}\)</div>
+      </div>
+    </article>
+
+    <article class="chain">
+      <h3>Geometric \(T_{B,\mathrm{geo}}^{(-2)}\), then cancellation</h3>
+      <div class="flow">
+        <div class="node"><span class="eq">Eq. (D-66)</span>\(T_{B,\mathrm{geo}}\)</div>
+        <div class="edge ZERO_UNDER_SUBSTITUTION">use \(\epsilon_{21}=-\epsilon_{12}\) · <span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span></div>
+        <div class="arrow">↓</div>
+        <div class="node ZERO_UNDER_SUBSTITUTION"><span class="eq">Eq. (D-67)</span></div>
+        <div class="arrow">↓</div>
+        <div class="node"><span class="eq">Eqs. (D-61), (D-67)</span></div>
+        <div class="edge EXACT_ZERO">cancellation · <span class="badge EXACT_ZERO">EXACT_ZERO</span></div>
+        <div class="arrow">↓</div>
+        <div class="node EXACT_ZERO"><span class="eq">Eq. (D-68)</span>\(T_A+T_{B,\mathrm{geo}}=0\)</div>
+      </div>
+      <p>Direct printed-form check of D-66 → D-67 is <strong>NONZERO</strong> until \(\epsilon_{21}=-\epsilon_{12}\) is applied.
+        That is not a paper error. After the identity, the residual is exactly zero.
+        The step is not an unconditional engine ZERO.</p>
+    </article>
+
+    <article class="chain">
+      <h3>\(T_0\) integration by parts</h3>
+      <div class="flow">
+        <div class="node"><span class="eq">Eq. (D-114)</span></div>
+        <div class="edge CERTIFIED_BY_RULE">BZ integration by parts · <span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span></div>
+        <div class="arrow">↓</div>
+        <div class="node CERTIFIED_BY_RULE"><span class="eq">Eq. (D-119)</span></div>
+      </div>
+      <p>A local Leibniz / product-rule identity is recorded as ZERO.
+        The parent step also uses the declared rule that the Brillouin zone is a periodic torus.
+        <strong>The engine did not evaluate the global Brillouin-zone integral to ZERO.</strong>
+        Child ZERO plus a rule is not parent ZERO.</p>
+    </article>
+
+    <details>
+      <summary>Status legend (open if a label is unclear)</summary>
+      <p><span class="badge EXACT_ZERO">EXACT_ZERO</span> Encoded direct residual simplified to exact zero.</p>
+      <p><span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span> Direct printed form was not zero; after an explicit source-grounded substitution it was exactly zero. Not unconditional ZERO.</p>
+      <p><span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span> Local machine-checkable identity plus a declared rule/domain. Parent is not engine ZERO.</p>
+      <p><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span> Finite/local checks do not certify the stated remainder. Not a claim that the expansion is false.</p>
+      <p><span class="badge STRUCTURAL">STRUCTURAL</span> Definition or bookkeeping; no equality to verify.</p>
+      <p><span class="badge UNSUPPORTED">UNSUPPORTED</span> Current verifier cannot honestly lower the claimed relation.</p>
+    </details>
+
+    <details class="prov">
+      <summary>Technical provenance (secondary)</summary>
+      <p>This HTML is a presentation of frozen machine evidence. It does not assign scientific verdicts.</p>
+      <p>Software authority: symbolic-compactification <span class="mono">v0.3.0-alpha</span> @ <span class="mono">f1d225e</span>.</p>
+      <p>Engine: <span class="mono">python_sympy_exact_v1 0.3.0</span>. ZERO means exact engine ZERO.</p>
+      <p>False promotion on injected invalid controls: 0 / 155 (validation, not a headline coverage count).</p>
+      <p>Frozen per-row table also records STRUCTURAL 47, UNSUPPORTED 18, UNKNOWN_REMAINDER 15, UNKNOWN 2.
+        A historical summary line wrote UNKNOWN_REMAINDER: 17 by adding the two UNKNOWN limit rows.
+        This page does not merge those statuses.</p>
+      <p>Canonical (non-test) report: <a href="../guo/index.html"><span class="mono">../guo/index.html</span></a></p>
+    </details>
+
+    <footer>
+      <p>Verification authority remains the frozen machine records, not this test page.</p>
+    </footer>
+  </div>
+</body>
+</html>
