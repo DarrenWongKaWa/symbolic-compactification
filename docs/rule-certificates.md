@@ -11,19 +11,17 @@ Frozen product principles (do not silently weaken):
    Do not pre-load TRACE_CYCLICITY, STOKES, HERMITICITY, COMPLETENESS, or
    similar catalogues.
 
-Lineage:
+Lineage (immutable tags; do not move the old release tags):
 
 ```text
-v0.2.0-alpha  (tag derivation-audit-v0.2.0-alpha, do not move)
-    → public real-paper validation (evidence branch)
-    → v0.2.1-alpha  (generic BZ IBP adapter)
+derivation-audit-v0.2.0-alpha
+    → archive/guo-selected-edge-validation-v1
+    → derivation-audit-v0.2.1-alpha  (generic BZ IBP adapter)
+    → archive/guo-full-paper-audit-flagship-v1
 ```
 
-Product code and case evidence stay separate:
-
-- product patch: `engineering/derivation-audit-v0.2.1`
-- public Guo evidence: `engineering/real-paper-validation-arxiv-2511-16422`
-- unpublished local manuscripts never enter public provenance
+Product code and case evidence stay separate. Unpublished local manuscripts
+never enter public provenance.
 
 `ZERO` is never the same as `CERTIFIED_BY_RULE`.
 

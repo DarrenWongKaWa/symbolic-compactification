@@ -1,5 +1,4 @@
 # References
 
-No external reference is needed for this algebraic example. Reference
-ingestion in the v0.1 preview is lightweight: a real workspace may list source
-paths, citations, or manually curated excerpts here.
+No external reference is required for this algebraic example. A real
+workspace may list source paths or citations here; they are not certificates.

@@ -40,19 +40,18 @@ context-hypothesis evaluation interface are not ready.
 
 ## Frozen evidence
 
-- [candidate pool](research/context_grounded_representation/CANDIDATE_POOL.md)
-- [admission decision](research/context_grounded_representation/ADMISSION_DECISION.md)
-- [final project scientific verdict](research/context_grounded_representation/FINAL_PROJECT_SCIENTIFIC_VERDICT.md)
-- [engineering readiness](research/context_grounded_representation/ENGINEERING_READINESS.md)
+Recover the campaign tree from tag `research-preview-v0.1.0-alpha` (and later
+commits on historical `main` before v0.3):
+
+- `research/context_grounded_representation/CANDIDATE_POOL.md`
+- `research/context_grounded_representation/ADMISSION_DECISION.md`
+- `research/context_grounded_representation/FINAL_PROJECT_SCIENTIFIC_VERDICT.md`
+- `research/context_grounded_representation/ENGINEERING_READINESS.md`
 - prior closure registries: `CAPABILITIES.json`, `NEGATIVE_RESULTS.md`, and
   `REPERTOIRE_V2.md`
 
 No additional representation-invention experiment is automatically
 authorized.  A future effort requires a new explicit human decision.
 
-## Engineering consolidation note
-
-Scientific experimentation remains closed during v0.1 engineering
-consolidation. This file is not a release decision and must not be edited to
-reopen a discovery campaign. Engineering readiness is recorded separately
-under `engineering/release_v0_1/`.
+This file is not a release decision and must not be edited to reopen a
+discovery campaign.

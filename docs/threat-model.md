@@ -56,5 +56,4 @@ missed if both sides are wrong the same way). `UNKNOWN` can be misread as
 support. Defence in depth still requires humans not to commit private sources
 or secrets.
 
-See [PRIVACY.md](PRIVACY.md), [STATUS_SEMANTICS.md](STATUS_SEMANTICS.md), and
-[engineering/release_v0_1/SECURITY.md](../engineering/release_v0_1/SECURITY.md).
+See [semantics.md](semantics.md) and [limitations.md](limitations.md).

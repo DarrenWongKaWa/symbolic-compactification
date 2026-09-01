@@ -86,4 +86,4 @@ children, never by averaging, scoring, or narrative.
 Changing source, residual, or assumptions produces a new snapshot. Prior
 `ZERO` rows do not transfer silently.
 
-See [EDGE_TYPES.md](EDGE_TYPES.md) and [REVIEWER_PACKAGE.md](REVIEWER_PACKAGE.md).
+See [edge-types.md](edge-types.md) and [rule-certificates.md](rule-certificates.md).

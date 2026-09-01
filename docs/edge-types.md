@@ -58,4 +58,4 @@ parent `ASYMPTOTIC_CLAIM`.
   Do not treat a gauge-dependent Berry connection as automatically periodic
   because the BZ is a torus.
 
-See [STATUS_SEMANTICS.md](STATUS_SEMANTICS.md).
+See [semantics.md](semantics.md).

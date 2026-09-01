@@ -1,74 +1,53 @@
-# Derivation-audit limitations
+# Limitations
 
-Read this before using an audit report in scientific work. The v0.2
-derivation-audit alpha is in development on
-`engineering/derivation-audit-v0.2`. It is an additive fail-closed layer, not
-a claim that a paper is proved.
+This tool certifies exact local residuals. It does not certify papers,
+novelty, physical models, or undeclared folklore.
 
-Exact algebraic and local structural identities that were lowered to
-executable residuals were evaluated under the declared symbolic semantics.
-Only obligations returning exact ZERO are listed as machine-verified.
+`ZERO` means the encoded residual simplified to exact engine `ZERO` under
+the recorded route, namespace, and assumptions. A rule certificate is not
+engine `ZERO`. `UNKNOWN` never promotes.
 
-Definitions, integral-level arguments, asymptotic remainder claims, and
-unsupported transformations are tracked separately rather than being
-misreported as exact algebraic identities.
+## Forward derivation
 
-## Allowed non-blocking limitations
+- The candidate is judged only as written. A nearby identity that was not
+  submitted is not certified.
+- Substitution identities that are not declared in the workspace (for
+  example \(e_{21}=-e_{12}\)) are not silently applied.
+- Timeouts, parse failures, and unsupported syntax are `UNKNOWN` or hard
+  failures. They are not near-misses.
 
-These are in-scope boundaries. Do not expand the alpha to “close” them:
+## Paper audit
 
-- **Manual PDF inventory.** Inventory reads local UTF-8 LaTeX/Markdown
-  labels. It does not understand PDFs or render glyphs.
-- **Manual symbolic transcription.** LaTeX is not algebra. Native-text
-  members in `expressions/` are researcher-authored.
-- **`NOT_LOWERED` edges.** Many scientifically real steps have no supported
-  residual. That is an encoding gap, not a proof or a refutation.
-- **Limited integral and asymptotic remainder certification.**
-  `INTEGRAL_ARGUMENT` is not a local residual. Finite Laurent/series
-  coefficient `ZERO` is not a remainder proof. `ASYMPTOTIC_CLAIM` stays
-  uncertified without `remainder_certificate_hash`.
-- **Unsupported complex assumptions.** Alpha certification uses `real: true`
-  symbols, optional `nonzero`, and declared functions. `real: false`,
-  positivity, inequalities, excluded poles, parameter identities, boundaries,
-  symmetries, and limit order are outside the machine-enforced surface.
-- **Experimental AI edge proposal.** Optional and non-authoritative. Disabled
-  under `SSC_PRIVATE_OFFLINE=1`. Proposer text cannot create `ZERO`.
+- Inventory reads local UTF-8 LaTeX or Markdown. It does not understand
+  PDFs or render glyphs.
+- LaTeX is not algebra. Files under `expressions/` are researcher
+  transcriptions.
+- Adjacent equation numbers are not a derivation. Only source-supported
+  relations are checked.
+- Many scientifically real steps have no supported residual (`NOT_LOWERED`,
+  `UNSUPPORTED`, structural). That is an encoding gap, not a proof or a
+  refutation.
+- `INTEGRAL_ARGUMENT` is not a local residual. Finite Laurent or series
+  coefficient `ZERO` is not a remainder proof. An `ASYMPTOTIC_CLAIM` stays
+  uncertified without a remainder certificate.
+- Brillouin-zone integration by parts is `CERTIFIED_BY_RULE` (local Leibniz
+  `ZERO` plus a declared torus rule). SymPy did not evaluate the integral.
 
-## Verification coverage is incomplete
+## Assumption surface
 
-`UNKNOWN`, `PARSE_FAILURE`, `COMPILE_FAILURE`, `GROUNDING_FAILURE`, and
-`NOT_LOWERED` are normal. A packaging gap is not evidence that a statement
-is true, false, or impossible.
+Certification uses `real: true` symbols, optional `nonzero`, and declared
+functions. Positivity, inequalities, excluded poles, parameter identities,
+boundaries, symmetries, and limit order are outside the machine-enforced
+surface. Writing them in notes does not make them operational.
 
-The parser whitelist, token/depth/size limits, and the SymPy exact route
-bound what can be certified. Large tensors, hard special-function
-identities, and general exact limits often remain undecidable here.
+## Optional proposers
 
-## Exactness is conditional
+A human, CAS, or model may write a candidate or suggest an audit relation.
+None of those sources is a certificate. Core verification needs no API key.
+Optional model helpers are disabled under `SSC_PRIVATE_OFFLINE=1`.
 
-`ZERO` is exact only under the recorded engine semantics, namespace,
-assumptions, residual bytes, and verifier route (`python_sympy_exact_v1`).
-It does not validate undeclared physical folklore, provenance outside the
-hashed snapshot, or a manuscript as a whole.
+## Closed research campaigns
 
-The tool does not silently integrate by parts, drop boundary terms, change
-symmetry, reorder limits, or widen domains.
-
-## Inventory is not mathematics
-
-Equation inventory extracts labels, environments, order, and source ranges.
-It does not type-check a derivation and does not fill missing steps.
-
-## Split and remainder honesty
-
-- A `SPLIT_PARENT` is never engine `ZERO`.
-- Coefficient children may be machine-verified while the enclosing
-  `ASYMPTOTIC_CLAIM` remains `UNKNOWN`.
-- `CERTIFIED_BY_CHILDREN` is displayed as `SPLIT — all children certified`.
-
-## Mode A still applies
-
-Hypothesis-level Mode A limitations remain in
-[engineering/release_v0_1/LIMITATIONS.md](../engineering/release_v0_1/LIMITATIONS.md).
-Scientific representation-invention campaigns remain closed
-([SCIENTIFIC_EXPERIMENTS_CLOSED.md](../SCIENTIFIC_EXPERIMENTS_CLOSED.md)).
+Representation-invention and related discovery campaigns remain closed.
+See [history/scientific-experiments-closed.md](history/scientific-experiments-closed.md)
+and [research-evidence.md](research-evidence.md).

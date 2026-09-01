@@ -29,8 +29,8 @@ owns adjudication and certification.
 | Native ingestion | `parser.py` | Enforce characters, tokens, depth, size, symbols, functions, and assumptions before safe construction |
 | Semantic record | `models.py` | Versioned expression, verdict, state, hashes, and orthogonal status axes |
 | Structural view | `structure.py` | Deterministic inventories and explicitly diagnostic finite lowering |
-| Proposer protocol | `conjecture.py`, `roles/STRUCTURAL_PROPOSER.md` | Construct attention-isolated packets and record hypotheses; never invoke a model or promote |
-| Agent skill | `.grok/skills/symbolic-compactification/SKILL.md` | Configurable proposer (default `main`, optional `subagent` / `auto`); does not certify |
+| Proposer protocol | `conjecture.py`, `.grok/skills/symbolic-compactification/STRUCTURAL_PROPOSER.md` | Construct attention-isolated packets and record hypotheses; never invoke a model or promote |
+| Agent skill | `.grok/skills/symbolic-compactification/SKILL.md` | Optional human/CAS/AI proposer; does not certify |
 | Candidate transforms | `transforms.py`, `rules.py` | Small named operations, op caps, assumption gates, and local checkability |
 | Resource control | `budgets.py` | Central operation budgets and engine-owned process lifecycle |
 | Adjudication | `verifier.py` | Structural residual, bounded targeted lowering, exact proof/counterexample, fail-closed UNKNOWN |
@@ -154,5 +154,6 @@ use exit 4 and print the stable code.
 - agent protocol version changes for role, state, provenance, or reporting
   contracts.
 
-v0.3 advances all three because it changes each boundary. It preserves the
-v0.2 meanings of ZERO, NONZERO, and UNKNOWN.
+Package `0.3.0-alpha` is a product-surface unification. Engine `0.3.0` and
+agent protocol `0.3.0` are unchanged from the 0.2.1 preview: `ZERO` remains
+exact engine `ZERO`. Do not read a package bump as a new verifier.
