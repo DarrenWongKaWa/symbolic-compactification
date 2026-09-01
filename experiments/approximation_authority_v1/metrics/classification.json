@@ -1,0 +1,206 @@
+{
+  "n_tasks": 9,
+  "n_distinguished": 9,
+  "four_diagnostic_cases_distinguished": true,
+  "parent_overlay_called_ZERO": [],
+  "rows": [
+    {
+      "task_id": "AA-01",
+      "diagnostic_case": 1,
+      "provenance": "AUTHOR_DECLARED",
+      "expected_overlay": "CERTIFIED_UNDER_DECLARED_APPROXIMATION",
+      "observed_overlay": "CERTIFIED_UNDER_DECLARED_APPROXIMATION",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050303Z-32653456",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": "F0 + F1*G",
+      "downstream": {
+        "result": "ZERO",
+        "error_code": null,
+        "run_id": "20260901T050304Z-8bf3e9bc",
+        "promoted_as_engine_zero": true
+      },
+      "hidden_probe": null,
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-02",
+      "diagnostic_case": 2,
+      "provenance": "AUTHOR_DECLARED",
+      "expected_overlay": "REFUSED_DOWNSTREAM_NONZERO",
+      "observed_overlay": "REFUSED_DOWNSTREAM_NONZERO",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050306Z-fd9b576d",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": "F0 + F1*G",
+      "downstream": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050308Z-6d882e2f",
+        "promoted_as_engine_zero": false
+      },
+      "hidden_probe": null,
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-03",
+      "diagnostic_case": 3,
+      "provenance": "AUTHOR_DECLARED",
+      "expected_overlay": "ASYMPTOTIC_DECLARED_ONLY",
+      "observed_overlay": "ASYMPTOTIC_DECLARED_ONLY",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": null,
+      "downstream": null,
+      "hidden_probe": null,
+      "coefficient_child": null,
+      "note": "Frozen public Guo edge D.gamma-asymptotic: ASYMPTOTIC_CLAIM, status UNKNOWN, remainder_certificate_hash null. Not rewritten as F-(F0+Gamma F1)=0.",
+      "frozen_audit_status": "UNKNOWN"
+    },
+    {
+      "task_id": "AA-04",
+      "diagnostic_case": 4,
+      "provenance": "NONE",
+      "expected_overlay": "UNDECLARED_APPROXIMATION_REQUIRED",
+      "observed_overlay": "UNDECLARED_APPROXIMATION_REQUIRED",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050309Z-1baf891d",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": "F0 + F1*G",
+      "downstream": null,
+      "hidden_probe": {
+        "result": "ZERO",
+        "error_code": null,
+        "run_id": "20260901T050310Z-95d2a98c",
+        "promoted_as_engine_zero": true
+      },
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-05",
+      "diagnostic_case": "contrast_exact",
+      "provenance": "NONE",
+      "expected_overlay": "ENGINE_ZERO",
+      "observed_overlay": "ENGINE_ZERO",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "ZERO",
+        "error_code": null,
+        "run_id": "20260901T050311Z-6489d532",
+        "promoted_as_engine_zero": true
+      },
+      "E_tilde": null,
+      "downstream": null,
+      "hidden_probe": null,
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-06",
+      "diagnostic_case": "contrast_substitution",
+      "provenance": "NONE",
+      "expected_overlay": "SUBSTITUTION_NOT_APPROXIMATION",
+      "observed_overlay": "SUBSTITUTION_NOT_APPROXIMATION",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050313Z-ce43ac68",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": null,
+      "downstream": null,
+      "hidden_probe": null,
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-07",
+      "diagnostic_case": "model_proposed",
+      "provenance": "MODEL_PROPOSED",
+      "expected_overlay": "MODEL_APPROX_NOT_AUTHORIZED",
+      "observed_overlay": "MODEL_APPROX_NOT_AUTHORIZED",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050315Z-98ec545a",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": "F0 + F1*G",
+      "downstream": {
+        "result": "ZERO",
+        "error_code": null,
+        "run_id": "20260901T050315Z-323f90b9",
+        "promoted_as_engine_zero": true
+      },
+      "hidden_probe": null,
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-08",
+      "diagnostic_case": "naive_exact_trap",
+      "provenance": "NONE",
+      "expected_overlay": "NAIVE_REMAINDER_AS_EXACT_REFUSED",
+      "observed_overlay": "NAIVE_REMAINDER_AS_EXACT_REFUSED",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050317Z-0eed3654",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": null,
+      "downstream": null,
+      "hidden_probe": null,
+      "coefficient_child": null
+    },
+    {
+      "task_id": "AA-10",
+      "diagnostic_case": "coefficient_not_remainder",
+      "provenance": "AUTHOR_DECLARED",
+      "expected_overlay": "COEFFICIENT_ZERO_NOT_REMAINDER",
+      "observed_overlay": "COEFFICIENT_ZERO_NOT_REMAINDER",
+      "distinguished": true,
+      "engine_zero_on_parent": false,
+      "naive": {
+        "result": "NONZERO",
+        "error_code": null,
+        "run_id": "20260901T050319Z-ee951294",
+        "promoted_as_engine_zero": false
+      },
+      "E_tilde": "F0 + F1*G",
+      "downstream": {
+        "result": "ZERO",
+        "error_code": null,
+        "run_id": "20260901T050320Z-88965ba0",
+        "promoted_as_engine_zero": true
+      },
+      "hidden_probe": null,
+      "coefficient_child": {
+        "result": "ZERO",
+        "error_code": null,
+        "run_id": "20260901T050320Z-aecf79f2",
+        "promoted_as_engine_zero": true,
+        "extracted": "F0"
+      }
+    }
+  ]
+}

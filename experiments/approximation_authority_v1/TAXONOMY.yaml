@@ -1,0 +1,46 @@
+schema_version: ApproximationAuthorityTaxonomyV1
+product_tag: derivation-audit-v0.2.1-alpha
+product_commit: 783ec64c0bb4ffd0b4b6ad33f33ead96dba49087
+invariant: ZERO_IS_EXACT_ZERO
+do_not_create: approximate_ZERO
+
+# Three independent axes. Do not collapse them into a score.
+
+approximation_provenance:
+  - NONE
+  - AUTHOR_DECLARED
+  - USER_DECLARED
+  - MODEL_PROPOSED
+
+approximation_control:
+  - EXACTLY_DERIVED
+  - REMAINDER_CERTIFIED
+  - DECLARED_ONLY
+  - UNKNOWN
+
+downstream_verification:
+  - ZERO
+  - NONZERO
+  - UNKNOWN
+  - PARSE_FAILURE
+  - COMPILE_FAILURE
+  - NOT_APPLICABLE
+
+# Experiment-level parent overlay. Not a product status. Never engine ZERO.
+overlay_parent_status:
+  - ENGINE_ZERO
+  - CERTIFIED_UNDER_DECLARED_APPROXIMATION
+  - REFUSED_DOWNSTREAM_NONZERO
+  - ASYMPTOTIC_DECLARED_ONLY
+  - UNDECLARED_APPROXIMATION_REQUIRED
+  - MODEL_APPROX_NOT_AUTHORIZED
+  - SUBSTITUTION_NOT_APPROXIMATION
+  - NAIVE_REMAINDER_AS_EXACT_REFUSED
+  - COEFFICIENT_ZERO_NOT_REMAINDER
+
+principles:
+  - author_authorization_is_not_approximation_proof
+  - approximation_arrow_is_not_exact_algebra_arrow
+  - CERTIFIED_UNDER_DECLARED_APPROXIMATION_is_to_ZERO
+    as CERTIFIED_BY_RULE_is_to_ZERO
+  - hidden_approximation_must_not_silently_promote

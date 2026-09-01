@@ -1,0 +1,148 @@
+schema_version: ApproximationAuthorityTaskSetV1
+product_tag: derivation-audit-v0.2.1-alpha
+product_commit: 783ec64c0bb4ffd0b4b6ad33f33ead96dba49087
+evidence_commit: 69ad474a43ebea55cb2e524934d982e518db026b
+paper: Guo et al., Phys. Rev. Lett. 136, 206303 (2026), arXiv:2511.16422v2
+n_diagnostic_cases: 4
+n_tasks: 9
+tasks:
+- task_id: AA-01
+  diagnostic_case: 1
+  title: author-declared weak-Gamma truncation; downstream algebra holds
+  provenance: AUTHOR_DECLARED
+  expected_control: DECLARED_ONLY
+  expected_naive: NONZERO
+  expected_downstream: ZERO
+  expected_overlay: CERTIFIED_UNDER_DECLARED_APPROXIMATION
+  T_A:
+    id: drop_G_degree_geq_2
+    statement: "Retain F0 + G*F1; drop O(G^2)."
+    author_quote: "In the weak-Gamma expansion we retain terms through O(G) and neglect higher orders."
+  current_file: E0_with_remainder.txt
+  next_file: E1_truncated_regrouped.txt
+  reason: Case 1. Naive E0-E1 is the remainder, not an author error.
+
+- task_id: AA-02
+  diagnostic_case: 2
+  title: author-declared truncation; downstream algebra still wrong
+  provenance: AUTHOR_DECLARED
+  expected_control: DECLARED_ONLY
+  expected_naive: NONZERO
+  expected_downstream: NONZERO
+  expected_overlay: REFUSED_DOWNSTREAM_NONZERO
+  T_A:
+    id: drop_G_degree_geq_2
+    statement: "Retain F0 + G*F1; drop O(G^2)."
+    author_quote: "In the weak-Gamma expansion we retain terms through O(G) and neglect higher orders."
+  current_file: E0_with_remainder.txt
+  next_file: E1_truncated_sign_error.txt
+  reason: Case 2. Authorization does not certify a sign error after truncation.
+
+- task_id: AA-03
+  diagnostic_case: 3
+  title: Guo (D-57) Gamma remainder; author declared, remainder not certified
+  provenance: AUTHOR_DECLARED
+  expected_control: DECLARED_ONLY
+  expected_naive: NOT_APPLICABLE
+  expected_downstream: NOT_APPLICABLE
+  expected_overlay: ASYMPTOTIC_DECLARED_ONLY
+  paper_source: Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2
+  printed: "(D-57)"
+  public_edge_id: D.gamma-asymptotic
+  author_quote: "sigma_abc = Gamma^{-2} sigma^{(-2)} + Gamma^{-1} sigma^{(-1)} + sigma^{(0)} + O(Gamma)"
+  frozen_audit_status: UNKNOWN
+  remainder_certificate_hash: null
+  do_not_encode_as: "F(Gamma) - (F0 + Gamma F1) = 0"
+  reason: Case 3. Real-paper remainder. Finite series terms are not a remainder proof (NR-004).
+
+- task_id: AA-04
+  diagnostic_case: 4
+  title: undeclared truncation; equality holds only after a hidden T_A
+  provenance: NONE
+  expected_control: UNKNOWN
+  expected_naive: NONZERO
+  expected_downstream_if_hidden_T_A: ZERO
+  expected_overlay: UNDECLARED_APPROXIMATION_REQUIRED
+  T_A:
+    id: drop_G_degree_geq_2
+    declared: false
+  current_file: E0_with_remainder.txt
+  next_file: E1_truncated_regrouped.txt
+  reason: Case 4. Strong manuscript-audit use case. Must not silently promote.
+
+- task_id: AA-05
+  diagnostic_case: contrast_exact
+  title: Guo K1A algebraic regroup; no approximation
+  provenance: NONE
+  expected_control: EXACTLY_DERIVED
+  expected_naive: ZERO
+  expected_downstream: NOT_APPLICABLE
+  expected_overlay: ENGINE_ZERO
+  paper_source: Guo et al., PRL 136, 206303 (2026)
+  printed: "(D-59)->(D-60)"
+  public_edge_id: D.K1A-regroup
+  current_file: K1A_expanded.txt
+  next_file: K1A_regrouped.txt
+  reason: Contrast. Exact algebra is not approximation-mediated.
+
+- task_id: AA-06
+  diagnostic_case: contrast_substitution
+  title: Guo TBgeo e21 substitution; not an approximation
+  provenance: NONE
+  expected_control: EXACTLY_DERIVED
+  expected_naive: NONZERO
+  expected_downstream: NOT_APPLICABLE
+  expected_overlay: SUBSTITUTION_NOT_APPROXIMATION
+  paper_source: Guo et al., PRL 136, 206303 (2026)
+  printed: "(D-66)->(D-67)"
+  public_edge_id: D.TBgeo-eps21
+  identity: e21 = -e12
+  current_file: TBgeo_e12.txt
+  next_file: TBgeo_e21.txt
+  reason: Keep FR-06-class gaps as substitution/assumption, not approximation.
+
+- task_id: AA-07
+  diagnostic_case: model_proposed
+  title: model proposes the same truncation; algebra holds; no scientific authority
+  provenance: MODEL_PROPOSED
+  expected_control: DECLARED_ONLY
+  expected_naive: NONZERO
+  expected_downstream: ZERO
+  expected_overlay: MODEL_APPROX_NOT_AUTHORIZED
+  T_A:
+    id: drop_G_degree_geq_2
+    declared: false
+    proposed_by: model
+  current_file: E0_with_remainder.txt
+  next_file: E1_truncated_regrouped.txt
+  reason: Downstream ZERO is not authorisation.
+
+- task_id: AA-08
+  diagnostic_case: naive_exact_trap
+  title: encode remainder vanishing as exact equivalence
+  provenance: NONE
+  expected_control: UNKNOWN
+  expected_naive: NONZERO
+  expected_downstream: NOT_APPLICABLE
+  expected_overlay: NAIVE_REMAINDER_AS_EXACT_REFUSED
+  current_file: E0_with_remainder.txt
+  next_file: E_truncated.txt
+  reason: Threat-model row. Do not rewrite ASYMPTOTIC_CLAIM as ALGEBRAIC_EQUIVALENCE.
+
+- task_id: AA-10
+  diagnostic_case: coefficient_not_remainder
+  title: G^0 coefficient ZERO does not certify O(G^2) remainder
+  provenance: AUTHOR_DECLARED
+  expected_control: DECLARED_ONLY
+  expected_naive: NONZERO
+  expected_coeff: ZERO
+  expected_overlay: COEFFICIENT_ZERO_NOT_REMAINDER
+  T_A:
+    id: drop_G_degree_geq_2
+  current_file: E0_with_remainder.txt
+  next_file: E_truncated.txt
+  coeff:
+    variable: G
+    degree: 0
+    claimed: F0
+  reason: NR-004 in executable form. Child ZERO, parent not ZERO.
