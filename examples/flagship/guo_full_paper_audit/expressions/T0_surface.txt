@@ -1,0 +1,1 @@
+gbc*(v2a*f2p - v1a*f1p)/e12

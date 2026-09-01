@@ -1,0 +1,1694 @@
+schema_version: FlagshipRelationsFrozenV1
+paper: "Zhichao Guo et al., Phys. Rev. Lett. 136, 206303 (2026)"
+arxiv: "2511.16422v2"
+n_relations: 137
+note: >
+  Frozen before verification. Claimed move is independent of engine outcome.
+  Printed equation numbers are the public identifiers.
+  Unnumbered Key Identities may appear as sources with empty printed list.
+relations:
+  - internal_id: R001
+    display: "Eq. (1)"
+    cue: "$\\Gamma$ expansion of $\\sigma_{abc}$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "this microscopic derivation yields ... expansion of the resulting conductivity by powers of $1/\\Gamma$"
+    sources: ["1"]
+    targets: ["1"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R002
+    display: "Eq. (4)"
+    cue: "$\\sigma^{(0)}=\\sigma^{\\mathrm{kin}}+\\sigma^{\\mathrm{geo}}$"
+    move: "definition"
+    claimed: SPLIT_PARENT
+    prose: "the open-system formalism reveals a decomposition into distinct kinetic and geometric components"
+    sources: ["4"]
+    targets: ["4"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R003
+    display: "Eq. (7) -> Eq. (8)"
+    cue: "block-diagonal $S=\\tau_z\\sigma_z$ form"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "this allows for a unitary transformation that separates $\\mathcal{H}(\\mathbf{k})$ into the $S=\\pm 1$ eigenspaces, yielding the block-diagonal form"
+    sources: ["7"]
+    targets: ["8"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R004
+    display: "Eq. (D-57) -> Eq. (1)"
+    cue: "main-text $\\Gamma$ expansion"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "Appendix D repeats the same $\\Gamma$ expansion that the main text reports as Eq. (1)"
+    sources: ["D-57"]
+    targets: ["1"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R005
+    display: "Eq. (D-69) -> Eq. (2)"
+    cue: "$\\sigma^{(-2)}$ with $f_n'=2f_{0,n}'$"
+    move: "substitution"
+    claimed: INDEX_RELABELING
+    prose: "Eq. (D-69) writes $f_n'=2f_{0,n}'$ and the main text reports the $f_0$ form as Eq. (2)"
+    sources: ["D-69"]
+    targets: ["2"]
+    executable: true
+    helper: false
+    condition: "substitute $f_n'=2f_{0,n}'$"
+    subst: {"fnp": "2*f0np"}
+    left: "-Rational(1,8)*da_vbc*fnp"
+    right: "-Rational(1,4)*da_vbc*f0np"
+  - internal_id: R006
+    display: "Eq. (D-78) -> Eq. (3)"
+    cue: "$\\sigma^{(-1)}$ with $f_n'=2f_{0,n}'$"
+    move: "substitution"
+    claimed: INDEX_RELABELING
+    prose: "Eq. (D-78) writes $f_n'=2f_{0,n}'$ and the main text reports the $f_0$ form as Eq. (3)"
+    sources: ["D-78"]
+    targets: ["3"]
+    executable: true
+    helper: false
+    condition: "substitute $f_n'=2f_{0,n}'$"
+    subst: {"fnp": "2*f0np"}
+    left: "Rational(1,4)*kernel*fnp"
+    right: "Rational(1,2)*kernel*f0np"
+  - internal_id: R007
+    display: "Eq. (D-117) -> Eq. (5)"
+    cue: "$\\sigma^{\\mathrm{kin}}$ with $f_n^{(4)}=2f_{0,n}^{(4)}$"
+    move: "substitution"
+    claimed: INDEX_RELABELING
+    prose: "Eq. (D-117) writes $f_n'=2f_{0,n}'$ on the kinetic term; main-text Eq. (5) is the $f_0$ form"
+    sources: ["D-117"]
+    targets: ["5"]
+    executable: true
+    helper: false
+    condition: "substitute $f_n^{(4)}=2f_{0,n}^{(4)}$"
+    subst: {"f4": "2*f04"}
+    left: "Rational(1,48)*va*vb*vc*f4"
+    right: "Rational(1,24)*va*vb*vc*f04"
+  - internal_id: R008
+    display: "Eq. (D-127) -> Eq. (6)"
+    cue: "$\\sigma^{\\mathrm{geo}}$ compact form"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "main-text Eq. (6) is the multiband/$f_0$ presentation of the two-band compact geometric result Eq. (D-127)"
+    sources: ["D-127"]
+    targets: ["6"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R009
+    display: "Eq. (A-10)"
+    cue: "$\\rho_S=\\rho^{(0)}+\\rho^{(1)}+\\rho^{(2)}+O(V^3)$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "we solve for the NESS density matrix by expanding $\\rho_S(t)$ perturbatively in the driving perturbation $V(t)$"
+    sources: ["A-10"]
+    targets: ["A-10"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(V^3)$ remainder"
+  - internal_id: R010
+    display: "Eq. (A-11) -> Eq. (A-14)"
+    cue: "bath integral $\\to$ polygamma $f_\\pm$"
+    move: "special function identity"
+    claimed: SPECIAL_FUNCTION_IDENTITY
+    prose: "the integrals over the bath variable $\\omega_b$ in Eqs. (A-11) to (A-13) can be performed using the Cauchy residue theorem"
+    sources: ["A-11"]
+    targets: ["A-14"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R011
+    display: "Eq. (A-14) -> Eq. (A-15)"
+    cue: "$\\Gamma\\to 0$ recovers $f_0$"
+    move: "limit"
+    claimed: LIMIT_CLAIM
+    prose: "which shows that $\\tilde\\rho_n^{(0)}$ reduces to the ideal Fermi-Dirac distribution in the limit of $\\Gamma\\to 0$"
+    sources: ["A-14"]
+    targets: ["A-15"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R012
+    display: "Eq. (A-12) -> Eq. (A-16)"
+    cue: "$\\tilde\\rho^{(1)}$ residue form"
+    move: "special function identity"
+    claimed: SPECIAL_FUNCTION_IDENTITY
+    prose: "moreover, for the first- and second-order expansions, we have"
+    sources: ["A-12"]
+    targets: ["A-16"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R013
+    display: "Eq. (A-17) -> Eq. (A-16)"
+    cue: "$r_\\pm^{(1)}$ inserted in $\\tilde\\rho^{(1)}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "with (the $r_\\pm^{(1)}$ kernels)"
+    sources: ["A-17"]
+    targets: ["A-16"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R014
+    display: "Eq. (A-13) -> Eq. (A-18)"
+    cue: "$\\tilde\\rho^{(2)}$ residue form"
+    move: "special function identity"
+    claimed: SPECIAL_FUNCTION_IDENTITY
+    prose: "and (the second-order kernel in polygamma form)"
+    sources: ["A-13"]
+    targets: ["A-18"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R015
+    display: "Eqs. (A-19), (A-20) -> Eq. (A-18)"
+    cue: "$r_\\pm^{(2)}$ inserted in $\\tilde\\rho^{(2)}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "in which (the $r_\\pm^{(2)}$ kernels)"
+    sources: ["A-19", "A-20"]
+    targets: ["A-18"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R016
+    display: "Eq. (B-23) -> Eq. (B-24)"
+    cue: "$j_a^{(2)}$ split into (I)--(IV)"
+    move: "bookkeeping"
+    claimed: SPLIT_PARENT
+    prose: "this leads to four distinct contributions to the second-order current"
+    sources: ["B-23"]
+    targets: ["B-24"]
+    executable: false
+    helper: false
+    regression: B.split-j2
+    condition: "none"
+  - internal_id: R017
+    display: "Eq. (B-24) -> Eq. (B-25)"
+    cue: "four channels $\\to$ $\\sigma_{abc}(\\omega_1,\\omega_2)$"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "translating terms (I)--(IV) into the full frequency-dependent conductivity, we obtain"
+    sources: ["B-24"]
+    targets: ["B-25"]
+    executable: false
+    helper: false
+    regression: B.j2-to-sigma
+    condition: "none"
+  - internal_id: R018
+    display: "Eq. (B-25) -> Eq. (B-26)"
+    cue: "DC limit $\\omega_1\\to 0$, $\\omega_2\\to-\\omega_1$"
+    move: "limit"
+    claimed: LIMIT_CLAIM
+    prose: "the DC conductivity is obtained by taking two sequential limits of Eq. (B-25)"
+    sources: ["B-25"]
+    targets: ["B-26"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R019
+    display: "Eq. (C-27)"
+    cue: "Taylor kernels $\\mathcal{C}^{(1,k)}$, $\\mathcal{C}^{(2,k)}$"
+    move: "definition"
+    claimed: SERIES_COEFFICIENT
+    prose: "we define the expansion coefficients via Taylor expansion around $\\omega=0$"
+    sources: ["C-27"]
+    targets: ["C-27"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R020
+    display: "Eq. (C-29) -> Eq. (C-30)"
+    cue: "intraband $\\mathcal{C}_{nn}^{(1,2)}$ in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "its Taylor expansion in $\\Gamma$ is"
+    sources: ["C-29", "C-28"]
+    targets: ["C-30"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R021
+    display: "Eq. (C-31) -> Eq. (C-32)"
+    cue: "interband $\\mathcal{C}_{nm}^{(1,2)}$ in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "its Taylor expansion in $\\Gamma$ is"
+    sources: ["C-31", "C-28"]
+    targets: ["C-32"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R022
+    display: "Eq. (C-33) -> Eq. (C-34)"
+    cue: "$\\mathcal{C}_{nnn}^{(2,2)}$ in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "its Taylor expansion in $\\Gamma$ is"
+    sources: ["C-33", "C-28"]
+    targets: ["C-34"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R023
+    display: "Eqs. (C-36), (C-37), (C-38) -> Eq. (C-35)"
+    cue: "$\\mathcal{C}_{nmn}^{(2,2)}=P_0+P_1+P_2$"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "the expression for $\\mathcal{C}_{nmn}^{(2,2)}$ is composed of terms involving $\\psi^{(0)}$, $\\psi^{(1)}$, and $\\psi^{(2)}$"
+    sources: ["C-36", "C-37", "C-38"]
+    targets: ["C-35"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R024
+    display: "Eq. (C-35) -> Eq. (C-39)"
+    cue: "mixed $\\mathcal{C}_{nmn}^{(2,2)}$ in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "its Taylor expansion in $\\Gamma$ is"
+    sources: ["C-35", "C-28"]
+    targets: ["C-39"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R025
+    display: "Eqs. (C-41)--(C-44) -> Eq. (C-40)"
+    cue: "$\\mathcal{C}_{nnm}^{(2,2)}\\propto Q_0+Q_1+Q_2+Q_3$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "where the terms $Q_n$ correspond to contributions involving $\\psi^{(n)}$"
+    sources: ["C-41", "C-42", "C-43", "C-44"]
+    targets: ["C-40"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R026
+    display: "Eq. (C-40) -> Eq. (C-45)"
+    cue: "$\\mathcal{C}_{nnm}^{(2,2)}$ Laurent in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "its Taylor expansion in $\\Gamma$ is"
+    sources: ["C-40", "C-28"]
+    targets: ["C-45"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R027
+    display: "Eqs. (C-47)--(C-50) -> Eq. (C-46)"
+    cue: "$\\mathcal{C}_{nmm}^{(2,2)}\\propto U_0+\\cdots+U_3$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "similarly, the expression for $\\mathcal{C}_{nmm}^{(2,2)}$ is given by"
+    sources: ["C-47", "C-48", "C-49", "C-50"]
+    targets: ["C-46"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R028
+    display: "Eq. (C-46) -> Eq. (C-51)"
+    cue: "$\\mathcal{C}_{nmm}^{(2,2)}$ Laurent in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "its Taylor expansion in $\\Gamma$ is"
+    sources: ["C-46", "C-28"]
+    targets: ["C-51"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R029
+    display: "Eqs. (C-53), (C-54), (C-55) -> Eq. (C-52)"
+    cue: "$\\mathcal{C}_{nml}^{(2,2)}\\propto R_0+R_1+R_2$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "the fully interband coefficient ... comprises contributions from $\\psi^{(0)}$, $\\psi^{(1)}$, and $\\psi^{(2)}$"
+    sources: ["C-53", "C-54", "C-55"]
+    targets: ["C-52"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R030
+    display: "Eq. (C-52) -> Eq. (C-56)"
+    cue: "fully interband $\\mathcal{C}_{nml}^{(2,2)}$ in $\\Gamma$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "the Taylor expansion of the coefficient with respect to $\\Gamma$ is given by"
+    sources: ["C-52", "C-28"]
+    targets: ["C-56"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R031
+    display: "Eq. (D-57)"
+    cue: "$\\sigma_{abc}=\\Gamma^{-2}\\sigma^{(-2)}+\\Gamma^{-1}\\sigma^{(-1)}+\\sigma^{(0)}+O(\\Gamma)$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "we perform a Taylor expansion of the full DC conductivity $\\sigma_{abc}$ in the relaxation rate $\\Gamma$ around $\\Gamma=0$"
+    sources: ["D-57"]
+    targets: ["D-57"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    regression: D.gamma-asymptotic
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R032
+    display: "Eq. (D-59) -> Eq. (D-60)"
+    cue: "$K_{1A}$ regroup"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we reorganize $K_{1A}$ and apply the Metric-Velocity Relation"
+    sources: ["D-59"]
+    targets: ["D-60"]
+    executable: true
+    helper: false
+    regression: D.K1A-regroup
+    condition: "none"
+    left: "v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)"
+    right: "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)"
+  - internal_id: R033
+    display: "Key Identities -> Eq. (D-60)"
+    cue: "metric-velocity pair index order"
+    move: "algebra"
+    claimed: PAIRWISE_REDUCTION
+    prose: "metric-velocity relation $v_{12}^a v_{21}^b+v_{12}^b v_{21}^a=2\\epsilon_{12}^2 g_{ab}$"
+    sources: []
+    targets: ["D-60"]
+    executable: true
+    helper: false
+    regression: D.metric-pair
+    condition: "none"
+    left: "v12a*v21b + v12b*v21a"
+    right: "v21a*v12b + v12a*v21b"
+  - internal_id: R034
+    display: "Eq. (D-60)"
+    cue: "$K_{1A}\\to 2\\epsilon_{12}^2(v_1^c g_{ab}+v_1^b g_{ac})$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we reorganize $K_{1A}$ and apply the Metric-Velocity Relation"
+    sources: ["D-60"]
+    targets: ["D-60"]
+    executable: true
+    helper: false
+    regression: D.K1A-metric-subst
+    condition: "substitute $v_{12}^a v_{21}^b+v_{12}^b v_{21}^a=2\\epsilon_{12}^2 g_{ab}$"
+    subst: {"v21a*v12b + v12a*v21b": "2*e12**2*gab", "v21a*v12c + v12a*v21c": "2*e12**2*gac"}
+    left: "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)"
+    right: "2*e12**2*(v1c*gab + v1b*gac)"
+  - internal_id: R035
+    display: "Eq. (D-60) -> Eq. (D-61)"
+    cue: "$T_A^{(-2)}$ prefactor $2\\epsilon_{12}^2/(8\\epsilon_{12})=\\epsilon_{12}/4$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the contribution to $\\sigma_{abc}^{(-2)}$ from these terms is $T_A^{(-2)}$"
+    sources: ["D-60"]
+    targets: ["D-61"]
+    executable: true
+    helper: false
+    regression: D.TA-prefactor
+    condition: "none"
+    left: "(2*e12**2)/(8*e12)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)"
+    right: "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p)"
+  - internal_id: R036
+    display: "Eq. (D-62)"
+    cue: "$T_B^{(-2)}$ prefactor from $K_{nB}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the contribution to $\\sigma_{abc}^{(-2)}$ from the $K_B$ terms is $T_B^{(-2)}$"
+    sources: ["D-62"]
+    targets: ["D-62"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(1/(8*e12))*(-((v11ac*v1b + v11ab*v1c)*e12)*f1p + (-(v22ac*v2b + v22ab*v2c)*e12)*f2p)"
+    right: "(e12/(8*e12))*(-(v11ac*v1b + v11ab*v1c)*f1p - (v22ac*v2b + v22ab*v2c)*f2p)"
+  - internal_id: R037
+    display: "Eq. (D-62) -> Eq. (D-63)"
+    cue: "insert $v_{nn}^{ab}=\\partial_a\\partial_b\\epsilon_n-2\\epsilon_{n\\bar n}g_{ab}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "we use the identity for the diagonal second derivative"
+    sources: ["D-62"]
+    targets: ["D-63"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R038
+    display: "Eq. (D-63) -> Eq. (D-64)"
+    cue: "$T_B=T_{B,\\mathrm{intra}}+T_{B,\\mathrm{geo}}$"
+    move: "definition"
+    claimed: SPLIT_PARENT
+    prose: "we separate this into an intraband part and a geometric part"
+    sources: ["D-63"]
+    targets: ["D-64"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R039
+    display: "Eq. (D-64) -> Eq. (D-65)"
+    cue: "$T_{B,\\mathrm{intra}}=-\\frac18\\sum_n\\partial_a(v_n^b v_n^c)f_n'$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "$T_{B,\\mathrm{intra}}^{(-2)}=\\cdots=-\\frac18\\sum_n\\partial_a(v_n^b v_n^c)f_n'$"
+    sources: ["D-64"]
+    targets: ["D-65"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R040
+    display: "Eq. (D-64) -> Eq. (D-66)"
+    cue: "$T_{B,\\mathrm{geo}}$ two-band form"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "and (the geometric $K_B$ piece)"
+    sources: ["D-64"]
+    targets: ["D-66"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(-Rational(1,8))*(-2)*e12*(gac*v1b + gab*v1c)*f1p + (-Rational(1,8))*(-2)*e21*(gac*v2b + gab*v2c)*f2p"
+    right: "Rational(1,4)*(e12*(gac*v1b + gab*v1c)*f1p + e21*(gac*v2b + gab*v2c)*f2p)"
+  - internal_id: R041
+    display: "Eq. (D-66) -> Eq. (D-67)"
+    cue: "$T_{B,\\mathrm{geo}}$ with $\\epsilon_{21}=-\\epsilon_{12}$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "using $\\epsilon_{21}=-\\epsilon_{12}$"
+    sources: ["D-66"]
+    targets: ["D-67"]
+    executable: true
+    helper: false
+    regression: D.TBgeo-eps21
+    condition: "substitute $\\epsilon_{21}=-\\epsilon_{12}$"
+    subst: {"e21": "-e12"}
+    left: "(1/4)*(e12*(gac*v1b + gab*v1c)*f1p + e21*(gac*v2b + gab*v2c)*f2p)"
+    right: "(e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)"
+  - internal_id: R042
+    display: "Eqs. (D-61), (D-67) -> Eq. (D-68)"
+    cue: "$T_A+T_{B,\\mathrm{geo}}$ cancellation"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "comparing the geometric terms $T_A^{(-2)}$ and $T_{B,\\mathrm{geo}}^{(-2)}$, we find they are exactly opposite"
+    sources: ["D-61", "D-67"]
+    targets: ["D-68"]
+    executable: true
+    helper: false
+    regression: D.TA-TBgeo-cancel
+    condition: "none"
+    left: "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p) + (e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)"
+    right: "0"
+  - internal_id: R043
+    display: "Eqs. (D-65), (D-68) -> Eq. (D-69)"
+    cue: "$\\sigma^{(-2)}$ purely intraband"
+    move: "substitution"
+    claimed: INDEX_RELABELING
+    prose: "the total conductivity $\\sigma_{abc}^{(-2)}$ is therefore purely intraband; $f_n'=2f_{0,n}'$"
+    sources: ["D-65", "D-68"]
+    targets: ["D-69"]
+    executable: false
+    helper: false
+    condition: "after $T_A+T_{B,\\mathrm{geo}}=0$; convention $f_n'=2f_{0,n}'$"
+  - internal_id: R044
+    display: "Eq. (D-71) -> Eq. (D-72)"
+    cue: "$C_1,C_2$ regroup"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we reorganize these expressions by factoring out the intraband velocities"
+    sources: ["D-71"]
+    targets: ["D-72"]
+    executable: true
+    helper: false
+    regression: D.C12-regroup
+    condition: "none"
+    left: "(v21a*(v12b*v1c + v1b*v12c) - v12a*(v21b*v1c + v1b*v21c)) + (-v21a*(v2b*v12c + v12b*v2c) + v12a*(v2b*v21c + v21b*v2c))"
+    right: "(v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c)) + (v2c*(v12a*v21b - v21a*v12b) + v2b*(v12a*v21c - v21a*v12c))"
+  - internal_id: R045
+    display: "Eq. (D-73)"
+    cue: "$V_{ab}$ Feynman--Hellmann expansion"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we utilize the Feynman-Hellmann identity ($v_{nm}^a=-i\\epsilon_{mn}A_{nm}^a$)"
+    sources: ["D-73"]
+    targets: ["D-73"]
+    executable: true
+    helper: false
+    regression: D.Vab-expand
+    condition: "none"
+    left: "(-I*e12*A21a)*(-I*e21*A12b) - (-I*e21*A12a)*(-I*e12*A21b)"
+    right: "(-1)*(e12*e21)*(A21a*A12b - A12a*A21b)"
+  - internal_id: R046
+    display: "Eq. (D-73) (second equality)"
+    cue: "$V_{ab}$ with $\\epsilon_{12}\\epsilon_{21}=-\\epsilon_{12}^2$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "$(\\epsilon_{12}\\epsilon_{21}=-\\epsilon_{12}^2)$"
+    sources: ["D-73"]
+    targets: ["D-73"]
+    executable: true
+    helper: false
+    regression: D.Vab-eps21
+    condition: "substitute $\\epsilon_{21}=-\\epsilon_{12}$"
+    subst: {"e21": "-e12"}
+    left: "(-1)*(e12*e21)*(A21a*A12b - A12a*A21b)"
+    right: "e12**2*(A21a*A12b - A12a*A21b)"
+  - internal_id: R047
+    display: "Eq. (D-74)"
+    cue: "$A_{21}^a A_{12}^b-A_{12}^a A_{21}^b=-(A_{12}^a A_{21}^b-A_{12}^b A_{21}^a)$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we relate the term in $V_{ab}$ to $\\Omega_{ab}^1$"
+    sources: ["D-74"]
+    targets: ["D-74"]
+    executable: true
+    helper: false
+    regression: D.A-antisym
+    condition: "none"
+    left: "A21a*A12b - A12a*A21b"
+    right: "-(A12a*A21b - A12b*A21a)"
+  - internal_id: R048
+    display: "Eq. (D-74) -> Eq. (D-75)"
+    cue: "$V_{ab}=i\\epsilon_{12}^2\\Omega_{ab}^1$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "substituting this back into $V_{ab}$"
+    sources: ["D-74"]
+    targets: ["D-75"]
+    executable: true
+    helper: false
+    regression: D.A-to-Omega
+    condition: "substitute $\\Omega_{ab}^1:=i(A_{12}^a A_{21}^b-A_{12}^b A_{21}^a)$"
+    subst: {"Oab1": "I*(A12a*A21b - A12b*A21a)"}
+    left: "-(A12a*A21b - A12b*A21a)"
+    right: "I*Oab1"
+  - internal_id: R049
+    display: "Eqs. (D-72), (D-75) -> Eq. (D-76)"
+    cue: "$C_1,C_2$ in $\\Omega$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we substitute the expression for $V_{ab}$ back into the coefficients $C_1$ and $C_2$"
+    sources: ["D-72", "D-75"]
+    targets: ["D-76"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "v1c*(I*e12**2*Oab1) + v1b*(I*e12**2*Oac1)"
+    right: "I*e12**2*(v1c*Oab1 + v1b*Oac1)"
+  - internal_id: R050
+    display: "Eqs. (D-70), (D-76) -> Eq. (D-77)"
+    cue: "$(-i)(i\\epsilon_{12}^2)/(4\\epsilon_{12}^2)=1/4$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "finally, we substitute $C_1$ and $C_2$ into the expression for $\\sigma_{abc}^{(-1)}$"
+    sources: ["D-70", "D-76"]
+    targets: ["D-77"]
+    executable: true
+    helper: false
+    regression: D.sigma-m1-Ii
+    condition: "none"
+    left: "(-I)/(4*e12**2)*(I*e12**2)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)"
+    right: "(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)"
+  - internal_id: R051
+    display: "Eq. (D-77) -> Eq. (D-78)"
+    cue: "$\\Omega^2=-\\Omega^1$ compactification"
+    move: "index relabeling"
+    claimed: INDEX_RELABELING
+    prose: "using the property that the Berry curvature is opposite for the two bands ($\\Omega_{ab}^2=-\\Omega_{ab}^1$)"
+    sources: ["D-77"]
+    targets: ["D-78"]
+    executable: true
+    helper: false
+    regression: D.Omega2-relabel
+    condition: "substitute $\\Omega^2=-\\Omega^1$"
+    subst: {"Oab2": "-Oab1", "Oac2": "-Oac1"}
+    left: "(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p - (v2c*Oab1 + v2b*Oac1)*f2p)"
+    right: "(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p + (v2c*Oab2 + v2b*Oac2)*f2p)"
+  - internal_id: R052
+    display: "Eq. (D-79)"
+    cue: "$1/4!=1/24$ in $T_4$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "$T_4=\\sum_n \\frac{1}{4!}v_n^a v_n^b v_n^c f_n^{(4)}=\\sum_n \\frac{1}{24}v_n^a v_n^b v_n^c f_n^{(4)}$"
+    sources: ["D-79"]
+    targets: ["D-79"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(1/(4*3*2*1))*va*vb*vc*f4"
+    right: "Rational(1,24)*va*vb*vc*f4"
+  - internal_id: R053
+    display: "Eq. (D-81) -> Eq. (D-82)"
+    cue: "$T_{3A}$ prefactor $2\\epsilon_{12}^2/(48\\epsilon_{12})=\\epsilon_{12}/24$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "using the Metric-Velocity Relation ... for $T_{3A}$"
+    sources: ["D-81"]
+    targets: ["D-82"]
+    executable: true
+    helper: false
+    condition: "after substituting the metric-velocity pair into $K_{nA}$"
+    left: "(2*e12**2)/(48*e12)*((v1c*gab + v1b*gac)*f13 - (v2c*gab + v2b*gac)*f23)"
+    right: "(e12/24)*((gab*v1c + gac*v1b)*f13 - (gab*v2c + gac*v2b)*f23)"
+  - internal_id: R054
+    display: "Eq. (D-81) -> Eq. (D-83)"
+    cue: "$T_{3B}$ prefactor from $K_{nB}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "for $T_{3B}$"
+    sources: ["D-81"]
+    targets: ["D-83"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(1/(48*e12))*(((v11ac*v1b + v11ab*v1c)*e12)*f13 - ((-(v22ac*v2b + v22ab*v2c)*e12))*f23)"
+    right: "(e12/(48*e12))*((v11ac*v1b + v11ab*v1c)*f13 + (v22ac*v2b + v22ab*v2c)*f23)"
+  - internal_id: R055
+    display: "Eq. (D-83) -> Eq. (D-84)"
+    cue: "insert diagonal second-derivative identity into $T_{3B}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "we utilize the Diagonal Second Derivative Identity"
+    sources: ["D-83"]
+    targets: ["D-84"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R056
+    display: "Eq. (D-84) -> Eqs. (D-85), (D-86)"
+    cue: "$T_{3B}^{\\mathrm{intra}}$ and $T_{3B}^{\\mathrm{inter}}$"
+    move: "definition"
+    claimed: SPLIT_PARENT
+    prose: "and separate this into intraband derivative terms and geometric terms"
+    sources: ["D-84"]
+    targets: ["D-85", "D-86"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R057
+    display: "Eqs. (D-82), (D-86)"
+    cue: "$T_{3B}^{\\mathrm{inter}}=-T_{3A}$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "since $\\epsilon_{21}=-\\epsilon_{12}$, we find $T_{3B}^{\\mathrm{inter}}=-T_{3A}$"
+    sources: ["D-82", "D-86"]
+    targets: ["D-86"]
+    executable: true
+    helper: false
+    condition: "substitute $\\epsilon_{21}=-\\epsilon_{12}$"
+    subst: {"e21": "-e12"}
+    left: "(-Rational(2,48))*(e12*(gac*v1b + gab*v1c)*f13 + e21*(gac*v2b + gab*v2c)*f23)"
+    right: "-((e12/24)*((gab*v1c + gac*v1b)*f13 - (gab*v2c + gac*v2b)*f23))"
+  - internal_id: R058
+    display: "Eqs. (D-82), (D-85), (D-86) -> Eq. (D-87)"
+    cue: "$T_3=T_{3B}^{\\mathrm{intra}}$ after geometric cancel"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the geometric contributions cancel exactly: $T_3=T_{3A}+T_{3B}=T_{3B}^{\\mathrm{intra}}$"
+    sources: ["D-82", "D-85", "D-86"]
+    targets: ["D-87"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R059
+    display: "Eq. (D-88) -> Eq. (D-89)"
+    cue: "$T_2$ metric substitution"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "applying the Metric-Velocity Relation"
+    sources: ["D-88"]
+    targets: ["D-89"]
+    executable: true
+    helper: false
+    condition: "substitute $v_{21}^b v_{12}^c+v_{12}^b v_{21}^c=2\\epsilon_{12}^2 g_{bc}$"
+    subst: {"v21b*v12c + v12b*v21c": "2*e12**2*gbc"}
+    left: "(1/(4*e12**2))*va*(v21b*v12c + v12b*v21c)*fn2"
+    right: "Rational(1,2)*gbc*va*fn2"
+  - internal_id: R060
+    display: "Eq. (D-91) -> Eq. (D-92)"
+    cue: "$T_1$ coefficient $C_1$ regroup and metric"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we reorganize $C_1$ and apply the Metric-Velocity Relation"
+    sources: ["D-91"]
+    targets: ["D-92"]
+    executable: true
+    helper: false
+    condition: "substitute the metric-velocity pair"
+    subst: {"v21a*v12b + v12a*v21b": "2*e12**2*gab", "v21a*v12c + v12a*v21c": "2*e12**2*gac", "v21b*v12c + v12b*v21c": "2*e12**2*gbc"}
+    left: "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c) - v1a*(v21b*v12c + v12b*v21c)"
+    right: "v1c*(2*e12**2*gab) + v1b*(2*e12**2*gac) - v1a*(2*e12**2*gbc)"
+  - internal_id: R061
+    display: "Eqs. (D-90), (D-92) -> Eq. (D-93)"
+    cue: "$T_1$ prefactor $2\\epsilon_{12}^2/(2\\epsilon_{12}^3)=1/\\epsilon_{12}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "$C_2$ follows similarly. Substituting these back into $T_1$"
+    sources: ["D-90", "D-92"]
+    targets: ["D-93"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(2*e12**2)/(2*e12**3)*((v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)"
+    right: "(1/e12)*((v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)"
+  - internal_id: R062
+    display: "Eq. (D-95) -> Eq. (D-96)"
+    cue: "$A=6\\epsilon_{12}^2 g_{bc}(v_2^a-v_1^a)$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "for Part A and Part B we use Metric-Velocity Relation"
+    sources: ["D-95"]
+    targets: ["D-96"]
+    executable: true
+    helper: false
+    condition: "substitute $v_{21}^b v_{12}^c+v_{12}^b v_{21}^c=2\\epsilon_{12}^2 g_{bc}$"
+    subst: {"v21b*v12c + v12b*v21c": "2*e12**2*gbc"}
+    left: "3*(v2a - v1a)*(v21b*v12c + v12b*v21c)"
+    right: "6*e12**2*gbc*(v2a - v1a)"
+  - internal_id: R063
+    display: "Eq. (D-95) -> Eq. (D-97)"
+    cue: "$B=2\\epsilon_{12}^2[g_{ac}(v_2^b-v_1^b)+g_{ab}(v_2^c-v_1^c)]$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "for Part A and Part B we use Metric-Velocity Relation"
+    sources: ["D-95"]
+    targets: ["D-97"]
+    executable: true
+    helper: false
+    condition: "substitute the metric-velocity pair"
+    subst: {"v21a*v12c + v12a*v21c": "2*e12**2*gac", "v21a*v12b + v12a*v21b": "2*e12**2*gab"}
+    left: "(v2b-v1b)*(v21a*v12c + v12a*v21c) + (v2c-v1c)*(v21a*v12b + v12a*v21b)"
+    right: "2*e12**2*(gac*(v2b-v1b) + gab*(v2c-v1c))"
+  - internal_id: R064
+    display: "Eq. (D-98) -> Eq. (D-99)"
+    cue: "$S_{ac;b}+S_{ab;c}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we consider the symmetric combination required for $E$"
+    sources: ["D-98"]
+    targets: ["D-99"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R065
+    display: "Eq. (D-99) -> Eq. (D-100)"
+    cue: "metric-velocity inside $\\partial_a(v_{21}^c v_{12}^b+\\cdots)$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we use Metric-Velocity Relation for the term inside the derivative"
+    sources: ["D-99"]
+    targets: ["D-100"]
+    executable: true
+    helper: false
+    condition: "substitute the metric-velocity pair"
+    subst: {"v21c*v12b + v21b*v12c": "2*e12**2*gbc"}
+    left: "v21c*v12b + v21b*v12c"
+    right: "2*e12**2*gbc"
+  - internal_id: R066
+    display: "Eq. (D-101) -> Eq. (D-102)"
+    cue: "two-band commutators into $K_{ab;c}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "substituting these into the definition of $K_{ab;c}$"
+    sources: ["D-101"]
+    targets: ["D-102"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R067
+    display: "Eq. (D-103)"
+    cue: "$P_{\\mathrm{gauge}}=0$ by commuting velocities"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "since the velocity matrix elements commute, the terms inside the bracket cancel exactly: $P_{\\mathrm{gauge}}=0$"
+    sources: ["D-103"]
+    targets: ["D-103"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(A11a - A22a)*((v12c*v21b - v21c*v12b) + (v12b*v21c - v21b*v12c))"
+    right: "0"
+  - internal_id: R068
+    display: "Eq. (D-105)"
+    cue: "$A_{12}^a v_{21}^b-A_{21}^a v_{12}^b=-2i\\epsilon_{12}g_{ab}$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we evaluate the bracketed terms using the Feynman-Hellmann identity"
+    sources: ["D-105"]
+    targets: ["D-105"]
+    executable: true
+    helper: false
+    condition: "Feynman--Hellmann and $g_{ab}=\\mathrm{Re}(A_{12}^a A_{21}^b)$; $\\epsilon_{21}=-\\epsilon_{12}$"
+    subst: {"e21": "-e12", "A12a*A21b + A21a*A12b": "2*gab"}
+    left: "A12a*(-I*e12*A21b) - A21a*(-I*e21*A12b)"
+    right: "-2*I*e12*gab"
+  - internal_id: R069
+    display: "Eqs. (D-104), (D-105) -> Eq. (D-106)"
+    cue: "$K_{abc}=-2i\\epsilon_{12}[(v_2^c-v_1^c)g_{ab}+\\cdots]$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "substituting this back into $K_{abc}$"
+    sources: ["D-104", "D-105"]
+    targets: ["D-106"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(v2c-v1c)*(-2*I*e12*gab) + (v2b-v1b)*(-2*I*e12*gac)"
+    right: "-2*I*e12*((v2c-v1c)*gab + (v2b-v1b)*gac)"
+  - internal_id: R070
+    display: "Eqs. (D-100), (D-106) -> Eq. (D-107)"
+    cue: "$-i K_{abc}$ becomes $-2\\epsilon_{12}[\\cdots]$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "now we assemble the expression for $S_{ac;b}+S_{ab;c}$"
+    sources: ["D-100", "D-106"]
+    targets: ["D-107"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "-I*(-2*I*e12*((v2c-v1c)*gab + (v2b-v1b)*gac))"
+    right: "-2*e12*(gab*(v2c-v1c) + gac*(v2b-v1b))"
+  - internal_id: R071
+    display: "Eq. (D-108)"
+    cue: "$\\partial_a(2\\epsilon_{12}^2 g_{bc})=4\\epsilon_{12}(v_1^a-v_2^a)g_{bc}+2\\epsilon_{12}^2\\partial_a g_{bc}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we expand the derivative term, using $\\partial_a\\epsilon_{12}=v_1^a-v_2^a$"
+    sources: ["D-108"]
+    targets: ["D-108"]
+    executable: true
+    helper: false
+    condition: "substitute $\\partial_a\\epsilon_{12}=v_1^a-v_2^a$"
+    subst: {"dae12": "v1a - v2a"}
+    left: "4*e12*dae12*gbc + 2*e12**2*dagbc"
+    right: "4*e12*(v1a-v2a)*gbc + 2*e12**2*dagbc"
+  - internal_id: R072
+    display: "Eqs. (D-107), (D-108) -> Eq. (D-109)"
+    cue: "$E=(S_{ac;b}+S_{ab;c})\\epsilon_{12}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the complete expression for $E=(S_{ac;b}+S_{ab;c})\\epsilon_{12}$ is"
+    sources: ["D-107", "D-108"]
+    targets: ["D-109"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(4*e12*(v1a-v2a)*gbc + 2*e12**2*dagbc - 2*e12*(gab*(v2c-v1c) + gac*(v2b-v1b)))*e12"
+    right: "4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c) + gac*(v2b-v1b))"
+  - internal_id: R073
+    display: "Eqs. (D-96), (D-97), (D-109) -> Eq. (D-110)"
+    cue: "$C_0=A+B+E$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we sum the results $A$, $B$, and $E$"
+    sources: ["D-96", "D-97", "D-109"]
+    targets: ["D-110"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "6*e12**2*gbc*(v2a-v1a) + 2*e12**2*(gac*(v2b-v1b)+gab*(v2c-v1c)) + (4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c)+gac*(v2b-v1b)))"
+    right: "6*e12**2*gbc*(v2a-v1a) + 2*e12**2*(gac*(v2b-v1b)+gab*(v2c-v1c)) + 4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c)+gac*(v2b-v1b))"
+  - internal_id: R074
+    display: "Eq. (D-110) -> Eq. (D-111)"
+    cue: "$C_0$ grouped by $g_{bc},g_{ac},g_{ab}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we group the terms by the geometric quantities"
+    sources: ["D-110"]
+    targets: ["D-111"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "6*e12**2*gbc*(v2a-v1a) + 2*e12**2*(gac*(v2b-v1b)+gab*(v2c-v1c)) + 4*e12**2*(v1a-v2a)*gbc + 2*e12**3*dagbc - 2*e12**2*(gab*(v2c-v1c)+gac*(v2b-v1b))"
+    right: "e12**2*gbc*(6*(v2a-v1a)+4*(v1a-v2a)) + e12**2*gac*(2*(v2b-v1b)-2*(v2b-v1b)) + e12**2*gab*(2*(v2c-v1c)-2*(v2c-v1c)) + 2*e12**3*dagbc"
+  - internal_id: R075
+    display: "Eq. (D-111) -> Eq. (D-112)"
+    cue: "$g_{ac}$ and $g_{ab}$ coefficients cancel"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the terms proportional to $g_{ac}$ and $g_{ab}$ cancel exactly"
+    sources: ["D-111"]
+    targets: ["D-112"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "e12**2*gbc*(6*(v2a-v1a)+4*(v1a-v2a)) + e12**2*gac*(2*(v2b-v1b)-2*(v2b-v1b)) + e12**2*gab*(2*(v2c-v1c)-2*(v2c-v1c)) + 2*e12**3*dagbc"
+    right: "2*e12**2*gbc*(v2a-v1a) + 2*e12**3*dagbc"
+  - internal_id: R076
+    display: "Eqs. (D-94), (D-112) -> Eq. (D-113)"
+    cue: "$T_0$ after simplified $C_0$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "substituting the simplified $C_0$ back into $T_0$"
+    sources: ["D-94", "D-112"]
+    targets: ["D-113"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(f1-f2)/(2*e12**4)*(2*e12**2*gbc*(v2a-v1a) + 2*e12**3*dagbc)"
+    right: "(f1-f2)*(gbc*(v2a-v1a)/e12**2 + dagbc/e12)"
+  - internal_id: R077
+    display: "Eq. (D-113) -> Eq. (D-114)"
+    cue: "$T_0=(f_1-f_2)\\partial_a(g_{bc}/\\epsilon_{12})$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "since $v_2^a-v_1^a=-(\\partial_a\\epsilon_{12})$, this expression is recognized as the quotient rule"
+    sources: ["D-113"]
+    targets: ["D-114"]
+    executable: true
+    helper: false
+    condition: "substitute $v_2^a-v_1^a=-\\partial_a\\epsilon_{12}$"
+    subst: {"v2a - v1a": "-dae12"}
+    left: "gbc*(v2a-v1a)/e12**2 + dagbc/e12"
+    right: "(dagbc*e12 - gbc*dae12)/e12**2"
+  - internal_id: R078
+    display: "local Leibniz rule for Eqs. (D-114)->(D-119) and (D-123)->(D-124)"
+    cue: "$\\partial_k(uv)=(\\partial_k u)v+u(\\partial_k v)$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "local product rule used in Brillouin-zone integration by parts"
+    sources: ["D-114"]
+    targets: ["D-119"]
+    executable: true
+    helper: true
+    regression: D.leibniz-product-rule
+    condition: "none"
+    left: "diff(u(k)*v(k), k)"
+    right: "diff(u(k), k)*v(k) + u(k)*diff(v(k), k)"
+  - internal_id: R079
+    display: "Eq. (D-114) -> Eq. (D-119)"
+    cue: "$T_0$ BZ integration by parts"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "we apply IBP to $T_0$ to transform the Fermi sea term to the Fermi surface"
+    sources: ["D-114"]
+    targets: ["D-119"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    regression: D.T0-ibp-global
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R080
+    display: "Eq. (D-119)"
+    cue: "$T_0$ local sign algebra after IBP"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "$T_0 \\xrightarrow{\\mathrm{IBP}} g_{bc}((v_2^a f_2'-v_1^a f_1')/\\epsilon_{12})$"
+    sources: ["D-119"]
+    targets: ["D-119"]
+    executable: true
+    helper: false
+    regression: D.T0-local-sign
+    condition: "none"
+    left: "-(f1p*v1a - f2p*v2a)*(gbc/e12)"
+    right: "gbc*(v2a*f2p - v1a*f1p)/e12"
+  - internal_id: R081
+    display: "Eq. (D-87) -> Eq. (D-115)"
+    cue: "$T_3$ IBP"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "we apply IBP to $T_3$ with respect to $k_a$"
+    sources: ["D-87"]
+    targets: ["D-115"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R082
+    display: "Eq. (D-115) -> Eq. (D-116)"
+    cue: "chain rule $\\partial_a f_n^{(3)}=f_n^{(4)} v_n^a$; $T_3=-\\frac12 T_4$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "using the chain rule $\\partial_a f_n^{(3)}=f_n^{(4)} v_n^a$"
+    sources: ["D-115"]
+    targets: ["D-116"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "-Rational(1,48)*va*vb*vc*f4"
+    right: "-Rational(1,2)*Rational(1,24)*va*vb*vc*f4"
+  - internal_id: R083
+    display: "Eqs. (D-79), (D-116) -> Eq. (D-117)"
+    cue: "$\\sigma^{\\mathrm{kin}}=T_3+T_4=\\frac12 T_4$"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the total intraband contribution simplifies to $\\sigma^{\\mathrm{kin}}=T_3+T_4=\\frac12 T_4$"
+    sources: ["D-79", "D-116"]
+    targets: ["D-117"]
+    executable: true
+    helper: false
+    condition: "substitute $f_n^{(4)}=2f_{0,n}^{(4)}$ on the last equality"
+    subst: {"f4": "2*f04"}
+    left: "Rational(1,24)*va*vb*vc*f4 + (-Rational(1,48)*va*vb*vc*f4)"
+    right: "Rational(1,24)*va*vb*vc*f04"
+  - internal_id: R084
+    display: "Eq. (D-117) -> Eq. (D-118)"
+    cue: "further BZ IBP $\\sigma^{\\mathrm{kin}}\\propto(\\partial_a\\partial_b\\partial_c\\epsilon_n)f_0^{(2)}$"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "to improve numerical stability, we can reduce the order of the derivative ... by integration by parts"
+    sources: ["D-117"]
+    targets: ["D-118"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R085
+    display: "Eqs. (D-119), (D-93) -> Eq. (D-120)"
+    cue: "$T_0+T_1$ combined $f'$ terms"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we combine the $f'$ terms from $T_0$ and $T_1$"
+    sources: ["D-119", "D-93"]
+    targets: ["D-120"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R086
+    display: "Eq. (D-120) -> Eq. (D-121)"
+    cue: "$T_0+T_1$ regroup by $f_1',f_2'$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "grouping terms by $f_1'$ and $f_2'$"
+    sources: ["D-120"]
+    targets: ["D-121"]
+    executable: true
+    helper: false
+    regression: D.T0T1-regroup
+    condition: "none"
+    left: "(1/e12)*(gbc*(v2a*f2p - v1a*f1p) + (v1c*gab + v1b*gac - v1a*gbc)*f1p - (v2c*gab + v2b*gac - v2a*gbc)*f2p)"
+    right: "(1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))"
+  - internal_id: R087
+    display: "Eqs. (D-89), (D-121) -> Eq. (D-122)"
+    cue: "$\\sigma^{\\mathrm{geo}}=T_2+(T_0+T_1)$"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "the total geometric contribution, including $T_2$, is"
+    sources: ["D-89", "D-121"]
+    targets: ["D-122"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R088
+    display: "Eq. (D-89) -> Eq. (D-123)"
+    cue: "$v_n^a f_n^{(2)}=\\partial_a(f_n')$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we use the identity $v_n^a f_n^{(2)}=\\partial_a(f_n')$"
+    sources: ["D-89"]
+    targets: ["D-123"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R089
+    display: "Eq. (D-123) -> Eq. (D-124)"
+    cue: "$T_2$ BZ integration by parts"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "applying IBP w.r.t $k_a$"
+    sources: ["D-123"]
+    targets: ["D-124"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    regression: D.T2-ibp-global
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R090
+    display: "Eqs. (D-122), (D-124) -> Eq. (D-125)"
+    cue: "$\\sigma^{\\mathrm{geo}}$ after declared $T_2$ IBP"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "substituting this transformed $T_2$ and $(T_0+T_1)$ into $\\sigma^{\\mathrm{geo}}$"
+    sources: ["D-122", "D-124"]
+    targets: ["D-125"]
+    executable: true
+    helper: false
+    regression: D.geo-T2-subst
+    condition: "none"
+    left: "(-Rational(1,2)*dagbc*(f1p + f2p)) + (1/e12)*(f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - f2p*(v2c*gab + v2b*gac - 2*v2a*gbc))"
+    right: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))"
+  - internal_id: R091
+    display: "Eq. (D-125) -> Eq. (D-126)"
+    cue: "$\\epsilon_{21}=-\\epsilon_{12}$ symmetrization"
+    move: "substitution"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we rewrite the expression for band 2 using the energy denominator $\\epsilon_{21}=-\\epsilon_{12}$"
+    sources: ["D-125"]
+    targets: ["D-126"]
+    executable: true
+    helper: false
+    regression: D.eps21-symmetrize
+    condition: "substitute $\\epsilon_{21}=-\\epsilon_{12}$"
+    subst: {"e21": "-e12"}
+    left: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))"
+    right: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))"
+  - internal_id: R092
+    display: "Eq. (D-126) -> Eq. (D-127)"
+    cue: "compact $n,\\bar n$ form with $f_n'=2f_{0,n}'$"
+    move: "index relabeling"
+    claimed: INDEX_RELABELING
+    prose: "this can be written compactly using $\\epsilon_{n\\bar n}$; $f_n'=2f_{0,n}'$"
+    sources: ["D-126"]
+    targets: ["D-127"]
+    executable: true
+    helper: false
+    regression: D.compact-nbar
+    condition: "substitute $f_n'=2f_{0,n}'$"
+    subst: {"f1p": "2*f01p", "f2p": "2*f02p"}
+    left: "f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))"
+    right: "2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))"
+  - internal_id: R093
+    display: "Eq. (E-128)"
+    cue: "multiband $v_{nn}^{ab}$ identity"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "multiband diagonal second derivative"
+    sources: ["E-128"]
+    targets: ["E-128"]
+    executable: false
+    helper: false
+    regression: E.diag-2nd
+    condition: "none"
+  - internal_id: R094
+    display: "Eq. (E-130) -> Eq. (E-131)"
+    cue: "multiband $\\sigma^{(-2)}$ after diagonal $v_{nn}^{ab}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "by using the property of Diagonal Second Derivative, the expression can be significantly simplified"
+    sources: ["E-130"]
+    targets: ["E-131"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R095
+    display: "Eq. (E-132) -> Eq. (E-133)"
+    cue: "multiband $\\sigma^{(-1)}$ via curvature-velocity"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "by utilizing the multiband curvature-velocity relation"
+    sources: ["E-132"]
+    targets: ["E-133"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R096
+    display: "Eq. (E-134)"
+    cue: "$\\sigma^{(0)}=T_0+\\cdots+T_4$"
+    move: "definition"
+    claimed: SPLIT_PARENT
+    prose: "we expand $\\sigma_{abc}^{(0)}$ in powers of the inverse temperature $\\beta$"
+    sources: ["E-134"]
+    targets: ["E-134"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R097
+    display: "Eq. (E-135)"
+    cue: "$T_4=\\frac{1}{4!}\\sum_n v_n^a v_n^b v_n^c f_n^{(4)}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "this contribution is proportional to the fourth derivative"
+    sources: ["E-135"]
+    targets: ["E-135"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "(1/(4*3*2*1))*va*vb*vc*f4"
+    right: "Rational(1,24)*va*vb*vc*f4"
+  - internal_id: R098
+    display: "Eq. (E-136) -> Eq. (E-137)"
+    cue: "multiband $T_3$ after diagonal $v_{nn}^{ab}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "then, we utilize the property of Diagonal Second Derivative"
+    sources: ["E-136"]
+    targets: ["E-137"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R099
+    display: "Eq. (E-138) -> Eq. (E-139)"
+    cue: "multiband $T_2$ via metric-velocity"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "by using the Multiband Metric-Velocity Relation"
+    sources: ["E-138"]
+    targets: ["E-139"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R100
+    display: "Eq. (E-140) -> Eq. (E-141)"
+    cue: "multiband $T_1$ via $\\mathcal{G}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "applying the Multiband Band-renormalized Metric-Velocity Relation"
+    sources: ["E-140"]
+    targets: ["E-141"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R101
+    display: "Eq. (E-142) -> Eq. (E-143)"
+    cue: "multiband remainder $\\mathcal{M}=0$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "we collect all multiband contributions (denoted as $\\mathcal{M}$) ... $=0$"
+    sources: ["E-142"]
+    targets: ["E-143"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R102
+    display: "Eqs. (E-142), (E-143) -> Eq. (E-144)"
+    cue: "$T_0$ reduces to two-band index terms"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "consequently, only terms involving two-band indices contribute"
+    sources: ["E-142", "E-143"]
+    targets: ["E-144"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R103
+    display: "Eq. (E-144) -> Eq. (E-145)"
+    cue: "shift-vector identity in $T_0$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "we utilize the properties of shift vector"
+    sources: ["E-144"]
+    targets: ["E-145"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R104
+    display: "Eq. (E-145) -> Eq. (E-146)"
+    cue: "$T_0=\\sum_n f_n\\partial_a\\mathcal{G}_n^{bc}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "by further applying the Feynman-Hellmann identity ... the final expression is shown to be proportional to the derivative of the band-renormalized quantum metric"
+    sources: ["E-145"]
+    targets: ["E-146"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R105
+    display: "Eq. (E-137) -> Eq. (E-147)"
+    cue: "multiband $T_3$ IBP $=-\\frac12 T_4$"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "by performing IBP on $T_3$ with respect to $k_a$, we obtain"
+    sources: ["E-137"]
+    targets: ["E-147"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R106
+    display: "Eqs. (E-135), (E-147) -> Eq. (E-148)"
+    cue: "$\\sigma^{\\mathrm{kin}}=\\frac12 T_4$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "summing the resulting terms yields"
+    sources: ["E-135", "E-147"]
+    targets: ["E-148"]
+    executable: true
+    helper: false
+    condition: "local $T_3=-\\frac12 T_4$ after declared IBP; substitute $f_n^{(4)}=2f_{0,n}^{(4)}$"
+    subst: {"f4": "2*f04"}
+    left: "Rational(1,24)*va*vb*vc*f4 + (-Rational(1,2)*Rational(1,24)*va*vb*vc*f4)"
+    right: "Rational(1,24)*va*vb*vc*f04"
+  - internal_id: R107
+    display: "Eq. (E-146) -> Eq. (E-149)"
+    cue: "multiband $T_0$ IBP"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "first, we apply IBP to $T_0$"
+    sources: ["E-146"]
+    targets: ["E-149"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R108
+    display: "Eq. (E-139) -> Eq. (E-150)"
+    cue: "multiband $T_2$ IBP"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "next, performing IBP on $T_2$ leads to"
+    sources: ["E-139"]
+    targets: ["E-150"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R109
+    display: "Eqs. (E-141), (E-149), (E-150) -> Eq. (E-151)"
+    cue: "multiband $\\sigma^{\\mathrm{geo}}$ assembly"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "combining the above contributions with $T_1$, we arrive at the final expression"
+    sources: ["E-141", "E-149", "E-150"]
+    targets: ["E-151"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "-Rational(1,2)*f1p*dag + f1p*(vb*Gac + vc*Gab - va*Gbc) - f1p*va*Gbc"
+    right: "f1p*(vb*Gac + vc*Gab - 2*va*Gbc - dag/2)"
+  - internal_id: R110
+    display: "Eq. (F-152)"
+    cue: "SHG $\\Gamma$ expansion"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "subsequently perform a relaxation-time expansion around $\\Gamma=0$"
+    sources: ["F-152"]
+    targets: ["F-152"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma)$ remainder"
+  - internal_id: R111
+    display: "Eq. (F-153) -> Eq. (F-154)"
+    cue: "SHG $\\sigma^{(-2)}$ after $v_{nn}^{ab}$ and IBP"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "by applying the properties of the diagonal second derivative and performing integration by parts"
+    sources: ["F-153"]
+    targets: ["F-154"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R112
+    display: "Eq. (F-155) -> Eq. (F-156)"
+    cue: "SHG $\\sigma^{(-1)}$ via curvature-velocity"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "utilizing the multiband curvature-velocity relation"
+    sources: ["F-155"]
+    targets: ["F-156"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R113
+    display: "Eq. (F-157)"
+    cue: "$\\sigma^{\\mathrm{SHG}(0)}=T_0^{\\mathrm{SHG}}+\\cdots+T_4^{\\mathrm{SHG}}$"
+    move: "definition"
+    claimed: SPLIT_PARENT
+    prose: "the SHG $\\Gamma^0$ term is expanded in powers of $\\beta$"
+    sources: ["F-157"]
+    targets: ["F-157"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R114
+    display: "Eq. (E-135) -> Eq. (F-158)"
+    cue: "$T_4^{\\mathrm{SHG}}=-T_4$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "the fourth-order SHG contribution is the negative of the one of the rectified current"
+    sources: ["E-135"]
+    targets: ["F-158"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "-Rational(1,24)*va*vb*vc*f4"
+    right: "-((1/(4*3*2*1))*va*vb*vc*f4)"
+  - internal_id: R115
+    display: "Eq. (F-159) -> Eq. (F-160)"
+    cue: "$T_3^{\\mathrm{SHG}}$ after diagonal $v_{nn}^{ab}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "by utilizing the properties of the Diagonal Second Derivative"
+    sources: ["F-159"]
+    targets: ["F-160"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R116
+    display: "Eq. (F-161)"
+    cue: "$T_2^{\\mathrm{SHG}}=T_2$"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "the second-order SHG term $T_2^{\\mathrm{SHG}}$ is found to be identical to its counterpart in the rectified current"
+    sources: ["F-161"]
+    targets: ["F-161"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R117
+    display: "Eq. (F-162) -> Eq. (F-163)"
+    cue: "$T_1^{\\mathrm{SHG}}$ via $\\mathcal{G}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "by invoking the multiband band-renormalized metric-velocity relation"
+    sources: ["F-162"]
+    targets: ["F-163"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R118
+    display: "Eqs. (F-164)--(F-168) -> Eq. (F-157)"
+    cue: "$T_0^{\\mathrm{SHG}}$ split into five pieces"
+    move: "definition"
+    claimed: SPLIT_PARENT
+    prose: "for clarity, we decompose the initial expression into five distinct components"
+    sources: ["F-164", "F-165", "F-166", "F-167", "F-168"]
+    targets: ["F-157"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R119
+    display: "Eq. (F-165) -> Eq. (F-169)"
+    cue: "expand off-diagonal $v_{nm}^{ab}$ in $T_{0,2}^{\\mathrm{SHG}}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "starting from $T_{0,2}^{\\mathrm{SHG}}$, we expand the Off-diagonal Second Derivatives"
+    sources: ["F-165"]
+    targets: ["F-169"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R120
+    display: "Eqs. (F-166), (F-169) -> Eq. (F-171)"
+    cue: "$T_{0,2}+T_{0,3}$ two-band vs multiband split"
+    move: "bookkeeping"
+    claimed: SPLIT_PARENT
+    prose: "by combining $T_{0,2}^{\\mathrm{SHG}}$ and $T_{0,3}^{\\mathrm{SHG}}$, we can decompose ... into a two-band term and a multiband contribution"
+    sources: ["F-166", "F-169"]
+    targets: ["F-171"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R121
+    display: "Eqs. (F-167), (F-168), (F-171) -> Eq. (F-172)"
+    cue: "SHG multiband remainder $\\mathcal{M}$"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "at this stage, we shall now group the multiband contributions"
+    sources: ["F-167", "F-168", "F-171"]
+    targets: ["F-172"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R122
+    display: "Eq. (F-172) -> Eq. (F-173)"
+    cue: "SHG $\\mathcal{M}=0$ after dummy-index reclassification"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "upon summing the coefficients of these matrix products, we find that the total multiband contribution vanishes identically"
+    sources: ["F-172"]
+    targets: ["F-173"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R123
+    display: "Eqs. (F-164), (F-171), (F-173) -> Eq. (F-174)"
+    cue: "$T_0^{\\mathrm{SHG}}$ reduces to two-band terms"
+    move: "bookkeeping"
+    claimed: BOOKKEEPING
+    prose: "the vanishing of $\\mathcal{M}$ ... $T_0^{\\mathrm{SHG}}$ reduces to a combination of two-band terms"
+    sources: ["F-164", "F-171", "F-173"]
+    targets: ["F-174"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R124
+    display: "Eq. (F-174) -> Eq. (F-175)"
+    cue: "Feynman--Hellmann rewrite of $T_0^{\\mathrm{SHG}}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "by invoking the Feynman-Hellmann identity, this expression can be further transformed"
+    sources: ["F-174"]
+    targets: ["F-175"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R125
+    display: "Eq. (F-175) -> Eq. (F-176)"
+    cue: "$T_0^{\\mathrm{SHG}}=-\\sum_n f_n(2\\partial_c\\mathcal{G}^{ab}+\\cdots)$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "these partial derivatives can be reorganized into the form of total derivatives of the band-renormalized quantum metric"
+    sources: ["F-175"]
+    targets: ["F-176"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R126
+    display: "Eq. (F-160) -> Eq. (F-177)"
+    cue: "$T_3^{\\mathrm{SHG}}$ IBP using $4\\partial_b\\partial_c\\epsilon\\,\\partial_a\\epsilon$ identity"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "for $T_3$, we utilize the relation $4\\partial_b\\partial_c\\epsilon_n\\partial_a\\epsilon_n=\\cdots$ and perform IBP"
+    sources: ["F-160"]
+    targets: ["F-177"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R127
+    display: "Eqs. (F-158), (F-177) -> Eq. (F-178)"
+    cue: "SHG $\\sigma^{\\mathrm{kin}}$: $-\\frac1{24}+\\frac{3}{48}=\\frac1{48}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "summing these contributions, we arrive at the final expression"
+    sources: ["F-158", "F-177"]
+    targets: ["F-178"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "-Rational(1,24)*va*vb*vc*f4 + Rational(3,48)*va*vb*vc*f4"
+    right: "Rational(1,48)*va*vb*vc*f4"
+  - internal_id: R128
+    display: "Eq. (F-176) -> Eq. (F-179)"
+    cue: "$T_0^{\\mathrm{SHG}}$ IBP"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "by performing integration by parts on $T_0^{\\mathrm{SHG}}$"
+    sources: ["F-176"]
+    targets: ["F-179"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R129
+    display: "Eq. (F-161) -> Eq. (F-180)"
+    cue: "$T_2^{\\mathrm{SHG}}$ IBP"
+    move: "BZ integration by parts"
+    claimed: BZ_PERIODIC_INTEGRATION_BY_PARTS
+    prose: "likewise, performing IBP on $T_2$ yields"
+    sources: ["F-161"]
+    targets: ["F-180"]
+    executable: false
+    helper: false
+    parent_status: CERTIFIED_BY_RULE
+    condition: "periodic Brillouin-zone torus; local Leibniz identity checked exactly"
+  - internal_id: R130
+    display: "Eqs. (F-163), (F-179), (F-180) -> Eq. (F-181)"
+    cue: "SHG $\\sigma^{\\mathrm{geo}}$ assembly"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "summing these three components, we obtain the total geometric contribution"
+    sources: ["F-163", "F-179", "F-180"]
+    targets: ["F-181"]
+    executable: true
+    helper: false
+    condition: "none"
+    left: "-Rational(1,2)*f1p*dag - f1p*(vb*Gac + vc*Gab + va*Gbc) + f1p*(2*vc*Gab + 2*vb*Gac - va*Gbc)"
+    right: "f1p*(vb*Gac + vc*Gab - 2*va*Gbc - dag/2)"
+  - internal_id: R131
+    display: "Eq. (G-182) -> Eq. (G-183)"
+    cue: "open-system Schr\u00f6dinger equation for $\\ket{\\psi_n^j}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "the exact equation of motion for $\\ket{\\psi_n^j(t)}$ is given by"
+    sources: ["G-182"]
+    targets: ["G-183"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R132
+    display: "Eqs. (G-182), (G-183) -> Eq. (G-184)"
+    cue: "$i\\partial_t\\rho_S=[H_S,\\rho_S]-2i\\Gamma\\rho_S+\\mathcal{S}$"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "from this, we derive the equation of motion for the reduced density matrix"
+    sources: ["G-182", "G-183"]
+    targets: ["G-184"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R133
+    display: "Eq. (G-184) -> Eq. (G-185)"
+    cue: "static-Hamiltonian approximation for $\\ket{\\psi_n^j}$"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "one must artificially freeze the system Hamiltonian ... $H_S(t)\\to H_S(0)$"
+    sources: ["G-184"]
+    targets: ["G-185"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R134
+    display: "Eq. (G-185) -> Eq. (G-186)"
+    cue: "source $\\mathcal{S}$ after static approximation"
+    move: "algebra"
+    claimed: ALGEBRAIC_EQUIVALENCE
+    prose: "under this assumption, a direct calculation yields"
+    sources: ["G-185"]
+    targets: ["G-186"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R135
+    display: "Eq. (G-186) -> Eq. (G-187)"
+    cue: "$\\Gamma$ truncation $\\mathcal{S}=2i\\Gamma\\rho_0+O(\\Gamma^2)$"
+    move: "asymptotic expansion"
+    claimed: ASYMPTOTIC_CLAIM
+    prose: "by expanding the dissipation parameter around $\\Gamma=0$ and strictly retaining only the first-order term"
+    sources: ["G-186"]
+    targets: ["G-187"]
+    executable: false
+    helper: false
+    parent_status: UNKNOWN_REMAINDER
+    condition: "author-declared $O(\\Gamma^2)$ remainder plus static-Hamiltonian approximation"
+  - internal_id: R136
+    display: "Eq. (G-187) -> Eq. (G-188)"
+    cue: "Lorentzian as Fourier convolution $e^{-\\Gamma|k|}$"
+    move: "special function identity"
+    claimed: SPECIAL_FUNCTION_IDENTITY
+    prose: "these higher-order contributions can be systematically extracted by expressing the integral as a convolution"
+    sources: ["G-187"]
+    targets: ["G-188"]
+    executable: false
+    helper: false
+    condition: "none"
+  - internal_id: R137
+    display: "Eq. (G-187) -> Eq. (G-189)"
+    cue: "RTA/IFR Liouville equation after two approximations"
+    move: "definition"
+    claimed: DEFINITION_INSERTION
+    prose: "applying these two approximations reduces the source term to $\\mathcal{S}\\simeq 2i\\Gamma\\rho_0$"
+    sources: ["G-187"]
+    targets: ["G-189"]
+    executable: false
+    helper: false
+    condition: "none"

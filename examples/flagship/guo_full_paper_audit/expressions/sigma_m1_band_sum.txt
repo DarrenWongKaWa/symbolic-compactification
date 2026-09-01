@@ -1,0 +1,1 @@
+(1/4)*((v1c*Oab1 + v1b*Oac1)*f1p + (v2c*Oab2 + v2b*Oac2)*f2p)

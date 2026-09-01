@@ -1,0 +1,21 @@
+schema_version: FlagshipPublicSourceV1
+arxiv_id: "2511.16422"
+arxiv_version: v2
+title: "Dissipation-Shaped Quantum Geometry in Nonlinear Transport"
+authors:
+  - Zhichao Guo
+  - Xing-Yuan Liu
+  - Hua Wang
+  - Li-kun Shi
+  - Kai Chang
+journal: "Phys. Rev. Lett. 136, 206303 (2026)"
+arxiv_abs_versioned: "https://arxiv.org/abs/2511.16422v2"
+arxiv_html: "https://arxiv.org/html/2511.16422v2"
+arxiv_source: "https://arxiv.org/src/2511.16422v2"
+local_eprint_sha256: "f074c3045aa17627ddf974895847ed5842e84cbf7b7c755a66700ff2fa01a9e9"
+local_main_tex_sha256: "d2f82d48b19816bffbae22330d89c64f95027c4228c8d6f342036e981079220d"
+notes:
+  - "PDF and arXiv source tarball are not committed; reconstruct from the public URL."
+  - "main.tex is committed as the Route A numbering authority."
+  - "Route B printed numbers are in html_printed_numbers.json, reconstructed from arXiv HTML."
+  - "Equation counter is not reset per appendix. Appendix D begins at printed Eq. (D-57)."
