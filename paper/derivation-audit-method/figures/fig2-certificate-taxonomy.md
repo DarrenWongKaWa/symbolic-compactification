@@ -3,7 +3,7 @@
 **Type.** Solution overview (opens Section 3–4).
 **Paradigm.** Pipeline (figure-designer Paradigm A) with the certificate vocabulary as the output, not a second paper.
 
-**Caption (draft).** A scientific derivation is compiled into typed claims; each claim is compiled into an evidence object. The reviewer inspects (source, claim type, assumptions, obligation, certificate). Certificate classes encode dependency, not confidence. The language-model proposal path has no certification authority.
+**Caption (draft).** Two axes, not one taxonomy. Edge type \(\tau\) is claim semantics (what mathematical move is asserted). Certificate class \(c\) is provenance (what evidence supports it). `ALGEBRAIC_EQUIVALENCE` is not `DIRECT_EXACT`. The reviewer inspects (source, claim type, assumptions, obligation, certificate). Classes encode dependency, not confidence. The language-model proposal path has no certification authority.
 
 ## Layout
 

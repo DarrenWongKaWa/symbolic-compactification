@@ -8,11 +8,11 @@
 | Title | Machine-Auditable Theoretical Derivations through Typed Evidence Graphs |
 | Skeleton | `working/thinking-template.md` — four consistency checks pass |
 | Evidence map | `working/evidence-map.md` |
-| Manuscript | `manuscript/draft-v1.md` (journal five-act rewrite) |
-| Prior draft | `manuscript/draft-v0.md` (kept) |
+| Manuscript | `manuscript/draft-v2.md` (evidence arithmetic, formative RQ3, RW defense) |
+| Prior drafts | `draft-v1.md`, `draft-v0.md` (kept) |
 | Figures | specified from existing evidence; not yet journal SVG/PDF |
 | New product capabilities | none |
 | New experiments | none |
 | Private unpublished manuscripts | excluded |
 
-draft-v1 is the submission-oriented rewrite. It is not camera-ready: figures are not drawn, related work is citation-level on several L3 sources, and the author must verify every paragraph against the public artefacts.
+draft-v2 addresses the four v1 revision items. Next: paper-polish → figures → pre-submission review. Not camera-ready. Author must verify every paragraph against tag `derivation-audit-v0.2.1-alpha` and evidence `69ad474`.

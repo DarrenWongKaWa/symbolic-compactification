@@ -1,17 +1,21 @@
 # Table 2 — Public field-validation summary
 
 Guo et al., *Phys. Rev. Lett.* **136**, 206303 (2026), arXiv:2511.16422v2.
-25 selected paper steps. One shared local Leibniz child is a machine helper
-for the two IBP parents and is counted among the 19 machine `ZERO` rows.
+Formative field validation, not held-out generalisation.
+189 numbered public equations → 25 selected paper steps (not exhaustive).
 
 | Quantity | Count |
 |---|---|
+| Numbered public equations | 189 |
 | Selected paper steps | 25 |
-| Machine `ZERO` | 19 |
-|  `DIRECT_EXACT` | 13 |
+| Paper-level engine `ZERO` | 18 |
+|  `DIRECT_EXACT` (paper steps) | 12 |
 |  `SUBSTITUTION_EXACT` | 6 |
 | `RULE_CERTIFICATE` (BZ periodic IBP) | 2 |
 | Asymptotic `UNKNOWN` | 1 |
+| Structural records | 4 |
+| Shared Leibniz helper (not a paper step) | 1 additional `ZERO` |
+| Complete-run `ZERO` records | 19 |
 | `NONZERO` | 0 |
 
 This is an equation-level audit and does not prove the paper or confirm

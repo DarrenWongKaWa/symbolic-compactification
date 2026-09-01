@@ -6,10 +6,11 @@
 4. Separating proposal from authority — the model must not be its own notary
 5. Implementation — hashes and generated tables (short, late)
 6. Evaluation
-    6.1 RQ1 Can narrative forge certification? No.
+    6.1 RQ1 Can tested narrative attacks populate the verified table?
     6.2 RQ2 Do heterogeneous steps retain type? Synthetic demos.
-    6.3 RQ3 Does this survive a real manuscript? Guo PRL, with caveats.
-7. Related work — CAS / kernels / LLM+tool / FAIR data
+    6.3 RQ3 Formative field validation (not held-out generalisation).
+7. Related work — CAS / kernels / PCC / hidden verification / certified CAS / workflow provenance / LLM+tool / FAIR
+   plus comparison table
 8. Discussion — authors, reviewers, AI for science
 9. Conclusion — an AI may propose a derivation; it may not certify itself
 

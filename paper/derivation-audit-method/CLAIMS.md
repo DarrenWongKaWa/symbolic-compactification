@@ -33,20 +33,21 @@ Central question:
 
 ## Approved public metrics (Guo et al., arXiv:2511.16422v2)
 
-Selected paper steps: **25**
+Formative field validation. 189 numbered equations → 25 selected paper steps.
 
 ```text
-MACHINE ZERO = 19
-    DIRECT_EXACT = 13
+Paper-level engine ZERO = 18
+    DIRECT_EXACT = 12
     SUBSTITUTION_EXACT = 6
-RULE_CERTIFICATE = 2   (BZ periodic IBP)
+RULE_CERTIFICATE = 2
 ASYMPTOTIC UNKNOWN = 1
+Structural records = 4
 NONZERO = 0
+Complete-run ZERO records = 19
+    (18 paper-level + 1 shared Leibniz helper, not a paper step)
 ```
 
-A shared local Leibniz child is a machine helper for the two IBP parents,
-not an additional paper step. Certificate classes describe **provenance**,
-not a hierarchy of truth.
+Certificate classes describe **provenance**, not a hierarchy of truth.
 
 ## Private-manuscript policy
 

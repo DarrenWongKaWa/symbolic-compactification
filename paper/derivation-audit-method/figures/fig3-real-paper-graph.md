@@ -19,11 +19,14 @@ Highlight two non-green nodes with callouts:
 Inset count (not a leaderboard):
 
 ```text
-25 selected paper steps
-19 engine ZERO = 13 DIRECT + 6 SUBSTITUTION
-2 RULE_CERTIFICATE
+189 numbered equations → 25 selected paper steps
+18 paper-level ZERO = 12 DIRECT + 6 SUBSTITUTION
+2 RULE_CERTIFICATE (conditional)
 1 ASYMPTOTIC UNKNOWN
+4 structural
+(+ 1 Leibniz helper ZERO; complete-run ZERO = 19)
 0 NONZERO
+formative field validation, not held-out test
 ```
 
 ## Tool
