@@ -1,0 +1,1 @@
+(-(f1p*v1a - f2p*v2a)*(gbc/e12)) - (gbc*(v2a*f2p - v1a*f1p)/e12)

@@ -1,7 +1,6 @@
 """Release-critical packaging metadata checks.
 
-These checks exercise installed distribution metadata.  They complement the
-clean-environment replay documented in engineering/release_v0_1/INSTALLATION.md.
+These checks exercise installed distribution metadata.
 """
 
 from importlib import metadata
@@ -40,12 +39,12 @@ def test_alpha_release_identity_is_explicit_and_pep440_aligned() -> None:
     project = tomllib.loads(
         Path("pyproject.toml").read_text(encoding="utf-8"))["project"]
 
-    assert project["version"] == RELEASE_VERSION == "0.1.0-alpha"
+    assert project["version"] == RELEASE_VERSION == "0.3.0-alpha"
     assert Version(RELEASE_VERSION) == Version(PACKAGE_VERSION)
-    assert metadata.version(DIST_NAME) == PACKAGE_VERSION == "0.1.0a0"
+    assert metadata.version(DIST_NAME) == PACKAGE_VERSION == "0.3.0a0"
     assert ENGINE_VERSION == AGENT_PROTOCOL_VERSION == "0.3.0"
     assert project["description"] == (
-        "Context-grounded symbolic hypotheses with fail-closed verification."
+        "Verified symbolic reasoning for theoretical physics."
     )
 
 
@@ -194,9 +193,10 @@ def test_non_editable_install_records_build_revision_outside_checkout(
 def test_packaged_readme_is_the_research_preview_entrypoint() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
 
-    assert "Scientific experimentation is closed" in readme
-    assert "Mode A: verify my hypothesis" in readme
+    assert "Verified symbolic reasoning for theoretical physics." in readme
+    assert "Forward derivation" in readme
+    assert "Paper audit" in readme
     assert all(verdict in readme for verdict in ("ZERO", "NONZERO", "UNKNOWN"))
-    assert "engineering/release_v0_1/QUICKSTART.md" in readme
+    assert "examples/flagship/guo/RESULTS.md" in readme
     assert "Publication decision: **E**" not in readme
     assert "AI discovers physics" not in readme

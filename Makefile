@@ -1,87 +1,32 @@
-PYTHON ?= .venv/bin/python
-RUNS := research/runs/protocol_v0
+PYTHON ?= python3
 
-.PHONY: venv test release-gate benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval sd-test sd-bench sd-dev sd-final sd-cases ai-test ai-dev ai-final
+.PHONY: venv test release-gate forward-demo audit-demo flagship-replay
 
 venv:
-	uv venv .venv --python python3.12
-	uv pip install -e '.[dev]' --python $(PYTHON)
+	$(PYTHON) -m venv .venv
+	.venv/bin/python -m pip install -e '.[dev]'
 
-# Historical full suite (not the merge gate). Use `make release-gate`.
 test:
-	$(PYTHON) -m pytest tests/ -q
+	$(PYTHON) -m pytest -q -m 'release_critical or derivation_audit_release_critical'
 
-release-gate:
-	$(PYTHON) -m pytest -q -m release_critical
-	$(PYTHON) -m pytest -q -m derivation_audit_release_critical
+release-gate: test
 	$(PYTHON) scripts/check_clean_room.py
 
-benchmark:
-	$(PYTHON) benchmark/generation/generate_ssc_bench.py
+forward-demo:
+	$(PYTHON) -c "from pathlib import Path; import tempfile, shutil; from symbolic_compactification import ZERO, NONZERO, verify_hypothesis; \
+root=Path('examples/forward'); \
+d=Path(tempfile.mkdtemp()); \
+shutil.copytree(root/'exact-step', d/'exact'); \
+shutil.copytree(root/'refused-step', d/'refused'); \
+assert verify_hypothesis(d/'exact').result==ZERO; \
+assert verify_hypothesis(d/'refused').result==NONZERO; \
+print('forward demos PASS')"
 
-baselines:
-	$(PYTHON) research/baselines/runners/run_deterministic.py
+audit-demo:
+	symbolic-compactification audit verify examples/audit/minimal
+	symbolic-compactification audit table examples/audit/minimal
 
-experiments: baselines
-
-ablations:
-	@echo "LLM ablations require a callable model; deterministic A7 is B7-det in baselines."
-
-figures:
-	@echo "figures deferred until experiment tables exist"
-
-paper-data:
-	@echo "paper package is gated on research/STATUS.md decision"
-
-method-v2:
-	$(PYTHON) -m pytest tests/test_method_v2_expand.py -q
-	$(PYTHON) research/method_v2/run_dev.py
-
-bench-v02:
-	$(PYTHON) benchmark_v0.2/generation/build_v02.py
-
-final-eval:
-	$(PYTHON) research/final_eval/run_v02.py
-
-hashes:
-	@test -f benchmark/validation/freeze_manifest.json && $(PYTHON) -c \
-	"import json; print('v0.1', json.load(open('benchmark/validation/freeze_manifest.json'))['n_items'])"
-	@test -f benchmark_v0.2/validation/freeze_manifest.json && $(PYTHON) -c \
-	"import json; print('v0.2', json.load(open('benchmark_v0.2/validation/freeze_manifest.json'))['n'])"
-	@test -f research/structure_discovery/final/FREEZE_MANIFEST.json && $(PYTHON) -c \
-	"import json; print('sd', json.load(open('research/structure_discovery/final/FREEZE_MANIFEST.json'))['n_test'])"
-
-sd-test:
-	$(PYTHON) -m pytest tests/test_structure_discovery.py -q
-
-sd-bench:
-	$(PYTHON) -m research.structure_discovery.prototype.build_benchmark
-
-sd-dev:
-	$(PYTHON) -m research.structure_discovery.prototype.run_dev
-
-sd-final:
-	$(PYTHON) -m research.structure_discovery.prototype.run_final
-
-sd-cases:
-	$(PYTHON) -m research.structure_discovery.prototype.run_case_studies
-
-ai-test:
-	$(PYTHON) -m pytest tests/test_abstraction_invention.py -q
-
-ai-dev:
-	$(PYTHON) -m research.abstraction_invention.prototype.run_dev
-
-ai-final:
-	$(PYTHON) -m research.abstraction_invention.prototype.run_final
-
-ai-v02-dev:
-	$(PYTHON) -m research.abstraction_invention.beyond.run_v02 dev
-
-ai-v02-test:
-	$(PYTHON) -m research.abstraction_invention.beyond.freeze_v02
-	$(PYTHON) -m research.abstraction_invention.beyond.run_v02 test
-
-observe:
-	$(PYTHON) -m symbolic_compactification.cli backends
-	$(PYTHON) -m pytest tests/test_observations_layer.py -q
+flagship-replay:
+	$(PYTHON) examples/flagship/guo/scripts/inventory_equations.py
+	$(PYTHON) examples/flagship/guo/scripts/relations_frozen.py
+	$(PYTHON) examples/flagship/guo/scripts/verify_and_report.py

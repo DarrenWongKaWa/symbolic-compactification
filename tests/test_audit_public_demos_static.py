@@ -20,8 +20,8 @@ from symbolic_compactification.audit.schema import (
 from symbolic_compactification.audit.workspace import load_audit_workspace
 
 REPO = Path(__file__).resolve().parents[1]
-DEMO_ROOT = REPO / "engineering/derivation_audit_v0_2/demos"
-PUBLIC_DEMOS = REPO / "engineering/derivation_audit_v0_2/PUBLIC_DEMOS.md"
+DEMO_ROOT = REPO / "tests/fixtures/audit_demos"
+PUBLIC_DEMOS = REPO / "docs/paper-audit.md"
 
 DEMO_IDS = ("A", "B", "C")
 REQUIRED_RELATIVE_PATHS = (

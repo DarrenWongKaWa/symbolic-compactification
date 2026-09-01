@@ -1,1 +1,0 @@
-(exp(alpha + p*u + q*v) - exp(alpha))/(p*u + q*v)

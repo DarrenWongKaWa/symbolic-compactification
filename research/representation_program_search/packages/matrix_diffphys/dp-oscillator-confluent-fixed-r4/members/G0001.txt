@@ -1,1 +1,0 @@
-Piecewise((t, Eq(w, 0)), (sin(w*t)/w, True))

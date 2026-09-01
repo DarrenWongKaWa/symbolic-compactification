@@ -1,0 +1,11 @@
+symbols:
+  - name: a
+    real: true
+    nonzero: false
+  - name: b
+    real: true
+    nonzero: false
+  - name: g
+    real: true
+    nonzero: true
+functions: []

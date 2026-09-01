@@ -1,1 +1,0 @@
-p*q*r*(a*exp(a) + a*exp(b) - b*exp(a) - b*exp(b) - 2*exp(a) + 2*exp(b))/((a - b)**3)

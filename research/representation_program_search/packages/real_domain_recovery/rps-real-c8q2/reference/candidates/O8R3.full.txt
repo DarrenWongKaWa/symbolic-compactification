@@ -1,1 +1,0 @@
-3*(-cos(x)/x + sin(x)/x**2)/x - sin(x)/x

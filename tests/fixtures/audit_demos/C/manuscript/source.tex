@@ -1,0 +1,33 @@
+\documentclass{article}
+\begin{document}
+This note records coefficient identities for a toy Laurent polynomial
+and an uncertified remainder claim. It is a synthetic public demo, not
+a research manuscript.
+
+Let
+\begin{equation}
+\label{eq:F}
+F(g) = \frac{a}{g} + b g,
+\end{equation}
+with $g\neq 0$. The coefficient of $g^{-1}$ is $a$,
+\begin{equation}
+\label{eq:coeff-inv}
+[g^{-1}]\,F(g) = a,
+\end{equation}
+and the coefficient of $g^{0}$ is $0$,
+\begin{equation}
+\label{eq:coeff-const}
+[g^{0}]\,F(g) = 0.
+\end{equation}
+Those two coefficient identities are exact for this finite polynomial.
+
+The global statement
+\begin{equation}
+\label{eq:asymptotic}
+F(g) = \frac{a}{g} + O(g)
+\qquad (g\to 0)
+\end{equation}
+is an asymptotic remainder claim. Matching inspected coefficients does
+not certify that the remainder vanishes, and the claim is not rewritten
+as $F(g)-a/g=0$.
+\end{document}

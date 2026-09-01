@@ -1,8 +1,0 @@
-project_name: "demo-c-intentional-unknown-polygamma"
-objective: "Show that a source-stated special-function recurrence remains unpromoted when the production verifier cannot decide it."
-expression_entrypoint: expressions/current.txt
-assumptions_file: assumptions/assumptions.yaml
-optional_notes:
-  - notes/research_notes.md
-optional_references:
-  - references/README.md

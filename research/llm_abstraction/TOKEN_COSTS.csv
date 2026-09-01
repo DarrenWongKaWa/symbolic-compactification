@@ -1,7 +1,0 @@
-model,condition,prompt_tokens,completion_tokens,reasoning_tokens,est_usd_offpeak,n
-deepseek-v4-flash,A0,18957,75166,64643,0.0538,24
-deepseek-v4-flash,A2,32355,125342,113179,0.0898,24
-deepseek-v4-pro,A0,78211,248792,210392,0.5442,66
-deepseek-v4-pro,A1,65232,185545,157270,0.4104,44
-deepseek-v4-pro,A2,128404,356904,305334,0.7914,74
-deepseek-v4-pro,A3,57210,207710,177433,0.449,44

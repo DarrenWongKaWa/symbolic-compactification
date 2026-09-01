@@ -1,0 +1,30 @@
+schema_version: DerivationAuditV1
+equations:
+  - equation_id: eq.F
+    label: eq:F
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/F.txt
+    body: "F(g) = a/g + b g"
+  - equation_id: eq.coeff-inv
+    label: eq:coeff-inv
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/coeff_g_inv.txt
+    body: "[g^{-1}] F(g) = a"
+  - equation_id: eq.coeff-const
+    label: eq:coeff-const
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/coeff_g0.txt
+    body: "[g^{0}] F(g) = 0"
+  - equation_id: eq.asymptotic
+    label: eq:asymptotic
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/leading_pole.txt
+    body: "F(g) = a/g + O(g)"

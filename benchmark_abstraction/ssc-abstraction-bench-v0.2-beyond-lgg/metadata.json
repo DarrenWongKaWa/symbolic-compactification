@@ -1,8 +1,0 @@
-{
-  "version": "ssc-abstraction-bench-v0.2-beyond-lgg",
-  "n": 15,
-  "n_dev": 9,
-  "n_test": 6,
-  "guo_in_test": false,
-  "frozen": false
-}

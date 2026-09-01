@@ -1,0 +1,1 @@
+(v21a*(v12b*v1c + v1b*v12c) - v12a*(v21b*v1c + v1b*v21c)) + (-v21a*(v2b*v12c + v12b*v2c) + v12a*(v2b*v21c + v21b*v2c))

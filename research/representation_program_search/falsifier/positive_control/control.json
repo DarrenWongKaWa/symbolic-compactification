@@ -1,9 +1,0 @@
-{
-  "candidate_path": "candidate.txt",
-  "control_id": "exact-factorization-zero",
-  "current_path": "current.txt",
-  "expected_verdict": "ZERO",
-  "is_trap": false,
-  "run_path": "verification/runs/20260830T113906Z-7346cc",
-  "schema_version": "RPSFalsifierPositiveControlV1"
-}

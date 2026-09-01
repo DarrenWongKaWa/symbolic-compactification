@@ -1,8 +1,0 @@
-family_id,n_members,claimed_type,n_zero_edges,n_nonzero_edges,n_unknown_edges,n_path_zero,family_verdict
-guo-p2-s0-i3,5,local_confluence,3,0,3,3,FAMILY_UNKNOWN
-guo-p2-s1-i2,5,hermite_divided_difference,3,0,3,3,FAMILY_UNKNOWN
-guo-p2-s1-i3,5,hermite_divided_difference,3,0,3,3,FAMILY_UNKNOWN
-guo-p2-s2-i2,5,local_confluence,3,0,3,3,FAMILY_UNKNOWN
-guo-p2-s2-i3,5,local_confluence,3,0,3,3,FAMILY_UNKNOWN
-guo-p2-s2-i4,4,local_confluence,2,0,0,2,FAMILY_UNKNOWN
-guo-p2-s4-i1,5,local_confluence,3,0,3,3,FAMILY_UNKNOWN

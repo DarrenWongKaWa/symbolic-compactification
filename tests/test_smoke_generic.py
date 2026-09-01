@@ -2,7 +2,7 @@
 
 These exercise the strict parser and exact verifier on generic complex-variable,
 rational, polynomial and trigonometric identities loaded from the committed
-``examples/basic/`` fixtures. There is deliberately NO domain-specific content:
+``tests/fixtures/basic/`` fixtures. There is deliberately NO domain-specific content:
 only generic symbols (a, b, t, x, y) and standard operations.
 
 Every identity pair must adjudicate ZERO; every deliberately-broken mutation of
@@ -27,7 +27,7 @@ from symbolic_compactification.cli import load_symbols_file
 # --------------------------------------------------------------------------- #
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-EXAMPLES = REPO_ROOT / "examples" / "basic"
+EXAMPLES = REPO_ROOT / "tests" / "fixtures" / "basic"
 
 
 # --------------------------------------------------------------------------- #
@@ -35,7 +35,7 @@ EXAMPLES = REPO_ROOT / "examples" / "basic"
 # --------------------------------------------------------------------------- #
 
 def symbols() -> list:
-    """The canonical generic symbol declarations from examples/basic."""
+    """The canonical generic symbol declarations from tests/fixtures/basic."""
     return load_symbols_file(str(EXAMPLES / "symbols.json"))
 
 

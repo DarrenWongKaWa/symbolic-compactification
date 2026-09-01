@@ -1,1 +1,0 @@
-Piecewise((t, Eq(w, 0)), ((exp(I*w*t) - exp(-I*w*t))/(2*I*w), True))

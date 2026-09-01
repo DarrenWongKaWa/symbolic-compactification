@@ -1,2 +1,0 @@
-item_id,engine_verdict,mathematica_verdict,other_cas_verdict,lean_verdict,agreement,notes
-# no Level-2/3 kernel available at protocol freeze; rows appended only after an actual cross-check

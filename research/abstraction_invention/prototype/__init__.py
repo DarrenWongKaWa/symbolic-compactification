@@ -1,1 +1,0 @@
-"""Experimental abstraction-invention prototype."""

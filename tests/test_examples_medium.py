@@ -4,7 +4,7 @@ from pathlib import Path
 from symbolic_compactification import NONZERO, ZERO, verify_equivalent
 from symbolic_compactification.cli import load_namespace_file
 
-EXAMPLES = Path(__file__).resolve().parent.parent / "examples" / "medium"
+EXAMPLES = Path(__file__).resolve().parent.parent / "tests" / "fixtures" / "medium"
 
 
 def _ns():

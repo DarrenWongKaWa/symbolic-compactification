@@ -1,9 +1,0 @@
-{
-  "$comment": "ssc-structure-bench-v0.1 item schema (documentation only)",
-  "required": ["id", "split", "tier", "polarity", "current", "symbols", "version"],
-  "hidden_from_proposer": [
-    "hidden_gold", "gold_types", "gold_hypothesis_type",
-    "gold_reconstruction", "forbidden_types", "forbidden_reconstructions",
-    "polarity", "human_reference", "target_compact"
-  ]
-}

@@ -1,1 +1,0 @@
-{"arm":"R5","id":"D4-piecewise-generic-kernel","seed":0,"candidates":[{"candidate_text":"K(x, y)","hypothesis_definitions":{"confluence":"K(x, x) = Limit(K(x, y), y, x)"},"abstraction_level":"D4","hypothesis_family":"confluence","claimed_proven":false}]}

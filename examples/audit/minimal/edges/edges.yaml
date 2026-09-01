@@ -1,0 +1,57 @@
+schema_version: DerivationAuditV1
+edges:
+  # expected_status: DEFINITION
+  - edge_id: C.define-F
+    source_from: eq.F
+    source_to: eq.F
+    edge_type: DEFINITION_INSERTION
+    lhs: expressions/F.txt
+    rhs: expressions/F.txt
+    assumptions_used:
+      - a
+      - b
+      - g
+    claim: "F(g) is defined as a/g + b g"
+    notes: "Name introduction. Not an exact-residual proof."
+  # expected_status: ZERO
+  - edge_id: C.coeff-g-inv
+    source_from: eq.F
+    source_to: eq.coeff-inv
+    edge_type: LAURENT_COEFFICIENT
+    lhs: expressions/coeff_g_inv.txt
+    rhs: expressions/coeff_g_inv.txt
+    residual: expressions/residual_coeff_g_inv.txt
+    assumptions_used:
+      - a
+      - b
+      - g
+    claim: "the coefficient of g**(-1) in a/g + b*g is a"
+    notes: "series variable g; power -1; finite Laurent polynomial; not a remainder proof"
+  # expected_status: ZERO
+  - edge_id: C.coeff-g0
+    source_from: eq.F
+    source_to: eq.coeff-const
+    edge_type: LAURENT_COEFFICIENT
+    lhs: expressions/coeff_g0.txt
+    rhs: expressions/coeff_g0.txt
+    residual: expressions/residual_coeff_g0.txt
+    assumptions_used:
+      - a
+      - b
+      - g
+    claim: "the coefficient of g**0 in a/g + b*g is 0"
+    notes: "series variable g; power 0; finite Laurent polynomial; not a remainder proof"
+  # expected_status: UNKNOWN
+  - edge_id: C.asymptotic-O
+    source_from: eq.F
+    source_to: eq.asymptotic
+    edge_type: ASYMPTOTIC_CLAIM
+    children:
+      - C.coeff-g-inv
+      - C.coeff-g0
+    assumptions_used:
+      - a
+      - b
+      - g
+    claim: "F(g) = a/g + O(g) as g -> 0"
+    notes: "Global remainder claim. Coefficient children may be ZERO; this claim is not rewritten as F - a/g = 0 and has no remainder certificate."

@@ -184,7 +184,7 @@ def _copy_demo(tmp_path, name):
     import shutil
     src = (
         Path(__file__).resolve().parents[1]
-        / "engineering/derivation_audit_v0_2/demos" / name
+        / "tests/fixtures/audit_demos" / name
     )
     dest = tmp_path / f"demo-{name}"
     shutil.copytree(src, dest)

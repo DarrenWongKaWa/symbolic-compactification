@@ -1,0 +1,2215 @@
+schema_version: FlagshipEquationInventoryV1
+paper: "Zhichao Guo et al., Phys. Rev. Lett. 136, 206303 (2026)"
+arxiv: "2511.16422v2"
+main_tex_sha256: d2f82d48b19816bffbae22330d89c64f95027c4228c8d6f342036e981079220d
+html_sha256: 3020f2db66968d66b6dac2c1d75b3e0778102f85f69e67de63a9f742c771c401
+n_numbered_tex: 189
+n_numbered_html: 189
+coverage_match: true
+by_section:
+  main: 8
+  A: 12
+  B: 6
+  C: 30
+  D: 71
+  E: 24
+  F: 30
+  G: 8
+discrepancies: []
+equations:
+  - public_printed_number: "1"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 169
+    source_line_end: 174
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc} = \\frac{1}{\\Gamma^2}\\sigma_{abc}^{(-2)} + \\frac{1}{\\Gamma}\\sigma_{abc}^{(-1)} + \\sigma_{abc}^{(0)} + {\\cal O}(\\Gamma)"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "2"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: ['eq:sigma_neg2']
+    source_file: source_anchors/main.tex
+    source_line_start: 178
+    source_line_end: 181
+    environment: equation
+    preview: "\\begin{equation} \\sigma_{abc}^{(-2)} = -\\frac{1}{4} \\sum_{n,{\\bf k}} \\partial_a(v_n^b v_n^c) f_{0,n}', \\label{eq:sigma_neg2} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "3"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: ['eq:sigma_neg1']
+    source_file: source_anchors/main.tex
+    source_line_start: 183
+    source_line_end: 186
+    environment: equation
+    preview: "\\begin{equation} \\sigma_{abc}^{(-1)} = \\frac{1}{2} \\sum_{n,{\\bf k}} (v_n^c \\Omega_{ab}^n + v_n^b \\Omega_{ac}^n) f_{0,n}'. \\label{eq:sigma_neg1} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "4"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 191
+    source_line_end: 193
+    environment: equation
+    preview: "\\begin{equation} \\sigma_{abc}^{(0)} = \\sigma_{abc}^{\\text{kin}} + \\sigma_{abc}^{\\text{geo}} . \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "5"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: ['eq:sigma_kinetic']
+    source_file: source_anchors/main.tex
+    source_line_start: 196
+    source_line_end: 199
+    environment: equation
+    preview: "\\begin{equation} \\sigma^{\\text{kin}}_{abc} = \\sum_{n,{\\bf k}} \\frac{1}{24} v_n^a v_n^b v_n^c f_{0,n}^{(4)}. \\label{eq:sigma_kinetic} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "6"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: ['eq:sigma_geometric']
+    source_file: source_anchors/main.tex
+    source_line_start: 207
+    source_line_end: 210
+    environment: equation
+    preview: "\\begin{equation} \\sigma^{\\text{geo}}_{abc} = \\sum_{n,{\\bf k}} \\left[ (G_n^{ab} v_n^c + G_n^{ac} v_n^b - 2 G_n^{bc} v_n^a) -\\frac{\\partial_a g_n^{bc}}{2} \\right]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "7"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: ['eq:model_H']
+    source_file: source_anchors/main.tex
+    source_line_start: 240
+    source_line_end: 243
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal H} ({\\bf k}) = v \\tau_x\\left[ \\sin(k_x a) \\sigma_x + \\sin(k_y a) \\sigma_y \\right] + M({\\bf k}) \\tau_z, \\label{eq:model_H} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "8"
+    appendix: "main"
+    appendix_local_index: null
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 249
+    source_line_end: 259
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal H}'({\\bf k}) = \\begin{bmatrix} h({\\bf k}) & 0 \\\\ 0 & h^*({\\bf k}) \\end{bmatrix}, \\quad h({\\bf k}) = \\begin{pmatrix} M_{{\\bf k}} & v_- \\\\ v_+"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-9"
+    appendix: "A"
+    appendix_local_index: "A-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 337
+    source_line_end: 342
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} H (t) = \\begin{bmatrix} H_S (t) & H_{SB} \\\\ H_{SB}^\\dagger & H_B \\end{bmatrix} . \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-10"
+    appendix: "A"
+    appendix_local_index: "A-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 350
+    source_line_end: 352
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\rho_S(t) = \\rho^{(0)} + \\rho^{(1)}(t) + \\rho^{(2)}(t) + {\\cal O}(V^3). \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-11"
+    appendix: "A"
+    appendix_local_index: "A-3"
+    latex_labels: ['eq:SM_rho0']
+    source_file: source_anchors/main.tex
+    source_line_start: 354
+    source_line_end: 361
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\rho_{m n}^{(0)} = \\delta_{m n} \\int_{-\\infty}^{\\infty} \\frac{\\text{d} \\omega_b}{2 \\pi} \\frac{ 2 \\Gamma } {\\omega_b^2 + \\Gamma^2} f_0(\\epsilon_{m}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-12"
+    appendix: "A"
+    appendix_local_index: "A-4"
+    latex_labels: ['eq:SM_rho1']
+    source_file: source_anchors/main.tex
+    source_line_start: 365
+    source_line_end: 372
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\rho_{m n}^{(1)} (\\omega) = V_{m n} (\\omega) \\, \\tilde{\\rho}_{m n}^{(1)} (\\omega) , \\quad \\tilde{\\rho}_{m n}^{(1)} (\\omega) = \\int_{-\\infty}^{\\inf"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-13"
+    appendix: "A"
+    appendix_local_index: "A-5"
+    latex_labels: ['eq:SM_rho2']
+    source_file: source_anchors/main.tex
+    source_line_start: 374
+    source_line_end: 386
+    environment: align
+    align_row_index: 2
+    preview: "& \\quad + \\frac{f_0(\\epsilon_{n} + \\omega_b )}{ ( \\omega_1 + \\omega_2 + \\omega_b + \\epsilon_{n m} + i \\Gamma ) (\\omega_2 + \\omega_b + \\epsilon_{n l} + i \\Gamma "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-14"
+    appendix: "A"
+    appendix_local_index: "A-6"
+    latex_labels: ['rho_0_supp']
+    source_file: source_anchors/main.tex
+    source_line_start: 394
+    source_line_end: 404
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\rho_{m n}^{(0)} = \\delta_{m n} \\frac{1}{2} \\Big[ f_+ (\\epsilon_n) + f_- (\\epsilon_n) \\Big] \\equiv \\tilde{\\rho}_n^{(0)}, \\quad f_\\pm (\\epsilon) = "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-15"
+    appendix: "A"
+    appendix_local_index: "A-7"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 407
+    source_line_end: 409
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\lim_{\\Gamma \\to 0} \\tilde{\\rho}_n^{(0)} = \\frac{1}{1+\\exp[\\beta (\\epsilon_n - \\mu)]} , \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-16"
+    appendix: "A"
+    appendix_local_index: "A-8"
+    latex_labels: ['tilde-rho_1_supp']
+    source_file: source_anchors/main.tex
+    source_line_start: 412
+    source_line_end: 420
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} & \\tilde{\\rho}_{m n}^{(1)} (\\omega) = \\frac{ \\tilde{\\rho}_n^{(0)} - \\tilde{\\rho}_m^{(0)} } { \\omega + \\epsilon_{n m} + 2 i \\Gamma } + \\frac{r_+^{("
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-17"
+    appendix: "A"
+    appendix_local_index: "A-9"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 422
+    source_line_end: 428
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} r_+^{(1)} (\\omega, \\epsilon_m, \\epsilon_n) = i \\Gamma \\frac{ f_+ (\\epsilon_n) - f_+ (\\epsilon_m - \\omega) }{\\omega + \\epsilon_{n m} }, \\quad r_-^{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-18"
+    appendix: "A"
+    appendix_local_index: "A-10"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 430
+    source_line_end: 442
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} & \\tilde{\\rho}_{m l n}^{(2)} (\\omega_1,\\omega_2) = \\frac{ \\tilde{\\rho}_{l n}^{(1)} (\\omega_2) - \\tilde{\\rho}_{m l}^{(1)} (\\omega_1) } { \\omega_1 +"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-19"
+    appendix: "A"
+    appendix_local_index: "A-11"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 444
+    source_line_end: 450
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} r_+^{(2)} (\\omega_1, \\omega_2, \\epsilon_m, \\epsilon_l, \\epsilon_n) = \\frac{ r_+^{(1)} (\\omega_2,\\epsilon_l,\\epsilon_n) - r_+^{(1)} (\\omega_1, \\eps"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "A-20"
+    appendix: "A"
+    appendix_local_index: "A-12"
+    latex_labels: ['tilde-rho_2_supp']
+    source_file: source_anchors/main.tex
+    source_line_start: 451
+    source_line_end: 458
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} r_-^{(2)} (\\omega_1, \\omega_2, \\epsilon_m, \\epsilon_l, \\epsilon_n) = \\frac{ r_-^{(1)} (\\omega_2, \\epsilon_l+\\omega_1, \\epsilon_n+\\omega_1) - r_-^{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "B-21"
+    appendix: "B"
+    appendix_local_index: "B-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 467
+    source_line_end: 473
+    environment: align
+    align_row_index: 0
+    preview: "V(t) &= V^{(1)}(t) + V^{(2)}(t) + {\\cal O}(A^3) = \\sum_b (-\\partial_b H_0) A_b(t) + \\sum_{b,c} \\frac{1}{2} (\\partial_b \\partial_c H_0) A_b(t) A_c(t) + \\dots"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "B-22"
+    appendix: "B"
+    appendix_local_index: "B-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 467
+    source_line_end: 473
+    environment: align
+    align_row_index: 1
+    preview: "J_a(t) &= J_a^{(0)} + J_a^{(1)}(t) + J_a^{(2)}(t) + {\\cal O}(A^3) = (\\partial_a H_0) + \\sum_c (-\\partial_a \\partial_c H_0) A_c(t) + \\sum_{b,c} \\frac{1}{2} (\\par"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "B-23"
+    appendix: "B"
+    appendix_local_index: "B-3"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 475
+    source_line_end: 477
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} j_a^{(2)}(t) = \\text{Tr}\\big[ \\rho^{(0)} J_a^{(2)}(t) \\big] + \\text{Tr}\\big[ \\rho^{(1)}(t) J_a^{(1)}(t) \\big] + \\text{Tr}\\big[ \\rho^{(2)}(t) J_a^{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "B-24"
+    appendix: "B"
+    appendix_local_index: "B-4"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 484
+    source_line_end: 489
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} j_a^{(2)}(t) = \\underbrace{\\text{Tr}[\\rho^{(0)} J_a^{(2)}(t)]}_{\\text{(I)}} + \\underbrace{\\text{Tr}[\\rho^{(1)}[V^{(1)}] J_a^{(1)}(t)]}_{\\text{(II)"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "B-25"
+    appendix: "B"
+    appendix_local_index: "B-5"
+    latex_labels: ['eq:SM_sigma_full']
+    source_file: source_anchors/main.tex
+    source_line_start: 495
+    source_line_end: 511
+    environment: align
+    align_row_index: 1
+    preview: "+ & \\underbrace{ V_{mn}^{(b)} \\tilde{\\rho}_{mn}^{(1)} (\\omega_1) J_{nm}^{(ac)} }_{\\text{from (II): } \\rho^{(1)}[V^{(1)}] J^{(1)}} + \\underbrace{ \\rho_{mn}^{(0)}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "B-26"
+    appendix: "B"
+    appendix_local_index: "B-6"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 515
+    source_line_end: 518
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\sigma_{abc} \\equiv \\lim_{\\omega_1 \\to 0} \\Big[\\lim_{\\omega_2 \\to -\\omega_1} \\sigma_{abc}(\\omega_1, \\omega_2) \\Big] , \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-27"
+    appendix: "C"
+    appendix_local_index: "C-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 528
+    source_line_end: 531
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\tilde{\\rho}_{m n}^{(1)} (\\omega) = \\sum_{k=0}^{\\infty} {\\cal C}_{mn}^{(1, k)} \\, \\omega^k, \\quad \\tilde{\\rho}_{m l n}^{(2)} (\\omega, -\\omega) = \\"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-28"
+    appendix: "C"
+    appendix_local_index: "C-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 533
+    source_line_end: 538
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} z_{n, \\pm} = \\frac{1}{2} + \\frac{\\beta}{2\\pi}(\\Gamma \\pm i(\\epsilon_n - \\mu)) \\quad z_{n, \\pm}^0 = \\frac{1}{2} \\pm \\frac{i \\beta}{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-29"
+    appendix: "C"
+    appendix_local_index: "C-3"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 544
+    source_line_end: 548
+    environment: align
+    align_row_index: 1
+    preview: "& + (\\beta \\Gamma)^2 \\left(\\psi^{(3)}(z_{n,+}) + \\psi^{(3)}(z_{n,-})\\right) \\bigg]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-30"
+    appendix: "C"
+    appendix_local_index: "C-4"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 550
+    source_line_end: 552
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nn}^{(1, 2)} = & \\frac{1}{\\Gamma^2} \\left[ \\frac{\\beta}{16\\pi^2} \\sum_{\\pm} \\psi^{(1)}(z_{n,\\pm}^0) \\right] + \\left[ \\frac{\\beta^3}{384\\"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-31"
+    appendix: "C"
+    appendix_local_index: "C-5"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 556
+    source_line_end: 562
+    environment: align
+    align_row_index: 2
+    preview: "& + \\beta^2 \\Gamma \\epsilon_{nm}^2 (2 \\Gamma + i \\epsilon_{nm}) \\left( \\psi^{(2)}(z_{n,+}) + \\psi^{(2)}(z_{m,-}) \\right) \\Bigg]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-32"
+    appendix: "C"
+    appendix_local_index: "C-6"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 564
+    source_line_end: 566
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nm}^{(1, 2)} = -\\frac{i}{2\\pi \\epsilon_{nm}^3} \\left[ \\psi^{(0)}(z_{n,-}^0) - \\psi^{(0)}(z_{n,+}^0) - \\psi^{(0)}(z_{m,-}^0) + \\psi^{(0)}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-33"
+    appendix: "C"
+    appendix_local_index: "C-7"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 572
+    source_line_end: 574
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nnn}^{(2, 2)} = \\frac{i \\beta^4}{768 \\pi^5} \\left[ \\psi^{(4)}(z_{n,+}) - \\psi^{(4)}(z_{n,-}) \\right] \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-34"
+    appendix: "C"
+    appendix_local_index: "C-8"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 576
+    source_line_end: 578
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nnn}^{(2, 2)} = \\frac{i \\beta^4}{768 \\pi^5} \\left[ \\psi^{(4)}(z_{n,+}^0) - \\psi^{(4)}(z_{n,-}^0) \\right] + {\\cal O}(\\Gamma) \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-35"
+    appendix: "C"
+    appendix_local_index: "C-9"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 583
+    source_line_end: 585
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nmn}^{(2, 2)} = P_0 + P_1 + P_2 \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-36"
+    appendix: "C"
+    appendix_local_index: "C-10"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 587
+    source_line_end: 589
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} P_0 &= -\\frac{6 i \\pi}{4 \\pi^2 \\epsilon_{nm}^4} \\left[ \\psi^{(0)}(z_{n,+}) - \\psi^{(0)}(z_{m,+}) - \\psi^{(0)}(z_{n,-}) + \\psi^{(0)}(z_{m,-}) \\righ"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-37"
+    appendix: "C"
+    appendix_local_index: "C-11"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 590
+    source_line_end: 597
+    environment: align
+    align_row_index: 3
+    preview: "& - 2 i \\Gamma (4 i \\Gamma + 3 \\epsilon_{nm}) (2 i \\Gamma - \\epsilon_{nm})^2 \\psi^{(1)}(z_{m,+}) \\Bigg]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-38"
+    appendix: "C"
+    appendix_local_index: "C-12"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 599
+    source_line_end: 606
+    environment: align
+    align_row_index: 1
+    preview: "& + \\epsilon_{nm} (2 i \\Gamma - \\epsilon_{nm}) \\psi^{(2)}(z_{n,-}) - 2 \\Gamma (2 \\Gamma - i \\epsilon_{nm}) \\psi^{(2)}(z_{m,-}) \\Bigg]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-39"
+    appendix: "C"
+    appendix_local_index: "C-13"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 608
+    source_line_end: 611
+    environment: align
+    align_row_index: 1
+    preview: "& + \\frac{\\beta}{4\\pi^2\\epsilon_{nm}^3} \\sum_{\\pm} \\psi^{(1)}(z_{n,\\pm}^0) - \\frac{i\\beta^2}{16\\pi^3\\epsilon_{nm}^2} \\left( \\psi^{(2)}(z_{n,+}^0) - \\psi^{(2)}(z"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-40"
+    appendix: "C"
+    appendix_local_index: "C-14"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 615
+    source_line_end: 617
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nnm}^{(2, 2)} = \\frac{1}{96 \\pi^4 (2 i \\Gamma - \\epsilon_{nm})} \\left[ Q_0 + Q_1 + Q_2 + Q_3 \\right] \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-41"
+    appendix: "C"
+    appendix_local_index: "C-15"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 619
+    source_line_end: 626
+    environment: align
+    align_row_index: 1
+    preview: "& + (2 \\Gamma + i \\epsilon_{nm}) \\psi^{(0)}(z_{m,-}) - i (-2 i \\Gamma + \\epsilon_{nm}) \\psi^{(0)}(z_{m,+}) \\Bigg]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-42"
+    appendix: "C"
+    appendix_local_index: "C-16"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 627
+    source_line_end: 633
+    environment: align
+    align_row_index: 1
+    preview: "& + \\left(-\\frac{1}{\\Gamma^2} + \\frac{4}{\\epsilon_{nm}^2} - \\frac{8 i \\Gamma}{\\epsilon_{nm}^3} - \\frac{4}{(2 i \\Gamma - \\epsilon_{nm})^2}\\right) \\psi^{(1)}(z_{n"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-43"
+    appendix: "C"
+    appendix_local_index: "C-17"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 634
+    source_line_end: 638
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} Q_2 = 3 \\pi \\beta^2 \\Bigg[ \\frac{4 \\Gamma^2 + \\epsilon_{nm}^2}{\\Gamma \\epsilon_{nm}^2} \\psi^{(2)}(z_{n,-}) + \\frac{1}{\\Gamma} \\left(1 + \\frac{8 \\G"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-44"
+    appendix: "C"
+    appendix_local_index: "C-18"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 639
+    source_line_end: 641
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} Q_3 = \\frac{\\beta^3 (2 i \\Gamma - \\epsilon_{nm})}{\\epsilon_{nm}} \\left[ \\psi^{(3)}(z_{n,-}) + \\psi^{(3)}(z_{n,+}) \\right] \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-45"
+    appendix: "C"
+    appendix_local_index: "C-19"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 643
+    source_line_end: 647
+    environment: align
+    align_row_index: 2
+    preview: "& \\qquad + \\frac{i}{2\\pi\\epsilon_{nm}^4} \\left( \\psi^{(0)}(z_{n,-}^0) - \\psi^{(0)}(z_{n,+}^0) - \\psi^{(0)}(z_{m,-}^0) + \\psi^{(0)}(z_{m,+}^0) \\right) \\bigg] + {"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-46"
+    appendix: "C"
+    appendix_local_index: "C-20"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 651
+    source_line_end: 653
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} {\\cal C}_{nmm}^{(2, 2)} = \\frac{1}{96 \\pi^4 (2 i \\Gamma - \\epsilon_{nm})} \\left[ U_0 + U_1 + U_2 + U_3 \\right] \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-47"
+    appendix: "C"
+    appendix_local_index: "C-21"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 655
+    source_line_end: 662
+    environment: align
+    align_row_index: 1
+    preview: "& - i (-2 i \\Gamma + \\epsilon_{nm}) \\psi^{(0)}(z_{m,-}) + (2 \\Gamma + i \\epsilon_{nm}) \\psi^{(0)}(z_{m,+}) \\Bigg]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-48"
+    appendix: "C"
+    appendix_local_index: "C-22"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 663
+    source_line_end: 668
+    environment: align
+    align_row_index: 1
+    preview: "& + \\frac{1}{\\Gamma^2} \\left(1 + 4 \\Gamma^2 \\left(\\frac{1}{(2 i \\Gamma - \\epsilon_{nm})^2} + \\frac{2 i \\Gamma - \\epsilon_{nm}}{\\epsilon_{nm}^3}\\right)\\right) \\p"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-49"
+    appendix: "C"
+    appendix_local_index: "C-23"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 669
+    source_line_end: 674
+    environment: align
+    align_row_index: 1
+    preview: "& + \\frac{1}{\\Gamma} \\left(-1 + \\frac{4 \\Gamma^2}{\\epsilon_{nm}^2} \\left(2 - \\frac{2 i \\Gamma}{2 i \\Gamma - \\epsilon_{nm}}\\right)\\right) \\psi^{(2)}(z_{m,-}) \\Bi"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-50"
+    appendix: "C"
+    appendix_local_index: "C-24"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 675
+    source_line_end: 677
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} U_3 = \\frac{\\beta^3 (-2 i \\Gamma + \\epsilon_{nm})}{\\epsilon_{nm}} \\left[ \\psi^{(3)}(z_{m,-}) + \\psi^{(3)}(z_{m,+}) \\right] \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-51"
+    appendix: "C"
+    appendix_local_index: "C-25"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 679
+    source_line_end: 683
+    environment: align
+    align_row_index: 2
+    preview: "& \\qquad - \\frac{i}{2\\pi\\epsilon_{nm}^4} \\left( \\psi^{(0)}(z_{n,-}^0) - \\psi^{(0)}(z_{n,+}^0) - \\psi^{(0)}(z_{m,-}^0) + \\psi^{(0)}(z_{m,+}^0) \\right) \\bigg] + {"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-52"
+    appendix: "C"
+    appendix_local_index: "C-26"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 689
+    source_line_end: 691
+    environment: equation
+    preview: "\\begin{equation} {\\cal C}_{nml}^{(2, 2)} = \\frac{1}{2i\\Gamma - \\epsilon_{nm}}(R_0 + R_1 + R_2) \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-53"
+    appendix: "C"
+    appendix_local_index: "C-27"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 693
+    source_line_end: 699
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} R_0 = & \\psi^{(0)}(z_{n-}) \\frac{2 \\Gamma + i \\epsilon_{nm}}{2 \\pi \\epsilon_{nm} \\epsilon_{nl}^3} - \\frac{i \\psi^{(0)}(z_{n+}) "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-54"
+    appendix: "C"
+    appendix_local_index: "C-28"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 701
+    source_line_end: 707
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} R_1 = & -\\beta \\Gamma \\psi^{(1)}(z_{m-}) \\frac{(\\Gamma - i \\epsilon_{ml})}{\\pi^2 \\epsilon_{ml}^2 (2 i \\Gamma + \\epsilon_{ml})^2"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-55"
+    appendix: "C"
+    appendix_local_index: "C-29"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 709
+    source_line_end: 714
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} R_2 = & -\\frac{\\beta^2 \\Gamma \\psi^{(2)}(z_{m-})}{8 \\pi^3 \\epsilon_{ml} (2 i \\Gamma + \\epsilon_{ml})} + \\frac{\\beta^2 \\Gamma \\p"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "C-56"
+    appendix: "C"
+    appendix_local_index: "C-30"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 717
+    source_line_end: 723
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} {\\cal C}_{nml}^{(2, 2)} &= \\frac{i}{2} \\Bigg( \\psi^{(0)}(z_{n+}^0) \\frac{1}{\\pi \\epsilon_{nm} \\epsilon_{nl}^3} - \\psi^{(0)}(z_{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-57"
+    appendix: "D"
+    appendix_local_index: "D-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 733
+    source_line_end: 737
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc} = \\frac{1}{\\Gamma^2}\\sigma_{abc}^{(-2)} + \\frac{1}{\\Gamma}\\sigma_{abc}^{(-1)} + \\sigma_{abc}^{(0)} + {\\cal O}(\\Gamma)"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-58"
+    appendix: "D"
+    appendix_local_index: "D-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 768
+    source_line_end: 772
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-2)} = \\frac{1}{8\\epsilon_{12}} [ -K_1 f_1' + K_2 f_2' ] \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-59"
+    appendix: "D"
+    appendix_local_index: "D-3"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 774
+    source_line_end: 779
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} K_1 &= \\underbrace{v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c)}_{K_{1A}} + \\underbrace{("
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-60"
+    appendix: "D"
+    appendix_local_index: "D-4"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 784
+    source_line_end: 788
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} K_{1A} &= v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c) = 2\\epsilon_{12}^2 (v_1^c g_"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-61"
+    appendix: "D"
+    appendix_local_index: "D-5"
+    latex_labels: ['TA-2']
+    source_file: source_anchors/main.tex
+    source_line_start: 791
+    source_line_end: 796
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_A^{(-2)} &= \\frac{2\\epsilon_{12}^2}{8\\epsilon_{12}} [ -(v_1^c g_{ab} + v_1^b g_{ac}) f_1' + (v_2^c g_{ab} + v_2^b g_{ac}) f_2' ]"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-62"
+    appendix: "D"
+    appendix_local_index: "D-6"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 800
+    source_line_end: 805
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_B^{(-2)} &= \\frac{1}{8\\epsilon_{12}} [ -K_{1B} f_1' + K_{2B} f_2' ] = \\frac{\\epsilon_{12}}{8\\epsilon_{12}} [ -(v_{11}^{ac} v_1^b"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-63"
+    appendix: "D"
+    appendix_local_index: "D-7"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 807
+    source_line_end: 811
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_B^{(-2)} = -\\frac{1}{8} \\sum_n \\left[ (\\partial_a \\partial_c \\epsilon_n - 2 \\epsilon_{n\\bar{n}} g_{ac}) v_n^b + (\\partial_a \\par"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-64"
+    appendix: "D"
+    appendix_local_index: "D-8"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 813
+    source_line_end: 817
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{B}^{(-2)} &= T_{B, \\text{intra}}^{(-2)} + T_{B, \\text{geo}}^{(-2)}, \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-65"
+    appendix: "D"
+    appendix_local_index: "D-9"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 819
+    source_line_end: 823
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{B, \\text{intra}}^{(-2)} &= -\\frac{1}{8} \\sum_n (\\partial_a \\partial_c \\epsilon_n v_n^b + \\partial_a \\partial_b \\epsilon_n v_n^c"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-66"
+    appendix: "D"
+    appendix_local_index: "D-10"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 825
+    source_line_end: 829
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{B, \\text{geo}}^{(-2)} &= -\\frac{1}{8} \\sum_n (-2 \\epsilon_{n\\bar{n}}) (g_{ac} v_n^b + g_{ab} v_n^c) f_n' = \\frac{1}{4} \\left[ \\"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-67"
+    appendix: "D"
+    appendix_local_index: "D-11"
+    latex_labels: ['TB-2geo']
+    source_file: source_anchors/main.tex
+    source_line_start: 831
+    source_line_end: 836
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{B, \\text{geo}}^{(-2)} = \\frac{\\epsilon_{12}}{4} \\left[ (g_{ac} v_1^b + g_{ab} v_1^c) f_1' - (g_{ac} v_2^b + g_{ab} v_2^c) f_2' "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-68"
+    appendix: "D"
+    appendix_local_index: "D-12"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 841
+    source_line_end: 845
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_A^{(-2)} + T_{B, \\text{geo}}^{(-2)} = 0 \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-69"
+    appendix: "D"
+    appendix_local_index: "D-13"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 847
+    source_line_end: 853
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-2)} = T_{B, \\text{intra}}^{(-2)} = -\\frac{1}{8} \\sum_{n=1,2} \\partial_a(v_n^b v_n^c) f_n', \\qquad f_n' = 2 f_{0,n}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-70"
+    appendix: "D"
+    appendix_local_index: "D-14"
+    latex_labels: ['sigma_abc_-1']
+    source_file: source_anchors/main.tex
+    source_line_start: 860
+    source_line_end: 865
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-1)} = -\\frac{i}{4\\epsilon_{12}^2} [ C_1 f_1' + C_2 f_2' ] \\label{sigma_abc_-1} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-71"
+    appendix: "D"
+    appendix_local_index: "D-15"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 867
+    source_line_end: 872
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) - v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c) \\\\ C_2 &= -v_{21}^a(v_2^b v_{12}^c + "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-72"
+    appendix: "D"
+    appendix_local_index: "D-16"
+    latex_labels: ['C1C2-1']
+    source_file: source_anchors/main.tex
+    source_line_start: 874
+    source_line_end: 880
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_1^c (v_{21}^a v_{12}^b - v_{12}^a v_{21}^b) + v_1^b (v_{21}^a v_{12}^c - v_{12}^a v_{21}^c) \\\\ C_2 &= v_2^c (v_{12}^a v_{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-73"
+    appendix: "D"
+    appendix_local_index: "D-17"
+    latex_labels: ['Vab-1']
+    source_file: source_anchors/main.tex
+    source_line_start: 883
+    source_line_end: 891
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} V_{ab} &= (-i\\epsilon_{12} A_{21}^a)(-i\\epsilon_{21} A_{12}^b) - (-i\\epsilon_{21} A_{12}^a)(-i\\epsilon_{12} A_{21}^b) = (-1)(\\epsi"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-74"
+    appendix: "D"
+    appendix_local_index: "D-18"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 896
+    source_line_end: 900
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} A_{21}^a A_{12}^b - A_{12}^a A_{21}^b = -(A_{12}^a A_{21}^b - A_{12}^b A_{21}^a) = -(-i \\Omega_{ab}^1) = i \\Omega_{ab}^1 \\end{alig"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-75"
+    appendix: "D"
+    appendix_local_index: "D-19"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 902
+    source_line_end: 906
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} V_{ab} = i \\epsilon_{12}^2 \\Omega_{ab}^1 \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-76"
+    appendix: "D"
+    appendix_local_index: "D-20"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 909
+    source_line_end: 915
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_1 = i \\epsilon_{12}^2 (v_1^c \\Omega_{ab}^1 + v_1^b \\Omega_{ac}^1), \\qquad C_2 = -i \\epsilon_{12}^2 (v_2^c \\Omega_{ab}^1 + v_2^b "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-77"
+    appendix: "D"
+    appendix_local_index: "D-21"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 917
+    source_line_end: 922
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-1)} &= -\\frac{i}{4\\epsilon_{12}^2} (i \\epsilon_{12}^2) \\left[ (v_1^c \\Omega_{ab}^1 + v_1^b \\Omega_{ac}^1) f_1' - ("
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-78"
+    appendix: "D"
+    appendix_local_index: "D-22"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 924
+    source_line_end: 930
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{(-1)} = \\frac{1}{4} \\sum_{n=1,2} (v_n^c \\Omega_{ab}^n + v_n^b \\Omega_{ac}^n) f_n', \\qquad f_n' = 2f_{0,n}' \\end{alig"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-79"
+    appendix: "D"
+    appendix_local_index: "D-23"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 941
+    source_line_end: 945
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_4 = \\sum_{n=1,2} \\frac{1}{4!} v_n^a v_n^b v_n^c f_n^{(4)} = \\sum_{n=1,2} \\frac{1}{24} v_n^a v_n^b v_n^c f_n^{(4)}, \\end{aligned}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-80"
+    appendix: "D"
+    appendix_local_index: "D-24"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 951
+    source_line_end: 955
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_3 = \\frac{1}{48\\epsilon_{12}} \\left[ K_1 f_1^{(3)} - K_2 f_2^{(3)} \\right] \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-81"
+    appendix: "D"
+    appendix_local_index: "D-25"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 957
+    source_line_end: 962
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} K_1 &= \\underbrace{v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c)}_{K_{1A}} + \\underbrace{("
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-82"
+    appendix: "D"
+    appendix_local_index: "D-26"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 966
+    source_line_end: 970
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{3A} &= \\frac{2\\epsilon_{12}^2}{48\\epsilon_{12}} \\left[ (v_1^c g_{ab} + v_1^b g_{ac}) f_1^{(3)} - (v_2^c g_{ab} + v_2^b g_{ac}) "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-83"
+    appendix: "D"
+    appendix_local_index: "D-27"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 973
+    source_line_end: 978
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{3B} &= \\frac{1}{48\\epsilon_{12}} \\left[ K_{1B} f_1^{(3)} - K_{2B} f_2^{(3)} \\right] = \\frac{\\epsilon_{12}}{48\\epsilon_{12}} \\le"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-84"
+    appendix: "D"
+    appendix_local_index: "D-28"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 981
+    source_line_end: 985
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{3B} = \\frac{1}{48} \\sum_n & \\left[ (\\partial_a \\partial_c \\epsilon_n - 2 \\epsilon_{n\\bar{n}} g_{ac})v_n^b + (\\partial_a \\partia"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-85"
+    appendix: "D"
+    appendix_local_index: "D-29"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 987
+    source_line_end: 991
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{3B}^{\\text{intra}} &= \\frac{1}{48} \\sum_n (\\partial_a \\partial_c \\epsilon_n v_n^b + \\partial_a \\partial_b \\epsilon_n v_n^c) f_n"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-86"
+    appendix: "D"
+    appendix_local_index: "D-30"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 992
+    source_line_end: 996
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_{3B}^{\\text{inter}} &= -\\frac{2}{48} \\sum_n \\epsilon_{n\\bar{n}} (g_{ac}v_n^b + g_{ab}v_n^c) f_n^{(3)} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-87"
+    appendix: "D"
+    appendix_local_index: "D-31"
+    latex_labels: ['Term3-0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1000
+    source_line_end: 1005
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_3 = \\frac{1}{48} \\sum_{n=1,2} \\partial_a(v_n^b v_n^c) f_n^{(3)} \\label{Term3-0} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-88"
+    appendix: "D"
+    appendix_local_index: "D-32"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1011
+    source_line_end: 1015
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_2 = \\frac{1}{4\\epsilon_{12}^2} \\sum_n v_n^a (v_{21}^b v_{12}^c + v_{12}^b v_{21}^c) f_n^{(2)} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-89"
+    appendix: "D"
+    appendix_local_index: "D-33"
+    latex_labels: ['Term2-0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1017
+    source_line_end: 1022
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_2 &= \\frac{1}{4\\epsilon_{12}^2} \\sum_n v_n^a (2\\epsilon_{12}^2 g_{bc}) f_n^{(2)} = \\frac{1}{2} g_{bc} \\sum_n v_n^a f_n^{(2)} \\la"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-90"
+    appendix: "D"
+    appendix_local_index: "D-34"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1028
+    source_line_end: 1032
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_1 = \\frac{1}{2\\epsilon_{12}^3} \\left[ C_1 f_1^{(1)} - C_2 f_2^{(1)} \\right] \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-91"
+    appendix: "D"
+    appendix_local_index: "D-35"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1034
+    source_line_end: 1039
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c) - v_1^a(v_{21}^b v_{12}^c + v_{12}^b "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-92"
+    appendix: "D"
+    appendix_local_index: "D-36"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1041
+    source_line_end: 1046
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_1 &= v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c) - v_1^a(v_{21}^b v_{12}^c + v_{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-93"
+    appendix: "D"
+    appendix_local_index: "D-37"
+    latex_labels: ['Term1-0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1048
+    source_line_end: 1054
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_1 &= \\frac{2\\epsilon_{12}^2}{2\\epsilon_{12}^3} \\left[ (v_1^c g_{ab} + v_1^b g_{ac} - v_1^a g_{bc}) f_1' - (v_2^c g_{ab} + v_2^b "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-94"
+    appendix: "D"
+    appendix_local_index: "D-38"
+    latex_labels: ['Term0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1059
+    source_line_end: 1064
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_0 = \\frac{f_1 - f_2}{2\\epsilon_{12}^4} \\times C_0 \\label{Term0} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-95"
+    appendix: "D"
+    appendix_local_index: "D-39"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1067
+    source_line_end: 1073
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} A &= 3 (v_2^a - v_1^a) (v_{21}^b v_{12}^c + v_{12}^b v_{21}^c) \\\\ B &= (v_2^b-v_1^b)(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c) + (v_2"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-96"
+    appendix: "D"
+    appendix_local_index: "D-40"
+    latex_labels: ['A_Term0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1076
+    source_line_end: 1081
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} A = 3 (v_2^a - v_1^a) (2\\epsilon_{12}^2 g_{bc}) = 6\\epsilon_{12}^2 g_{bc} (v_2^a - v_1^a) \\label{A_Term0} \\end{aligned} \\end{align"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-97"
+    appendix: "D"
+    appendix_local_index: "D-41"
+    latex_labels: ['B_Term0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1082
+    source_line_end: 1087
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} B = 2\\epsilon_{12}^2 [ g_{ac}(v_2^b-v_1^b) + g_{ab}(v_2^c-v_1^c) ] \\label{B_Term0} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-98"
+    appendix: "D"
+    appendix_local_index: "D-42"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1091
+    source_line_end: 1095
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} S_{ab;c} &= (\\partial_a v_{21}^b) v_{12}^c + (\\partial_a v_{12}^b) v_{21}^c - i K_{ab;c} = \\partial_a(v_{21}^b v_{12}^c) - i K_{ab"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-99"
+    appendix: "D"
+    appendix_local_index: "D-43"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1098
+    source_line_end: 1102
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} S_{ac;b} + S_{ab;c} &= \\partial_a(v_{21}^c v_{12}^b + v_{21}^b v_{12}^c) - i K_{abc} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-100"
+    appendix: "D"
+    appendix_local_index: "D-44"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1104
+    source_line_end: 1108
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} S_{ac;b} + S_{ab;c} = \\partial_a (2 \\epsilon_{12}^2 g_{bc}) - i K_{abc} \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-101"
+    appendix: "D"
+    appendix_local_index: "D-45"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1111
+    source_line_end: 1116
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} [A^a, v^b]_{12} &= A_{12}^a (v_2^b - v_1^b) + v_{12}^b (A_{11}^a - A_{22}^a) \\\\ [A^a, v^b]_{21} &= A_{21}^a (v_1^b - v_2^b) + v_{2"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-102"
+    appendix: "D"
+    appendix_local_index: "D-46"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1118
+    source_line_end: 1122
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} K_{ab;c} = (v_2^b - v_1^b) (A_{12}^a v_{21}^c - A_{21}^a v_{12}^c) + (A_{11}^a - A_{22}^a) (v_{12}^b v_{21}^c - v_{21}^b v_{12}^c)"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-103"
+    appendix: "D"
+    appendix_local_index: "D-47"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1124
+    source_line_end: 1128
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} P_\\text{gauge} = (A_{11}^a - A_{22}^a) [ (v_{12}^c v_{21}^b - v_{21}^c v_{12}^b) + (v_{12}^b v_{21}^c - v_{21}^b v_{12}^c) ] \\end{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-104"
+    appendix: "D"
+    appendix_local_index: "D-48"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1132
+    source_line_end: 1136
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} K_{abc} = (v_2^c - v_1^c) (A_{12}^a v_{21}^b - A_{21}^a v_{12}^b) + (v_2^b - v_1^b) (A_{12}^a v_{21}^c - A_{21}^a v_{12}^c) \\end{a"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-105"
+    appendix: "D"
+    appendix_local_index: "D-49"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1138
+    source_line_end: 1142
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} A_{12}^a v_{21}^b - A_{21}^a v_{12}^b &= A_{12}^a (-i\\epsilon_{12} A_{21}^b) - A_{21}^a (-i\\epsilon_{21} A_{12}^b) = -i\\epsilon_{1"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-106"
+    appendix: "D"
+    appendix_local_index: "D-50"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1144
+    source_line_end: 1148
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} K_{abc} = -2i \\epsilon_{12} \\left[ (v_2^c - v_1^c) g_{ab} + (v_2^b - v_1^b) g_{ac} \\right] \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-107"
+    appendix: "D"
+    appendix_local_index: "D-51"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1150
+    source_line_end: 1154
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} S_{ac;b} + S_{ab;c} &= \\partial_a (2 \\epsilon_{12}^2 g_{bc}) - i K_{abc} = \\partial_a (2 \\epsilon_{12}^2 g_{bc}) - 2 \\epsilon_{12}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-108"
+    appendix: "D"
+    appendix_local_index: "D-52"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1156
+    source_line_end: 1160
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\partial_a (2 \\epsilon_{12}^2 g_{bc}) &= 4 \\epsilon_{12} (\\partial_a \\epsilon_{12}) g_{bc} + 2 \\epsilon_{12}^2 (\\partial_a g_{bc})"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-109"
+    appendix: "D"
+    appendix_local_index: "D-53"
+    latex_labels: ['E_Term0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1162
+    source_line_end: 1167
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} E &= 4 \\epsilon_{12}^2 (v_1^a - v_2^a) g_{bc} + 2 \\epsilon_{12}^3 (\\partial_a g_{bc}) - 2 \\epsilon_{12}^2 \\left[ g_{ab} (v_2^c - v"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-110"
+    appendix: "D"
+    appendix_local_index: "D-54"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1170
+    source_line_end: 1174
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_0 &= \\underbrace{6\\epsilon_{12}^2 g_{bc} (v_2^a - v_1^a)}_{A} + \\underbrace{2\\epsilon_{12}^2 [ g_{ac}(v_2^b-v_1^b) + g_{ab}(v_2^"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-111"
+    appendix: "D"
+    appendix_local_index: "D-55"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1176
+    source_line_end: 1182
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_0 &= \\epsilon_{12}^2 g_{bc} [ 6(v_2^a-v_1^a) + 4(v_1^a-v_2^a) ] \\\\ & \\quad + \\epsilon_{12}^2 g_{ac} [ 2(v_2^b-v_1^b) - 2(v_2^b-v"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-112"
+    appendix: "D"
+    appendix_local_index: "D-56"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1184
+    source_line_end: 1188
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} C_0 &= 2\\epsilon_{12}^2 g_{bc} (v_2^a-v_1^a) + 2\\epsilon_{12}^3 (\\partial_a g_{bc}) \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-113"
+    appendix: "D"
+    appendix_local_index: "D-57"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1191
+    source_line_end: 1195
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_0 &= (f_1 - f_2) \\left[ \\frac{g_{bc} (v_2^a-v_1^a)}{\\epsilon_{12}^2} + \\frac{\\partial_a g_{bc}}{\\epsilon_{12}} \\right] \\end{alig"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-114"
+    appendix: "D"
+    appendix_local_index: "D-58"
+    latex_labels: ['Term0-0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1197
+    source_line_end: 1202
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_0 = (f_1 - f_2) \\left[ \\frac{(\\partial_a g_{bc})\\epsilon_{12} - g_{bc}(\\partial_a \\epsilon_{12})}{\\epsilon_{12}^2} \\right] = (f_"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-115"
+    appendix: "D"
+    appendix_local_index: "D-59"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1214
+    source_line_end: 1218
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_3 \\quad \\xrightarrow{\\text{IBP}} \\quad & -\\frac{1}{48} \\sum_n (v_n^b v_n^c) \\partial_a (f_n^{(3)}) \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-116"
+    appendix: "D"
+    appendix_local_index: "D-60"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1220
+    source_line_end: 1224
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_3 \\quad \\xrightarrow{\\text{IBP}} \\quad & -\\frac{1}{48} \\sum_n v_n^a v_n^b v_n^c f_n^{(4)} = -\\frac{1}{2} T_4 \\end{aligned} \\end{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-117"
+    appendix: "D"
+    appendix_local_index: "D-61"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1226
+    source_line_end: 1233
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{kin}} = T_3 + T_4 = \\frac{1}{2}T_4 = \\sum_{n=1,2} \\frac{1}{48} v_n^a v_n^b v_n^c f_n^{(4)} =\\sum_{n=1,2} \\frac"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-118"
+    appendix: "D"
+    appendix_local_index: "D-62"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1237
+    source_line_end: 1239
+    environment: equation
+    preview: "\\begin{equation} \\sigma^{\\text{kin}}_{abc} = \\sum_{n} \\frac{1}{12} \\left( \\frac{\\partial^3 \\epsilon_n}{\\partial k_a \\partial k_b \\partial k_c} \\right) f_{0,n}^{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-119"
+    appendix: "D"
+    appendix_local_index: "D-63"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1243
+    source_line_end: 1247
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_0 \\quad \\xrightarrow{\\text{IBP}} \\quad & - \\left[ \\partial_a (f_1 - f_2) \\right] \\left( \\frac{g_{bc}}{\\epsilon_{12}} \\right) = -"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-120"
+    appendix: "D"
+    appendix_local_index: "D-64"
+    latex_labels: ['Term0+Term1-0']
+    source_file: source_anchors/main.tex
+    source_line_start: 1250
+    source_line_end: 1255
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_0 + T_1 &= \\frac{1}{\\epsilon_{12}} \\left[ g_{bc}(v_2^a f_2' - v_1^a f_1') + (v_1^c g_{ab} + v_1^b g_{ac} - v_1^a g_{bc}) f_1' - "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-121"
+    appendix: "D"
+    appendix_local_index: "D-65"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1257
+    source_line_end: 1261
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_0 + T_1 &= \\frac{1}{\\epsilon_{12}} \\left[ f_1' (v_1^c g_{ab} + v_1^b g_{ac} - 2v_1^a g_{bc}) - f_2' (v_2^c g_{ab} + v_2^b g_{ac}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-122"
+    appendix: "D"
+    appendix_local_index: "D-66"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1263
+    source_line_end: 1267
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = \\frac{1}{2} g_{bc} \\sum_n v_n^a f_n'' + (T_0+T_1) \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-123"
+    appendix: "D"
+    appendix_local_index: "D-67"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1269
+    source_line_end: 1273
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_2 = \\sum_n (\\frac{1}{2} g_{bc}) \\partial_a(f_n') \\end{aligned} \\end{align}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-124"
+    appendix: "D"
+    appendix_local_index: "D-68"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1275
+    source_line_end: 1279
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} T_2 \\quad \\xrightarrow{\\text{IBP}} \\quad & - \\sum_n \\left[ \\partial_a (\\frac{1}{2} g_{bc}) \\right] f_n' = -\\frac{1}{2} (\\partial_a"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-125"
+    appendix: "D"
+    appendix_local_index: "D-69"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1283
+    source_line_end: 1288
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = & \\quad f_1' \\left[ -\\frac{1}{2} (\\partial_a g_{bc}) + \\frac{1}{\\epsilon_{12}} (v_1^c g_{ab} + v_1^b g"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-126"
+    appendix: "D"
+    appendix_local_index: "D-70"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1290
+    source_line_end: 1295
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = & \\quad f_1' \\left[ -\\frac{1}{2} (\\partial_a g_{bc}) + \\frac{1}{\\epsilon_{12}} (g_{ab} v_1^c + g_{ac} "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "D-127"
+    appendix: "D"
+    appendix_local_index: "D-71"
+    latex_labels: ['Two-band Geometric']
+    source_file: source_anchors/main.tex
+    source_line_start: 1297
+    source_line_end: 1305
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\label{Two-band Geometric} \\begin{aligned} \\sigma_{abc}^{\\text{geo}} = \\sum_{n=1,2} 2 f_{0,n}'\\left[ -\\frac{1}{2} (\\partial_a g_{bc}) + \\frac{1}{\\"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-128"
+    appendix: "E"
+    appendix_local_index: "E-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1334
+    source_line_end: 1336
+    environment: equation
+    preview: "\\begin{equation} v^{ab}_{nn} = \\partial_a \\partial_b \\epsilon_n - {\\textstyle \\sum_{m}'}\\frac{v^a_{nm}v^b_{mn} + v^b_{nm}v^a_{mn}}{\\epsilon_{nm}}. \\end{equation"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-129"
+    appendix: "E"
+    appendix_local_index: "E-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1339
+    source_line_end: 1343
+    environment: equation
+    preview: "\\begin{equation} v^{ab}_{nm} = -iR^{ab}_{nm}v^b_{nm} + \\frac{v^b_{nm}\\Delta^a_{nm}}{\\epsilon_{nm}} + \\frac{v^a_{nm}\\Delta^b_{nm}}{\\epsilon_{nm}} - {\\textstyle \\"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-130"
+    appendix: "E"
+    appendix_local_index: "E-3"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1352
+    source_line_end: 1359
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-2)}_{abc} & =-\\frac{1}{8} {\\textstyle \\sum_{n}}f^{(1)}_n \\Big[ v^{ac}_{nn}v^b_{n} + v^{ab}_{nn}v^c_{n} + {\\textstyle "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-131"
+    appendix: "E"
+    appendix_local_index: "E-4"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1364
+    source_line_end: 1372
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-2)}_{abc} &= -\\frac{1}{8} {\\textstyle \\sum_{n}}f^{(1)}_n \\Big(\\partial_a\\partial_c\\epsilon_n v^b_{n} + \\partial_a\\par"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-132"
+    appendix: "E"
+    appendix_local_index: "E-5"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1377
+    source_line_end: 1383
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-1)}_{abc} &= -\\frac{i}{4} {\\textstyle \\sum_{nm}'} f^{(1)}_n \\Big(v^c_{n}\\frac{v^{a}_{mn}v^b_{nm} - v^{b}_{mn}v^a_{nm}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-133"
+    appendix: "E"
+    appendix_local_index: "E-6"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1385
+    source_line_end: 1390
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{(-1)}_{abc} &= \\frac{1}{4} {\\textstyle \\sum_{n}} f^{(1)}_n \\Big(v^c_{n}\\Omega^{ab}_n + v^b_{n}\\Omega^{ac}_n \\Big) \\end{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-134"
+    appendix: "E"
+    appendix_local_index: "E-7"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1395
+    source_line_end: 1397
+    environment: equation
+    preview: "\\begin{equation} \\sigma^{(0)}_{abc} = T_0 + T_1 + T_2 + T_3 + T_4 , \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-135"
+    appendix: "E"
+    appendix_local_index: "E-8"
+    latex_labels: ['s-rec-T4']
+    source_file: source_anchors/main.tex
+    source_line_start: 1402
+    source_line_end: 1408
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_4 &= \\frac{1}{4!} {\\textstyle \\sum_{n}} v^a_{n}v^{b}_{n}v^c_{n} f^{(4)}_n \\label{s-rec-T4} \\end{aligned} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-136"
+    appendix: "E"
+    appendix_local_index: "E-9"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1412
+    source_line_end: 1417
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_3 &= {\\textstyle \\sum_{n}} \\frac{f^{(3)}_n}{2\\times 4!} \\Big[v^{ac}_{nn}v^b_{n} + v^{ab}_{nn}v^c_{n} + {\\textstyle \\sum_{m}'}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-137"
+    appendix: "E"
+    appendix_local_index: "E-10"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1419
+    source_line_end: 1424
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_3 = {\\textstyle \\sum_{n}} \\frac{1}{2\\times 4!} \\Big(\\partial_a \\partial_c \\epsilon_n v^b_{n} + \\partial_a \\partial_b \\epsilon"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-138"
+    appendix: "E"
+    appendix_local_index: "E-11"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1428
+    source_line_end: 1433
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_2 &= \\frac{1}{4} {\\textstyle \\sum_{nm}'} f^{(2)}_n v^a_{n} \\frac{v^b_{nm}v^c_{mn}+v^c_{nm}v^b_{mn}}{\\epsilon^2_{nm}} \\\\ \\end{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-139"
+    appendix: "E"
+    appendix_local_index: "E-12"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1435
+    source_line_end: 1437
+    environment: equation
+    preview: "\\begin{equation} T_2 = \\frac{1}{2}{\\textstyle \\sum_{n}}f^{(2)}_n v^a_n g^{bc}_n \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-140"
+    appendix: "E"
+    appendix_local_index: "E-13"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1441
+    source_line_end: 1446
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_1 &= {\\textstyle \\sum_{nm}'}\\frac{1}{2} f^{(1)}_n \\Big[v^b_{n} \\frac{v^a_{nm}v^c_{mn} + v^c_{nm}v^a_{mn}}{\\epsilon_{nm}^3} + "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-141"
+    appendix: "E"
+    appendix_local_index: "E-14"
+    latex_labels: ['multiband-T1']
+    source_file: source_anchors/main.tex
+    source_line_start: 1448
+    source_line_end: 1452
+    environment: equation
+    preview: "\\begin{equation} T_1 = {\\textstyle \\sum_{n}} f^{(1)}_n \\Big[v^b_{n} \\mathcal{G}^{ac}_{n} + v^c_{n} \\mathcal{G}^{ab}_{n} - v^a_{n} \\mathcal{G}^{bc}_{n} \\Big] \\la"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-142"
+    appendix: "E"
+    appendix_local_index: "E-15"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1457
+    source_line_end: 1468
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'}\\frac{1}{2}f_n\\Big[3\\Delta^a_{mn}\\frac{v^{b}_{nm}v^{c}_{mn} + v^{c}_{nm}v^{b}_{mn}}{\\epsilon_{nm}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-143"
+    appendix: "E"
+    appendix_local_index: "E-16"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1470
+    source_line_end: 1483
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\mathcal{M} &= {\\textstyle \\sum_{nml}'} \\frac{1}{2}f_n \\Big[\\Big( \\frac{v^a_{ln}v^b_{nm}v^c_{ml}}{\\epsilon_{ln}\\epsilon^3_{mn}}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-144"
+    appendix: "E"
+    appendix_local_index: "E-17"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1486
+    source_line_end: 1493
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'} \\frac{1}{2}f_n\\Big[3\\Delta^a_{mn}\\frac{v^{b}_{nm}v^{c}_{mn} + v^{c}_{nm}v^{b}_{mn}}{\\epsilon_{nm"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-145"
+    appendix: "E"
+    appendix_local_index: "E-18"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1495
+    source_line_end: 1500
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'}\\frac{1}{2}f_n\\Big[ \\frac{\\partial_a (A^{c}_{nm}A^{b}_{mn} + A^{b}_{nm}A^{c}_{mn})}{\\epsilon_{nm}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-146"
+    appendix: "E"
+    appendix_local_index: "E-19"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1503
+    source_line_end: 1509
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T_0 &= {\\textstyle \\sum_{nm}'} \\frac{1}{2}f_n\\Big[ \\frac{\\partial_a (A^{c}_{nm}A^{b}_{mn} + A^{b}_{nm}A^{c}_{mn})}{\\epsilon_{nm"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-147"
+    appendix: "E"
+    appendix_local_index: "E-20"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1516
+    source_line_end: 1518
+    environment: equation
+    preview: "\\begin{equation} T_3 \\xrightarrow{\\text{IBP}} -{\\textstyle \\sum_{n}} \\frac{1}{2\\times 4!} (v^a_{n} v^c_{n} v^b_{n})f^{(4)}_n = -\\frac{1}{2}T_4 \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-148"
+    appendix: "E"
+    appendix_local_index: "E-21"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1521
+    source_line_end: 1525
+    environment: equation
+    preview: "\\begin{equation} \\sigma^{\\text{kin}}_{abc} = \\frac{1}{2}T_4 = {\\textstyle \\sum_{n}}\\frac{1}{48} v^{a}_{n}v^{b}_{n}v^c_{n}f^{(4)}_{n}, \\quad f_n^{(4)} = 2 f_{0,n"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-149"
+    appendix: "E"
+    appendix_local_index: "E-22"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1530
+    source_line_end: 1532
+    environment: equation
+    preview: "\\begin{equation} T_0 \\xrightarrow{\\text{IBP}} - {\\textstyle \\sum_{n}} f^{(1)}_n v_n^a \\mathcal{G}^{bc}_{n} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-150"
+    appendix: "E"
+    appendix_local_index: "E-23"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1535
+    source_line_end: 1537
+    environment: equation
+    preview: "\\begin{equation} T_2 \\xrightarrow{\\text{IBP}}-\\frac{1}{2} {\\textstyle \\sum_{n}}f^{(1)}_n \\partial_{a}g^{bc}_n \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "E-151"
+    appendix: "E"
+    appendix_local_index: "E-24"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1540
+    source_line_end: 1547
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{geo}}_{abc} &= -\\frac{1}{2} {\\textstyle \\sum_{n}}f^{(1)}_n \\partial_{a}g^{bc}_n + {\\textstyle \\sum_{n}} f^{(1)}_n"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-152"
+    appendix: "F"
+    appendix_local_index: "F-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1563
+    source_line_end: 1565
+    environment: equation
+    preview: "\\begin{equation} \\sigma_{abc}^{\\text{SHG}} = \\frac{1}{\\Gamma^2}\\sigma_{abc}^{\\text{SHG}(-2)} + \\frac{1}{\\Gamma}\\sigma_{abc}^{\\text{SHG}(-1)} + \\sigma_{abc}^{\\te"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-153"
+    appendix: "F"
+    appendix_local_index: "F-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1570
+    source_line_end: 1575
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-2)}_{abc} &= {\\textstyle \\sum_{n}}\\frac{1}{2}f^{(2)}_n v^a_n v^b_n v^c_n + \\frac{1}{8} {\\textstyle \\sum_{n}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-154"
+    appendix: "F"
+    appendix_local_index: "F-3"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1578
+    source_line_end: 1584
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-2)}_{abc} &= {\\textstyle \\sum_{n}}\\Big[\\frac{1}{2}f^{(2)}_n v^a_n v^b_n v^c_n + \\frac{1}{8} f^{(1)}_{n} \\Bi"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-155"
+    appendix: "F"
+    appendix_local_index: "F-4"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1589
+    source_line_end: 1593
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-1)}_{abc} &= -\\frac{i}{4} {\\textstyle \\sum_{nm}'} f^{(1)}_n \\Big(v^c_{n}\\frac{v^{a}_{mn}v^b_{nm} - v^{b}_{m"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-156"
+    appendix: "F"
+    appendix_local_index: "F-5"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1595
+    source_line_end: 1600
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}(-1)}_{abc} &= \\frac{1}{4} {\\textstyle \\sum_{n}} f^{(1)}_n \\Big(v^c_{n}\\Omega^{ab}_n + v^b_{n}\\Omega^{ac}_n \\"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-157"
+    appendix: "F"
+    appendix_local_index: "F-6"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1605
+    source_line_end: 1607
+    environment: equation
+    preview: "\\begin{equation} \\sigma_{abc}^{\\text{SHG}(0)} = T^{\\text{SHG}}_0 + T^{\\text{SHG}}_1 + T^{\\text{SHG}}_2 + T^{\\text{SHG}}_3 + T^{\\text{SHG}}_4. \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-158"
+    appendix: "F"
+    appendix_local_index: "F-7"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1611
+    source_line_end: 1613
+    environment: equation
+    preview: "\\begin{equation} T^{\\text{SHG}}_4 = -T_4 = -\\frac{1}{4!} {\\textstyle \\sum_{n}} v^a_{n} v^{b}_{n}v^c_{n} f^{(4)}_n \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-159"
+    appendix: "F"
+    appendix_local_index: "F-8"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1617
+    source_line_end: 1622
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_3 &= -\\frac{1}{2 \\times 4!} {\\textstyle \\sum_{n}} f^{(3)}_n \\Big[v^{ac}_{nn} v^b_{n} + v^{ab}_{nn}v^c_{n} + 4v^{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-160"
+    appendix: "F"
+    appendix_local_index: "F-9"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1624
+    source_line_end: 1629
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_3 &= -\\frac{1}{2 \\times 4!} {\\textstyle \\sum_{n}} f^{(3)}_n \\Big[\\partial_a\\partial_c \\epsilon_n \\partial_b \\eps"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-161"
+    appendix: "F"
+    appendix_local_index: "F-10"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1633
+    source_line_end: 1637
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_2 = \\frac{1}{2}{\\textstyle \\sum_{n}} f^{(2)}_n v^{a}_ng^{bc}_n \\end{aligned} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-162"
+    appendix: "F"
+    appendix_local_index: "F-11"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1641
+    source_line_end: 1645
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_1 &= - {\\textstyle \\sum_{nm}'}\\frac{1}{2} f^{(1)}_n \\Big[v^a_{n} \\frac{v^b_{nm}v^c_{mn} + v^c_{nm}v^b_{mn}}{\\eps"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-163"
+    appendix: "F"
+    appendix_local_index: "F-12"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1647
+    source_line_end: 1652
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_1 &= - {\\textstyle \\sum_{n}} f^{(1)}_n \\Big[v^b_{n} \\mathcal{G}^{ac}_{n} + v^c_{n} \\mathcal{G}^{ab}_{n} + v^a_{n"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-164"
+    appendix: "F"
+    appendix_local_index: "F-13"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1658
+    source_line_end: 1660
+    environment: equation
+    preview: "\\begin{equation} T^{\\text{SHG}}_{0, 1} = \\frac{1}{2} {\\textstyle \\sum_{nm}'} f_n \\Big[\\frac{\\Delta_{nm}^a (v^b_{mn}v^c_{nm} + v^c_{mn}v^b_{nm})}{\\epsilon^4_{nm}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-165"
+    appendix: "F"
+    appendix_local_index: "F-14"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1661
+    source_line_end: 1666
+    environment: equation
+    preview: "\\begin{equation} T^{\\text{SHG}}_{0, 2} = -\\frac{1}{2} {\\textstyle \\sum_{nm}'} f_n \\Big(\\frac{v^{ac}_{nm}v^b_{mn}}{\\epsilon_{nm}^3} + \\frac{v^{ab}_{nm}v^c_{mn}}{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-166"
+    appendix: "F"
+    appendix_local_index: "F-15"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1667
+    source_line_end: 1676
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 3} &= -\\frac{1}{2} {\\textstyle \\sum_{nml}'} f_n \\Big( \\frac{v^{a}_{nl}v^b_{mn}v^c_{lm}}{\\epsilon_{nl}\\epsilo"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-167"
+    appendix: "F"
+    appendix_local_index: "F-16"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1677
+    source_line_end: 1686
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 4} &= - {\\textstyle \\sum_{nml}'} f_n \\Big( \\frac{v^{a}_{nl}v^b_{mn}v^c_{lm}}{\\epsilon^2_{nl}\\epsilon^2_{nm}}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-168"
+    appendix: "F"
+    appendix_local_index: "F-17"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1687
+    source_line_end: 1696
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 5} &= -2 {\\textstyle \\sum_{nml}'} f_n \\Big( \\frac{v^{a}_{nl}v^b_{mn}v^c_{lm}}{\\epsilon^3_{nl}\\epsilon_{nm}} "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-169"
+    appendix: "F"
+    appendix_local_index: "F-18"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1700
+    source_line_end: 1720
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} &T^{\\text{SHG}}_{0, 2} =- \\frac{1}{2} {\\textstyle \\sum_{nm}'} \\frac{f_n}{\\epsilon^3_{nm}}\\Big[\\partial_a(\\ln A^{c}_{nm}) v^c_{n"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-170"
+    appendix: "F"
+    appendix_local_index: "F-19"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1722
+    source_line_end: 1729
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} &-i(A^c_{mm} - A^c_{nn})v^b_{mn} v^{a}_{nm} -i (A^b_{nn} - A^b_{mm})v^c_{nm} v^{a}_{mn} \\\\ &= -\\partial_a(\\ln A^{c}_{nm}) v^c_{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-171"
+    appendix: "F"
+    appendix_local_index: "F-20"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1733
+    source_line_end: 1757
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0, 2+3} &= T^{\\text{SHG}}_{0, 2} + T^{\\text{SHG}}_{0, 3} \\\\ &=- \\frac{1}{2} {\\textstyle \\sum_{nm}'} \\frac{f_n}{"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-172"
+    appendix: "F"
+    appendix_local_index: "F-21"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1760
+    source_line_end: 1784
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} &\\mathcal{M} = T^{\\text{SHG; multiband} }_{0, 2+3} + T^{\\text{SHG}}_{0, 4} + T^{\\text{SHG}}_{0, 5} \\\\ &= - \\frac{1}{2} {\\textst"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-173"
+    appendix: "F"
+    appendix_local_index: "F-22"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1786
+    source_line_end: 1794
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\mathcal{M} & = \\frac{1}{2} {\\textstyle \\sum_{nml}'} f_n\\Big[ (2v^a_{lm}v^b_{mn}v^c_{nl} + 2v^a_{lm}v^c_{mn}v^b_{nl}) \\Big(\\fra"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-174"
+    appendix: "F"
+    appendix_local_index: "F-23"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1797
+    source_line_end: 1807
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} &T^{\\text{SHG}}_{0} = T^{\\text{SHG}}_{0, 1} + T^{\\text{SHG; two-band}}_{0, 2+3} \\\\ &=- \\frac{1}{2} {\\textstyle \\sum_{nm}'} \\fra"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-175"
+    appendix: "F"
+    appendix_local_index: "F-24"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1809
+    source_line_end: 1815
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} &T^{\\text{SHG}}_{0} = \\frac{1}{2} {\\textstyle \\sum_{nm}'} f_n \\Big[\\frac{\\partial_{a}(A^{c}_{nm}A^{b}_{mn} + A^{b}_{nm}A^{c}_{m"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-176"
+    appendix: "F"
+    appendix_local_index: "F-25"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1817
+    source_line_end: 1822
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0} &= -{\\textstyle \\sum_{n}} f_n (2\\partial_c\\mathcal{G}^{ab}_n + 2\\partial_b\\mathcal{G}^{ac}_n - \\partial_a\\ma"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-177"
+    appendix: "F"
+    appendix_local_index: "F-26"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1830
+    source_line_end: 1836
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_3 &= -\\frac{1}{2 \\times 4!} {\\textstyle \\sum_{n}} f^{(3)}_n \\Big[\\partial_a\\partial_c \\epsilon_n \\partial_b \\eps"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-178"
+    appendix: "F"
+    appendix_local_index: "F-27"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1838
+    source_line_end: 1845
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}; \\text{kin}}_{abc} &= -\\frac{1}{4!} {\\textstyle \\sum_{n}} v^a_{n} v^{b}_{n}v^c_{n} f^{(4)}_n + \\frac{3}{2 \\t"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-179"
+    appendix: "F"
+    appendix_local_index: "F-28"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1850
+    source_line_end: 1855
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} T^{\\text{SHG}}_{0} \\xrightarrow{\\text{IBP}}& {\\textstyle \\sum_{n}} f^{(1)}_n (2v^c_n\\mathcal{G}^{ab}_n + 2v^b_n\\mathcal{G}^{ac}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-180"
+    appendix: "F"
+    appendix_local_index: "F-29"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1857
+    source_line_end: 1860
+    environment: equation
+    preview: "\\begin{equation} T^{\\text{SHG}}_{2} \\xrightarrow{\\text{IBP}} -\\frac{1}{2}{\\textstyle \\sum_{n}} f^{(1)}_n \\partial_{a}g^{bc}_n \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "F-181"
+    appendix: "F"
+    appendix_local_index: "F-30"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1862
+    source_line_end: 1869
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\sigma^{\\text{SHG}; \\text{geo}}_{abc} &= -\\frac{1}{2}{\\textstyle \\sum_{n}} f^{(1)}_n \\partial_{a}g^{bc}_n -{\\textstyle \\sum_{n}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-182"
+    appendix: "G"
+    appendix_local_index: "G-1"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1884
+    source_line_end: 1886
+    environment: equation
+    preview: "\\begin{equation} \\rho_S(t) = \\sum_{n, j} f_0(\\varepsilon_{j}) \\ket{\\psi^{j}_n (t)}\\bra{\\psi^{j}_n (t)} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-183"
+    appendix: "G"
+    appendix_local_index: "G-2"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1888
+    source_line_end: 1890
+    environment: equation
+    preview: "\\begin{equation} i\\partial_t \\ket{\\psi^{j}_n (t)} = [H_S(t) - i\\Gamma]\\ket{\\psi^{j}_n (t)} + \\lambda \\exp [-i\\varepsilon_j (t-t_0)] \\ket{\\chi_n} . \\end{equation"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-184"
+    appendix: "G"
+    appendix_local_index: "G-3"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1894
+    source_line_end: 1902
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} i\\partial_t \\rho_S(t) &= i\\sum_{n, j} f_0(\\varepsilon_{j})\\Big[\\Big(\\partial_t \\ket{\\psi^{j}_n (t)}\\Big)\\bra{\\psi^{j}_n (t)} + "
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-185"
+    appendix: "G"
+    appendix_local_index: "G-4"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1907
+    source_line_end: 1909
+    environment: equation
+    preview: "\\begin{equation} \\ket{\\psi^{j}_n (t)} = - \\frac{\\lambda}{\\epsilon_n - i\\Gamma - \\varepsilon_j} e^{-i\\varepsilon_j (t-t_0)} \\ket{\\chi_n} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-186"
+    appendix: "G"
+    appendix_local_index: "G-5"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1910
+    source_line_end: 1915
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} {\\cal S}[\\psi^{j}_n (t)] & = \\sum_{n, j} f_0(\\varepsilon_j) \\frac{2i\\lambda^2 \\Gamma}{(\\epsilon_n - \\varepsilon_j)^2 + \\Gamma^2"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-187"
+    appendix: "G"
+    appendix_local_index: "G-6"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1919
+    source_line_end: 1924
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} {\\cal S}[\\psi^{j}_n (t)] & = 2i\\Gamma \\sum_{n} \\int^{\\infty}_{-\\infty} \\frac{d\\omega_b}{\\pi} f_0(\\omega_b) \\frac{\\Gamma}{(\\epsi"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-188"
+    appendix: "G"
+    appendix_local_index: "G-7"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1926
+    source_line_end: 1928
+    environment: align
+    align_row_index: 0
+    preview: "\\begin{align} \\int \\frac{d \\omega_b}{\\pi} f_0\\left(\\omega_b\\right) \\frac{\\Gamma}{\\left(\\epsilon_n-\\omega_b\\right)^2+\\Gamma^2}=\\frac{1}{2 \\pi} \\int d k \\tilde{f}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
+  - public_printed_number: "G-189"
+    appendix: "G"
+    appendix_local_index: "G-8"
+    latex_labels: []
+    source_file: source_anchors/main.tex
+    source_line_start: 1931
+    source_line_end: 1935
+    environment: equation
+    preview: "\\begin{equation} \\begin{aligned} \\partial_t \\rho_S(t) &= -i[H_S(t), \\rho_S(t)] - \\frac{\\rho_S(t) - \\rho_0}{\\tau} \\\\ \\end{aligned} \\end{equation}"
+    equation_role: UNKNOWN_ROLE
+    relation_membership: []
