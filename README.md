@@ -78,7 +78,11 @@ reproducibility. Release-critical tests: **17/17**. Clean-room replay:
 The historical full test suite is **not** fully green:
 `2049 passed, 24 failed`. Those failures are frozen historical authority
 drift, one optional client, and cache enumeration. They were disclosed, not
-rewritten, to make a release.
+rewritten, to make a release. GitHub Actions merge checks follow the same
+contract: they require `pytest -m release_critical`,
+`pytest -m derivation_audit_release_critical`, the clean-room firewall, and a
+package/CLI smoke. `pytest tests/` still runs, but only as a non-blocking
+informational job.
 
 ### 3. Research history
 
