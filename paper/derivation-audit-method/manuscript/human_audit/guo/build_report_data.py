@@ -1233,7 +1233,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "--flagship",
-        default="/private/tmp/ssc-v03/examples/flagship/guo",
+        default=str(HERE.parent),
         help="Path to frozen flagship directory (RESULTS.md + RELATIONS_FROZEN.yaml)",
     )
     ap.add_argument("--out", default=str(HERE))
