@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage[papersize={6.95in,4.95in},margin=9pt]{geometry}
+\input{../_style.tex}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\begin{document}
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\begin{tikzpicture}[figbase, node distance=6pt]
+  \node[axislab] (ttl) {Guo et al., Phys.\ Rev.\ Lett.\ \textbf{136}, 206303 (arXiv:2511.16422v2)};
+
+  \node[boxaccent, below=6pt of ttl, minimum width=10.2cm, minimum height=0.70cm] (inv)
+    {\textbf{189 / 189} numbered equations inventoried};
+  \node[lab, right=4pt of inv] {not 189 certified};
+
+  \node[boxplain, below=8pt of inv, minimum width=10.2cm, minimum height=0.58cm] (rel)
+    {146 source-grounded relations \quad(53 executable)};
+  \draw[arr] (inv) -- (rel);
+
+  \matrix (st) [
+    below=10pt of rel,
+    matrix of nodes,
+    row sep=5pt,
+    column sep=4pt,
+    nodes={anchor=center, font=\scriptsize\selectfont, minimum height=0.78cm, text width=3.55cm, align=center},
+  ] {
+    |[badgeexact]| {32 EXACT\_ZERO}
+    & |[badgesubst]| {21 ZERO under substitution}
+    & |[badgerule]| {11 CERTIFIED\_BY\_RULE}
+    & |[badgeunk]| {17 UNKNOWN remainder} \\
+    |[boxband]| 47 STRUCTURAL
+    & |[boxband]| 18 UNSUPPORTED
+    & |[boxband]| 0 NONZERO
+    & |[lab]| typed verification map \\
+  };
+
+  \node[lab, below=8pt of st] (exh) {printed-equation examples};
+
+  \matrix (ex) [
+    below=6pt of exh,
+    matrix of nodes,
+    column sep=5pt,
+    nodes={
+      anchor=center,
+      align=center,
+      font=\scriptsize\selectfont,
+      text width=3.50cm,
+      minimum height=1.42cm,
+      inner sep=3.5pt,
+    },
+  ] {
+    |[badgeexact]| {Eq.\ (D-59)$\to$(D-60)\\$K_{1A}$ regroup\\EXACT\_ZERO}
+    & |[badgesubst]| {Eq.\ (D-66)$\to$(D-67)\\$\varepsilon_{21}=-\varepsilon_{12}$\\ZERO under substitution}
+    & |[badgerule]| {Eq.\ (D-114)$\to$(D-119)\\BZ integration by parts\\CERTIFIED\_BY\_RULE}
+    & |[badgeunk]| {Eq.\ (D-57)\\$\Gamma$ expansion, $O(\Gamma)$\\UNKNOWN remainder} \\
+  };
+
+  \node[lab, below=8pt of ex] (n1)
+    {complete inventory coverage does not mean universal certification};
+  \node[axislab, below=2pt of n1]
+    {injected invalid controls: false promotion $0/155$};
+\end{tikzpicture}
+\end{document}
