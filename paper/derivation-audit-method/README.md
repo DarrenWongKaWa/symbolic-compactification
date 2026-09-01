@@ -37,6 +37,8 @@ audit. Guo flagship is a 189/189 inventory with typed statuses, not
 
 ```text
 SOFTWARE_AUTHORITY.md              v0.3.0-alpha freeze lock
+manuscript/PAPER_AUTHORITY_LOCK.md  manuscript constitution
+manuscript/CLAIM_EVIDENCE_MATRIX.md claim → evidence → permitted wording
 manuscript/draft-v3.md              current draft (authority realignment)
 manuscript/draft-v2.md              pre-v0.3 two-mode draft (preserved)
 manuscript/draft-v2-humanized.md    after humanizer

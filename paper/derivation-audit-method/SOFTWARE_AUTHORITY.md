@@ -1,5 +1,9 @@
 # Software authority lock — v0.3.0-alpha
 
+Manuscript constitution (wins on conflict):
+`manuscript/PAPER_AUTHORITY_LOCK.md`.
+Claim wording: `manuscript/CLAIM_EVIDENCE_MATRIX.md`.
+
 Paper closure uses **one** public software authority:
 
 | Item | Value |
