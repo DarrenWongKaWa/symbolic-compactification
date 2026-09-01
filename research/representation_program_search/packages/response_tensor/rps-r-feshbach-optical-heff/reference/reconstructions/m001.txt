@@ -1,1 +1,0 @@
-(1/(eps-hqq))*hqp*psi_p

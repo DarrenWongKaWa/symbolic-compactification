@@ -34,9 +34,9 @@ pytestmark = pytest.mark.release_critical
 
 
 def test_release_identity_keeps_engine_and_protocol_semantics_separate():
-    assert RELEASE_VERSION == "0.2.1-alpha"
+    assert RELEASE_VERSION == "0.3.0-alpha"
     assert PACKAGE_VERSION == metadata.version(
-        "symbolic-compactification") == "0.2.1a0"
+        "symbolic-compactification") == "0.3.0a0"
     assert ENGINE_VERSION == AGENT_PROTOCOL_VERSION == "0.3.0"
 
 
@@ -358,24 +358,29 @@ def test_report_symlink_and_forged_plain_file_fail_code_only_without_canary(
 
 
 def test_finite_laurent_coefficients_without_remainder_never_certify():
-    """Permanent historical safety boundary; no new evaluator behavior."""
-    from research.coefficient_laurent.schema import (
-        LEVEL_B,
-        UNKNOWN as HOP_UNKNOWN,
-        compose_hop_verdict,
+    """Coefficient ZERO does not put an ASYMPTOTIC_CLAIM in TABLE_VERIFIED."""
+    from symbolic_compactification.audit.schema import (
+        ASYMPTOTIC_CLAIM,
+        AuditRecord,
+        may_appear_in_verified_table,
+        table_bucket,
     )
 
-    verdict, level = compose_hop_verdict(
-        reconstruction_ok=True,
-        atoms_expanded=True,
-        negative_verdict=ZERO,
-        constant_verdict=ZERO,
-        remainder_verdict=HOP_UNKNOWN,
+    digest = "a" * 64
+    parent = AuditRecord(
+        audit_id="a",
+        edge_id="asymptotic",
+        source_refs=("eq:F",),
+        edge_type=ASYMPTOTIC_CLAIM,
+        status="UNKNOWN",
+        result="UNKNOWN",
+        source_snapshot_hash=digest,
+        engine_version="0.3.0",
+        executable=False,
     )
-
-    assert verdict == HOP_UNKNOWN
-    assert verdict != ZERO
-    assert level == LEVEL_B
+    assert may_appear_in_verified_table(parent) is False
+    assert table_bucket(parent) == "TABLE_UNCERTIFIED"
+    assert parent.result != ZERO
 
 
 def test_real_false_namespace_defect_is_rejected_before_verification(tmp_path):

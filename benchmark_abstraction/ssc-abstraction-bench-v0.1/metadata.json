@@ -1,8 +1,0 @@
-{
-  "version": "ssc-abstraction-bench-v0.1",
-  "n": 18,
-  "n_dev": 10,
-  "n_test": 8,
-  "guo_in_test": false,
-  "note": "Items are deliberately non-identical. Frozen B9 should fail invention."
-}

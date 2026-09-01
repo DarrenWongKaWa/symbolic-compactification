@@ -11,7 +11,7 @@ pytestmark = pytest.mark.derivation_audit_release_critical
 
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
-AUDIT_DOC = ROOT / "docs" / "DERIVATION_AUDIT.md"
+AUDIT_DOC = ROOT / "docs" / "paper-audit.md"
 
 
 def test_readme_and_derivation_audit_omit_forbidden_claims():

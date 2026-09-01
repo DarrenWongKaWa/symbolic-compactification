@@ -1,1 +1,0 @@
--(x2_new+x2_old)/(sqrt((x1_hold-beta)**2+x2_old**2)*sqrt((x1_hold-beta)**2+x2_new**2)*(sqrt((x1_hold-beta)**2+x2_old**2)+sqrt((x1_hold-beta)**2+x2_new**2)))

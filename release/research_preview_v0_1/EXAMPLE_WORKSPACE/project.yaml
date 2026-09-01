@@ -1,8 +1,0 @@
-project_name: "example-symbolic-check"
-objective: "Check whether a factored candidate is exactly equivalent to the current result."
-expression_entrypoint: expressions/current.txt
-assumptions_file: assumptions/assumptions.yaml
-optional_notes:
-  - notes/research_notes.md
-optional_references:
-  - references/README.md

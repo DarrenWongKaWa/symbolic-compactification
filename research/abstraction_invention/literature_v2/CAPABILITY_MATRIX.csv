@@ -1,9 +1,0 @@
-class,standard_algorithm,unique_lgg,search_required,llm_plausible_beyond_algs,would_be_reimplementation,physics_specific_gap
-F1_shallow,MDL/compression ranking,yes_but_junk,no,no,yes_if_claimed_as_AU,junk_vs_kernel_on_Guo
-F2_AC_algebra,AU_mod_AC; canon; e-graphs,no,limited,no,yes_AC_LGG,Sum_Product_flattening
-F3_operator,HO_pattern_AU; operator templates,no,yes,yes_choose_O_i,yes_if_only_HO_AU,latent_F_in_kernels
-F4_recurrence,same_as_F3 plus special-fn tables,no,yes,yes_propose_recurrence,yes_if_hardcoded_polygamma,engine_cannot_state_all_ids
-F5_confluence,none_standard,no,yes,yes_propose_DD_language,no,Piecewise_thermal_limits
-F6_repr_change,term_rewriting_search,no,yes,yes_propose_language,no,invariant_bases
-F7_basis,linear_algebra; invariant_theory,no,yes,yes_propose_generators,partial_xAct,tensor_response
-F8_library,DreamCoder/Stitch/babble,no,yes,yes_name_reusable_F,yes_if_generic_LL,physics_named_objects

@@ -1,1 +1,0 @@
-p*q*((-exp(x)/(-x + y) + exp(y)/(-x + y))/(-x + y) - exp(x)/(-x + y))

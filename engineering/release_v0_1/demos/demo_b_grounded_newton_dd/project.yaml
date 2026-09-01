@@ -1,8 +1,0 @@
-project_name: "demo-b-grounded-newton-divided-difference"
-objective: "Verify one fixed, source-grounded, nonsingular rational instance of a frozen Newton divided-difference identity."
-expression_entrypoint: expressions/m9h1_fixed_source.txt
-assumptions_file: assumptions/assumptions.yaml
-optional_notes:
-  - notes/research_notes.md
-optional_references:
-  - references/README.md

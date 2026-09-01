@@ -1,1 +1,0 @@
-Rational(3,2)*N*k*T+N*k*T*V/(V-N*b)-2*a*N**2/V

@@ -1,9 +1,0 @@
-{
-  "grok_harness": true,
-  "ANTHROPIC_AUTH_TOKEN": true,
-  "ANTHROPIC_API_KEY": false,
-  "OPENAI_API_KEY": false,
-  "XAI_API_KEY": false,
-  "GEMINI_API_KEY": false,
-  "note": "A callable third family is required for C3 confirmation. Grok-in-session is not an API batch runner by itself."
-}

@@ -13,7 +13,7 @@ from symbolic_compactification.adapters.wolfram_text import (
 from symbolic_compactification.cli import load_namespace_file, main as cli_main
 from symbolic_compactification.structure import structure_summary
 
-LONG = Path(__file__).resolve().parent.parent / "examples" / "long"
+LONG = Path(__file__).resolve().parent.parent / "tests" / "fixtures" / "long"
 SOURCE = LONG / "Guo_Sigma_abc_dc_exact.txt"
 EXPECTED_SHA256 = (
     "63742cc4e6bf401dd48e258ecb86676b0d7570cc075cae38b91dc188652afc44"

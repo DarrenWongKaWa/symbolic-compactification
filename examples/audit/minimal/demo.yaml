@@ -1,0 +1,18 @@
+schema_version: DerivationAuditV1
+demo_id: C
+title: Toy Laurent polynomial coefficients versus an uncertified O(g) remainder
+synthetic: true
+privacy: Independent freshman Laurent polynomial. Not derived from any unpublished manuscript.
+expected_edges:
+  - edge_id: C.define-F
+    edge_type: DEFINITION_INSERTION
+    expected_status: DEFINITION
+  - edge_id: C.coeff-g-inv
+    edge_type: LAURENT_COEFFICIENT
+    expected_status: ZERO
+  - edge_id: C.coeff-g0
+    edge_type: LAURENT_COEFFICIENT
+    expected_status: ZERO
+  - edge_id: C.asymptotic-O
+    edge_type: ASYMPTOTIC_CLAIM
+    expected_status: UNKNOWN

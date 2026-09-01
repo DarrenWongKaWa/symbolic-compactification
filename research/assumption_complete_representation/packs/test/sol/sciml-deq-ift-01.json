@@ -1,6 +1,0 @@
-{
-  "backend": "relations",
-  "cap": 10,
-  "task_id": "sciml-deq-ift-01",
-  "text": "FAMILY F01\nmembers:\n  (none)\nrelations:\n  EGRAPH_EQUIVALENT\nevidence:\n  egglog/EXACT_FACT: Num(1)+Num(2) ~ Num(2)+Num(1) under algebra_basic commute\nexactness_classes: EXACT_FACT\nnote: observation only; not a scientific object name\n\nFAMILY F02\nmembers:\n  (none)\nrelations:\n  KNOWN_REWRITE_EQUIVALENT\nevidence:\n  egglog/EXACT_FACT: rewrite(a+b)->(b+a)\nexactness_classes: EXACT_FACT\nnote: observation only; not a scientific object name"
-}

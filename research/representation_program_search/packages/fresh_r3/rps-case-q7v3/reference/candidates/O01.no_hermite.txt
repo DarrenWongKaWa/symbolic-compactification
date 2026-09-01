@@ -1,1 +1,0 @@
-p*q*r*((-(-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + b) + exp(b)/(-a + b))/(-a + b) - ((-exp(a)/(-a + b) + exp(b)/(-a + b))/(-a + b) - exp(a)/(-a + b))/(-a + b))

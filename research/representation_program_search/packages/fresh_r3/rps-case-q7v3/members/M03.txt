@@ -1,1 +1,0 @@
-p*q*r*(a**2*b*exp(c) - a**2*c*exp(c) - a**2*exp(b) + a**2*exp(c) - a*b**2*exp(c) + a*c**2*exp(c) + 2*a*c*exp(b) - 2*a*c*exp(c) + b**2*c*exp(c) + b**2*exp(a) - b**2*exp(c) - b*c**2*exp(c) - 2*b*c*exp(a) + 2*b*c*exp(c) + c**2*exp(a) - c**2*exp(b))/((a - b)*(a - c)**2*(b - c)**2)
