@@ -143,6 +143,15 @@ API key required: **false**.
 
 All ten questions pass after branch deletion. See `PHYSICIST_REVIEW.md`.
 
+## CI note after the tag
+
+GitHub `release-gate` on Python 3.12 passed every product step on
+`f1d225e` (tests, firewall, CLI, forward demos, minimal audit, Guo
+inventory). Python 3.10 failed at **test collection** because
+`tests/test_packaging_contract.py` imported `tomllib` (stdlib in 3.11+).
+That is a test-import issue, not an engine or demo failure. It is patched
+on `main` after the tag. The `v0.3.0-alpha` tag was **not moved**.
+
 ## Remaining active branches
 
 1. `main`
