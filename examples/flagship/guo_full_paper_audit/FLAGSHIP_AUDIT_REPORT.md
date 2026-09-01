@@ -6,6 +6,7 @@ Verdict: FULL_PAPER_AUDIT_DEMONSTRATED
 ## Identity
 
 - branch: experiment/guo-full-paper-audit-flagship-v1
+- RESULTS commit: 351580b725d8e2952f940c72da86eef7ac55820e
 - product peel: 783ec64c0bb4ffd0b4b6ad33f33ead96dba49087
 - public source: arXiv:2511.16422v2
 - main.tex sha256: d2f82d48b19816bffbae22330d89c64f95027c4228c8d6f342036e981079220d
