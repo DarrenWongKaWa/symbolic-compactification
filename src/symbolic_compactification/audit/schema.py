@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Optional
 
 AUDIT_SCHEMA_VERSION = "DerivationAuditV1"
-AUDIT_PROTOCOL_VERSION = "0.2.0"
+AUDIT_PROTOCOL_VERSION = "0.2.1"
 DEFAULT_VERIFIER_ROUTE = "python_sympy_exact_v1"
 
 # --------------------------------------------------------------------------- #
@@ -33,6 +33,7 @@ GROUNDING_FAILURE = "GROUNDING_FAILURE"
 COMPILE_FAILURE = "COMPILE_FAILURE"
 INVALID_RECORD = "INVALID_RECORD"
 CERTIFIED_BY_CHILDREN = "CERTIFIED_BY_CHILDREN"
+CERTIFIED_BY_RULE = "CERTIFIED_BY_RULE"
 
 ENGINE_RESULTS = frozenset({
     ZERO, NONZERO, UNKNOWN, ASSUMPTION_REQUIRED,
@@ -44,10 +45,11 @@ AUDIT_STATUSES = frozenset({
     DEFINITION, RECORDED, SPLIT, NOT_LOWERED,
     PARSE_FAILURE, GROUNDING_FAILURE, COMPILE_FAILURE, INVALID_RECORD,
     CERTIFIED_BY_CHILDREN,
+    CERTIFIED_BY_RULE,
 })
 
 STRUCTURAL_STATUSES = frozenset({
-    DEFINITION, RECORDED, SPLIT, CERTIFIED_BY_CHILDREN,
+    DEFINITION, RECORDED, SPLIT, CERTIFIED_BY_CHILDREN, CERTIFIED_BY_RULE,
 })
 
 UNCERTIFIED_STATUSES = frozenset({
@@ -83,6 +85,14 @@ INTEGRAL_ARGUMENT = "INTEGRAL_ARGUMENT"
 GLOBAL_SYMMETRY_PAIRING = "GLOBAL_SYMMETRY_PAIRING"
 BOOKKEEPING = "BOOKKEEPING"
 CUSTOM_EXACT = "CUSTOM_EXACT"
+BZ_PERIODIC_INTEGRATION_BY_PARTS = "BZ_PERIODIC_INTEGRATION_BY_PARTS"
+
+# Named global theorems that may be declared in assumptions.yaml ``rules``.
+# The engine never treats these as a local residual.
+BZ_TORUS_PERIODICITY = "BZ_TORUS_PERIODICITY"
+BRILLOUIN_ZONE_TORUS = "BRILLOUIN_ZONE_TORUS"
+ALLOWED_DECLARED_RULES = frozenset({BZ_TORUS_PERIODICITY})
+ALLOWED_IBP_DOMAINS = frozenset({BRILLOUIN_ZONE_TORUS})
 
 EDGE_TYPES = frozenset({
     ALGEBRAIC_EQUIVALENCE, DEFINITION_INSERTION, INDEX_RELABELING,
@@ -91,6 +101,7 @@ EDGE_TYPES = frozenset({
     COMPLETENESS_RECONSTRUCTION, PAIRWISE_REDUCTION, DIVIDED_DIFFERENCE,
     SPECIAL_FUNCTION_IDENTITY, SPLIT_PARENT, ASYMPTOTIC_CLAIM, LIMIT_CLAIM,
     INTEGRAL_ARGUMENT, GLOBAL_SYMMETRY_PAIRING, BOOKKEEPING, CUSTOM_EXACT,
+    BZ_PERIODIC_INTEGRATION_BY_PARTS,
 })
 
 NON_RESIDUAL_CLAIM_TYPES = frozenset({
@@ -179,6 +190,12 @@ EDGE_TYPE_SPECS: dict[str, EdgeTypeSpec] = {
     CUSTOM_EXACT: EdgeTypeSpec(
         CUSTOM_EXACT, LOWERING_SUPPORTED, NOT_LOWERED,
         "Explicit user-supplied residual with declared semantics."),
+    BZ_PERIODIC_INTEGRATION_BY_PARTS: EdgeTypeSpec(
+        BZ_PERIODIC_INTEGRATION_BY_PARTS, LOWERING_PARTIAL, NOT_LOWERED,
+        "Global BZ-torus integration by parts. Local Leibniz children may "
+        "be ZERO; the parent is CERTIFIED_BY_RULE only with declared "
+        "BZ_TORUS_PERIODICITY on domain BRILLOUIN_ZONE_TORUS. Never engine "
+        "ZERO: SymPy does not evaluate the integral."),
 }
 
 # --------------------------------------------------------------------------- #
@@ -298,6 +315,8 @@ def public_status_label(status: str) -> str:
     """Reviewer-facing label. SPLIT certification is never displayed as ZERO."""
     if status == CERTIFIED_BY_CHILDREN:
         return "SPLIT — all children certified"
+    if status == CERTIFIED_BY_RULE:
+        return "CERTIFIED_BY_RULE — local ZERO + declared BZ-torus IBP"
     return status
 
 
@@ -313,6 +332,69 @@ def lowering_applicability(edge_type: str) -> str:
     if spec is None:
         raise AuditError("UNKNOWN_EDGE_TYPE", f"unsupported edge type {edge_type!r}")
     return spec.lowering
+
+
+BZ_IBP_CONCLUSION = "integral_of_total_derivative = 0"
+
+
+@dataclass(frozen=True)
+class RuleCertificate:
+    """Second-class certificate: local engine ZERO plus a declared theorem.
+
+    Never an engine ZERO for the global claim. Field-driven: add a rule only
+    when a real paper exposes a missing adapter with explicit conditions.
+    """
+
+    rule_id: str
+    local_children: tuple[tuple[str, str], ...]
+    domain: Optional[str]
+    conclusion: str
+    result: str
+    integrand_periodic: str = "declared"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "rule_id": self.rule_id,
+            "local_children": [
+                {"edge_id": edge_id, "status": status}
+                for edge_id, status in self.local_children
+            ],
+            "requirements": {
+                "domain": self.domain,
+                "integrand_periodic": self.integrand_periodic,
+            },
+            "conclusion": self.conclusion,
+            "result": self.result,
+        }
+
+
+def rule_certificate_from_mapping(data: Any) -> Optional["RuleCertificate"]:
+    if data is None:
+        return None
+    if not isinstance(data, Mapping):
+        raise AuditError("INVALID_RECORD", "rule_certificate must be an object")
+    children_raw = data.get("local_children") or ()
+    children: list[tuple[str, str]] = []
+    if isinstance(children_raw, list):
+        for item in children_raw:
+            if isinstance(item, Mapping) and item.get("edge_id") and item.get("status"):
+                children.append((str(item["edge_id"]), str(item["status"])))
+    requirements = data.get("requirements") or {}
+    domain = None
+    periodic = "declared"
+    if isinstance(requirements, Mapping):
+        if requirements.get("domain"):
+            domain = str(requirements["domain"])
+        if requirements.get("integrand_periodic"):
+            periodic = str(requirements["integrand_periodic"])
+    return RuleCertificate(
+        rule_id=str(data.get("rule_id") or ""),
+        local_children=tuple(children),
+        domain=domain,
+        conclusion=str(data.get("conclusion") or ""),
+        result=str(data.get("result") or CERTIFIED_BY_RULE),
+        integrand_periodic=periodic,
+    )
 
 
 def asymptotic_remainder_certified(remainder_certificate_hash: Optional[str]) -> bool:
@@ -355,6 +437,9 @@ class AuditRecord:
     residual_text: Optional[str] = None
     artifact_relpath: Optional[str] = None
     schema_version: str = AUDIT_SCHEMA_VERSION
+    required_rules: tuple[str, ...] = ()
+    ibp_domain: Optional[str] = None
+    rule_certificate: Optional[RuleCertificate] = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -382,6 +467,12 @@ class AuditRecord:
             "claim": self.claim,
             "residual_text": self.residual_text,
             "artifact_relpath": self.artifact_relpath,
+            "required_rules": list(self.required_rules),
+            "ibp_domain": self.ibp_domain,
+            "rule_certificate": (
+                None if self.rule_certificate is None
+                else self.rule_certificate.to_dict()
+            ),
         }
 
 
@@ -448,8 +539,14 @@ def integrity_issues(record: AuditRecord) -> tuple[str, ...]:
             issues.append("ASYMPTOTIC_ZERO_WITHOUT_REMAINDER_CERTIFICATE")
     if record.edge_type == SPLIT_PARENT and record.status == ZERO:
         issues.append("SPLIT_PARENT_CANNOT_BE_ENGINE_ZERO")
+    if record.edge_type == BZ_PERIODIC_INTEGRATION_BY_PARTS and record.status == ZERO:
+        issues.append("BZ_IBP_PARENT_CANNOT_BE_ENGINE_ZERO")
     if record.status == CERTIFIED_BY_CHILDREN and record.edge_type != SPLIT_PARENT:
         issues.append("CERTIFIED_BY_CHILDREN_REQUIRES_SPLIT_PARENT")
+    if (
+            record.status == CERTIFIED_BY_RULE
+            and record.edge_type != BZ_PERIODIC_INTEGRATION_BY_PARTS):
+        issues.append("CERTIFIED_BY_RULE_REQUIRES_BZ_IBP")
     return tuple(issues)
 
 
@@ -468,6 +565,10 @@ def may_appear_in_verified_table(record: AuditRecord) -> bool:
     if record.edge_type == SPLIT_PARENT:
         return False
     if record.edge_type == ASYMPTOTIC_CLAIM:
+        return False
+    if record.edge_type == BZ_PERIODIC_INTEGRATION_BY_PARTS:
+        return False
+    if record.status == CERTIFIED_BY_RULE:
         return False
     return True
 
@@ -511,6 +612,45 @@ def derive_split_parent_status(
         if child.result != ZERO or child.status != ZERO:
             return SPLIT
     return CERTIFIED_BY_CHILDREN
+
+
+def derive_bz_ibp_parent_status(
+    parent: AuditRecord,
+    children: Mapping[str, AuditRecord],
+    declared_rules: tuple[str, ...] | frozenset[str],
+) -> str:
+    """Return CERTIFIED_BY_RULE, ASSUMPTION_REQUIRED, or NOT_LOWERED. Never ZERO.
+
+    Certificate is local child ZERO plus a declared BZ-torus periodicity
+    theorem. The engine does not evaluate the Brillouin-zone integral.
+    """
+    if parent.edge_type != BZ_PERIODIC_INTEGRATION_BY_PARTS:
+        raise AuditError(
+            "NOT_BZ_IBP_PARENT",
+            f"edge {parent.edge_id} is not BZ_PERIODIC_INTEGRATION_BY_PARTS",
+        )
+    domain = parent.ibp_domain
+    if domain is None or domain not in ALLOWED_IBP_DOMAINS:
+        return NOT_LOWERED
+    required = tuple(parent.required_rules)
+    if not required or BZ_TORUS_PERIODICITY not in required:
+        return ASSUMPTION_REQUIRED
+    if any(name not in ALLOWED_DECLARED_RULES for name in required):
+        return NOT_LOWERED
+    declared = frozenset(declared_rules)
+    if any(name not in declared for name in required):
+        return ASSUMPTION_REQUIRED
+    if not parent.children:
+        return NOT_LOWERED
+    for child_id in parent.children:
+        child = children.get(child_id)
+        if child is None:
+            return NOT_LOWERED
+        if not integrity_ok(child):
+            return NOT_LOWERED
+        if child.result != ZERO or child.status != ZERO:
+            return NOT_LOWERED
+    return CERTIFIED_BY_RULE
 
 
 def record_from_mapping(data: Mapping[str, Any]) -> AuditRecord:
@@ -559,6 +699,10 @@ def record_from_mapping(data: Mapping[str, Any]) -> AuditRecord:
             residual_text=_opt_str("residual_text"),
             artifact_relpath=_opt_str("artifact_relpath"),
             schema_version=str(data.get("schema_version") or AUDIT_SCHEMA_VERSION),
+            required_rules=_tuple("required_rules"),
+            ibp_domain=_opt_str("ibp_domain"),
+            rule_certificate=rule_certificate_from_mapping(
+                data.get("rule_certificate")),
         )
     except (KeyError, TypeError, ValueError) as exc:
         raise AuditError("INVALID_RECORD", str(exc)) from None

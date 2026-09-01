@@ -20,6 +20,7 @@ from .schema import (
     AUDIT_PROTOCOL_VERSION,
     AUDIT_SCHEMA_VERSION,
     CERTIFIED_BY_CHILDREN,
+    CERTIFIED_BY_RULE,
     FORBIDDEN_PUBLIC_CLAIMS,
     NONZERO_REVIEWER_TEXT,
     TABLE_FILENAMES,
@@ -318,11 +319,14 @@ def _render_verified_markdown(records: Sequence[AuditRecord]) -> str:
 
 def _render_structural_markdown(records: Sequence[AuditRecord]) -> str:
     lines = _preamble("TABLE_STRUCTURAL", (
-        "Definitions, recorded bookkeeping, split parents, and split parents "
-        "whose children are all certified.",
+        "Definitions, recorded bookkeeping, split parents, split parents "
+        "whose children are all certified, and BZ-torus IBP parents "
+        "certified by local ZERO plus a declared periodicity theorem.",
         "CERTIFIED_BY_CHILDREN is displayed as "
-        f"`{public_status_label(CERTIFIED_BY_CHILDREN)}` via "
-        "`public_status_label`. It is never displayed as ZERO.",
+        f"`{public_status_label(CERTIFIED_BY_CHILDREN)}`. "
+        "CERTIFIED_BY_RULE is displayed as "
+        f"`{public_status_label(CERTIFIED_BY_RULE)}`. "
+        "Neither is displayed as ZERO; SymPy did not evaluate the integral.",
     ))
     lines.append(render_markdown_table(records).rstrip("\n"))
     lines.append("")
@@ -381,6 +385,12 @@ def _json_row(record: AuditRecord, table_name: str) -> dict[str, Any]:
         "remainder_certificate_hash": record.remainder_certificate_hash,
         "may_appear_in_verified_table": may_appear_in_verified_table(record),
         "table_bucket": table_bucket(record),
+        "required_rules": list(record.required_rules),
+        "ibp_domain": record.ibp_domain,
+        "rule_certificate": (
+            None if record.rule_certificate is None
+            else record.rule_certificate.to_dict()
+        ),
     }
 
 

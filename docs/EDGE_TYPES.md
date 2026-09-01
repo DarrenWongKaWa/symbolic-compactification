@@ -31,6 +31,7 @@ Finite coefficient identities never certify an enclosing remainder claim.
 | `GLOBAL_SYMMETRY_PAIRING` | PARTIAL | `NOT_LOWERED` | Global pairing over a domain. Local pair kernels may be lowered. |
 | `BOOKKEEPING` | NOT_APPLICABLE | `RECORDED` | Assembly or reconstruction bookkeeping, not an exact residual. |
 | `CUSTOM_EXACT` | SUPPORTED | `NOT_LOWERED` | Explicit user-supplied residual with declared semantics. |
+| `BZ_PERIODIC_INTEGRATION_BY_PARTS` | PARTIAL | `NOT_LOWERED` | Global BZ-torus IBP. Local Leibniz children may be `ZERO`. Parent is `CERTIFIED_BY_RULE` only with declared `BZ_TORUS_PERIODICITY` on `BRILLOUIN_ZONE_TORUS`. Never engine `ZERO`. |
 
 `NON_RESIDUAL_CLAIM_TYPES` = `ASYMPTOTIC_CLAIM`, `LIMIT_CLAIM`,
 `INTEGRAL_ARGUMENT`. Do not rewrite those as `F - A/gamma = 0`.
@@ -48,5 +49,13 @@ parent `ASYMPTOTIC_CLAIM`.
 - A parent that delegates proof is `SPLIT_PARENT` with `children`.
 - If the engine has no residual, the honest status is `NOT_LOWERED` or
   `UNKNOWN`, not a nearby algebraic encoding.
+- Brillouin-zone integration by parts is `BZ_PERIODIC_INTEGRATION_BY_PARTS`,
+  not a local residual and not a fake integral `ZERO`. Put the Leibniz
+  product rule on a child edge. Declare `BZ_TORUS_PERIODICITY` in
+  `assumptions.yaml` `rules` and set `ibp_domain: BRILLOUIN_ZONE_TORUS`.
+  Missing periodicity is `ASSUMPTION_REQUIRED`. The declared rule must apply
+  to the **IBP integrand combination** (gauge-invariant / globally periodic).
+  Do not treat a gauge-dependent Berry connection as automatically periodic
+  because the BZ is a torus.
 
 See [STATUS_SEMANTICS.md](STATUS_SEMANTICS.md).
