@@ -18,6 +18,7 @@ Then run one of:
 - [Forward derivation](forward-derivation.md): `examples/forward/exact-step`
 - [Paper audit](paper-audit.md): `examples/audit/minimal`
 - Flagship: `examples/flagship/guo/RESULTS.md`
+- Flagship HTML (presentation only): `examples/flagship/guo/human_audit/index.html`
 
 `verify` never overwrites your input files. Generated records go under
 `runs/` inside the workspace you copied.

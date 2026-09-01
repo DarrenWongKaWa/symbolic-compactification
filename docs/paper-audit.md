@@ -32,6 +32,9 @@ arXiv:2511.16422v2 and checks only source-grounded relations:
 
 [examples/flagship/guo/RESULTS.md](../examples/flagship/guo/RESULTS.md)
 
+Human-facing HTML projection (does not assign verdicts):
+[examples/flagship/guo/human_audit/index.html](../examples/flagship/guo/human_audit/index.html).
+
 Replay from frozen manifests:
 [examples/flagship/guo/REPRODUCE.md](../examples/flagship/guo/REPRODUCE.md)
 

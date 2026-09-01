@@ -56,6 +56,8 @@ numbered-equation inventory and a source-grounded derivation audit.
 
 See [examples/flagship/guo/RESULTS.md](examples/flagship/guo/RESULTS.md).
 Replay: [examples/flagship/guo/REPRODUCE.md](examples/flagship/guo/REPRODUCE.md).
+Human-facing HTML (presentation only, not verification authority):
+[examples/flagship/guo/human_audit/index.html](examples/flagship/guo/human_audit/index.html).
 
 ## Docs
 
