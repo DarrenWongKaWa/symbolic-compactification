@@ -5,25 +5,18 @@ from __future__ import annotations
 import json
 import shutil
 import tempfile
+import time
 from pathlib import Path
 
 import sympy as sp
 import yaml
-from symbolic_compactification.models import (
-    ASSUMPTION_REQUIRED,
-    COMPILE_FAILURE,
-    NONZERO,
-    PARSE_FAILURE,
-    UNKNOWN,
-    ZERO,
-)
+from symbolic_compactification.models import NONZERO, UNKNOWN, ZERO
 from symbolic_compactification.research_api import verify_hypothesis
-from symbolic_compactification.workspace import load_workspace
 
 ROOT = Path(__file__).resolve().parent
 PROPOSERS = ("cas_sympy", "gplearn", "gold_control", "injected_negative", "llm_masked")
 
-PROMOTE = {ZERO}
+PROMOTE = {str(ZERO)}
 
 
 def parse_expr(text: str) -> sp.Expr:
@@ -84,20 +77,32 @@ def write_workspace(dest: Path, current: str, candidate: str, names: list[str]) 
     (dest / "hypotheses" / "hypothesis.json").write_text(json.dumps(hyp, indent=2) + "\n")
 
 
-def recover_against_target(candidate: str, target: str, names: list[str]) -> str:
+def recover_against_target(candidate: str, target: str, names: list[str]) -> dict:
     tmp = Path(tempfile.mkdtemp(prefix="ssc-rec-"))
+    t0 = time.time()
     try:
         write_workspace(tmp, target, candidate, names)
         result = verify_hypothesis(tmp)
-        return str(result.result)
+        return {
+            "result": str(result.result),
+            "error_code": result.error_code,
+            "runtime_s": round(time.time() - t0, 6),
+            "run_id": result.run_id,
+        }
     except Exception as exc:  # noqa: BLE001
-        return f"ERROR:{type(exc).__name__}"
+        return {
+            "result": "ERROR",
+            "error_code": type(exc).__name__,
+            "runtime_s": round(time.time() - t0, 6),
+            "detail": repr(exc),
+        }
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
 def verify_one(current: str, candidate: str, names: list[str]) -> dict:
     tmp = Path(tempfile.mkdtemp(prefix="ssc-fwd-"))
+    t0 = time.time()
     try:
         write_workspace(tmp, current, candidate, names)
         result = verify_hypothesis(tmp)
@@ -105,7 +110,8 @@ def verify_one(current: str, candidate: str, names: list[str]) -> dict:
         return {
             "result": status,
             "error_code": result.error_code,
-            "promoted": status in {str(ZERO)},
+            "promoted": status in PROMOTE,
+            "runtime_s": round(time.time() - t0, 6),
             "run_id": result.run_id,
         }
     except Exception as exc:  # noqa: BLE001
@@ -113,18 +119,37 @@ def verify_one(current: str, candidate: str, names: list[str]) -> dict:
             "result": "ERROR",
             "error_code": type(exc).__name__,
             "promoted": False,
+            "runtime_s": round(time.time() - t0, 6),
             "detail": repr(exc),
         }
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def _key(proposer: str, tid: str, cid: str) -> str:
+    return f"{proposer}::{tid}::{cid}"
+
+
+def _load_done(jsonl: Path) -> dict[str, dict]:
+    done: dict[str, dict] = {}
+    if not jsonl.exists():
+        return done
+    for line in jsonl.read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        done[_key(row["proposer_id"], row["task_id"], row["candidate_id"])] = row
+    return done
+
+
 def main() -> None:
     frozen = yaml.safe_load((ROOT / "TASKS_FROZEN.yaml").read_text())
     tasks = {t["task_id"]: t for t in frozen["tasks"]}
-    rows = []
     out_dir = ROOT / "verification"
     out_dir.mkdir(exist_ok=True)
+    jsonl = out_dir / "records.jsonl"
+    done = _load_done(jsonl)
+    n_new = 0
     for proposer in PROPOSERS:
         pdir = ROOT / "candidates" / proposer
         if not pdir.exists():
@@ -139,14 +164,29 @@ def main() -> None:
             current = (ROOT / "contexts" / tid / "current.txt").read_text().strip()
             target = (ROOT / "hidden" / "targets" / task["hidden_target_file"]).read_text().strip()
             for cand in rec["candidates"]:
+                k = _key(proposer, tid, cand["candidate_id"])
+                if k in done:
+                    row = done[k]
+                    print(
+                        "SKIP",
+                        proposer,
+                        tid,
+                        cand["candidate_id"],
+                        row["promotion"]["result"],
+                        "rec" if row.get("recovered") else "",
+                        "PROMOTED" if row["promotion"]["promoted"] else "refuse",
+                    )
+                    continue
                 expr = cand["expression"]
                 names = free_names(current, expr, target)
                 if not names:
                     names = ["x"]
                 promo = verify_one(current, expr, names)
                 recovery = None
+                recovered = False
                 if task["role"] == "recovery":
                     recovery = recover_against_target(expr, target, free_names(expr, target) or names)
+                    recovered = recovery["result"] == str(ZERO)
                 row = {
                     "proposer_id": proposer,
                     "task_id": tid,
@@ -155,21 +195,27 @@ def main() -> None:
                     "is_gold_control": bool(cand.get("is_gold_control")),
                     "injected_negative": bool(cand.get("injected_negative")),
                     "promotion": promo,
-                    "target_recovery_result": recovery,
-                    "recovered": recovery == str(ZERO),
+                    "target_recovery": recovery,
+                    "target_recovery_result": None if recovery is None else recovery["result"],
+                    "recovered": recovered,
                     "expression": expr,
                 }
-                rows.append(row)
+                with jsonl.open("a") as fh:
+                    fh.write(json.dumps(row) + "\n")
+                done[k] = row
+                n_new += 1
                 print(
                     proposer,
                     tid,
                     cand["candidate_id"],
                     promo["result"],
-                    "rec" if row["recovered"] else "",
+                    "rec" if recovered else "",
                     "PROMOTED" if promo["promoted"] else "refuse",
+                    flush=True,
                 )
+    rows = list(done.values())
     (out_dir / "records.json").write_text(json.dumps(rows, indent=2) + "\n")
-    print("n_records", len(rows))
+    print("n_records", len(rows), "n_new", n_new)
 
 
 if __name__ == "__main__":

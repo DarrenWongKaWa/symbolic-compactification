@@ -1,0 +1,384 @@
+{
+  "n_records": 124,
+  "status_histogram_promotion": {
+    "ZERO": 68,
+    "PARSE_FAILURE": 7,
+    "NONZERO": 48,
+    "UNKNOWN": 1
+  },
+  "gold_control": {
+    "n": 8,
+    "target_recovery": 8,
+    "promoted_vs_current": 6,
+    "refused_vs_current": [
+      {
+        "task_id": "FR-06",
+        "result": "NONZERO",
+        "recovered": true
+      },
+      {
+        "task_id": "FR-08",
+        "result": "NONZERO",
+        "recovered": true
+      }
+    ],
+    "note": "Gold is a pipeline positive control, not proposer success. Promotion is Mode A ZERO(current, H). Substitution-conditioned gold (FR-06, FR-08) is expected to recover the hidden target while remaining NONZERO vs current unless identities are compiled."
+  },
+  "experiment_b_injected_negatives": {
+    "n": 36,
+    "false_promotions": 0,
+    "false_promotion_rate": 0.0,
+    "false_promotion_ids": [],
+    "status_histogram": {
+      "NONZERO": 36
+    },
+    "nonzero_count": 36,
+    "unknown_count": 0,
+    "parse_failure_count": 0,
+    "compile_failure_count": 0
+  },
+  "negative_control_FR-NC-01": {
+    "n": 12,
+    "zero_collapse_candidates": 1,
+    "zero_collapse_promoted": 0,
+    "note": "A remainder collapse to 0 must not promote. Algebraic rewrites that remain equivalent to the current remainder may still promote as stay-put; that is not remainder certification."
+  },
+  "target_recovery_at_k": {
+    "cas_sympy": {
+      "proposer_id": "cas_sympy",
+      "k": 4,
+      "n_tasks": 8,
+      "n_recovered": 6,
+      "target_recovery_at_k": 0.75,
+      "per_task": {
+        "FR-01": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "cas-0",
+            "cas-1"
+          ]
+        },
+        "FR-02": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "cas-0",
+            "cas-1",
+            "cas-2",
+            "cas-3"
+          ]
+        },
+        "FR-03": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "cas-0",
+            "cas-1"
+          ]
+        },
+        "FR-04": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "cas-0",
+            "cas-1",
+            "cas-2",
+            "cas-3"
+          ]
+        },
+        "FR-05": {
+          "n_candidates": 1,
+          "recovered": true,
+          "k_used": 1,
+          "recovered_ids": [
+            "cas-0"
+          ]
+        },
+        "FR-06": {
+          "n_candidates": 3,
+          "recovered": false,
+          "k_used": 3,
+          "recovered_ids": []
+        },
+        "FR-07": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "cas-0",
+            "cas-1",
+            "cas-2",
+            "cas-3"
+          ]
+        },
+        "FR-08": {
+          "n_candidates": 4,
+          "recovered": false,
+          "k_used": 4,
+          "recovered_ids": []
+        }
+      }
+    },
+    "gplearn": {
+      "proposer_id": "gplearn",
+      "k": 2,
+      "n_tasks": 8,
+      "n_recovered": 6,
+      "target_recovery_at_k": 0.75,
+      "per_task": {
+        "FR-01": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "gplearn-identity"
+          ]
+        },
+        "FR-02": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "gplearn-identity"
+          ]
+        },
+        "FR-03": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "gplearn-identity"
+          ]
+        },
+        "FR-04": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "gplearn-identity"
+          ]
+        },
+        "FR-05": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "gplearn-identity"
+          ]
+        },
+        "FR-06": {
+          "n_candidates": 2,
+          "recovered": false,
+          "k_used": 2,
+          "recovered_ids": []
+        },
+        "FR-07": {
+          "n_candidates": 2,
+          "recovered": true,
+          "k_used": 2,
+          "recovered_ids": [
+            "gplearn-identity"
+          ]
+        },
+        "FR-08": {
+          "n_candidates": 2,
+          "recovered": false,
+          "k_used": 2,
+          "recovered_ids": []
+        }
+      }
+    },
+    "llm_masked": {
+      "proposer_id": "llm_masked",
+      "k": 4,
+      "n_tasks": 8,
+      "n_recovered": 8,
+      "target_recovery_at_k": 1.0,
+      "per_task": {
+        "FR-01": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2",
+            "llm-3"
+          ]
+        },
+        "FR-02": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2",
+            "llm-3"
+          ]
+        },
+        "FR-03": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2",
+            "llm-3"
+          ]
+        },
+        "FR-04": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2"
+          ]
+        },
+        "FR-05": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2",
+            "llm-3"
+          ]
+        },
+        "FR-06": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1"
+          ]
+        },
+        "FR-07": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2",
+            "llm-3"
+          ]
+        },
+        "FR-08": {
+          "n_candidates": 4,
+          "recovered": true,
+          "k_used": 4,
+          "recovered_ids": [
+            "llm-0",
+            "llm-1",
+            "llm-2",
+            "llm-3"
+          ]
+        }
+      }
+    }
+  },
+  "gplearn_raw_only_target_recovery_at_1": {
+    "proposer_id": "gplearn",
+    "k": 1,
+    "n_tasks": 8,
+    "n_recovered": 0,
+    "target_recovery_at_k": 0.0,
+    "per_task": {
+      "FR-01": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-02": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-03": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-04": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-05": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-06": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-07": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      },
+      "FR-08": {
+        "n_candidates": 1,
+        "recovered": false,
+        "k_used": 1,
+        "recovered_ids": []
+      }
+    },
+    "note": "gplearn-identity copies E_t and is not SR discovery. This row is gplearn-raw only."
+  },
+  "substitution_gold_product_gap": [
+    {
+      "task_id": "FR-06",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promoted_vs_current": false,
+      "promotion_result": "NONZERO",
+      "recovered_vs_target": true
+    },
+    {
+      "task_id": "FR-08",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promoted_vs_current": false,
+      "promotion_result": "NONZERO",
+      "recovered_vs_target": true
+    }
+  ],
+  "proposers": [
+    "cas_sympy",
+    "gold_control",
+    "gplearn",
+    "injected_negative",
+    "llm_masked"
+  ],
+  "recovery_tasks": [
+    "FR-01",
+    "FR-02",
+    "FR-03",
+    "FR-04",
+    "FR-05",
+    "FR-06",
+    "FR-07",
+    "FR-08"
+  ]
+}

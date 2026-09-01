@@ -1,0 +1,42 @@
+{
+  "proposer_id": "injected_negative",
+  "task_id": "FR-08",
+  "generated_unix": 1788224555,
+  "candidates": [
+    {
+      "candidate_id": "neg-sign_flip",
+      "expression": "-(f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a)))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "sign_flip",
+      "injected_negative": true,
+      "kind": "sign_flip"
+    },
+    {
+      "candidate_id": "neg-times_two",
+      "expression": "2*(f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a)))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "times_two",
+      "injected_negative": true,
+      "kind": "times_two"
+    },
+    {
+      "candidate_id": "neg-zero",
+      "expression": "0",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "zero",
+      "injected_negative": true,
+      "kind": "zero"
+    },
+    {
+      "candidate_id": "neg-drop_term",
+      "expression": "(f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))) + 1",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "drop_term",
+      "injected_negative": true,
+      "kind": "drop_term"
+    }
+  ],
+  "extra": {},
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

@@ -1,0 +1,84 @@
+{
+  "rollout_id": "MS-01",
+  "family": "llm",
+  "step_task_ids": [
+    "FR-01",
+    "FR-02",
+    "FR-03"
+  ],
+  "accepted_steps": 3,
+  "n_steps": 3,
+  "accepted_over_n": "3/3",
+  "paper_adjacent": false,
+  "steps": [
+    {
+      "task_id": "FR-01",
+      "proposer_id": "llm_masked",
+      "candidate_id": "llm-0",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.744859,
+        "run_id": "20260901T012710Z-6351491d"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.724153,
+        "run_id": "20260901T012710Z-53ed2c59"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)",
+      "next_state_equals_current": false
+    },
+    {
+      "task_id": "FR-02",
+      "proposer_id": "llm_masked",
+      "candidate_id": "llm-0",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.668082,
+        "run_id": "20260901T012711Z-163ee9a9"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.802184,
+        "run_id": "20260901T012712Z-af808ed3"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "(e12/4)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)",
+      "next_state_equals_current": false
+    },
+    {
+      "task_id": "FR-03",
+      "proposer_id": "llm_masked",
+      "candidate_id": "llm-0",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.751449,
+        "run_id": "20260901T012713Z-b8380e4a"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.719404,
+        "run_id": "20260901T012713Z-280a7f4e"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "(v21a*v12b - v12a*v21b)*(v1c - v2c) + (v21a*v12c - v12a*v21c)*(v1b - v2b)",
+      "next_state_equals_current": false
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "proposer_id": "gplearn",
+  "task_id": "FR-01",
+  "generated_unix": 1788224578,
+  "candidates": [
+    {
+      "candidate_id": "gplearn-raw",
+      "expression": "add(add((v1b)/( 0.829), mul(v1c, (v12b)*( v21a))), (v12a)+( v1b))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "gplearn SymbolicRegressor fit to samples of E_t",
+      "raw_program": "add(add(div(v1b, 0.829), mul(v1c, mul(v12b, v21a))), add(v12a, v1b))"
+    },
+    {
+      "candidate_id": "gplearn-identity",
+      "expression": "v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "copy of current; SR did not propose a rewrite"
+    }
+  ],
+  "extra": {
+    "n_features": 8,
+    "features": [
+      "v12a",
+      "v12b",
+      "v12c",
+      "v1b",
+      "v1c",
+      "v21a",
+      "v21b",
+      "v21c"
+    ],
+    "runtime_s": 0.28333187103271484,
+    "n_samples": 80,
+    "gplearn": "0.4.3",
+    "seed": 0,
+    "generations": 8,
+    "population_size": 200
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

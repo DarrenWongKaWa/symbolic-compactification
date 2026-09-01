@@ -1,0 +1,47 @@
+{
+  "n": 8,
+  "failures": [],
+  "rows": [
+    {
+      "task_id": "FR-01",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-02",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-03",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-04",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-05",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-06",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-07",
+      "target_in_context": false,
+      "hits": []
+    },
+    {
+      "task_id": "FR-08",
+      "target_in_context": false,
+      "hits": []
+    }
+  ],
+  "ok": true
+}

@@ -1,0 +1,1 @@
+(-dagbc*e12*f1p - dagbc*e12*f2p + 2*f1p*gab*v1c + 2*f1p*gac*v1b - 4*f1p*gbc*v1a - 2*f2p*gab*v2c - 2*f2p*gac*v2b + 4*f2p*gbc*v2a)/(2*e12)

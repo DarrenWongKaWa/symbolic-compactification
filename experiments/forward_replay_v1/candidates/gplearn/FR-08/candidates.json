@@ -1,0 +1,47 @@
+{
+  "proposer_id": "gplearn",
+  "task_id": "FR-08",
+  "generated_unix": 1788224580,
+  "candidates": [
+    {
+      "candidate_id": "gplearn-raw",
+      "expression": "div(sub(v1b, (gbc)+( gbc)), (gac)/( v2a))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "gplearn SymbolicRegressor fit to samples of E_t",
+      "raw_program": "div(sub(v1b, add(gbc, gbc)), div(gac, v2a))"
+    },
+    {
+      "candidate_id": "gplearn-identity",
+      "expression": "f1p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "copy of current; SR did not propose a rewrite"
+    }
+  ],
+  "extra": {
+    "n_features": 14,
+    "features": [
+      "dagbc",
+      "e12",
+      "e21",
+      "f1p",
+      "f2p",
+      "gab",
+      "gac",
+      "gbc",
+      "v1a",
+      "v1b",
+      "v1c",
+      "v2a",
+      "v2b",
+      "v2c"
+    ],
+    "runtime_s": 0.28516387939453125,
+    "n_samples": 80,
+    "gplearn": "0.4.3",
+    "seed": 0,
+    "generations": 8,
+    "population_size": 200
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

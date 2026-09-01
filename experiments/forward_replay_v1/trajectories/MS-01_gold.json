@@ -1,0 +1,84 @@
+{
+  "rollout_id": "MS-01",
+  "family": "gold",
+  "step_task_ids": [
+    "FR-01",
+    "FR-02",
+    "FR-03"
+  ],
+  "accepted_steps": 3,
+  "n_steps": 3,
+  "accepted_over_n": "3/3",
+  "paper_adjacent": false,
+  "steps": [
+    {
+      "task_id": "FR-01",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.799351,
+        "run_id": "20260901T012705Z-a057ebb7"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.758233,
+        "run_id": "20260901T012706Z-cbd96a51"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)",
+      "next_state_equals_current": false
+    },
+    {
+      "task_id": "FR-02",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.730892,
+        "run_id": "20260901T012707Z-8be41f6f"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.761572,
+        "run_id": "20260901T012707Z-43aa13c3"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p)",
+      "next_state_equals_current": false
+    },
+    {
+      "task_id": "FR-03",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.739661,
+        "run_id": "20260901T012708Z-78f70d9e"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.743861,
+        "run_id": "20260901T012709Z-e19d2eaf"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "(v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c)) + (v2c*(v12a*v21b - v21a*v12b) + v2b*(v12a*v21c - v21a*v12c))",
+      "next_state_equals_current": false
+    }
+  ]
+}

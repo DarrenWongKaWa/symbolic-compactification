@@ -1,0 +1,1 @@
+div(sub(v1b, (gbc)+( gbc)), (gac)/( v2a))

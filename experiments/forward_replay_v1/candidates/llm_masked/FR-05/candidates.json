@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-05",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "-(A12a*A21b - A21a*A12b)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "antisymmetrize by swapping 12/21 and a minus"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "A12b*A21a - A12a*A21b",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "same pair with swapped a/b on the first term"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "A21a*A12b - A21b*A12a",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "antisymmetrize the b index at fixed 21/12 labels"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "-A12a*A21b + A21a*A12b",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "write the pair as an explicit 12/21 antisymmetric difference"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

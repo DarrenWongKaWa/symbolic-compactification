@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-03",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "(v21a*v12b - v12a*v21b)*(v1c - v2c) + (v21a*v12c - v12a*v21c)*(v1b - v2b)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "factor antisymmetric 12/21 kernels onto (v1-v2) channels"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c) - v2c*(v21a*v12b - v12a*v21b) - v2b*(v21a*v12c - v12a*v21c)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "expand groups onto separate v1 and v2 channels"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "v21a*(v12b*(v1c - v2c) + v12c*(v1b - v2b)) - v12a*(v21b*(v1c - v2c) + v21c*(v1b - v2b))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "keep v21a/v12a and factor v1-v2 in each band"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "(v1c - v2c)*(v21a*v12b - v12a*v21b) + (v1b - v2b)*(v21a*v12c - v12a*v21c)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "same regroup with (v1-v2) factors first"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

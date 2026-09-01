@@ -1,0 +1,36 @@
+{
+  "proposer_id": "cas_sympy",
+  "task_id": "FR-04",
+  "generated_unix": 1788224555,
+  "candidates": [
+    {
+      "candidate_id": "cas-0",
+      "expression": "f1p*gab*v1c/e12 + f1p*gac*v1b/e12 - 2*f1p*gbc*v1a/e12 - f2p*gab*v2c/e12 - f2p*gac*v2b/e12 + 2*f2p*gbc*v2a/e12",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "expand"
+    },
+    {
+      "candidate_id": "cas-1",
+      "expression": "(f1p*gab*v1c + f1p*gac*v1b - 2*f1p*gbc*v1a - f2p*gab*v2c - f2p*gac*v2b + 2*f2p*gbc*v2a)/e12",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "factor"
+    },
+    {
+      "candidate_id": "cas-2",
+      "expression": "(f1p*(gab*v1c + gac*v1b - gbc*v1a) - f2p*(gab*v2c + gac*v2b - gbc*v2a) + gbc*(-f1p*v1a + f2p*v2a))/e12",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "together"
+    },
+    {
+      "candidate_id": "cas-3",
+      "expression": "(f1p*(gab*v1c + gac*v1b - gbc*v1a) - f2p*(gab*v2c + gac*v2b - gbc*v2a) - gbc*(f1p*v1a - f2p*v2a))/e12",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "simplify"
+    }
+  ],
+  "extra": {
+    "sympy": "1.14.0"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

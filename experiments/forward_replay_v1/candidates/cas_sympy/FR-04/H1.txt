@@ -1,0 +1,1 @@
+(f1p*gab*v1c + f1p*gac*v1b - 2*f1p*gbc*v1a - f2p*gab*v2c - f2p*gac*v2b + 2*f2p*gbc*v2a)/e12

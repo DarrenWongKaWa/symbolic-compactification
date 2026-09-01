@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-NC-01",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "regroup by v1c/v1b; remainder is not identically 0"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "keep the bilinear remainder unchanged and nonzero"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "v21a*v12b*v1c + v21a*v1b*v12c + v12a*v21b*v1c + v12a*v1b*v21c",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "expand the remainder; do not set it to 0"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "(v21a*v12b + v12a*v21b)*v1c + (v21a*v12c + v12a*v21c)*v1b",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "factor-like regroup of a nonzero remainder"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

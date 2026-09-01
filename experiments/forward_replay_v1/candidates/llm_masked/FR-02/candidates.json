@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-02",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "(e12/4)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "cancel (2*e12**2)/(8*e12) to e12/4"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "(e12/4)*((v2c*gab + v2b*gac)*f2p - (v1c*gab + v1b*gac)*f1p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "same prefactor, write f2p minus f1p"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "(e12/4)*(gab*(v2c*f2p - v1c*f1p) + gac*(v2b*f2p - v1b*f1p))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "simplify prefactor and collect gab/gac channels"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "-(e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "e12/4 with overall minus on the f1p-f2p difference"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

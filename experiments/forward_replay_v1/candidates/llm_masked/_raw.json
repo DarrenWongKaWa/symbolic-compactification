@@ -1,0 +1,62 @@
+{
+  "proposer_id": "llm_masked",
+  "model": "grok-isolated-subagent",
+  "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+  "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+  "tasks": {
+    "FR-01": [
+      {"candidate_id": "llm-0", "expression": "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)", "rationale": "factor common v1c and v1b channels"},
+      {"candidate_id": "llm-1", "expression": "(v21a*v12b + v12a*v21b)*v1c + (v21a*v12c + v12a*v21c)*v1b", "rationale": "same channel split with kernel factors first"},
+      {"candidate_id": "llm-2", "expression": "v1c*(v12b*v21a + v21b*v12a) + v1b*(v12c*v21a + v21c*v12a)", "rationale": "v1c/v1b regroup with swapped bilinear order"},
+      {"candidate_id": "llm-3", "expression": "v21a*v12b*v1c + v12a*v21b*v1c + v21a*v1b*v12c + v12a*v1b*v21c", "rationale": "expand then collect the two v1 channels"}
+    ],
+    "FR-02": [
+      {"candidate_id": "llm-0", "expression": "(e12/4)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)", "rationale": "cancel (2*e12**2)/(8*e12) to e12/4"},
+      {"candidate_id": "llm-1", "expression": "(e12/4)*((v2c*gab + v2b*gac)*f2p - (v1c*gab + v1b*gac)*f1p)", "rationale": "same prefactor, write f2p minus f1p"},
+      {"candidate_id": "llm-2", "expression": "(e12/4)*(gab*(v2c*f2p - v1c*f1p) + gac*(v2b*f2p - v1b*f1p))", "rationale": "simplify prefactor and collect gab/gac channels"},
+      {"candidate_id": "llm-3", "expression": "-(e12/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)", "rationale": "e12/4 with overall minus on the f1p-f2p difference"}
+    ],
+    "FR-03": [
+      {"candidate_id": "llm-0", "expression": "(v21a*v12b - v12a*v21b)*(v1c - v2c) + (v21a*v12c - v12a*v21c)*(v1b - v2b)", "rationale": "factor antisymmetric 12/21 kernels onto (v1-v2) channels"},
+      {"candidate_id": "llm-1", "expression": "v1c*(v21a*v12b - v12a*v21b) + v1b*(v21a*v12c - v12a*v21c) - v2c*(v21a*v12b - v12a*v21b) - v2b*(v21a*v12c - v12a*v21c)", "rationale": "expand groups onto separate v1 and v2 channels"},
+      {"candidate_id": "llm-2", "expression": "v21a*(v12b*(v1c - v2c) + v12c*(v1b - v2b)) - v12a*(v21b*(v1c - v2c) + v21c*(v1b - v2b))", "rationale": "keep v21a/v12a and factor v1-v2 in each band"},
+      {"candidate_id": "llm-3", "expression": "(v1c - v2c)*(v21a*v12b - v12a*v21b) + (v1b - v2b)*(v21a*v12c - v12a*v21c)", "rationale": "same regroup with (v1-v2) factors first"}
+    ],
+    "FR-04": [
+      {"candidate_id": "llm-0", "expression": "(1/e12)*(f1p*(gab*v1c + gac*v1b - 2*gbc*v1a) - f2p*(gab*v2c + gac*v2b - 2*gbc*v2a))", "rationale": "collect f1p/f2p; gbc terms double the -v a channel"},
+      {"candidate_id": "llm-1", "expression": "(1/e12)*((v1c*gab + v1b*gac - 2*v1a*gbc)*f1p - (v2c*gab + v2b*gac - 2*v2a*gbc)*f2p)", "rationale": "same collection with original index order inside"},
+      {"candidate_id": "llm-2", "expression": "(1/e12)*(gab*(v1c*f1p - v2c*f2p) + gac*(v1b*f1p - v2b*f2p) + 2*gbc*(v2a*f2p - v1a*f1p))", "rationale": "collect 1/e12 onto gab/gac/gbc metric channels"},
+      {"candidate_id": "llm-3", "expression": "(1/e12)*(f1p*(v1c*gab + v1b*gac - v1a*gbc) - f2p*(v2c*gab + v2b*gac - v2a*gbc))", "rationale": "f-channel collect without doubling gbc (partial cancel)"}
+    ],
+    "FR-05": [
+      {"candidate_id": "llm-0", "expression": "-(A12a*A21b - A21a*A12b)", "rationale": "antisymmetrize by swapping 12/21 and a minus"},
+      {"candidate_id": "llm-1", "expression": "A12b*A21a - A12a*A21b", "rationale": "same pair with swapped a/b on the first term"},
+      {"candidate_id": "llm-2", "expression": "A21a*A12b - A21b*A12a", "rationale": "antisymmetrize the b index at fixed 21/12 labels"},
+      {"candidate_id": "llm-3", "expression": "-A12a*A21b + A21a*A12b", "rationale": "write the pair as an explicit 12/21 antisymmetric difference"}
+    ],
+    "FR-06": [
+      {"candidate_id": "llm-0", "expression": "(e12/4)*(gac*v1b + gab*v1c)*f1p + (e21/4)*(gac*v2b + gab*v2c)*f2p", "rationale": "move minus onto second band via e21=-e12"},
+      {"candidate_id": "llm-1", "expression": "(1/4)*(e12*(gac*v1b + gab*v1c)*f1p + e21*(gac*v2b + gab*v2c)*f2p)", "rationale": "common 1/4 with e12 on band 1 and e21 on band 2"},
+      {"candidate_id": "llm-2", "expression": "(e12/4)*(gac*v1b + gab*v1c)*f1p - (e21/4)*(gac*v2b + gab*v2c)*f2p", "rationale": "second band carries e21 but minus is left in place"},
+      {"candidate_id": "llm-3", "expression": "-(e21/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)", "rationale": "replace overall e12 by -e21 on both bands"}
+    ],
+    "FR-07": [
+      {"candidate_id": "llm-0", "expression": "f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc - (1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))", "rationale": "distribute dagbc onto f1p and f2p; keep 1/e12"},
+      {"candidate_id": "llm-1", "expression": "f1p*(-Rational(1,2)*dagbc + (1/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f2p*(-Rational(1,2)*dagbc + (-1/e12)*(v2c*gab + v2b*gac - 2*v2a*gbc))", "rationale": "same split with explicit -1/e12 on the f2p channel"},
+      {"candidate_id": "llm-2", "expression": "-Rational(1,2)*dagbc*f1p - Rational(1,2)*dagbc*f2p + (1/e12)*f1p*(v1c*gab + v1b*gac - 2*v1a*gbc) - (1/e12)*f2p*(v2c*gab + v2b*gac - 2*v2a*gbc)", "rationale": "termwise distribute dagbc without folding into one f-factor"},
+      {"candidate_id": "llm-3", "expression": "f1p*(-(1/2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f2p*(-(1/2)*dagbc - (1/e12)*(gab*v2c + gac*v2b - 2*gbc*v2a))", "rationale": "same distribution with 1/2 and metric-first order"}
+    ],
+    "FR-08": [
+      {"candidate_id": "llm-0", "expression": "f01p*(-dagbc + (2/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f02p*(-dagbc + (2/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))", "rationale": "f1p=2*f01p, f2p=2*f02p absorb 2*(-1/2) to -dagbc"},
+      {"candidate_id": "llm-1", "expression": "2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))", "rationale": "replace f by 2*f0 without absorbing the 2"},
+      {"candidate_id": "llm-2", "expression": "-dagbc*(f01p + f02p) + (2/e12)*f01p*(gab*v1c + gac*v1b - 2*gbc*v1a) + (2/e21)*f02p*(gab*v2c + gac*v2b - 2*gbc*v2a)", "rationale": "f0 substitution then collect -dagbc and 2/e channels"},
+      {"candidate_id": "llm-3", "expression": "f01p*(-dagbc + (2/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f02p*(-dagbc + (2/e21)*(v2c*gab + v2b*gac - 2*v2a*gbc))", "rationale": "same f0 rewrite with velocity-first parentheses"}
+    ],
+    "FR-NC-01": [
+      {"candidate_id": "llm-0", "expression": "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)", "rationale": "regroup by v1c/v1b; remainder is not identically 0"},
+      {"candidate_id": "llm-1", "expression": "v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c)", "rationale": "keep the bilinear remainder unchanged and nonzero"},
+      {"candidate_id": "llm-2", "expression": "v21a*v12b*v1c + v21a*v1b*v12c + v12a*v21b*v1c + v12a*v1b*v21c", "rationale": "expand the remainder; do not set it to 0"},
+      {"candidate_id": "llm-3", "expression": "(v21a*v12b + v12a*v21b)*v1c + (v21a*v12c + v12a*v21c)*v1b", "rationale": "factor-like regroup of a nonzero remainder"}
+    ]
+  }
+}

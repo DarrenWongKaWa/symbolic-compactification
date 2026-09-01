@@ -1,0 +1,42 @@
+{
+  "proposer_id": "gplearn",
+  "task_id": "FR-02",
+  "generated_unix": 1788224578,
+  "candidates": [
+    {
+      "candidate_id": "gplearn-raw",
+      "expression": "(f2p)-( f1p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "gplearn SymbolicRegressor fit to samples of E_t",
+      "raw_program": "sub(f2p, f1p)"
+    },
+    {
+      "candidate_id": "gplearn-identity",
+      "expression": "(2*e12**2)/(8*e12)*(-(v1c*gab + v1b*gac)*f1p + (v2c*gab + v2b*gac)*f2p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "copy of current; SR did not propose a rewrite"
+    }
+  ],
+  "extra": {
+    "n_features": 9,
+    "features": [
+      "e12",
+      "f1p",
+      "f2p",
+      "gab",
+      "gac",
+      "v1b",
+      "v1c",
+      "v2b",
+      "v2c"
+    ],
+    "runtime_s": 0.25334787368774414,
+    "n_samples": 80,
+    "gplearn": "0.4.3",
+    "seed": 0,
+    "generations": 8,
+    "population_size": 200
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

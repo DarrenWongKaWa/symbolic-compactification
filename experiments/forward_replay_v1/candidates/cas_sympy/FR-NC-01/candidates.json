@@ -1,0 +1,24 @@
+{
+  "proposer_id": "cas_sympy",
+  "task_id": "FR-NC-01",
+  "generated_unix": 1788224555,
+  "candidates": [
+    {
+      "candidate_id": "cas-0",
+      "expression": "v12a*v1b*v21c + v12a*v1c*v21b + v12b*v1c*v21a + v12c*v1b*v21a",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "expand"
+    },
+    {
+      "candidate_id": "cas-1",
+      "expression": "v12a*(v1b*v21c + v1c*v21b) + v21a*(v12b*v1c + v12c*v1b)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "together"
+    }
+  ],
+  "extra": {
+    "sympy": "1.14.0"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

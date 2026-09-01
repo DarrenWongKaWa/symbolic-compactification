@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-08",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "f01p*(-dagbc + (2/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + f02p*(-dagbc + (2/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "f1p=2*f01p, f2p=2*f02p absorb 2*(-1/2) to -dagbc"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "2*f01p*(-Rational(1,2)*dagbc + (1/e12)*(gab*v1c + gac*v1b - 2*gbc*v1a)) + 2*f02p*(-Rational(1,2)*dagbc + (1/e21)*(gab*v2c + gac*v2b - 2*gbc*v2a))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "replace f by 2*f0 without absorbing the 2"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "-dagbc*(f01p + f02p) + (2/e12)*f01p*(gab*v1c + gac*v1b - 2*gbc*v1a) + (2/e21)*f02p*(gab*v2c + gac*v2b - 2*gbc*v2a)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "f0 substitution then collect -dagbc and 2/e channels"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "f01p*(-dagbc + (2/e12)*(v1c*gab + v1b*gac - 2*v1a*gbc)) + f02p*(-dagbc + (2/e21)*(v2c*gab + v2b*gac - 2*v2a*gbc))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "same f0 rewrite with velocity-first parentheses"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

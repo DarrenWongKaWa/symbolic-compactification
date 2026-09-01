@@ -1,0 +1,6 @@
+{
+  "MS-01_gold": "3/3",
+  "MS-01_llm_first": "3/3",
+  "MS-01_cas_first": "3/3",
+  "poison_refused_then_gold_ok": true
+}

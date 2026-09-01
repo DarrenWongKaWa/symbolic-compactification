@@ -1,0 +1,76 @@
+{
+  "rollout_id": "MS-01-poison",
+  "description": "Invalid FR-01 candidate is refused; accepted state remains the original current. A later gold candidate of that original state is still eligible. The refused invalid step did not poison later recovery.",
+  "refused_invalid_did_not_poison_later_recovery": true,
+  "steps": [
+    {
+      "task_id": "FR-01",
+      "proposer_id": "injected_negative",
+      "candidate_id": "neg-sign_flip",
+      "promotion": {
+        "result": "NONZERO",
+        "error_code": null,
+        "promoted": false,
+        "runtime_s": 1.922931,
+        "run_id": "20260901T012720Z-e9aec255"
+      },
+      "target_recovery": {
+        "result": "NONZERO",
+        "error_code": null,
+        "runtime_s": 1.73761,
+        "run_id": "20260901T012721Z-dab1b508"
+      },
+      "recovered": false,
+      "accepted": false,
+      "state_after": "stayed_at_current",
+      "expression": "-(v21a*(v12b*v1c + v1b*v12c) + v12a*(v21b*v1c + v1b*v21c))",
+      "next_state_equals_current": true
+    },
+    {
+      "task_id": "FR-01",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.670825,
+        "run_id": "20260901T012722Z-e5303a0f"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.986695,
+        "run_id": "20260901T012723Z-78deb46e"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "v1c*(v21a*v12b + v12a*v21b) + v1b*(v21a*v12c + v12a*v21c)",
+      "next_state_equals_current": false
+    },
+    {
+      "task_id": "FR-02",
+      "proposer_id": "gold_control",
+      "candidate_id": "gold-hidden-target",
+      "promotion": {
+        "result": "ZERO",
+        "error_code": null,
+        "promoted": true,
+        "runtime_s": 0.787664,
+        "run_id": "20260901T012724Z-6b01de9e"
+      },
+      "target_recovery": {
+        "result": "ZERO",
+        "error_code": null,
+        "runtime_s": 0.74221,
+        "run_id": "20260901T012725Z-930b1ab5"
+      },
+      "recovered": true,
+      "accepted": true,
+      "state_after": "candidate",
+      "expression": "(e12/4)*((gab*v2c + gac*v2b)*f2p - (gab*v1c + gac*v1b)*f1p)",
+      "next_state_equals_current": false
+    }
+  ]
+}

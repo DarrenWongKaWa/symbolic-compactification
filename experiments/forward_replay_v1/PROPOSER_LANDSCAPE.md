@@ -41,8 +41,12 @@ ERRLESS is therefore related work, not an adapter target.
 ## Decision
 
 Third-party symbolic tool actually executed: **gplearn 0.4.3**
-(Python-only GP symbolic regressor). PySR would be preferred if Julia were
-present; its absence is recorded, not faked.
+(Python-only GP symbolic regressor; see `INSTALL_THIRD_PARTY.md`).
+Raw TargetRecovery@1 on the frozen tasks: 0/8. PySR would be preferred if
+Julia were present; its absence was rechecked (`which julia` empty;
+`import pysr` missing) and not faked. AI Feynman was not installed: it is
+the same native class as gplearn, which already satisfied the mandatory
+real-implementation requirement.
 
 CAS family: **SymPy** already in the frozen engine environment.
 

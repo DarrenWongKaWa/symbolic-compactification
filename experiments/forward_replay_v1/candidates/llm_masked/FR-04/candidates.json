@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-04",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "(1/e12)*(f1p*(gab*v1c + gac*v1b - 2*gbc*v1a) - f2p*(gab*v2c + gac*v2b - 2*gbc*v2a))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "collect f1p/f2p; gbc terms double the -v a channel"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "(1/e12)*((v1c*gab + v1b*gac - 2*v1a*gbc)*f1p - (v2c*gab + v2b*gac - 2*v2a*gbc)*f2p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "same collection with original index order inside"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "(1/e12)*(gab*(v1c*f1p - v2c*f2p) + gac*(v1b*f1p - v2b*f2p) + 2*gbc*(v2a*f2p - v1a*f1p))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "collect 1/e12 onto gab/gac/gbc metric channels"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "(1/e12)*(f1p*(v1c*gab + v1b*gac - v1a*gbc) - f2p*(v2c*gab + v2b*gac - v2a*gbc))",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "f-channel collect without doubling gbc (partial cancel)"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

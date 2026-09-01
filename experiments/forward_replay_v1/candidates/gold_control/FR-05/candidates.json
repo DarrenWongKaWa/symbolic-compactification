@@ -1,0 +1,19 @@
+{
+  "proposer_id": "gold_control",
+  "task_id": "FR-05",
+  "generated_unix": 1788224555,
+  "candidates": [
+    {
+      "candidate_id": "gold-hidden-target",
+      "expression": "-(A12a*A21b - A12b*A21a)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "positive control; inserted after generation; not proposer success",
+      "is_gold_control": true
+    }
+  ],
+  "extra": {
+    "inserted_after_generation": true
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

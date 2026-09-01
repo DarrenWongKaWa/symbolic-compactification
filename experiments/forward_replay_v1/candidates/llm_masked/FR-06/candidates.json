@@ -1,0 +1,40 @@
+{
+  "proposer_id": "llm_masked",
+  "task_id": "FR-06",
+  "generated_unix": 1788225423,
+  "candidates": [
+    {
+      "candidate_id": "llm-0",
+      "expression": "(e12/4)*(gac*v1b + gab*v1c)*f1p + (e21/4)*(gac*v2b + gab*v2c)*f2p",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "move minus onto second band via e21=-e12"
+    },
+    {
+      "candidate_id": "llm-1",
+      "expression": "(1/4)*(e12*(gac*v1b + gab*v1c)*f1p + e21*(gac*v2b + gab*v2c)*f2p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "common 1/4 with e12 on band 1 and e21 on band 2"
+    },
+    {
+      "candidate_id": "llm-2",
+      "expression": "(e12/4)*(gac*v1b + gab*v1c)*f1p - (e21/4)*(gac*v2b + gab*v2c)*f2p",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "second band carries e21 but minus is left in place"
+    },
+    {
+      "candidate_id": "llm-3",
+      "expression": "-(e21/4)*((gac*v1b + gab*v1c)*f1p - (gac*v2b + gab*v2c)*f2p)",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "replace overall e12 by -e21 on both bands"
+    }
+  ],
+  "extra": {
+    "model": "grok-isolated-subagent",
+    "subagent_id": "01a05a7d-4632-7a53-a777-6d64d396aa15",
+    "isolation": "prompt contained only contexts/<task_id>/; hidden targets not provided",
+    "k": 4,
+    "source": "candidates/llm_masked/_raw.json"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}

@@ -1,0 +1,1 @@
+mul(mul((v2a)-( v2b), gac), gac)

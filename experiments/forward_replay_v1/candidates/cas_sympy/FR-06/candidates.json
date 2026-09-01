@@ -1,0 +1,30 @@
+{
+  "proposer_id": "cas_sympy",
+  "task_id": "FR-06",
+  "generated_unix": 1788224555,
+  "candidates": [
+    {
+      "candidate_id": "cas-0",
+      "expression": "e12*f1p*gab*v1c/4 + e12*f1p*gac*v1b/4 - e12*f2p*gab*v2c/4 - e12*f2p*gac*v2b/4",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "expand"
+    },
+    {
+      "candidate_id": "cas-1",
+      "expression": "e12*(f1p*gab*v1c + f1p*gac*v1b - f2p*gab*v2c - f2p*gac*v2b)/4",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "factor"
+    },
+    {
+      "candidate_id": "cas-2",
+      "expression": "e12*(f1p*(gab*v1c + gac*v1b) - f2p*(gab*v2c + gac*v2b))/4",
+      "claimed_edge_type": "ALGEBRAIC_EQUIVALENCE",
+      "rationale": "together"
+    }
+  ],
+  "extra": {
+    "sympy": "1.14.0"
+  },
+  "claimed_edge_type_is_not_authoritative": true,
+  "rationale_is_not_authoritative": true
+}
