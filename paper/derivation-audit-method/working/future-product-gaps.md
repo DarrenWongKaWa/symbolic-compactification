@@ -1,12 +1,17 @@
 # Future product gaps (record only)
 
-Engineering remains CLOSED. No v0.2.2. No new rule certificates. No new
-scientific experiment. These gaps were exposed by the two-mode paper rewrite
-and are **not** implementation tasks.
+Engineering remains CLOSED. No v0.2.2. No new rule certificates.
+The masked forward replay lives on
+`experiment/forward-proposer-replay-v1` and must not migrate into `src/`.
+These gaps are **not** implementation tasks.
 
-1. No committed multi-step constructive-derivation demo workspace. Public
-   Forward Mode evidence is one-shot Mode A demos plus session tests with a
-   scripted proposer.
+1. No shipped multi-step constructive-derivation **product** workspace.
+   Public Forward Mode evidence is Mode A demos, session tests with a
+   scripted proposer, and a separate experiment tree
+   (`experiment/forward-proposer-replay-v1`) that must not be mistaken
+   for a workspace `propose` command. Substitution-conditioned paper
+   next-states still cannot be Mode A-promoted without compiling
+   identities (item 7).
 2. No workspace-level `propose` command. Model-assisted proposal is
    experimental and unshipped at the workspace façade.
 3. Context-conditioned representation invention remains unestablished

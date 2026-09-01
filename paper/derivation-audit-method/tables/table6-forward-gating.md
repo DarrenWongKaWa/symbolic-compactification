@@ -13,3 +13,7 @@ Public, frozen evidence only. Proposer is human (Mode A demos) or scripted
 
 Newton divided-difference demo B is a second ZERO illustration of a
 researcher-supplied instance. It is not a search or discovery result.
+
+A later masked replay on public Guo steps is Table 7. That experiment
+uses the same Mode A verifier and does not replace these demo/session
+rows.

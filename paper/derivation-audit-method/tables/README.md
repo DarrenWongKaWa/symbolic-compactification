@@ -7,6 +7,9 @@
 | 3 | `table3-adversarial.md` | RQ2 threat-model attacks |
 | 4 | `table4-capability-boundary.md` | Supported / partial / unsupported |
 | 5 | `table5-related-work.md` | Comparison including two-mode shared graph |
-| 6 | `table6-forward-gating.md` | RQ1 public gating examples |
+| 6 | `table6-forward-gating.md` | RQ1 public gating examples (Mode A demos / session) |
+| 7 | `table7-forward-replay.md` | RQ1 masked Guo forward replay (experiment branch; not a leaderboard) |
 
-Sources: product tag `783ec64`, evidence `69ad474`, Mode A demos. No new experiments.
+Sources: product tag `783ec64`, evidence `69ad474`, Mode A demos, and the
+public experiment branch `experiment/forward-proposer-replay-v1`. The
+experiment does not modify the frozen product.

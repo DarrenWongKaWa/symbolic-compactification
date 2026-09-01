@@ -39,9 +39,14 @@ transformations may be supplied by a human, rules, or an AI proposer, but
 advancement requires independent fail-closed evidence.
 
 Public evidence: Mode A researcher-supplied hypotheses (including ZERO,
-NONZERO, UNKNOWN) and session tests with a scripted proposer. Model-assisted
-proposal is experimental. Context-conditioned representation invention
-remains unestablished.
+NONZERO, UNKNOWN); session tests with a scripted proposer; and a masked
+forward replay of public Guo steps on
+`experiment/forward-proposer-replay-v1` (heterogeneous proposers into the
+frozen Mode A verifier; false promotion 0/36 on injected invalids;
+substitution-conditioned gold recovered as expressions but not promoted
+versus current). Model-assisted proposal is experimental and is not a
+shipped `propose` command. Context-conditioned representation invention
+remains unestablished. TargetRecovery@K is not a paper headline.
 
 ## Retrospective Audit (mature application)
 
