@@ -8,9 +8,9 @@ Claim wording: `manuscript/CLAIM_EVIDENCE_MATRIX.md`
 
 Software authority: tag `v0.3.0-alpha` peels
 `f1d225e46eec3aac17381fb2f7618fa830a8ec79`
-Do not chase `main`. Next allowed step: Related Work re-audit.
-Do not humanize, draw final figures, or start draft-v4 until that audit
-and the figure freeze.
+Do not chase `main`. Related Work re-audit:
+`RELATED_WORK_BOUNDARY_FROZEN` (`manuscript/related_work/`).
+Next allowed step: figures. Not draft-v4, venue, or humanizer.
 
 Prior drafts (preserved, pre-v0.3 authority):
 `manuscript/draft-v2.md`, `draft-v2-audit-only.md`, `draft-v1.md`, `draft-v0.md`
