@@ -1,14 +1,20 @@
 PYTHON ?= .venv/bin/python
 RUNS := research/runs/protocol_v0
 
-.PHONY: venv test benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval sd-test sd-bench sd-dev sd-final sd-cases ai-test ai-dev ai-final
+.PHONY: venv test release-gate benchmark baselines experiments ablations figures paper-data hashes method-v2 bench-v02 final-eval sd-test sd-bench sd-dev sd-final sd-cases ai-test ai-dev ai-final
 
 venv:
 	uv venv .venv --python python3.12
 	uv pip install -e '.[dev]' --python $(PYTHON)
 
+# Historical full suite (not the merge gate). Use `make release-gate`.
 test:
 	$(PYTHON) -m pytest tests/ -q
+
+release-gate:
+	$(PYTHON) -m pytest -q -m release_critical
+	$(PYTHON) -m pytest -q -m derivation_audit_release_critical
+	$(PYTHON) scripts/check_clean_room.py
 
 benchmark:
 	$(PYTHON) benchmark/generation/generate_ssc_bench.py
