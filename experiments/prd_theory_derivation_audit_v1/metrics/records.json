@@ -1,0 +1,710 @@
+{
+  "rows": [
+    {
+      "id": "A-01",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "(FDlightcone) -> (FPFD1)",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "s = sgn(q0), q0 nonzero",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "n\u00b7q = |q0|+|q| after substituting the printed n^mu"
+    },
+    {
+      "id": "A-02",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "(gaugepropagator-xi) -> (gaugepropagator)",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "xi = 0",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "xi-dependent extra term dropped"
+    },
+    {
+      "id": "A-03",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "(eq4)",
+      "move": "definition",
+      "claimed": "DEFINITION",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "M_corr := M(b+c)+M(d+e+f)+M(g+h)"
+    },
+    {
+      "id": "A-04",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "(sampleintegral)",
+      "move": "loop integral",
+      "claimed": "UNSUPPORTED",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "COMPILE_FAILURE",
+      "note": "d^D k 1/((|k0|+|k|)(k+q)^2); not a local residual"
+    },
+    {
+      "id": "A-05",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "(selfgg+selfgn+selfnn+selffp) -> (selfenergy) |q|^2 real",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": "real |q|^2 coefficients in Pi_00 before overall 1/2"
+    },
+    {
+      "id": "A-06",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "(selfenergy) overall 1/2 * inner -> 11/3",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": "matches printed 11/3 in summed Pi_00"
+    },
+    {
+      "id": "A-07",
+      "paper": "Hagiwara et al., PRD 110, 056021",
+      "eq": "UV pole vs full self-energy",
+      "move": "UV pole extraction",
+      "claimed": "APPROXIMATION",
+      "direct": "N/A",
+      "condition": "AUTHOR_DECLARED: keep 1/epsilon pole only (|_{div})",
+      "conditional": "N/A",
+      "final": "UNKNOWN_REMAINDER",
+      "note": "Pi|_{div} is not Pi; remainder of the loop is not certified"
+    },
+    {
+      "id": "B-01",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "(eqn:Gdef)",
+      "move": "definition",
+      "claimed": "DEFINITION",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "G_mu := sum_a G_mu^a t^a"
+    },
+    {
+      "id": "B-02",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "F = -i[P,P]",
+      "move": "definition",
+      "claimed": "DEFINITION",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "field strength from commutator of P=iD"
+    },
+    {
+      "id": "B-03",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "(eqn:defineanomaly)",
+      "move": "weak-alpha expansion",
+      "claimed": "APPROXIMATION",
+      "direct": "N/A",
+      "condition": "AUTHOR_DECLARED: discard O(alpha^2)",
+      "conditional": "N/A",
+      "final": "UNKNOWN_REMAINDER",
+      "note": "A[alpha] + O(alpha^2); no remainder certificate"
+    },
+    {
+      "id": "B-04",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "(eq:A_ren)",
+      "move": "limit procedure",
+      "claimed": "LIMIT_PROCEDURE",
+      "direct": "N/A",
+      "condition": "Lambda -> infinity after counterterm",
+      "conditional": "N/A",
+      "final": "UNKNOWN",
+      "note": "regulator removal is not a local residual"
+    },
+    {
+      "id": "B-05",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "(eqn:CCProperties) double conjugation",
+      "move": "algebra",
+      "claimed": "STRUCTURAL",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "overline{overline{A}}=A; spinor charge conjugation not in Mode A parser"
+    },
+    {
+      "id": "B-06",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "P_mu = i D_mu",
+      "move": "definition",
+      "claimed": "DEFINITION",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": null
+    },
+    {
+      "id": "B-07",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "det(e^{i a} X e^{-i a}) vs det X",
+      "move": "algebra",
+      "claimed": "STRUCTURAL",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "matrix det cyclic identity; not scalar Mode A"
+    },
+    {
+      "id": "B-08",
+      "paper": "Cohen et al., PRD 108, 056027",
+      "eq": "(eq:S_operators)",
+      "move": "definition",
+      "claimed": "STRUCTURAL",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "SMEFT operator list, not an equality"
+    },
+    {
+      "id": "C-01",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-59) -> (D-60)",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": null
+    },
+    {
+      "id": "C-02",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-60) -> (D-61)",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": null
+    },
+    {
+      "id": "C-03",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-71) -> (D-72)",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": null
+    },
+    {
+      "id": "C-04",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-74)",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": null
+    },
+    {
+      "id": "C-05",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-66) -> (D-67)",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "e21 = -e12",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": null
+    },
+    {
+      "id": "C-06",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-126) -> (D-67 compact)",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "f1p = 2*f01p, f2p = 2*f02p",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": null
+    },
+    {
+      "id": "C-07",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-120) -> (D-121)",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": null
+    },
+    {
+      "id": "C-08",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-114) -> (D-119)",
+      "move": "IBP",
+      "claimed": "RULE_MEDIATED",
+      "direct": "N/A",
+      "condition": "BZ torus periodicity",
+      "conditional": "local child ZERO",
+      "final": "CERTIFIED_BY_RULE",
+      "note": "public evidence 69ad474; local Leibniz ZERO is not parent ZERO"
+    },
+    {
+      "id": "C-09",
+      "paper": "Guo et al., PRL 136, 206303",
+      "eq": "(D-57)",
+      "move": "asymptotic truncation",
+      "claimed": "ASYMPTOTIC",
+      "direct": "N/A",
+      "condition": "AUTHOR_DECLARED: O(Gamma) remainder",
+      "conditional": "UNKNOWN",
+      "final": "UNKNOWN_REMAINDER",
+      "note": "not rewritten as sigma - truncated = 0"
+    },
+    {
+      "id": "D-01",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "mu1^2+mu2^2 parameterization",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": null
+    },
+    {
+      "id": "D-02",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "tadpole -> lam1",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "lam1 = -3 lam3 (mu2/mu1)^2 from tadpole=0",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "solve first tadpole for lam1"
+    },
+    {
+      "id": "D-02b",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "tadpole identity after cond",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "lam1 = -3 lam3 (mu2/mu1)^2",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "same tadpole as D-02; retained as vev-parameterized check"
+    },
+    {
+      "id": "D-03",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "m1^2 = -lam3 mu^2 = |lam3| mu^2",
+      "move": "sign convention",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "AUTHOR_DECLARED: lam3 < 0 so -lam3 = |lam3|",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "declared sign, not a dynamical approximation"
+    },
+    {
+      "id": "D-04",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "V at tree vev",
+      "move": "substitution",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "sigma = mu sa, phi = mu ca, cota=cot alpha, tana=tan alpha",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "tree potential at GW vev"
+    },
+    {
+      "id": "D-05",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "(RGE1)",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": "algebra of mu*(dL/dmu)*dV/dL with dL/dmu=-2/mu written as mu*(-2)*dV/dL vs -2*mu*dV/dL"
+    },
+    {
+      "id": "D-06",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "Veff = tree+LL+NLL+... -> LL only",
+      "move": "leading-log truncation",
+      "claimed": "APPROXIMATION",
+      "direct": "N/A",
+      "condition": "AUTHOR_DECLARED: keep leading logarithms, drop NLL+",
+      "conditional": "N/A",
+      "final": "UNKNOWN_REMAINDER",
+      "note": "series truncation; remainder not certified"
+    },
+    {
+      "id": "D-07",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "Gamma_sigma loop",
+      "move": "loop integral",
+      "claimed": "UNSUPPORTED",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "COMPILE_FAILURE",
+      "note": null
+    },
+    {
+      "id": "D-08",
+      "paper": "Souza et al., PRD 107, 105003",
+      "eq": "tree Vmin=0 vs one-loop Vmin",
+      "move": "suspected truncation",
+      "claimed": "APPROXIMATION",
+      "direct": "NONZERO",
+      "condition": "UNDECLARED / inferred only: drop one-loop CW piece",
+      "conditional": "ZERO",
+      "final": "UNDECLARED_APPROXIMATION_REQUIRED",
+      "note": "paper does not claim these two printed minima are equal"
+    },
+    {
+      "id": "E-01",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "(eqn:torsion)",
+      "move": "definition",
+      "claimed": "DEFINITION",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "STRUCTURAL",
+      "note": "T=0 torsion-free constraint"
+    },
+    {
+      "id": "E-02",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "(eqn:metricperturb)",
+      "move": "PPN expansion",
+      "claimed": "APPROXIMATION",
+      "direct": "N/A",
+      "condition": "AUTHOR_DECLARED: discard O(5) in 1/c",
+      "conditional": "N/A",
+      "final": "UNKNOWN_REMAINDER",
+      "note": "g = eta + h^(2)+h^(3)+h^(4)+O(5)"
+    },
+    {
+      "id": "E-03",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "kappa^2 + 2 pi l_Q (a5+a6)=0 -> a5+a6",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "NONZERO",
+      "condition": "Spair := a5+a6 = -kappa^2/(2 pi l_Q)",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "rearrangement of the printed linear equation"
+    },
+    {
+      "id": "E-04",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "general a1 vs STEGR a1",
+      "move": "coupling specialization",
+      "claimed": "APPROXIMATION",
+      "direct": "NONZERO",
+      "condition": "AUTHOR_DECLARED: l_Y = 0 with 3 l_Y^2 + l_X l_Q nonzero",
+      "conditional": "ZERO",
+      "final": "CERTIFIED_UNDER_DECLARED_APPROXIMATION",
+      "note": "printed special-case solution"
+    },
+    {
+      "id": "E-05",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "gamma formula vs 1",
+      "move": "algebra",
+      "claimed": "SUBSTITUTION",
+      "direct": "NONZERO",
+      "condition": "l_Y = 0 (minimally coupled scalar at linear order)",
+      "conditional": "ZERO",
+      "final": "ZERO_UNDER_SUBSTITUTION",
+      "note": "paper states this subclass recovers gamma=1"
+    },
+    {
+      "id": "E-06",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "E_mu nu field equation",
+      "move": "field equation",
+      "claimed": "UNSUPPORTED",
+      "direct": "N/A",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "COMPILE_FAILURE",
+      "note": "covariant derivatives / nonmetricity tensors"
+    },
+    {
+      "id": "E-07",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "Theta_00 PPN",
+      "move": "PPN expansion",
+      "claimed": "APPROXIMATION",
+      "direct": "N/A",
+      "condition": "AUTHOR_DECLARED: discard O(6)",
+      "conditional": "N/A",
+      "final": "UNKNOWN_REMAINDER",
+      "note": "Theta_00 = rho(1+Pi+v^2-h00)+O(6)"
+    },
+    {
+      "id": "E-08",
+      "paper": "Flathmann and Hohmann, PRD 105, 044002",
+      "eq": "a5-a6 and a5+a6 -> a5",
+      "move": "algebra",
+      "claimed": "EXACT_ALGEBRA",
+      "direct": "ZERO",
+      "condition": "none",
+      "conditional": "N/A",
+      "final": "EXACT_ZERO",
+      "note": "a5 = ((a5+a6)+(a5-a6))/2 from printed coeff4nondeg"
+    }
+  ],
+  "controls": [
+    {
+      "id": "A-05-neg-sign",
+      "parent": "A-05",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "A-05-neg-times_two",
+      "parent": "A-05",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "A-05-neg-plus_one",
+      "parent": "A-05",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "A-06-neg-sign",
+      "parent": "A-06",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "A-06-neg-times_two",
+      "parent": "A-06",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "A-06-neg-plus_one",
+      "parent": "A-06",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-01-neg-sign",
+      "parent": "C-01",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-01-neg-times_two",
+      "parent": "C-01",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-01-neg-plus_one",
+      "parent": "C-01",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-02-neg-sign",
+      "parent": "C-02",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-02-neg-times_two",
+      "parent": "C-02",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-02-neg-plus_one",
+      "parent": "C-02",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-03-neg-sign",
+      "parent": "C-03",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-03-neg-times_two",
+      "parent": "C-03",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-03-neg-plus_one",
+      "parent": "C-03",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-04-neg-sign",
+      "parent": "C-04",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-04-neg-times_two",
+      "parent": "C-04",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-04-neg-plus_one",
+      "parent": "C-04",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-07-neg-sign",
+      "parent": "C-07",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-07-neg-times_two",
+      "parent": "C-07",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "C-07-neg-plus_one",
+      "parent": "C-07",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "D-01-neg-sign",
+      "parent": "D-01",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "D-01-neg-times_two",
+      "parent": "D-01",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "D-01-neg-plus_one",
+      "parent": "D-01",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "D-05-neg-sign",
+      "parent": "D-05",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "D-05-neg-times_two",
+      "parent": "D-05",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "D-05-neg-plus_one",
+      "parent": "D-05",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "E-08-neg-sign",
+      "parent": "E-08",
+      "kind": "sign",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "E-08-neg-times_two",
+      "parent": "E-08",
+      "kind": "times_two",
+      "result": "NONZERO",
+      "false_promotion": false
+    },
+    {
+      "id": "E-08-neg-plus_one",
+      "parent": "E-08",
+      "kind": "plus_one",
+      "result": "NONZERO",
+      "false_promotion": false
+    }
+  ],
+  "false_promotions": 0,
+  "n_controls": 30
+}

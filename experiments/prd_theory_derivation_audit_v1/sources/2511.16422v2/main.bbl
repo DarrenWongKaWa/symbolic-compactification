@@ -1,0 +1,250 @@
+%apsrev4-2.bst 2019-01-14 (MD) hand-edited version of apsrev4-1.bst
+%Control: key (0)
+%Control: author (8) initials jnrlst
+%Control: editor formatted (1) identically to author
+%Control: production of article title (0) allowed
+%Control: page (0) single
+%Control: year (1) truncated
+%Control: production of eprint (0) enabled
+\begin{thebibliography}{66}%
+\makeatletter
+\providecommand \@ifxundefined [1]{%
+ \@ifx{#1\undefined}
+}%
+\providecommand \@ifnum [1]{%
+ \ifnum #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \@ifx [1]{%
+ \ifx #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \natexlab [1]{#1}%
+\providecommand \enquote  [1]{``#1''}%
+\providecommand \bibnamefont  [1]{#1}%
+\providecommand \bibfnamefont [1]{#1}%
+\providecommand \citenamefont [1]{#1}%
+\providecommand \href@noop [0]{\@secondoftwo}%
+\providecommand \href [0]{\begingroup \@sanitize@url \@href}%
+\providecommand \@href[1]{\@@startlink{#1}\@@href}%
+\providecommand \@@href[1]{\endgroup#1\@@endlink}%
+\providecommand \@sanitize@url [0]{\catcode `\\12\catcode `\$12\catcode `\&12\catcode `\#12\catcode `\^12\catcode `\_12\catcode `\%12\relax}%
+\providecommand \@@startlink[1]{}%
+\providecommand \@@endlink[0]{}%
+\providecommand \url  [0]{\begingroup\@sanitize@url \@url }%
+\providecommand \@url [1]{\endgroup\@href {#1}{\urlprefix }}%
+\providecommand \urlprefix  [0]{URL }%
+\providecommand \Eprint [0]{\href }%
+\providecommand \doibase [0]{https://doi.org/}%
+\providecommand \selectlanguage [0]{\@gobble}%
+\providecommand \bibinfo  [0]{\@secondoftwo}%
+\providecommand \bibfield  [0]{\@secondoftwo}%
+\providecommand \translation [1]{[#1]}%
+\providecommand \BibitemOpen [0]{}%
+\providecommand \bibitemStop [0]{}%
+\providecommand \bibitemNoStop [0]{.\EOS\space}%
+\providecommand \EOS [0]{\spacefactor3000\relax}%
+\providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
+\let\auto@bib@innerbib\@empty
+%</preamble>
+\bibitem [{\citenamefont {Thouless}\ \emph {et~al.}(1982)\citenamefont {Thouless}, \citenamefont {Kohmoto}, \citenamefont {Nightingale},\ and\ \citenamefont {den Nijs}}]{thouless1982quantized}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.~J.}\ \bibnamefont {Thouless}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Kohmoto}}, \bibinfo {author} {\bibfnamefont {M.~P.}\ \bibnamefont {Nightingale}},\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {den Nijs}},\ }\bibfield  {title} {\bibinfo {title} {Quantized hall conductance in a two-dimensional periodic potential},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {49}},\ \bibinfo {pages} {405} (\bibinfo {year} {1982})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Berry}(1984)}]{berry1984quantal}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.~V.}\ \bibnamefont {Berry}},\ }\bibfield  {title} {\bibinfo {title} {Quantal phase factors accompanying adiabatic changes},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Proceedings of the Royal Society of London. A. Mathematical and Physical Sciences}\ }\textbf {\bibinfo {volume} {392}},\ \bibinfo {pages} {45} (\bibinfo {year} {1984})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Haldane}(1988)}]{haldane1988model}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {F.~D.~M.}\ \bibnamefont {Haldane}},\ }\bibfield  {title} {\bibinfo {title} {Model for a quantum hall effect without landau levels: Condensed-matter realization of the ``parity anomaly''},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {61}},\ \bibinfo {pages} {2015} (\bibinfo {year} {1988})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Sinitsyn}(2007)}]{sinitsyn2007semiclassical}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Sinitsyn}},\ }\bibfield  {title} {\bibinfo {title} {Semiclassical theories of the anomalous hall effect},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Journal of Physics: Condensed Matter}\ }\textbf {\bibinfo {volume} {20}},\ \bibinfo {pages} {023201} (\bibinfo {year} {2007})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Nagaosa}\ \emph {et~al.}(2010)\citenamefont {Nagaosa}, \citenamefont {Sinova}, \citenamefont {Onoda}, \citenamefont {MacDonald},\ and\ \citenamefont {Ong}}]{nagaosa2010anomalous}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Nagaosa}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Sinova}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Onoda}}, \bibinfo {author} {\bibfnamefont {A.~H.}\ \bibnamefont {MacDonald}},\ and\ \bibinfo {author} {\bibfnamefont {N.~P.}\ \bibnamefont {Ong}},\ }\bibfield  {title} {\bibinfo {title} {Anomalous hall effect},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Reviews of modern physics}\ }\textbf {\bibinfo {volume} {82}},\ \bibinfo {pages} {1539} (\bibinfo {year} {2010})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Xiao}\ \emph {et~al.}(2010)\citenamefont {Xiao}, \citenamefont {Chang},\ and\ \citenamefont {Niu}}]{xiao2010berry}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Xiao}}, \bibinfo {author} {\bibfnamefont {M.-C.}\ \bibnamefont {Chang}},\ and\ \bibinfo {author} {\bibfnamefont {Q.}~\bibnamefont {Niu}},\ }\bibfield  {title} {\bibinfo {title} {Berry phase effects on electronic properties},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Reviews of modern physics}\ }\textbf {\bibinfo {volume} {82}},\ \bibinfo {pages} {1959} (\bibinfo {year} {2010})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Resta}(2011)}]{resta2011insulating}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Resta}},\ }\bibfield  {title} {\bibinfo {title} {The insulating state of matter: a geometrical theory},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {The European Physical Journal B}\ }\textbf {\bibinfo {volume} {79}},\ \bibinfo {pages} {121} (\bibinfo {year} {2011})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Tien}\ and\ \citenamefont {Gordon}(1963)}]{tien1963multiphoton}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Tien}}\ and\ \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Gordon}},\ }\bibfield  {title} {\bibinfo {title} {Multiphoton process observed in the interaction of microwave fields with the tunneling between superconductor films},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review}\ }\textbf {\bibinfo {volume} {129}},\ \bibinfo {pages} {647} (\bibinfo {year} {1963})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Mani}\ \emph {et~al.}(2002)\citenamefont {Mani}, \citenamefont {Smet}, \citenamefont {von Klitzing}, \citenamefont {Narayanamurti}, \citenamefont {Johnson},\ and\ \citenamefont {Umansky}}]{mani2002zero}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.~G.}\ \bibnamefont {Mani}}, \bibinfo {author} {\bibfnamefont {J.~H.}\ \bibnamefont {Smet}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {von Klitzing}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Narayanamurti}}, \bibinfo {author} {\bibfnamefont {W.~B.}\ \bibnamefont {Johnson}},\ and\ \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Umansky}},\ }\bibfield  {title} {\bibinfo {title} {Zero-resistance states induced by electromagnetic-wave excitation in gaas/algaas heterostructures},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature}\ }\textbf {\bibinfo {volume} {420}},\ \bibinfo {pages} {646} (\bibinfo {year} {2002})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zudov}\ \emph {et~al.}(2003)\citenamefont {Zudov}, \citenamefont {Du}, \citenamefont {Pfeiffer},\ and\ \citenamefont {West}}]{zudov2003evidence}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Zudov}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Du}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Pfeiffer}},\ and\ \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {West}},\ }\bibfield  {title} {\bibinfo {title} {Evidence for a new dissipationless effect in 2d electronic transport},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {90}},\ \bibinfo {pages} {046807} (\bibinfo {year} {2003})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Bukov}\ \emph {et~al.}(2015)\citenamefont {Bukov}, \citenamefont {D'Alessio},\ and\ \citenamefont {Polkovnikov}}]{bukov2015universal}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Bukov}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {D'Alessio}},\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Polkovnikov}},\ }\bibfield  {title} {\bibinfo {title} {Universal high-frequency behavior of periodically driven systems: from dynamical stabilization to floquet engineering},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Advances in Physics}\ }\textbf {\bibinfo {volume} {64}},\ \bibinfo {pages} {139} (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Sentef}(2017)}]{sentef2017light}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Sentef}},\ }\bibfield  {title} {\bibinfo {title} {Light-enhanced electron-phonon coupling from nonlinear electron-phonon coupling},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {95}},\ \bibinfo {pages} {205111} (\bibinfo {year} {2017})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Oka}\ and\ \citenamefont {Kitamura}(2019)}]{oka2019floquet}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Oka}}\ and\ \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Kitamura}},\ }\bibfield  {title} {\bibinfo {title} {Floquet engineering of quantum materials},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Annual Review of Condensed Matter Physics}\ }\textbf {\bibinfo {volume} {10}},\ \bibinfo {pages} {387} (\bibinfo {year} {2019})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Kumari}\ \emph {et~al.}(2024)\citenamefont {Kumari}, \citenamefont {Seradjeh},\ and\ \citenamefont {Kundu}}]{kumari2024josephson}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Kumari}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Seradjeh}},\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kundu}},\ }\bibfield  {title} {\bibinfo {title} {Josephson-current signatures of unpaired floquet majorana fermions},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {133}},\ \bibinfo {pages} {196601} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Le}\ \emph {et~al.}(2024)\citenamefont {Le}, \citenamefont {Jiang}, \citenamefont {Tu}, \citenamefont {Bian}, \citenamefont {Ma}, \citenamefont {Shi}, \citenamefont {Jia}, \citenamefont {Li}, \citenamefont {Lyu}, \citenamefont {Cao} \emph {et~al.}}]{le2024inverse}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Le}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Jiang}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Tu}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Bian}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Ma}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Shi}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Jia}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Li}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Lyu}}, \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Cao}}, \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Inverse-current quantum electro-oscillations in a charge density wave insulator},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {109}},\ \bibinfo {pages} {245123} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Eckhardt}\ \emph {et~al.}(2024)\citenamefont {Eckhardt}, \citenamefont {Chattopadhyay}, \citenamefont {Kennes}, \citenamefont {Demler}, \citenamefont {Sentef},\ and\ \citenamefont {Michael}}]{eckhardt2024theory}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.~J.}\ \bibnamefont {Eckhardt}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Chattopadhyay}}, \bibinfo {author} {\bibfnamefont {D.~M.}\ \bibnamefont {Kennes}}, \bibinfo {author} {\bibfnamefont {E.~A.}\ \bibnamefont {Demler}}, \bibinfo {author} {\bibfnamefont {M.~A.}\ \bibnamefont {Sentef}},\ and\ \bibinfo {author} {\bibfnamefont {M.~H.}\ \bibnamefont {Michael}},\ }\bibfield  {title} {\bibinfo {title} {Theory of resonantly enhanced photo-induced superconductivity},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature Communications}\ }\textbf {\bibinfo {volume} {15}},\ \bibinfo {pages} {2300} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Matsyshyn}\ \emph {et~al.}(2023)\citenamefont {Matsyshyn}, \citenamefont {Song}, \citenamefont {Villadiego},\ and\ \citenamefont {Shi}}]{matsyshyn2023fermi}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Matsyshyn}}, \bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont {Song}}, \bibinfo {author} {\bibfnamefont {I.~S.}\ \bibnamefont {Villadiego}},\ and\ \bibinfo {author} {\bibfnamefont {L.-k.}\ \bibnamefont {Shi}},\ }\bibfield  {title} {\bibinfo {title} {Fermi-dirac staircase occupation of floquet bands and current rectification inside the optical gap of metals: An exact approach},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {107}},\ \bibinfo {pages} {195135} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zhu}\ and\ \citenamefont {Alexandradinata}(2024)}]{zhu2024anomalous}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Zhu}}\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Alexandradinata}},\ }\bibfield  {title} {\bibinfo {title} {Anomalous shift and optical vorticity in the steady photovoltaic current},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {110}},\ \bibinfo {pages} {115108} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Shi}\ \emph {et~al.}(2024)\citenamefont {Shi}, \citenamefont {Matsyshyn}, \citenamefont {Song},\ and\ \citenamefont {Villadiego}}]{shi2024floquet}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.-k.}\ \bibnamefont {Shi}}, \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Matsyshyn}}, \bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont {Song}},\ and\ \bibinfo {author} {\bibfnamefont {I.~S.}\ \bibnamefont {Villadiego}},\ }\bibfield  {title} {\bibinfo {title} {Floquet fermi liquid},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {132}},\ \bibinfo {pages} {146402} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Shi}\ \emph {et~al.}(2025)\citenamefont {Shi}, \citenamefont {Matsyshyn}, \citenamefont {Song},\ and\ \citenamefont {Villadiego}}]{shi2025ultracritical}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.-k.}\ \bibnamefont {Shi}}, \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Matsyshyn}}, \bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont {Song}},\ and\ \bibinfo {author} {\bibfnamefont {I.~S.}\ \bibnamefont {Villadiego}},\ }\bibfield  {title} {\bibinfo {title} {Ultracritical floquet non-fermi liquid},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {134}},\ \bibinfo {pages} {196401} (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Provost}\ and\ \citenamefont {Vallee}(1980)}]{QGT_Provost_1980}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~P.}\ \bibnamefont {Provost}}\ and\ \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Vallee}},\ }\bibfield  {title} {\bibinfo {title} {{Riemannian structure on manifolds of quantum states}},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Commun. Math. Phys.}\ }\textbf {\bibinfo {volume} {76}},\ \bibinfo {pages} {289} (\bibinfo {year} {1980})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Pati}(1991)}]{QGT_PATI_1991}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.~K.}\ \bibnamefont {Pati}},\ }\bibfield  {title} {\bibinfo {title} {{Relation between “phases” and “distance” in quantum evolution}},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys. Lett. A}\ }\textbf {\bibinfo {volume} {159}},\ \bibinfo {pages} {105} (\bibinfo {year} {1991})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Gao}\ \emph {et~al.}(2014)\citenamefont {Gao}, \citenamefont {Yang},\ and\ \citenamefont {Niu}}]{gao2014field}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Gao}}, \bibinfo {author} {\bibfnamefont {S.~A.}\ \bibnamefont {Yang}},\ and\ \bibinfo {author} {\bibfnamefont {Q.}~\bibnamefont {Niu}},\ }\bibfield  {title} {\bibinfo {title} {Field induced positional shift of bloch electrons and its dynamical implications},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {112}},\ \bibinfo {pages} {166601} (\bibinfo {year} {2014})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Sodemann}\ and\ \citenamefont {Fu}(2015)}]{sodemann2015quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Sodemann}}\ and\ \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Fu}},\ }\bibfield  {title} {\bibinfo {title} {Quantum nonlinear hall effect induced by berry curvature dipole in time-reversal invariant materials},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {115}},\ \bibinfo {pages} {216806} (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Peotta}\ and\ \citenamefont {T{\"o}rm{\"a}}(2015)}]{peotta2015superfluidity}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Peotta}}\ and\ \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {T{\"o}rm{\"a}}},\ }\bibfield  {title} {\bibinfo {title} {Superfluidity in topologically nontrivial flat bands},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature communications}\ }\textbf {\bibinfo {volume} {6}},\ \bibinfo {pages} {8944} (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Nagaosa}\ and\ \citenamefont {Morimoto}(2017)}]{nagaosa2017concept}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Nagaosa}}\ and\ \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Morimoto}},\ }\bibfield  {title} {\bibinfo {title} {Concept of quantum geometry in optoelectronic processes in solids: application to solar cells},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Advanced Materials}\ }\textbf {\bibinfo {volume} {29}},\ \bibinfo {pages} {1603345} (\bibinfo {year} {2017})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wang}\ and\ \citenamefont {Qian}(2019)}]{wang2019ferroelectric}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Wang}}\ and\ \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Qian}},\ }\bibfield  {title} {\bibinfo {title} {Ferroelectric nonlinear anomalous hall effect in few-layer wte2},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {npj Computational Materials}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo {pages} {119} (\bibinfo {year} {2019})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Matsyshyn}\ and\ \citenamefont {Sodemann}(2019)}]{matsyshyn2019nonlinear}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Matsyshyn}}\ and\ \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Sodemann}},\ }\bibfield  {title} {\bibinfo {title} {Nonlinear hall acceleration and the quantum rectification sum rule},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {123}},\ \bibinfo {pages} {246602} (\bibinfo {year} {2019})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Ma}\ \emph {et~al.}(2019)\citenamefont {Ma}, \citenamefont {Xu}, \citenamefont {Shen}, \citenamefont {MacNeill}, \citenamefont {Fatemi}, \citenamefont {Chang}, \citenamefont {Mier~Valdivia}, \citenamefont {Wu}, \citenamefont {Du}, \citenamefont {Hsu} \emph {et~al.}}]{ma2019observation}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Q.}~\bibnamefont {Ma}}, \bibinfo {author} {\bibfnamefont {S.-Y.}\ \bibnamefont {Xu}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Shen}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {MacNeill}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Fatemi}}, \bibinfo {author} {\bibfnamefont {T.-R.}\ \bibnamefont {Chang}}, \bibinfo {author} {\bibfnamefont {A.~M.}\ \bibnamefont {Mier~Valdivia}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Wu}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Du}}, \bibinfo {author} {\bibfnamefont {C.-H.}\ \bibnamefont {Hsu}}, \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Observation of the nonlinear hall effect under time-reversal-symmetric conditions},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature}\ }\textbf {\bibinfo {volume} {565}},\ \bibinfo {pages} {337} (\bibinfo {year} {2019})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Xie}\ \emph {et~al.}(2020)\citenamefont {Xie}, \citenamefont {Song}, \citenamefont {Lian},\ and\ \citenamefont {Bernevig}}]{xie2020topology}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {F.}~\bibnamefont {Xie}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Song}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Lian}},\ and\ \bibinfo {author} {\bibfnamefont {B.~A.}\ \bibnamefont {Bernevig}},\ }\bibfield  {title} {\bibinfo {title} {Topology-bounded superfluid weight in twisted bilayer graphene},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {124}},\ \bibinfo {pages} {167002} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Watanabe}\ and\ \citenamefont {Yanase}(2020)}]{watanabe2020nonlinear}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Watanabe}}\ and\ \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Yanase}},\ }\bibfield  {title} {\bibinfo {title} {Nonlinear electric transport in odd-parity magnetic multipole systems: Application to mn-based compounds},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Research}\ }\textbf {\bibinfo {volume} {2}},\ \bibinfo {pages} {043081} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Watanabe}\ and\ \citenamefont {Yanase}(2021)}]{watanabe2021chiral}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Watanabe}}\ and\ \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Yanase}},\ }\bibfield  {title} {\bibinfo {title} {Chiral photocurrent in parity-violating magnet and enhanced response in topological antiferromagnet},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review X}\ }\textbf {\bibinfo {volume} {11}},\ \bibinfo {pages} {011001} (\bibinfo {year} {2021})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wang}\ \emph {et~al.}(2021)\citenamefont {Wang}, \citenamefont {Gao},\ and\ \citenamefont {Xiao}}]{wang2021intrinsic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Wang}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Gao}},\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Xiao}},\ }\bibfield  {title} {\bibinfo {title} {Intrinsic nonlinear hall effect in antiferromagnetic tetragonal cumnas},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {127}},\ \bibinfo {pages} {277201} (\bibinfo {year} {2021})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Liu}\ \emph {et~al.}(2021)\citenamefont {Liu}, \citenamefont {Zhao}, \citenamefont {Huang}, \citenamefont {Wu}, \citenamefont {Sheng}, \citenamefont {Xiao},\ and\ \citenamefont {Yang}}]{liu2021intrinsic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Liu}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Zhao}}, \bibinfo {author} {\bibfnamefont {Y.-X.}\ \bibnamefont {Huang}}, \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Wu}}, \bibinfo {author} {\bibfnamefont {X.-L.}\ \bibnamefont {Sheng}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Xiao}},\ and\ \bibinfo {author} {\bibfnamefont {S.~A.}\ \bibnamefont {Yang}},\ }\bibfield  {title} {\bibinfo {title} {Intrinsic second-order anomalous hall effect and its application in compensated antiferromagnets},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {127}},\ \bibinfo {pages} {277202} (\bibinfo {year} {2021})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Cayssol}\ and\ \citenamefont {Fuchs}(2021)}]{cayssol2021topological}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Cayssol}}\ and\ \bibinfo {author} {\bibfnamefont {J.-N.}\ \bibnamefont {Fuchs}},\ }\bibfield  {title} {\bibinfo {title} {Topological and geometrical aspects of band theory},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Journal of Physics: Materials}\ }\textbf {\bibinfo {volume} {4}},\ \bibinfo {pages} {034007} (\bibinfo {year} {2021})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Du}\ \emph {et~al.}(2021)\citenamefont {Du}, \citenamefont {Wang}, \citenamefont {Sun}, \citenamefont {Lu},\ and\ \citenamefont {Xie}}]{du2021quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Du}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Wang}}, \bibinfo {author} {\bibfnamefont {H.-P.}\ \bibnamefont {Sun}}, \bibinfo {author} {\bibfnamefont {H.-Z.}\ \bibnamefont {Lu}},\ and\ \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Xie}},\ }\bibfield  {title} {\bibinfo {title} {Quantum theory of the nonlinear hall effect},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature communications}\ }\textbf {\bibinfo {volume} {12}},\ \bibinfo {pages} {5038} (\bibinfo {year} {2021})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Oiwa}\ and\ \citenamefont {Kusunose}(2022)}]{oiwa2022systematic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Oiwa}}\ and\ \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Kusunose}},\ }\bibfield  {title} {\bibinfo {title} {Systematic analysis method for nonlinear response tensors},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Journal of the Physical Society of Japan}\ }\textbf {\bibinfo {volume} {91}},\ \bibinfo {pages} {014701} (\bibinfo {year} {2022})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {T{\"o}rm{\"a}}(2023)}]{torma2023essay}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {T{\"o}rm{\"a}}},\ }\bibfield  {title} {\bibinfo {title} {Essay: Where can quantum geometry lead us?},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {131}},\ \bibinfo {pages} {240001} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Das}\ \emph {et~al.}(2023)\citenamefont {Das}, \citenamefont {Lahiri}, \citenamefont {Atencia}, \citenamefont {Culcer},\ and\ \citenamefont {Agarwal}}]{das2023intrinsic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Das}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Lahiri}}, \bibinfo {author} {\bibfnamefont {R.~B.}\ \bibnamefont {Atencia}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Culcer}},\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Agarwal}},\ }\bibfield  {title} {\bibinfo {title} {Intrinsic nonlinear conductivities induced by the quantum metric},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo {pages} {L201405} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Kirikoshi}\ and\ \citenamefont {Hayami}(2023)}]{kirikoshi2023microscopic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kirikoshi}}\ and\ \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Hayami}},\ }\bibfield  {title} {\bibinfo {title} {Microscopic mechanism for intrinsic nonlinear anomalous hall conductivity in noncollinear antiferromagnetic metals},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {107}},\ \bibinfo {pages} {155109} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Shi}\ \emph {et~al.}(2023)\citenamefont {Shi}, \citenamefont {Matsyshyn}, \citenamefont {Song},\ and\ \citenamefont {Villadiego}}]{shi2023berry}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.-k.}\ \bibnamefont {Shi}}, \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Matsyshyn}}, \bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont {Song}},\ and\ \bibinfo {author} {\bibfnamefont {I.~S.}\ \bibnamefont {Villadiego}},\ }\bibfield  {title} {\bibinfo {title} {Berry-dipole photovoltaic demon and the thermodynamics of photocurrent generation within the optical gap of metals},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {107}},\ \bibinfo {pages} {125151} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wang}\ \emph {et~al.}(2023)\citenamefont {Wang}, \citenamefont {Kaplan}, \citenamefont {Zhang}, \citenamefont {Holder}, \citenamefont {Cao}, \citenamefont {Wang}, \citenamefont {Zhou}, \citenamefont {Zhou}, \citenamefont {Jiang}, \citenamefont {Zhang} \emph {et~al.}}]{wang2023quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Wang}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Kaplan}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Zhang}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Holder}}, \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Cao}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Wang}}, \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Zhou}}, \bibinfo {author} {\bibfnamefont {F.}~\bibnamefont {Zhou}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Jiang}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Zhang}}, \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Quantum-metric-induced nonlinear transport in a topological antiferromagnet},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature}\ }\textbf {\bibinfo {volume} {621}},\ \bibinfo {pages} {487} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Gao}\ \emph {et~al.}(2023)\citenamefont {Gao}, \citenamefont {Liu}, \citenamefont {Qiu}, \citenamefont {Ghosh}, \citenamefont {V.~Trevisan}, \citenamefont {Onishi}, \citenamefont {Hu}, \citenamefont {Qian}, \citenamefont {Tien}, \citenamefont {Chen} \emph {et~al.}}]{gao2023quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Gao}}, \bibinfo {author} {\bibfnamefont {Y.-F.}\ \bibnamefont {Liu}}, \bibinfo {author} {\bibfnamefont {J.-X.}\ \bibnamefont {Qiu}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Ghosh}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {V.~Trevisan}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Onishi}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Hu}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Qian}}, \bibinfo {author} {\bibfnamefont {H.-J.}\ \bibnamefont {Tien}}, \bibinfo {author} {\bibfnamefont {S.-W.}\ \bibnamefont {Chen}}, \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Quantum metric nonlinear hall effect in a topological antiferromagnetic heterostructure},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Science}\ }\textbf {\bibinfo {volume} {381}},\ \bibinfo {pages} {181} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Het{\'e}nyi}\ and\ \citenamefont {L{\'e}vay}(2023)}]{hetenyi2023fluctuations}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Het{\'e}nyi}}\ and\ \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {L{\'e}vay}},\ }\bibfield  {title} {\bibinfo {title} {Fluctuations, uncertainty relations, and the geometry of quantum state manifolds},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review A}\ }\textbf {\bibinfo {volume} {108}},\ \bibinfo {pages} {032218} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Gao}\ \emph {et~al.}(2024)\citenamefont {Gao}, \citenamefont {Chen}, \citenamefont {Ghosh}, \citenamefont {Qiu}, \citenamefont {Liu}, \citenamefont {Onishi}, \citenamefont {Hu}, \citenamefont {Qian}, \citenamefont {B{\'e}rub{\'e}}, \citenamefont {Dinh} \emph {et~al.}}]{gao2024antiferromagnetic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Gao}}, \bibinfo {author} {\bibfnamefont {S.-W.}\ \bibnamefont {Chen}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Ghosh}}, \bibinfo {author} {\bibfnamefont {J.-X.}\ \bibnamefont {Qiu}}, \bibinfo {author} {\bibfnamefont {Y.-F.}\ \bibnamefont {Liu}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Onishi}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Hu}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Qian}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {B{\'e}rub{\'e}}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Dinh}}, \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {An antiferromagnetic diode effect in even-layered mnbi2te4},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature Electronics}\ }\textbf {\bibinfo {volume} {7}},\ \bibinfo {pages} {751} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wang}\ \emph {et~al.}(2024)\citenamefont {Wang}, \citenamefont {Zhang}, \citenamefont {Zhu},\ and\ \citenamefont {Su}}]{wang2024intrinsic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Wang}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont {Zhang}}, \bibinfo {author} {\bibfnamefont {Z.-G.}\ \bibnamefont {Zhu}},\ and\ \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Su}},\ }\bibfield  {title} {\bibinfo {title} {Intrinsic nonlinear ohmic current},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {109}},\ \bibinfo {pages} {085419} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Kaplan}\ \emph {et~al.}(2024)\citenamefont {Kaplan}, \citenamefont {Holder},\ and\ \citenamefont {Yan}}]{kaplan2024unification}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Kaplan}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Holder}},\ and\ \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Yan}},\ }\bibfield  {title} {\bibinfo {title} {Unification of nonlinear anomalous hall effect and nonreciprocal magnetoresistance in metals by the quantum geometry},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {132}},\ \bibinfo {pages} {026301} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Mehraeen}(2024)}]{mehraeen2024quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Mehraeen}},\ }\bibfield  {title} {\bibinfo {title} {Quantum kinetic theory of quadratic responses},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {110}},\ \bibinfo {pages} {174423} (\bibinfo {year} {2024})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Liu}\ \emph {et~al.}(2025)\citenamefont {Liu}, \citenamefont {Qiang}, \citenamefont {Lu},\ and\ \citenamefont {Xie}}]{liu2025quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Liu}}, \bibinfo {author} {\bibfnamefont {X.-B.}\ \bibnamefont {Qiang}}, \bibinfo {author} {\bibfnamefont {H.-Z.}\ \bibnamefont {Lu}},\ and\ \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Xie}},\ }\bibfield  {title} {\bibinfo {title} {Quantum geometry in condensed matter},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {National Science Review}\ }\textbf {\bibinfo {volume} {12}},\ \bibinfo {pages} {nwae334} (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zhu}\ \emph {et~al.}(2025)\citenamefont {Zhu}, \citenamefont {Li}, \citenamefont {Chen}, \citenamefont {Yu},\ and\ \citenamefont {Liu}}]{zhu2025magnetic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Zhu}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Li}}, \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Chen}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Yu}},\ and\ \bibinfo {author} {\bibfnamefont {Q.}~\bibnamefont {Liu}},\ }\bibfield  {title} {\bibinfo {title} {Magnetic geometry induced quantum geometry and nonlinear transports},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Nature Communications}\ }\textbf {\bibinfo {volume} {16}},\ \bibinfo {pages} {4882} (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Qiang}\ \emph {et~al.}(2025)\citenamefont {Qiang}, \citenamefont {Liu}, \citenamefont {Gao}, \citenamefont {Lu},\ and\ \citenamefont {Xie}}]{qiang2025clarification}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {X.-B.}\ \bibnamefont {Qiang}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Liu}}, \bibinfo {author} {\bibfnamefont {Z.-X.}\ \bibnamefont {Gao}}, \bibinfo {author} {\bibfnamefont {H.-Z.}\ \bibnamefont {Lu}},\ and\ \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Xie}},\ }\bibfield  {title} {\bibinfo {title} {A clarification on quantum-metric-induced nonlinear transport},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {arXiv preprint arXiv:2508.02088}\ } (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Ulrich}\ \emph {et~al.}(2025)\citenamefont {Ulrich}, \citenamefont {Mitscherling}, \citenamefont {Classen},\ and\ \citenamefont {Schnyder}}]{ulrich2025quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Ulrich}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Mitscherling}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Classen}},\ and\ \bibinfo {author} {\bibfnamefont {A.~P.}\ \bibnamefont {Schnyder}},\ }\bibfield  {title} {\bibinfo {title} {Quantum geometric origin of the intrinsic nonlinear hall effect},\ }\href {https://arxiv.org/abs/2506.17386v1} {\bibfield  {journal} {\bibinfo  {journal} {arXiv preprint arXiv:2506.17386v1}\ } (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Xiao}\ \emph {et~al.}(2025)\citenamefont {Xiao}, \citenamefont {Cao}, \citenamefont {Niu},\ and\ \citenamefont {Yang}}]{xiao2025proper}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Xiao}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Cao}}, \bibinfo {author} {\bibfnamefont {Q.}~\bibnamefont {Niu}},\ and\ \bibinfo {author} {\bibfnamefont {S.~A.}\ \bibnamefont {Yang}},\ }\bibfield  {title} {\bibinfo {title} {Proper definition of intrinsic nonlinear current},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {135}},\ \bibinfo {pages} {256306} (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Resta}(2025)}]{resta2025intrinsic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Resta}},\ }\bibfield  {title} {\bibinfo {title} {Intrinsic nonlinear hall effect beyond bloch geometry},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {arXiv preprint arXiv:2510.19515}\ } (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Fontana}\ \emph {et~al.}(2025)\citenamefont {Fontana}, \citenamefont {Velasco}, \citenamefont {Niu}, \citenamefont {Ye}, \citenamefont {Lopes}, \citenamefont {de~Souza}, \citenamefont {Moutinho}, \citenamefont {Lewenkopf},\ and\ \citenamefont {Neto}}]{fontana2025quantum}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Fontana}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Velasco}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Niu}}, \bibinfo {author} {\bibfnamefont {P.~D.}\ \bibnamefont {Ye}}, \bibinfo {author} {\bibfnamefont {P.~V.}\ \bibnamefont {Lopes}}, \bibinfo {author} {\bibfnamefont {K.~E.}\ \bibnamefont {de~Souza}}, \bibinfo {author} {\bibfnamefont {M.~V.}\ \bibnamefont {Moutinho}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Lewenkopf}},\ and\ \bibinfo {author} {\bibfnamefont {M.~B.~S.}\ \bibnamefont {Neto}},\ }\bibfield  {title} {\bibinfo {title} {Quantum geometry and the electric magnetochiral anisotropy in noncentrosymmetric polar media},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {135}},\ \bibinfo {pages} {106602} (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Mehraeen}(2025)}]{mehraeen2025_gravity}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Mehraeen}},\ }\bibfield  {title} {\bibinfo {title} {Quantum response theory and momentum-space gravity},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {135}},\ \bibinfo {pages} {156302} (\bibinfo {year} {2025})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Seetharam}\ \emph {et~al.}(2015)\citenamefont {Seetharam}, \citenamefont {Bardyn}, \citenamefont {Lindner}, \citenamefont {Rudner},\ and\ \citenamefont {Refael}}]{seetharam2015controlled}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.~I.}\ \bibnamefont {Seetharam}}, \bibinfo {author} {\bibfnamefont {C.-E.}\ \bibnamefont {Bardyn}}, \bibinfo {author} {\bibfnamefont {N.~H.}\ \bibnamefont {Lindner}}, \bibinfo {author} {\bibfnamefont {M.~S.}\ \bibnamefont {Rudner}},\ and\ \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Refael}},\ }\bibfield  {title} {\bibinfo {title} {Controlled population of floquet-bloch states via coupling to bose and fermi baths},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review X}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo {pages} {041050} (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Morimoto}\ and\ \citenamefont {Nagaosa}(2016)}]{morimoto2016topological}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Morimoto}}\ and\ \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Nagaosa}},\ }\bibfield  {title} {\bibinfo {title} {Topological nature of nonlinear optical effects in solids},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Science advances}\ }\textbf {\bibinfo {volume} {2}},\ \bibinfo {pages} {e1501524} (\bibinfo {year} {2016})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Matsyshyn}\ \emph {et~al.}(2021)\citenamefont {Matsyshyn}, \citenamefont {Piazza}, \citenamefont {Moessner},\ and\ \citenamefont {Sodemann}}]{matsyshyn2021rabi}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Matsyshyn}}, \bibinfo {author} {\bibfnamefont {F.}~\bibnamefont {Piazza}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Moessner}},\ and\ \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Sodemann}},\ }\bibfield  {title} {\bibinfo {title} {Rabi regime of current rectification in solids},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review Letters}\ }\textbf {\bibinfo {volume} {127}},\ \bibinfo {pages} {126604} (\bibinfo {year} {2021})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Gerchikov}\ \emph {et~al.}(1989)\citenamefont {Gerchikov}, \citenamefont {Parshin},\ and\ \citenamefont {Shabaev}}]{gerchikov1989theory}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Gerchikov}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Parshin}},\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Shabaev}},\ }\bibfield  {title} {\bibinfo {title} {Theory of resonance saturation of ir absorption in semiconductors with degenerate resonance bands in electric and magnetic fields},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Zh. Eksp. Teor. Fiz}\ }\textbf {\bibinfo {volume} {96}},\ \bibinfo {pages} {1046} (\bibinfo {year} {1989})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Jauho}\ \emph {et~al.}(1994)\citenamefont {Jauho}, \citenamefont {Wingreen},\ and\ \citenamefont {Meir}}]{jauho1994time}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.-P.}\ \bibnamefont {Jauho}}, \bibinfo {author} {\bibfnamefont {N.~S.}\ \bibnamefont {Wingreen}},\ and\ \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Meir}},\ }\bibfield  {title} {\bibinfo {title} {Time-dependent transport in interacting and noninteracting resonant-tunneling systems},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {50}},\ \bibinfo {pages} {5528} (\bibinfo {year} {1994})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Johnsen}\ and\ \citenamefont {Jauho}(1999)}]{johnsen1999quasienergy}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Johnsen}}\ and\ \bibinfo {author} {\bibfnamefont {A.-P.}\ \bibnamefont {Jauho}},\ }\bibfield  {title} {\bibinfo {title} {Quasienergy spectroscopy of excitons},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical review letters}\ }\textbf {\bibinfo {volume} {83}},\ \bibinfo {pages} {1207} (\bibinfo {year} {1999})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Kohler}\ \emph {et~al.}(2005)\citenamefont {Kohler}, \citenamefont {Lehmann},\ and\ \citenamefont {H{\"a}nggi}}]{kohler2005driven}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Kohler}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Lehmann}},\ and\ \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {H{\"a}nggi}},\ }\bibfield  {title} {\bibinfo {title} {Driven quantum transport on the nanoscale},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physics Reports}\ }\textbf {\bibinfo {volume} {406}},\ \bibinfo {pages} {379} (\bibinfo {year} {2005})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Kamenev}(2011)}]{kamenev2011field}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kamenev}},\ }\href@noop {} {\emph {\bibinfo {title} {Field Theory of Non-Equilibrium Systems}}}\ (\bibinfo  {publisher} {Cambridge University Press},\ \bibinfo {year} {2011})\BibitemShut {NoStop}%
+\bibitem [{sup()}]{supplemental}%
+  \BibitemOpen
+  \href@noop {} {}\bibinfo {note} {See Supplemental Material [url] for detailed derivations, which includes Refs.~\cite{gerchikov1989theory,jauho1994time,johnsen1999quasienergy,kohler2005driven,kamenev2011field,fregoso2013driven,nagaosa2017concept,matsyshyn2021rabi,matsyshyn2023fermi,das2023intrinsic}.}\BibitemShut {Stop}%
+\bibitem [{\citenamefont {Fregoso}\ \emph {et~al.}(2013)\citenamefont {Fregoso}, \citenamefont {Wang}, \citenamefont {Gedik},\ and\ \citenamefont {Galitski}}]{fregoso2013driven}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.~M.}\ \bibnamefont {Fregoso}}, \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Wang}}, \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Gedik}},\ and\ \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Galitski}},\ }\bibfield  {title} {\bibinfo {title} {Driven electronic states at the surface of a topological insulator},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physical Review B}\ }\textbf {\bibinfo {volume} {88}},\ \bibinfo {pages} {155129} (\bibinfo {year} {2013})}\BibitemShut {NoStop}%
+\end{thebibliography}%

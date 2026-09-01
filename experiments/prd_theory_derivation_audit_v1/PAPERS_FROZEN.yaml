@@ -1,0 +1,64 @@
+schema_version: PRDTheoryDerivationAuditPapersV1
+campaign: PRD_THEORY_DERIVATION_AUDIT_V1
+product_tag: derivation-audit-v0.2.1-alpha
+product_commit: 783ec64c0bb4ffd0b4b6ad33f33ead96dba49087
+frozen_before_adjudication: true
+equation_selection_rule: >
+  For each paper, take 7-9 printed transitions from the public arXiv
+  .tex that mix exact algebra, substitution, declared approximation,
+  theorem/limit/remainder, and at least one unsupported integral or
+  tensor object. Do not replace a paper after seeing verifier output.
+  Guo edges reuse the public transcription already frozen on
+  engineering/real-paper-validation-arxiv-2511-16422 @ 69ad474.
+papers:
+- paper_id: A
+  family: perturbative_QFT_loop
+  short: Hagiwara et al., PRD 110, 056021
+  title: One-loop QCD amplitudes in the Feynman-diagram gauge
+  authors: Kaoru Hagiwara, Kentarou Mawatari, Youichi Yamada, Ya-Juan Zheng
+  journal: Phys. Rev. D 110, 056021 (2024)
+  doi: 10.1103/PhysRevD.110.056021
+  arxiv: 2407.11527v1
+  source: sources/2407.11527v1/fdloop.tex
+  tarball_sha256: 6b0fe3159e86610959e58406b2cda4d4c647515487c6c77a6276e45074c91b5a
+- paper_id: B
+  family: EFT_operator_expansion
+  short: Cohen et al., PRD 108, 056027
+  title: Anomaly Cancellation in Effective Field Theories From the Covariant Derivative Expansion
+  authors: Timothy Cohen, Xiaochuan Lu, Zhengkang Zhang
+  journal: Phys. Rev. D 108, 056027 (2023)
+  doi: 10.1103/PhysRevD.108.056027
+  arxiv: 2301.00827v1
+  source: sources/2301.00827v1/Anomalies_smeft_arXiv_v1.tex
+  tarball_sha256: b49e5a069c15e00a37cca36a47526a8b683505811658d4e8f5bfdf18bf6efa8a
+- paper_id: C
+  family: response_thermal_transport
+  short: Guo et al., PRL 136, 206303
+  title: Dissipation-Shaped Quantum Geometry in Nonlinear Transport
+  authors: Zhichao Guo et al.
+  journal: Phys. Rev. Lett. 136, 206303 (2026)
+  doi: 10.1103/PhysRevLett.136.206303
+  arxiv: 2511.16422v2
+  source: sources/2511.16422v2/main.tex
+  tarball_sha256: f074c3045aa17627ddf974895847ed5842e84cbf7b7c755a66700ff2fa01a9e9
+  public_transcription: evidence commit 69ad474
+- paper_id: D
+  family: phenomenology_effective_potential
+  short: Souza et al., PRD 107, 105003
+  title: Improved effective potential of Gildener-Weinberg models
+  authors: Huan Souza, L. H. S. Ribeiro, A. C. Lehum
+  journal: Phys. Rev. D 107, 105003 (2023)
+  doi: 10.1103/PhysRevD.107.105003
+  arxiv: 2304.11071v2
+  source: sources/2304.11071v2/Multiscalars03.tex
+  tarball_sha256: 4e685533099749f692d34e01cc8cb5b17c2b5488a9aee7026d1ef881ed250f99
+- paper_id: E
+  family: gravity_PPN_asymptotic
+  short: Flathmann and Hohmann, PRD 105, 044002
+  title: Parametrized post-Newtonian limit of generalized scalar-nonmetricity theories of gravity
+  authors: Kai Flathmann, Manuel Hohmann
+  journal: Phys. Rev. D 105, 044002 (2022)
+  doi: 10.1103/PhysRevD.105.044002
+  arxiv: 2111.02806v2
+  source: sources/2111.02806v2/main.tex
+  tarball_sha256: 44eb73ff1b9c3afe880209a7a137f406d0f5e8ff1e6b19ea4305c9742cd10c27
