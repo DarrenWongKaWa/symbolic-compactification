@@ -2,11 +2,19 @@
 
 ## Primary working title
 
+Machine-Auditable Theoretical Derivations through Typed Evidence Graphs
+
+## Subtitle
+
+A fail-closed audit layer for AI-assisted symbolic science
+
+## Alternative (problem-first)
+
+A Fail-Closed Audit Layer for AI-Assisted Theoretical Derivations
+
+## Previous title (kept as option)
+
 Machine-Auditable Derivation Verification for Theoretical Physics
-
-## Alternative
-
-Fail-Closed Verification of AI-Assisted Symbolic Derivations
 
 ## Do not use
 
@@ -15,6 +23,6 @@ Fail-Closed Verification of AI-Assisted Symbolic Derivations
 - AI Proves Your Paper
 - Complete Formal Verification of Theoretical Physics
 
-## Recommended subtitle (optional)
+## Headline (not a title)
 
-Separating proposal from certification in symbolic scientific workflows
+Derivation Audit turns a derivation into a typed, provenance-bearing evidence graph.

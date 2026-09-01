@@ -1,47 +1,31 @@
-# Figure 3 — Public real-paper derivation graph
+# Figure 3 — Field validation: public Guo derivation graph
 
-**Source.** Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2.
-Evidence branch `engineering/real-paper-validation-arxiv-2511-16422`
-(`69ad474`), workspace `examples/real_papers/arxiv_2511_16422/`.
+**Type.** Experimental case-study graph (not a bar chart of accuracy).
+**Source.** Guo et al., PRL 136, 206303 (2026), arXiv:2511.16422v2. Evidence SHA `69ad474`.
 
-**Caption (draft).** Selected equation-level edges from the public
-supplement, coloured by certificate class. 25 paper-selected steps plus one
-shared local Leibniz child used by the two Brillouin-zone IBP parents.
-This figure is an audit graph, not a proof of the paper.
+**Caption (draft).** Selected equation-level edges from a published theoretical-physics supplement, coloured and shaped by certificate class. The headline is not 19/19 passed. It is that algebra, substitution, Brillouin-zone integration by parts, and an asymptotic remainder retain different epistemic statuses. This is an audit graph, not a proof of the paper.
 
-Colour key:
+## Layout
 
-| Class | Meaning |
-|---|---|
-| DIRECT_EXACT | unsubstituted engine ZERO |
-| SUBSTITUTION_EXACT | ZERO after a declared identity is substituted |
-| RULE_CERTIFICATE | local ZERO + declared `BZ_TORUS_PERIODICITY` |
-| STRUCTURAL | definition / split / bookkeeping |
-| ASYMPTOTIC / UNKNOWN | remainder not rewritten as an exact residual |
+Spine of Appendix D (printed numbers). 25 paper-selected steps plus one shared Leibniz child.
 
-Suggested spine (Appendix D, printed numbers; local D-1 = printed D-57):
+Do not add unaudited edges to make the graph look complete. Do not include unpublished local manuscripts.
+
+Highlight two non-green nodes with callouts:
+
+- (D-114)→(D-119) RULE_CERTIFICATE, not SymPy integral ZERO
+- (D-57) ASYMPTOTIC UNKNOWN, not turned green
+
+Inset count (not a leaderboard):
 
 ```text
-(D-57)  ASYMPTOTIC UNKNOWN
-(D-59)→(D-60)  DIRECT_EXACT     K1A regroup
-(D-60)         SUBSTITUTION     metric-velocity pair
-(D-60)→(D-61)  DIRECT_EXACT     TA prefactor
-(D-66)→(D-67)  SUBSTITUTION     ε21 = −ε12
-(D-61)+(D-67)→(D-68) DIRECT     TA + TBgeo cancel
-(D-71)→(D-72)  DIRECT_EXACT     C12 regroup
-(D-73)         DIRECT_EXACT     Vab expand / ε21 algebra
-(D-74)         DIRECT_EXACT     A antisym
-(D-74)→(D-75)  SUBSTITUTION     A → Ω definition
-(D-70)→(D-77)  DIRECT_EXACT     σ^(−1) I·I cancel
-(D-77)→(D-78)  SUBSTITUTION     Ω² = −Ω¹
-(D-114)→(D-119) RULE            BZ IBP T0  (child: Leibniz ZERO)
-(D-119) local  DIRECT_EXACT     T0 sign algebra
-(D-120)→(D-121) DIRECT_EXACT    T0+T1 regroup
-(D-123)→(D-124) RULE            BZ IBP T2  (same Leibniz child)
-(D-122)+(D-124)→(D-125) DIRECT  geo after declared T2
-(D-125)→(D-126) SUBSTITUTION    ε21 symmetrize
-(D-126)→(D-127) SUBSTITUTION    f' = 2 f0' compact rewrite
+25 selected paper steps
+19 engine ZERO = 13 DIRECT + 6 SUBSTITUTION
+2 RULE_CERTIFICATE
+1 ASYMPTOTIC UNKNOWN
+0 NONZERO
 ```
 
-Do not include unpublished local manuscripts. Do not add unaudited edges
-to make the graph look complete.
+## Tool
+
+draw.io. Same shape language as Figure 1.

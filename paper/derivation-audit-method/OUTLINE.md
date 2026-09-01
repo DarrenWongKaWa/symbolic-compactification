@@ -1,30 +1,21 @@
-# Paper structure (frozen)
+# Paper structure (draft-v1, five-act)
 
-1. Introduction
-2. Problem Formulation
-3. Threat Model: Why LLM reasoning cannot certify itself
-4. Typed Derivation Representation
-5. Source-Grounded Obligation Compilation
-6. Exact and Rule-Based Certificates
-7. Evidence Integrity and Generated Reviewer Tables
-8. Implementation
-9. Evaluation
-    9.1 Synthetic / public demonstrations
-    9.2 Adversarial soundness tests
-    9.3 Published theoretical-physics field validation
-10. Limitations
-11. Discussion
-12. Conclusion
+1. Introduction — loss of epistemic type; proposal is not authority
+2. Derivation as a typed evidence graph — proximity \(\neq\) equality
+3. Certificate provenance — dependency, not confidence
+4. Separating proposal from authority — the model must not be its own notary
+5. Implementation — hashes and generated tables (short, late)
+6. Evaluation
+    6.1 RQ1 Can narrative forge certification? No.
+    6.2 RQ2 Do heterogeneous steps retain type? Synthetic demos.
+    6.3 RQ3 Does this survive a real manuscript? Guo PRL, with caveats.
+7. Related work — CAS / kernels / LLM+tool / FAIR data
+8. Discussion — authors, reviewers, AI for science
+9. Conclusion — an AI may propose a derivation; it may not certify itself
 
-Appendix:
+Figures:
 
-- schemas
-- status semantics
-- reproduction details
-- additional audit rows
-
-Introduction story: the motivation is **not** “LLMs are smart.” It is that
-AI/CAS workflows conflate generated explanation with mathematical
-authority, and a reviewer needs a machine-auditable layer that says
-exactly which step was checked, under which assumptions, with which
-certificate class, and how to reproduce it.
+- Figure 1 Motivated example: untyped equation list versus typed evidence graph (Guo fragment)
+- Figure 2 Certificate taxonomy (provenance, not ranking)
+- Figure 3 Public Guo derivation graph (field validation)
+- Figure 4 Fail-closed remainder: coefficient ZERO, parent UNKNOWN

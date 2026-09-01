@@ -2,19 +2,17 @@
 
 | Item | Status |
 |---|---|
-| Engineering v0.2 | **CLOSED** |
-| Product tag `derivation-audit-v0.2.1-alpha` | published at `783ec64` |
-| Historical tag `derivation-audit-v0.2.0-alpha` | unmoved at `aaf1199` |
-| Evidence branch | public at `69ad474` |
-| Paper workspace | initialized |
-| First manuscript draft | `manuscript/draft-v0.md` |
-| New product capabilities | **none** (forbidden) |
-| New rule certificates | **none** (forbidden) |
-| v0.2.2 | **not opened** |
-| Second scientific-discovery campaign | **not run** |
-| Private unpublished manuscripts | **excluded** |
+| Engineering v0.2 | CLOSED |
+| Product tag | `derivation-audit-v0.2.1-alpha` @ `783ec64` |
+| Story lock (Supervisor-Skills) | New Problem/Setting: typed evidence graph as scientific object |
+| Title | Machine-Auditable Theoretical Derivations through Typed Evidence Graphs |
+| Skeleton | `working/thinking-template.md` — four consistency checks pass |
+| Evidence map | `working/evidence-map.md` |
+| Manuscript | `manuscript/draft-v1.md` (journal five-act rewrite) |
+| Prior draft | `manuscript/draft-v0.md` (kept) |
+| Figures | specified from existing evidence; not yet journal SVG/PDF |
+| New product capabilities | none |
+| New experiments | none |
+| Private unpublished manuscripts | excluded |
 
-Draft-v0 is a complete section-by-section first draft for internal
-iteration. It is not a submission-ready PDF. Subsequent work is writing,
-figure production from existing evidence, and bibliographic tightening —
-not product engineering.
+draft-v1 is the submission-oriented rewrite. It is not camera-ready: figures are not drawn, related work is citation-level on several L3 sources, and the author must verify every paragraph against the public artefacts.

@@ -1,6 +1,16 @@
 # Pre-registered contributions
 
-These contributions are frozen for draft-v0. Do not inflate them.
+Scientific contributions C1–C7 remain frozen. draft-v1 Introduction
+compresses them into four paper-level claims mapped to sections.
+
+Paper-level (Introduction paragraph 6):
+
+1. Problem formulation: loss of epistemic type; derivation as typed evidence graph (Section 2). Maps to C1, C6.
+2. Certificate provenance, not a ranking of truth; ZERO ≠ CERTIFIED_BY_RULE (Section 3). Maps to C2, C5, C6.
+3. Authority separation: generated-not-authored tables (Sections 4–5). Maps to C3, C4.
+4. Evaluation as RQ1–RQ3, including public PRL field validation that preserves types (Section 6). Maps to C7.
+
+Do not inflate them.
 
 ## C1 — Typed derivation graph
 

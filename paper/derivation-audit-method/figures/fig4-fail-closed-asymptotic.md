@@ -1,21 +1,35 @@
-# Figure 4 — Fail-closed asymptotic remainder
+# Figure 4 — Soundness: remainder stays UNKNOWN
 
-**Caption (draft).** Finite Laurent or series coefficient checks may return
-engine `ZERO` while the enclosing remainder claim stays `UNKNOWN`. The
-system refuses to rewrite an asymptotic statement as an exact residual
-`F − A/γ = 0` in order to manufacture a green row.
+**Type.** Experimental soundness panel.
+**Paradigm.** Before/after of an encoding cheat that the system refuses.
 
-Two public illustrations, both from existing evidence:
+**Caption (draft).** Finite coefficient checks may return engine ZERO while the enclosing remainder claim stays UNKNOWN. The audit layer refuses to rewrite \(F(\Gamma)=A/\Gamma+O(\Gamma)\) as the exact residual \(F-A/\Gamma=0\) in order to manufacture a green row. Left: Demo C, which ships with the product tag. Right: Guo Eq. (D-57). Non-green output is soundness evidence, not a failed paper.
 
-1. **Demo C** (ships with the product tag): coefficient identities `ZERO`;
-   parent `ASYMPTOTIC_CLAIM` remains `UNKNOWN`.
-2. **Guo Eq. (D-57)** (evidence branch): `Γ` expansion typed
-   `ASYMPTOTIC_CLAIM`; remainder `O(Γ)` is not a local residual; status
-   `UNKNOWN`.
+## Layout
+
+Two columns.
+
+Left — Demo C:
 
 ```text
-coefficient / Laurent children  -->  TABLE_VERIFIED   (ZERO)
-enclosing ASYMPTOTIC_CLAIM      -->  TABLE_UNCERTIFIED (UNKNOWN)
+Laurent / coefficient children  →  TABLE_VERIFIED (ZERO)
+enclosing ASYMPTOTIC_CLAIM     →  TABLE_UNCERTIFIED (UNKNOWN)
 ```
 
-This panel is soundness evidence, not a failed paper.
+Right — Guo (D-57):
+
+```text
+Γ expansion typed ASYMPTOTIC_CLAIM
+remainder O(Γ) is not a local residual
+status UNKNOWN
+```
+
+A rejected encoding in a grey ghost box:
+
+```text
+do not emit:  F − A/Γ = 0   ⇒   fake ZERO
+```
+
+## Tool
+
+PowerPoint or draw.io. Not a 3D funnel of “partial success”.
