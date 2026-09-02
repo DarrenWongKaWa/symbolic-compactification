@@ -15,8 +15,11 @@ Guo human-facing audit HTML: **HUMAN_AUDIT_HTML_FROZEN**
 Canonical: `manuscript/human_audit/guo/index.html`
 (presentation of frozen evidence; not scientific authority).
 UX stress: `manuscript/human_audit/tests/UX_STRESS_REPORT.md`.
-Next allowed step: venue freeze, then draft-v4. Not humanizer.
-Not five-paper HTML. Not draft-v4 in this campaign.
+Venue: **VENUE_FROZEN** (`manuscript/venue/VENUE_FREEZE.md`).
+PRIMARY: Computer Physics Communications, Computational Physics Paper.
+BACKUP: Physical Review Research, Regular Article.
+Next allowed step: draft-v4 under `manuscript/venue/DRAFT_V4_CONSTRAINTS.md`.
+Not humanizer until that draft exists. Not five-paper HTML.
 
 Prior drafts (preserved, pre-v0.3 authority):
 `manuscript/draft-v2.md`, `draft-v2-audit-only.md`, `draft-v1.md`, `draft-v0.md`
