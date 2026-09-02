@@ -31,37 +31,22 @@
         · Not verification authority</p>
 
       <div class="trust">
-        <strong>Verification authority.</strong>
-        This HTML is a presentation of frozen machine evidence.
-        It does not assign or alter scientific verdicts.
-        Software authority: symbolic-compactification <span class="mono">v0.3.0-alpha</span>
-        @ <span class="mono">f1d225e</span>.
-        Engine: <span class="mono">python_sympy_exact_v1 0.3.0</span>.
-        ZERO means exact engine ZERO. ZERO is not CERTIFIED_BY_RULE.
-        UNKNOWN never promotes.
+        <strong>Presentation of frozen evidence.</strong>
+        This page does not assign verdicts.
+        ZERO is exact engine ZERO and is not CERTIFIED_BY_RULE.
+        Details in the footer.
       </div>
 
       <div class="inventory-note">
-        <p><strong>Complete inventory coverage does not mean every equation was certified.</strong>
-        189/189 is inventory coverage. It is not a certification count.</p>
+        <p><strong>189/189 is inventory coverage, not certification.</strong>
+        Every numbered equation was listed. That does not mean every equation was proved by the machine.</p>
       </div>
 
       <div class="metrics" aria-label="Frozen coverage counts">
         <div class="metric"><span class="n">189 / 189</span><span class="l">numbered equations inventoried</span></div>
         <div class="metric"><span class="n">146</span><span class="l">source-grounded relations</span></div>
         <div class="metric"><span class="n">53</span><span class="l">executable relations</span></div>
-        <div class="metric"><span class="n">32</span><span class="l">EXACT_ZERO</span></div>
-        <div class="metric"><span class="n">21</span><span class="l">ZERO_UNDER_SUBSTITUTION</span></div>
-        <div class="metric"><span class="n">11</span><span class="l">CERTIFIED_BY_RULE</span></div>
-        <div class="metric"><span class="n">0 / 155</span><span class="l">false promotion on injected invalid controls</span></div>
-        <div class="metric"><span class="n">0</span><span class="l">final NONZERO (direct NONZERO may appear before a recorded substitution)</span></div>
       </div>
-      <p class="count-note">
-        Frozen table also records STRUCTURAL 47, UNSUPPORTED 18,
-        UNKNOWN_REMAINDER 15, and UNKNOWN 2.
-        <span class="mono">RESULTS.md</span> summary line writes UNKNOWN_REMAINDER: 17
-        by adding those two UNKNOWN limit rows. This page does not merge the two statuses.
-      </p>
     </header>
 
     <nav class="toolbar" aria-label="Filters">
@@ -119,6 +104,8 @@
 
         <h2>Flagship transitions</h2>
         <p>Four rows a reader should be able to explain without opening JSON or source code. Click a relation to jump to its evidence panel.</p>
+        <p class="count-note">On Eq. (D-66) → Eq. (D-67), zero after substitution is the residual of that rewrite, not an unconditional engine ZERO.
+          The later cancellation Eqs. (D-61), (D-67) → Eq. (D-68) is a different check.</p>
         <div id="featured-table"></div>
       </section>
 
@@ -142,8 +129,7 @@
         <div class="noscript">
           <p>JavaScript is required to assemble the derivation map and evidence panels from
           <span class="mono">report-data.js</span>. Frozen counts above remain valid without it:
-          189/189 inventoried; 146 source-grounded relations; 53 executable;
-          EXACT_ZERO 32; ZERO_UNDER_SUBSTITUTION 21; CERTIFIED_BY_RULE 11; false promotion 0/155.</p>
+          189/189 inventoried; 146 source-grounded relations; 53 executable.</p>
         </div>
       </noscript>
       <p id="load-error" class="inventory-note" hidden>
@@ -156,9 +142,15 @@
     <footer class="authority">
       <p><strong>Verification authority</strong></p>
       <p>This HTML is a presentation of frozen machine evidence. It does not assign or alter scientific verdicts.</p>
-      <p>Software authority: symbolic-compactification v0.3.0-alpha @ f1d225e</p>
+      <p>Software authority: symbolic-compactification v0.3.0-alpha @ f1d225e.
+        Engine: python_sympy_exact_v1 0.3.0. UNKNOWN never promotes.</p>
       <p>Machine records: <span class="mono">examples/flagship/guo/RESULTS.md</span> and
         <span class="mono">RELATIONS_FROZEN.yaml</span> on that tag.</p>
+      <p>Per-row frozen table also records EXACT_ZERO 32, ZERO_UNDER_SUBSTITUTION 21,
+        CERTIFIED_BY_RULE 11, STRUCTURAL 47, UNSUPPORTED 18, UNKNOWN_REMAINDER 15, UNKNOWN 2, final NONZERO 0.
+        The RESULTS.md summary line writes UNKNOWN_REMAINDER: 17 by adding the two UNKNOWN limit rows.
+        This page does not merge those statuses.</p>
+      <p>False promotion on injected invalid controls: 0 / 155 (validation, not a coverage count).</p>
       <p>Mathematics rendering: MathJax 3 from jsDelivr (network). Offline, TeX delimiters remain readable as source.</p>
     </footer>
   </div>

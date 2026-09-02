@@ -151,19 +151,30 @@
 
   function residualBlock(rel) {
     const d = rel.direct || {};
-    if (d.verdict === "N/A") {
-      return "<p>No direct residual is posed for this row.</p>";
+    if (rel.final_status === "CERTIFIED_BY_RULE" || d.verdict === "N/A") {
+      return "<p>No parent equality residual is compiled. The checked object, if any, is a local identity plus a declared rule — not "
+        + asInline("E_{\\mathrm{lhs}}-E_{\\mathrm{rhs}}")
+        + " of a global integral.</p>";
     }
-    if (d.verdict === "UNKNOWN") {
-      return "<p>Direct check is recorded as UNKNOWN. No remainder certificate is available.</p>";
+    if (d.verdict === "UNKNOWN" || rel.final_status === "UNKNOWN_REMAINDER") {
+      return "<p>No executable residual is compiled for this remainder or limit claim. Direct check: UNKNOWN. That is not a refutation.</p>";
     }
-    let html = "<p>Define</p>" + asDisplay("R_{\\mathrm{direct}}=E_{\\mathrm{before}}-E_{\\mathrm{after}}");
+    const fromN = (rel.public_from || []).length;
+    const rhsZero = rel.after && (rel.after.tex === "0" || rel.after.encoding === "0");
+    let html;
+    if (fromN > 1 && rhsZero) {
+      html = "<p>Compiled obligation (multi-parent). Frozen right-hand encoding is 0. This is not a single-equation before/after:</p>" +
+        asDisplay("R=E_{\\mathrm{lhs}}");
+    } else {
+      html = "<p>Compiled obligation for the claimed equality of two frozen encodings:</p>" +
+        asDisplay("R=E_{\\mathrm{lhs}}-E_{\\mathrm{rhs}}");
+    }
     if (d.verdict === "ZERO") {
-      html += "<p>Direct residual:</p>" + asDisplay("R_{\\mathrm{direct}}=0");
+      html += "<p>Exact residual:</p>" + asDisplay("R=0");
       return html;
     }
     if (d.residual_tex) {
-      html += "<p>Direct residual:</p><div class='math-scroll'>" + asDisplay("R_{\\mathrm{direct}}=" + d.residual_tex) + "</div>";
+      html += "<p>Exact residual (direct, as compiled):</p><div class='math-scroll'>" + asDisplay("R=" + d.residual_tex) + "</div>";
       if (d.residual_tex_full && d.residual_tex_full !== d.residual_tex) {
         html +=
           '<p><button type="button" class="linkish" data-toggle-residual="' + esc(rel.id) + '">Show full residual</button></p>' +
@@ -234,10 +245,10 @@
   function beforeAfter(rel) {
     let html = "";
     if (rel.before && rel.before.tex) {
-      html += "<h4>Before</h4><div class='block math-scroll'>" + asDisplay(rel.before.tex) + "</div>";
+      html += "<h4>Left encoding (frozen)</h4><div class='block math-scroll'>" + asDisplay(rel.before.tex) + "</div>";
     }
     if (rel.after && rel.after.tex) {
-      html += "<h4>After</h4><div class='block math-scroll'>" + asDisplay(rel.after.tex) + "</div>";
+      html += "<h4>Right encoding (frozen)</h4><div class='block math-scroll'>" + asDisplay(rel.after.tex) + "</div>";
     }
     return html;
   }
@@ -275,6 +286,13 @@
       (rel.public_from || []).join(" "),
       (rel.public_to || []).join(" "),
       rel.role,
+      rel.human_explanation,
+      rel.why_direct_nonzero,
+      rel.interpretation,
+      (rel.condition && rel.condition.text) || "",
+      (rel.condition && rel.condition.tex) || "",
+      ((rel.author_source_anchor || {}).prose_paraphrase) || "",
+      (rel.direct && rel.direct.residual_tex) || "",
     ].join(" ").toLowerCase();
     const why = rel.why_direct_nonzero
       ? "<h4>Why the direct check is NONZERO</h4><p>" + asInline(rel.why_direct_nonzero) + "</p>" +

@@ -26,7 +26,9 @@ JavaScript never infers `ZERO`, `NONZERO`, `UNKNOWN`, `CERTIFIED_BY_RULE`, or
 `ZERO_UNDER_SUBSTITUTION`. It only renders statuses copied from `RESULTS.md`.
 
 189/189 means **numbered equations inventoried**. It does not mean 189 equations
-were certified.
+were certified. The first screen shows only inventory, relation, and executable
+counts. SHA, 0/155 controls, and the 15+2 vs 17 remainder-summary note live in
+the footer. Presentation freeze: `../HUMAN_AUDIT_HTML_FREEZE.md`.
 
 ## Open locally
 
