@@ -42,5 +42,8 @@ jobs:
           cp -R examples/audit/minimal /tmp/ssc-audit-ci
           symbolic-compactification audit verify /tmp/ssc-audit-ci
           symbolic-compactification audit table /tmp/ssc-audit-ci
+          symbolic-compactification audit report /tmp/ssc-audit-ci
       - name: Guo flagship inventory replay
-        run: python examples/flagship/guo/scripts/inventory_equations.py
+        run: python examples/guo-evidence-ledger/scripts/inventory_equations.py
+      - name: Guo flagship HTML presentation
+        run: python examples/guo-evidence-ledger/presentation/verify_presentation.py
