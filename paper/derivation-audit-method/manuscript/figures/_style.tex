@@ -1,0 +1,51 @@
+% Shared visual grammar for FIGURE_FREEZE_V1.
+% One blue family + grayscale. Meaning also encoded by shape/border.
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,matrix}
+
+\definecolor{ink}{HTML}{22272B}
+\definecolor{muted}{HTML}{5C6770}
+\definecolor{rule}{HTML}{B7C0C7}
+\definecolor{band}{HTML}{F3F5F7}
+\definecolor{accent}{HTML}{2E5A88}
+\definecolor{accentfill}{HTML}{E7F0F6}
+
+\tikzset{
+  arr/.style={-{Latex[length=2.1mm,width=1.6mm]}, line width=0.6pt, draw=ink},
+  arrd/.style={-{Latex[length=2.1mm,width=1.6mm]}, densely dashed, line width=0.6pt, draw=muted},
+  figbase/.style={
+    font=\small\selectfont,
+    color=ink,
+    line cap=round,
+    line join=round,
+  },
+  box/.style={
+    draw=ink, line width=0.55pt,
+    rounded corners=1.4pt,
+    inner sep=3.6pt,
+    align=center,
+    text=ink,
+  },
+  boxplain/.style={box, fill=white},
+  boxband/.style={box, fill=band, draw=rule},
+  boxaccent/.style={box, fill=accentfill, draw=accent, line width=0.7pt},
+  untrusted/.style={box, densely dashed, draw=muted, fill=white},
+  badge/.style={
+    font=\footnotesize\selectfont,
+    inner sep=2.2pt,
+    align=center,
+    draw, line width=0.6pt,
+    rounded corners=1.1pt,
+  },
+  badgeexact/.style={badge, fill=accentfill, draw=accent},
+  badgesubst/.style={badge, fill=white, draw=accent, densely dashed},
+  badgerule/.style={badge, fill=white, draw=ink, double, double distance=1.05pt},
+  badgeunk/.style={badge, fill=white, draw=muted, dotted},
+  badgerefuse/.style={badge, fill=white, draw=ink, dashed},
+  lab/.style={font=\footnotesize\selectfont, text=muted, align=center, inner sep=1pt},
+  head/.style={font=\normalsize\bfseries\selectfont, text=accent, align=center},
+  axislab/.style={font=\footnotesize\selectfont, text=ink},
+}
