@@ -16,6 +16,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 RESULTS_GIT_PATH = "v0.3.0-alpha:examples/flagship/guo/RESULTS.md"
+RESULTS_TREE = HERE.parent / "evidence" / "RESULTS.md"
 FORBIDDEN = [
     "full derivation verified",
     "189 equations verified",
@@ -56,6 +57,9 @@ def norm_eq(s: str) -> str:
 
 
 def load_results_md() -> tuple[str, str | None]:
+    """Frozen table lives in-tree. The v0.3.0-alpha path is optional history."""
+    if RESULTS_TREE.is_file():
+        return RESULTS_TREE.read_text(encoding="utf-8"), None
     proc = subprocess.run(
         ["git", "show", RESULTS_GIT_PATH],
         cwd=HERE,
