@@ -943,7 +943,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_audit_table.add_argument("--run", help="recorded audit run id")
     p_audit_table.add_argument("--json", action="store_true")
     p_audit_report = audit_sub.add_parser(
-        "report", help="generate the derivation-audit REPORT.md")
+        "report",
+        help="generate reviewer REPORT.md and report.html")
     p_audit_report.add_argument("directory", help="audit workspace")
     p_audit_report.add_argument("--run", help="recorded audit run id")
     p_audit_report.add_argument("--json", action="store_true")

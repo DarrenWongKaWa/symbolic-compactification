@@ -25,8 +25,8 @@ import sympy
 # distribution metadata canonicalizes ``0.1.0-alpha`` to the PEP 440 spelling
 # ``0.1.0a0``; keep both spellings explicit so packaging, runtime provenance,
 # and CLI presentation cannot drift silently.
-RELEASE_VERSION = "0.3.0-alpha"
-PACKAGE_VERSION = "0.3.0a0"
+RELEASE_VERSION = "0.3.1-alpha"
+PACKAGE_VERSION = "0.3.1a0"
 
 # v0.3 keeps the v0.2 ZERO/NONZERO/UNKNOWN meanings but changes parser,
 # resource-lifecycle and certification APIs materially enough to identify a

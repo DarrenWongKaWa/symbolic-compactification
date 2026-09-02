@@ -1,0 +1,20 @@
+{
+  "edge_id": "C13",
+  "source": "C20a",
+  "target": "C20",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (8) child / S7.19",
+  "claim": "that bilinear is (\u03f5^2/2)(v^b \u03a9^{ac}+v^c \u03a9^{ab})",
+  "assumptions": [
+    "\u03a9 definition (B3)"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "v_nn_b*(I*(v_nm_a*v_mn_c - v_nm_c*v_mn_a)/eps_nm**2) + v_nn_c*(I*(v_nm_a*v_mn_b - v_nm_b*v_mn_a)/eps_nm**2)",
+  "right": "I/eps_nm**2 * (v_nn_b*(v_nm_a*v_mn_c - v_nm_c*v_mn_a) + v_nn_c*(v_nm_a*v_mn_b - v_nm_b*v_mn_a))",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Integrity-gate fixture — omit three declared substitutions</title>
+  <style>
+    body { font-family: Palatino, serif; margin: 2rem; max-width: 40rem; }
+    .completeness { border: 2px dashed #8a5a12; background: #f4f1ea; padding: 0.8rem; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 1rem 0; }
+    .metric { border: 1px solid #b7c0c7; padding: 0.5rem; }
+    .n { font-weight: 700; display: block; }
+  </style>
+</head>
+<body>
+  <p class="kicker">Evidence ledger</p>
+  <h1>Fixture: three declared substitutions withheld</h1>
+  <p>Not a Guo result. Not scientific authority. Tests the product gate only.</p>
+
+  <div class="completeness AUDIT_INCOMPLETE" role="status">
+    <p><strong>AUDIT_INCOMPLETE</strong>
+      · <span class="mono">missing_declared_moves</span> = 3</p>
+    <p>MISSING_EDGE: substituting … yields (withheld 1, 2, 3).
+      Silence from non-submission is not a pass.</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><span class="n">12 / 12</span><span class="l">inventoried equations</span></div>
+    <div class="metric"><span class="n">9</span><span class="l">extracted relations</span></div>
+    <div class="metric"><span class="n">4</span><span class="l">executable obligations</span></div>
+  </div>
+  <p>Engine on submitted rows may still show zero final NONZERO.
+    That number must not appear as a hero pass while
+    <code>missing_declared_moves &gt; 0</code>.</p>
+</body>
+</html>

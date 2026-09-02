@@ -1,0 +1,18 @@
+{
+  "edge_id": "B08",
+  "source": "B7",
+  "target": "B8",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "B7\u2192B8",
+  "claim": "insert CG into the nine-generator conductivity",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

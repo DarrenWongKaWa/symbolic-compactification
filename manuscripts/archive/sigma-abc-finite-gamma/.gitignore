@@ -1,0 +1,2 @@
+verification/workspaces/**/runs/*
+!verification/workspaces/**/runs/.gitkeep

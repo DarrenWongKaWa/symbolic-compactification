@@ -30,13 +30,16 @@ Finite coefficient `ZERO` is not a remainder proof.
 The Guo et al. full-paper audit inventories every numbered equation in
 arXiv:2511.16422v2 and checks only source-grounded relations:
 
-[examples/flagship/guo/RESULTS.md](../examples/flagship/guo/RESULTS.md)
+[examples/guo-evidence-ledger/evidence/RESULTS.md](../examples/guo-evidence-ledger/evidence/RESULTS.md)
 
-Human-facing HTML projection (does not assign verdicts):
-[examples/flagship/guo/human_audit/index.html](../examples/flagship/guo/human_audit/index.html).
+Human-facing HTML (does not assign verdicts):
+[examples/guo-evidence-ledger/output/index.html](../examples/guo-evidence-ledger/output/index.html).
 
-Replay from frozen manifests:
-[examples/flagship/guo/REPRODUCE.md](../examples/flagship/guo/REPRODUCE.md)
+Matching Markdown:
+[examples/guo-evidence-ledger/output/REPORT.md](../examples/guo-evidence-ledger/output/REPORT.md).
+
+Replay:
+[examples/guo-evidence-ledger/README.md](../examples/guo-evidence-ledger/README.md).
 
 ## Semantics
 

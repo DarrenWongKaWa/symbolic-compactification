@@ -1,0 +1,8 @@
+project_name: "sigma-abc-B03"
+objective: "Mode A check of manuscript (B2): velocity bilinear equals gap-squared metric/curvature factorization."
+expression_entrypoint: expressions/current.txt
+assumptions_file: assumptions/assumptions.yaml
+optional_notes:
+  - notes/research_notes.md
+optional_references:
+  - references/README.md

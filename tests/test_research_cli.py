@@ -188,8 +188,8 @@ def test_cli_version_distinguishes_release_engine_and_protocol(capsys):
 
     assert excinfo.value.code == 0
     output = " ".join(capsys.readouterr().out.split())
-    assert "0.3.0-alpha" in output
-    assert "PEP 440 0.3.0a0" in output
+    assert "0.3.1-alpha" in output
+    assert "PEP 440 0.3.1a0" in output
     assert "engine 0.3.0" in output
     assert "protocol 0.3.0" in output
 

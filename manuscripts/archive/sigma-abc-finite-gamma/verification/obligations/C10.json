@@ -1,0 +1,21 @@
+{
+  "edge_id": "C10",
+  "source": "C17",
+  "target": "C18",
+  "type": "index_swap",
+  "status": "ZERO",
+  "location": "C17\u2192C18 / S7.16",
+  "claim": "T0(m,n,\u2113)=T0(n,m,\u2113) on n\u2260m\u2260\u2113, so the \u0393^0 triangle residue cancels",
+  "assumptions": [
+    "fixed-gap residue formulas (S7.10)\u2013(S7.11)",
+    "all-distinct energies"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "((F(em)-F(el))/(2*(em-el)**3) - (F(el)-F(en))/(2*(el-en)**3))/(em-en)",
+  "right": "((F(en)-F(el))/(2*(en-el)**3) - (F(el)-F(em))/(2*(el-em)**3))/(en-em)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "Supplement (S7.16): the \u0393^0 residue exchange is algebra of explicit M0,T0. This is not \u03c3(\u0393)-\u03c3(0)=0."
+}

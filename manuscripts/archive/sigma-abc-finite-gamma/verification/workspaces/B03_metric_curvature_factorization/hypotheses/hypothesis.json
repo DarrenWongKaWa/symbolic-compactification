@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "hypothesis_type": "equivalence",
+  "members": ["expressions/current.txt", "expressions/candidate.txt"],
+  "assumptions_used": ["v_nm_a", "v_mn_c", "v_nm_c", "v_mn_a", "eps_nm"],
+  "operators": ["FACTOR"],
+  "proof_obligations": [{
+    "obligation_id": "B2-factorization",
+    "relation": "equivalent",
+    "left": "expressions/current.txt",
+    "right": "expressions/candidate.txt"
+  }]
+}

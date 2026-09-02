@@ -1,8 +1,0 @@
-source_anchors/arxiv_html_v2.html
-source_anchors/equation_contexts.md
-source_anchors/equation_contexts.json
-machine_records/
-COVERAGE.json
-.venv/
-__pycache__/
-*.pyc

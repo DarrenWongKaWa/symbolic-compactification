@@ -1,0 +1,22 @@
+{
+  "edge_id": "D07",
+  "source": "D4",
+  "target": "D16",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "D4\u2192D16",
+  "claim": "pair dictionary plus loop orbit give \u03c3_xxx = -2 \u03c3_xxx^Anan",
+  "assumptions": [
+    "TRS+BZ",
+    "\u03a9^{xx}=0",
+    "D4 and D15"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(-2*sigma_anan_pair) + (-2*sigma_anan_loop)",
+  "right": "-2*(sigma_anan_pair + sigma_anan_loop)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "checked only as the linear combination claimed by D4+D15: pair=-2 Anan pair and loop=-2 Anan loop imply the sum. The dictionaries themselves are not re-derived here."
+}

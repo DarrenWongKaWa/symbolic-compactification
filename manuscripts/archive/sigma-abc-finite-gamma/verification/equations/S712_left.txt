@@ -1,0 +1,1 @@
+(M_lm - M_nl)/d + (M_nl - M_lm)/d

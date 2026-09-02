@@ -1,0 +1,18 @@
+{
+  "edge_id": "B02",
+  "source": "L_nml",
+  "target": "B1_L3",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "L_nml\u2192B1_L3",
+  "claim": "L = L3,Re + i L3,Im recovers L",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "L_nml",
+  "right": "(L_nml + L_mnl)/2 + I*(L_nml - L_mnl)/(2*I)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

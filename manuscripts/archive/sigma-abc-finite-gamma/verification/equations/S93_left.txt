@@ -1,0 +1,1 @@
+Rational(1,2) + beta*(ea - mu + I*G)/(2*pi*I)

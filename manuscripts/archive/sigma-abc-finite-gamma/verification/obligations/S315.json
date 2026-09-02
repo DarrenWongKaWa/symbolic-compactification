@@ -1,0 +1,20 @@
+{
+  "edge_id": "S315",
+  "source": "S3.15",
+  "target": "omega2_recipe",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S3.15",
+  "claim": "[\u03c9^2] of (N0+N1 \u03c9+N2 \u03c9^2)/(D0+\u03c9) equals N2/D0 - N1/D0^2 + N0/D0^3",
+  "assumptions": [
+    "truncated O(\u03c9^3) series of 1/(D0+\u03c9)"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "0",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "filled in execute() from the truncated product"
+}

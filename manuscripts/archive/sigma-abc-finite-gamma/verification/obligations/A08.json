@@ -1,0 +1,21 @@
+{
+  "edge_id": "A08",
+  "source": "A14",
+  "target": "A15",
+  "type": "completeness_insertion",
+  "status": "RECORDED",
+  "location": "S4.3 completeness",
+  "claim": "Peierls vertex equals covariant derivative of velocity",
+  "assumptions": [
+    "isolated-band charts",
+    "Da X = \u2202a X - i[Aa,X]"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": "\u27e8n|\u2202a O|m\u27e9=(Da X)_nm uses \u2211_r |r\u27e9\u27e8r|=I as a declared reconstruction rule, not a scalar residual."
+}

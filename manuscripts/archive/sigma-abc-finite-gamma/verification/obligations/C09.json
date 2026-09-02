@@ -1,0 +1,20 @@
+{
+  "edge_id": "C09",
+  "source": "C16",
+  "target": "C16b",
+  "type": "index_swap",
+  "status": "ZERO",
+  "location": "C16\u2192C16b",
+  "claim": "L3,Im(m,n,\u2113)=-L3,Im(n,m,\u2113) converts the sum into an n\u2194m difference",
+  "assumptions": [
+    "dummy relabeling of a complete n\u2260m\u2260\u2113 sum"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(T_nml*L3_nml + T_mnl*(-L3_nml))/2",
+  "right": "(T_nml - T_mnl)*L3_nml/2",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

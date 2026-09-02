@@ -1,0 +1,21 @@
+{
+  "edge_id": "A02",
+  "source": "A3",
+  "target": "A4",
+  "type": "definition",
+  "status": "DEFINITION",
+  "location": "A3\u2192A4 / S2.7",
+  "claim": "M and T are defined as the [\u03c9^2] DC Taylor coefficients of \u03c1\u0303",
+  "assumptions": [
+    "\u0393>0 fixed",
+    "[\u03c9^2] \u2261 (1/2)\u2202_\u03c9^2 at \u03c9=0"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": "definition insertion, not E(A3)-E(A4)=0; Taylor extraction is not algebra"
+}

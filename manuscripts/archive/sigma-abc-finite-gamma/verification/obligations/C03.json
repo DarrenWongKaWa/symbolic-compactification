@@ -1,0 +1,18 @@
+{
+  "edge_id": "C03",
+  "source": "C3",
+  "target": "C4b",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "C3\u2192C4b",
+  "claim": "even generator projector (1+s)/2 is 1 at s=+1",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(1 + 1)/2",
+  "right": "1",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

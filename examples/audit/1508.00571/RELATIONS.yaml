@@ -1,0 +1,106 @@
+relations:
+  - id: R1
+    from: ["(1)"]
+    to: ["(vel)"]
+    claimed_type: DEFINITION
+    cue: "The velocity contains two contributions"
+    condition: null
+    status: STRUCTURAL
+  - id: R2
+    from: ["(vel)"]
+    to: ["(Berry)"]
+    claimed_type: DEFINITION
+    cue: "where \u03b5 and \u03a9_b are"
+    condition: null
+    status: STRUCTURAL
+  - id: R3
+    from: ["(kdot)"]
+    to: ["(Boltz)"]
+    claimed_type: CITED_RULE
+    cue: "the Boltzmann equation for the distribution"
+    condition: null
+    status: UNSUPPORTED
+  - id: R4
+    from: ["(Boltz)"]
+    to: ["(xx)"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "One finds a recursive structure"
+    condition: null
+    status: UNSUPPORTED
+  - id: R5
+    from: ["(vel)", "(xx)"]
+    to: ["(ja0)"]
+    claimed_type: SUBSTITUTION
+    cue: "one obtains"
+    condition: null
+    status: UNSUPPORTED
+  - id: R6
+    from: ["(ja0)"]
+    to: ["(chi)"]
+    claimed_type: CLAIMED_CANCEL_OR_VANISHING
+    cue: "forced to vanish"
+    condition: "constant \u03c4; TR"
+    status: UNSUPPORTED
+  - id: R7
+    from: ["(ja0)"]
+    to: ["(chi)"]
+    claimed_type: DEFINITION
+    cue: "By writing j^0_a = \u03c7_abc E_b E*_c"
+    condition: null
+    status: STRUCTURAL
+  - id: R8
+    from: ["(chi)"]
+    to: ["(chiabc)"]
+    claimed_type: CITED_RULE
+    cue: "Equation (chi) can be rewritten as follows"
+    condition: "boundary terms vanish"
+    status: UNSUPPORTED
+  - id: R9
+    from: ["(chiabc)"]
+    to: ["(Dab)"]
+    claimed_type: DEFINITION
+    cue: "defined as"
+    condition: null
+    status: STRUCTURAL
+  - id: R10
+    from: ["(Dab)"]
+    to: ["(pseudoT)"]
+    claimed_type: CITED_RULE
+    cue: "crystal symmetries impose"
+    condition: null
+    status: UNSUPPORTED
+  - id: R11
+    from: ["(Hamil)"]
+    to: ["(Hamil)"]
+    claimed_type: DEFINITION
+    cue: "is given by"
+    condition: null
+    status: STRUCTURAL
+  - id: R12
+    from: ["(Hamil)"]
+    to: ["(eps)"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "The dispersion relation ... is found to be"
+    condition: "s^2 = 1 (paper: s = \u00b11)"
+    status: ZERO_UNDER_SUBSTITUTION
+  - id: R13
+    from: ["(Berry)", "(Hamil)"]
+    to: ["(Omega)"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "The Berry curvature can be found, from Eq. (Berry)"
+    condition: null
+    status: UNSUPPORTED
+  - id: R14
+    from: ["(Omega)"]
+    to: ["(Dtci)"]
+    claimed_type: DEFINITION
+    cue: "At zero temperature the Berry curvature dipole is"
+    condition: null
+    status: STRUCTURAL
+  - id: R15
+    from: ["(Dtci)"]
+    to: ["(Dy)"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "is found to be"
+    condition: null
+    status: UNSUPPORTED

@@ -154,6 +154,7 @@ use exit 4 and print the stable code.
 - agent protocol version changes for role, state, provenance, or reporting
   contracts.
 
-Package `0.3.0-alpha` is a product-surface unification. Engine `0.3.0` and
-agent protocol `0.3.0` are unchanged from the 0.2.1 preview: `ZERO` remains
-exact engine `ZERO`. Do not read a package bump as a new verifier.
+Package `0.3.1-alpha` is a reviewer-product packaging of the v0.3 audit
+surface. Engine `0.3.0` and agent protocol `0.3.0` are unchanged:
+`ZERO` remains exact engine `ZERO`. Do not read a package bump as a new
+verifier.

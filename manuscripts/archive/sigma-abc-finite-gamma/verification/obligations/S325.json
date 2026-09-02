@@ -1,0 +1,20 @@
+{
+  "edge_id": "S325",
+  "source": "S3.25",
+  "target": "S3.26",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S3.25",
+  "claim": "nested H1 of H1 for f=x^2 equals the second divided difference 1",
+  "assumptions": [
+    "distinct nodes"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "((e2 + e0) - (e1 + e0))/(e2 - e1)",
+  "right": "1",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

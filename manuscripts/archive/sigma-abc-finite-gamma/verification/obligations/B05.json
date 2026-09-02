@@ -1,0 +1,18 @@
+{
+  "edge_id": "B05",
+  "source": "B3",
+  "target": "g_sym",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "B3\u2192g_sym",
+  "claim": "quantum metric is symmetric",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(v_nm_a*v_mn_c + v_nm_c*v_mn_a)/(2*eps_nm**2)",
+  "right": "(v_nm_c*v_mn_a + v_nm_a*v_mn_c)/(2*eps_nm**2)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

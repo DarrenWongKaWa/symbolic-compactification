@@ -1,0 +1,18 @@
+{
+  "edge_id": "B04",
+  "source": "B3",
+  "target": "Omega_aa",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (B3) \u03a9^{aa}",
+  "claim": "Berry curvature is antisymmetric so \u03a9^aa=0",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "I*(v_nm_a*v_mn_a - v_nm_a*v_mn_a)/eps_nm**2",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

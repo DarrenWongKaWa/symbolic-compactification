@@ -1,0 +1,1 @@
+(diff(v21b(ka)*v12c(ka), ka) - I*Kab_c + diff(v21c(ka)*v12b(ka), ka) - I*Kac_b) - (diff(v21c(ka)*v12b(ka) + v21b(ka)*v12c(ka), ka) - I*(Kab_c + Kac_b))

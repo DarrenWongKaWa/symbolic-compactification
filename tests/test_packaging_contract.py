@@ -43,12 +43,12 @@ def test_alpha_release_identity_is_explicit_and_pep440_aligned() -> None:
     project = tomllib.loads(
         Path("pyproject.toml").read_text(encoding="utf-8"))["project"]
 
-    assert project["version"] == RELEASE_VERSION == "0.3.0-alpha"
+    assert project["version"] == RELEASE_VERSION == "0.3.1-alpha"
     assert Version(RELEASE_VERSION) == Version(PACKAGE_VERSION)
-    assert metadata.version(DIST_NAME) == PACKAGE_VERSION == "0.3.0a0"
+    assert metadata.version(DIST_NAME) == PACKAGE_VERSION == "0.3.1a0"
     assert ENGINE_VERSION == AGENT_PROTOCOL_VERSION == "0.3.0"
     assert project["description"] == (
-        "Verified symbolic reasoning for theoretical physics."
+        "Agent-assisted scientific derivation-audit with reviewer HTML."
     )
 
 
@@ -197,10 +197,9 @@ def test_non_editable_install_records_build_revision_outside_checkout(
 def test_packaged_readme_is_the_research_preview_entrypoint() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
 
-    assert "Verified symbolic reasoning for theoretical physics." in readme
+    assert "derivation-audit" in readme.lower() or "derivation audit" in readme.lower()
     assert "Forward derivation" in readme
-    assert "Paper audit" in readme
     assert all(verdict in readme for verdict in ("ZERO", "NONZERO", "UNKNOWN"))
-    assert "examples/flagship/guo/RESULTS.md" in readme
+    assert "examples/guo-evidence-ledger" in readme
     assert "Publication decision: **E**" not in readme
     assert "AI discovers physics" not in readme

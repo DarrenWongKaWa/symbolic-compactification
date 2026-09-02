@@ -1,0 +1,20 @@
+{
+  "edge_id": "E012",
+  "source": "E11",
+  "target": "H_mixed",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "E11\u2192H_mixed",
+  "claim": "mirror lattice: \u2202_kx \u2202_ky H_AB = 0 so P_Im^{xyy}=0",
+  "assumptions": [
+    "H(k) as in (11)"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "0",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "Preprocess: sympy.diff of transcribed H_AB from (11). Engine then checks that residual against 0."
+}

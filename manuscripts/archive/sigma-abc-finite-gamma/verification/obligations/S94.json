@@ -1,0 +1,21 @@
+{
+  "edge_id": "S94",
+  "source": "S9.16",
+  "target": "fA_half_fminus",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S9.16",
+  "claim": "f_+^A(xa)=f_-(\u03f5)/2 as coefficients of the same \u03c8(z_-)",
+  "assumptions": [
+    "(S9.3) argument map",
+    "dxa/d\u03f5=1"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "Rational(1,4) + psi/(2*pi*I)",
+  "right": "(Rational(1,2))*(Rational(1,2) - I*psi/pi)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

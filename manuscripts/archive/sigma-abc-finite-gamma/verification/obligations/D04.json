@@ -1,0 +1,20 @@
+{
+  "edge_id": "D04",
+  "source": "D5",
+  "target": "D8",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (D8) / S9.9",
+  "claim": "Im[v_ba v_ac v_cb] = -\u03f5_ab \u03f5_ac \u03f5_bc \u039b",
+  "assumptions": [
+    "v_ij = i \u03f5_ij A_ij"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "im((I*(-eps_ab)*(Aab_r - I*Aab_i))*(I*eps_ac*(Aac_r + I*Aac_i))*(I*(-eps_bc)*(Abc_r - I*Abc_i)))",
+  "right": "-eps_ab*eps_ac*eps_bc*re((Aab_r + I*Aab_i)*(Abc_r + I*Abc_i)*(Aac_r - I*Aac_i))",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "uses \u03f5_ba=-\u03f5_ab, \u03f5_cb=-\u03f5_bc, A_ba=A_ab^*, A_cb=A_bc^*; A_ca is not assumed equal to A_ac^* in this residual"
+}

@@ -1,0 +1,21 @@
+{
+  "edge_id": "S65",
+  "source": "S6.5",
+  "target": "PIm_even",
+  "type": "symmetry",
+  "status": "ZERO",
+  "location": "S6.5",
+  "claim": "P_nm(-k)=-P_nm(k)* implies PIm is TRS-even",
+  "assumptions": [
+    "P_mn=P_nm^*",
+    "local TRS sewing"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "((-Pr + I*Pi) - (-Pr - I*Pi))/(2*I)",
+  "right": "Pi",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

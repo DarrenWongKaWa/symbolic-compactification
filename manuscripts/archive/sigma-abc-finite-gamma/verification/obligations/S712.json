@@ -1,0 +1,21 @@
+{
+  "edge_id": "S712",
+  "source": "S7.11",
+  "target": "S7.12",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S7.12",
+  "claim": "completed all-distinct \u0393^0 coefficient T0+(M0(n,\u2113)-M0(\u2113,m))/\u03f5_mn vanishes",
+  "assumptions": [
+    "T0 defined by (S7.11)",
+    "\u03f5_mn\u22600"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(M_lm - M_nl)/d + (M_nl - M_lm)/d",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

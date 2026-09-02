@@ -1,0 +1,25 @@
+{
+  "edge_id": "E007",
+  "source": "E5",
+  "target": "E6",
+  "type": "symmetry",
+  "status": "SPLIT",
+  "location": "E5\u2192E6",
+  "claim": "T=+1 and full-BZ pairing retain only even generators",
+  "assumptions": [
+    "T^2=+1",
+    "full BZ pairing"
+  ],
+  "children": [
+    "C01",
+    "S610",
+    "C04"
+  ],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "children:C01,S610,C04",
+  "notes": "local map is C3; integral projector is C4"
+}

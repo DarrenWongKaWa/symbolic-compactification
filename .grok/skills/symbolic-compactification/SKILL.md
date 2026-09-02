@@ -1,53 +1,54 @@
 ---
 name: symbolic-compactification
 description: >
-  Use for verified symbolic reasoning in theoretical physics: forward
-  derivation (candidate must be exact ZERO) or paper audit (inventory,
-  source-grounded relations, RESULTS.md). Trigger /symbolic-compactification.
+  Use for verified symbolic reasoning: forward derivation (candidate must
+  be exact ZERO) or paper audit (inventory, source-grounded relations,
+  reviewer HTML + Markdown). Trigger /symbolic-compactification.
 argument-hint: "[forward|audit]"
 ---
 
 # symbolic-compactification
 
-Deterministic propose-and-verify. This skill is not a CAS, not a theorem
-prover, and not a physics-discovery box. LLM judgment is never proof.
-Core verification needs no API key.
+Deterministic propose-and-verify. Not a CAS, not a theorem prover, not a
+physics-discovery box. LLM judgment is never proof. Core verification
+needs no API key. Full rules: `AGENTS.md`.
 
-Two workflows. Full rules: `AGENTS.md`.
+## Paper audit (default product path)
+
+Printed equation numbers only. No adjacency-invented equalities.
+
+```bash
+symbolic-compactification audit init DIR
+# copy manuscript into DIR/manuscript/
+symbolic-compactification audit inventory DIR
+# record source-grounded edges in DIR/edges/
+symbolic-compactification audit verify DIR
+symbolic-compactification audit report DIR
+```
+
+Outputs: `DIR/reports/REPORT.md` and `DIR/reports/report.html`.
+
+Flagship (do not re-adjudicate unless asked):
+`examples/guo-evidence-ledger/output/index.html`.
+
+HTML first screen must include a visible `<section id="map-sec">`
+appendix map when the paper has appendices. Never `<details id="map-sec">`.
+Never stamp Exact from `0*` (invalid overlay; archived).
 
 ## Forward derivation
 
 Current expression + candidate → `verify` / `step`. Promote only on `ZERO`.
 
-| Verdict | Action |
-|---|---|
-| ZERO | Promote; candidate becomes current |
-| NONZERO | Read residual + counterexample; propose again |
-| UNKNOWN | Do not promote |
-
 ```bash
 symbolic-compactification inspect current.txt --symbols symbols.json --json
 symbolic-compactification verify WORKSPACE
-# or step --run RUN_ID --candidate candidate.txt --symbols symbols.json
 ```
-
-A human, CAS, or model may write the candidate. None of them certifies it.
-
-## Paper audit
-
-Printed equation numbers only. No adjacency-invented equalities.
-
-```bash
-symbolic-compactification audit verify WORKSPACE
-symbolic-compactification audit table WORKSPACE
-```
-
-Flagship human-readable table: `examples/flagship/guo/RESULTS.md`.
 
 ## Red flags
 
 - Treating a candidate as a result before `ZERO`
 - Calling a rule certificate engine `ZERO`
 - Promoting on `UNKNOWN`
-- Requiring a model API key for verification
-- Inventing Eq. (i) → Eq. (i+1) because the numbers are consecutive
+- Inventing Eq. (i) → Eq. (i+1) because numbers are consecutive
+- Putting `0*` in reviewer HTML
+- Rewriting frozen RESULTS statuses to make a demo look better

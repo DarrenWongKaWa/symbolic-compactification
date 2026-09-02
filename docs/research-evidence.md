@@ -12,4 +12,4 @@ the listed archive tags. Counts are from those frozen commits.
 | Guo full-paper flagship | Same paper, 189/189 numbered equations, 146 source-grounded relations | Coverage 189/189; `EXACT_ZERO` 32; substitution `ZERO` 21; `CERTIFIED_BY_RULE` 11; false promotion 0/155 | Many equations structural or unsupported; remainder stays `UNKNOWN` | `archive/guo-full-paper-audit-flagship-v1` (`d92f3ec`) |
 
 Public entry for the last row:
-[examples/flagship/guo/RESULTS.md](../examples/flagship/guo/RESULTS.md).
+[examples/guo-evidence-ledger/evidence/RESULTS.md](../examples/guo-evidence-ledger/evidence/RESULTS.md).

@@ -1,0 +1,20 @@
+{
+  "edge_id": "A05",
+  "source": "A7a",
+  "target": "A7b",
+  "type": "definition",
+  "status": "DEFINITION",
+  "location": "A7a\u2192A7b",
+  "claim": "f_- is the reflection of the same master f_+",
+  "assumptions": [
+    "\u0393>0 so Re z_\u00b1 > 0"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": "polygamma form vs 1-f_+(2\u03bc-\u03f5); not executed as a naked difference"
+}

@@ -1,0 +1,122 @@
+{
+  "role": "ALGEBRA_GAP_LOWERER",
+  "authority": "proposal_encoding",
+  "not_a_verdict": true,
+  "frozen_results_untouched": true,
+  "software": "v0.3.0-alpha",
+  "engine": "python_sympy_exact_v1 0.3.0",
+  "audit_incomplete": true,
+  "reason_still_incomplete": "All four B rows engine ZERO does not sign must-review and does not certify missing_declared_moves.",
+  "unsigned_must_review": [
+    "R050",
+    "R066",
+    "R110",
+    "R132"
+  ],
+  "excluded": {
+    "C-27": "definition — not an encoding gap; not lowered",
+    "must_review_parents": "D-69 / D-87 / M=0 stay unsigned"
+  },
+  "in_scope": [
+    "R046",
+    "R096",
+    "R093",
+    "R072"
+  ],
+  "counts": {
+    "ZERO": 4,
+    "NONZERO": 0,
+    "ZERO_UNDER_SUBSTITUTION": 0,
+    "NOT_LOWERED": 0
+  },
+  "edges": [
+    {
+      "id": "R046",
+      "public_display": "Eq. (D-64) → Eq. (D-65)",
+      "printed": "T_{B,intra} kernel: (∂_a∂_c ε) v^b + (∂_a∂_b ε) v^c = ∂_a(v^b v^c) with v^i=∂_i ε",
+      "encoding_note": "Local Leibniz / product rule; same diff(u v) style as frozen R_leibniz_product_rule. Common -1/8 Σ f' factored out.",
+      "frozen_results": "UNSUPPORTED",
+      "dir": "algebra_gaps/R046",
+      "current_sha256": "15becc63ae0d6b8adc379d3450c0182bdfce118092b2319add9fa9d7a95e41cc",
+      "candidate_sha256": "f1c3f0a7e6b31f7a163786d63a710dc211fb8ddbfbc5517778533a45655c682f",
+      "engine_verdict": "ZERO",
+      "queue_status": "ZERO",
+      "residual": "0",
+      "simplified_residual": "0",
+      "verifier": "python_sympy_exact_v1",
+      "seconds": 0.5426,
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ]
+    },
+    {
+      "id": "R096",
+      "public_display": "Eq. (D-89) → Eq. (D-123)",
+      "printed": "v_n^a f_n^{(2)} = ∂_a(f_n')",
+      "encoding_note": "Chain rule with v=∂ε/∂k and f=f(ε). Not an auditor parameter substitution.",
+      "frozen_results": "UNSUPPORTED",
+      "dir": "algebra_gaps/R096",
+      "current_sha256": "6cb5e8b67d6c8aac9c4aefd92e97c407031ec759af5e4694ef900996101d4c70",
+      "candidate_sha256": "e6c42053884ffc731b1a19b093ef0f082fd7610c877deabec9e3ced03e78bdc0",
+      "engine_verdict": "ZERO",
+      "queue_status": "ZERO",
+      "residual": "0",
+      "simplified_residual": "0",
+      "verifier": "python_sympy_exact_v1",
+      "seconds": 0.5148,
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ]
+    },
+    {
+      "id": "R093",
+      "public_display": "Eqs. (D-119), (D-93) → Eq. (D-120)",
+      "printed": "T_0+T_1 combined f' terms",
+      "encoding_note": "current = frozen T_0 (R088 right) + frozen T_1 (R069 right); candidate = printed D-120.",
+      "frozen_results": "UNSUPPORTED",
+      "dir": "algebra_gaps/R093",
+      "current_sha256": "633c331f1a86081ec34d1e44d76261aa63091809f3ca62fa13b37a366eeda3e5",
+      "candidate_sha256": "c7576d30a3fa76955360a99515cff4b2007feca33fe56eeff50be9ce646c1f1a",
+      "engine_verdict": "ZERO",
+      "queue_status": "ZERO",
+      "residual": "0",
+      "simplified_residual": "0",
+      "verifier": "python_sympy_exact_v1",
+      "seconds": 0.5195,
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ]
+    },
+    {
+      "id": "R072",
+      "public_display": "Eq. (D-98) → Eq. (D-99)",
+      "printed": "S_{ac;b}+S_{ab;c} from S_{ab;c} and b↔c",
+      "encoding_note": "Linearity of ∂_a; K_abc := K_{ab;c}+K_{ac;b}.",
+      "frozen_results": "UNSUPPORTED",
+      "dir": "algebra_gaps/R072",
+      "current_sha256": "dae53b1c2264e10daab6fafa293a34201e2f728d6d34f92385973ed4c215897d",
+      "candidate_sha256": "87060a66ee3fb69784a409f8c3559b00eb852970a212e615a5de708bb859924c",
+      "engine_verdict": "ZERO",
+      "queue_status": "ZERO",
+      "residual": "0",
+      "simplified_residual": "0",
+      "verifier": "python_sympy_exact_v1",
+      "seconds": 0.5173,
+      "evidence": [
+        {
+          "kind": "exact_symbolic_zero",
+          "simplified_difference": "0"
+        }
+      ]
+    }
+  ]
+}
