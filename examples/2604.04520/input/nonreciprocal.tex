@@ -1,0 +1,1267 @@
+\documentclass[twocolumn,superscriptaddress]{revtex4-1}
+\usepackage{amsmath, bm, physics,amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{siunitx}
+% \graphicspath{{picFolder/}}
+\usepackage{txfonts}
+
+\usepackage[whole]{bxcjkjatype} 
+\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue,breaklinks=true]{hyperref}
+\input glyphtounicode
+\pdfgentounicode=1
+
+\newcommand{\blue}[1]{{\textcolor{blue}{#1}}}
+\newcommand{\red}[1]{{\textcolor{red}{#1}}}
+\newcommand{\green}[1]{{\textcolor{green}{#1}}}
+
+\newcommand{\smrm}[1]{_{\mathrm{#1}}}
+\newcommand{\uprm}[1]{^{\mathrm{#1}}}
+\newcommand{\sgn}{\mathrm{sgn}}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.misc}
+\usepackage{tikz-feynhand}
+
+% ── カスタムスタイル定義 ─────────────────────────
+\tikzset{
+  dot/.style={
+    circle,
+    fill=black,
+    minimum size=3pt,
+    inner sep=0pt
+  }
+}
+\begin{document}
+\title{Nonreciprocal current induced by dissipation in time-reversal symmetric systems
+}
+\author{Takahiro Anan}
+\affiliation{Department of Applied Physics, The University of Tokyo, Hongo, Tokyo,
+  113-8656, Japan}
+\affiliation{Department of Physics, Kyoto University, Kyoto,
+  606-8502, Japan}  
+\author{Sota Kitamura}
+\affiliation{Department of Physics, Kyoto University, Kyoto,
+  606-8502, Japan}
+\author{Takahiro Morimoto}
+\affiliation{Department of Physics, Kyoto University, Kyoto,
+  606-8502, Japan}
+\date{\today}
+\begin{abstract}
+We study nonreciprocal current response in noncentrosymmetric crystals under time-reversal symmetry.
+We reveal that the nonreciprocal current appears in a dissipative system through interband processes.
+We derive a formula for the nonreciprocal current using the Green's function technique.
+The nonreciprocal current of the present mechanism turns out to be of $O(1/\tau)$ ($\tau$: the lifetime of Bloch electrons) and arises from the shift of the electron wave packet during the interband processes which has a geometric origin.
+We present a numerical simulation of the nonreciprocal current in the one-dimensional Rice--Mele model and give its order estimation for nonmagnetic polar semiconductors.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+Nonreciprocity refers to the directional asymmetry of a physical response: the response to a drive in one direction is not equivalent to that for the opposite direction. 
+This directional asymmetry originates from the breaking of inversion symmetry. 
+At the same time, in the context of current response in crystals, microscopic time-reversal (TR) symmetry plays an essential role~\cite{Tokura2018,Nagaosa2024}.
+This is because, within Boltzmann transport theory, nonreciprocal current response requires $k$-asymmetric band structure $\epsilon_{k}\neq \epsilon_{-k}$.
+A well-known example of such nonreciprocal current response is the magnetochiral anisotropy~\cite{Rikken2001}, which requires a magnetic field or magnetization to realize the $k$-asymmetric band structure.
+Accordingly, nonreciprocal current response in TR broken systems has been extensively studied both theoretically~\cite{Morimoto2016,Wakatsuki2018,Hoshino2018,Watanabe2020,Watanabe2021,Das2023,Kaplan2024} and experimentally~\cite{Ideue2017,Yokouchi2017,Wakatsuki2017,Yasuda2019,Itahashi2020,Zhang2020,Zhao2020,Nakamura2025,Li2021,Wang2022,Wakamura2024}.
+While these studies are based on Bloch electrons with finite lifetime, there are several approaches to derive nonreciprocal current response in TR symmetric systems by incorporating additional effects.
+For example, electron interactions can lead to a band modification dependent on the applied electric field, which induces nonreciprocal current \cite{Morimoto2018}.
+Another example is skew scattering and side jump induced by inversion symmetry breaking, which provide $k$-asymmetric scattering processes and generate nonreciprocal current~\cite{Isobe2020,Varshney2026}.
+The common feature of these approaches is that they invoke additional effects beyond a description based solely on Bloch electrons.
+This naturally raises a basic question: can nonreciprocal current arise under TR symmetry within the Bloch-electron description alone?
+
+To understand the nonreciprocity in inversion-symmetry-broken systems, it is useful to consider transport in terms of the two-by-two scattering matrix $S$ that relates incoming and outgoing states at the left (L) and right (R) leads:
+\begin{align}   
+  S=\left(
+    \begin{array}{cc}
+      r_{LL} & t_{LR} \\
+      t_{RL} & r_{RR}
+    \end{array}
+  \right),
+\end{align}
+where $r$ and $t$ are the reflection and transmission amplitudes, respectively.
+For unitary time evolution $S^\dagger S=I$, one can show $|t_{LR}|=|t_{RL}|$, which means that the current response is reciprocal even in the presence of inversion symmetry breaking.
+Thus, one way to realize nonreciprocal current is to incorporate non-unitarity to the system.
+Such non-unitarity typically arises from relaxation and is described by the imaginary part of the self-energy in the Green's function formalism.
+For Bloch electrons, the imaginary part of the self-energy encodes finite-lifetime effects associated with intraband and interband relaxation processes.
+For intraband dynamics, non-unitarity arises, for example, from the relaxation process by which the nonequilibrium distribution returns to equilibrium within the relaxation-time approximation (Fig.~\ref{fig:schematic}(a)).
+Nonreciprocal currents associated with intraband dynamics are described by the nonlinear Drude term and the quantum metric dipole term, which require $\epsilon_{k}\neq \epsilon_{-k}$ and thus TR symmetry breaking \cite{Gao2014,Watanabe2020,Watanabe2021,Das2023,Kaplan2024,Ulrich2026,Guo2026}.
+Actually, both contributions are written within a single band picture~\cite{Ulrich2026,Guo2026}.
+By contrast, interband processes involve excitations between different bands.
+In the AC regime, such interband excitations are naturally induced by light illumination, leading to photocurrent generation that arises from the electron shift during the interband excitations, called shift current~\cite{Sipe2000}.
+Here, non-unitarity enters through the relaxation process in which the photoexcited carriers relax back to the original band (Fig.~\ref{fig:schematic}(b)), leading to a nonreciprocal response even in TR symmetric systems.
+Similarly, application of a strong DC electric field can induce interband tunneling of electrons, i.e., Landau--Zener tunneling. 
+It has been proposed that  nonreciprocal current can arise even in the DC regime, due to the shift of the electron wave packet during interband Landau--Zener tunneling processes~\cite{Kitamura2020,Kitamura2020PRB}.
+In the infinitesimal-dissipation limit of the DC regime, however, interband transitions are absent, and hence no nonreciprocal current can arise from interband processes.
+This observation suggests that, in the presence of a finite dissipation, interband processes may give rise to a nonreciprocal current in TR symmetric systems, even within a Bloch-electron framework without invoking interaction-induced band modifications or asymmetric scattering mechanisms.
+
+In this Letter, we show that nonreciprocal current emerges even in TR symmetric systems when interband transitions enabled by a finite relaxation rate are taken into account.
+We derive a formula for the nonreciprocal current in TR symmetric systems in the presence of dissipation and show that it arises from the electron wave packet shift in the interband transition exemplified by the shift vector $R$ (Fig.~\ref{fig:schematic}(c)).
+We discuss the leading order contribution in the relaxation rate and perform numerical calculations using the Rice--Mele model to investigate the behavior of the nonreciprocal current.
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{schematic.pdf}
+  \caption{Schematic picture of nonreciprocal current induced by dissipation. 
+  (a) Intraband dynamics and relaxation process within relaxation-time approximation. 
+  (b) Interband excitation and relaxation process in photocurrent or dissipation-induced nonreciprocal current.
+  (c) Nonreciprocal current induced by dissipation. 
+  With finite dissipation, Bloch electrons can be excited to upper bands upon application of an electric field, which produces nonreciprocal current in inversion symmetry broken systems.
+  }
+  \label{fig:schematic}
+\end{figure}
+
+\section{Results}
+We derive the nonreciprocal current as a static limit of the second order conductivity $\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)$ that is defined as 
+\begin{align}
+j_\mu^{(2)}(t)=&\sum_{\alpha,\beta}\int\frac{d\omega_1}{2\pi}\int \frac{d\omega_2}{2\pi}\nonumber \\
+  &\quad \times \mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)A_\alpha(\omega_1)A_\beta(\omega_2)e^{-i(\omega_1+\omega_2)t}, \label{eq:definitionOfCurrent}
+\end{align}
+where $j_\mu^{(2)}(t)$ is the nonlinear current density and $\mu,\alpha,\beta$ are the spatial indices.
+We consider a monochromatic electric field with the velocity gauge $E(t)=-\partial_t A(t),\ A_\alpha(\omega_1)=A_\alpha 2\pi\delta(\omega_1-\omega) +A_\alpha^* 2\pi\delta(\omega_1+\omega)$.
+In this formalism, the static nonlinear conductivity $j_\mu^{(2)}(t)=\sigma^{\mu\alpha\alpha} E_\alpha^2(t)$ is given as an $O(\omega^2)$ term of $\mathcal{K}^{\mu\alpha\alpha}$, and thus the nonreciprocal current is given by
+\begin{align}
+  \sigma^{\mu\alpha\alpha}=& \frac{1}{2}\partial_\omega^2\mathcal{K}^{\mu\alpha\alpha}(\omega,-\omega)|_{\omega=0}. \label{eq:nonReciprocalEsquared}
+\end{align}
+Here, $O(\omega^0)$ components and $O(\omega)$ components of $\mathcal{K}^{\mu\alpha\alpha}(\omega,-\omega)$ vanish because of the gauge invariance.
+The detailed derivations are shown in Appendix~\ref{app:deriveDC}.
+
+Using the Green function method, $\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)$ is given by
+\begin{align}
+  \mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)=&\left(\frac{e}{\hbar}\right)^3\int \frac{d\epsilon}{2\pi i}\int_{\mathrm{BZ}} \frac{d^d k}{(2\pi)^d} 2\Gamma^2 (f(\epsilon)-f(\epsilon+\hbar\omega)) \nonumber \\
+  \times \mathrm{Tr} [\partial_{k_\mu} (G^R&(\epsilon+\hbar\omega) H^\alpha G^A(\epsilon) )G^R(\epsilon) H^\beta G^A(\epsilon+\hbar\omega)] ,\label{eq:currentbyExcitation}
+\end{align}
+where $G^{R(A)}(\epsilon)=(\epsilon+\mu-H\pm i\Gamma)^{-1}$ is the retarded (advanced) Green's function with the relaxation rate $\Gamma$, $f(\epsilon)=(e^{\beta \epsilon}+1)^{-1}$ is the Fermi distribution function, $H^\alpha=\partial_{k_\alpha} H$ with $H$ being the Hamiltonian, and $\mathrm{Tr}$ denotes the trace over band indices.
+In the clean limit $\Gamma \to 0$, Eq.~\eqref{eq:currentbyExcitation} reproduces the expressions for nonlinear optical conductivities such as injection and shift current \cite{Sipe2000}. 
+In contrast, taking the static limit $\omega \to 0$ before the clean limit $\Gamma \to 0$ yields the expressions for the nonreciprocal current responses including the nonlinear Drude term, the Berry curvature dipole term, and the quantum metric dipole term \cite{Ulrich2026}.
+The derivations of these limiting cases are given in Appendices~\ref{app:injectionShift} and~\ref{app:DrudeBCD}, respectively.
+
+Here, we consider the nonreciprocal current (i.e. $\mu=\alpha$ in Eq.~\eqref{eq:nonReciprocalEsquared}) in TR symmetric systems.
+The nonreciprocal current is given by
+\begin{align}
+  \sigma^{\alpha\alpha\alpha}=& \frac{e^3}{\hbar} \int\smrm{BZ}\frac{d^d k}{(2\pi)^d}\left[\sum_{a\neq b}R_{ab}|A_{ab}|^2D^{(2)}_{ab}\right.\nonumber \\
+  &\left.+\sum_{a\neq b,b\neq c,c\neq a}\Re[A_{ab}A_{bc}A_{ca}]D^{(3)}_{abc} \right] \label{eq:sigma2}
+\end{align}
+with
+\begin{align}
+  D^{(2)}_{ab}&=\Re \left[\frac{8\Gamma (\Delta_{ab}+i\Gamma)}{(\Delta_{ab}+2i\Gamma)^2}f_{+,a}'-\frac{2\Gamma \Delta_{ab}}{\Delta_{ab}+2i\Gamma}f_{+,a}''\right] \\
+  D^{(3)}_{abc}&=\Re\left[-\left(\frac{1}{\Delta_{ac}}+\frac{1}{\Delta_{bc}}\right)\frac{8\Gamma\Delta_{ab}}{\Delta_{ab}+2i\Gamma}f_{+,a}'+\frac{2\Gamma\Delta_{ab}}{\Delta_{ab}+2i\Gamma}f_{+,a}''\right]
+\end{align}
+where $A_{ab}=i\bra{u_a}\partial_{k_\alpha} \ket{u_b}$ is the interband Berry connection, $\Delta_{ab}=\epsilon_a-\epsilon_b$ is the band gap, $R_{ab}=\Im \partial_{k_\alpha}( \log A_{ba})+i\bra{u_a}\partial_{k_\alpha}\ket{u_a}-i\bra{u_b}\partial_{k_\alpha}\ket{u_b}$ is the shift vector, $f_{\pm}(x)\equiv \frac{1}{4}\pm \frac{1}{2\pi i}\psi\left(\frac{1}{2}\pm \frac{\beta x}{2\pi i}\right)$ with $\psi(z)$ being the digamma function, and $f_{+,a}'=f_+'(\epsilon_a-\mu+i\Gamma),\ f_{+,a}''=f_+''(\epsilon_a-\mu+i\Gamma)$.
+Here, we assume that there is no degeneracy in the band structure for simplicity.
+The detailed derivation of Eq.~\eqref{eq:sigma2} is shown in Appendix~\ref{app:derivationSigma2}.
+
+From now, we identify the leading order contribution in $\Gamma$.
+We first consider the case where the chemical potential lies within the band gap, which applies to insulators and semiconductors with thermally activated carriers.
+In this case, there exists a minimum nonzero value $\xi\smrm{min}$ such that $\xi\smrm{min}\leq |\xi_a|$ for all $a$ where $\xi_a\equiv \epsilon_a-\mu$, and thus we can consider the low temperature regime $\Gamma\ll \xi\smrm{min},\ \beta \Gamma \gg 2\pi$, where we can use the asymptotic form of the digamma function $\psi(z) \sim \log z$.
+In this regime, we obtain 
+\begin{align}
+  D^{(2)}_{ab}=&2\Gamma^2 \frac{-10\xi_a^2+5\xi_a\xi_b-\xi_b^2}{\pi \Delta_{ab}^2 \xi_a^3}+O(\Gamma^3), \label{eq:lowTmpGammaSquared}\\
+  D^{(3)}_{abc}=&\frac{2\Gamma^2}{\pi\Delta_{ab}\xi_a^2} \Bigg[\left(\frac{1}{\Delta_{ac}}+\frac{1}{\Delta_{bc}}\right)(2\Delta_{ab}+4\xi_a)+\frac{\Delta_{ab}}{\xi_a}+1\Bigg]+O(\Gamma^3).
+\end{align}
+Thus the leading order contribution to $\sigma^{\alpha\alpha\alpha}$ is $O(\Gamma^2)$.
+In the high temperature regime $\beta \Gamma \ll 2\pi$, we obtain
+\begin{align}
+  D^{(2)}_{ab}=&\Gamma \left(\frac{4}{\Delta_{ab}}f_a'-f_a''\right)+O(\Gamma^2), \label{eq:highTmpGammaLinear}\\
+  D^{(3)}_{abc}=&\Gamma \left[-\left(\frac{1}{\Delta_{ac}}+\frac{1}{\Delta_{bc}}\right)4f_a'+f_a''\right]+O(\Gamma^2).
+\end{align}
+Thus the leading order contribution to $\sigma^{\alpha\alpha\alpha}$ is $O(\Gamma)$.
+On the other hand, when the chemical potential $\mu$ lies within the conduction band (ordinary metallic cases), there is a contribution from the states satisfying $\epsilon_a-\mu=0$.
+Therefore, we cannot consider the low temperature regime $\beta \Gamma \gg 2\pi$ based on a finite lower bound of $|\xi_a|$, and the leading order contribution to $\sigma^{\alpha\alpha\alpha}$ is $O(\Gamma)$ in this case.
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{colorMapvsMu.pdf}
+  \caption{Nonreciprocal current $\sigma^{xxx}$ of the Rice--Mele model. (a) Color plot of $\sigma^{xxx}$ as a function of chemical potential $\mu$ and relaxation rate $\Gamma$. Dashed lines indicate the half gap $\Delta=\sqrt{m^2+\delta t^2}$. The inset in (a) shows the band structure of the Rice--Mele model. (b) $\sigma^{xxx}$ as a function of $\mu$ for different values of $\beta$. We set the parameters as $m=0.1t_0,\delta t=0.1t_0$.}
+  \label{fig:colorMapvsMu}
+\end{figure}
+
+
+
+\section{Model calculation}
+To demonstrate the nonreciprocal current induced by dissipation, we consider the Rice--Mele model given by $\mathcal{H}(k)=t_0\cos k \sigma_x + \delta t \sin k \sigma_y + m\sigma_z$, where $\sigma_{x,y,z}$ are the Pauli matrices.
+The Rice--Mele model is a minimal model for ferroelectric materials and contains two inversion-symmetry-breaking parameters: the staggered onsite potential $m$ and the staggered hopping amplitude $\delta t$. 
+Because the Rice--Mele model preserves TR symmetry, the nonreciprocal current is not induced by the nonlinear Drude term or the quantum metric dipole term.
+Therefore, in this model, the nonreciprocal current arises only from the dissipation-induced nonreciprocal current described by Eq.~\eqref{eq:sigma2}.
+
+Figure~\ref{fig:colorMapvsMu} (a) shows the nonreciprocal current $\sigma^{xxx}$ of the Rice--Mele model as a function of chemical potential $\mu$ and relaxation rate $\Gamma$.
+The inset in Fig.~\ref{fig:colorMapvsMu} (a) shows the band structure of the Rice--Mele model which has band edges at $E = \pm \Delta$ with $\Delta/t_0 \simeq 0.14$.
+The nonreciprocal current is enhanced when the chemical potential is near the band gap $-\Delta \lesssim \mu \lesssim \Delta$ and the relaxation rate is comparable to the band gap $\Gamma \sim \Delta$.
+This is consistent with the fact that the nonreciprocal current is induced by the interband excitation.
+Figure~\ref{fig:colorMapvsMu} (b) shows $\sigma^{xxx}$ as a function of $\mu$ for different values of $\beta$.
+In the low temperature regime $\beta \Gamma \gg 2\pi$, the nonreciprocal current shows peaks and sign changes near the band edge, as described by the denominator of $\xi_a^3$ in Eq.~\eqref{eq:lowTmpGammaSquared}.
+In the high temperature regime $\beta \Gamma \ll 2\pi$, the nonreciprocal current shows a single peak in the band gap, as the difference of the Fermi distribution function of the upper and lower bands is enhanced in the band gap. 
+
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{riceMelevsGamma.pdf}
+  \caption{Nonreciprocal current $\sigma^{xxx}$ of the Rice--Mele model as a function of relaxation rate $\Gamma$. The nonreciprocal current is plotted for different values of the inverse temperature $\beta$. (a) Nonreciprocal current in the semiconducting case with $\mu=0$. (b) Nonreciprocal current in the metallic case with $\mu=0.15t_0$.}
+  \label{fig:riceMelevsGamma}
+\end{figure}
+
+Figure~\ref{fig:riceMelevsGamma} (a) shows the nonreciprocal current $\sigma^{xxx}$ as a function of relaxation rate $\Gamma$ for the semiconducting case ($\mu=0$).
+In the low temperature regime $\beta \Gamma \gg 2\pi$, the nonreciprocal current shows a quadratic dependence on $\Gamma$ for small $\Gamma$, as described by Eq.~\eqref{eq:lowTmpGammaSquared}.
+In the high temperature regime $\beta \Gamma \ll 2\pi$, the nonreciprocal current shows a linear dependence on $\Gamma$ for small $\Gamma$, as described by Eq.~\eqref{eq:highTmpGammaLinear}.
+On the other hand, Fig.~\ref{fig:riceMelevsGamma} (b) shows the nonreciprocal current $\sigma^{xxx}$ as a function of relaxation rate $\Gamma$ with the chemical potential in the conduction band $\mu=0.15t_0$.
+In this case, the nonreciprocal current shows a linear dependence on $\Gamma$ for small $\Gamma$ at any temperature.
+
+
+\begin{table*}[t]
+  \begin{tabular}{c|c|c|c}
+  \hline\hline
+     $\sigma^{\alpha\alpha\alpha}$&TR symmetric systems &Relaxation time ($\tau$) dependence & Inter/intra-band mechanism\\
+    \hline
+    Nonlinear Drude term & - &$O(\tau^{2})$ &Intraband \\
+    Quantum metric dipole term& - &  $O(\tau^{0})$ &Intraband\\
+    Dissipation induced nonreciprocity (present) & $\checkmark$ & $O(\tau^{-1}) \text{ or } O(\tau^{-2})$ &Interband \\
+    \hline\hline
+  \end{tabular}
+  \caption{
+    Mechanisms for nonreciprocal current of Bloch electrons. The nonlinear Drude term and the quantum metric dipole term are the two dominant contributions to nonreciprocal current in time-reversal (TR) symmetry broken systems in the clean limit $\tau \to \infty$. On the other hand, the present mechanism for nonreciprocal current is allowed for TR symmetric systems and gives the leading-order contribution of order $\tau^{-1}$ or lower.
+    The expressions of the nonlinear Drude term and the quantum metric dipole term are given in Secs.~\ref{app:NLD} and \ref{app:QMD} of Appendix.
+  }
+  \label{tab:comparison}
+\end{table*}
+
+\section{Discussion}
+We have demonstrated that nonreciprocal current can be induced by dissipation in TR symmetric systems.
+In this section, we discuss the characteristics of this nonreciprocal current, an order estimate and candidate materials for its observation.
+Table~\ref{tab:comparison} summarizes the comparison between our result and previous results on nonreciprocal current of Bloch electrons with a finite lifetime.
+The nonlinear Drude term and quantum metric dipole term are the two dominant contributions to nonreciprocal current in TR symmetry broken systems in the clean limit $\tau \to \infty$.
+On the other hand, the dissipation-induced nonreciprocal current is of order $\tau^{-1}$ and lower in $\tau$, which is the dominant contribution in the short-lifetime regime.
+Furthermore, the dissipation-induced nonreciprocal current is the leading contribution in TR symmetric systems, because the nonlinear Drude term and the quantum metric dipole term vanish in TR symmetric systems.
+
+Another characteristic of the nonreciprocal current induced by dissipation is that it can be observed even when the chemical potential $\mu$ lies in the band gap ($|\mu|<\Delta$), in contrast to the previous mechanisms for nonreciprocal current in TR symmetric systems, which require the chemical potential to lie within a band ($|\mu|>\Delta$)~\cite{Morimoto2018,Isobe2020,Varshney2026}.
+From an experimental perspective, nonreciprocal signals such as the second-harmonic voltage $V^{2\omega}\propto I^2\sigma^{xxx}/(\sigma^{xx})^3$ and the second-harmonic resistance $R^{2\omega} \propto I\sigma^{xxx}/(\sigma^{xx})^3$ are often measured as functions of the applied current $I$. 
+Therefore, the present mechanism is suitable for materials with low conductivity, in particular wide-gap semiconductors with low carrier density ($|\mu|<\Delta$) and long relaxation times. 
+We note that this situation does not necessarily mean large $\sigma^{xxx}$ itself which is enhanced for short relaxation times ($\Gamma \sim \Delta$).
+
+In the present analysis, we consider that all quasiparticles have the same relaxation time $\tau=\hbar/(2\Gamma)$, since the relaxation is incorporated in the constant self energy in the Green's function. 
+This assumption is well justified when the system is coupled to a fermionic bath with a constant density of states.
+When the relaxation rate $\Gamma$ originates from impurity scattering or related mechanisms, our analysis is applicable to a situation where the quasiparticle states are not localized, but lie on the extended-state side of the mobility edge.
+For this reason, three-dimensional doped semiconductors are promising candidate materials for observing the present nonreciprocal current.
+We note that the localization effect is not incorporated in the present analysis and is out of scope for this study.
+
+
+To estimate these nonreciprocal signals in physical units, we derive $\sigma^{xx}$ with finite relaxation rate $\Gamma$ and perform an order estimate of $V^{2\omega}$ and $R^{2\omega}$ for a three-dimensional extension of the Rice--Mele model in Appendix~\ref{app:orderEstimation}.
+For a sample with cross-sectional area $S=1\,\mathrm{mm}^2$ and length $l=1\,\mathrm{mm}$, a representative semiconductor with a band gap $2\Delta=3.1\,\mathrm{eV}$ and a relaxation time of $0.3\,\mathrm{ps}$ gives $|R^{2\omega}|\sim 0.3\,\Omega$ and $|V^{2\omega}|\sim 0.02\,\mathrm{mV}$ for a dissipated power of $1\,\mathrm{mW}$ and an applied current of $0.05\,\mathrm{mA}$.
+These nonreciprocal signals are comparable to or larger than the experimentally observed nonreciprocal signals in TR broken systems~\cite{Ideue2017,Yokouchi2017,Wakatsuki2017,Yasuda2019,Itahashi2020,Zhang2020,Nakamura2025,Li2021,Wang2022,Wakamura2024}.
+Moreover, these nonreciprocal signals are observable at room temperature, which is an advantage for potential applications.
+The detailed estimation is shown in Appendix~\ref{app:orderEstimation}.
+
+Based on the above discussion, promising candidate materials are nonmagnetic polar semiconductors with sufficiently large band gaps, including visible- and ultraviolet-gap materials, and relatively long relaxation times.
+In addition, a second-order longitudinal response $\sigma^{\alpha\alpha\alpha}$ should be allowed by crystal symmetry.
+Since the present nonreciprocal current contains a contribution governed by the shift vector $R$, materials in which shift current has already been experimentally observed are particularly attractive candidates for the observation of the present nonreciprocal current.
+Wurtzite semiconductors such as CdS and CdSe are representative examples~\cite{Laman2005,Sotome2021}.
+Ferroelectric semiconductors such as SbSI are similarly attractive because their band gaps lie near the visible range and their shift-current response can be switched by reversing the ferroelectric polarization~\cite{Ogawa2017,Sotome2019}.
+Ferroelectric oxides such as BaTiO$_3$~\cite{Koch1975,Okamura2022}, LiNbO$_3$~\cite{Glass1974,Dalba1995} and Pb-based ferroelectric oxides~\cite{Yang2000,Poosanaas1998,Pintilie2007} are other candidate materials.
+Even in nonmagnetic polar semiconductors where a shift-current response has not yet been experimentally established, nonmagnetic polar semiconductors with sufficiently large band gaps can serve as candidate platforms.
+For example, ZnO, GaN, AlN, and AlGaN alloys in the ideal wurtzite phase are noncentrosymmetric polar semiconductors with point group $C_{6v}$, and therefore allow a longitudinal response $J_c\propto E_c^2$ along the polar $c$ axis~\cite{Vurgaftman2003,Ozgur2005}.
+
+\begin{acknowledgements}
+We thank Naoto Nagaosa, Yannis Ulrich, and Yoshihiro Iwasa for insightful discussions. This work was supported by JST SPRING, Grant Number JPMJSP2108 (TA) and MEXT/JSPS KAKENHI, Grants Numbers JP26KJ0822 (TA), JP25H01249, JP25K07219 (SK), JP24H02231, JP23K17665, JP24K00568 (TM), JP23K25816 (TM, SK).
+\end{acknowledgements}
+
+
+
+\appendix
+
+\section{Derivation of the DC response} \label{app:deriveDC}
+In this section, we show that the nonreciprocal current is given by Eq.~\eqref{eq:nonReciprocalEsquared} and show that there is no divergence in the static limit of the second order conductivity $\sigma^{\mu\alpha\beta}(\omega_1,\omega_2)$ with respect to the electric field.
+
+\subsection{Derivation of the DC response from the AC response}
+First, we show that the nonreciprocal current is given by Eq.~\eqref{eq:nonReciprocalEsquared}.
+Using $A_\alpha(\omega_1)=A_\alpha 2\pi\delta(\omega_1-\omega) +A_\alpha^* 2\pi\delta(\omega_1+\omega)$, we can rewrite the current density (Eq.~\eqref{eq:definitionOfCurrent}) as
+\begin{align}
+  j_\mu(\omega)\equiv &\int_{-\infty}^{\infty}dt j_\mu(t) e^{i\omega' t}\nonumber\\
+  =& j_\mu\uprm{DC}(\omega)2\pi \delta(\omega')+j_\mu\uprm{SHG+}(\omega)2\pi\delta(\omega'-2\omega)\nonumber \\
+  &+j_\mu\uprm{SHG-}(\omega)2\pi\delta(\omega'+2\omega)\nonumber \\
+  j_\mu\uprm{DC}(\omega)=&\sum_{\alpha,\beta}\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega) A_\alpha(\omega) A_\beta(-\omega)\nonumber\\
+  &+\sum_{\alpha,\beta}\mathcal{K}^{\mu\alpha\beta}(-\omega,\omega) A_\alpha(-\omega) A_\beta(\omega) 
+  % \nonumber\\
+  % =&\sum_{\alpha,\beta}[\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega) +\mathcal{K}^{\mu\beta\alpha}(-\omega,\omega)]A_\alpha(\omega) A_\beta(-\omega)
+   \label{eq:DCsumOfalpha_beta}\\
+  j_\mu\uprm{SHG+}(\omega)=&\sum_{\alpha,\beta}\mathcal{K}^{\mu\alpha\beta}(\omega,\omega) A_\alpha(\omega) A_\beta(\omega)\\
+  j_\mu\uprm{SHG-}(\omega)=&\sum_{\alpha,\beta}\mathcal{K}^{\mu\alpha\beta}(-\omega,-\omega) A_\alpha(-\omega) A_\beta(-\omega).
+\end{align}
+Using $\bm{A}(\omega)=\bm{E}(\omega)/i\omega$, we can expand $j_\mu(t)$ in terms of $\omega$ as
+\begin{widetext}
+\begin{align}
+  &j_\mu(t)\nonumber \\
+  =&j_\mu\uprm{DC}(\omega)+j_\mu\uprm{SHG+}(\omega)e^{-i2\omega t}+j_\mu\uprm{SHG-}(\omega)e^{i2\omega t}\nonumber \\
+  =&\sum_{\alpha,\beta}\frac{E_\alpha E_\beta^*}{\omega^2}
+    (\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\omega(\partial_{\omega_1}-\partial_{\omega_2})\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\frac{1}{2}\omega^2 (\partial_{\omega_1}-\partial_{\omega_2})^2\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\dots) \nonumber \\
+  &+\sum_{\alpha,\beta}\frac{E_\alpha^* E_\beta}{\omega^2}(\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}-\omega(\partial_{\omega_1}-\partial_{\omega_2})\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\frac{1}{2}\omega^2 (\partial_{\omega_1}-\partial_{\omega_2})^2\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\dots)\nonumber \\
+  &-\sum_{\alpha,\beta}\frac{E_\alpha E_\beta}{\omega^2}
+    (\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\omega(\partial_{\omega_1}+\partial_{\omega_2})\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\frac{1}{2}\omega^2 (\partial_{\omega_1}+\partial_{\omega_2})^2\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\dots) e^{-i2\omega t}\nonumber \\
+    & -\sum_{\alpha,\beta}\frac{E_\alpha^* E_\beta^*}{\omega^2} (\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}-\omega(\partial_{\omega_1}+\partial_{\omega_2})\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\frac{1}{2}\omega^2 (\partial_{\omega_1}+\partial_{\omega_2})^2\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0}+\dots)  e^{i2\omega t} \label{eq:expandK}
+\end{align}
+\end{widetext}
+In the above expansion, only terms containing derivatives with respect to both $\omega_1$ and $\omega_2$ can survive.
+Terms lacking such derivatives would yield a finite response to a static vector potential, in contradiction with gauge invariance.
+In a Bloch-band description, a uniform static vector potential corresponds to the momentum shift $\bm{k}\to \bm{k}+\frac{e}{\hbar}\bm{A}$ applied consistently to the distribution function, band dispersion, and wave functions, and therefore does not change physical observables.
+Therefore, within a theory based on Bloch's theorem, terms not differentiated with respect to $\omega_{1(2)}$ are expected to reduce to total derivative terms with respect to $\partial_{\alpha(\beta)}$.
+Indeed, 
+\begin{gather}
+\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}=0,\\ \partial_{\omega_{1(2)}}\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}=0,\\ \partial_{\omega_{1(2)}}^2\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}=0,     
+\end{gather}
+as shown in the next subsection (Appendix~\ref{app:noDivergence}).
+
+Therefore, the nonreciprocal current (i.e. the $O(\omega^0)$ term in Eq.~\eqref{eq:expandK}) is given as
+\begin{align}
+  j_\mu(t)=&\sum_{\alpha,\beta}(E_\alpha E_\beta^* +E_\alpha^* E_\beta +E_\alpha E_\beta e^{-i2\omega t}+E_\alpha^* E_\beta^* e^{i2\omega t})\nonumber \\
+  & \qquad \times(-\partial_{\omega_1}\partial_{\omega_2}\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0} +O(\omega)) \nonumber \\
+  =&\sum_{\alpha,\beta}(E_\alpha e^{-i\omega t}+c.c.) (E_\beta e^{-i\omega t}+c.c.)\nonumber \\
+  & \qquad \times(-\partial_{\omega_1}\partial_{\omega_2}\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0} +O(\omega))  \nonumber \\
+  =&\sum_{\alpha,\beta}E_\alpha(t)E_\beta(t)(-\partial_{\omega_1}\partial_{\omega_2}\mathcal{K}^{\mu\alpha\beta}|_{\omega_1=0,\omega_2=0} +O(\omega)) .
+  \label{eq:11ee}
+\end{align}
+This is, for example, written by using photovoltaic conductivity $\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)$ as
+\begin{align}
+  j_\mu(t)=\sum_{\alpha,\beta}E_\alpha(t)E_\beta(t)\left(\frac{1}{2}\partial_{\omega}^2\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)|_{\omega=0} +O(\omega)\right)
+\end{align}
+When only $E_\alpha$ is nonzero among the components of the electric field $\bm{E}$, the nonreciprocal current is given by Eq.~\eqref{eq:nonReciprocalEsquared}.
+
+\subsection{No divergence in the static limit} \label{app:noDivergence}
+The response function $\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)$ at the Matsubara frequency is given as
+\begin{align}
+&\mathcal{K}^{\mu\alpha\beta}(i\omega_1,i\omega_2)
+\nonumber\\
+=&-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3
+\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図1
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega',a$} (b);
+    \propag[plain] (b) to[half left] (a);
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++(1, 1)     node[left]  {$\alpha,i\omega_1$};
+    \propag[photon]  (b) to ++(1,-1)     node[left]  {$\beta,i\omega_2$};
+    \propag[photon]  (b) to ++( 1, 0)     node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture}
+\;\nonumber\\ 
+&-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3
+\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図2
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega'+i\omega_1+i\omega_2,a$} (b);
+    \propag[fermion] (b) to[half left]    node[midway,below] {$i\omega',b$} (a);
+    \node[dot] at (a) {};
+    \propag[photon] (a) to ++(-1,1) node[left] {$\alpha,i\omega_1$};
+    \propag[photon] (a) to ++(-1,-1) node[left] {$\beta,i\omega_2$};
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++(1,0)      node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture}
+\;\nonumber\\ 
+&-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3
+\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図3
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega'+i\omega_2,a$} (b);
+    \propag[fermion] (b) to[half left]    node[midway,below] {$i\omega',b$} (a);
+    \node[dot] at (a) {};
+    \propag[photon]  (a) to ++(-1,0)      node[left]   {$\beta,i\omega_2$};
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++( 1, 1)     node[right]  {$\mu,i\omega_1+i\omega_2$};
+    \propag[photon]  (b) to ++( 1,-1)     node[right]  {$\alpha,i\omega_1$};
+  \end{feynhand}
+\end{tikzpicture}
+\;\nonumber\\ 
+&-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3
+\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図3
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega'+i\omega_1,a$} (b);
+    \propag[fermion] (b) to[half left]    node[midway,below] {$i\omega',b$} (a);
+    \node[dot] at (a) {};
+    \propag[photon]  (a) to ++(-1,0)      node[left]   {$\alpha,i\omega_1$};
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++( 1, 1)     node[right]  {$\mu,i\omega_1+i\omega_2$};
+    \propag[photon]  (b) to ++( 1,-1)     node[right]  {$\beta,i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture}
+\;\nonumber\\ 
+&-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3
+\begin{tikzpicture}[baseline=(v2.center)]
+  \begin{feynhand}
+    %--- 図4-1 (三角ループ)
+    \vertex (v1) at (0,-0.5);
+    \vertex (v2) at (0.75,0);
+    \vertex (v3) at (0,0.5);
+    \node[dot]     at (v1) {};
+    \node[dot]     at (v2) {};
+    \node[dot]     at (v3) {};
+    \propag[fermion] (v1) to           node[left]  {$i\omega'+i\omega_1,b$}        (v3);
+    \propag[fermion] (v3) to           node[above right] {$i\omega'+i\omega_{1}+i\omega_2,a$} (v2);
+    \propag[fermion] (v2) to           node[below right] {$i\omega',c$}        (v1);
+    \propag[photon]  (v1) to ++(-1,-0.7) node[left]  {$\alpha,i\omega_1$};
+    \propag[photon]  (v3) to ++(-1,0.7) node[left]  {$\beta,i\omega_2$};
+    \propag[photon]  (v2) to ++(1, 0)    node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture} 
+\;\nonumber\\ 
+&-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3
+\begin{tikzpicture}[baseline=(v2.center)]
+  \begin{feynhand}
+    %--- 図4-2 (三角ループ)
+    \vertex (v1) at (0,-0.5);
+    \vertex (v2) at (0.75,0);
+    \vertex (v3) at (0,0.5);
+    \node[dot]     at (v1) {};
+    \node[dot]     at (v2) {};
+    \node[dot]     at (v3) {};
+    \propag[fermion] (v1) to           node[left]  {$i\omega'+i\omega_2,b$}        (v3);
+    \propag[fermion] (v3) to           node[above right] {$i\omega'+i\omega_{1}+i\omega_2,a$} (v2);
+    \propag[fermion] (v2) to           node[below right] {$i\omega',c$}        (v1);
+    \propag[photon]  (v3) to ++(-1,0.7) node[left]  {$\alpha,i\omega_1$};
+    \propag[photon]  (v1) to ++(-1,-0.7) node[left]  {$\beta,i\omega_2$};
+    \propag[photon]  (v2) to ++(1, 0)    node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture} \label{eq:current_response_function_diagram}
+\end{align}
+We derive $\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)$ by evaluating the Matsubara frequency sum and performing the analytic continuation of the bosonic frequencies $i\omega_1\to \omega_1,\ i\omega_2\to \omega_2$.
+We will show that there is no divergence in $\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)$ in the static limit $\omega_1,\omega_2 \to 0$.
+For notational simplicity, we introduce $\kappa^{\mu\alpha\beta}(x,\omega_1,\omega_2)$ and write
+\begin{align}
+  &\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)= \nonumber \\
+    &-\frac{1}{2}\left(\frac{e}{\hbar}\right)^3\frac{2i\Gamma}{2\pi i}\int dx f(x) \int\smrm{BZ} \frac{d^d k}{(2\pi)^d}\kappa^{\mu\alpha\beta}(x,\omega_1,\omega_2). \label{eq:current_response_function}
+\end{align}
+
+\subsubsection{$O(\omega^0)$ terms}
+Setting $\omega_1=\omega_2=0$ in $\kappa^{\mu\alpha\beta}(x,\omega_1,\omega_2)$, we obtain 
+\begin{align}
+  \kappa^{\mu\alpha\beta} (x,0,0)
+  =& \partial_{k_\beta} (\mathrm{Tr}[H^{\mu\alpha}G^R G^A]) \label{eq:0linTad} \\
+  &+\partial_{k_\beta} (\mathrm{Tr}[H^{\mu}G^R H^{\alpha} G^R G^A]) \label{eq:0linbub1} \\
+  &+\partial_{k_\beta} (\mathrm{Tr}[H^{\mu}G^R G^A H^{\alpha} G^A]). \label{eq:0linbub2}
+\end{align}
+Thus, $\mathcal{K}^{\mu\alpha\beta}(0,0)$ vanishes upon integration over the Brillouin zone, since the integrand $\kappa^{\mu\alpha\beta}(x,0,0)$ is a total derivative with respect to $k_\beta$.
+The terms in Eqs.~\eqref{eq:0linTad}, \eqref{eq:0linbub1}, and \eqref{eq:0linbub2} correspond, respectively, to the $k_\beta$-derivatives of the tadpole and bubble diagram contributions appearing in the response coefficient $\mathcal{K}^{\mu\alpha}$ of the linear response $j_\mu=\mathcal{K}^{\mu\alpha}A_\alpha$.
+In other words, they describe the change of this linear-response coefficient in response to $A_\beta$. 
+Since a uniform static vector potential $A_\beta$ does not affect physical observables, the corresponding Brillouin-zone integral must vanish. 
+Here, we have derived the total-derivative form with respect to $k_\beta$, but the same procedure can also be applied with respect to $k_\alpha$.
+
+\subsubsection{$O(\omega^1)$ terms}
+A similar total-derivative argument can be applied to the $O(\omega)$ terms although some diagrams drop out because $\partial_{\omega_{1(2)}}$ acts on $\kappa^{\mu\alpha\beta}(\omega_1,\omega_2)$ before setting $\omega_1=\omega_2=0$.
+In addition, due to the frequency derivative $\partial_{\omega_{1(2)}}$, $\partial_{\omega_{1(2)}}\kappa^{\mu\alpha\beta} (x,\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}$ reduces to a total derivative only with respect to $k_{\beta(\alpha)}$, whereas $\kappa^{\mu\alpha\beta} (x,0,0)$ reduces to a total derivative with respect to either $k_\alpha$ or $k_\beta$.
+
+Indeed, for $\partial_{\omega_1}$, we obtain
+\begin{align}
+  \partial_{\omega_1}\kappa (x,\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}
+  =&\partial_{k_\beta} (\mathrm{Tr}[H^{\mu}[G^R]^2 H^{\alpha} G^R G^A]) \label{eq:1linbub1} \\
+  &-\partial_{k_\beta} (\mathrm{Tr}[H^{\mu}G^R G^A H^{\alpha} [G^A]^2]) \label{eq:1linbub2}
+\end{align}
+which is simply obtained by taking $\partial_{\omega_1}$ of the finite-frequency linear-response functions corresponding to \eqref{eq:0linTad}, \eqref{eq:0linbub1}, and \eqref{eq:0linbub2}.
+
+Physically, these terms represent how the linear response to a static $E_\alpha$ changes in the presence of a static $A_\beta$, and thus $\partial_{\omega_{1}}\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}$ vanishes because a static vector potential does not produce any physical effect.
+
+\subsubsection{$O(\omega^2)$ terms}
+Similarly, for $\partial_{\omega_1}^2$, we obtain
+\begin{align}
+  \partial_{\omega_1}^2\kappa (x,\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}
+  =&\partial_{k_\beta} (\mathrm{Tr}[H^{\mu} 2[G^R]^3 H^{\alpha} G^R G^A]) \label{eq:2linbub1} \\
+  &+\partial_{k_\beta} (\mathrm{Tr}[H^{\mu}G^R G^A H^{\alpha} 2[G^A]^3]) \label{eq:2linbub2}.
+\end{align}
+
+The physical interpretation of these terms is also similar to that of Eqs.~\eqref{eq:1linbub1} and \eqref{eq:1linbub2}.
+These terms represent how the $O(\omega_1)$ contribution to the response function of $j_\mu$ induced by $E_\alpha(\omega_1)$ changes in the presence of a static $A_\beta$.
+Therefore, $\partial_{\omega_{1}}^2\mathcal{K}^{\mu\alpha\beta}(\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}$ vanishes because a static vector potential does not produce any physical effect.
+
+By contrast, $\partial_{\omega_1}\partial_{\omega_2}\kappa (x,\omega_1,\omega_2)|_{\omega_1=0,\omega_2=0}$ indeed contributes to the physical response because this term does not reduce to a total derivative with respect to either $k_\alpha$ or $k_\beta$.
+
+
+\section{Derivation of injection current and shift current} \label{app:injectionShift}
+In this section, we evaluate each diagram in the current response function (Eq.~\eqref{eq:current_response_function_diagram}).
+First, we evaluate the first and second diagrams in Eq.~\eqref{eq:current_response_function_diagram} as
+\begin{align}
+  &\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図1
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega',a$} (b);
+    \propag[plain] (b) to[half left] (a);
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++(1, 1)     node[left]  {$\alpha,i\omega_1$};
+    \propag[photon]  (b) to ++(1,-1)     node[left]  {$\beta,i\omega_2$};
+    \propag[photon]  (b) to ++( 1, 0)     node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture} \nonumber\\
++&\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図2
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega'+i\omega_1+i\omega_2,a$} (b);
+    \propag[fermion] (b) to[half left]    node[midway,below] {$i\omega',b$} (a);
+    \node[dot] at (a) {};
+    \propag[photon] (a) to ++(-1,1) node[left] {$\alpha,i\omega_1$};
+    \propag[photon] (a) to ++(-1,-1) node[left] {$\beta,i\omega_2$};
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++(1,0)      node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture}\nonumber\\
+\to &\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\alpha\beta} G^A(x)G^R(x)] \nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x)H^{\alpha\beta} G^A(x)G^R(x)] \nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^A(x)G^R(x)H^{\alpha\beta} G^A(x)] \nonumber \\
+=&\frac{2i\Gamma}{2\pi i} \int dx f(x) \int\smrm{BZ} \frac{d^d k}{(2\pi)^d}\partial_{k_\mu} \mathrm{Tr}[H^{\alpha\beta} G^A(x)G^R(x)], \label{eq:tadpoleDerivative}
+\end{align}
+where $\mathrm{tr}[\cdots]\equiv \int\smrm{BZ} \frac{d^d k}{(2\pi)^d}\mathrm{Tr}[\cdots]$ and $\to$ indicates the analytic continuation $i\omega_1\to \omega_1,\ i\omega_2\to \omega_2$.
+Here, we use the relation $-2i\Gamma G^R(x)G^A(x)=(G^R(x)-G^A(x))$.
+These terms correspond to the $k_\mu$-derivative of the tadpole diagram contribution appearing in the response coefficient $\sigma^{\alpha\beta}$ of the linear response $j_\alpha=\sigma^{\alpha\beta}E_\beta$.
+and thus they reduce to the total derivative with respect to $k_\mu$.
+
+The third diagram in Eq.~\eqref{eq:current_response_function_diagram} is evaluated as
+\begin{align}  
+&\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図3
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega'+i\omega_2,a$} (b);
+    \propag[fermion] (b) to[half left]    node[midway,below] {$i\omega',b$} (a);
+    \node[dot] at (a) {};
+    \propag[photon]  (a) to ++(-1,0)      node[left]   {$\beta,i\omega_2$};
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++( 1, 1)     node[right]  {$\mu,i\omega_1+i\omega_2$};
+    \propag[photon]  (b) to ++( 1,-1)     node[right]  {$\alpha,i\omega_1$};
+  \end{feynhand}
+\end{tikzpicture}
+\;\nonumber\\ 
+\to &\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\alpha}G^R(x-\hbar\omega)H^\beta G^R(x)G^A(x)]\nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\alpha}G^R(x)G^A(x)H^\beta G^A(x+\hbar\omega)] \nonumber \\
+=&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\alpha}G^A(x-\hbar\omega)(1-2i\Gamma G^R(x-\hbar \omega))\nonumber \\
+&\qquad \times H^\beta G^R(x)G^A(x)] \label{eq:m2}\\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\alpha}G^R(x)G^A(x)H^\beta\nonumber \\
+&\qquad \times  G^R(x+\hbar\omega) (1+2i\Gamma G^A(x+\hbar\omega))]. \label{eq:p4}
+\end{align}
+Here, we use $G^R(x)=G^A(x)(1-2i\Gamma G^R(x))$ and $G^A(x)=(1+2i\Gamma G^A(x))G^R(x)$.
+Note that $[G^R(x),G^A(y)]=0$, $[G^R(x),G^R(y)]=0$, and $[G^A(x),G^A(y)]=0$ for any $x,y$.
+In the following, we will use this relation to evaluate the diagrams.
+The fourth diagram in Eq.~\eqref{eq:current_response_function_diagram} is evaluated as
+\begin{align}
+&\begin{tikzpicture}[baseline=(b.center)]
+  \begin{feynhand}
+    %--- 図3
+    \vertex (a) at (0,0);
+    \vertex (b) at (1,0);
+    \propag[fermion] (a) to[half left]    node[midway,above] {$i\omega'+i\omega_1,a$} (b);
+    \propag[fermion] (b) to[half left]    node[midway,below] {$i\omega',b$} (a);
+    \node[dot] at (a) {};
+    \propag[photon]  (a) to ++(-1,0)      node[left]   {$\alpha,i\omega_1$};
+    \node[dot] at (b) {};
+    \propag[photon]  (b) to ++( 1, 1)     node[right]  {$\mu,i\omega_1+i\omega_2$};
+    \propag[photon]  (b) to ++( 1,-1)     node[right]  {$\beta,i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture}
+\;\nonumber\\ 
+\to &\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\beta}G^R(x+\hbar\omega)H^\alpha G^R(x)G^A(x)]\label{eq:p2}\\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu\beta}G^R(x)G^A(x)H^\alpha G^A(x-\hbar\omega)]. \label{eq:m4}
+\end{align}
+The fifth diagram in Eq.~\eqref{eq:current_response_function_diagram} is evaluated as
+\begin{align}
+&\begin{tikzpicture}[baseline=(v2.center)]
+  \begin{feynhand}
+    %--- 図4-1 (三角ループ)
+    \vertex (v1) at (0,-0.5);
+    \vertex (v2) at (0.75,0);
+    \vertex (v3) at (0,0.5);
+    \node[dot]     at (v1) {};
+    \node[dot]     at (v2) {};
+    \node[dot]     at (v3) {};
+    \propag[fermion] (v1) to           node[left]  {$i\omega'+i\omega_1,b$}        (v3);
+    \propag[fermion] (v3) to           node[above right] {$i\omega'+i\omega_{1}+i\omega_2,a$} (v2);
+    \propag[fermion] (v2) to           node[below right] {$i\omega',c$}        (v1);
+    \propag[photon]  (v1) to ++(-1,-0.7) node[left]  {$\alpha,i\omega_1$};
+    \propag[photon]  (v3) to ++(-1,0.7) node[left]  {$\beta,i\omega_2$};
+    \propag[photon]  (v2) to ++(1, 0)    node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture} 
+\;\nonumber\\ 
+\to & \frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x)H^\beta G^R(x+\hbar\omega )H^\alpha G^A(x)G^R(x)]\nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x-\hbar\omega)H^\beta G^R(x)G^A(x)H^\alpha G^A(x-\hbar\omega)]\nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^A(x)G^R(x)H^\beta G^A(x+\hbar\omega)H^\alpha G^A(x)] \nonumber \\
+= & \frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x)H^\beta G^R(x+\hbar\omega )H^\alpha G^A(x)G^R(x)] \label{eq:p1}\\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^A(x-\hbar\omega)(1-2i\Gamma G^R(x-\hbar\omega))\nonumber \\
+&\qquad \times H^\beta G^R(x)G^A(x)H^\alpha G^A(x-\hbar\omega)] \label{eq:m3}\\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^A(x)G^R(x)H^\beta \nonumber \\
+&\qquad \times G^R(x+\hbar\omega)(1+2i\Gamma G^A(x+\hbar\omega)) H^\alpha G^A(x)]. \label{eq:p5}
+\end{align}
+The last diagram in Eq.~\eqref{eq:current_response_function_diagram} is evaluated as
+\begin{align}
+&\begin{tikzpicture}[baseline=(v2.center)]
+  \begin{feynhand}
+    %--- 図4-2 (三角ループ)
+    \vertex (v1) at (0,-0.5);
+    \vertex (v2) at (0.75,0);
+    \vertex (v3) at (0,0.5);
+    \node[dot]     at (v1) {};
+    \node[dot]     at (v2) {};
+    \node[dot]     at (v3) {};
+    \propag[fermion] (v1) to           node[left]  {$i\omega'+i\omega_2,b$}        (v3);
+    \propag[fermion] (v3) to           node[above right] {$i\omega'+i\omega_{1}+i\omega_2,a$} (v2);
+    \propag[fermion] (v2) to           node[below right] {$i\omega',c$}        (v1);
+    \propag[photon]  (v3) to ++(-1,0.7) node[left]  {$\alpha,i\omega_1$};
+    \propag[photon]  (v1) to ++(-1,-0.7) node[left]  {$\beta,i\omega_2$};
+    \propag[photon]  (v2) to ++(1, 0)    node[right] {$\mu,i\omega_1+i\omega_2$};
+  \end{feynhand}
+\end{tikzpicture}\nonumber \\
+\to & \frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x)H^\alpha G^R(x-\hbar\omega )H^\beta G^A(x)G^R(x)]\nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x+\hbar\omega)H^\alpha G^R(x)G^A(x)H^\beta G^A(x+\hbar\omega)]\nonumber \\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^A(x)G^R(x)H^\alpha G^A(x-\hbar\omega)H^\beta G^A(x)] \nonumber \\
+= & \frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x)H^\alpha G^A(x-\hbar\omega )(1-2i\Gamma G^R(x-\hbar\omega)) \nonumber \\
+&\qquad \times H^\beta G^A(x)G^R(x)] \label{eq:m1}\\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^R(x+\hbar\omega)H^\alpha G^R(x)G^A(x)H^\beta \nonumber \\
+&\qquad \times (1+2i\Gamma G^A(x+\hbar\omega)) G^R(x+\hbar\omega)] \label{eq:p3}\\
++&\frac{2i\Gamma}{2\pi i} \int dx f(x) \mathrm{tr}[H^{\mu}G^A(x)G^R(x)H^\alpha G^A(x-\hbar\omega)H^\beta G^A(x)]. \label{eq:m5}
+\end{align}
+Collecting the terms in Eqs.~\eqref{eq:m4}, \eqref{eq:m5}, \eqref{eq:m1}, \eqref{eq:m2}, and \eqref{eq:m3} that are explicitly linear in $\Gamma$ yields
+\begin{align}
+  \frac{2i\Gamma}{2\pi i} \int dx f(x)\int\smrm{BZ} \frac{d^d k}{(2\pi)^d} \partial_{k_\mu}\Tr [ H^\beta G^A(x) G^R(x)H^\alpha G^A(x-\hbar\omega)]. \label{eq:m1m5}
+\end{align}
+Here, Eqs.~\eqref{eq:m4}, \eqref{eq:m5}, \eqref{eq:m1}, \eqref{eq:m2}, and \eqref{eq:m3} correspond to the derivatives acting on each factor of the above expression in this order.
+Similarly, collecting the terms in Eqs.~\eqref{eq:p3}, \eqref{eq:p4}, \eqref{eq:p5}, \eqref{eq:p1}, and \eqref{eq:p2} that are explicitly linear in $\Gamma$ yields
+\begin{align}
+  \frac{2i\Gamma}{2\pi i} \int dx f(x) \int\smrm{BZ} \frac{d^d k}{(2\pi)^d}\partial_{k_\mu} \Tr[H^\beta G^R(x+\hbar\omega) H^\alpha G^A(x)G^R(x)]. \label{eq:p1p5}
+\end{align}
+In this case, Eqs.~\eqref{eq:p3}, \eqref{eq:p4}, \eqref{eq:p5}, \eqref{eq:p1}, and \eqref{eq:p2} represent the derivatives acting on each factor of the above expression in this order.
+Therefore, Eqs.~\eqref{eq:m1m5} and \eqref{eq:p1p5} are the $k_\mu$-derivatives of the bubble diagrams of the linear response function $\sigma^{\alpha\beta}$.
+Thus, Eqs.~\eqref{eq:tadpoleDerivative}, \eqref{eq:m1m5}, and \eqref{eq:p1p5} are total derivatives with respect to $k_\mu$ of the linear response function $\sigma^{\alpha\beta}$, which vanish in $\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)$
+after integrating over the Brillouin zone.
+
+Thus, the only remaining terms are terms that explicitly contain $\Gamma^2$.
+Collecting Eqs.~\eqref{eq:m3}, \eqref{eq:m2}, and \eqref{eq:m1} gives
+\begin{align}
+  -\frac{1}{2\pi i} \int dx 4\Gamma^2 (-f(x)) \mathrm{tr} [&\partial_{k_\mu} (G^R(x) H^\alpha G^A(x-\hbar\omega) )\nonumber \\
+  &\times G^R(x-\hbar\omega) H^\beta G^A(x) ]
+\end{align}
+Similarly, collecting Eqs.~\eqref{eq:p1}, \eqref{eq:p2}, and \eqref{eq:p5} gives
+\begin{align}
+  -\frac{1}{2\pi i} \int dx 4\Gamma^2 f(x) \mathrm{tr}[&\partial_{k_\mu} (G^R(x+\hbar\omega) H^\alpha G^A(x) )\nonumber \\
+  &\times G^R(x) H^\beta G^A(x+\hbar\omega) ]
+\end{align}
+Therefore, we obtain Eq.~\eqref{eq:currentbyExcitation}
+\begin{align}
+  \mathcal{K}&^{\mu\alpha\beta}(\omega,-\omega)=\left(\frac{e}{\hbar}\right)^3\int \frac{dx}{2\pi i}\int \frac{d^d k}{(2\pi)^d} 2\Gamma^2 (f(x)-f(x+\hbar\omega)) \nonumber \\
+  &\times \Tr[\partial_{k_\mu} (G^R(x+\hbar\omega) H^\alpha G^A(x) )G^R(x) H^\beta G^A(x+\hbar\omega) ] \label{eq:currentbyExcitationInX}
+\end{align}
+\begin{widetext}
+Using $G^R(x) H^\alpha G^A(y)=\sum_{ab}\ket{u_a}\bra{u_a}H^\alpha\ket{u_b}\bra{u_b}/((x-\xi_a+i\Gamma)(y-\xi_b-i\Gamma))$, the above expression can be rewritten as
+\begin{align}
+  \mathcal{K}&^{\mu\alpha\beta}(\omega,-\omega)\nonumber \\
+  =&\left(\frac{e}{\hbar}\right)^3\int \frac{dx}{2\pi i}\int \frac{d^d k}{(2\pi)^d} 2\Gamma^2 (f(x)-f(x+\hbar\omega)) \nonumber \\
+  &\times \Bigg\{\sum_{a\neq b}\Tr[\hat{e}^\alpha_{ab}\hat{e}^\beta_{ba}]\xi_{ab}^2 \left(-\frac{\partial_{k_\mu} \xi_a}{x+\hbar\omega-\xi_a+i\Gamma}-\frac{\partial_{k_\mu} \xi_b}{x-\xi_b-i\Gamma}-\frac{\partial_{k_\mu} \xi_{ab}}{\xi_{ab}}\right)\frac{1}{(x+\hbar\omega-\xi_a)^2+\Gamma^2}\frac{1}{(x-\xi_b)^2+\Gamma^2} \nonumber \\
+&+\sum_{a\neq b,c\neq d}\Tr[(\partial_{k_\mu} \hat{e}^\alpha_{ab})\hat{e}^\beta_{cd}]\xi_{ab}\xi_{cd}\frac{1}{(x+\hbar\omega-\xi_a+i\Gamma)(x-\xi_b-i\Gamma)(x-\xi_c+i\Gamma)(x+\hbar\omega-\xi_d-i\Gamma)}\nonumber \\
+&+\sum_{a\neq b,c}\Tr[(\partial_{k_\mu} \hat{e}^\alpha_{ab})\ket{u_c}\partial_{k_\beta} \epsilon_c \bra{u_c}]\xi_{ab}\frac{1}{(x+\hbar\omega-\xi_a+i\Gamma)(x-\xi_b-i\Gamma)(x-\xi_c+i\Gamma)(x+\hbar\omega-\xi_c-i\Gamma)}]\nonumber \\
+&+\sum_a \partial_{k_\alpha} \epsilon_a \partial_{k_\beta} \epsilon_a \left[\frac{\partial_{k_\mu} \epsilon_a}{x+\hbar\omega -\xi_a+i\Gamma}+\frac{\partial_{k_\mu} \epsilon_a}{x-\xi_a+i\Gamma}\right]\frac{1}{(x+\hbar\omega-\xi_a)^2+\Gamma^2}\frac{1}{(x-\xi_a)^2+\Gamma^2}\nonumber \\
+&+\sum_{a,c\neq d}\Tr[\partial_{k_\mu} (\ket{u_a}\partial_{k_\alpha} \epsilon_a \bra{u_a})\hat{e}^\beta_{cd}]\xi_{cd}\frac{1}{(x+\hbar\omega-\xi_a+i\Gamma)(x-\xi_a-i\Gamma)(x-\xi_c+i\Gamma)(x+\hbar\omega-\xi_d-i\Gamma)}\nonumber \\
+&+\sum_{a,c}\Tr[\partial_{k_\mu} (\ket{u_a}\partial_{k_\alpha} \epsilon_a \bra{u_a})\ket{u_c}\partial_{k_\alpha} \epsilon_c \bra{u_c}]\xi_{cd}\frac{1}{(x+\hbar\omega-\xi_a+i\Gamma)(x-\xi_a-i\Gamma)(x-\xi_c+i\Gamma)(x+\hbar\omega-\xi_c-i\Gamma)}\Bigg\},
+\end{align}
+\end{widetext}
+where $\hat{e}_{ab}^\alpha=\ket{u_a}\bra{u_a}\partial_{k_\alpha}\ket{u_b}\bra{u_b}$.
+Assuming no degeneracies, in the clean limit $\Gamma \to 0$, the terms satisfying $b\neq c$ or $a\neq d$ in the third line vanish because they are $O(\Gamma)$.
+Similarly, the terms from the fourth line to the last line vanish.
+We obtain
+\begin{align}
+ \mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)=&\omega^2\frac{e^3\pi}{\hbar}\int \frac{d^d k}{(2\pi)^d} \sum_{ab}f_{ba}\delta(\hbar\omega+\Delta_{ba}) \nonumber \\
+  &\times \left[Q_{ab}^{\alpha\beta}\left(\frac{\partial_{k_\mu} \Delta_{ab}}{\Gamma}+\frac{i\partial_{k_\mu} \Delta_{ab}}{\Delta_{ab}}\right)+iC_{\beta\mu\alpha}^{ba}\right]+O(\Gamma) \label{eq:halfPhotocurrent}
+\end{align}
+where $Q_{ab}^{\alpha\beta}\equiv\mathrm{Tr}[\hat{e}_{ab}^\alpha \hat{e}_{ba}^\beta]$ is the two-state quantum geometric tensor, and the two-state quantum geometric connection $C_{ba}^{\beta\mu\alpha}\equiv\mathrm{Tr}[\hat{e}_{ba}^\beta \partial_{k_\mu} \hat{e}_{ab}^\alpha]$~\cite{Ahn2022,Johannes2025}.
+As can be seen from \eqref{eq:DCsumOfalpha_beta}, $\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)+\mathcal{K}^{\mu\beta\alpha}(-\omega,\omega)$ yields the injection current and the shift current in the clean limit $\Gamma \to 0$.
+Note that $\frac{i\partial_{k_\mu} \Delta_{ab}}{\Delta_{ab}}$ term cancels out in $\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)+\mathcal{K}^{\mu\beta\alpha}(-\omega,\omega)$.
+
+
+\section{Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term} \label{app:DrudeBCD}
+Using Eqs.~\eqref{eq:nonReciprocalEsquared} and \eqref{eq:currentbyExcitationInX}, we obtain the nonlinear response function induced by a static electric field as
+\begin{align}
+  &\sigma^{\mu\alpha\beta}\nonumber \\
+  \equiv &\frac{1}{2}\partial_\omega^2\mathcal{K}^{\mu\alpha\beta}(\omega,-\omega)|_{\omega=0}\nonumber \\
+  =&-\frac{e^3}{\hbar}\frac{\Gamma^2}{2\pi i}\int dx \int\smrm{BZ} \frac{d^d k}{(2\pi)^d} f'(x) \nonumber \\
+  &\times \Tr[\partial_{k_\mu} (G^R H^\beta G^A) G^R (G^R H^\alpha -H^\alpha G^A) G^A +(\alpha \leftrightarrow \beta)].\label{eq:sigmaMuAlphaBetaGreenFunction}
+\end{align}
+Here, we write $G^R=G^R(x)$ and $G^A=G^A(x)$ for brevity.
+
+In what follows, we evaluate the integrals in the above expression,
+\begin{align}
+  &\sigma^{\mu\alpha\beta}\nonumber \\
+  =&-\frac{e^3}{\hbar}\frac{\Gamma^2 }{2\pi i} \int dx \int \frac{d^d k}{(2\pi)^d}f'(x)\nonumber \\
+  &\times \Big[\sum_{abc}H_{bc}^\mu H_{ca}^\beta H_{ab}^\alpha G^R_c \left(G^R_a-G^A_b\right)G^R_a G^A_a G^R_b G^A_b  \nonumber \\
+  &+\sum_{ab}H_{ba}^{\mu\beta} H_{ab}^\alpha\left(G^R_a-G^A_b\right)G^R_a G^A_a G^R_b G^A_b \nonumber \\
+  &+\sum_{abc}H_{ca}^\mu H_{ab}^\alpha H_{bc}^\beta G^A_c \left(G^R_a-G^A_b\right)G^R_a G^A_a G^R_b G^A_b +(\alpha \leftrightarrow \beta)\Big] \nonumber \\
+  % =&\sum_{ab}\Big\{-\frac{\Gamma^2 }{2\pi i} \int dx f'(x)\nonumber \\
+  % &\times [\sum_{c}H_{bc}^\mu H_{ca}^\beta H_{ab}^\alpha G^R_c \left(G^R_a-G^A_b\right)G^R_a G^A_a G^R_b G^A_b  \nonumber \\
+  % &+H_{ba}^{\mu\beta} H_{ab}^\alpha G^R_a G^R_a G^A_a G^R_b G^A_b]+(c.c.,\ (a\leftrightarrow b))\Big\}\nonumber \\
+  =&\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\sum_{ab}\Bigg\{ \Big[\sum_{c}H_{bc}^\mu H_{ca}^\beta H_{ab}^\alpha (I_{abc}^{(1)}+I_{abc}^{(2)})  \nonumber \\
+  &+H_{ba}^{\mu\beta} H_{ab}^\alpha I_{ab}^{(3)}\Big]+(c.c.,\ (a\leftrightarrow b))\Bigg\}+(\alpha \leftrightarrow \beta), \label{eq:generalNonReciprocalKernel}
+\end{align}
+with
+\begin{align}
+  I_{abc}^{(1)}=&-\frac{\Gamma^2 }{2\pi i} \int dx f'(x) G^R_c G^{R2}_a G^A_a G^R_b G^A_b, \\
+  I_{abc}^{(2)}=&\frac{\Gamma^2 }{2\pi i} \int dx f'(x) G^R_c G^R_a G^A_a G^R_b G^{A2}_b, \\
+  I_{ab}^{(3)}=&-\frac{\Gamma^2 }{2\pi i} \int dx f'(x) G^R_aG^R_a G^A_a G^R_b G^A_b.
+\end{align}
+Here, $H_{ab}^\alpha=\bra{u_a}\partial_{k_\alpha} H\ket{u_b}$, $H_{ab}^{\alpha\beta}=\bra{u_a}\partial_{k_\alpha} \partial_{k_\beta} H\ket{u_b}$, $G^R_a=\frac{1}{x-\xi_a+i\Gamma},G^A_a=\frac{1}{x-\xi_a-i\Gamma}$.
+
+\subsection{Integrals}
+We now consider the clean limit $\Gamma \to 0$ and organize the expression in powers of $\Gamma$.
+In the following, we assume that there are no degeneracies.
+We divide the analysis into five cases: (1) $a\neq b,\ b\neq c,\ c\neq a$, (2) $a=b\neq c$, (3) $b=c\neq a$, (4) $c=a\neq b$, and (5) $a=b=c$ because the order of the poles in the integrand changes depending on the coincidences among the indices $a$, $b$, and $c$.
+
+
+\subsubsection{Case $a\neq b,\ b\neq c,\ c\neq a$}
+First, we consider the case where $a,b,c$ are all different.
+Since all band indices are distinct, no additional pole merging occurs. Expanding the resulting residues in powers of $\Gamma$ gives
+\begin{align}
+  I_{abc}^{(1)}
+%   &=
+% -\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_a+i\Gamma)^2}
+% \frac{1}{x-\xi_b+i\Gamma}
+% \frac{1}{x-\xi_c+i\Gamma}
+% \frac{1}{x-\xi_a-i\Gamma}
+% \frac{1}{x-\xi_b-i\Gamma} \\
+&=\Gamma^2\left[
+- f_+'(\xi_a+i\Gamma)\frac{1}{(2i\Gamma)^2(\xi_{ab}+2i\Gamma)(\xi_{ac}+2i\Gamma)\xi_{ab}} \right. \nonumber \\
+&\left. \hspace{1cm}- f'_{-a}\frac{1}{\xi_{ab}\xi_{ac}(-2i\Gamma)^2(\xi_{ab}-2i\Gamma)}
+\right]+O(\Gamma) \nonumber \\
+&=f'_a\frac{1}{4\xi_{ab}^2\xi_{ac}}+O(\Gamma),\\
+  I_{abc}^{(2)}
+%   &=\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{x-\xi_a+i\Gamma}
+% \frac{1}{x-\xi_b+i\Gamma}
+% \frac{1}{x-\xi_c+i\Gamma}
+% \frac{1}{x-\xi_a-i\Gamma}
+% \frac{1}{(x-\xi_b-i\Gamma)^2} \\
+&=\Gamma^2\left[
+- f_+'(\xi_b+i\Gamma)\frac{1}{(\xi_{ba}+2i\Gamma)(2i\Gamma)^2(\xi_{bc}+2i\Gamma)\xi_{ba}} \right. \nonumber \\
+&\left.\hspace{1cm}- f_-'(\xi_b-i\Gamma)\frac{1}{\xi_{ba}\xi_{bc}(\xi_{ba}-2i\Gamma)(-2i\Gamma)^2}
+\right] +O(\Gamma) \nonumber \\
+&=f'_b\frac{1}{4\xi_{ba}^2\xi_{bc}}+O(\Gamma),\\
+  I_{ab}^{(3)}
+%   =& -\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_a+i\Gamma)^2}\frac{1}{x-\xi_a-i\Gamma}\frac{1}{x-\xi_b+i\Gamma}\frac{1}{x-\xi_b-i\Gamma} \\
+&= -\Gamma^2\left[f_+'(\xi_a+i\Gamma)\frac{1}{(2i\Gamma)^2\xi_{ab}^2} \right. \nonumber \\
+&\left.\hspace{1cm} +f_-'(\xi_a-i\Gamma)\frac{1}{\xi_{ab}^2(-2i\Gamma)^2}\right] +O(\Gamma) \nonumber \\
+&= f'_a\frac{1}{4\xi_{ab}^2} +O(\Gamma).
+\end{align}
+Here, we divide the Fermi distribution function into two parts, $f(x)=f_+(x)+f_-(x)$, where $f_{\pm}(x)\equiv \frac{1}{4}\pm \frac{1}{2\pi i}\psi\left(\frac{1}{2}\pm \frac{\beta x}{2\pi i}\right)$ with $\psi(z)$ being the digamma function.
+By construction, $f_+(x)$ and $f_-(x)$ are analytic in the upper half-plane and the lower half-plane, respectively.
+
+
+\subsubsection{Case $a=b\neq c$}
+When $a=b$, the poles at $\xi_b$ merge and higher-order residues must be evaluated.
+Expanding these residues up to $O(\Gamma^0)$ gives
+\begin{align}
+&I_{bbc}^{(1)}\nonumber \\
+% &=
+% -\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_b+i\Gamma)^3}
+% \frac{1}{x-\xi_c+i\Gamma}
+% \frac{1}{(x-\xi_b-i\Gamma)^2} \\
+&=
+-\Gamma^2\Biggl\{
+f_+''(\xi_b+i\Gamma)\frac{1}{(2i\Gamma)^3}\frac{1}{\xi_{bc}+2i\Gamma} \nonumber \\
+&\quad+f_+'(\xi_b+i\Gamma)\left[
+-\frac{3}{(2i\Gamma)^4}\frac{1}{\xi_{bc}+2i\Gamma}
++\frac{1}{(2i\Gamma)^3}\frac{-1}{(\xi_{bc}+2i\Gamma)^2}
+\right]\nonumber \\
+&\quad
+-\frac{1}{2}f'''_{-b}\frac{1}{\xi_{bc}(-2i\Gamma)^2}
+-f_-''(\xi_b-i\Gamma)\left[
+\frac{-1}{\xi_{bc}^2(-2i\Gamma)^2}
++\frac{-2}{\xi_{bc}(-2i\Gamma)^3}
+\right] \nonumber \\
+&\quad
+-\frac{1}{2}f_-'(\xi_b-i\Gamma)\left[
+\frac{2}{\xi_{bc}^3(-2i\Gamma)^2}
++\frac{4}{\xi_{bc}^2(-2i\Gamma)^3}
++\frac{6}{\xi_{bc}(-2i\Gamma)^4}
+\right]
+\Biggr\} \nonumber \\
+&+O(\Gamma) \nonumber \\
+% &= -\Gamma^2 \Biggl\{(f_+''(\xi_b+i\Gamma)+f'''_{+b}i\Gamma)\frac{1}{(2i\Gamma)^3}(\frac{1}{\xi_{bc}}-\frac{2i\Gamma}{\xi_{bc}^2})\\
+% & \quad+(f_+'(\xi_b+i\Gamma)+f_+''(\xi_b+i\Gamma)i\Gamma-\frac{1}{2}\Gamma^2f'''_{+b})\left[\frac{-3}{(2i\Gamma)^4}(\frac{1}{\xi_{bc}}-\frac{2i\Gamma}{\xi_{bc}^2}+\frac{(2i\Gamma)^2}{\xi_{bc}^3})+\frac{1}{(2i\Gamma)^3}(-\frac{1}{\xi_{bc}^2}+\frac{2}{\xi_{bc}^3}2i\Gamma)\right] \\
+% &\qquad -\frac{1}{2}f'''_{-b}\frac{1}{\xi_{bc}(-2i\Gamma)^2}-(f_-''(\xi_b-i\Gamma)-i\Gamma f'''_{-b})\left[\frac{-1}{\xi_{bc}^2(-2i\Gamma)^2}+\frac{-2}{\xi_{bc}(-2i\Gamma)^3}\right] \\
+% &\qquad -\frac{1}{2}(f_-'(\xi_b-i\Gamma)-i\Gamma f_-''(\xi_b-i\Gamma)-\frac{1}{2}\Gamma^2 f'''_{-b})\left[\frac{2}{\xi_{bc}^3(-2i\Gamma)^2}+\frac{4}{\xi_{bc}^2(-2i\Gamma)^3}+\frac{6}{\xi_{bc}(-2i\Gamma)^4}\right] \Biggr\} \\
+&=
+\frac{3}{16\Gamma^2}\frac{f'_b}{\xi_{bc}}
++\frac{i}{16\Gamma}\frac{f''_b}{\xi_{bc}}
+-\frac{i}{4\Gamma}\frac{f'_b}{\xi_{bc}^2}
+-\frac{1}{4}\frac{f'_b}{\xi_{bc}^3}
++\frac{1}{32}\frac{f'''_b}{\xi_{bc}}+O(\Gamma),\\
+&I_{bbc}^{(2)}\nonumber \\
+% &=
+% \frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_b+i\Gamma)^2}
+% \frac{1}{x-\xi_c+i\Gamma}
+% \frac{1}{(x-\xi_b-i\Gamma)^3} \\
+&= \Gamma^2\Biggl\{\frac{1}{2}f'''_{+b}\frac{1}{(2i\Gamma)^2(\xi_{bc}+2i\Gamma)}\nonumber \\
+&\qquad+f_+''(\xi_b+i\Gamma)\left[\frac{-2}{(2i\Gamma)^3(\xi_{bc}+2i\Gamma)}+\frac{-1}{(2i\Gamma)^2(\xi_{bc}+2i\Gamma)^2}\right] \nonumber \\ 
+&\quad +\frac{1}{2}f_+'(\xi_b+i\Gamma)\Big[\frac{6}{(2i\Gamma)^4(\xi_{bc}+2i\Gamma)}+\frac{4}{(2i\Gamma)^3(\xi_{bc}+2i\Gamma)^2} \nonumber \\
+&\hspace{4cm}+\frac{2}{(2i\Gamma)^2(\xi_{bc}+2i\Gamma)^3}\Big] \nonumber \\
+&\quad -f_-''(\xi_b-i\Gamma)\frac{1}{\xi_{bc}(-2i\Gamma)^3}\nonumber \\
+&\quad+f_-'(\xi_b-i\Gamma)\left[\frac{1}{\xi_{bc}^2(-2i\Gamma)^3}+\frac{3}{\xi_{bc}(-2i\Gamma)^4}\right] \Biggr\}+O(\Gamma) \nonumber \\
+% &=\Gamma^2\Biggl\{\frac{1}{2}\frac{1}{(2i\Gamma)^2\xi_{bc}}+(f_+''(\xi_b+i\Gamma)+f'''_{+b}i\Gamma)\left[\frac{-2}{(2i\Gamma)^3\xi_{bc}}+\frac{1}{(2i\Gamma)^2\xi_{bc}^2}\right] \\
+% &\qquad \frac{1}{2}(f_+'(\xi_b+i\Gamma)+f_+''(\xi_b+i\Gamma)i\Gamma-\frac{1}{2}\Gamma^2 f'''_{+b})\left[\frac{6}{(2i\Gamma)^4\xi_{bc}}+\frac{-2}{(2i\Gamma)^3\xi_{bc}^2}\right] \\
+% &\qquad -(f_-''(\xi_b-i\Gamma)-i\Gamma f'''_{-b})\frac{1}{\xi_{bc}(-2i\Gamma)^3}+(f_-'(\xi_b-i\Gamma)-i\Gamma f_-''(\xi_b-i\Gamma)-\frac{1}{2}\Gamma^2 f'''_{-b})\left[\frac{1}{\xi_{bc}^2(-2i\Gamma)^3}+\frac{3}{\xi_{bc}(-2i\Gamma)^4}\right] \Biggr\} \\
+&=
+\frac{3}{16\Gamma^2}\frac{f'_b}{\xi_{bc}}
+-\frac{i}{16\Gamma}\frac{f''_b}{\xi_{bc}}
+-\frac{i}{8\Gamma}\frac{f'_b}{\xi_{bc}^2}
+-\frac{1}{8}\frac{f''_b}{\xi_{bc}^2}
++\frac{1}{32}\frac{f'''_b}{\xi_{bc}}+O(\Gamma).
+\end{align}
+
+
+
+
+\subsubsection{Case $a\neq b=c$}
+Similarly, when $b=c$, the poles at $\xi_b$ merge and higher-order residues must be evaluated.
+Expanding these residues up to $O(\Gamma^0)$ gives
+\begin{align}
+  I_{abb}^{(1)}
+% =& -\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_a+2i\Gamma)^2}
+% \frac{1}{(x-\xi_b+2i\Gamma)^2}
+% \frac{1}{x-\xi_a-i\Gamma}
+% \frac{1}{x-\xi_b-i\Gamma} \\
+=& -\Gamma^2\left[
+\frac{f_+'(\xi_b+i\Gamma)}{(\xi_{ba}+2i\Gamma)^2(2i\Gamma)^2\xi_{ba}}
++\frac{f_+'(\xi_a+i\Gamma)}{(2i\Gamma)^2(\xi_{ab}+2i\Gamma)^2\xi_{ab}}\right. \nonumber \\
+&\left. 
++\frac{f_-'(\xi_b-i\Gamma)}{\xi_{ba}^2(\xi_{ba}-2i\Gamma)(-2i\Gamma)^2}
++\frac{f_-'(\xi_a-i\Gamma)}{\xi_{ab}^2(-2i\Gamma)^2(\xi_{ab}-2i\Gamma)}
+\right] +O(\Gamma) \nonumber \\
+= &
+f'_b\frac{1}{4\xi_{ba}^3}
++
+f'_a\frac{1}{4\xi_{ab}^3}+O(\Gamma),
+\end{align}
+\begin{align}
+  &I_{abb}^{(2)}\nonumber \\
+  % &\frac{\Gamma^2}{2\pi i}\int dx f'(x) G^R_a G^{R2}_b G^A_a G^{A2}_b\\
+% = &\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{x-\xi_a+i\Gamma}
+% \frac{1}{(x-\xi_b+i\Gamma)^2}
+% \frac{1}{x-\xi_a-i\Gamma}
+% \frac{1}{(x-\xi_b-i\Gamma)^2}\\
+= &\Gamma^2\Bigg\{
+f_+''(\xi_b+i\Gamma)\frac{1}{(\xi_{ba}+2i\Gamma)(2i\Gamma)^2\xi_{ba}} \nonumber \\
+&\qquad
+-f_+'(\xi_b+i\Gamma)\left[
+\frac{1}{(\xi_{ba}+2i\Gamma)^2(2i\Gamma)^2\xi_{ba}}\right. \nonumber \\
+&\hspace{1cm}\left.
++\frac{2}{(\xi_{ba}+2i\Gamma)(2i\Gamma)^3\xi_{ba}}
++\frac{1}{(\xi_{ba}+2i\Gamma)(2i\Gamma)^2\xi_{ba}^2}
+\right]\nonumber \\
+&\hspace{2cm}-c.c.\Bigg\}+O(\Gamma)\nonumber \\
+% =& -\frac{1}{\Gamma}f_+'(\xi_b+i\Gamma)\frac{i}{4\xi_{ba}^{2}} - \mathrm{c.c.}\\
+=& -\frac{i}{\Gamma}f'_b\frac{1}{4\xi_{ba}^2}+O(\Gamma).
+\end{align}
+
+
+\subsubsection{Case $a=c\neq b$}
+When $a=c$, the poles at $\xi_a$ merge and higher-order residues must be evaluated.
+Expanding these residues up to $O(\Gamma^0)$ gives
+\begin{align}
+  &I_{aba}^{(1)}\nonumber \\
+% =&-\frac{\Gamma^2}{2\pi i}\int dx f'(x) G^{R3}_a G^R_b G^A_a G^A_b \\
+% =& -\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_a+i\Gamma)^3}
+% \frac{1}{x-\xi_b+i\Gamma}
+% \frac{-1}{x-\xi_a-i\Gamma}
+% \frac{1}{x-\xi_b-i\Gamma}\\
+=& -\Gamma^2\left\{
+\frac{f_+'(\xi_a+i\Gamma)}{(2i\Gamma)^3(\xi_{ab}+2i\Gamma)\xi_{ab}}
++\frac{f''_-(\xi_a-i\Gamma)}{\xi_{ab}(-2i\Gamma)^2(\xi_{ab}-2i\Gamma)} \right. \nonumber \\
+&-\frac{1}{2}f_-'(\xi_a-i\Gamma)\left[
+2\frac{1}{\xi_{ab}^2(-2i\Gamma)^2(\xi_{ab}-2i\Gamma)}\right. \nonumber \\
+&\quad\left.\left.
++2\frac{1}{\xi_{ab}(-2i\Gamma)^2(\xi_{ab}-2i\Gamma)^2}
++2\frac{1}{\xi_{ab}(-2i\Gamma)^3(\xi_{ab}-2i\Gamma)}
+\right]
+\right\}\nonumber\\
+&\hspace{2cm}+O(\Gamma)\nonumber \\
+% =&-\Gamma^2\left\{
+% \left(f_+'(\xi_a+i\Gamma)+f_+''(\xi_a+i\Gamma)i\Gamma\right)
+% \left[
+% \frac{1}{(2i\Gamma)^2\xi_{ab}^2}
+% -\frac{1}{(2i\Gamma)^2\xi_{ab}^3}
+% \right]-c.c. \right. \\
+% &\left.\qquad
+% +f''_{-a}\frac{1}{\xi_{ab}^2(2i\Gamma)^2 }-f_-'(\xi_a-i\Gamma)\frac{1}{\xi_{ab}^3(2i\Gamma)^2}-f_-'(\xi_a-i\Gamma)\frac{1}{\xi_{ab}^3(2i\Gamma)^2}
+% \right\}\\
+=&-\frac{i}{\Gamma}\frac{f'_a}{8\xi_{ab}^2}+f''_a\frac{1}{8\xi_{ab}^2}-f'_a\frac{1}{4\xi_{ab}^3}+O(\Gamma),
+\end{align}
+
+\begin{align}
+  &I_{aba}^{(2)}\nonumber \\
+  % &\frac{\Gamma^2}{2\pi i}\int dx f'(x) G^{R2}_a G^R_b G^A_a G^{A2}_b
+% =&\frac{\Gamma^2}{2\pi i}\int dx f'(x)
+% \frac{1}{(x-\xi_a+i\Gamma)^2}
+% \frac{1}{x-\xi_b+i\Gamma}
+% \frac{1}{x-\xi_a-i\Gamma}
+% \frac{1}{(x-\xi_b-i\Gamma)^2}\\
+=&
+\Gamma^2\left\{
+-\frac{f_+'(\xi_b+i\Gamma)}{(\xi_{ba}+2i\Gamma)^2(-2i\Gamma)^2\xi_{ba}}
++\frac{f_+'(\xi_a+i\Gamma)}{(2i\Gamma)^2(\xi_{ab}+2i\Gamma)\xi_{ab}^2}\right. \nonumber \\
+&\left.
+-\frac{f_-'(\xi_b-i\Gamma)}{\xi_{ba}^2(\xi_{ba}-2i\Gamma)(-2i\Gamma)^2}
++\frac{f_-'(\xi_a-i\Gamma)}{\xi_{ab}^2(-2i\Gamma)^2(\xi_{ab}-2i\Gamma)}
+\right\} +O(\Gamma) \nonumber \\
+=&
+f'_b\frac{1}{4\xi_{ba}^3}
+-f'_a\frac{1}{4\xi_{ab}^3}+O(\Gamma).
+\end{align}
+
+
+
+\subsubsection{Case $a=b=c$}
+When $a=b=c$, the pole order is maximal.
+Keeping terms through $O(\Gamma^0)$, we obtain
+\begin{align}
+&I_{aaa}^{(1)}\nonumber \\
+% &-\frac{\Gamma^2}{2\pi i}\int dx f'(x) G^{R4}_a G^{A2}_a\\
+=&-\Gamma^2 \left\{
+  f_+'(\xi_a+i\Gamma)\frac{-4}{(2i\Gamma)^5}+f_+''(\xi_a+i\Gamma)\frac{1}{(2i\Gamma)^4}\right. \nonumber \\
+  &-\frac{1}{6}\left[
+    \frac{f_-''''(\xi_a-i\Gamma)}{(-2i\Gamma)^2}+\frac{f_-'''(\xi_a-i\Gamma)}{(-2i\Gamma)^3}\right. \nonumber \\
+  &\quad  \left. \left.  +\frac{18f_-''(\xi_a-i\Gamma)}{(-2i\Gamma)^4}+\frac{-24f_-'(\xi_a-i\Gamma)}{(-2i\Gamma)^5}
+  \right]
+\right\}\nonumber \\
+=&\frac{1}{8i\Gamma^3}f_a' +\frac{1}{16\Gamma^2}f''_a+\frac{1}{96}f''''_a+O(\Gamma)
+\end{align}
+
+\begin{align}
+&I_{aaa}^{(2)}\nonumber \\
+  % &\frac{\Gamma^2}{2\pi i}\int dx f'(x) G^{R3}_a G^{A3}_a\nonumber \\ 
+=&\Gamma^2\left[
+  \frac{\frac{1}{2}f_+'''(\xi_a+i\Gamma)}{(2i\Gamma)^3}+\frac{-3f_+''(\xi_a+i\Gamma)}{(2i\Gamma)^4}+\frac{6f_+'(\xi_a+i\Gamma)}{(2i\Gamma)^2}
+\right]-c.c. \nonumber \\
+=&\frac{3}{16i\Gamma^3}f'_a+\frac{1}{32i\Gamma}f'''_a+O(\Gamma)
+\end{align}
+
+\begin{align}
+  &I_{aa}^{(3)}\nonumber \\
+  % &-\frac{\Gamma^2}{2\pi i}\int dx f'(x) G^{R3}_a G^{A2}_a \\
+% =&-\frac{\Gamma^2}{2\pi i}\int dx f'(x) \frac{1}{(x-\xi_a+i\Gamma)^3}\frac{1}{(x-\xi_a-i\Gamma)^2} \\
+=&-\Gamma^2\left\{\frac{f_+''(\xi_a+i\Gamma)}{(2i\Gamma)^3}+\frac{-3f_+'(\xi_a+i\Gamma)}{(2i\Gamma)^4}\right.\nonumber \\
+& -\frac{1}{2}f'''_-(\xi_a-i\Gamma)\frac{1}{(-2i\Gamma)^2}-f''_-(\xi_a-i\Gamma)\frac{-2}{(-2i\Gamma)^3}\nonumber \\
+&\left.\hspace{1cm}-f_-'(\xi_a-i\Gamma)\frac{3}{(-2i\Gamma)^4}\right\} \nonumber \\
+=&\frac{3}{16\Gamma^2}f'_a+\frac{i}{16\Gamma}f''_a+\frac{1}{32}f'''_a+O(\Gamma).
+\end{align}
+
+
+
+\subsection{Derivation of each term}
+Therefore, collecting the contributions from the five cases, we obtain
+\begin{widetext}
+\begin{align}
+  \sigma^{\mu\alpha\beta}=\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\Bigg\{&\sum_{a\neq b,b\neq c,c\neq a}\left[H_{bc}^\mu H_{ca}^\beta H_{ab}^\alpha \left(f'_a\frac{1}{4\xi_{ab}^2\xi_{ac}}+f'_b\frac{1}{4\xi_{ab}^2\xi_{bc}} \right)+(c.c.\ a\leftrightarrow b)\right] \nonumber\\
+  &+\sum_{a\neq b}\left[H_{bb}^\mu H_{ba}^\beta H_{ab}^\alpha \left(-\frac{i}{\Gamma}f'_b\frac{1}{4\xi_{ba}^2}+\frac{f'_b-f'_a}{4\xi_{ba}^3}\right)+(c.c.\ a\leftrightarrow b)\right] \nonumber\\
+  &+\sum_{a\neq b}\left[H_{ba}^\mu H_{aa}^\beta H_{ab}^\alpha \left(-\frac{i}{\Gamma}f'_a\frac{1}{8\xi_{ab}^2}+f''_a\frac{1}{8\xi_{ab}^2}-f'_b\frac{1}{4\xi_{ab}^3}-f'_a\frac{1}{2\xi_{ab}^3}\right)+(c.c.\ a\leftrightarrow b)\right] \nonumber\\
+  &+\sum_{c\neq b}\left[H_{bc}^\mu H_{cb}^\beta H_{bb}^\alpha \left(\frac{3}{8\Gamma^2}\frac{f'_b}{\xi_{bc}}-\frac{3i}{8\Gamma}\frac{f'_b}{\xi_{bc}^2}-\frac{1}{8}\frac{f''_b}{\xi_{bc}^2}-\frac{1}{4}\frac{f'_b}{\xi_{bc}^3}+\frac{1}{16}\frac{f'''_b}{\xi_{bc}}\right)+c.c.\right]\nonumber\\
+  &+\sum_{a\neq b}\left[H_{ba}^{\mu\beta} H_{ab}^\alpha \frac{f'_a}{4\xi_{ab}^2}+(c.c.\ a\leftrightarrow b)\right] \nonumber\\
+  &+\sum_a\left[H_{aa}^\mu H_{aa}^\beta H_{aa}^\alpha \left(\frac{1}{16\Gamma^2}f''_a+\frac{1}{96}f''''_a\right)+c.c.\right]\nonumber \\
+  &+\sum_a\left[H_{aa}^{\mu\beta} H_{aa}^\alpha \left(\frac{3}{16\Gamma^2}f'_a+\frac{i}{16\Gamma}f''_a+\frac{1}{32}f'''_a\right)+c.c.\right]\Bigg\}+(\alpha \leftrightarrow \beta)+O(\Gamma). \label{eq:nonlinearConductivityUptoTau0}
+\end{align}
+\end{widetext}
+
+\subsubsection{Drude term}\label{app:NLD}
+Collecting the $O(\Gamma^{-2})$ contributions, we obtain
+\begin{align}
+  &\sigma\smrm{Drude}^{\mu\beta\alpha}\nonumber \\
+  =&\frac{1}{\Gamma^2}\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\Biggl[\sum_b\left(
+    \frac{3}{8}H_{bb}^{\mu\beta}H_{bb}^\alpha f_b' +\frac{1}{8}H_{bb}^\mu H_{bb}^\beta H_{bb}^\alpha f_b'' \right. \nonumber \\
+   &\left. \hspace{2cm} +\sum_{a\neq b}\frac{3}{8}\frac{H_{ba}^\mu H_{ab}^\beta H_{bb}^\alpha +H_{ab}^\mu H_{bb}^\alpha H_{ba}^\beta}{\xi_{ba}}f_b'
+  \right) \nonumber \\
+  &+(\alpha \leftrightarrow \beta)\Biggr] \nonumber \\
+  =&\frac{1}{\Gamma^2}\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\Biggl[\sum_b\left(\frac{3}{8}\partial_{k_\mu} H_{bb}^\beta H_{bb}^\alpha f_b' +\frac{1}{8}H_{bb}^\mu H_{bb}^\beta H_{bb}^\alpha f_b'' \right) \nonumber \\
+  &+(\alpha \leftrightarrow \beta) \Biggr]\nonumber \\
+  =&-\frac{1}{4\Gamma^2}\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\sum_b\partial_{k_\mu} \partial_{k_\beta} \partial_{k_\alpha} \epsilon_b f_b.
+\end{align}
+In going to the last line, we used $\partial_{k_\mu} \partial_{k_\alpha} f_b=\partial_{k_\mu} H_{bb}^\alpha f_b' +H_{bb}^\mu H_{bb}^\alpha f_b''$.
+This term is called the nonlinear Drude term, which is an $O(\tau^2)$ contribution to the longitudinal nonlinear conductivity.
+In Table~\ref{tab:comparison} of the main text, it is referred to as the nonlinear Drude term.
+
+\subsubsection{BCD term}
+Collecting the $O(\Gamma^{-1})$ contributions, we obtain
+\begin{align}
+&\sigma\smrm{BCD}^{\mu\alpha\beta}\nonumber\\
+=&\frac{1}{\Gamma}\sum_b\Biggl(\frac{3}{8}i\sum_{a\neq b}\frac{-H_{ba}^\mu H_{ab}^\beta H_{bb}^\alpha+H_{ab}^\mu H_{bb}^\alpha H_{ba}^\beta}{\xi_{ba}^2}f_b' \nonumber \\
+&\qquad +\frac{1}{8}i\sum_{a\neq b}\frac{-2H_{bb}^\mu H_{ba}^\beta H_{ab}^\alpha+H_{ba}^\mu H_{ab}^\alpha H_{bb}^\beta}{\xi_{ba}^2}f_b' \nonumber \\
+&\qquad +\frac{1}{8}i\sum_{a\neq b}\frac{-H_{ba}^\mu H_{aa}^\beta H_{ab}^\alpha+2H_{aa}^\mu H_{ab}^\alpha H_{ba}^\beta}{\xi_{ba}^2}f_a'\Biggl)+(\alpha \leftrightarrow \beta) \nonumber \\
+=&\frac{1}{\Gamma}\sum_b \frac{1}{8}(3\Omega_b^{\mu\beta}\partial_{k_\alpha} f_b+2\Omega_b^{\beta\alpha}\partial_{k_\mu} f_b+\Omega_b^{\alpha\mu}\partial_{k_\beta} f_b) +(\alpha \leftrightarrow \beta) \nonumber \\
+=&\frac{1}{4\Gamma}\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\sum_b (\Omega_b^{\mu\beta}\partial_{k_\alpha} f_b+\Omega_b^{\alpha\mu}\partial_{k_\beta} f_b),
+\end{align}
+where
+\begin{align}
+\Omega_b^{\alpha\beta}=&\sum_{a\neq b}\frac{H_{ba}^\alpha H_{ab}^\beta-H_{ba}^\beta H_{ab}^\alpha}{i\xi_{ba}^2}. 
+\end{align}
+This is called the Berry curvature dipole term, which is an $O(\tau)$ contribution to the nonlinear Hall conductivity but does not contribute to the longitudinal nonlinear conductivity.
+
+
+\subsubsection{Quantum metric dipole term}\label{app:QMD}
+Collecting the $O(\Gamma^0)$ contributions, we obtain
+\begin{align}
+&\sigma_{\Gamma^0}^{\mu\alpha\beta}\nonumber \\
+=&\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\left\{\sum_{b\neq a}\left[\partial_\mu (H_{ba}^\beta H_{ab}^\alpha) \frac{f'_b}{4\xi_{ab}^2}\right.\right.\nonumber \\
+&-(H_{bb}^\beta-H_{aa}^\beta)(H_{ba}^\mu H_{ab}^\alpha+H_{ba}^\alpha H_{ab}^\mu) \frac{f'_b}{4\xi_{ab}^3}\nonumber\\
+  &+H_{ba}^\mu H_{ab}^{\beta} H_{bb}^\alpha \left(-\frac{f'_b}{4\xi_{ba}^3}\right) +H_{ab}^\mu H_{bb}^{\alpha} H_{ba}^\beta \left(-\frac{f'_b}{4\xi_{ba}^3}\right) \nonumber\\
+   &+H_{bb}^\mu H_{ba}^\beta H_{ab}^\alpha \left(\frac{f'_a}{4\xi_{ab}^3}-\frac{f'_b}{4\xi_{ab}^3}\right) +H_{ba}^\mu H_{ab}^{\alpha} H_{bb}^\beta \left(\frac{f'_a}{4\xi_{ab}^3}+\frac{f'_b}{2\xi_{ab}^3}\right)\nonumber\\
+  &\left.+H_{ab}^\mu H_{bb}^\beta H_{ba}^\alpha \left(\frac{f'_a}{4\xi_{ab}^3}+\frac{f'_b}{2\xi_{ab}^3}\right)  +H_{bb}^\mu H_{ba}^{\alpha} H_{ab}^\beta \left(-\frac{f'_b}{4\xi_{ab}^3}+\frac{f'_a}{4\xi_{ab}^3}\right)\right]\nonumber\\
+  &\left.+\sum_{a}\left[H_{aa}^\mu H_{aa}^\beta H_{aa}^\alpha \frac{f''''_a}{48}+ \partial_\mu H_{aa}^{\beta} H_{aa}^\alpha \frac{f'''_a}{16}\right] \right\}+(\alpha \leftrightarrow \beta) .
+\end{align}
+Here, we used
+\begin{align}
+  &\left\{\sum_{a\neq b,b\neq c,c\neq a}\left[H_{bc}^\mu H_{ca}^\beta H_{ab}^\alpha \left(f'_a\frac{1}{4\xi_{ab}^2\xi_{ac}}+f'_b\frac{1}{4\xi_{ab}^2\xi_{bc}} \right)\right.\right. \nonumber \\
+  &\left. \hspace{5cm}+(c.c.\ a\leftrightarrow b)\right]\nonumber \\
+  &\left.+\sum_{a\neq b}\left[H_{ba}^{\mu\beta} H_{ab}^\alpha \frac{f'_a}{4\xi_{ab}^2}+(c.c.\ a\leftrightarrow b)\right]+(\alpha\leftrightarrow \beta)\right\}, \nonumber \\
+  =&\sum_{a\neq b}\left[\partial_\mu (H_{ba}^\beta H_{ab}^\alpha) \frac{f'_b}{4\xi_{ab}^2}-(H_{bb}^\beta-H_{aa}^\beta)(H_{ba}^\mu H_{ab}^\alpha+c.c.) \frac{f'_b}{4\xi_{ab}^3}\right]\nonumber \\
+  &\hspace{6cm}+(\alpha\leftrightarrow \beta),\\
+&\sum_{c\neq b}\left(H_{bc}^\mu H_{cb}^\beta H_{bb}^\alpha \frac{1}{16}\frac{f'''_b}{\xi_{bc}}+c.c.\right)+\sum_a \left(H_{aa}^{\mu\beta} H_{aa}^\alpha \frac{1}{32}f'''_a+c.c.\right)\nonumber \\
+=&\sum_{a} \partial_\mu H_{aa}^{\beta} H_{aa}^\alpha \frac{f'''_a}{16}, 
+\end{align}
+and some cancellations between the terms explicitly written and the $(\alpha \leftrightarrow \beta)$ terms among the $O(\Gamma^0)$ contributions in Eq.~\eqref{eq:nonlinearConductivityUptoTau0}.
+By defining $g_{ab}^{\alpha\beta}\equiv \frac{1}{2}(H_{ab}^\alpha H_{ba}^\beta +H_{ab}^\beta H_{ba}^\alpha)/{\xi_{ab}^2}$, we obtain
+\begin{align}
+  &\sigma_{\Gamma^0}^{\mu\alpha\beta}\nonumber \\
+=&\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\left\{\sum_{b\neq a}\left[\partial_\mu (H_{ba}^\beta H_{ab}^\alpha+H_{ba}^\alpha H_{ab}^\beta) \frac{f'_b}{4\xi_{ab}^2}\right.\right.\nonumber\\
+  &\left.+\left[(H_{bb}^\mu-H_{aa}^\mu )g_{ba}^{\alpha\beta}-2H_{bb}^\mu g_{ba}^{\alpha\beta}+H_{bb}^\beta g_{ba}^{\mu\alpha}+H_{bb}^\alpha g_{ba}^{\mu\beta} \right]\frac{f'_b}{\xi_{ab}}\right] \nonumber\\
+  &\left.+\sum_{a}\left[H_{aa}^\mu H_{aa}^\beta H_{aa}^\alpha \frac{f''''_a}{24}+ (\partial_\mu H_{aa}^{\beta} H_{aa}^\alpha +\partial_\mu H_{aa}^{\alpha} H_{aa}^\beta )\frac{f'''_a}{16}\right]\right\}.
+\end{align}
+Finally, using the relation
+\begin{align}
+    \partial_\mu g_{ba}^{\beta\alpha}=&\partial_\mu (H_{ab}^\beta H_{ba}^\alpha +H_{ab}^\alpha H_{ba}^\beta)\frac{1}{2\xi_{ab}^2}\nonumber \\
+    &+(H_{bb}^\mu-H_{aa}^\mu)(H_{ab}^\beta H_{ba}^\alpha +H_{ab}^\alpha H_{ba}^\beta)\frac{1}{\xi_{ab}^3}\\
+  \partial_\mu [H_{aa}^\beta H_{aa}^\alpha \frac{f'''_a}{16}]=&(\partial_\mu H_{aa}^\beta H_{aa}^\alpha +H_{aa}^\beta \partial_\mu H_{aa}^\alpha)\frac{f'''_a}{16}\nonumber \\
+    &+H_{aa}^\beta H_{aa}^\alpha H_{aa}^\mu \frac{f''''_a}{16}
+\end{align}
+and periodicity in $k$-space, we obtain
+\begin{align}
+  \sigma_{\Gamma^0}^{\mu\alpha\beta}
+=&\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\left\{\sum_b \partial_\mu g_{b}^{\beta\alpha} \frac{f'_b}{2}\right.\nonumber\\
+  &-\sum_{b\neq a}\left[2H_{bb}^\mu g_{ba}^{\alpha\beta}- H_{bb}^\beta g_{ba}^{\mu\alpha}- H_{bb}^\alpha g_{ba}^{\mu\beta} \right]\frac{f'_b}{\xi_{ab}} \nonumber\\
+  &\left.-\sum_{a}H_{aa}^\mu H_{aa}^\beta H_{aa}^\alpha \frac{f''''_a}{48}\right\},
+\end{align}
+where $g_b^{\alpha\beta}=\sum_{a\neq b}g_{ba}^{\alpha\beta}$ is the quantum metric of the $b$-th band.
+The first term is the intraband quantum metric dipole term, the second term is the interband quantum metric dipole term, and the last term is the kinetic term~\cite{Ulrich2026,Guo2026}.
+The first and last terms contribute to the longitudinal nonlinear conductivity, whereas the second term does not. 
+The first term is referred to as the quantum metric dipole term in Table~\ref{tab:comparison} of the main text, and the last term is interpreted as a part of the nonlinear Drude term because $\int \frac{d^d k}{(2\pi)^d}\sum_{a}H_{aa}^\mu H_{aa}^\beta H_{aa}^\alpha f''''_a=\int \frac{d^d k}{(2\pi)^d}\sum_{a}2\partial_\mu \partial_\beta \partial_\alpha \epsilon_a f_a''$.
+
+
+
+\section{Derivation of Eq.~\eqref{eq:sigma2}} \label{app:derivationSigma2}
+In this section, we derive Eq.~\eqref{eq:sigma2} from Eq.~\eqref{eq:generalNonReciprocalKernel} by setting both $\mu$ and $\beta$ to $\alpha$.
+For later convenience, we introduce
+\begin{align}
+  &\Sigma^{\alpha\alpha\alpha} =-\frac{\Gamma^2 }{2\pi i} \int dx f'(x)\nonumber \\
+  &\times \left[\sum_{abc}H_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha (G^R_c+G^A_c) \left(G^R_a-G^A_b\right)G^R_a G^A_a G^R_b G^A_b  \right. \nonumber \\
+  &\left. +\sum_{ab}H_{ba}^{\alpha\alpha} H_{ab}^\alpha\left(G^R_a-G^A_b\right)G^R_a G^A_a G^R_b G^A_b \right]. \label{eq:longitudinalNonReciprocalKernel}
+\end{align}
+as the momentum-space contribution of $\sigma^{\alpha\alpha\alpha}$, i.e., $\sigma^{\alpha\alpha\alpha}=\frac{e^3}{\hbar}\int \frac{d^d k}{(2\pi)^d}\Sigma^{\alpha\alpha\alpha}$.
+From now on, we assume TR symmetry $[T,H(k)]=0, \ T=KU(\bm{k}\to -\bm{k})$ with $K$ being the complex conjugation operator and $U$ being a unitary matrix, which implies 
+\begin{align}
+  \mel{a}{\partial_{k_\alpha} H }{b}
+  % &=-\mel{a(\bm{k})}{U^\dagger \partial_{k_\alpha} H^*|_{\bm{k}\to -\bm{k}} U}{b(\bm{k})}\nonumber \\
+  % &= -\mel{a(-\bm{k})}{U^\dagger \partial_{k_\alpha} H^* U}{b(-\bm{k})}|_{\bm{k}\to -\bm{k}}\nonumber \\
+  % &=-[\mel{a(\bm{k})}{\partial_{k_\alpha} H }{b(\bm{k})}]_{\bm{k}\to -\bm{k}}^* \nonumber \\
+  &=-\mel{b}{\partial_{k_\alpha} H }{a}|_{\bm{k}\to -\bm{k}} \\
+  \mel{a}{\partial_{k_\alpha}^2 H }{b}&=\mel{b}{\partial_{k_\alpha}^2 H }{a}|_{\bm{k}\to -\bm{k}}
+\end{align}
+Because of these relations, both coefficients of $H_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha$ and $H_{ba}^{\alpha\alpha} H_{ab}^\alpha$ in Eq.~\eqref{eq:longitudinalNonReciprocalKernel} can be antisymmetrized under the interchange of arbitrary band indices.
+Therefore, the coefficient multiplying $H_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha$ in Eq.~\eqref{eq:longitudinalNonReciprocalKernel} can be rewritten as
+\begin{align}
+  &(G^R_c+G^A_c) (G^R_a-G^A_b)G^R_a G^A_a G^R_b G^A_b \nonumber \\
+\overset{\mathcal{A}}{=} &(G^R_c+G^A_c) (G^R_a+G^A_a)G^R_a G^A_a G^R_b G^A_b \nonumber \\
+=&-\frac{1}{4\Gamma^2}(G^R_c+G^A_c) (G^{R2}_a-G^{A2}_a)(G^{R}_b-G^{A}_b) \nonumber \\
+\overset{\mathcal{A}}{=} &-\frac{1}{4\Gamma^2}(-G^R_c G^A_b+G^A_c G^R_b) (G^{R2}_a-G^{A2}_a)\nonumber \\
+\overset{\mathcal{A}}{=} &-\frac{1}{2\Gamma^2}(G^R_c G^A_b G^{A2}_a+G^A_c G^R_b G^{R2}_a) \nonumber \\
+=&-\frac{1}{2\Gamma^2}(G^R_c G^A_b G^{A2}_a+c.c.),
+\end{align}
+where $\overset{\mathcal{A}}{=}$ indicates that the expression is equivalent under the antisymmetrization mentioned above.
+Therefore, the coefficient multiplying $H_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha$ in Eq.~\eqref{eq:longitudinalNonReciprocalKernel} is
+\begin{align}
+  &\frac{1}{2}\frac{1}{2\pi i}\int dx f'(x)G^R_c G^A_b G^{A2}_a -c.c.\nonumber \\
+  =&\frac{1}{2}\left[\frac{f_+'(\xi_b+i\Gamma)}{(\xi_{bc}+2i\Gamma)\xi_{ba}^2}+\frac{f_+''(\xi_a+i\Gamma)}{(\xi_{ac}+2i\Gamma)\xi_{ab}}\right. \nonumber \\
+  &-f_+'(\xi_a+i\Gamma)\left(\frac{1}{(\xi_{ac}+2i\Gamma)\xi_{ab}^2}+\frac{1}{(\xi_{ac}+2i\Gamma)^2\xi_{ab}}\right) \nonumber \\
+  &\left.-\frac{f_-'(\xi_c-i\Gamma)}{(\xi_{cb}-2i\Gamma)(\xi_{ca}-2i\Gamma)^2}\right]-c.c. \nonumber \\
+  \overset{\mathcal{A}}{=}&\frac{1}{2}\left[
+    -f_+'(\xi_a+i\Gamma)\left(
+      \frac{1}{(\xi_{ac}+2i\Gamma)^2\xi_{ab}}+\frac{2}{(\xi_{ac}+2i\Gamma)\xi_{ab}^2} \right. \right. \nonumber \\
+      &\left. \qquad \qquad+\frac{1}{(\xi_{ab}+2i\Gamma)(\xi_{ac}+2i\Gamma)^2}
+    \right) \nonumber \\
+   & \left. \qquad +f_+''(\xi_a+i\Gamma)\frac{-2i\Gamma}{\xi_{ac} \xi_{ab} (\xi_{ac}+2i\Gamma)} 
+  \right]-c.c.
+\end{align}
+for $a\neq b,\ b\neq c,\ c\neq a$.
+In going to the last line, we used $\frac{1}{(\xi_{ac}+2i\Gamma)\xi_{ab}}+\frac{2i\Gamma}{\xi_{ac}\xi_{ab}(\xi_{ac}+2i\Gamma)}=\frac{1}{\xi_{ac}\xi_{ab}}$.
+
+Similarly, the coefficient multiplying $H_{ba}^{\alpha\alpha} H_{ab}^\alpha$ in Eq.~\eqref{eq:longitudinalNonReciprocalKernel} can be rewritten as
+\begin{align}
+  &(G^R_a-G^A_b)G^R_a G^A_a G^R_b G^A_b \nonumber \\
+\overset{\mathcal{A}}{=}&(G^R_a+G^A_a)G^R_a G^A_a G^R_b G^A_b \nonumber \\
+=&-\frac{1}{4\Gamma^2}(G^{R2}_a-G^{A2}_a)(G^{R}_b-G^{A}_b) \nonumber \\
+=&-\frac{1}{4\Gamma^2}(G^{R2}_a-G^{A2}_a)G^R_b +c.c.
+\end{align}
+Therefore, the coefficient multiplying $H_{ba}^{\alpha\alpha} H_{ab}^\alpha$ in Eq.~\eqref{eq:longitudinalNonReciprocalKernel} is
+\begin{align}
+  &\frac{1}{4}\frac{1}{2\pi i}\int dx f'(x)(G^{R2}_a-G^{A2}_a)G^R_b -c.c. \nonumber \\
+  =&\frac{1}{4}\left(-\frac{f_+''(\xi_a+i\Gamma)}{\xi_{ab}+2i\Gamma}+\frac{f_+'(\xi_a+i\Gamma)}{(\xi_{ab}+2i\Gamma)^2}+\frac{f_-'(\xi_b-i\Gamma)}{(\xi_{ba}-2i\Gamma)^2} \right. \nonumber \\
+      &\left. -\frac{f_-'(\xi_b-i\Gamma)}{\xi_{ba}^2}-\frac{f_-''(\xi_a-i\Gamma)}{\xi_{ab}}+\frac{f_-'(\xi_{a}-i\Gamma)}{\xi_{ab}^2}\right)-c.c. \nonumber \\
+\overset{\mathcal{A}}{=}&\frac{1}{2}\left[
+  f_+''(\xi_a+i\Gamma)\frac{i\Gamma}{\xi_{ab}(\xi_{ab}+2i\Gamma)} \right. \nonumber \\
+&\qquad \left. +f_+'(\xi_a+i\Gamma)\left(\frac{1}{(\xi_{ab}+2i\Gamma)^2}-\frac{1}{\xi_{ab}^2}\right)
+\right]-c.c.
+\end{align}
+for $a\neq b$.
+
+\begin{widetext}
+Using the TR symmetry, for arbitrary function $F(a,b)$ with $a,b$ being band indices, we have
+\begin{align}
+  &\sum_{a\neq b}H_{ba}^{\alpha\alpha} H_{ab}^\alpha F(a,b) \nonumber \\
+  =&\sum_{a\neq b}\left\{[\partial_{k_\alpha} \ln H_{ba}^\alpha+(\mel{u_b}{\partial_{k_\alpha}}{u_b}-\mel{u_a}{\partial_{k_\alpha}}{u_a})]H_{ba}^\alpha H_{ab}^\alpha F(a,b)-\sum_c \left(\frac{H_{bc}^\alpha H_{ca}^\alpha}{\xi_{bc}}-\frac{H_{bc}^\alpha H_{ca}^\alpha}{\xi_{ca}}\right)H_{ab}^\alpha F(a,b)\right\}\nonumber \\
+  \overset{\mathcal{A}}{=}&\frac{1}{2}\sum_{a\neq b}\left[\partial_{k_\alpha} \ln \frac{H_{ba}^\alpha}{H_{ab}^\alpha}+2(\mel{u_b}{\partial_{k_\alpha}}{u_b}-\mel{u_a}{\partial_{k_\alpha}}{u_a})\right]H_{ba}^\alpha H_{ab}^\alpha F(a,b)-\sum_{a\neq b, b\neq c, c\neq a} H_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha\left(\frac{1}{\xi_{bc}}-\frac{1}{\xi_{ca}}\right) F(a,b) \nonumber \\
+  = &-i\sum_{a\neq b} R_{ba}H_{ba}^\alpha H_{ab}^\alpha F(a,b)-\sum_{a\neq b, b\neq c, c\neq a} H_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha\left(\frac{1}{\xi_{bc}}-\frac{1}{\xi_{ca}}\right) F(a,b)
+\end{align}
+Therefore, using
+\begin{align}
+      &-\frac{1}{(\xi_{ac}+2i\Gamma)^2\xi_{ab}}-\frac{2}{(\xi_{ac}+2i\Gamma)\xi_{ab}^2} -\frac{1}{(\xi_{ab}+2i\Gamma)(\xi_{ac}+2i\Gamma)^2}\nonumber \\
+      =&-\frac{1}{(\xi_{ac}+2i\Gamma)^2}\left(
+        \frac{1}{\xi_{ab}}+\frac{1}{\xi_{cb}}
+      \right)-\frac{1}{(\xi_{ac}+2i\Gamma)}\left(\frac{2}{\xi_{ab}^2}-\frac{2}{\xi_{cb}^2}\right) +\frac{1}{(\xi_{ac}+2i\Gamma)^2}\frac{1}{\xi_{cb}}
+      -\frac{1}{(\xi_{ac}+2i\Gamma)}\frac{2}{\xi_{cb}^2}\nonumber \\
+      &  +\frac{1}{(\xi_{ac}+2i\Gamma)^2\xi_{bc}}-\frac{1}{\xi_{bc}^2}\left(\frac{1}{\xi_{ab}+2i\Gamma}-\frac{1}{\xi_{ac}+2i\Gamma}\right)\nonumber \\
+      =&-\frac{1}{\xi_{ac}+2i\Gamma}\left(
+        \frac{1}{\xi_{ab}}+\frac{1}{\xi_{cb}}
+      \right)\left(\frac{1}{\xi_{ac}+2i\Gamma}+\frac{2}{\xi_{ab}}-\frac{2}{\xi_{cb}}\right)-\frac{1}{\xi_{bc}^2}\left(\frac{1}{\xi_{ab}+2i\Gamma}+\frac{1}{\xi_{ac}+2i\Gamma}\right),
+\end{align}
+Eq.~\eqref{eq:longitudinalNonReciprocalKernel} can be rewritten as
+\begin{align}
+  \Sigma^{\alpha\alpha\alpha} =&\sum_{a\neq b}R_{ba}H_{ba}^\alpha H_{ab}^\alpha \Im \left[
+  f_+''(\xi_a+i\Gamma)\frac{i\Gamma}{\xi_{ab}(\xi_{ab}+2i\Gamma)}  +f_+'(\xi_a+i\Gamma)\left(\frac{1}{(\xi_{ab}+2i\Gamma)^2}-\frac{1}{\xi_{ab}^2}\right)
+\right]\nonumber \\
+ &-\sum_{a\neq b, b\neq c, c\neq a} iH_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha\left(\frac{1}{\xi_{ac}}+\frac{1}{\xi_{bc}}\right)\Im \left[
+  f_+''(\xi_a+i\Gamma)\frac{i\Gamma}{\xi_{ab}(\xi_{ab}+2i\Gamma)}  +f_+'(\xi_a+i\Gamma)\left(\frac{1}{(\xi_{ab}+2i\Gamma)^2}-\frac{1}{\xi_{ab}^2}\right)
+\right]\nonumber \\
+ &+\sum_{a\neq b, b\neq c, c\neq a} iH_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha \Im \left[
+  f_+''(\xi_a+i\Gamma)\frac{-2i\Gamma}{\xi_{ac} \xi_{ab} (\xi_{ac}+2i\Gamma)}  \right. \nonumber \\
+&\qquad \left. \hspace{5cm}-f_+'(\xi_a+i\Gamma)\frac{1}{\xi_{ac}+2i\Gamma}\left(
+        \frac{1}{\xi_{ab}}+\frac{1}{\xi_{cb}}
+      \right)\left(\frac{1}{\xi_{ac}+2i\Gamma}+\frac{2}{\xi_{ab}}-\frac{2}{\xi_{cb}}\right)
+\right]\nonumber \\
+=&\sum_{a\neq b}R_{ba}H_{ba}^\alpha H_{ab}^\alpha \Im \left[
+  f_+''(\xi_a+i\Gamma)\frac{i\Gamma}{\xi_{ab}(\xi_{ab}+2i\Gamma)}+f_+'(\xi_a+i\Gamma)\frac{-4i\Gamma\xi_{ab}+4\Gamma^2}{(\xi_{ab}+2i\Gamma)^2\xi_{ab}^2} 
+\right]\nonumber \\
+ &+\sum_{a\neq b, b\neq c, c\neq a} iH_{bc}^\alpha H_{ca}^\alpha H_{ab}^\alpha\Im \left[
+  f_+''(\xi_a+i\Gamma)\frac{-i\Gamma}{\xi_{ac}\xi_{bc}(\xi_{ab}+2i\Gamma)}+f_+'(\xi_a+i\Gamma)\left(\frac{1}{\xi_{ac}}+\frac{1}{\xi_{bc}}\right)\frac{4i\Gamma}{\xi_{ac}\xi_{bc}(\xi_{ab}+2i\Gamma)}
+\right]
+\end{align}
+where we used $\left(\frac{1}{\xi_{ac}}+\frac{1}{\xi_{bc}}\right)\left(\frac{1}{\xi_{ab}^2}+\left(\frac{2}{\xi_{ac}}-\frac{2}{\xi_{bc}}\right)\frac{1}{\xi_{ab}}\right)-(b \leftrightarrow c)=0$ for the last equality.
+Using $H_{ab}^\alpha=\xi_{ab}i A_{ab}^\alpha$ and Eq.~\eqref{eq:sigmaMuAlphaBetaGreenFunction}, we obtain Eq.~\eqref{eq:sigma2}.
+
+\end{widetext}
+
+\section{Order estimation} \label{app:orderEstimation}
+In this section, we estimate the order of nonreciprocity induced by the present mechanism.
+When the frequency of the applied electric field $\omega$ is sufficiently small, the electric current density induced by the applied electric field $E_x(t)=E_x e^{-i\omega t}+c.c.$ is given by 
+\begin{align}
+  j_x(t)=&\sigma^{xx} E_x(t)  +\sigma^{xxx} E_x^2(t) +\cdots.
+\end{align}
+The electric current $I$ is given by
+\begin{align}
+  I_x\equiv& Sj_x(t)=\sigma^{xx}2\frac{V_x S}{l}\cos\omega t+\sigma^{xxx}(2+2\cos 2\omega t)\frac{V_x^2}{l^2}S+\cdots
+\end{align}
+where $S$ is the cross-sectional area of the sample, $l$ is the length of the sample, and $V_x=E_x l$ is the voltage applied to the sample.
+By defining linear resistance $R^\omega \equiv l/(\sigma^{xx} S)$, we can rewrite the above equation as
+\begin{align}
+  IR^\omega =& 2V_x \cos\omega t +2\frac{\sigma^{xxx}}{\sigma^{xx}}\frac{V_x^2}{l} (1+\cos 2\omega t)+\cdots \nonumber \\
+  \equiv & 2V_x \cos\omega t +V^0 +V^{2\omega} \cos 2\omega t+\cdots.
+\end{align}
+Here, $V^{2\omega} \equiv 2\frac{\sigma^{xxx}}{\sigma^{xx}}\frac{V_x^2}{l}$ is the second harmonic voltage.
+Using the amplitude of the first-harmonic current $\sigma^{xx}2\frac{V_x S}{l}$, we can define the second harmonic resistance $R^{2\omega}$ as $R^{2\omega} \equiv V^{2\omega}/(\sigma^{xx}2\frac{V_x S}{l})=\frac{\sigma^{xxx}}{(\sigma^{xx})^2}\frac{V_x}{S}$.
+$V^{2\omega}$ and $R^{2\omega}$ are often used as measures of nonreciprocity in experiments~\cite{Ideue2017,Yokouchi2017,Wakatsuki2017,Yasuda2019,Itahashi2020,Zhang2020,Nakamura2025,Li2021,Wang2022,Wakamura2024}.
+
+
+Since $V^{2\omega}$ and $R^{2\omega}$ depend on $\sigma^{xx}$, we derive linear conductivity $\sigma^{xx}$ taking into account the same relaxation process as the nonlinear conductivity.
+The linear conductivity $\mathcal{K}^{\mu\alpha}(\omega)$ is defined by $j_\mu^{(1)}(t)=\sum_\alpha \int \frac{d\omega}{2\pi } \mathcal{K}^{\mu\alpha} (\omega) A_\alpha (\omega) e^{-i\omega t}$.
+Using Matsubara formalism, $\mathcal{K}^{\mu\alpha}(\omega)$ is given as
+\begin{align}
+    \mathcal{K}^{\mu\alpha}(\omega)=&-\left(\frac{e}{\hbar}\right)^2\frac{-1}{2\pi i}\int dx f(x) \mathrm{tr}\left[(G^R(x)-G^A(x))H^{\mu\alpha}\right. \nonumber \\
+    &\hspace{1.5cm}+H^\mu G^R(x+\hbar\omega)H^\alpha (G^R(x)-G^A(x)) \nonumber \\
+    &\hspace{1.5cm}\left. +H^\mu (G^R(x)-G^A(x)) H^\alpha G^A(x-\hbar\omega) \right]\nonumber \\
+    % =&-\left(\frac{e}{\hbar}\right)^2\frac{2i\Gamma}{2\pi i}\int dx f \mathrm{tr} [G^R G^A H^{\mu\alpha}+ H^\mu G^{R}H^\alpha  G^R G^A + H^\mu  G^R G^A H^\alpha G^{A}] \nonumber \\
+    % &-\hbar\omega \mathrm{tr}[H^\mu G^{R}G^R(\omega)H^\alpha  G^R G^A - H^\mu  G^R G^A H^\alpha G^{A}G^A(-\omega)] \nonumber \\
+    =&\hbar\omega\left(\frac{e}{\hbar}\right)^2\frac{2i\Gamma}{2\pi i}\int dx f \mathrm{tr}[H^\mu G^{R}G^R(x+\hbar\omega)H^\alpha  G^R G^A \nonumber \\
+    &\hspace{2cm}- H^\mu  G^R G^A H^\alpha G^{A}G^A(x-\hbar\omega)] .
+\end{align}
+Here, we used $-2i\Gamma G^R(X) G^A(x) =G^R(x)-G^A(x)$ and $\int \frac{d^d k}{(2\pi)^d}\partial_\alpha \mathrm{tr}[G^R G^A H^{\mu}]=0$.
+Similar to the nonlinear conductivity, $\mathcal{K}^{\mu\alpha}(\omega)=O(\omega)$ and we can define the linear conductivity as $\sigma^{\mu\alpha}=-i\partial_\omega \mathcal{K}^{\mu\alpha}(\omega)_{\omega=0}$, which is given as
+\begin{align}
+  \sigma^{\mu\alpha}(\omega)
+  % =& \frac{e^2}{\hbar}\frac{2\Gamma}{2\pi i}\int dx f \mathrm{tr}[H^\mu G^{R}G^R(\omega)H^\alpha  G^R G^A - H^\mu  G^R G^A H^\alpha G^{A}G^A(-\omega)] \nonumber \\
+  =& \frac{e^2}{\hbar}\frac{2\Gamma}{2\pi i}\int dx \nonumber \\
+  &\quad \times \mathrm{tr}[(f(x)\partial_\mu G^R -f(x+\hbar\omega)\partial_\mu G^A(x+\hbar\omega))\nonumber \\
+  &\hspace{3cm} \times G^R(x+\hbar\omega)H^\alpha G^A(x)].
+\end{align}
+Therefore, the static linear conductivity is given as
+\begin{align}
+  \sigma^{\mu\alpha}
+  % =& \frac{e^2}{\hbar}\frac{2\Gamma}{2\pi i}\int dx f(x)\mathrm{tr}[( G^R H^\mu G^R -G^A H^\mu G^A)G^R H^\alpha G^A]\nonumber \\
+  =& \frac{e^2}{\hbar}\frac{2\Gamma}{2\pi i}\int dx f(x)\mathrm{tr}[G^R H^\mu G^R G^R H^\alpha G^A]+c.c.\nonumber \\
+  =& \frac{e^2}{\hbar} 2\Gamma \int \frac{d^d k}{(2\pi)^d} \sum_{ab} H_{ab}^\mu H_{ba}^\alpha I^{(4)}_{ab} +c.c., 
+\end{align}
+with
+\begin{align}
+  I^{(4)}_{ab}=&\frac{1}{2\pi i}\int dx f(x) \frac{1}{(x-\xi_a+i\Gamma)(x-\xi_b+i\Gamma)^2(x-\xi_a-i\Gamma)} \nonumber \\
+  I^{(4)}_{a\neq b}=&f_+(\xi_a+i\Gamma)\frac{1}{2i\Gamma(\xi_{ab}+2i\Gamma)^2} - f_-'(\xi_b-i\Gamma)\frac{1}{\xi_{ba}(\xi_{ba}-2i\Gamma)} \nonumber \\
+  &+f_-(\xi_b-i\Gamma)\left[
+    \frac{1}{\xi_{ba}^2(\xi_{ba}-2i\Gamma)}+\frac{1}{\xi_{ba}(\xi_{ba}-2i\Gamma)^2}
+  \right]\nonumber \\
+  &\qquad -f_-(\xi_a-i\Gamma)\frac{1}{\xi_{ab}^2(-2i\Gamma)}\nonumber \\
+  I^{(4)}_{aa}=&\frac{f_+(\xi_a+i\Gamma)}{(2i\Gamma)^3} -\frac{1}{2}\frac{f_-''(\xi_a-i\Gamma)}{(-2i\Gamma)}+\frac{f_-'(\xi_a-i\Gamma)}{(-2i\Gamma)^2}-\frac{f_-(\xi_a-i\Gamma)}{(-2i\Gamma)^3}
+\end{align}
+For longitudinal conductivity, we set $\mu=\alpha$ and obtain,
+\begin{align}
+  \sigma^{\alpha\alpha}
+  % =& \frac{e^2}{\hbar} 2\Gamma \int \frac{d^d k}{(2\pi)^d} \sum_{ab} H_{ab}^\alpha H_{ba}^\alpha (I^{(4)}_{ab} +c.c.)\nonumber \\
+  =& \frac{e^2}{\hbar} \int \frac{d^d k}{(2\pi)^d} \left\{\sum_{a\neq b} H_{ab}^\alpha H_{ba}^\alpha \left[-\frac{2\Gamma f_+'(\xi_a+i\Gamma)}{\xi_{ab}(\xi_{ab}+2i\Gamma)}+c.c.\right]\right. \nonumber \\
+  &\left. +\sum_a H_{aa}^\alpha H_{aa}^\alpha \left[-\frac{f_+''(\xi_a+i\Gamma)}{2i}-\frac{f_+'(\xi_a+i\Gamma)}{2\Gamma}+c.c.\right]\right\}.
+\end{align}
+
+
+Figure~\ref{fig:orderVsGamma} shows the linear and nonlinear conductivities as a function of the relaxation rate $\Gamma$ for a three-dimensional extension of the Rice--Mele model $\mathcal{H}(k)=t_0 \cos k_x a\sigma_x +\delta t \sin k_xa \sigma_y +(m+t_1 (2-\cos k_y a-\cos k_z a))\sigma_z$ with $m=3.1t_0$, $\delta t=0.3t_0$ and $t_1=5.0t_0$.
+We set the chemical potential $\mu=2.3t_0$ and the temperature $\beta=20/t_0$.
+For the representative value $t_0=0.5\,\mathrm{eV}$ used below, this corresponds to $T=290\,\mathrm{K}$, which is in the room temperature range.
+These parameters are chosen such that the system is a nonmagnetic doped semiconductor with broken inversion symmetry.
+Although the large band gap suppresses the nonlinear conductivity $\sigma^{xxx}$, it also suppresses the linear conductivity $\sigma^{xx}$ and thus reduces Joule heating.
+This situation is suitable for observing the second-harmonic voltage $V^{2\omega}$ and the second-harmonic resistance $R^{2\omega}$ induced by the present mechanism.
+
+To estimate the signal magnitude in physical units, we adopt representative parameter values $t_0=0.5\,\mathrm{eV}$, $a=0.3\,\mathrm{nm}$, $S=1\,\mathrm{mm}^2$, and $l=1\,\mathrm{mm}$, where $S$ and $l$ denote the cross-sectional area and the sample length, respectively.
+With these parameters, the carrier density of conduction electrons is given by $n=\frac{1}{a^3}\int \frac{dk^3}{(2\pi)^3}\int dx f(x)(-\frac{1}{\pi}\mathrm{Im}\frac{1}{x+\mu-\epsilon_{\mathrm{up}}+i\Gamma})=3.2\times 10^{18}\, [\mathrm{cm}^{-3}]$, where $\epsilon_{\mathrm{up}}$ is the eigenenergy of the upper band (we also have a similar number of holes in the valence band as thermally activated carriers).
+We consider the case of a moderate dissipated power of $1\,\mathrm{mW}$, which leads to the applied voltage $V_x$ of $\simeq 10\,\mathrm{V}$ and the first-harmonic current amplitude of $\simeq0.05\,\mathrm{mA}$.
+In this setup along with $\Gamma=0.002t_0$, (corresponding to the relaxation time $\tau \approx 0.3\,\mathrm{ps}$,) the second-harmonic voltage $V^{2\omega}$ is approximately $-0.02\,\mathrm{mV}$ and the second-harmonic resistance $R^{2\omega}$ is approximately $-0.3\,\Omega$.
+These values of $V^{2\omega}$ and $R^{2\omega}$ are feasible for experimental observation in nonmagnetic polar semiconductors with low carrier density~\cite{Ideue2017,Yokouchi2017,Wakatsuki2017,Yasuda2019,Itahashi2020,Zhang2020,Nakamura2025,Li2021,Wang2022,Wakamura2024}.
+
+
+\begin{figure}[t]
+  \includegraphics[width=0.5\textwidth]{orderVsGammaMetal.pdf}
+  \caption{(a) The linear conductivity and (b) the nonlinear conductivity as a function of the relaxation rate $\Gamma$. We set the parameters as $m=3.1t_0,\delta t=0.3t_0$, and $t_1=5.0t_0$.}
+  \label{fig:orderVsGamma}
+\end{figure}
+
+
+\bibliographystyle{apsrev4-1}
+\bibliography{references}
+
+
+\end{document}

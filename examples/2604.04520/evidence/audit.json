@@ -1,0 +1,1680 @@
+{
+  "schema": "paper-audit-v2",
+  "paper": {
+    "id": "2604.04520",
+    "title": "Nonreciprocal current induced by dissipation in time-reversal symmetric systems",
+    "source": "https://arxiv.org/abs/2604.04520",
+    "tex": "input/nonreciprocal.tex"
+  },
+  "warnings": [
+    "Local residual 0 is not a paper pass.",
+    "Silence from non-submission is not a pass.",
+    "Finite Laurent/Taylor coefficients do not prove an O(·) remainder bound.",
+    "Human accept/reject does not convert a parent claim into machine Exact.",
+    "Numerical agreement with a model is not an analytic proof of Eq. (5)."
+  ],
+  "summary": {
+    "title": "Nonreciprocal current induced by dissipation in time-reversal symmetric systems",
+    "authors": "Anan, Kitamura, Morimoto",
+    "arxiv": "2604.04520",
+    "overall_state": "AUDIT_INCOMPLETE",
+    "claim_count": 5,
+    "equation_inventory": {
+      "total": 93,
+      "main": 11,
+      "appendix": 82,
+      "by_appendix_letter": {
+        "A": 18,
+        "B": 18,
+        "C": 28,
+        "D": 10,
+        "E": 8
+      }
+    },
+    "relations_reconstructed": 17,
+    "machine_certified_edges": 1,
+    "assumption_dependent_edges": 3,
+    "unresolved_load_bearing": 13,
+    "presentation_is_not_a_certificate": true
+  },
+  "inventory": {
+    "v1_claimed": {
+      "total": 94,
+      "main": 12,
+      "appendix": 82
+    },
+    "v2": {
+      "total": 93,
+      "main": 11,
+      "appendix": 82,
+      "by_appendix_letter": {
+        "A": 18,
+        "B": 18,
+        "C": 28,
+        "D": 10,
+        "E": 8
+      }
+    },
+    "correction": "V1 counted 12 main rows by splitting the S-matrix align on an inner array \\\\. Published numbering gives one number to that display, so main is 11 not 12. Appendix 82 is unchanged. Rice–Mele Hamiltonian is inline math, not a numbered equation.",
+    "method": "Outer numbered equation/align/gather/multline rows without \\nonumber. Nested array/tikzpicture/tabular breaks ignored.",
+    "unnumbered_notable": [
+      {
+        "kind": "inline_display",
+        "what": "Rice–Mele Hamiltonian H(k)=t0 cos k σx + δt sin k σy + m σz",
+        "locator": "main text, Model calculation section",
+        "counted_as_numbered": false
+      }
+    ],
+    "equations": [
+      {
+        "id": "M-1",
+        "public": "(1)",
+        "section": "main",
+        "env": "align",
+        "tex_label": null,
+        "cue": "S=\\left( \\begin{array}{cc} r_{LL} & t_{LR} \\\\ t_{RL} & r_{RR} \\end{array} \\right),"
+      },
+      {
+        "id": "M-2",
+        "public": "(2)",
+        "section": "main",
+        "env": "align",
+        "tex_label": "eq:definitionOfCurrent",
+        "cue": "&\\quad \\times \\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)A_\\alpha(\\omega_1)A_\\beta(\\omega_2)e^{-i(\\omega_1+\\omega_2)t}, \\label{eq:definitionOfCurrent}"
+      },
+      {
+        "id": "M-3",
+        "public": "(3)",
+        "section": "main",
+        "env": "align",
+        "tex_label": "eq:nonReciprocalEsquared",
+        "cue": "\\sigma^{\\mu\\alpha\\alpha}=& \\frac{1}{2}\\partial_\\omega^2\\mathcal{K}^{\\mu\\alpha\\alpha}(\\omega,-\\omega)|_{\\omega=0}. \\label{eq:nonReciprocalEsquared}"
+      },
+      {
+        "id": "M-4",
+        "public": "(4)",
+        "section": "main",
+        "env": "align",
+        "tex_label": "eq:currentbyExcitation",
+        "cue": "\\times \\mathrm{Tr} [\\partial_{k_\\mu} (G^R&(\\epsilon+\\hbar\\omega) H^\\alpha G^A(\\epsilon) )G^R(\\epsilon) H^\\beta G^A(\\epsilon+\\hbar\\omega)] ,\\label{eq:currentbyEx"
+      },
+      {
+        "id": "M-5",
+        "public": "(5)",
+        "section": "main",
+        "env": "align",
+        "tex_label": "eq:sigma2",
+        "cue": "&\\left.+\\sum_{a\\neq b,b\\neq c,c\\neq a}\\Re[A_{ab}A_{bc}A_{ca}]D^{(3)}_{abc} \\right] \\label{eq:sigma2}"
+      },
+      {
+        "id": "M-6",
+        "public": "(6)",
+        "section": "main",
+        "env": "align",
+        "tex_label": null,
+        "cue": "D^{(2)}_{ab}&=\\Re \\left[\\frac{8\\Gamma (\\Delta_{ab}+i\\Gamma)}{(\\Delta_{ab}+2i\\Gamma)^2}f_{+,a}'-\\frac{2\\Gamma \\Delta_{ab}}{\\Delta_{ab}+2i\\Gamma}f_{+,a}''\\right]"
+      },
+      {
+        "id": "M-7",
+        "public": "(7)",
+        "section": "main",
+        "env": "align",
+        "tex_label": null,
+        "cue": "D^{(3)}_{abc}&=\\Re\\left[-\\left(\\frac{1}{\\Delta_{ac}}+\\frac{1}{\\Delta_{bc}}\\right)\\frac{8\\Gamma\\Delta_{ab}}{\\Delta_{ab}+2i\\Gamma}f_{+,a}'+\\frac{2\\Gamma\\Delta_{ab"
+      },
+      {
+        "id": "M-8",
+        "public": "(8)",
+        "section": "main",
+        "env": "align",
+        "tex_label": "eq:lowTmpGammaSquared",
+        "cue": "D^{(2)}_{ab}=&2\\Gamma^2 \\frac{-10\\xi_a^2+5\\xi_a\\xi_b-\\xi_b^2}{\\pi \\Delta_{ab}^2 \\xi_a^3}+O(\\Gamma^3), \\label{eq:lowTmpGammaSquared}"
+      },
+      {
+        "id": "M-9",
+        "public": "(9)",
+        "section": "main",
+        "env": "align",
+        "tex_label": null,
+        "cue": "D^{(3)}_{abc}=&\\frac{2\\Gamma^2}{\\pi\\Delta_{ab}\\xi_a^2} \\Bigg[\\left(\\frac{1}{\\Delta_{ac}}+\\frac{1}{\\Delta_{bc}}\\right)(2\\Delta_{ab}+4\\xi_a)+\\frac{\\Delta_{ab}}{\\x"
+      },
+      {
+        "id": "M-10",
+        "public": "(10)",
+        "section": "main",
+        "env": "align",
+        "tex_label": "eq:highTmpGammaLinear",
+        "cue": "D^{(2)}_{ab}=&\\Gamma \\left(\\frac{4}{\\Delta_{ab}}f_a'-f_a''\\right)+O(\\Gamma^2), \\label{eq:highTmpGammaLinear}"
+      },
+      {
+        "id": "M-11",
+        "public": "(11)",
+        "section": "main",
+        "env": "align",
+        "tex_label": null,
+        "cue": "D^{(3)}_{abc}=&\\Gamma \\left[-\\left(\\frac{1}{\\Delta_{ac}}+\\frac{1}{\\Delta_{bc}}\\right)4f_a'+f_a''\\right]+O(\\Gamma^2)."
+      },
+      {
+        "id": "A-1",
+        "public": "A-1",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:DCsumOfalpha_beta",
+        "cue": "&+\\sum_{\\alpha,\\beta}\\mathcal{K}^{\\mu\\alpha\\beta}(-\\omega,\\omega) A_\\alpha(-\\omega) A_\\beta(\\omega) \\label{eq:DCsumOfalpha_beta}",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-2",
+        "public": "A-2",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": null,
+        "cue": "j_\\mu\\uprm{SHG+}(\\omega)=&\\sum_{\\alpha,\\beta}\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega,\\omega) A_\\alpha(\\omega) A_\\beta(\\omega)",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-3",
+        "public": "A-3",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": null,
+        "cue": "j_\\mu\\uprm{SHG-}(\\omega)=&\\sum_{\\alpha,\\beta}\\mathcal{K}^{\\mu\\alpha\\beta}(-\\omega,-\\omega) A_\\alpha(-\\omega) A_\\beta(-\\omega).",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-4",
+        "public": "A-4",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:expandK",
+        "cue": "& -\\sum_{\\alpha,\\beta}\\frac{E_\\alpha^* E_\\beta^*}{\\omega^2} (\\mathcal{K}^{\\mu\\alpha\\beta}|_{\\omega_1=0,\\omega_2=0}-\\omega(\\partial_{\\omega_1}+\\partial_{\\omega_2",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-5",
+        "public": "A-5",
+        "section": "appendix A",
+        "env": "gather",
+        "tex_label": null,
+        "cue": "\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0}=0,",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-6",
+        "public": "A-6",
+        "section": "appendix A",
+        "env": "gather",
+        "tex_label": null,
+        "cue": "\\partial_{\\omega_{1(2)}}\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0}=0,",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-7",
+        "public": "A-7",
+        "section": "appendix A",
+        "env": "gather",
+        "tex_label": null,
+        "cue": "\\partial_{\\omega_{1(2)}}^2\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0}=0,",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-8",
+        "public": "A-8",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:11ee",
+        "cue": "=&\\sum_{\\alpha,\\beta}E_\\alpha(t)E_\\beta(t)(-\\partial_{\\omega_1}\\partial_{\\omega_2}\\mathcal{K}^{\\mu\\alpha\\beta}|_{\\omega_1=0,\\omega_2=0} +O(\\omega)) . \\label{eq:",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-9",
+        "public": "A-9",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": null,
+        "cue": "j_\\mu(t)=\\sum_{\\alpha,\\beta}E_\\alpha(t)E_\\beta(t)\\left(\\frac{1}{2}\\partial_{\\omega}^2\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega,-\\omega)|_{\\omega=0} +O(\\omega)\\right)",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-10",
+        "public": "A-10",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:current_response_function_diagram",
+        "cue": "&-\\frac{1}{2}\\left(\\frac{e}{\\hbar}\\right)^3 \\begin{tikzpicture}[baseline=(v2.center)] \\begin{feynhand} \\vertex (v1) at (0,-0.5); \\vertex (v2) at (0.75,0); \\vert",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-11",
+        "public": "A-11",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:current_response_function",
+        "cue": "&-\\frac{1}{2}\\left(\\frac{e}{\\hbar}\\right)^3\\frac{2i\\Gamma}{2\\pi i}\\int dx f(x) \\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d}\\kappa^{\\mu\\alpha\\beta}(x,\\omega_1,\\omega_2).",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-12",
+        "public": "A-12",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:0linTad",
+        "cue": "\\kappa^{\\mu\\alpha\\beta} (x,0,0) =& \\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu\\alpha}G^R G^A]) \\label{eq:0linTad}",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-13",
+        "public": "A-13",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:0linbub1",
+        "cue": "&+\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R H^{\\alpha} G^R G^A]) \\label{eq:0linbub1}",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-14",
+        "public": "A-14",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:0linbub2",
+        "cue": "&+\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R G^A H^{\\alpha} G^A]). \\label{eq:0linbub2}",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-15",
+        "public": "A-15",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:1linbub1",
+        "cue": "\\partial_{\\omega_1}\\kappa (x,\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0} =&\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}[G^R]^2 H^{\\alpha} G^R G^A]) \\label{eq:1linbub",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-16",
+        "public": "A-16",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:1linbub2",
+        "cue": "&-\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R G^A H^{\\alpha} [G^A]^2]) \\label{eq:1linbub2}",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-17",
+        "public": "A-17",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:2linbub1",
+        "cue": "\\partial_{\\omega_1}^2\\kappa (x,\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0} =&\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu} 2[G^R]^3 H^{\\alpha} G^R G^A]) \\label{eq:2li",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "A-18",
+        "public": "A-18",
+        "section": "appendix A",
+        "env": "align",
+        "tex_label": "eq:2linbub2",
+        "cue": "&+\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R G^A H^{\\alpha} 2[G^A]^3]) \\label{eq:2linbub2}.",
+        "appendix_title": "Derivation of the DC response"
+      },
+      {
+        "id": "B-1",
+        "public": "B-1",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:tadpoleDerivative",
+        "cue": "=&\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d}\\partial_{k_\\mu} \\mathrm{Tr}[H^{\\alpha\\beta} G^A(x)G^R(x)], \\label{eq:tadpoleDerivati",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-2",
+        "public": "B-2",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:m2",
+        "cue": "&\\qquad \\times H^\\beta G^R(x)G^A(x)] \\label{eq:m2}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-3",
+        "public": "B-3",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:p4",
+        "cue": "&\\qquad \\times G^R(x+\\hbar\\omega) (1+2i\\Gamma G^A(x+\\hbar\\omega))]. \\label{eq:p4}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-4",
+        "public": "B-4",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:p2",
+        "cue": "\\to &\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu\\beta}G^R(x+\\hbar\\omega)H^\\alpha G^R(x)G^A(x)]\\label{eq:p2}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-5",
+        "public": "B-5",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:m4",
+        "cue": "+&\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu\\beta}G^R(x)G^A(x)H^\\alpha G^A(x-\\hbar\\omega)]. \\label{eq:m4}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-6",
+        "public": "B-6",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:p1",
+        "cue": "= & \\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu}G^R(x)H^\\beta G^R(x+\\hbar\\omega )H^\\alpha G^A(x)G^R(x)] \\label{eq:p1}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-7",
+        "public": "B-7",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:m3",
+        "cue": "&\\qquad \\times H^\\beta G^R(x)G^A(x)H^\\alpha G^A(x-\\hbar\\omega)] \\label{eq:m3}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-8",
+        "public": "B-8",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:p5",
+        "cue": "&\\qquad \\times G^R(x+\\hbar\\omega)(1+2i\\Gamma G^A(x+\\hbar\\omega)) H^\\alpha G^A(x)]. \\label{eq:p5}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-9",
+        "public": "B-9",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:m1",
+        "cue": "&\\qquad \\times H^\\beta G^A(x)G^R(x)] \\label{eq:m1}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-10",
+        "public": "B-10",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:p3",
+        "cue": "&\\qquad \\times (1+2i\\Gamma G^A(x+\\hbar\\omega)) G^R(x+\\hbar\\omega)] \\label{eq:p3}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-11",
+        "public": "B-11",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:m5",
+        "cue": "+&\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu}G^A(x)G^R(x)H^\\alpha G^A(x-\\hbar\\omega)H^\\beta G^A(x)]. \\label{eq:m5}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-12",
+        "public": "B-12",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:m1m5",
+        "cue": "\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x)\\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d} \\partial_{k_\\mu}\\Tr [ H^\\beta G^A(x) G^R(x)H^\\alpha G^A(x-\\hbar\\omega)]. \\label{eq:m1m5",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-13",
+        "public": "B-13",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:p1p5",
+        "cue": "\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d}\\partial_{k_\\mu} \\Tr[H^\\beta G^R(x+\\hbar\\omega) H^\\alpha G^A(x)G^R(x)]. \\label{eq:p1p5}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-14",
+        "public": "B-14",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\times G^R(x-\\hbar\\omega) H^\\beta G^A(x) ]",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-15",
+        "public": "B-15",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\times G^R(x) H^\\beta G^A(x+\\hbar\\omega) ]",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-16",
+        "public": "B-16",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:currentbyExcitationInX",
+        "cue": "&\\times \\Tr[\\partial_{k_\\mu} (G^R(x+\\hbar\\omega) H^\\alpha G^A(x) )G^R(x) H^\\beta G^A(x+\\hbar\\omega) ] \\label{eq:currentbyExcitationInX}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-17",
+        "public": "B-17",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&+\\sum_{a,c}\\Tr[\\partial_{k_\\mu} (\\ket{u_a}\\partial_{k_\\alpha} \\epsilon_a \\bra{u_a})\\ket{u_c}\\partial_{k_\\alpha} \\epsilon_c \\bra{u_c}]\\xi_{cd}\\frac{1}{(x+\\hbar\\",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "B-18",
+        "public": "B-18",
+        "section": "appendix B",
+        "env": "align",
+        "tex_label": "eq:halfPhotocurrent",
+        "cue": "&\\times \\left[Q_{ab}^{\\alpha\\beta}\\left(\\frac{\\partial_{k_\\mu} \\Delta_{ab}}{\\Gamma}+\\frac{i\\partial_{k_\\mu} \\Delta_{ab}}{\\Delta_{ab}}\\right)+iC_{\\beta\\mu\\alpha}",
+        "appendix_title": "Derivation of injection current and shift current"
+      },
+      {
+        "id": "C-1",
+        "public": "C-1",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": "eq:sigmaMuAlphaBetaGreenFunction",
+        "cue": "&\\times \\Tr[\\partial_{k_\\mu} (G^R H^\\beta G^A) G^R (G^R H^\\alpha -H^\\alpha G^A) G^A +(\\alpha \\leftrightarrow \\beta)].\\label{eq:sigmaMuAlphaBetaGreenFunction}",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-2",
+        "public": "C-2",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": "eq:generalNonReciprocalKernel",
+        "cue": "&+H_{ba}^{\\mu\\beta} H_{ab}^\\alpha I_{ab}^{(3)}\\Big]+(c.c.,\\ (a\\leftrightarrow b))\\Bigg\\}+(\\alpha \\leftrightarrow \\beta), \\label{eq:generalNonReciprocalKernel}",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-3",
+        "public": "C-3",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "I_{abc}^{(1)}=&-\\frac{\\Gamma^2 }{2\\pi i} \\int dx f'(x) G^R_c G^{R2}_a G^A_a G^R_b G^A_b,",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-4",
+        "public": "C-4",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "I_{abc}^{(2)}=&\\frac{\\Gamma^2 }{2\\pi i} \\int dx f'(x) G^R_c G^R_a G^A_a G^R_b G^{A2}_b,",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-5",
+        "public": "C-5",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "I_{ab}^{(3)}=&-\\frac{\\Gamma^2 }{2\\pi i} \\int dx f'(x) G^R_aG^R_a G^A_a G^R_b G^A_b.",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-6",
+        "public": "C-6",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&=f'_a\\frac{1}{4\\xi_{ab}^2\\xi_{ac}}+O(\\Gamma),",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-7",
+        "public": "C-7",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&=f'_b\\frac{1}{4\\xi_{ba}^2\\xi_{bc}}+O(\\Gamma),",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-8",
+        "public": "C-8",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&= f'_a\\frac{1}{4\\xi_{ab}^2} +O(\\Gamma).",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-9",
+        "public": "C-9",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&= \\frac{3}{16\\Gamma^2}\\frac{f'_b}{\\xi_{bc}} +\\frac{i}{16\\Gamma}\\frac{f''_b}{\\xi_{bc}} -\\frac{i}{4\\Gamma}\\frac{f'_b}{\\xi_{bc}^2} -\\frac{1}{4}\\frac{f'_b}{\\xi_{bc",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-10",
+        "public": "C-10",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&= \\frac{3}{16\\Gamma^2}\\frac{f'_b}{\\xi_{bc}} -\\frac{i}{16\\Gamma}\\frac{f''_b}{\\xi_{bc}} -\\frac{i}{8\\Gamma}\\frac{f'_b}{\\xi_{bc}^2} -\\frac{1}{8}\\frac{f''_b}{\\xi_{b",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-11",
+        "public": "C-11",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "= & f'_b\\frac{1}{4\\xi_{ba}^3} + f'_a\\frac{1}{4\\xi_{ab}^3}+O(\\Gamma),",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-12",
+        "public": "C-12",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=& -\\frac{i}{\\Gamma}f'_b\\frac{1}{4\\xi_{ba}^2}+O(\\Gamma).",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-13",
+        "public": "C-13",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&-\\frac{i}{\\Gamma}\\frac{f'_a}{8\\xi_{ab}^2}+f''_a\\frac{1}{8\\xi_{ab}^2}-f'_a\\frac{1}{4\\xi_{ab}^3}+O(\\Gamma),",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-14",
+        "public": "C-14",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=& f'_b\\frac{1}{4\\xi_{ba}^3} -f'_a\\frac{1}{4\\xi_{ab}^3}+O(\\Gamma).",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-15",
+        "public": "C-15",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&\\frac{1}{8i\\Gamma^3}f_a' +\\frac{1}{16\\Gamma^2}f''_a+\\frac{1}{96}f''''_a+O(\\Gamma)",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-16",
+        "public": "C-16",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&\\frac{3}{16i\\Gamma^3}f'_a+\\frac{1}{32i\\Gamma}f'''_a+O(\\Gamma)",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-17",
+        "public": "C-17",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&\\frac{3}{16\\Gamma^2}f'_a+\\frac{i}{16\\Gamma}f''_a+\\frac{1}{32}f'''_a+O(\\Gamma).",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-18",
+        "public": "C-18",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": "eq:nonlinearConductivityUptoTau0",
+        "cue": "&+\\sum_a\\left[H_{aa}^{\\mu\\beta} H_{aa}^\\alpha \\left(\\frac{3}{16\\Gamma^2}f'_a+\\frac{i}{16\\Gamma}f''_a+\\frac{1}{32}f'''_a\\right)+c.c.\\right]\\Bigg\\}+(\\alpha \\leftr",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-19",
+        "public": "C-19",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&-\\frac{1}{4\\Gamma^2}\\frac{e^3}{\\hbar}\\int \\frac{d^d k}{(2\\pi)^d}\\sum_b\\partial_{k_\\mu} \\partial_{k_\\beta} \\partial_{k_\\alpha} \\epsilon_b f_b.",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-20",
+        "public": "C-20",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&\\frac{1}{4\\Gamma}\\frac{e^3}{\\hbar}\\int \\frac{d^d k}{(2\\pi)^d}\\sum_b (\\Omega_b^{\\mu\\beta}\\partial_{k_\\alpha} f_b+\\Omega_b^{\\alpha\\mu}\\partial_{k_\\beta} f_b),",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-21",
+        "public": "C-21",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "\\Omega_b^{\\alpha\\beta}=&\\sum_{a\\neq b}\\frac{H_{ba}^\\alpha H_{ab}^\\beta-H_{ba}^\\beta H_{ab}^\\alpha}{i\\xi_{ba}^2}.",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-22",
+        "public": "C-22",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\left.+\\sum_{a}\\left[H_{aa}^\\mu H_{aa}^\\beta H_{aa}^\\alpha \\frac{f''''_a}{48}+ \\partial_\\mu H_{aa}^{\\beta} H_{aa}^\\alpha \\frac{f'''_a}{16}\\right] \\right\\}+(\\al",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-23",
+        "public": "C-23",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\hspace{6cm}+(\\alpha\\leftrightarrow \\beta),",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-24",
+        "public": "C-24",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&\\sum_{a} \\partial_\\mu H_{aa}^{\\beta} H_{aa}^\\alpha \\frac{f'''_a}{16},",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-25",
+        "public": "C-25",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\left.+\\sum_{a}\\left[H_{aa}^\\mu H_{aa}^\\beta H_{aa}^\\alpha \\frac{f''''_a}{24}+ (\\partial_\\mu H_{aa}^{\\beta} H_{aa}^\\alpha +\\partial_\\mu H_{aa}^{\\alpha} H_{aa}^",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-26",
+        "public": "C-26",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&+(H_{bb}^\\mu-H_{aa}^\\mu)(H_{ab}^\\beta H_{ba}^\\alpha +H_{ab}^\\alpha H_{ba}^\\beta)\\frac{1}{\\xi_{ab}^3}",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-27",
+        "public": "C-27",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&+H_{aa}^\\beta H_{aa}^\\alpha H_{aa}^\\mu \\frac{f''''_a}{16}",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "C-28",
+        "public": "C-28",
+        "section": "appendix C",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\left.-\\sum_{a}H_{aa}^\\mu H_{aa}^\\beta H_{aa}^\\alpha \\frac{f''''_a}{48}\\right\\},",
+        "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+      },
+      {
+        "id": "D-1",
+        "public": "D-1",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": "eq:longitudinalNonReciprocalKernel",
+        "cue": "&\\left. +\\sum_{ab}H_{ba}^{\\alpha\\alpha} H_{ab}^\\alpha\\left(G^R_a-G^A_b\\right)G^R_a G^A_a G^R_b G^A_b \\right]. \\label{eq:longitudinalNonReciprocalKernel}",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-2",
+        "public": "D-2",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "\\mel{a}{\\partial_{k_\\alpha} H }{b} &=-\\mel{b}{\\partial_{k_\\alpha} H }{a}|_{\\bm{k}\\to -\\bm{k}}",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-3",
+        "public": "D-3",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "\\mel{a}{\\partial_{k_\\alpha}^2 H }{b}&=\\mel{b}{\\partial_{k_\\alpha}^2 H }{a}|_{\\bm{k}\\to -\\bm{k}}",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-4",
+        "public": "D-4",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&-\\frac{1}{2\\Gamma^2}(G^R_c G^A_b G^{A2}_a+c.c.),",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-5",
+        "public": "D-5",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "& \\left. \\qquad +f_+''(\\xi_a+i\\Gamma)\\frac{-2i\\Gamma}{\\xi_{ac} \\xi_{ab} (\\xi_{ac}+2i\\Gamma)} \\right]-c.c.",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-6",
+        "public": "D-6",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&-\\frac{1}{4\\Gamma^2}(G^{R2}_a-G^{A2}_a)G^R_b +c.c.",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-7",
+        "public": "D-7",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\qquad \\left. +f_+'(\\xi_a+i\\Gamma)\\left(\\frac{1}{(\\xi_{ab}+2i\\Gamma)^2}-\\frac{1}{\\xi_{ab}^2}\\right) \\right]-c.c.",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-8",
+        "public": "D-8",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "= &-i\\sum_{a\\neq b} R_{ba}H_{ba}^\\alpha H_{ab}^\\alpha F(a,b)-\\sum_{a\\neq b, b\\neq c, c\\neq a} H_{bc}^\\alpha H_{ca}^\\alpha H_{ab}^\\alpha\\left(\\frac{1}{\\xi_{bc}}-",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-9",
+        "public": "D-9",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=&-\\frac{1}{\\xi_{ac}+2i\\Gamma}\\left( \\frac{1}{\\xi_{ab}}+\\frac{1}{\\xi_{cb}} \\right)\\left(\\frac{1}{\\xi_{ac}+2i\\Gamma}+\\frac{2}{\\xi_{ab}}-\\frac{2}{\\xi_{cb}}\\right)",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "D-10",
+        "public": "D-10",
+        "section": "appendix D",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&+\\sum_{a\\neq b, b\\neq c, c\\neq a} iH_{bc}^\\alpha H_{ca}^\\alpha H_{ab}^\\alpha\\Im \\left[ f_+''(\\xi_a+i\\Gamma)\\frac{-i\\Gamma}{\\xi_{ac}\\xi_{bc}(\\xi_{ab}+2i\\Gamma)}",
+        "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+      },
+      {
+        "id": "E-1",
+        "public": "E-1",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "j_x(t)=&\\sigma^{xx} E_x(t) +\\sigma^{xxx} E_x^2(t) +\\cdots.",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-2",
+        "public": "E-2",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "I_x\\equiv& Sj_x(t)=\\sigma^{xx}2\\frac{V_x S}{l}\\cos\\omega t+\\sigma^{xxx}(2+2\\cos 2\\omega t)\\frac{V_x^2}{l^2}S+\\cdots",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-3",
+        "public": "E-3",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "\\equiv & 2V_x \\cos\\omega t +V^0 +V^{2\\omega} \\cos 2\\omega t+\\cdots.",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-4",
+        "public": "E-4",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\hspace{2cm}- H^\\mu G^R G^A H^\\alpha G^{A}G^A(x-\\hbar\\omega)] .",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-5",
+        "public": "E-5",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\hspace{3cm} \\times G^R(x+\\hbar\\omega)H^\\alpha G^A(x)].",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-6",
+        "public": "E-6",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "=& \\frac{e^2}{\\hbar} 2\\Gamma \\int \\frac{d^d k}{(2\\pi)^d} \\sum_{ab} H_{ab}^\\mu H_{ba}^\\alpha I^{(4)}_{ab} +c.c.,",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-7",
+        "public": "E-7",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "I^{(4)}_{aa}=&\\frac{f_+(\\xi_a+i\\Gamma)}{(2i\\Gamma)^3} -\\frac{1}{2}\\frac{f_-''(\\xi_a-i\\Gamma)}{(-2i\\Gamma)}+\\frac{f_-'(\\xi_a-i\\Gamma)}{(-2i\\Gamma)^2}-\\frac{f_-(\\",
+        "appendix_title": "Order estimation"
+      },
+      {
+        "id": "E-8",
+        "public": "E-8",
+        "section": "appendix E",
+        "env": "align",
+        "tex_label": null,
+        "cue": "&\\left. +\\sum_a H_{aa}^\\alpha H_{aa}^\\alpha \\left[-\\frac{f_+''(\\xi_a+i\\Gamma)}{2i}-\\frac{f_+'(\\xi_a+i\\Gamma)}{2\\Gamma}+c.c.\\right]\\right\\}.",
+        "appendix_title": "Order estimation"
+      }
+    ],
+    "main_public_map": {
+      "(1)": "S-matrix",
+      "(2)": "eq:definitionOfCurrent  (V1 row ‘main 3’)",
+      "(3)": "eq:nonReciprocalEsquared  (V1 ‘main 4’)",
+      "(4)": "eq:currentbyExcitation Green kernel  (V1 ‘main 5’)",
+      "(5)": "eq:sigma2 geometric conductivity  (V1 ‘main 6’)",
+      "(6)": "D^{(2)} definition",
+      "(7)": "D^{(3)} definition",
+      "(8)": "eq:lowTmpGammaSquared",
+      "(9)": "low-T D^{(3)}",
+      "(10)": "eq:highTmpGammaLinear",
+      "(11)": "high-T D^{(3)}"
+    }
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "statement": "Nonreciprocal current can arise in time-reversal symmetric Bloch electrons when finite dissipation enables interband processes.",
+      "locator": "Introduction; Discussion; abstract",
+      "supporting_equations": [
+        "(1)",
+        "(4)",
+        "(5)"
+      ],
+      "appendix_chain": [
+        "A",
+        "B",
+        "D"
+      ],
+      "assumptions": [
+        "TR symmetry",
+        "inversion breaking",
+        "finite Γ",
+        "Bloch electrons"
+      ],
+      "status": "HUMAN_REVIEW",
+      "unresolved": [
+        "O1",
+        "O2"
+      ],
+      "downstream": "Motivates the Green-function formula and the geometric conductivity (C2).",
+      "blockers": [
+        "Conceptual claim. The S-matrix unitarity argument is local algebra under S†S=I; the physical leap from non-unitarity to interband DC current is not a compiled residual."
+      ]
+    },
+    {
+      "id": "C2",
+      "statement": "In TR-symmetric systems the longitudinal conductivity is geometric: \\(\\sigma^{\\alpha\\alpha\\alpha}\\) is built from the shift vector \\(R_{ab}\\) and Berry connections, Eq. (5), starting from the Green-function kernel Eq. (4).",
+      "locator": "Results, Eqs. (4)–(5); Appendix D (app:derivationSigma2)",
+      "supporting_equations": [
+        "(3)",
+        "(4)",
+        "(5)",
+        "C-1",
+        "C-2",
+        "D-1"
+      ],
+      "appendix_chain": [
+        "Eq. (4) Green kernel",
+        "Appendix C: static σ from ∂ω²K and band-basis I^(1,2,3)",
+        "Appendix D: μ=β=α → Σ^{ααα}",
+        "TR identities on ∂H, ∂²H",
+        "antisymmetrization 𝒜 of Green products",
+        "shift-vector rewrite",
+        "H^α_ab = ξ_ab i A_ab → Eq. (5)"
+      ],
+      "assumptions": [
+        "TR: [T,H(k)]=0 with T=KU(k→−k)",
+        "no band degeneracy",
+        "Bloch periodicity",
+        "constant Γ in G^{R,A}=(ε+μ−H±iΓ)^{-1}",
+        "velocity gauge"
+      ],
+      "status": "GAP",
+      "unresolved": [
+        "O1",
+        "O5",
+        "O6",
+        "O7"
+      ],
+      "downstream": "C3–C5 all quote Eq. (5). If C2 fails, the scaling and numerics lose their analytic parent.",
+      "blockers": [
+        "The Appendix D algebra (antisymmetrization, shift-vector identity, H=ξ i A substitution) is not compiled as local A−B=0.",
+        "TR matrix-element identities are representation-theoretic, not a checked residual."
+      ]
+    },
+    {
+      "id": "C3",
+      "statement": "For an insulator/semiconductor (\\(\\mu\\) in the gap) at low \\(T\\) (\\(\\Gamma\\ll\\xi_{\\min}\\), \\(\\beta\\Gamma\\gg 2\\pi\\)), \\(D^{(2,3)}=O(\\Gamma^2)+O(\\Gamma^3)\\), so \\(\\sigma^{\\alpha\\alpha\\alpha}=O(\\Gamma^2)\\).",
+      "locator": "Results, Eqs. (8)–(9); Appendix D kernels",
+      "supporting_equations": [
+        "(6)",
+        "(7)",
+        "(8)",
+        "(9)"
+      ],
+      "appendix_chain": [
+        "D (kernels already in main text)",
+        "digamma \\(\\psi(z)\\sim\\log z\\)"
+      ],
+      "assumptions": [
+        "\\(\\mu\\) inside the gap so \\(\\xi_{\\min}\\le|\\xi_a|\\) for all bands",
+        "\\(\\Gamma\\ll\\xi_{\\min}\\)",
+        "\\(\\beta\\Gamma\\gg 2\\pi\\)",
+        "\\(\\psi(z)\\sim\\log z\\)",
+        "no degeneracy"
+      ],
+      "status": "ASYMPTOTIC_UNCERTIFIED",
+      "unresolved": [
+        "O8"
+      ],
+      "downstream": "Rice–Mele semiconducting \\(\\Gamma^2\\) curves (C5) are consistency checks of this scaling.",
+      "blockers": [
+        "Finite displayed terms do not prove the O(Γ³) remainder."
+      ]
+    },
+    {
+      "id": "C4",
+      "statement": "At high \\(T\\) (\\(\\beta\\Gamma\\ll 2\\pi\\)), or when \\(\\mu\\) lies in a band, the leading piece is \\(O(\\Gamma)\\).",
+      "locator": "Results, Eqs. (10)–(11) and the metallic paragraph",
+      "supporting_equations": [
+        "(6)",
+        "(7)",
+        "(10)",
+        "(11)"
+      ],
+      "appendix_chain": [
+        "same D kernels; no extra appendix identity"
+      ],
+      "assumptions": [
+        "high-T: \\(\\beta\\Gamma\\ll 2\\pi\\)",
+        "or metallic: some \\(\\xi_a=0\\), so the low-T \\(\\xi_{\\min}\\) argument is unavailable"
+      ],
+      "status": "ASYMPTOTIC_UNCERTIFIED",
+      "unresolved": [
+        "O8"
+      ],
+      "downstream": "Rice–Mele metallic/high-T \\(\\Gamma^1\\) curves (C5).",
+      "blockers": [
+        "O(Γ²) remainder in Eqs. (10)–(11) is declared, not certified.",
+        "Metallic O(Γ) is a domain argument, not a compiled expansion."
+      ]
+    },
+    {
+      "id": "C5",
+      "statement": "A 1D Rice–Mele calculation produces \\(\\sigma^{xxx}(\\mu,\\Gamma,T)\\) consistent with dissipation-induced geometric current in a TR-symmetric inversion-broken insulator/metal, and an order estimate for 3D polar semiconductors.",
+      "locator": "Model calculation; Figs. 2–3; Appendix E",
+      "supporting_equations": [
+        "(5)",
+        "E-1",
+        "E-2",
+        "E-3"
+      ],
+      "appendix_chain": [
+        "Appendix E order estimation (unnumbered Hamiltonian in main text)"
+      ],
+      "assumptions": [
+        "Rice–Mele \\(H(k)=t_0\\cos k\\,\\sigma_x+\\delta t\\sin k\\,\\sigma_y+m\\sigma_z\\)",
+        "parameters \\(m=\\delta t=0.1 t_0\\) in the figures",
+        "TR preserved so Drude and QMD vanish in this model"
+      ],
+      "status": "NUMERICAL_SUPPORT",
+      "unresolved": [
+        "O9"
+      ],
+      "downstream": "Does not prove Eq. (5). Supports observability claims in the Discussion.",
+      "blockers": [
+        "Numerical evaluation of a model is consistency, not derivation."
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E-unitarity",
+      "from_eq": "(1)",
+      "to_eq": "|t_LR|=|t_RL|",
+      "transformation": "exact algebra",
+      "assumptions": [
+        "S†S = SS† = I"
+      ],
+      "verification_method": "compiled 2×2 unitarity residual (V1 frozen ZERO_UNDER_SUBSTITUTION)",
+      "status": "EXACT_IF_ASSUMPTIONS",
+      "locator": "Introduction, scattering-matrix paragraph",
+      "supports_claims": [
+        "C1"
+      ],
+      "source_tex": "S=\\begin{pmatrix} r_{LL} & t_{LR}\\\\ t_{RL} & r_{RR}\\end{pmatrix}",
+      "evidence": "V1 RESULTS: S†S=I → |t_LR|=|t_RL| is ZERO_UNDER_SUBSTITUTION. Does not prove that dissipation realises non-unitary S.",
+      "load_bearing": true,
+      "note": "Only machine-checked algebraic edge in this paper audit.",
+      "target_tex": null
+    },
+    {
+      "id": "E-define-K",
+      "from_eq": "(2)",
+      "to_eq": "(2)",
+      "transformation": "definition",
+      "assumptions": [],
+      "verification_method": "none",
+      "status": "STRUCTURAL",
+      "locator": "Results, Eq. (2)",
+      "supports_claims": [
+        "C2"
+      ],
+      "source_tex": "j_\\mu^{(2)}(t)=\\sum\\int \\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)A_\\alpha(\\omega_1)A_\\beta(\\omega_2)e^{-i(\\omega_1+\\omega_2)t}",
+      "target_tex": null,
+      "evidence": null,
+      "note": null,
+      "load_bearing": false
+    },
+    {
+      "id": "E-static-sigma",
+      "from_eq": "(2)",
+      "to_eq": "(3)",
+      "transformation": "substitution",
+      "assumptions": [
+        "velocity gauge A=E/iω",
+        "monochromatic E"
+      ],
+      "verification_method": "not compiled",
+      "status": "GAP",
+      "locator": "Results, sentence before Eq. (3); Appendix A",
+      "supports_claims": [
+        "C2"
+      ],
+      "target_tex": "\\sigma^{\\mu\\alpha\\alpha}=\\frac12\\partial_\\omega^2\\mathcal{K}^{\\mu\\alpha\\alpha}(\\omega,-\\omega)|_{\\omega=0}",
+      "load_bearing": true,
+      "note": "The O(ω²) identification is bookkeeping plus gauge vanishing of lower orders (O1).",
+      "source_tex": null,
+      "evidence": null
+    },
+    {
+      "id": "E-gauge-vanish",
+      "from_eq": "(2)",
+      "to_eq": "(3)",
+      "transformation": "gauge argument",
+      "assumptions": [
+        "gauge invariance",
+        "Bloch electrons",
+        "static A unphysical"
+      ],
+      "verification_method": "none — physical argument",
+      "status": "HUMAN_REVIEW",
+      "locator": "Results after Eq. (3); Appendix A (undifferentiated K and mixed ω1² terms)",
+      "supports_claims": [
+        "C2"
+      ],
+      "load_bearing": true,
+      "evidence": "Author: O(ω^0) and O(ω) of K(ω,−ω) vanish because of gauge invariance.",
+      "source_tex": null,
+      "target_tex": null,
+      "note": null
+    },
+    {
+      "id": "E-green-kernel",
+      "from_eq": "(3)",
+      "to_eq": "(4)",
+      "transformation": "cited identity",
+      "assumptions": [
+        "constant Γ",
+        "velocity-gauge vertices H^α=∂_{k_α}H"
+      ],
+      "verification_method": "not compiled (Green/Matsubara diagrams live in App. A–B)",
+      "status": "GAP",
+      "locator": "Results, Eq. (4); Appendices A–B",
+      "supports_claims": [
+        "C2"
+      ],
+      "target_tex": "\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega,-\\omega)\\propto\\int d\\epsilon\\,2\\Gamma^2(f(\\epsilon)-f(\\epsilon+\\hbar\\omega))\\,\\mathrm{Tr}[\\cdots G^R H^\\alpha G^A \\cdots]",
+      "load_bearing": true,
+      "source_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-C-static-from-green",
+      "from_eq": "(3)+(B-16)",
+      "to_eq": "C-1",
+      "transformation": "substitution",
+      "assumptions": [
+        "static limit ω→0 taken before Γ→0"
+      ],
+      "verification_method": "not compiled",
+      "status": "GAP",
+      "locator": "Appendix C opening, eq:sigmaMuAlphaBetaGreenFunction",
+      "supports_claims": [
+        "C2"
+      ],
+      "note": "Opposite order of limits (Γ→0 first) is injection/shift, Appendix B.",
+      "load_bearing": true,
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null
+    },
+    {
+      "id": "E-C-band-basis",
+      "from_eq": "C-1",
+      "to_eq": "C-2",
+      "transformation": "exact algebra",
+      "assumptions": [
+        "spectral representation of G^{R,A}",
+        "no degeneracy later"
+      ],
+      "verification_method": "not compiled (trace expansion)",
+      "status": "GAP",
+      "locator": "Appendix C, eq:generalNonReciprocalKernel",
+      "supports_claims": [
+        "C2"
+      ],
+      "load_bearing": true,
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-D-longitudinal",
+      "from_eq": "C-2",
+      "to_eq": "D-1",
+      "transformation": "substitution",
+      "assumptions": [
+        "μ=β=α (longitudinal)",
+        "TR to be imposed next"
+      ],
+      "verification_method": "index restriction; not a residual",
+      "status": "STRUCTURAL",
+      "locator": "Appendix D, first paragraph and eq:longitudinalNonReciprocalKernel",
+      "supports_claims": [
+        "C2"
+      ],
+      "load_bearing": true,
+      "note": "Author: derive Eq. (5) from Eq. (C-2) by setting μ and β to α.",
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null
+    },
+    {
+      "id": "E-D-TR-matrix",
+      "from_eq": "D-1",
+      "to_eq": "D-2",
+      "transformation": "symmetry",
+      "assumptions": [
+        "TR: T=KU(k→−k), [T,H(k)]=0"
+      ],
+      "verification_method": "none",
+      "status": "HUMAN_REVIEW",
+      "locator": "Appendix D after D-1, two numbered H-matrix identities",
+      "supports_claims": [
+        "C2"
+      ],
+      "source_tex": "\\langle a|\\partial_{k_\\alpha}H|b\\rangle=-\\langle b|\\partial_{k_\\alpha}H|a\\rangle|_{k\\to-k}",
+      "load_bearing": true,
+      "target_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-D-antisym",
+      "from_eq": "D-2",
+      "to_eq": "D-4",
+      "transformation": "symmetry",
+      "assumptions": [
+        "TR",
+        "coefficients may be antisymmetrized in band indices"
+      ],
+      "verification_method": "not compiled",
+      "status": "GAP",
+      "locator": "Appendix D, steps marked \\(\\overset{\\mathcal{A}}{=}\\)",
+      "supports_claims": [
+        "C2"
+      ],
+      "load_bearing": true,
+      "note": "Green-function monomials are replaced by antisymmetrized equivalents. Local A−B=0 was not encoded.",
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null
+    },
+    {
+      "id": "E-D-shift",
+      "from_eq": "D-1",
+      "to_eq": "D-8",
+      "transformation": "cited identity",
+      "assumptions": [
+        "TR",
+        "F(a,b) arbitrary in band indices"
+      ],
+      "verification_method": "not compiled",
+      "status": "GAP",
+      "locator": "Appendix D, “Using the TR symmetry, for arbitrary F(a,b)”",
+      "supports_claims": [
+        "C2"
+      ],
+      "target_tex": "\\sum H_{ba}^{\\alpha\\alpha}H_{ab}^\\alpha F(a,b)=-i\\sum R_{ba}H_{ba}^\\alpha H_{ab}^\\alpha F+\\cdots",
+      "load_bearing": true,
+      "source_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-D-to-sigma2",
+      "from_eq": "D-8",
+      "to_eq": "(5)",
+      "transformation": "substitution",
+      "assumptions": [
+        "H_{ab}^\\alpha=\\xi_{ab} i A_{ab}^\\alpha",
+        "Eq. (C-1) Green identity"
+      ],
+      "verification_method": "not compiled",
+      "status": "GAP",
+      "locator": "Appendix D last sentence: Using H=ξ i A and eq:sigmaMuAlphaBetaGreenFunction we obtain Eq. (5).",
+      "supports_claims": [
+        "C2"
+      ],
+      "load_bearing": true,
+      "target_tex": "\\sigma^{\\alpha\\alpha\\alpha}=\\frac{e^3}{\\hbar}\\int_{\\mathrm{BZ}}\\big[\\sum_{a\\neq b}R_{ab}|A_{ab}|^2 D^{(2)}_{ab}+\\sum \\Re(A_{ab}A_{bc}A_{ca})D^{(3)}_{abc}\\big]",
+      "source_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-define-D",
+      "from_eq": "(5)",
+      "to_eq": "(6)+(7)",
+      "transformation": "definition",
+      "assumptions": [
+        "no degeneracy"
+      ],
+      "verification_method": "none",
+      "status": "STRUCTURAL",
+      "locator": "Results, displays immediately after Eq. (5)",
+      "supports_claims": [
+        "C2",
+        "C3",
+        "C4"
+      ],
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null,
+      "note": null,
+      "load_bearing": false
+    },
+    {
+      "id": "E-lowT",
+      "from_eq": "(6)+(7)",
+      "to_eq": "(8)+(9)",
+      "transformation": "asymptotic expansion",
+      "assumptions": [
+        "μ in gap",
+        "Γ≪ξ_min",
+        "βΓ≫2π",
+        "ψ(z)∼log z"
+      ],
+      "verification_method": "declared remainder O(Γ³)",
+      "status": "ASYMPTOTIC_UNCERTIFIED",
+      "locator": "Results, low-temperature insulating paragraph",
+      "supports_claims": [
+        "C3"
+      ],
+      "load_bearing": true,
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-highT",
+      "from_eq": "(6)+(7)",
+      "to_eq": "(10)+(11)",
+      "transformation": "asymptotic expansion",
+      "assumptions": [
+        "βΓ≪2π"
+      ],
+      "verification_method": "declared remainder O(Γ²)",
+      "status": "ASYMPTOTIC_UNCERTIFIED",
+      "locator": "Results, high-temperature paragraph",
+      "supports_claims": [
+        "C4"
+      ],
+      "load_bearing": true,
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "E-numeric-RM",
+      "from_eq": "(5)",
+      "to_eq": "Figs. 2–3",
+      "transformation": "numerical evidence",
+      "assumptions": [
+        "H(k)=t_0\\cos k\\,\\sigma_x+\\delta t\\sin k\\,\\sigma_y+m\\sigma_z",
+        "TR of Rice–Mele",
+        "m=δt=0.1 t_0 in the plots"
+      ],
+      "verification_method": "author numerical evaluation; not reproduced here",
+      "status": "NUMERICAL_SUPPORT",
+      "locator": "Model calculation; Fig. colorMapvsMu; Fig. riceMelevsGamma",
+      "supports_claims": [
+        "C5"
+      ],
+      "load_bearing": true,
+      "note": "Shows peaks near the gap and Γ² vs Γ¹ scaling. Does not prove Eq. (5).",
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null
+    },
+    {
+      "id": "E-order-est",
+      "from_eq": "(5)",
+      "to_eq": "E-1",
+      "transformation": "asymptotic expansion",
+      "assumptions": [
+        "small ω",
+        "3D extension of Rice–Mele"
+      ],
+      "verification_method": "not compiled",
+      "status": "ASYMPTOTIC_UNCERTIFIED",
+      "locator": "Appendix E",
+      "supports_claims": [
+        "C5"
+      ],
+      "source_tex": null,
+      "target_tex": null,
+      "evidence": null,
+      "note": null,
+      "load_bearing": false
+    }
+  ],
+  "reviewer_obligations": [
+    {
+      "id": "O1",
+      "priority": 1,
+      "claim_used": "Gauge invariance removes the \\(O(\\omega^0)\\) and \\(O(\\omega)\\) pieces of \\(\\mathcal{K}(\\omega,-\\omega)\\), so static \\(\\sigma\\) is the \\(\\omega^2\\) term.",
+      "why_not_certified": "This is a physical gauge/Bloch argument, not a local symbolic identity A−B=0. Appendix A also invokes that a static vector potential is unphysical.",
+      "paper_evidence": "Main text after Eq. (3); Appendix A, undifferentiated K and \\(\\partial_{\\omega_1}^2\\mathcal{K}|_{0,0}\\) vanishing.",
+      "reviewer_must_decide": "Confirm that, under the declared Bloch + velocity-gauge assumptions, the two leading orders in ω vanish identically so that Eq. (3) is the DC conductivity.",
+      "blocks": [
+        "C2",
+        "E-gauge-vanish",
+        "E-static-sigma"
+      ],
+      "status": "HUMAN_REVIEW",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O5",
+      "priority": 2,
+      "claim_used": "TR symmetry T=KU(k→−k) implies the two H-matrix identities used to antisymmetrize the longitudinal kernel.",
+      "why_not_certified": "Requires the antiunitary representation of TR on Bloch states. Not encoded as a compiled residual.",
+      "paper_evidence": "Appendix D, two numbered lines after Eq. (D-1).",
+      "reviewer_must_decide": "Accept \\(\\langle a|\\partial_\\alpha H|b\\rangle=-\\langle b|\\partial_\\alpha H|a\\rangle|_{k\\to-k}\\) and the corresponding \\(\\partial^2 H\\) identity under the paper's T.",
+      "blocks": [
+        "C2",
+        "E-D-TR-matrix"
+      ],
+      "status": "HUMAN_REVIEW",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O6",
+      "priority": 3,
+      "claim_used": "After TR, Green-function monomials may be replaced by antisymmetrized equivalents (\\(\\overset{\\mathcal{A}}{=}\\)).",
+      "why_not_certified": "Local algebra of the 𝒜 steps was not compiled.",
+      "paper_evidence": "Appendix D, four 𝒜 replacements on G^R, G^A strings.",
+      "reviewer_must_decide": "Either accept the 𝒜 calculus as written, or request a compiled identity for each replacement.",
+      "blocks": [
+        "C2",
+        "E-D-antisym"
+      ],
+      "status": "GAP",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O7",
+      "priority": 4,
+      "claim_used": "The TR rewrite of \\(\\sum H_{ba}^{\\alpha\\alpha}H_{ab}^\\alpha F(a,b)\\) produces the shift vector \\(R_{ba}\\) and the triple-A term, which become Eq. (5) after \\(H=\\xi i A\\).",
+      "why_not_certified": "Named geometric identity plus substitution; not a machine residual.",
+      "paper_evidence": "Appendix D, F(a,b) display through the last sentence of the appendix.",
+      "reviewer_must_decide": "Confirm the shift-vector identification and the final substitution that yields Eq. (5) from Σ^{ααα}.",
+      "blocks": [
+        "C2",
+        "E-D-shift",
+        "E-D-to-sigma2"
+      ],
+      "status": "GAP",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O2",
+      "priority": 5,
+      "claim_used": "Finite Γ is the physically relevant non-unitarity that realises C1.",
+      "why_not_certified": "Phenomenological self-energy; not derived here.",
+      "paper_evidence": "Introduction, imaginary part of the self-energy; constant Γ in G^{R,A}.",
+      "reviewer_must_decide": "Accept constant-Γ relaxation as the dissipation model of the paper.",
+      "blocks": [
+        "C1"
+      ],
+      "status": "HUMAN_REVIEW",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O8",
+      "priority": 6,
+      "claim_used": "\\(\\psi(z)\\sim\\log z\\) plus the stated \\(\\Gamma,\\beta,\\xi\\) regime justify C3/C4.",
+      "why_not_certified": "Asymptotic remainder. Finite displayed polynomials are not an O(·) proof.",
+      "paper_evidence": "Results, paragraphs containing Eqs. (8)–(11).",
+      "reviewer_must_decide": "Accept the digamma expansion and domain split (gap vs band, low-T vs high-T) without a remainder certificate.",
+      "blocks": [
+        "C3",
+        "C4",
+        "E-lowT",
+        "E-highT"
+      ],
+      "status": "ASYMPTOTIC_UNCERTIFIED",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O9",
+      "priority": 7,
+      "claim_used": "Rice–Mele numerics confirm dissipation-induced σ^{xxx} in a TR-symmetric model.",
+      "why_not_certified": "Numerical support, not analytic certification of Eq. (5).",
+      "paper_evidence": "Model calculation; Figs. colorMapvsMu and riceMelevsGamma; Appendix E.",
+      "reviewer_must_decide": "Treat the figures as consistency in one 1D model (and an order-of-magnitude 3D estimate), not as a proof of the geometric formula.",
+      "blocks": [
+        "C5"
+      ],
+      "status": "NUMERICAL_SUPPORT",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    },
+    {
+      "id": "O3",
+      "priority": 8,
+      "claim_used": "No band degeneracy.",
+      "why_not_certified": "Standing assumption; poles merge if bands coincide (Appendix C).",
+      "paper_evidence": "Results after Eq. (5); Appendix C ‘we assume that there are no degeneracies’.",
+      "reviewer_must_decide": "Accept the nondegeneracy hypothesis for the geometric formula and the clean-limit cases.",
+      "blocks": [
+        "C2",
+        "C3"
+      ],
+      "status": "HUMAN_REVIEW",
+      "actions": [
+        "Accept assumption/reasoning",
+        "Reject",
+        "Needs derivation"
+      ]
+    }
+  ],
+  "numerical_evidence": [
+    {
+      "id": "N1",
+      "evidence_type": "NUMERICAL_SUPPORT",
+      "quantity": "\\(\\sigma^{xxx}(\\mu,\\Gamma,\\beta)\\) in 1D Rice–Mele",
+      "supports": "C3/C4 scaling and C2’s claim that TR-symmetric inversion-broken crystals can carry this current",
+      "regime": "\\(m=\\delta t=0.1 t_0\\); semiconducting \\(\\mu=0\\); metallic \\(\\mu=0.15 t_0\\)",
+      "proves": false,
+      "proves_not": "Does not prove Eq. (5), the Appendix D identities, or remainder bounds.",
+      "locator": "Figs. 2–3 (colorMapvsMu, riceMelevsGamma)"
+    }
+  ],
+  "v1_frozen_note": "V1 RESULTS greened only 2×2 unitarity under S†S=I. That row is kept as EXACT_IF_ASSUMPTIONS. No other V1 orange row is promoted.",
+  "equation_index_ids": [
+    "A-1",
+    "A-10",
+    "A-11",
+    "A-12",
+    "A-13",
+    "A-14",
+    "A-15",
+    "A-16",
+    "A-17",
+    "A-18",
+    "A-2",
+    "A-3",
+    "A-4",
+    "A-5",
+    "A-6",
+    "A-7",
+    "A-8",
+    "A-9",
+    "B-1",
+    "B-10",
+    "B-11",
+    "B-12",
+    "B-13",
+    "B-14",
+    "B-15",
+    "B-16",
+    "B-17",
+    "B-18",
+    "B-2",
+    "B-3",
+    "B-4",
+    "B-5",
+    "B-6",
+    "B-7",
+    "B-8",
+    "B-9",
+    "C-1",
+    "C-10",
+    "C-11",
+    "C-12",
+    "C-13",
+    "C-14",
+    "C-15",
+    "C-16",
+    "C-17",
+    "C-18",
+    "C-19",
+    "C-2",
+    "C-20",
+    "C-21",
+    "C-22",
+    "C-23",
+    "C-24",
+    "C-25",
+    "C-26",
+    "C-27",
+    "C-28",
+    "C-3",
+    "C-4",
+    "C-5",
+    "C-6",
+    "C-7",
+    "C-8",
+    "C-9",
+    "D-1",
+    "D-10",
+    "D-2",
+    "D-3",
+    "D-4",
+    "D-5",
+    "D-6",
+    "D-7",
+    "D-8",
+    "D-9",
+    "E-1",
+    "E-2",
+    "E-3",
+    "E-4",
+    "E-5",
+    "E-6",
+    "E-7",
+    "E-8",
+    "M-1",
+    "M-10",
+    "M-11",
+    "M-2",
+    "M-3",
+    "M-4",
+    "M-5",
+    "M-6",
+    "M-7",
+    "M-8",
+    "M-9"
+  ]
+}

@@ -42,6 +42,17 @@ python examples/guo-evidence-ledger/presentation/assemble_ledger.py
 python examples/guo-evidence-ledger/presentation/verify_presentation.py
 ```
 
+Claim-map V2 example (arXiv:2604.04520):
+
+```bash
+python examples/2604.04520/tools/inventory.py
+python examples/2604.04520/tools/build_audit.py
+python examples/2604.04520/tools/render.py --check
+```
+
+Outputs: `examples/2604.04520/v2/audit.html` and `v2/audit.md`.
+Do not overwrite `v1/`.
+
 Validation: `make test` (release-critical + derivation-audit gates) and
 `python scripts/check_clean_room.py`.
 
