@@ -1,0 +1,5 @@
+arXiv:2604.04520
+https://arxiv.org/abs/2604.04520
+https://arxiv.org/pdf/2604.04520.pdf
+e-print TeX: papers/2604.04520/raw/src/nonreciprocal.tex
+Equation ids are TeX \label{eq:...} keys.

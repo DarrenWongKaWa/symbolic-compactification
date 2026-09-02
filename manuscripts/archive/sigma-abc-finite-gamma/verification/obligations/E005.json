@@ -1,0 +1,21 @@
+{
+  "edge_id": "E005",
+  "source": "E3",
+  "target": "E4",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "E3\u2192E4",
+  "claim": "conductivity factorizes as M*P + T*L (Eq. 4)",
+  "assumptions": [
+    "DC extraction of App. A",
+    "no TRS yet"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": "assembly of (A16); see A16_to_E4"
+}

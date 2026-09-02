@@ -1,0 +1,22 @@
+{
+  "edge_id": "D06",
+  "source": "D9",
+  "target": "D14",
+  "type": "index_swap",
+  "status": "ZERO",
+  "location": "S9.12 / S9.19 \u0393^0",
+  "claim": "S3 orbit of completed-K residue: sum_\u03c0 K0_\u03c0 = 0 (\u0393^0 part of sum_\u03c0 (K_\u03c0+D_\u03c0); D is O(\u0393) in (S9.6))",
+  "assumptions": [
+    "fixed-gap M0,T0 from (S7.10)\u2013(S7.11)",
+    "\u039b invariant under S3",
+    "single ordered triple need not satisfy K=-D"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "I*((ea-eb)*((ec-ea)-(eb-ec))*((F(eb)-F(ea))/(2*(eb-ea)**3))-(ea-eb)*(ea-ec)*(eb-ec)*(((F(eb)-F(ec))/(2*(eb-ec)**3))-((F(ec)-F(ea))/(2*(ec-ea)**3)))/(eb-ea))+I*((ea-ec)*((eb-ea)-(ec-eb))*((F(ec)-F(ea))/(2*(ec-ea)**3))-(ea-ec)*(ea-eb)*(ec-eb)*(((F(ec)-F(eb))/(2*(ec-eb)**3))-((F(eb)-F(ea))/(2*(eb-ea)**3)))/(ec-ea))+I*((eb-ea)*((ec-eb)-(ea-ec))*((F(ea)-F(eb))/(2*(ea-eb)**3))-(eb-ea)*(eb-ec)*(ea-ec)*(((F(ea)-F(ec))/(2*(ea-ec)**3))-((F(ec)-F(eb))/(2*(ec-eb)**3)))/(ea-eb))+I*((eb-ec)*((ea-eb)-(ec-ea))*((F(ec)-F(eb))/(2*(ec-eb)**3))-(eb-ec)*(eb-ea)*(ec-ea)*(((F(ec)-F(ea))/(2*(ec-ea)**3))-((F(ea)-F(eb))/(2*(ea-eb)**3)))/(ec-eb))+I*((ec-ea)*((eb-ec)-(ea-eb))*((F(ea)-F(ec))/(2*(ea-ec)**3))-(ec-ea)*(ec-eb)*(ea-eb)*(((F(ea)-F(eb))/(2*(ea-eb)**3))-((F(eb)-F(ec))/(2*(eb-ec)**3)))/(ea-ec))+I*((ec-eb)*((ea-ec)-(eb-ea))*((F(eb)-F(ec))/(2*(eb-ec)**3))-(ec-eb)*(ec-ea)*(eb-ea)*(((F(eb)-F(ea))/(2*(eb-ea)**3))-((F(ea)-F(ec))/(2*(ea-ec)**3)))/(eb-ec))",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "R_D14 at \u0393^0: sum_\u03c0 K0_\u03c0. D_\u03c0 from (S9.6) is O(\u0393), so the \u0393^0 orbit of sum(K+D) is this residual. Not K_abc=-D_abc for one ordered triple. Finite-\u0393 orbit of full D remains NOT_LOWERED."
+}

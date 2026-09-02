@@ -1,0 +1,22 @@
+{
+  "edge_id": "D03",
+  "source": "D5",
+  "target": "D7",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (D7) / S9.8",
+  "claim": "Im[v_ab (Dx v)_sp] = \u03f5_ab(\u03f5_ca-\u03f5_bc)\u039b after v=i\u03f5A",
+  "assumptions": [
+    "v_ij = i \u03f5_ij A_ij",
+    "spectator covariant derivative (D5)",
+    "\u039b = Re(A_ab A_bc A_ca)"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "im((I*eps_ab*(Aab_r + I*Aab_i)) * (-I) * ((Abc_r + I*Abc_i)*(I*eps_ca*(Aca_r + I*Aca_i)) - (I*eps_bc*(Abc_r + I*Abc_i))*(Aca_r + I*Aca_i)))",
+  "right": "eps_ab*(eps_ca - eps_bc)*re((Aab_r + I*Aab_i)*(Abc_r + I*Abc_i)*(Aca_r + I*Aca_i))",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

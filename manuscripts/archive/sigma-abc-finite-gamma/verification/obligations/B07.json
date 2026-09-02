@@ -1,0 +1,21 @@
+{
+  "edge_id": "B07",
+  "source": "B5",
+  "target": "B6",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (B6) pairwise",
+  "claim": "metric remainder equals -2/\u03f5 L2,Re after (B2) and symmetric sum",
+  "assumptions": [
+    "curvature drops from the a\u2194c symmetric combination",
+    "fixed pair n\u2260m; no BZ sum"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "-2*eps_nm*(v_nn_b*((v_nm_a*v_mn_c + v_nm_c*v_mn_a)/(2*eps_nm**2))+v_nn_c*((v_nm_a*v_mn_b + v_nm_b*v_mn_a)/(2*eps_nm**2)))",
+  "right": "-2*(((v_mn_a*v_nn_b*v_nm_c + v_mn_a*v_nn_c*v_nm_b)+(v_nm_a*v_nn_b*v_mn_c + v_nm_a*v_nn_c*v_mn_b))/2)/eps_nm",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "Pairwise n\u2260m kernel of (B6). The m-sum is bookkeeping (sum of certified pairs), not swallowed by CAS."
+}

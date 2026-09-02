@@ -1,0 +1,18 @@
+{
+  "edge_id": "D05",
+  "source": "D7",
+  "target": "D9",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "D7\u2192D9",
+  "claim": "assemble pair-extracted vvv and triangle into K_abc",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

@@ -43,3 +43,9 @@ workspace/input/expressions/*
 
 # Local unpublished validation (never commit; never package)
 .private_validation/
+
+# Generated audit reports (keep .gitkeep)
+examples/audit/*/reports/*
+!examples/audit/*/reports/.gitkeep
+examples/audit/*/runs/*
+!examples/audit/*/runs/.gitkeep

@@ -1,0 +1,22 @@
+{
+  "edge_id": "E011",
+  "source": "E7",
+  "target": "E10",
+  "type": "algebra",
+  "status": "SPLIT",
+  "location": "E7\u2192E10",
+  "claim": "a=b=c=\u03b1 and \u03a9^\u03b1\u03b1=0 remove L2,Im from the longitudinal component",
+  "assumptions": [
+    "\u03a9^{aa}=0 identically"
+  ],
+  "children": [
+    "B04"
+  ],
+  "certified_by_children": true,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "ZERO",
+  "route": "children:B04",
+  "notes": "\u03a9^aa=0 is certified on B04; this edge is the channel-drop consequence | SPLIT; all children ZERO/DEFINITION/RECORDED"
+}

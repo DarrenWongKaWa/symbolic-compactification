@@ -1,0 +1,20 @@
+{
+  "edge_id": "S93",
+  "source": "S9.15",
+  "target": "z_minus_map",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S9.15",
+  "claim": "Anan's 1/2+\u03b2 xa/(2\u03c0i) equals z_-(\u03f5)",
+  "assumptions": [
+    "xa=\u03f5-\u03bc+i\u0393"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "Rational(1,2) + beta*(ea - mu + I*G)/(2*pi*I)",
+  "right": "Rational(1,2) + beta*G/(2*pi) - I*beta*(ea - mu)/(2*pi)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

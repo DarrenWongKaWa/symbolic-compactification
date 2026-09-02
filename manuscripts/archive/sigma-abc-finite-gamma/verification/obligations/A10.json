@@ -1,0 +1,18 @@
+{
+  "edge_id": "A10",
+  "source": "A16",
+  "target": "E4",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "A16\u2192E4",
+  "claim": "(A16) is Eq. (4) after (bc) notation",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

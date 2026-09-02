@@ -1,0 +1,20 @@
+{
+  "edge_id": "E008",
+  "source": "E6",
+  "target": "E7",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "E6\u2192E7",
+  "claim": "write the three-channel TRS conductivity (7)=(C6)",
+  "assumptions": [
+    "TRS+BZ"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

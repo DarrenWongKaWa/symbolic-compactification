@@ -1,0 +1,1 @@
+-eps_ab*eps_ac*eps_bc*re((Aab_r + I*Aab_i)*(Abc_r + I*Abc_i)*(Aac_r - I*Aac_i))

@@ -1,0 +1,21 @@
+{
+  "edge_id": "A01",
+  "source": "A1",
+  "target": "A2",
+  "type": "definition",
+  "status": "DEFINITION",
+  "location": "A1\u2192A2",
+  "claim": "first-order bath density response",
+  "assumptions": [
+    "constant-broadening bath",
+    "\u0393>0"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

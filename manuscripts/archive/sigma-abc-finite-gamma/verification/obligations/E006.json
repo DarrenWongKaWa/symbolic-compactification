@@ -1,0 +1,18 @@
+{
+  "edge_id": "E006",
+  "source": "E4",
+  "target": "E5",
+  "type": "definition",
+  "status": "DEFINITION",
+  "location": "E4\u2192E5",
+  "claim": "resolve P,L by coincidence/orientation into G9",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": "names the nine generators (B1)"
+}

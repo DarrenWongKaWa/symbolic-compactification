@@ -1,0 +1,18 @@
+{
+  "edge_id": "A09",
+  "source": "A15",
+  "target": "A16",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "A15\u2192A16",
+  "claim": "assemble covariant carriers into compact factorization (A16)",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

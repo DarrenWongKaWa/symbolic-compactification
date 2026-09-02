@@ -1,0 +1,21 @@
+{
+  "edge_id": "E010",
+  "source": "E8",
+  "target": "E9",
+  "type": "limit",
+  "status": "UNKNOWN",
+  "location": "Eq. (9) / S7.21",
+  "claim": "\u03c3_TRS(\u0393) = Babc/\u0393 + O(\u0393)",
+  "assumptions": [
+    "kernel Laurent expansion",
+    "remainder O(\u0393)"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "policy:limit",
+  "notes": ""
+}

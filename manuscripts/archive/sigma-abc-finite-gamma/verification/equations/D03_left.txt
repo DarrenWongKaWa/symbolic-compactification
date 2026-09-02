@@ -1,0 +1,1 @@
+im((I*eps_ab*(Aab_r + I*Aab_i)) * (-I) * ((Abc_r + I*Abc_i)*(I*eps_ca*(Aca_r + I*Aca_i)) - (I*eps_bc*(Abc_r + I*Abc_i))*(Aca_r + I*Aca_i)))

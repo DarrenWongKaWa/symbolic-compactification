@@ -1,0 +1,20 @@
+{
+  "edge_id": "D02",
+  "source": "E3",
+  "target": "D1L",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "E3\u2192D1L",
+  "claim": "on xxx, L = 2 v^x v^x v^x",
+  "assumptions": [
+    "b=c=x"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "v_mn_x*v_nl_x*v_lm_x + v_mn_x*v_nl_x*v_lm_x",
+  "right": "2*v_mn_x*v_nl_x*v_lm_x",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

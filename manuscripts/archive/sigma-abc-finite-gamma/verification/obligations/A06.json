@@ -1,0 +1,21 @@
+{
+  "edge_id": "A06",
+  "source": "A8",
+  "target": "H1_distinct",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "A8\u2192H1_distinct",
+  "claim": "H1[f;\u03f51,\u03f52]=(f(\u03f52)-f(\u03f51))/(\u03f52-\u03f51) for a quadratic, away from coincidence",
+  "assumptions": [
+    "f analytic",
+    "\u03f52\u2260\u03f51"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(eps2**2 - eps1**2)/(eps2 - eps1)",
+  "right": "eps2 + eps1",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

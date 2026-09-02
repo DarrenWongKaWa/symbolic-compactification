@@ -1,0 +1,7 @@
+symbols:
+  - {name: v_nm_a, real: true, nonzero: false}
+  - {name: v_mn_c, real: true, nonzero: false}
+  - {name: v_nm_c, real: true, nonzero: false}
+  - {name: v_mn_a, real: true, nonzero: false}
+  - {name: eps_nm, real: true, nonzero: true}
+functions: []

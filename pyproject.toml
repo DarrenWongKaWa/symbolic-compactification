@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "symbolic-compactification"
-version = "0.3.0-alpha"
-description = "Verified symbolic reasoning for theoretical physics."
+version = "0.3.1-alpha"
+description = "Agent-assisted scientific derivation-audit with reviewer HTML."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

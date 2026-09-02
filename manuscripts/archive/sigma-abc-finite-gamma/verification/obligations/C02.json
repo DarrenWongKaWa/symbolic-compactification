@@ -1,0 +1,18 @@
+{
+  "edge_id": "C02",
+  "source": "C3",
+  "target": "C4",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "C3\u2192C4",
+  "claim": "odd generator projector (1+s)/2 vanishes at s=-1",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(1 + (-1))/2",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

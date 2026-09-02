@@ -1,0 +1,1 @@
+diff(diff(eps(ka,kb,kc), kb)*diff(eps(ka,kb,kc), kc), ka)

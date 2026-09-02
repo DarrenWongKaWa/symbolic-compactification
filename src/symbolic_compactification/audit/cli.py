@@ -200,12 +200,25 @@ def cmd_audit_report(args) -> int:
     run_id = args.run or latest_audit_run_id(workspace)
     run = load_audit_run(workspace, run_id)
     path = generate_audit_report(workspace, run)
-    payload = {"status": "AUDIT_REPORT", "path": str(path), "run_id": run.run_id}
+    html_path = None
+    try:
+        from .html import generate_html_report
+        html_path = generate_html_report(workspace, run)
+    except AuditError:
+        html_path = None
+    payload = {
+        "status": "AUDIT_REPORT",
+        "path": str(path),
+        "html_path": str(html_path) if html_path else None,
+        "run_id": run.run_id,
+    }
     if args.json:
         _print_json(payload)
         return 0
     print("status:      AUDIT_REPORT")
     print(f"path:        {redact_text(str(path))}")
+    if html_path is not None:
+        print(f"html:        {redact_text(str(html_path))}")
     return 0
 
 

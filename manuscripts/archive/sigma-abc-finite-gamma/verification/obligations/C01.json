@@ -1,0 +1,21 @@
+{
+  "edge_id": "C01",
+  "source": "C1",
+  "target": "C3",
+  "type": "symmetry",
+  "status": "ZERO",
+  "location": "C1\u2192C3",
+  "claim": "local TRS signs T=diag(-1,-1,+1,-1,+1,-1,-1,+1,-1)",
+  "assumptions": [
+    "T H(k) T^{-1}=H(-k)",
+    "local sewing gauge"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(-1)**2 + (-1)**2 + (1)**2 + (-1)**2 + (1)**2 + (-1)**2 + (-1)**2 + (1)**2 + (-1)**2",
+  "right": "9",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "sign-square identity T(-k)T(k)=1_9; signs substituted below"
+}

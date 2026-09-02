@@ -1,45 +1,77 @@
 # AGENTS.md
 
-You are operating symbolic-compactification: a deterministic kernel for
-verified symbolic reasoning in theoretical physics.
+You are operating **symbolic-compactification**: an agent-assisted
+derivation-audit system. LLM judgment is never proof. Core verification
+needs no API key.
 
-Two workflows:
+Two workflows: **Forward derivation** and **Paper audit**. Promote only
+on `ZERO`.
 
-1. **Forward derivation.** Read a current expression, write a candidate,
-   run `verify` or `step`. Promote only on `ZERO`.
-2. **Paper audit.** Inventory numbered equations, record only
-   source-supported relations, run `audit verify`, emit `RESULTS.md`.
+Canonical docs: `docs/paper-audit.md`, `docs/architecture.md`,
+`docs/semantics.md`. Claude Code: `CLAUDE.md` (same contract).
 
-LLM judgment is never proof. Core verification needs no API key.
+## Product
 
-## Rules
+Input: a scientist's paper/derivation with numbered equations.
+Output: reviewer-facing HTML + Markdown, with provenance
+source → numbered equation → relation → frozen status → report.
 
-- `ZERO` means exact engine `ZERO`.
-- `ZERO` is not `CERTIFIED_BY_RULE`.
+Flagship: `examples/guo-evidence-ledger/output/index.html`.
+
+## Canonical commands
+
+```bash
+python -m pip install -e ".[dev]"
+symbolic-compactification --version
+
+# paper audit
+symbolic-compactification audit init DIR
+symbolic-compactification audit inventory DIR
+symbolic-compactification audit verify DIR
+symbolic-compactification audit report DIR
+# → DIR/reports/REPORT.md and DIR/reports/report.html
+
+# forward derivation
+symbolic-compactification verify WORKSPACE
+```
+
+Replay the flagship HTML (presentation only):
+
+```bash
+python examples/guo-evidence-ledger/presentation/assemble_ledger.py
+python examples/guo-evidence-ledger/presentation/verify_presentation.py
+```
+
+Validation: `make test` (release-critical + derivation-audit gates) and
+`python scripts/check_clean_room.py`.
+
+## Scientific invariants
+
+- `ZERO` means exact engine `ZERO`. It is not `CERTIFIED_BY_RULE`.
 - `UNKNOWN` never promotes.
-- Proposal authority is not verification authority.
 - Do not invent Eq. (i) → Eq. (i+1) from adjacency.
 - Do not weaken residuals to manufacture `ZERO`.
-- Do not reopen frozen negative results in `docs/history/negative-results.md`
-  without a new predeclared experiment.
+- Do not rewrite frozen `RESULTS.md` statuses.
+- Do not treat `0*` / workspace overlay as Exact. That lineage is
+  invalid and archived in `docs/history/invalid-0star-lineage/`.
+- Presentation is not a certificate. HTML copies frozen statuses.
 
-## Forward loop
+## Output contract
 
-Copy researcher files into a workspace. Never transcribe long expressions
-by hand.
+For a paper audit the reviewer must be able to see:
 
-```
-inspect → write candidate.txt → verify/step → ZERO promotes, else retry
-```
+1. What was inventoried (numbered equations only).
+2. Which relations are source-grounded.
+3. Which residuals the engine actually ran.
+4. Which rows still need human scientific judgment (Sign / remainder / look).
+5. Matching Markdown and HTML statuses.
 
-Optional proposer (human, CAS, or model). The verifier is the only judge.
+Appendix maps are a visible `<section id="map-sec">` on the first screen,
+never a closed `<details>`.
 
-## Paper-audit loop
+## Do not
 
-```
-inventory printed numbers → freeze source-grounded relations → verify → table
-```
-
-Printed equation numbers are the public identifiers.
-
-Full skill text: `.grok/skills/symbolic-compactification/SKILL.md`.
+- Weaken or delete legitimate tests to get green CI.
+- Fabricate evidence, citations, or residuals.
+- Reopen frozen negatives in `docs/history/negative-results.md` without a
+  new predeclared experiment.

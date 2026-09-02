@@ -1,0 +1,16 @@
+# Machine-applied v0.1 surface is only real:true / optional nonzero / functions.
+# Scientific hypotheses used by the manuscript but NOT machine-enforced:
+#   TRS: T H(k) T^{-1} = H(-k)
+#   full Brillouin-zone pairing of k with -k
+#   isolated-band local charts
+#   Γ > 0 held fixed in DC extraction
+#   constant-broadening fermionic bath
+#   no integration by parts in Appendices A–B
+# These belong on symmetry / integration / limit edges as declared context.
+
+symbols:
+  - {name: eps_n, real: true, nonzero: false}
+  - {name: eps_m, real: true, nonzero: false}
+  - {name: eps_l, real: true, nonzero: false}
+  - {name: Gamma, real: true, nonzero: true}
+functions: []

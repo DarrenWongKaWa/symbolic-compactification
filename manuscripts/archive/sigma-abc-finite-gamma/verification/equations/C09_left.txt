@@ -1,0 +1,1 @@
+(T_nml*L3_nml + T_mnl*(-L3_nml))/2

@@ -1,0 +1,5 @@
+arXiv:1508.00571
+https://arxiv.org/abs/1508.00571
+https://arxiv.org/pdf/1508.00571.pdf
+e-print TeX: papers/1508.00571/raw/tex/NonLin-Halleffect.tex
+Equations numbered as they appear in that TeX (PRL \be / equation).

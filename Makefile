@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: venv test release-gate forward-demo audit-demo flagship-replay
+.PHONY: venv test release-gate forward-demo audit-demo flagship-html flagship-replay
 
 venv:
 	$(PYTHON) -m venv .venv
@@ -11,6 +11,7 @@ test:
 
 release-gate: test
 	$(PYTHON) scripts/check_clean_room.py
+	$(PYTHON) examples/guo-evidence-ledger/presentation/verify_presentation.py
 
 forward-demo:
 	$(PYTHON) -c "from pathlib import Path; import tempfile, shutil; from symbolic_compactification import ZERO, NONZERO, verify_hypothesis; \
@@ -25,8 +26,13 @@ print('forward demos PASS')"
 audit-demo:
 	symbolic-compactification audit verify examples/audit/minimal
 	symbolic-compactification audit table examples/audit/minimal
+	symbolic-compactification audit report examples/audit/minimal
+
+flagship-html:
+	$(PYTHON) examples/guo-evidence-ledger/presentation/assemble_ledger.py
+	$(PYTHON) examples/guo-evidence-ledger/presentation/verify_presentation.py
 
 flagship-replay:
-	$(PYTHON) examples/flagship/guo/scripts/inventory_equations.py
-	$(PYTHON) examples/flagship/guo/scripts/relations_frozen.py
-	$(PYTHON) examples/flagship/guo/scripts/verify_and_report.py
+	$(PYTHON) examples/guo-evidence-ledger/scripts/inventory_equations.py
+	$(PYTHON) examples/guo-evidence-ledger/scripts/relations_frozen.py
+	$(PYTHON) examples/guo-evidence-ledger/scripts/verify_and_report.py

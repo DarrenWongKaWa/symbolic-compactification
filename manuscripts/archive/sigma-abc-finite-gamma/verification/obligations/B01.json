@@ -1,0 +1,18 @@
+{
+  "edge_id": "B01",
+  "source": "P_nm",
+  "target": "B1_PRe",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "P_nm\u2192B1_PRe",
+  "claim": "P = PRe + i PIm recovers P from even/odd parts",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "P_nm",
+  "right": "(P_nm + P_mn)/2 + I*(P_nm - P_mn)/(2*I)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

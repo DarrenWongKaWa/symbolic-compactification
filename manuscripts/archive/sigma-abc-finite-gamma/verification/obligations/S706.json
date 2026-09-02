@@ -1,0 +1,21 @@
+{
+  "edge_id": "S706",
+  "source": "S7.10",
+  "target": "M0_sym",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S7.10",
+  "claim": "explicit M0(\u03f51,\u03f52)=(F(\u03f52)-F(\u03f51))/(2(\u03f52-\u03f51)^3) is symmetric",
+  "assumptions": [
+    "fixed-gap \u0393\u21920 residue formula (S7.10)",
+    "\u03f51\u2260\u03f52"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(F(e2) - F(e1))/(2*(e2 - e1)**3)",
+  "right": "(F(e1) - F(e2))/(2*(e1 - e2)**3)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

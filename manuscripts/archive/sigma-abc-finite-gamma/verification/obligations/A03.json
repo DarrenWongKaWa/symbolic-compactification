@@ -1,0 +1,20 @@
+{
+  "edge_id": "A03",
+  "source": "A3",
+  "target": "A5",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "A3\u2192A5",
+  "claim": "contact and quadratic-drive sectors have [\u03c9^2]=0 because they are \u03c9-independent",
+  "assumptions": [
+    "those sectors contain no \u03c9"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "omega*0",
+  "right": "0",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "[\u03c9^2] of an \u03c9-independent K is 0; encoded as 0=0 after that observation"
+}

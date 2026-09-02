@@ -1,0 +1,20 @@
+{
+  "edge_id": "A07",
+  "source": "A8",
+  "target": "H1_coincident",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "A8\u2192H1_coincident",
+  "claim": "regular value of that difference at coincidence is f'(\u03f5)=2\u03f5",
+  "assumptions": [
+    "H1 is the analytic continuation of the quotient"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "eps1 + eps1",
+  "right": "2*eps1",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

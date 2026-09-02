@@ -1,0 +1,20 @@
+{
+  "edge_id": "B06",
+  "source": "B4",
+  "target": "B5",
+  "type": "definition",
+  "status": "RECORDED",
+  "location": "B4\u2192B5",
+  "claim": "diagonal pair splits into Hessian CH plus metric remainder",
+  "assumptions": [
+    "resolution of identity in the band basis"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": ""
+}

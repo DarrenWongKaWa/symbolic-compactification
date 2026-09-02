@@ -1,0 +1,1 @@
+-2*eps_nm*(v_nn_b*((v_nm_a*v_mn_c + v_nm_c*v_mn_a)/(2*eps_nm**2))+v_nn_c*((v_nm_a*v_mn_b + v_nm_b*v_mn_a)/(2*eps_nm**2)))

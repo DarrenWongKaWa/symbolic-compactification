@@ -1,0 +1,20 @@
+{
+  "edge_id": "C12",
+  "source": "B1",
+  "target": "C20a",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (8) child / S7.19",
+  "claim": "L2,Im=(L_nmn-L_mnn)/(2i) equals the commuting-symbol curvature bilinear",
+  "assumptions": [
+    "matrix elements commute as c-numbers"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "v_mn_a*v_nn_b*v_nm_c + v_mn_a*v_nn_c*v_nm_b - v_nm_a*v_mn_b*v_nn_c - v_nm_a*v_mn_c*v_nn_b",
+  "right": "v_nn_b*(v_mn_a*v_nm_c - v_nm_a*v_mn_c) + v_nn_c*(v_mn_a*v_nm_b - v_nm_a*v_mn_b)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

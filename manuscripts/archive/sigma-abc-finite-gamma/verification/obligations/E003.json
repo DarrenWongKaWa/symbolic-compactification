@@ -1,0 +1,18 @@
+{
+  "edge_id": "E003",
+  "source": "P_raw",
+  "target": "E3",
+  "type": "definition",
+  "status": "DEFINITION",
+  "location": "P_raw\u2192E3",
+  "claim": "pair carrier P is the b\u2194c symmetrized covariant velocity product",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "not_executed",
+  "notes": "definition insertion of the named carrier; reconstruction is B01"
+}

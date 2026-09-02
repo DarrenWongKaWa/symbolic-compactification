@@ -1,0 +1,18 @@
+{
+  "edge_id": "A04",
+  "source": "A5",
+  "target": "A6",
+  "type": "index_swap",
+  "status": "ZERO",
+  "location": "A5\u2192A6",
+  "claim": "Mc is Mb with b\u2194c; Tcb is Tbc with b\u2194c",
+  "assumptions": [],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "h_nm_b*h_mn_c",
+  "right": "h_mn_c*h_nm_b",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": "c-number commutativity of the two velocity factors under b\u2194c"
+}

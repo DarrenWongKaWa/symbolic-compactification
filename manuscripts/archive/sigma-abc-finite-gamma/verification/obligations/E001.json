@@ -1,0 +1,25 @@
+{
+  "edge_id": "E001",
+  "source": "E1",
+  "target": "E6",
+  "type": "symmetry",
+  "status": "SPLIT",
+  "location": "E1\u2192E6",
+  "claim": "TRS+BZ reduces 9 local structures to 3 channels",
+  "assumptions": [
+    "TRS sewing gauge",
+    "full BZ pairing of k with -k"
+  ],
+  "children": [
+    "C01",
+    "S610",
+    "C04"
+  ],
+  "certified_by_children": false,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "UNKNOWN",
+  "route": "children:C01,S610,C04",
+  "notes": "first arrow of (1); proved as C3+C4+C5"
+}

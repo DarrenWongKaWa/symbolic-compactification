@@ -1,0 +1,1 @@
+diff(eps(ka), ka)*diff(f(eps(ka)), eps(ka), 2)

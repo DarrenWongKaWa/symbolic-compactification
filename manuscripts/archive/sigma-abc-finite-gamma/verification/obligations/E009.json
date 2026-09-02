@@ -1,0 +1,24 @@
+{
+  "edge_id": "E009",
+  "source": "E8",
+  "target": "E8_omega",
+  "type": "algebra",
+  "status": "SPLIT",
+  "location": "Eq. (8)",
+  "claim": "two-band loop equals gap^2 times diagonal-velocity * Berry curvature (8)",
+  "assumptions": [
+    "velocity matrix elements commute as c-numbers at fixed bands",
+    "metric/curvature factorization (B2)"
+  ],
+  "children": [
+    "C12",
+    "C13"
+  ],
+  "certified_by_children": true,
+  "executable": false,
+  "left": null,
+  "right": null,
+  "engine_verdict": "ZERO",
+  "route": "children:C12,C13",
+  "notes": "SPLIT onto C12 (commuting expansion) and C13 (\u03a9 substitution) | SPLIT; all children ZERO/DEFINITION/RECORDED"
+}

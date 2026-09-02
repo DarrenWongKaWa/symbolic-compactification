@@ -1,0 +1,21 @@
+{
+  "edge_id": "S716",
+  "source": "S7.16",
+  "target": "T0_exchange",
+  "type": "index_swap",
+  "status": "ZERO",
+  "location": "S7.16",
+  "claim": "T0(m,n,\u2113)=T0(n,m,\u2113) from (S7.10)\u2013(S7.11) and M0 symmetry",
+  "assumptions": [
+    "fixed-gap residues (S7.10)\u2013(S7.11)",
+    "\u03f5_n\u2260\u03f5_m"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "((F(em)-F(el))/(2*(em-el)**3) - (F(el)-F(en))/(2*(el-en)**3))/(em-en)",
+  "right": "((F(en)-F(el))/(2*(en-el)**3) - (F(el)-F(em))/(2*(el-em)**3))/(en-em)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

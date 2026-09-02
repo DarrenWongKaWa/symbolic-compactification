@@ -1,0 +1,21 @@
+{
+  "edge_id": "B03",
+  "source": "B3",
+  "target": "B2",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "Eq. (B2) / S5.9",
+  "claim": "velocity bilinear factorizes as \u03f5^2 (g - i/2 \u03a9)",
+  "assumptions": [
+    "n\u2260m",
+    "\u03f5_nm \u2260 0"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "v_nm_a*v_mn_c",
+  "right": "eps_nm**2*((v_nm_a*v_mn_c + v_nm_c*v_mn_a)/(2*eps_nm**2) - I/2 * I*(v_nm_a*v_mn_c - v_nm_c*v_mn_a)/eps_nm**2)",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}

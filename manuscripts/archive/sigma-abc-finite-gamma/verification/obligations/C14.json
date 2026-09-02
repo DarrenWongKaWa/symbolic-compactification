@@ -1,0 +1,21 @@
+{
+  "edge_id": "C14",
+  "source": "C11",
+  "target": "C21",
+  "type": "algebra",
+  "status": "ZERO",
+  "location": "S7.20 prefactor",
+  "claim": "\u03f5^2 in (C20) cancels the 1/\u03f5^2 in (C11) at the level of the prefactor algebra",
+  "assumptions": [
+    "C11 Laurent coefficient",
+    "\u03f5_nm\u22600"
+  ],
+  "children": [],
+  "certified_by_children": false,
+  "executable": true,
+  "left": "(fn / (2*eps_nm**2)) * (eps_nm**2 / 2) * S",
+  "right": "(fn / 4) * S",
+  "engine_verdict": "ZERO",
+  "route": "python_sympy_exact_v1",
+  "notes": ""
+}
