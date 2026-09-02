@@ -2,10 +2,10 @@
 
 `index.html` is a **presentation** of the frozen Guo et al. paper-audit.
 
-It is not verification authority.
+**Presentation is not a certificate.**
 
 ```text
-paper → derivation map → expand one edge → why accepted / refused / unresolved
+three denominators → stacked status bar → D-117 residual card → ledger table
 ```
 
 Machine records remain the scientific source:
@@ -25,10 +25,23 @@ engine python_sympy_exact_v1 0.3.0
 JavaScript never infers `ZERO`, `NONZERO`, `UNKNOWN`, `CERTIFIED_BY_RULE`, or
 `ZERO_UNDER_SUBSTITUTION`. It only renders statuses copied from `RESULTS.md`.
 
-189/189 means **numbered equations inventoried**. It does not mean 189 equations
-were certified. The first screen shows only inventory, relation, and executable
-counts. SHA, 0/155 controls, and the 15+2 vs 17 remainder-summary note live in
-the footer. Presentation freeze: `../HUMAN_AUDIT_HTML_FREEZE.md`.
+The first screen uses three equal denominators:
+
+- 189/189 **inventoried equations** (coverage 100% only as inventory small type)
+- 146 **extracted relations**
+- 53 **executable obligations**
+
+`NONZERO=0` means none of the submitted executable relations ended NONZERO.
+It does not mean the paper has no incorrect steps.
+
+SHA, 0/155 controls, and the 15+2 vs 17 remainder-summary note live in the
+footer. Product honesty: `../../product/PRODUCT_HONESTY_LOCK.md`.
+Ledger surface: `../LEDGER_SURFACE_V2.md`.
+
+Open `index.html` alone (CSS, JS, and the view-model JSON are inlined).
+Sibling `report.css` / `report.js` / `report-data.js` remain sources.
+Rebuild with `python3 assemble_ledger.py`. Check with
+`python3 verify_presentation.py`.
 
 ## Open locally
 
@@ -39,7 +52,9 @@ paper/derivation-audit-method/manuscript/human_audit/guo/index.html
 ```
 
 Open that file in a browser (double-click, or `open index.html` on macOS).
-Keep `report.css`, `report.js`, and `report-data.js` in the same folder.
+The assembled page is self-contained: CSS, JS, and the view-model JSON
+are inlined. JavaScript is optional; the three denominators, stacked bar,
+D-117 residual card, and 146-row ledger remain if JS is off.
 
 A local HTTP server is optional:
 
@@ -68,8 +83,11 @@ source; statuses and derivation topology still work.
 | `examples/flagship/guo/RELATIONS_FROZEN.yaml` | Frozen source-grounded relations (authority) |
 | `examples/flagship/guo/expressions/` | Frozen encodings / selected residuals (authority) |
 | `report-data.json`, `report-data.js` | Generated presentation view model |
-| `index.html`, `report.css`, `report.js` | Presentation shell |
-| `build_report_data.py` | Regenerates the view model |
+| `index.src.html`, `report.css`, `report.js` | Presentation sources |
+| `index.html` | Assembled self-contained ledger (open this) |
+| `assemble_ledger.py` | Inlines CSS/JS/JSON and the 146-row table |
+| `verify_presentation.py` | Hash + copy + no-JS floor check |
+| `build_report_data.py` | Regenerates the view model from the tag |
 
 Do not treat HTML copy as a new experiment, a new certificate, or a reason to
 retune residuals.

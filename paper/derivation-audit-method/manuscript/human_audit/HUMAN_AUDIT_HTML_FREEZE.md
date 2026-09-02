@@ -1,6 +1,10 @@
 # Human-facing Guo audit — presentation freeze
 
-Verdict: **HUMAN_AUDIT_HTML_FROZEN**
+Verdict: **HUMAN_AUDIT_HTML_FROZEN** (scientific projection)
+
+First-screen **layout** was reopened and replaced by
+`LEDGER_SURFACE_V2.md` on 2026-09-02. Statuses, counts, and ZERO
+semantics were not reopened.
 
 Canonical entry:
 
@@ -97,4 +101,5 @@ Test fixtures remain under `tests/` for reproducibility of the UX experiment.
 
 ## Next allowed step
 
-Venue freeze, then draft-v4. Not humanizer. Not five-paper HTML.
+Draft-v4 under `manuscript/venue/DRAFT_V4_CONSTRAINTS.md` **when asked**.
+Not humanizer. Not five-paper HTML. Do not move `v0.3.0-alpha`.

@@ -47,12 +47,22 @@
     return '<span class="badge ' + cls + '">' + esc(status) + "</span>";
   }
 
-  function nodeClass(status) {
-    return "node " + String(status || "").replace(/[^A-Z_]/g, "");
+  function whoCertifies(rel) {
+    const cond = rel.condition || {};
+    if (cond.who_certifies) return String(cond.who_certifies);
+    const k = String(cond.kind || "");
+    if (k === "source-grounded substitution") return "SOURCE";
+    if (k === "author-declared remainder") return "SOURCE";
+    if (k.indexOf("rule") >= 0 || k.indexOf("domain") >= 0) return "DOMAIN";
+    if (k === "none" || !k) return "";
+    if (k.toLowerCase().indexOf("auditor") >= 0) return "AUDITOR";
+    return "UPSTREAM";
   }
 
-  function relById(data, id) {
-    return data.relations.find(function (r) { return r.id === id; });
+  function whoBadge(rel) {
+    const w = whoCertifies(rel);
+    if (!w) return "";
+    return '<span class="who ' + esc(w) + '">' + esc(w) + "</span>";
   }
 
   function typeset(root) {
@@ -64,202 +74,129 @@
     return Promise.resolve();
   }
 
-  function renderFeaturedTable(data) {
-    const rows = data.featured_overview.map(function (row) {
-      return (
-        "<tr>" +
-        '<td><a href="#rel-' + esc(row.relation_id) + '">' + esc(row.public_display) + "</a></td>" +
-        "<td>" + asInline(row.what_happens) + "</td>" +
-        "<td>" + esc(row.evidence) + "</td>" +
-        "<td>" + badge(row.final_status) + "</td>" +
-        "</tr>"
-      );
-    }).join("");
-    return (
-      '<div class="table-wrap"><table class="overview">' +
-      "<thead><tr><th>Eq. relation</th><th>What happens</th><th>Evidence</th><th>Final status</th></tr></thead>" +
-      "<tbody>" + rows + "</tbody></table></div>"
-    );
+  function loadData() {
+    if (window.AUDIT_REPORT) return window.AUDIT_REPORT;
+    const node = document.getElementById("audit-data");
+    if (!node) return null;
+    try {
+      return JSON.parse(node.textContent);
+    } catch (e) {
+      return null;
+    }
   }
 
-  function stepNodes(step, which) {
-    const list = which === "from" ? step.from : step.to;
-    const fallback = which === "from" ? step.public_display.split("→")[0] : step.public_display;
-    const labels = (list && list.length) ? list : [fallback.trim()];
-    return labels.map(function (lab) {
-      return (
-        '<div class="' + nodeClass(step.final_status) + '">' +
-        '<span class="eq">' + esc(lab) + "</span>" +
-        (step.math_summary_tex ? '<span class="math">' + asInline(step.math_summary_tex) + "</span>" : "") +
-        "</div>"
-      );
-    }).join("");
-  }
-
-  function renderChain(chain) {
-    const steps = chain.steps.map(function (step) {
-      const cond = step.condition_tex
-        ? '<span class="cond">' + asInline(step.condition_tex) + "</span>"
-        : "";
-      const fromLabs = (step.from && step.from.length) ? step.from : [];
-      const toLabs = (step.to && step.to.length) ? step.to : [];
-      const singleton = fromLabs.join("|") === toLabs.join("|");
-      const btn = (
-        '<button type="button" class="edge-btn" data-open="rel-' + esc(step.relation_id) + '">' +
-        '<span class="move">' + esc(step.move) + "</span>" +
-        cond +
-        badge(step.final_status) +
-        "</button>"
-      );
-      if (singleton) {
-        return (
-          '<div class="flow-step">' +
-          '<div class="nodes-row">' + stepNodes(step, "to") + "</div>" +
-          btn +
-          "</div>"
-        );
-      }
-      return (
-        '<div class="flow-step">' +
-        '<div class="nodes-row">' + stepNodes(step, "from") + "</div>" +
-        btn +
-        '<div class="arrow" aria-hidden="true">↓</div>' +
-        '<div class="nodes-row">' + stepNodes(step, "to") + "</div>" +
-        "</div>"
-      );
-    }).join("");
-    const body = (chain.layout === "list")
-      ? '<div class="rel-list">' + chain.steps.map(function (step) {
-          return (
-            '<button type="button" class="rel-row" data-open="rel-' + esc(step.relation_id) + '" ' +
-            'data-status="' + esc(step.final_status) + '" data-section="' + esc(chain.section) + '">' +
-            '<span class="eq">' + esc(step.public_display) + "</span>" +
-            '<span class="cue">' + asInline(step.math_summary_tex) + "</span>" +
-            badge(step.final_status) +
-            "</button>"
-          );
-        }).join("") + "</div>"
-      : '<div class="flow">' + steps + "</div>";
-    return (
-      '<article class="chain" id="chain-' + esc(chain.id) + '" data-section="' + esc(chain.section) + '">' +
-      '<h4 class="chain-title">' + asInline(chain.title) + "</h4>" +
-      '<p class="chain-summary">' + asInline(chain.summary) + "</p>" +
-      body +
-      "</article>"
-    );
-  }
-
-  function residualBlock(rel) {
+  function residualHero(rel) {
     const d = rel.direct || {};
     if (rel.final_status === "CERTIFIED_BY_RULE" || d.verdict === "N/A") {
-      return "<p>No parent equality residual is compiled. The checked object, if any, is a local identity plus a declared rule — not "
-        + asInline("E_{\\mathrm{lhs}}-E_{\\mathrm{rhs}}")
-        + " of a global integral.</p>";
+      return (
+        '<div class="integral-box">' +
+        "<p><strong>Parent integral is not posed as a residual.</strong></p>" +
+        "<p>Local Leibniz = 0. Torus boundary term = declared, not computed. " +
+        "Child ZERO plus a rule is not parent ZERO.</p>" +
+        "</div>"
+      );
     }
     if (d.verdict === "UNKNOWN" || rel.final_status === "UNKNOWN_REMAINDER") {
-      return "<p>No executable residual is compiled for this remainder or limit claim. Direct check: UNKNOWN. That is not a refutation.</p>";
+      const tex = rel.remainder_display_tex
+        ? "<div class='math-scroll'>" + asDisplay(rel.remainder_display_tex) + "</div>"
+        : "";
+      return (
+        '<div class="remainder-callout">' +
+        tex +
+        "<p>The remainder " + asInline("O(\\Gamma)") +
+        " (or the analogous remainder on this row) is not certified. " +
+        "This is not a claim that the expansion is false.</p>" +
+        "</div>"
+      );
     }
-    const fromN = (rel.public_from || []).length;
-    const rhsZero = rel.after && (rel.after.tex === "0" || rel.after.encoding === "0");
-    let html;
-    if (fromN > 1 && rhsZero) {
-      html = "<p>Compiled obligation (multi-parent). Frozen right-hand encoding is 0. This is not a single-equation before/after:</p>" +
-        asDisplay("R=E_{\\mathrm{lhs}}");
-    } else {
-      html = "<p>Compiled obligation for the claimed equality of two frozen encodings:</p>" +
-        asDisplay("R=E_{\\mathrm{lhs}}-E_{\\mathrm{rhs}}");
+    if (rel.final_status === "STRUCTURAL") {
+      return "<p>No equality was posed. There is no residual to factor.</p>";
     }
+    if (rel.final_status === "UNSUPPORTED") {
+      return "<p>The current verifier cannot honestly lower this claimed relation. Not a refutation.</p>";
+    }
+    let html = '<div class="hero nonzero"><div class="k">Direct residual (compiled obligation)</div>';
     if (d.verdict === "ZERO") {
-      html += "<p>Exact residual:</p>" + asDisplay("R=0");
-      return html;
-    }
-    if (d.residual_tex) {
-      html += "<p>Exact residual (direct, as compiled):</p><div class='math-scroll'>" + asDisplay("R=" + d.residual_tex) + "</div>";
+      html += asDisplay("R_{\\mathrm{direct}}=0");
+    } else if (d.residual_tex) {
+      html += "<div class='math-scroll'>" + asDisplay("R_{\\mathrm{direct}}=" + d.residual_tex) + "</div>";
+      if (d.verdict === "NONZERO") {
+        html += "<p>" + asInline("R_{\\mathrm{direct}}\\neq 0") + "</p>";
+      }
       if (d.residual_tex_full && d.residual_tex_full !== d.residual_tex) {
         html +=
-          '<p><button type="button" class="linkish" data-toggle-residual="' + esc(rel.id) + '">Show full residual</button></p>' +
+          '<p><button type="button" class="linkish" data-toggle-residual="' + esc(rel.id) + '">Show unfactored residual</button></p>' +
           '<div class="full-residual math-scroll" id="full-res-' + esc(rel.id) + '" hidden>' +
           asDisplay(d.residual_tex_full) +
           "</div>";
       }
     } else {
-      html += "<p>The frozen record marks this direct check " + esc(d.verdict) +
-        "; a compact TeX projection of the residual is not available. See technical provenance for encodings.</p>";
+      html += "<p>Direct check " + badge(d.verdict) + "; compact residual TeX is not in the view model.</p>";
     }
+    html += "</div>";
     return html;
   }
 
-  function substitutionDiagram(rel) {
+  function formsBlock(rel) {
+    const left = rel.before && rel.before.tex ? asDisplay(rel.before.tex) : "<p>—</p>";
+    const right = rel.after && rel.after.tex ? asDisplay(rel.after.tex) : "<p>—</p>";
+    const from = (rel.public_from || []).join(", ") || "left";
+    const to = (rel.public_to || []).join(", ") || "right";
+    return (
+      '<div class="forms">' +
+      '<div class="form"><div class="k">' + esc(from) + "</div><div class='math-scroll'>" + left + "</div></div>" +
+      '<div class="to" aria-hidden="true">→</div>' +
+      '<div class="form"><div class="k">' + esc(to) + "</div><div class='math-scroll'>" + right + "</div></div>" +
+      "</div>"
+    );
+  }
+
+  function whyBlock(rel) {
+    if (rel.direct && rel.direct.verdict === "NONZERO" && rel.why_direct_nonzero) {
+      return (
+        "<h4>Why the direct residual is nonzero</h4>" +
+        "<p>" + asInline(rel.why_direct_nonzero) + "</p>"
+      );
+    }
+    return "";
+  }
+
+  function conditionBlock(rel) {
+    const cond = rel.condition || {};
+    if (!cond.kind || cond.kind === "none") {
+      return "<h4>Condition " + asInline("A") + "</h4><p>No extra condition is recorded on this row.</p>";
+    }
+    const tex = cond.tex ? "<div class='math-scroll'>" + asDisplay(cond.tex) + "</div>" : "<p>" + asInline(cond.text) + "</p>";
+    return (
+      "<h4>Condition " + asInline("A") + " and provenance</h4>" +
+      '<div class="cond-row">' +
+      "<div>" + tex + "<p>" + esc(cond.authority || "") + "</p></div>" +
+      "<div>" + whoBadge(rel) + "</div>" +
+      "</div>"
+    );
+  }
+
+  function condResidual(rel) {
     if (rel.final_status !== "ZERO_UNDER_SUBSTITUTION") return "";
-    const condTex = rel.condition && rel.condition.tex ? rel.condition.tex : rel.condition.text;
     return (
-      '<div class="check-pair">' +
-      '<div class="check direct"><div class="k">Direct check</div>' +
-      asDisplay("R_{\\mathrm{direct}}\\neq 0") +
-      "<p>" + badge(rel.direct.verdict) + "</p></div>" +
-      '<div class="pluscol">+</div>' +
-      '<div class="check cond"><div class="k">Author-used identity</div>' +
-      (condTex ? asDisplay(String(condTex).replace(/^substitute /i, "")) : "<p>" + esc(rel.condition.text) + "</p>") +
-      "</div></div>" +
-      '<p style="text-align:center;margin:0.2rem 0;">↓</p>' +
-      '<div class="check cond"><div class="k">Conditional check</div>' +
+      "<h4>After the recorded condition</h4>" +
       asDisplay("R_{\\mathrm{cond}}=0") +
-      "<p>" + badge(rel.conditional.verdict) + "</p>" +
-      "<p>This direct NONZERO is not by itself an error in the paper.</p></div>"
+      "<p>Machine status " + badge(rel.final_status) +
+      ". Direct NONZERO before the substitution is not by itself a paper error.</p>"
     );
   }
 
-  function ruleBox(rel) {
-    if (!rel.rule_certification) return "";
-    const rc = rel.rule_certification;
-    const helperMath = "<p><strong>Local identity</strong> (helper, not a numbered-equation row):</p>" +
-      (rc.local_identity.indexOf("\\(") >= 0 ? rc.local_identity : asDisplay(rc.local_identity));
-    return (
-      '<div class="rule-box">' +
-      "<p><strong>Claimed move:</strong> " + esc(rc.claimed_move) + "</p>" +
-      helperMath +
-      "<p><strong>Local machine result:</strong> " + badge(rc.local_machine_result) +
-      " <span class='count-note'>(copied from the parent frozen record; this page does not re-run the engine)</span></p>" +
-      "<p><strong>Rule / domain:</strong> " + esc(rc.rule_domain.join(", ")) + "</p>" +
-      "<p><strong>Parent status:</strong> " + badge(rc.parent_status) + "</p>" +
-      '<p class="warn">The engine did not evaluate the global Brillouin-zone integral to ZERO. ' +
-      "Do not read the child ZERO plus the rule as parent ZERO.</p>" +
-      "</div>"
-    );
-  }
-
-  function remainderBox(rel) {
-    if (rel.final_status !== "UNKNOWN_REMAINDER") return "";
-    const tex = rel.remainder_display_tex;
-    return (
-      '<div class="remainder-box">' +
-      (tex ? "<div class='math-scroll'>" + asDisplay(tex) + "</div>" : "") +
-      "<p>The author declares an asymptotic remainder. Finite coefficient identities may be checked separately. " +
-      "No general remainder certificate is available in the frozen system.</p>" +
-      "<p><strong>This is not a claim that the expansion is false.</strong> " +
-      "It is a statement that the current evidence does not certify the enclosing remainder.</p>" +
-      "</div>"
-    );
-  }
-
-  function beforeAfter(rel) {
-    let html = "";
-    if (rel.before && rel.before.tex) {
-      html += "<h4>Left encoding (frozen)</h4><div class='block math-scroll'>" + asDisplay(rel.before.tex) + "</div>";
-    }
-    if (rel.after && rel.after.tex) {
-      html += "<h4>Right encoding (frozen)</h4><div class='block math-scroll'>" + asDisplay(rel.after.tex) + "</div>";
-    }
-    return html;
+  function oneLine(rel) {
+    const t = rel.human_explanation || rel.interpretation || "";
+    if (!t) return "";
+    return '<p class="one-line">' + asInline(t) + "</p>";
   }
 
   function techDrawer(rel) {
     const t = rel.technical_provenance || {};
     const dump = {
       internal_id: t.internal_id,
-      regression: t.regression,
       claimed: t.claimed,
-      parent_status_field: t.parent_status_field,
       engine: t.engine,
       software: t.software,
       frozen_left_encoding: t.frozen_left_encoding,
@@ -270,15 +207,15 @@
       results_final: t.results_final,
     };
     return (
-      '<details class="tech"><summary>Technical provenance</summary>' +
-      "<p>Internal identifiers are not the public equation numbers. " +
-      "Encodings below are frozen machine strings, not a second verdict.</p>" +
+      '<details class="tech"><summary>Technical provenance (not the mathematics)</summary>' +
+      "<p>Internal identifiers are not public equation numbers. " +
+      "These strings are frozen encodings, not a second verdict.</p>" +
       "<pre>" + esc(JSON.stringify(dump, null, 2)) + "</pre></details>"
     );
   }
 
-  function renderEdge(rel) {
-    const hay = [
+  function haystack(rel) {
+    return [
       rel.public_display,
       rel.author_move,
       rel.final_status,
@@ -291,94 +228,47 @@
       rel.interpretation,
       (rel.condition && rel.condition.text) || "",
       (rel.condition && rel.condition.tex) || "",
+      whoCertifies(rel),
       ((rel.author_source_anchor || {}).prose_paraphrase) || "",
       (rel.direct && rel.direct.residual_tex) || "",
     ].join(" ").toLowerCase();
-    const why = rel.why_direct_nonzero
-      ? "<h4>Why the direct check is NONZERO</h4><p>" + asInline(rel.why_direct_nonzero) + "</p>" +
-        (rel.presentation_reason ? "<p>Presentation reason (not a machine verdict): " +
-          '<span class="mono">' + esc(rel.presentation_reason) + "</span></p>" : "")
-      : "";
-    const condResidual = (rel.final_status === "ZERO_UNDER_SUBSTITUTION")
-      ? "<h4>Conditional residual</h4>" + asDisplay("R_{\\mathrm{cond}}=\\left.R_{\\mathrm{direct}}\\right|_{\\text{source-grounded condition}}=0")
-      : "";
+  }
+
+  function renderEdge(rel, opts) {
+    opts = opts || {};
+    const open = opts.open ? " open" : "";
     return (
-      '<details class="edge ' + esc(rel.final_status) + '" id="rel-' + esc(rel.id) + '" ' +
-      'data-status="' + esc(rel.final_status) + '" data-section="' + esc(rel.section) + '" data-hay="' + esc(hay) + '">' +
+      '<details class="edge residual-card ' + esc(rel.final_status) + '" id="rel-' + esc(rel.id) + '"' + open +
+      ' data-status="' + esc(rel.final_status) + '" data-section="' + esc(rel.section) +
+      '" data-executable="' + (rel.executable ? "1" : "0") +
+      '" data-hay="' + esc(haystack(rel)) + '">' +
       "<summary><span><span class='sum-eq'>" + esc(rel.public_display) + "</span>" +
       "<span class='sum-move'>" + esc(rel.author_move) + "</span></span>" +
       badge(rel.final_status) + "</summary>" +
       '<div class="panel">' +
-      "<h4>Role in the derivation</h4><p>" + asInline(rel.role) + "</p>" +
-      "<h4>Source relation</h4><p>" + esc(rel.public_display) + "</p>" +
-      "<h4>Author's move</h4><p>" + esc(rel.author_move) +
-      (rel.math_summary_tex ? " — " + asInline(rel.math_summary_tex) : "") + "</p>" +
-      "<h4>Source context</h4><p>" + asInline((rel.author_source_anchor || {}).prose_paraphrase) + "</p>" +
-      "<p class='count-note'>" + esc((rel.author_source_anchor || {}).source || "") +
-      (((rel.author_source_anchor || {}).tex_lines || []).length
-        ? "; main.tex lines " + esc(rel.author_source_anchor.tex_lines.join("–"))
-        : "") + "</p>" +
-      beforeAfter(rel) +
-      "<h4>Direct residual</h4>" + residualBlock(rel) +
-      "<h4>Direct result</h4><p>" + badge(rel.direct.verdict) + "</p>" +
-      why +
-      "<h4>Condition / authority</h4><p>" + esc(rel.condition.kind) + ". " + asInline(rel.condition.authority) + "</p>" +
-      (rel.condition.tex ? "<div class='block paper math-scroll'>" + asDisplay(rel.condition.tex) + "</div>" : "<p>" + asInline(rel.condition.text) + "</p>") +
-      condResidual +
-      substitutionDiagram(rel) +
-      ruleBox(rel) +
-      remainderBox(rel) +
-      "<h4>Final status</h4><p>" + badge(rel.final_status) + "</p>" +
-      "<h4>Interpretation</h4><p>" + asInline(rel.interpretation) + "</p>" +
-      "<p>" + asInline(rel.human_explanation) + "</p>" +
+      formsBlock(rel) +
+      residualHero(rel) +
+      whyBlock(rel) +
+      conditionBlock(rel) +
+      condResidual(rel) +
+      "<h4>Machine status</h4><p>" + badge(rel.final_status) + "</p>" +
+      oneLine(rel) +
       techDrawer(rel) +
       "</div></details>"
     );
   }
 
-  function leftoverRelations(data, sectionId) {
-    const used = {};
-    data.chains.forEach(function (c) {
-      if (c.section !== sectionId) return;
-      c.steps.forEach(function (s) { used[s.relation_id] = true; });
-    });
-    return data.relations.filter(function (r) {
-      return r.section === sectionId && !used[r.id];
-    });
-  }
-
-  function renderMap(data) {
-    return data.sections.map(function (sec) {
-      const chains = data.chains.filter(function (c) { return c.section === sec.id; });
-      const rest = leftoverRelations(data, sec.id);
-      const chainHtml = chains.map(renderChain).join("");
-      const restHtml = rest.length
-        ? "<h4>Other source-grounded relations in this part</h4>" +
-          '<div class="rel-list">' +
-          rest.map(function (r) {
-            return (
-              '<button type="button" class="rel-row" data-open="rel-' + esc(r.id) + '" ' +
-              'data-status="' + esc(r.final_status) + '" data-section="' + esc(r.section) + '">' +
-              '<span class="eq">' + esc(r.public_display) + "</span>" +
-              '<span class="cue">' + asInline(r.math_summary_tex) + "</span>" +
-              badge(r.final_status) +
-              "</button>"
-            );
-          }).join("") +
-          "</div>"
-        : "";
-      return (
-        '<section class="section-block" id="sec-' + esc(sec.id) + '" data-section="' + esc(sec.id) + '">' +
-        "<h3>" + esc(sec.title) + "</h3>" +
-        '<p class="lead">' + asInline(sec.summary) + "</p>" +
-        chainHtml + restHtml +
-        "</section>"
-      );
-    }).join("");
-  }
-
   function renderAllEdges(data) {
-    return data.relations.map(renderEdge).join("");
+    const flag = "R007";
+    const rest = data.relations.filter(function (r) { return r.id !== flag; });
+    const exec = rest.filter(function (r) { return r.executable; });
+    const other = rest.filter(function (r) { return !r.executable; });
+    return (
+      "<h3>Other executable obligations</h3>" +
+      exec.map(function (r) { return renderEdge(r); }).join("") +
+      "<h3>Non-executable rows (no compiled residual)</h3>" +
+      other.map(function (r) { return renderEdge(r); }).join("")
+    );
   }
 
   function openRel(id) {
@@ -396,27 +286,14 @@
     const query = q.trim().toLowerCase();
     const status = (document.getElementById("statusFilter") || {}).value || "ALL";
     const section = (document.getElementById("sectionFilter") || {}).value || "ALL";
-    document.querySelectorAll("details.edge").forEach(function (el) {
-      const okStatus = status === "ALL" || el.getAttribute("data-status") === status ||
-        (status === "UNKNOWN_GROUP" && (el.getAttribute("data-status") === "UNKNOWN" || el.getAttribute("data-status") === "UNKNOWN_REMAINDER"));
+    document.querySelectorAll("details.edge, table.ledger tbody tr").forEach(function (el) {
+      const st = el.getAttribute("data-status") || "";
+      const okStatus = status === "ALL" || st === status ||
+        (status === "UNKNOWN_GROUP" && (st === "UNKNOWN" || st === "UNKNOWN_REMAINDER"));
       const okSec = section === "ALL" || el.getAttribute("data-section") === section;
-      const okQ = !query || (el.getAttribute("data-hay") || "").indexOf(query) !== -1;
+      const hay = (el.getAttribute("data-hay") || el.textContent || "").toLowerCase();
+      const okQ = !query || hay.indexOf(query) !== -1;
       el.classList.toggle("hidden", !(okStatus && okSec && okQ));
-    });
-    document.querySelectorAll(".rel-row").forEach(function (el) {
-      const okStatus = status === "ALL" || el.getAttribute("data-status") === status ||
-        (status === "UNKNOWN_GROUP" && (el.getAttribute("data-status") === "UNKNOWN" || el.getAttribute("data-status") === "UNKNOWN_REMAINDER"));
-      const okSec = section === "ALL" || el.getAttribute("data-section") === section;
-      const text = (el.textContent || "").toLowerCase();
-      const okQ = !query || text.indexOf(query) !== -1;
-      el.classList.toggle("hidden", !(okStatus && okSec && okQ));
-    });
-    document.querySelectorAll(".section-block").forEach(function (sec) {
-      if (section !== "ALL" && sec.getAttribute("data-section") !== section) {
-        sec.classList.add("hidden");
-      } else {
-        sec.classList.remove("hidden");
-      }
     });
   }
 
@@ -438,7 +315,7 @@
           const hide = !box.hasAttribute("hidden");
           if (hide) box.setAttribute("hidden", "");
           else box.removeAttribute("hidden");
-          tog.textContent = hide ? "Show full residual" : "Hide full residual";
+          tog.textContent = hide ? "Show unfactored residual" : "Hide unfactored residual";
           typeset(box);
         }
       }
@@ -462,15 +339,6 @@
       const id = location.hash.replace(/^#/, "");
       if (id) openRel(id);
     });
-    window.addEventListener("beforeprint", function () {
-      document.querySelectorAll("details.edge.featured-print, details.edge[open]").forEach(function (d) {
-        d.open = true;
-      });
-      data.featured_overview.forEach(function (row) {
-        const el = document.getElementById("rel-" + row.relation_id);
-        if (el) el.open = true;
-      });
-    });
     if (location.hash) openRel(location.hash.replace(/^#/, ""));
     try {
       const params = new URLSearchParams(location.search);
@@ -479,31 +347,18 @@
         const id = openParam.indexOf("rel-") === 0 ? openParam : "rel-" + openParam;
         openRel(id);
       }
-      if (params.get("preview") === "flagship") {
-        data.featured_overview.forEach(function (row) {
-          openRel("rel-" + row.relation_id);
-        });
-      }
     } catch (e) { /* ignore */ }
   }
 
   function main() {
-    const data = window.AUDIT_REPORT;
-    const table = document.getElementById("featured-table");
-    const map = document.getElementById("derivation-map");
+    const data = loadData();
     const edges = document.getElementById("edge-list");
-    if (!data || !table || !map || !edges) {
-      const err = document.getElementById("load-error");
-      if (err) err.hidden = false;
-      return;
-    }
     const err = document.getElementById("load-error");
     if (err) err.hidden = true;
-
-    table.innerHTML = renderFeaturedTable(data);
-    map.innerHTML = renderMap(data);
-    edges.innerHTML = renderAllEdges(data);
-    wire(data);
+    if (data && edges && !edges.getAttribute("data-static")) {
+      edges.innerHTML = renderAllEdges(data);
+    }
+    if (data) wire(data);
     typeset(document.body);
   }
 
