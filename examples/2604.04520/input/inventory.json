@@ -1,0 +1,860 @@
+{
+  "source": "input/nonreciprocal.tex",
+  "arxiv": "2604.04520",
+  "method": "Outer numbered equation/align/gather/multline rows without \\nonumber. Nested array/tikzpicture/tabular breaks ignored.",
+  "v1_claimed": {
+    "total": 94,
+    "main": 12,
+    "appendix": 82
+  },
+  "v2": {
+    "total": 93,
+    "main": 11,
+    "appendix": 82,
+    "by_appendix_letter": {
+      "A": 18,
+      "B": 18,
+      "C": 28,
+      "D": 10,
+      "E": 8
+    }
+  },
+  "correction": "V1 counted 12 main rows by splitting the S-matrix align on an inner array \\\\. Published numbering gives one number to that display, so main is 11 not 12. Appendix 82 is unchanged. Rice–Mele Hamiltonian is inline math, not a numbered equation.",
+  "unnumbered_notable": [
+    {
+      "kind": "inline_display",
+      "what": "Rice–Mele Hamiltonian H(k)=t0 cos k σx + δt sin k σy + m σz",
+      "locator": "main text, Model calculation section",
+      "counted_as_numbered": false
+    }
+  ],
+  "rice_mele_inline_present": true,
+  "equations": [
+    {
+      "id": "M-1",
+      "public": "(1)",
+      "section": "main",
+      "env": "align",
+      "tex_label": null,
+      "cue": "S=\\left( \\begin{array}{cc} r_{LL} & t_{LR} \\\\ t_{RL} & r_{RR} \\end{array} \\right),"
+    },
+    {
+      "id": "M-2",
+      "public": "(2)",
+      "section": "main",
+      "env": "align",
+      "tex_label": "eq:definitionOfCurrent",
+      "cue": "&\\quad \\times \\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)A_\\alpha(\\omega_1)A_\\beta(\\omega_2)e^{-i(\\omega_1+\\omega_2)t}, \\label{eq:definitionOfCurrent}"
+    },
+    {
+      "id": "M-3",
+      "public": "(3)",
+      "section": "main",
+      "env": "align",
+      "tex_label": "eq:nonReciprocalEsquared",
+      "cue": "\\sigma^{\\mu\\alpha\\alpha}=& \\frac{1}{2}\\partial_\\omega^2\\mathcal{K}^{\\mu\\alpha\\alpha}(\\omega,-\\omega)|_{\\omega=0}. \\label{eq:nonReciprocalEsquared}"
+    },
+    {
+      "id": "M-4",
+      "public": "(4)",
+      "section": "main",
+      "env": "align",
+      "tex_label": "eq:currentbyExcitation",
+      "cue": "\\times \\mathrm{Tr} [\\partial_{k_\\mu} (G^R&(\\epsilon+\\hbar\\omega) H^\\alpha G^A(\\epsilon) )G^R(\\epsilon) H^\\beta G^A(\\epsilon+\\hbar\\omega)] ,\\label{eq:currentbyEx"
+    },
+    {
+      "id": "M-5",
+      "public": "(5)",
+      "section": "main",
+      "env": "align",
+      "tex_label": "eq:sigma2",
+      "cue": "&\\left.+\\sum_{a\\neq b,b\\neq c,c\\neq a}\\Re[A_{ab}A_{bc}A_{ca}]D^{(3)}_{abc} \\right] \\label{eq:sigma2}"
+    },
+    {
+      "id": "M-6",
+      "public": "(6)",
+      "section": "main",
+      "env": "align",
+      "tex_label": null,
+      "cue": "D^{(2)}_{ab}&=\\Re \\left[\\frac{8\\Gamma (\\Delta_{ab}+i\\Gamma)}{(\\Delta_{ab}+2i\\Gamma)^2}f_{+,a}'-\\frac{2\\Gamma \\Delta_{ab}}{\\Delta_{ab}+2i\\Gamma}f_{+,a}''\\right]"
+    },
+    {
+      "id": "M-7",
+      "public": "(7)",
+      "section": "main",
+      "env": "align",
+      "tex_label": null,
+      "cue": "D^{(3)}_{abc}&=\\Re\\left[-\\left(\\frac{1}{\\Delta_{ac}}+\\frac{1}{\\Delta_{bc}}\\right)\\frac{8\\Gamma\\Delta_{ab}}{\\Delta_{ab}+2i\\Gamma}f_{+,a}'+\\frac{2\\Gamma\\Delta_{ab"
+    },
+    {
+      "id": "M-8",
+      "public": "(8)",
+      "section": "main",
+      "env": "align",
+      "tex_label": "eq:lowTmpGammaSquared",
+      "cue": "D^{(2)}_{ab}=&2\\Gamma^2 \\frac{-10\\xi_a^2+5\\xi_a\\xi_b-\\xi_b^2}{\\pi \\Delta_{ab}^2 \\xi_a^3}+O(\\Gamma^3), \\label{eq:lowTmpGammaSquared}"
+    },
+    {
+      "id": "M-9",
+      "public": "(9)",
+      "section": "main",
+      "env": "align",
+      "tex_label": null,
+      "cue": "D^{(3)}_{abc}=&\\frac{2\\Gamma^2}{\\pi\\Delta_{ab}\\xi_a^2} \\Bigg[\\left(\\frac{1}{\\Delta_{ac}}+\\frac{1}{\\Delta_{bc}}\\right)(2\\Delta_{ab}+4\\xi_a)+\\frac{\\Delta_{ab}}{\\x"
+    },
+    {
+      "id": "M-10",
+      "public": "(10)",
+      "section": "main",
+      "env": "align",
+      "tex_label": "eq:highTmpGammaLinear",
+      "cue": "D^{(2)}_{ab}=&\\Gamma \\left(\\frac{4}{\\Delta_{ab}}f_a'-f_a''\\right)+O(\\Gamma^2), \\label{eq:highTmpGammaLinear}"
+    },
+    {
+      "id": "M-11",
+      "public": "(11)",
+      "section": "main",
+      "env": "align",
+      "tex_label": null,
+      "cue": "D^{(3)}_{abc}=&\\Gamma \\left[-\\left(\\frac{1}{\\Delta_{ac}}+\\frac{1}{\\Delta_{bc}}\\right)4f_a'+f_a''\\right]+O(\\Gamma^2)."
+    },
+    {
+      "id": "A-1",
+      "public": "A-1",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:DCsumOfalpha_beta",
+      "cue": "&+\\sum_{\\alpha,\\beta}\\mathcal{K}^{\\mu\\alpha\\beta}(-\\omega,\\omega) A_\\alpha(-\\omega) A_\\beta(\\omega) \\label{eq:DCsumOfalpha_beta}",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-2",
+      "public": "A-2",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": null,
+      "cue": "j_\\mu\\uprm{SHG+}(\\omega)=&\\sum_{\\alpha,\\beta}\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega,\\omega) A_\\alpha(\\omega) A_\\beta(\\omega)",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-3",
+      "public": "A-3",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": null,
+      "cue": "j_\\mu\\uprm{SHG-}(\\omega)=&\\sum_{\\alpha,\\beta}\\mathcal{K}^{\\mu\\alpha\\beta}(-\\omega,-\\omega) A_\\alpha(-\\omega) A_\\beta(-\\omega).",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-4",
+      "public": "A-4",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:expandK",
+      "cue": "& -\\sum_{\\alpha,\\beta}\\frac{E_\\alpha^* E_\\beta^*}{\\omega^2} (\\mathcal{K}^{\\mu\\alpha\\beta}|_{\\omega_1=0,\\omega_2=0}-\\omega(\\partial_{\\omega_1}+\\partial_{\\omega_2",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-5",
+      "public": "A-5",
+      "section": "appendix A",
+      "env": "gather",
+      "tex_label": null,
+      "cue": "\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0}=0,",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-6",
+      "public": "A-6",
+      "section": "appendix A",
+      "env": "gather",
+      "tex_label": null,
+      "cue": "\\partial_{\\omega_{1(2)}}\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0}=0,",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-7",
+      "public": "A-7",
+      "section": "appendix A",
+      "env": "gather",
+      "tex_label": null,
+      "cue": "\\partial_{\\omega_{1(2)}}^2\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0}=0,",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-8",
+      "public": "A-8",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:11ee",
+      "cue": "=&\\sum_{\\alpha,\\beta}E_\\alpha(t)E_\\beta(t)(-\\partial_{\\omega_1}\\partial_{\\omega_2}\\mathcal{K}^{\\mu\\alpha\\beta}|_{\\omega_1=0,\\omega_2=0} +O(\\omega)) . \\label{eq:",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-9",
+      "public": "A-9",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": null,
+      "cue": "j_\\mu(t)=\\sum_{\\alpha,\\beta}E_\\alpha(t)E_\\beta(t)\\left(\\frac{1}{2}\\partial_{\\omega}^2\\mathcal{K}^{\\mu\\alpha\\beta}(\\omega,-\\omega)|_{\\omega=0} +O(\\omega)\\right)",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-10",
+      "public": "A-10",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:current_response_function_diagram",
+      "cue": "&-\\frac{1}{2}\\left(\\frac{e}{\\hbar}\\right)^3 \\begin{tikzpicture}[baseline=(v2.center)] \\begin{feynhand} \\vertex (v1) at (0,-0.5); \\vertex (v2) at (0.75,0); \\vert",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-11",
+      "public": "A-11",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:current_response_function",
+      "cue": "&-\\frac{1}{2}\\left(\\frac{e}{\\hbar}\\right)^3\\frac{2i\\Gamma}{2\\pi i}\\int dx f(x) \\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d}\\kappa^{\\mu\\alpha\\beta}(x,\\omega_1,\\omega_2).",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-12",
+      "public": "A-12",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:0linTad",
+      "cue": "\\kappa^{\\mu\\alpha\\beta} (x,0,0) =& \\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu\\alpha}G^R G^A]) \\label{eq:0linTad}",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-13",
+      "public": "A-13",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:0linbub1",
+      "cue": "&+\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R H^{\\alpha} G^R G^A]) \\label{eq:0linbub1}",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-14",
+      "public": "A-14",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:0linbub2",
+      "cue": "&+\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R G^A H^{\\alpha} G^A]). \\label{eq:0linbub2}",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-15",
+      "public": "A-15",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:1linbub1",
+      "cue": "\\partial_{\\omega_1}\\kappa (x,\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0} =&\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}[G^R]^2 H^{\\alpha} G^R G^A]) \\label{eq:1linbub",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-16",
+      "public": "A-16",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:1linbub2",
+      "cue": "&-\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R G^A H^{\\alpha} [G^A]^2]) \\label{eq:1linbub2}",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-17",
+      "public": "A-17",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:2linbub1",
+      "cue": "\\partial_{\\omega_1}^2\\kappa (x,\\omega_1,\\omega_2)|_{\\omega_1=0,\\omega_2=0} =&\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu} 2[G^R]^3 H^{\\alpha} G^R G^A]) \\label{eq:2li",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "A-18",
+      "public": "A-18",
+      "section": "appendix A",
+      "env": "align",
+      "tex_label": "eq:2linbub2",
+      "cue": "&+\\partial_{k_\\beta} (\\mathrm{Tr}[H^{\\mu}G^R G^A H^{\\alpha} 2[G^A]^3]) \\label{eq:2linbub2}.",
+      "appendix_title": "Derivation of the DC response"
+    },
+    {
+      "id": "B-1",
+      "public": "B-1",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:tadpoleDerivative",
+      "cue": "=&\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d}\\partial_{k_\\mu} \\mathrm{Tr}[H^{\\alpha\\beta} G^A(x)G^R(x)], \\label{eq:tadpoleDerivati",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-2",
+      "public": "B-2",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:m2",
+      "cue": "&\\qquad \\times H^\\beta G^R(x)G^A(x)] \\label{eq:m2}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-3",
+      "public": "B-3",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:p4",
+      "cue": "&\\qquad \\times G^R(x+\\hbar\\omega) (1+2i\\Gamma G^A(x+\\hbar\\omega))]. \\label{eq:p4}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-4",
+      "public": "B-4",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:p2",
+      "cue": "\\to &\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu\\beta}G^R(x+\\hbar\\omega)H^\\alpha G^R(x)G^A(x)]\\label{eq:p2}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-5",
+      "public": "B-5",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:m4",
+      "cue": "+&\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu\\beta}G^R(x)G^A(x)H^\\alpha G^A(x-\\hbar\\omega)]. \\label{eq:m4}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-6",
+      "public": "B-6",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:p1",
+      "cue": "= & \\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu}G^R(x)H^\\beta G^R(x+\\hbar\\omega )H^\\alpha G^A(x)G^R(x)] \\label{eq:p1}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-7",
+      "public": "B-7",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:m3",
+      "cue": "&\\qquad \\times H^\\beta G^R(x)G^A(x)H^\\alpha G^A(x-\\hbar\\omega)] \\label{eq:m3}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-8",
+      "public": "B-8",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:p5",
+      "cue": "&\\qquad \\times G^R(x+\\hbar\\omega)(1+2i\\Gamma G^A(x+\\hbar\\omega)) H^\\alpha G^A(x)]. \\label{eq:p5}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-9",
+      "public": "B-9",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:m1",
+      "cue": "&\\qquad \\times H^\\beta G^A(x)G^R(x)] \\label{eq:m1}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-10",
+      "public": "B-10",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:p3",
+      "cue": "&\\qquad \\times (1+2i\\Gamma G^A(x+\\hbar\\omega)) G^R(x+\\hbar\\omega)] \\label{eq:p3}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-11",
+      "public": "B-11",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:m5",
+      "cue": "+&\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\mathrm{tr}[H^{\\mu}G^A(x)G^R(x)H^\\alpha G^A(x-\\hbar\\omega)H^\\beta G^A(x)]. \\label{eq:m5}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-12",
+      "public": "B-12",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:m1m5",
+      "cue": "\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x)\\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d} \\partial_{k_\\mu}\\Tr [ H^\\beta G^A(x) G^R(x)H^\\alpha G^A(x-\\hbar\\omega)]. \\label{eq:m1m5",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-13",
+      "public": "B-13",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:p1p5",
+      "cue": "\\frac{2i\\Gamma}{2\\pi i} \\int dx f(x) \\int\\smrm{BZ} \\frac{d^d k}{(2\\pi)^d}\\partial_{k_\\mu} \\Tr[H^\\beta G^R(x+\\hbar\\omega) H^\\alpha G^A(x)G^R(x)]. \\label{eq:p1p5}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-14",
+      "public": "B-14",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\times G^R(x-\\hbar\\omega) H^\\beta G^A(x) ]",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-15",
+      "public": "B-15",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\times G^R(x) H^\\beta G^A(x+\\hbar\\omega) ]",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-16",
+      "public": "B-16",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:currentbyExcitationInX",
+      "cue": "&\\times \\Tr[\\partial_{k_\\mu} (G^R(x+\\hbar\\omega) H^\\alpha G^A(x) )G^R(x) H^\\beta G^A(x+\\hbar\\omega) ] \\label{eq:currentbyExcitationInX}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-17",
+      "public": "B-17",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&+\\sum_{a,c}\\Tr[\\partial_{k_\\mu} (\\ket{u_a}\\partial_{k_\\alpha} \\epsilon_a \\bra{u_a})\\ket{u_c}\\partial_{k_\\alpha} \\epsilon_c \\bra{u_c}]\\xi_{cd}\\frac{1}{(x+\\hbar\\",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "B-18",
+      "public": "B-18",
+      "section": "appendix B",
+      "env": "align",
+      "tex_label": "eq:halfPhotocurrent",
+      "cue": "&\\times \\left[Q_{ab}^{\\alpha\\beta}\\left(\\frac{\\partial_{k_\\mu} \\Delta_{ab}}{\\Gamma}+\\frac{i\\partial_{k_\\mu} \\Delta_{ab}}{\\Delta_{ab}}\\right)+iC_{\\beta\\mu\\alpha}",
+      "appendix_title": "Derivation of injection current and shift current"
+    },
+    {
+      "id": "C-1",
+      "public": "C-1",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": "eq:sigmaMuAlphaBetaGreenFunction",
+      "cue": "&\\times \\Tr[\\partial_{k_\\mu} (G^R H^\\beta G^A) G^R (G^R H^\\alpha -H^\\alpha G^A) G^A +(\\alpha \\leftrightarrow \\beta)].\\label{eq:sigmaMuAlphaBetaGreenFunction}",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-2",
+      "public": "C-2",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": "eq:generalNonReciprocalKernel",
+      "cue": "&+H_{ba}^{\\mu\\beta} H_{ab}^\\alpha I_{ab}^{(3)}\\Big]+(c.c.,\\ (a\\leftrightarrow b))\\Bigg\\}+(\\alpha \\leftrightarrow \\beta), \\label{eq:generalNonReciprocalKernel}",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-3",
+      "public": "C-3",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "I_{abc}^{(1)}=&-\\frac{\\Gamma^2 }{2\\pi i} \\int dx f'(x) G^R_c G^{R2}_a G^A_a G^R_b G^A_b,",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-4",
+      "public": "C-4",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "I_{abc}^{(2)}=&\\frac{\\Gamma^2 }{2\\pi i} \\int dx f'(x) G^R_c G^R_a G^A_a G^R_b G^{A2}_b,",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-5",
+      "public": "C-5",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "I_{ab}^{(3)}=&-\\frac{\\Gamma^2 }{2\\pi i} \\int dx f'(x) G^R_aG^R_a G^A_a G^R_b G^A_b.",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-6",
+      "public": "C-6",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&=f'_a\\frac{1}{4\\xi_{ab}^2\\xi_{ac}}+O(\\Gamma),",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-7",
+      "public": "C-7",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&=f'_b\\frac{1}{4\\xi_{ba}^2\\xi_{bc}}+O(\\Gamma),",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-8",
+      "public": "C-8",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&= f'_a\\frac{1}{4\\xi_{ab}^2} +O(\\Gamma).",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-9",
+      "public": "C-9",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&= \\frac{3}{16\\Gamma^2}\\frac{f'_b}{\\xi_{bc}} +\\frac{i}{16\\Gamma}\\frac{f''_b}{\\xi_{bc}} -\\frac{i}{4\\Gamma}\\frac{f'_b}{\\xi_{bc}^2} -\\frac{1}{4}\\frac{f'_b}{\\xi_{bc",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-10",
+      "public": "C-10",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&= \\frac{3}{16\\Gamma^2}\\frac{f'_b}{\\xi_{bc}} -\\frac{i}{16\\Gamma}\\frac{f''_b}{\\xi_{bc}} -\\frac{i}{8\\Gamma}\\frac{f'_b}{\\xi_{bc}^2} -\\frac{1}{8}\\frac{f''_b}{\\xi_{b",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-11",
+      "public": "C-11",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "= & f'_b\\frac{1}{4\\xi_{ba}^3} + f'_a\\frac{1}{4\\xi_{ab}^3}+O(\\Gamma),",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-12",
+      "public": "C-12",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=& -\\frac{i}{\\Gamma}f'_b\\frac{1}{4\\xi_{ba}^2}+O(\\Gamma).",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-13",
+      "public": "C-13",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&-\\frac{i}{\\Gamma}\\frac{f'_a}{8\\xi_{ab}^2}+f''_a\\frac{1}{8\\xi_{ab}^2}-f'_a\\frac{1}{4\\xi_{ab}^3}+O(\\Gamma),",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-14",
+      "public": "C-14",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=& f'_b\\frac{1}{4\\xi_{ba}^3} -f'_a\\frac{1}{4\\xi_{ab}^3}+O(\\Gamma).",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-15",
+      "public": "C-15",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&\\frac{1}{8i\\Gamma^3}f_a' +\\frac{1}{16\\Gamma^2}f''_a+\\frac{1}{96}f''''_a+O(\\Gamma)",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-16",
+      "public": "C-16",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&\\frac{3}{16i\\Gamma^3}f'_a+\\frac{1}{32i\\Gamma}f'''_a+O(\\Gamma)",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-17",
+      "public": "C-17",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&\\frac{3}{16\\Gamma^2}f'_a+\\frac{i}{16\\Gamma}f''_a+\\frac{1}{32}f'''_a+O(\\Gamma).",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-18",
+      "public": "C-18",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": "eq:nonlinearConductivityUptoTau0",
+      "cue": "&+\\sum_a\\left[H_{aa}^{\\mu\\beta} H_{aa}^\\alpha \\left(\\frac{3}{16\\Gamma^2}f'_a+\\frac{i}{16\\Gamma}f''_a+\\frac{1}{32}f'''_a\\right)+c.c.\\right]\\Bigg\\}+(\\alpha \\leftr",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-19",
+      "public": "C-19",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&-\\frac{1}{4\\Gamma^2}\\frac{e^3}{\\hbar}\\int \\frac{d^d k}{(2\\pi)^d}\\sum_b\\partial_{k_\\mu} \\partial_{k_\\beta} \\partial_{k_\\alpha} \\epsilon_b f_b.",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-20",
+      "public": "C-20",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&\\frac{1}{4\\Gamma}\\frac{e^3}{\\hbar}\\int \\frac{d^d k}{(2\\pi)^d}\\sum_b (\\Omega_b^{\\mu\\beta}\\partial_{k_\\alpha} f_b+\\Omega_b^{\\alpha\\mu}\\partial_{k_\\beta} f_b),",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-21",
+      "public": "C-21",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "\\Omega_b^{\\alpha\\beta}=&\\sum_{a\\neq b}\\frac{H_{ba}^\\alpha H_{ab}^\\beta-H_{ba}^\\beta H_{ab}^\\alpha}{i\\xi_{ba}^2}.",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-22",
+      "public": "C-22",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\left.+\\sum_{a}\\left[H_{aa}^\\mu H_{aa}^\\beta H_{aa}^\\alpha \\frac{f''''_a}{48}+ \\partial_\\mu H_{aa}^{\\beta} H_{aa}^\\alpha \\frac{f'''_a}{16}\\right] \\right\\}+(\\al",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-23",
+      "public": "C-23",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\hspace{6cm}+(\\alpha\\leftrightarrow \\beta),",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-24",
+      "public": "C-24",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&\\sum_{a} \\partial_\\mu H_{aa}^{\\beta} H_{aa}^\\alpha \\frac{f'''_a}{16},",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-25",
+      "public": "C-25",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\left.+\\sum_{a}\\left[H_{aa}^\\mu H_{aa}^\\beta H_{aa}^\\alpha \\frac{f''''_a}{24}+ (\\partial_\\mu H_{aa}^{\\beta} H_{aa}^\\alpha +\\partial_\\mu H_{aa}^{\\alpha} H_{aa}^",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-26",
+      "public": "C-26",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&+(H_{bb}^\\mu-H_{aa}^\\mu)(H_{ab}^\\beta H_{ba}^\\alpha +H_{ab}^\\alpha H_{ba}^\\beta)\\frac{1}{\\xi_{ab}^3}",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-27",
+      "public": "C-27",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&+H_{aa}^\\beta H_{aa}^\\alpha H_{aa}^\\mu \\frac{f''''_a}{16}",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "C-28",
+      "public": "C-28",
+      "section": "appendix C",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\left.-\\sum_{a}H_{aa}^\\mu H_{aa}^\\beta H_{aa}^\\alpha \\frac{f''''_a}{48}\\right\\},",
+      "appendix_title": "Derivation of the Drude term, the Berry curvature dipole term and the quantum metric dipole term"
+    },
+    {
+      "id": "D-1",
+      "public": "D-1",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": "eq:longitudinalNonReciprocalKernel",
+      "cue": "&\\left. +\\sum_{ab}H_{ba}^{\\alpha\\alpha} H_{ab}^\\alpha\\left(G^R_a-G^A_b\\right)G^R_a G^A_a G^R_b G^A_b \\right]. \\label{eq:longitudinalNonReciprocalKernel}",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-2",
+      "public": "D-2",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "\\mel{a}{\\partial_{k_\\alpha} H }{b} &=-\\mel{b}{\\partial_{k_\\alpha} H }{a}|_{\\bm{k}\\to -\\bm{k}}",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-3",
+      "public": "D-3",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "\\mel{a}{\\partial_{k_\\alpha}^2 H }{b}&=\\mel{b}{\\partial_{k_\\alpha}^2 H }{a}|_{\\bm{k}\\to -\\bm{k}}",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-4",
+      "public": "D-4",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&-\\frac{1}{2\\Gamma^2}(G^R_c G^A_b G^{A2}_a+c.c.),",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-5",
+      "public": "D-5",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "& \\left. \\qquad +f_+''(\\xi_a+i\\Gamma)\\frac{-2i\\Gamma}{\\xi_{ac} \\xi_{ab} (\\xi_{ac}+2i\\Gamma)} \\right]-c.c.",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-6",
+      "public": "D-6",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&-\\frac{1}{4\\Gamma^2}(G^{R2}_a-G^{A2}_a)G^R_b +c.c.",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-7",
+      "public": "D-7",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\qquad \\left. +f_+'(\\xi_a+i\\Gamma)\\left(\\frac{1}{(\\xi_{ab}+2i\\Gamma)^2}-\\frac{1}{\\xi_{ab}^2}\\right) \\right]-c.c.",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-8",
+      "public": "D-8",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "= &-i\\sum_{a\\neq b} R_{ba}H_{ba}^\\alpha H_{ab}^\\alpha F(a,b)-\\sum_{a\\neq b, b\\neq c, c\\neq a} H_{bc}^\\alpha H_{ca}^\\alpha H_{ab}^\\alpha\\left(\\frac{1}{\\xi_{bc}}-",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-9",
+      "public": "D-9",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=&-\\frac{1}{\\xi_{ac}+2i\\Gamma}\\left( \\frac{1}{\\xi_{ab}}+\\frac{1}{\\xi_{cb}} \\right)\\left(\\frac{1}{\\xi_{ac}+2i\\Gamma}+\\frac{2}{\\xi_{ab}}-\\frac{2}{\\xi_{cb}}\\right)",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "D-10",
+      "public": "D-10",
+      "section": "appendix D",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&+\\sum_{a\\neq b, b\\neq c, c\\neq a} iH_{bc}^\\alpha H_{ca}^\\alpha H_{ab}^\\alpha\\Im \\left[ f_+''(\\xi_a+i\\Gamma)\\frac{-i\\Gamma}{\\xi_{ac}\\xi_{bc}(\\xi_{ab}+2i\\Gamma)}",
+      "appendix_title": "Derivation of Eq.~\\eqref{eq:sigma2"
+    },
+    {
+      "id": "E-1",
+      "public": "E-1",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "j_x(t)=&\\sigma^{xx} E_x(t) +\\sigma^{xxx} E_x^2(t) +\\cdots.",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-2",
+      "public": "E-2",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "I_x\\equiv& Sj_x(t)=\\sigma^{xx}2\\frac{V_x S}{l}\\cos\\omega t+\\sigma^{xxx}(2+2\\cos 2\\omega t)\\frac{V_x^2}{l^2}S+\\cdots",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-3",
+      "public": "E-3",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "\\equiv & 2V_x \\cos\\omega t +V^0 +V^{2\\omega} \\cos 2\\omega t+\\cdots.",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-4",
+      "public": "E-4",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\hspace{2cm}- H^\\mu G^R G^A H^\\alpha G^{A}G^A(x-\\hbar\\omega)] .",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-5",
+      "public": "E-5",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\hspace{3cm} \\times G^R(x+\\hbar\\omega)H^\\alpha G^A(x)].",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-6",
+      "public": "E-6",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "=& \\frac{e^2}{\\hbar} 2\\Gamma \\int \\frac{d^d k}{(2\\pi)^d} \\sum_{ab} H_{ab}^\\mu H_{ba}^\\alpha I^{(4)}_{ab} +c.c.,",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-7",
+      "public": "E-7",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "I^{(4)}_{aa}=&\\frac{f_+(\\xi_a+i\\Gamma)}{(2i\\Gamma)^3} -\\frac{1}{2}\\frac{f_-''(\\xi_a-i\\Gamma)}{(-2i\\Gamma)}+\\frac{f_-'(\\xi_a-i\\Gamma)}{(-2i\\Gamma)^2}-\\frac{f_-(\\",
+      "appendix_title": "Order estimation"
+    },
+    {
+      "id": "E-8",
+      "public": "E-8",
+      "section": "appendix E",
+      "env": "align",
+      "tex_label": null,
+      "cue": "&\\left. +\\sum_a H_{aa}^\\alpha H_{aa}^\\alpha \\left[-\\frac{f_+''(\\xi_a+i\\Gamma)}{2i}-\\frac{f_+'(\\xi_a+i\\Gamma)}{2\\Gamma}+c.c.\\right]\\right\\}.",
+      "appendix_title": "Order estimation"
+    }
+  ]
+}

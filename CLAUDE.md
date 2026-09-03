@@ -27,3 +27,7 @@ frozen-RESULTS rewrite. `UNKNOWN` never promotes. Presentation is not a
 certificate.
 
 **Tests.** `make test`. Do not weaken tests.
+
+Claim-map V2 (arXiv:2604.04520): `examples/2604.04520/` — `audit.json`
+to `v2/audit.html` and `v2/audit.md`. Keep V1. Do not stamp Exact from
+remainders or Rice–Mele numerics.

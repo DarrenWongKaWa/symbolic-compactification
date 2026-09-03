@@ -41,6 +41,13 @@ Matching Markdown:
 Replay:
 [examples/guo-evidence-ledger/README.md](../examples/guo-evidence-ledger/README.md).
 
+Claim-map V2 (Anan et al., arXiv:2604.04520): scientific claims and the
+Eq. (4)→(5) Green-to-geometric chain live under
+[examples/2604.04520/](../examples/2604.04520/). Canonical model
+`evidence/audit.json` renders independently to `v2/audit.html` and
+`v2/audit.md`. V1 is preserved beside it. Do not stamp Exact from
+remainders or numerics.
+
 ## Semantics
 
 `ZERO` is never `CERTIFIED_BY_RULE`. Brillouin-zone integration by parts

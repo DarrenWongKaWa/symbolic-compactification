@@ -1,0 +1,281 @@
+relations:
+  - id: R1
+    section: main
+    from: ["(S)"]
+    to: ["(|t|)"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "one can show"
+    condition: "S\u2020S=SS\u2020=I"
+    status: ZERO_UNDER_SUBSTITUTION
+  - id: R2
+    section: main
+    from: ["eq:definitionOfCurrent"]
+    to: ["eq:definitionOfCurrent"]
+    claimed_type: DEFINITION
+    cue: "defined as"
+    condition: null
+    status: STRUCTURAL
+  - id: R3
+    section: main
+    from: ["eq:definitionOfCurrent"]
+    to: ["eq:nonReciprocalEsquared"]
+    claimed_type: SUBSTITUTION
+    cue: "is given as an O(\u03c9^2) term"
+    condition: "velocity gauge"
+    status: UNSUPPORTED
+  - id: R4
+    section: main
+    from: ["eq:definitionOfCurrent"]
+    to: ["eq:nonReciprocalEsquared"]
+    claimed_type: CLAIMED_CANCEL_OR_VANISHING
+    cue: "vanish because of the gauge invariance"
+    condition: "gauge invariance"
+    status: UNSUPPORTED
+  - id: R5
+    section: main
+    from: ["eq:nonReciprocalEsquared"]
+    to: ["eq:currentbyExcitation"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "Using the Green function method"
+    condition: null
+    status: UNSUPPORTED
+  - id: R6
+    section: main
+    from: ["eq:currentbyExcitation"]
+    to: ["eq:sigma2"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "The nonreciprocal current is given by"
+    condition: null
+    status: UNSUPPORTED
+  - id: R7
+    section: main
+    from: ["eq:sigma2"]
+    to: ["D2"]
+    claimed_type: DEFINITION
+    cue: "with D^{(2)}_{ab}="
+    condition: null
+    status: STRUCTURAL
+  - id: R8
+    section: main
+    from: ["eq:sigma2"]
+    to: ["eq:lowTmpGammaSquared"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "in this regime, we obtain"
+    condition: "\u03c8(z)\u223clog z"
+    status: UNKNOWN_REMAINDER
+  - id: R9
+    section: main
+    from: ["eq:sigma2"]
+    to: ["eq:highTmpGammaLinear"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "we obtain"
+    condition: "\u03b2\u0393\u226a2\u03c0"
+    status: UNKNOWN_REMAINDER
+  - id: A1
+    section: appendix
+    from: ["eq:definitionOfCurrent"]
+    to: ["eq:DCsumOfalpha_beta"]
+    claimed_type: SUBSTITUTION
+    cue: "we can rewrite the current density"
+    condition: null
+    status: UNSUPPORTED
+  - id: A2
+    section: appendix
+    from: ["eq:DCsumOfalpha_beta"]
+    to: ["eq:expandK"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "we can expand j_\u03bc(t) in terms of \u03c9"
+    condition: "A=E/i\u03c9"
+    status: UNKNOWN_REMAINDER
+  - id: A3
+    section: appendix
+    from: ["eq:expandK"]
+    to: ["eq:11ee"]
+    claimed_type: CLAIMED_CANCEL_OR_VANISHING
+    cue: "only terms containing derivatives wrt both \u03c91 and \u03c92 can survive"
+    condition: "Bloch + gauge"
+    status: UNSUPPORTED
+  - id: A4
+    section: appendix
+    from: ["eq:expandK"]
+    to: ["eq:11ee"]
+    claimed_type: SUBSTITUTION
+    cue: "is given as"
+    condition: "O(\u03c9)"
+    status: UNKNOWN_REMAINDER
+  - id: A5
+    section: appendix
+    from: ["eq:11ee"]
+    to: ["eq:nonReciprocalEsquared"]
+    claimed_type: SUBSTITUTION
+    cue: "When only E_\u03b1 is nonzero \u2026 given by Eq. (eq:nonReciprocalEsquared)"
+    condition: null
+    status: UNSUPPORTED
+  - id: A6
+    section: appendix
+    from: ["eq:current_response_function_diagram"]
+    to: ["eq:current_response_function_diagram"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "at the Matsubara frequency is given as"
+    condition: null
+    status: UNSUPPORTED
+  - id: A7
+    section: appendix
+    from: ["eq:current_response_function_diagram"]
+    to: ["eq:current_response_function"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "The response function K is given as"
+    condition: null
+    status: UNSUPPORTED
+  - id: A8
+    section: appendix
+    from: ["eq:current_response_function"]
+    to: ["eq:0linTad"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "\u03c91=\u03c92=0 contribution"
+    condition: null
+    status: UNSUPPORTED
+  - id: A9
+    section: appendix
+    from: ["eq:0linTad"]
+    to: ["eq:1linbub1"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "O(\u03c91) contribution"
+    condition: null
+    status: UNSUPPORTED
+  - id: A10
+    section: appendix
+    from: ["eq:1linbub1"]
+    to: ["eq:2linbub1"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "O(\u03c91\u00b2) contribution"
+    condition: null
+    status: UNSUPPORTED
+  - id: A11
+    section: appendix
+    from: ["eq:2linbub1"]
+    to: ["eq:2linbub2"]
+    claimed_type: CLAIMED_CANCEL_OR_VANISHING
+    cue: "vanishes because a static vector potential does not produce any physical effect"
+    condition: "static vector potential"
+    status: UNSUPPORTED
+  - id: A12
+    section: appendix
+    from: ["eq:current_response_function_diagram"]
+    to: ["eq:tadpoleDerivative"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "First, we evaluate the first and second diagrams"
+    condition: "\u22122i\u0393 GR GA = GR\u2212GA"
+    status: UNSUPPORTED
+  - id: A13
+    section: appendix
+    from: ["eq:current_response_function_diagram"]
+    to: ["eq:m2"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "we evaluate each diagram"
+    condition: null
+    status: UNSUPPORTED
+  - id: A14
+    section: appendix
+    from: ["eq:m1", "eq:m5"]
+    to: ["eq:m1m5"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "combine"
+    condition: null
+    status: UNSUPPORTED
+  - id: A15
+    section: appendix
+    from: ["eq:p1", "eq:p5"]
+    to: ["eq:p1p5"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "combine"
+    condition: null
+    status: UNSUPPORTED
+  - id: A16
+    section: appendix
+    from: ["eq:tadpoleDerivative"]
+    to: ["eq:currentbyExcitationInX"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "we obtain"
+    condition: null
+    status: UNSUPPORTED
+  - id: A17
+    section: appendix
+    from: ["eq:currentbyExcitationInX"]
+    to: ["eq:halfPhotocurrent"]
+    claimed_type: LIMIT_CLAIM
+    cue: "We obtain"
+    condition: "\u0393\u21920, no degeneracy; other terms vanish O(\u0393)"
+    status: UNKNOWN_REMAINDER
+  - id: A18
+    section: appendix
+    from: ["eq:halfPhotocurrent"]
+    to: ["eq:DCsumOfalpha_beta"]
+    claimed_type: CLAIMED_CANCEL_OR_VANISHING
+    cue: "term cancels out in K+K"
+    condition: null
+    status: UNSUPPORTED
+  - id: A19
+    section: appendix
+    from: ["eq:nonReciprocalEsquared", "eq:currentbyExcitationInX"]
+    to: ["eq:sigmaMuAlphaBetaGreenFunction"]
+    claimed_type: SUBSTITUTION
+    cue: "Using Eqs. we obtain"
+    condition: null
+    status: UNSUPPORTED
+  - id: A20
+    section: appendix
+    from: ["eq:sigmaMuAlphaBetaGreenFunction"]
+    to: ["eq:generalNonReciprocalKernel"]
+    claimed_type: SPECIAL_FUNCTION_IDENTITY
+    cue: "we evaluate the integrals"
+    condition: null
+    status: UNSUPPORTED
+  - id: A21
+    section: appendix
+    from: ["eq:generalNonReciprocalKernel"]
+    to: ["eq:nonlinearConductivityUptoTau0"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "We now consider the clean limit"
+    condition: "\u0393\u21920, no degeneracy"
+    status: UNKNOWN_REMAINDER
+  - id: A22
+    section: appendix
+    from: ["eq:nonlinearConductivityUptoTau0"]
+    to: ["Drude"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "Collecting the O(\u0393^{-2}) contributions, we obtain"
+    condition: "O(\u0393) dropped"
+    status: UNKNOWN_REMAINDER
+  - id: A23
+    section: appendix
+    from: ["eq:nonlinearConductivityUptoTau0"]
+    to: ["BCD"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "Collecting the O(\u0393^{-1}) contributions, we obtain"
+    condition: null
+    status: UNKNOWN_REMAINDER
+  - id: A24
+    section: appendix
+    from: ["eq:nonlinearConductivityUptoTau0"]
+    to: ["QMD"]
+    claimed_type: ASYMPTOTIC_CLAIM
+    cue: "Collecting the O(\u0393^0) contributions, we obtain"
+    condition: null
+    status: UNKNOWN_REMAINDER
+  - id: A25
+    section: appendix
+    from: ["eq:longitudinalNonReciprocalKernel"]
+    to: ["eq:sigma2"]
+    claimed_type: ALGEBRAIC_EQUIVALENCE
+    cue: "Derivation of Eq. (eq:sigma2)"
+    condition: null
+    status: UNSUPPORTED
+  - id: A26
+    section: appendix
+    from: ["eq:longitudinalNonReciprocalKernel"]
+    to: ["eq:sigma2"]
+    claimed_type: CITED_RULE
+    cue: "under time-reversal"
+    condition: "TR"
+    status: UNSUPPORTED
