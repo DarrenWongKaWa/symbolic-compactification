@@ -2,17 +2,24 @@
 
 Nonreciprocal current induced by dissipation in TR-symmetric systems.
 
-V1 is the conservative equation-ledger baseline. V2 is a claim-map audit
-of the same paper. V1 is not overwritten.
+**Canonical output is V3.** Open
+[`v3/audit.html`](v3/audit.html) or [`index.html`](index.html).
+Markdown twin: [`v3/audit.md`](v3/audit.md).
+Evidence model: [`evidence/audit.json`](evidence/audit.json).
 
 ```text
 input/           TeX + corrected inventory.json
-evidence/        canonical audit.json
-v1/              frozen V1 HTML + Markdown
-v2/              claim-map HTML + Markdown
+evidence/        canonical audit.json  (do not recertify in the renderer)
+v3/              current product: V1 colours + V2 claims
+v1/              historical visual-ledger baseline
+v2/              historical claim-ledger baseline
+comparison/      V1/V2/V3 notes
 ```
 
-Regenerate V2 (does not touch V1):
+V1 and V2 are regression/reference artifacts. They are not competing
+current versions.
+
+Regenerate V3 (does not overwrite V1 or V2):
 
 ```bash
 python examples/2604.04520/tools/inventory.py
@@ -20,4 +27,6 @@ python examples/2604.04520/tools/build_audit.py
 python examples/2604.04520/tools/render.py --check
 ```
 
-Open `v2/audit.html`. Compare with `V1_V2_COMPARISON.md`.
+Colour grammar (HTML): dark green Exact · hatched Exact if A · blue
+structural/cite · orange inspect · dark red ≠0. Numerical support is
+orange. Human Accept does not stamp Exact.

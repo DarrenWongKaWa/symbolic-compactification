@@ -43,9 +43,9 @@ def test_alpha_release_identity_is_explicit_and_pep440_aligned() -> None:
     project = tomllib.loads(
         Path("pyproject.toml").read_text(encoding="utf-8"))["project"]
 
-    assert project["version"] == RELEASE_VERSION == "0.3.1-alpha"
+    assert project["version"] == RELEASE_VERSION == "0.3.2-alpha"
     assert Version(RELEASE_VERSION) == Version(PACKAGE_VERSION)
-    assert metadata.version(DIST_NAME) == PACKAGE_VERSION == "0.3.1a0"
+    assert metadata.version(DIST_NAME) == PACKAGE_VERSION == "0.3.2a0"
     assert ENGINE_VERSION == AGENT_PROTOCOL_VERSION == "0.3.0"
     assert project["description"] == (
         "Agent-assisted scientific derivation-audit with reviewer HTML."

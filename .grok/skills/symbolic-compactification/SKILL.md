@@ -31,6 +31,10 @@ Outputs: `DIR/reports/REPORT.md` and `DIR/reports/report.html`.
 Flagship (do not re-adjudicate unless asked):
 `examples/guo-evidence-ledger/output/index.html`.
 
+Independent paper example (Anan V3):
+`examples/2604.04520/v3/audit.html` from `evidence/audit.json`.
+Do not overwrite `v1/` or `v2/`.
+
 HTML first screen must include a visible `<section id="map-sec">`
 appendix map when the paper has appendices. Never `<details id="map-sec">`.
 Never stamp Exact from `0*` (invalid overlay; archived).

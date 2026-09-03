@@ -42,7 +42,7 @@ python examples/guo-evidence-ledger/presentation/assemble_ledger.py
 python examples/guo-evidence-ledger/presentation/verify_presentation.py
 ```
 
-Claim-map V2 example (arXiv:2604.04520):
+Anan V3 example (arXiv:2604.04520):
 
 ```bash
 python examples/2604.04520/tools/inventory.py
@@ -50,8 +50,8 @@ python examples/2604.04520/tools/build_audit.py
 python examples/2604.04520/tools/render.py --check
 ```
 
-Outputs: `examples/2604.04520/v2/audit.html` and `v2/audit.md`.
-Do not overwrite `v1/`.
+Canonical outputs: `examples/2604.04520/v3/audit.html` and `v3/audit.md`.
+Do not overwrite `v1/` or `v2/` (historical baselines).
 
 Validation: `make test` (release-critical + derivation-audit gates) and
 `python scripts/check_clean_room.py`.
@@ -74,7 +74,7 @@ For a paper audit the reviewer must be able to see:
 1. What was inventoried (numbered equations only).
 2. Which relations are source-grounded.
 3. Which residuals the engine actually ran.
-4. Which rows still need human scientific judgment (Sign / remainder / look).
+4. Which rows still need human scientific judgment (reviewer queue / remainder / look). Human Accept does not stamp Exact.
 5. Matching Markdown and HTML statuses.
 
 Appendix maps are a visible `<section id="map-sec">` on the first screen,
