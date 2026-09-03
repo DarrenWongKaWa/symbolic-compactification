@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: venv test release-gate forward-demo audit-demo flagship-html flagship-replay
+.PHONY: venv test release-gate forward-demo audit-demo flagship-html flagship-replay anan-v3
 
 venv:
 	$(PYTHON) -m venv .venv
@@ -36,3 +36,6 @@ flagship-replay:
 	$(PYTHON) examples/guo-evidence-ledger/scripts/inventory_equations.py
 	$(PYTHON) examples/guo-evidence-ledger/scripts/relations_frozen.py
 	$(PYTHON) examples/guo-evidence-ledger/scripts/verify_and_report.py
+
+anan-v3:
+	$(PYTHON) examples/2604.04520/tools/render.py --check

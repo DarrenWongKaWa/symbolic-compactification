@@ -1,4 +1,20 @@
-# Clean-room test — arXiv:2604.04520 V2
+# Clean-room test — arXiv:2604.04520
+
+Canonical regenerate for V3 (this release):
+
+```bash
+python examples/2604.04520/tools/render.py --check
+```
+
+That writes `v3/audit.html` and `v3/audit.md`. It does not overwrite `v1/`
+or `v2/`. A fresh-agent Codex/Claude PASS is **not** claimed for V3 in
+this file.
+
+---
+
+# Historical V2 record
+
+Date: 2026-09-03. Branch: `audit/v2-2604.04520`.
 
 Date: 2026-09-03. Branch: `audit/v2-2604.04520`.
 

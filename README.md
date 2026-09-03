@@ -10,7 +10,7 @@ the deterministic engine may certify, and only on exact `ZERO`.
 
 This is not a CAS, not a theorem prover, and not an autonomous physicist.
 
-Package `0.3.1-alpha`. Engine `0.3.0` (same `ZERO` / `NONZERO` / `UNKNOWN`
+Package `0.3.2-alpha`. Engine `0.3.0` (same `ZERO` / `NONZERO` / `UNKNOWN`
 meanings as `v0.3.0-alpha`). Research preview, not a stable v1.0.
 
 ## What goes in
@@ -21,10 +21,10 @@ not a derivation.
 
 ## What comes out
 
-- **HTML evidence ledger** — first-screen colour bar, Must-review Sign
-  queue, appendix map, obligation table.
+- **HTML evidence ledger** — colour bar, coloured equation map, claims,
+  derivation graph, reviewer queue, obligation table.
 - **Markdown report** — the same frozen statuses as the HTML.
-- **Machine records** — `RESULTS.md` / audit `runs/` that the HTML may
+- **Machine records** — `RESULTS.md` / `audit.json` that the HTML may
   only *present*, never rewrite.
 
 ## Flagship
@@ -39,7 +39,17 @@ Same science as Markdown:
 
 [`examples/guo-evidence-ledger/output/REPORT.md`](examples/guo-evidence-ledger/output/REPORT.md)
 
-How to read the layers: [`examples/guo-evidence-ledger/README.md`](examples/guo-evidence-ledger/README.md).
+## Independent paper example (Anan V3)
+
+Anan, Kitamura, Morimoto, arXiv:2604.04520. Canonical page:
+
+[`examples/2604.04520/v3/audit.html`](examples/2604.04520/v3/audit.html)
+
+Markdown twin: [`examples/2604.04520/v3/audit.md`](examples/2604.04520/v3/audit.md).
+Canonical evidence: [`examples/2604.04520/evidence/audit.json`](examples/2604.04520/evidence/audit.json).
+
+`v1/` and `v2/` in that folder are historical baselines, not competing
+current versions.
 
 ## Install
 
@@ -76,6 +86,19 @@ That writes `my-audit/reports/REPORT.md` and `my-audit/reports/report.html`.
 open examples/guo-evidence-ledger/output/index.html
 ```
 
+**Inspect the Anan V3 example:**
+
+```bash
+open examples/2604.04520/v3/audit.html
+# or: open examples/2604.04520/index.html
+```
+
+Regenerate Anan V3 from the canonical model (does not touch V1/V2):
+
+```bash
+python examples/2604.04520/tools/render.py --check
+```
+
 **Forward derivation** (candidate must be exact `ZERO`; promote only on `ZERO`):
 
 ```bash
@@ -90,17 +113,30 @@ Minimal agent prompt:
 > report and the corresponding Markdown report, with evidence
 > traceability. Do not invent edges. Do not treat 0* as Exact.
 
+## What green / blue / orange / red mean
+
+| Colour | Machine meaning | Typical label |
+|---|---|---|
+| Dark green | Local residual is exact 0 | Exact |
+| Hatched / light green | Exact **after** a written substitution A. Does not prove A | Exact if A |
+| Blue | Definition, bookkeeping, or cited rule | Structural / cited rule |
+| Orange | Reviewer must look: gap, remainder, assumption, numerics | Gap, human review, asymptotic, numerical support |
+| Dark red | Tested local residual is not 0 | Nonzero residual |
+
+Green is a local residual, not a paper pass. Orange is large on purpose.
+
 ## Machine-certified vs human review
 
 | Status | Who decides |
 |---|---|
-| `EXACT_ZERO` / `ZERO` | Machine. Local residual is 0. Not a paper pass. |
-| `ZERO_UNDER_SUBSTITUTION` | Machine checked 0 **after** written substitution A. Does not prove A. |
+| `EXACT_ZERO` / `ZERO` / `EXACT` | Machine. Local residual is 0. Not a paper pass. |
+| `ZERO_UNDER_SUBSTITUTION` / `EXACT_IF_ASSUMPTIONS` | Machine checked 0 **after** written substitution A. Does not prove A. |
 | `CERTIFIED_BY_RULE` | Local identity + declared rule. Not engine `ZERO`. |
 | `STRUCTURAL` | Definition / bookkeeping. No equality to check. |
 | remainders, limits, special functions | Uncertified. Human scientific review. |
-| claimed cancel / vanishing | Orange Sign queue. Human must decide. |
-| `UNSUPPORTED` algebra | Not compiled. Not a pass. |
+| claimed cancel / vanishing / physical assumption | Human must decide. Accept does not stamp Exact. |
+| `UNSUPPORTED` / `GAP` algebra | Not compiled. Not a pass. |
+| `NUMERICAL_SUPPORT` | Consistency in a model. Not an analytic proof. |
 | `NONZERO` | Machine residual is not 0. |
 
 `UNKNOWN` never promotes. Workspace `0*` is **invalid historical overlay**
@@ -117,5 +153,4 @@ and is excluded from reviewer output.
 
 ## License
 
-MIT. Historical research campaigns live under [`docs/history/`](docs/history/)
-and archive tags, not on the product path.
+MIT. Historical research campaigns live under [`docs/history/`](docs/history/).

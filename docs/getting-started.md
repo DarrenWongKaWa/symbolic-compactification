@@ -7,7 +7,7 @@ python -m pip install -e ".[dev]"
 symbolic-compactification --version
 ```
 
-You should see package `0.3.1-alpha`, engine `0.3.0`, protocol `0.3.0`.
+You should see package `0.3.2-alpha`, engine `0.3.0`, protocol `0.3.0`.
 Engine `0.3.0` is the same exact-adjudication kernel as `v0.3.0-alpha`.
 This packaging release does not change `ZERO` / `NONZERO` / `UNKNOWN`.
 
@@ -19,6 +19,7 @@ Then run one of:
 - [Paper audit](paper-audit.md): `examples/audit/minimal`
 - Flagship HTML: `examples/guo-evidence-ledger/output/index.html`
 - Flagship Markdown: `examples/guo-evidence-ledger/output/REPORT.md`
+- Anan V3 HTML: `examples/2604.04520/v3/audit.html`
 
 `verify` never overwrites your input files. Generated records go under
 `runs/` inside the workspace you copied.

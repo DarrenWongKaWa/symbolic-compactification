@@ -154,7 +154,7 @@ use exit 4 and print the stable code.
 - agent protocol version changes for role, state, provenance, or reporting
   contracts.
 
-Package `0.3.1-alpha` is a reviewer-product packaging of the v0.3 audit
-surface. Engine `0.3.0` and agent protocol `0.3.0` are unchanged:
-`ZERO` remains exact engine `ZERO`. Do not read a package bump as a new
-verifier.
+Package `0.3.2-alpha` is a reviewer-product packaging of the v0.3 audit
+surface (Anan V3 canonical example). Engine `0.3.0` and agent protocol
+`0.3.0` are unchanged: `ZERO` remains exact engine `ZERO`. Do not read a
+package bump as a new verifier.
