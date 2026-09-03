@@ -1,15 +1,19 @@
-"""V2 Anan audit: HTML and Markdown share one evidence model."""
+"""Frozen V2 Anan audit baseline: HTML and Markdown share one evidence model."""
 from __future__ import annotations
 
 import json
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 CASE = ROOT / "examples" / "2604.04520"
 sys.path.insert(0, str(CASE / "tools"))
 
-from render import check_rendered, render_html, render_markdown  # noqa: E402
+from render_v2 import check_rendered, render_html, render_markdown  # noqa: E402
+
+pytestmark = pytest.mark.derivation_audit_release_critical
 
 
 def _data() -> dict:
