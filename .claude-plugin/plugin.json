@@ -1,0 +1,11 @@
+{
+  "name": "symbolic-compactification",
+  "description": "Scientific paper derivation audit: claims, edges, reviewer HTML+Markdown.",
+  "version": "0.3.2",
+  "author": {
+    "name": "Kawa Wong",
+    "url": "https://github.com/DarrenWongKaWa/symbolic-compactification"
+  },
+  "license": "MIT",
+  "keywords": ["audit", "derivation", "equations", "arxiv", "evidence-ledger"]
+}

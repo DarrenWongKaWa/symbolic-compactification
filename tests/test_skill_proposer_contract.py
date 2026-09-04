@@ -1,8 +1,8 @@
-"""v0.3 skill contract: two workflows, optional proposer, mandatory verifier."""
+"""Canonical portable skill is the method. Harness files stay thin."""
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / ".grok" / "skills" / "symbolic-compactification" / "SKILL.md"
+SKILL = ROOT / "skills" / "symbolic-compactification" / "SKILL.md"
 AGENTS = ROOT / "AGENTS.md"
 README = ROOT / "README.md"
 
@@ -17,29 +17,23 @@ def test_project_skill_exists_with_frontmatter():
     assert "name: symbolic-compactification\n" in text
 
 
-def test_skill_and_agents_share_two_workflows_and_zero_gate():
+def test_skill_defines_paper_audit_and_zero_gate():
     skill = _norm(SKILL.read_text(encoding="utf-8"))
-    agents = _norm(AGENTS.read_text(encoding="utf-8"))
     for phrase in (
-        "Forward derivation",
-        "Paper audit",
         "LLM judgment is never proof",
-        "no API key",
+        "Human Accept never stamps Exact",
+        "Adjacent numbers",
     ):
         assert phrase in skill, f"skill missing: {phrase}"
-        assert phrase in agents, f"AGENTS.md missing: {phrase}"
-    assert "Promote only on `ZERO`" in skill or "Promote only on ZERO" in skill
-    assert "Promote only on `ZERO`" in agents or "Promote only on ZERO" in agents
+    assert "scripts/render.py" in skill
+    assert "scripts/inventory.py" in skill
 
 
-def test_skill_contains_copy_paste_cli():
-    skill = _norm(SKILL.read_text(encoding="utf-8"))
-    for fragment in (
-        "symbolic-compactification inspect",
-        "symbolic-compactification verify",
-        "symbolic-compactification audit verify",
-    ):
-        assert fragment in skill, f"skill missing CLI fragment: {fragment}"
+def test_agents_points_at_skill_not_a_second_method():
+    agents = AGENTS.read_text(encoding="utf-8")
+    assert "skills/symbolic-compactification/SKILL.md" in agents
+    assert "Do not duplicate the method" in agents
+    assert "Promote only on engine `ZERO`" in agents
 
 
 def test_readme_states_scope_and_zero_gate():
@@ -47,6 +41,6 @@ def test_readme_states_scope_and_zero_gate():
     lowered = readme.lower()
     assert "verified symbolic reasoning for theoretical physics" in lowered
     assert "forward derivation" in lowered
-    assert "paper audit" in lowered
+    assert "paper audit" in lowered or "derivation-audit" in lowered
     assert "promote only on `zero`" in lowered
     assert "no api key" in lowered

@@ -1,4 +1,4 @@
-# Paper audit V3 — arXiv:2604.04520
+# Paper audit V3.1 — arXiv:2604.04520
 
 **Nonreciprocal current induced by dissipation in time-reversal symmetric systems**
 
@@ -7,6 +7,8 @@ Authors: Anan, Kitamura, Morimoto
 Source: https://arxiv.org/abs/2604.04520
 
 **Presentation is not a certificate.**
+
+Local certification is not a paper-level certificate.
 
 - Overall state: `AUDIT_INCOMPLETE`
 - Claims: 5
@@ -26,14 +28,6 @@ Status colour grammar (HTML only; Markdown is the semantic twin):
 - Dark red / nonzero residual: 0
 
 V1 counted 12 main rows by splitting the S-matrix align on an inner array \\. Published numbering gives one number to that display, so main is 11 not 12. Appendix 82 is unchanged. Rice–Mele Hamiltonian is inline math, not a numbered equation.
-
-### Warnings
-
-- Local residual 0 is not a paper pass.
-- Silence from non-submission is not a pass.
-- Finite Laurent/Taylor coefficients do not prove an O(·) remainder bound.
-- Human accept/reject does not convert a parent claim into machine Exact.
-- Numerical agreement with a model is not an analytic proof of Eq. (5).
 
 ## Main + appendix map A–E
 
@@ -63,14 +57,132 @@ D-1 (`HUMAN_REVIEW`) → D-2 (`HUMAN_REVIEW`) ⋯ D-3 (`UNCERTIFIED`) ⋯ D-4 (`
 
 E-1 (`ASYMPTOTIC_UNCERTIFIED`) ⋯ E-2 (`UNCERTIFIED`) ⋯ E-3 (`UNCERTIFIED`) ⋯ E-4 (`UNCERTIFIED`) ⋯ E-5 (`UNCERTIFIED`) ⋯ E-6 (`UNCERTIFIED`) ⋯ E-7 (`UNCERTIFIED`) ⋯ E-8 (`UNCERTIFIED`)
 
-
-## B. Major scientific claims
+## Major claims
 
 ### C1 — Human review
 
+Nonreciprocal current can arise in TR-symmetric Bloch electrons when finite dissipation enables interband processes.
+
+- **Path:** (1) · (4) · (5)
+- **Assumptions:** TR · inversion breaking · finite Γ
+- **Blocks:** O1, O2
+- **Status:** `HUMAN_REVIEW`
+
+### C2 — Gap
+
+Geometric conductivity follows from Eq. (4) through Appendix C/D to Eq. (5).
+
+- **Path:** (4) → C-1 → C-2 → D-1 → D-8 → (5)
+- **Assumptions:** TR · nondegenerate bands · constant Γ
+- **Blocks:** O1, O5, O6, O7
+- **Status:** `GAP`
+
+### C3 — Asymptotic, uncertified
+
+Low-\(T\) insulator: \(\sigma^{\alpha\alpha\alpha}=O(\Gamma^2)\).
+
+- **Path:** (6)+(7) → (8)+(9)
+- **Assumptions:** \(\mu\) in gap · \(\Gamma\ll\xi_{\min}\) · \(\beta\Gamma\gg 2\pi\)
+- **Blocks:** O8
+- **Status:** `ASYMPTOTIC_UNCERTIFIED`
+
+### C4 — Asymptotic, uncertified
+
+High-\(T\) or metallic: leading piece is \(O(\Gamma)\).
+
+- **Path:** (6)+(7) → (10)+(11)
+- **Assumptions:** \(\beta\Gamma\ll 2\pi\) or \(\mu\) in a band
+- **Blocks:** O8
+- **Status:** `ASYMPTOTIC_UNCERTIFIED`
+
+### C5 — Numerical support
+
+Rice–Mele Figs. 2–3 reproduce the predicted \(\Gamma^2\) / \(\Gamma\) scaling.
+
+This supports consistency; it does not prove Eq. (5).
+
+- **Blocks:** O9
+- **Status:** `NUMERICAL_SUPPORT`
+
+## Central derivation
+
+Eq. (4) → C-1 → C-2 → D-1 → D-2 / D-4 / D-8 → Eq. (5)
+
+Load-bearing path reconstructed from the TeX, not a certificate.
+
+| From | To | Operation | Status |
+|---|---|---|---|
+| (3) | (4) | Green kernel | `GAP` |
+| (3)+(B-16) | C-1 | static σ from Green kernel | `GAP` |
+| C-1 | C-2 | band-basis kernel | `GAP` |
+| C-2 | D-1 | longitudinal restriction | `STRUCTURAL` |
+| D-1 | D-2 | TR symmetry | `HUMAN_REVIEW` |
+| D-2 | D-4 | antisymmetrization | `GAP` |
+| D-1 | D-8 | shift-vector rewrite | `GAP` |
+| D-8 | (5) | H = ξ i A | `GAP` |
+
+## Reviewer queue
+
+Human acceptance records reviewer judgment; it never changes a machine status to Exact.
+
+### O1 · Gauge vanishing — `HUMAN_REVIEW`
+
+**Need to verify.** Do the \(O(\omega^0)\) and \(O(\omega)\) pieces of \(\mathcal{K}(\omega,-\omega)\) vanish under the Bloch/gauge assumptions?
+
+**Blocks.** C2, E-gauge-vanish, E-static-sigma
+
+### O5 · TR matrix identities — `HUMAN_REVIEW`
+
+**Need to verify.** Do the Appendix-D TR identities on \(\partial H\) and \(\partial^2 H\) hold for \(T=KU(k\to-k)\)?
+
+**Blocks.** C2, E-D-TR-matrix
+
+### O6 · Antisymmetrization — `GAP`
+
+**Need to verify.** Are the Appendix-D \(\mathcal{A}\) replacements algebraically valid under TR?
+
+**Blocks.** C2, E-D-antisym
+
+### O7 · Shift-vector rewrite — `GAP`
+
+**Need to verify.** Is the shift-vector rewrite plus \(H=\xi i A\) enough to obtain Eq. (5)?
+
+**Blocks.** C2, E-D-shift, E-D-to-sigma2
+
+### O2 · Finite-Γ dissipation — `HUMAN_REVIEW`
+
+**Need to verify.** Is constant-\(\Gamma\) relaxation the dissipation model of the paper?
+
+**Blocks.** C1
+
+### O8 · Remainder bounds — `ASYMPTOTIC_UNCERTIFIED`
+
+**Need to verify.** Are the declared \(O(\Gamma)\) remainders acceptable without a remainder certificate?
+
+**Blocks.** C3, C4, E-lowT, E-highT
+
+### O9 · Numerical support — `NUMERICAL_SUPPORT`
+
+**Need to verify.** Treat Rice–Mele Figs. 2–3 as consistency, not a proof of Eq. (5).
+
+**Blocks.** C5
+
+### O3 · Nondegeneracy — `HUMAN_REVIEW`
+
+**Need to verify.** Is the nondegeneracy hypothesis acceptable for the geometric formula?
+
+**Blocks.** C2, C3
+
+## Provenance
+
+The visible layers above are a presentation of this model. Nothing below changes a status.
+
+### Full claims
+
+#### C1 — `HUMAN_REVIEW`
+
 Nonreciprocal current can arise in time-reversal symmetric Bloch electrons when finite dissipation enables interband processes.
 
-- **Status:** `HUMAN_REVIEW`
 - **Locator:** Introduction; Discussion; abstract
 - **Supporting equations:** (1), (4), (5)
 - **Appendix chain:** A → B → D
@@ -80,11 +192,10 @@ Nonreciprocal current can arise in time-reversal symmetric Bloch electrons when 
 
 - Blocker: Conceptual claim. The S-matrix unitarity argument is local algebra under S†S=I; the physical leap from non-unitarity to interband DC current is not a compiled residual.
 
-### C2 — Gap
+#### C2 — `GAP`
 
 In TR-symmetric systems the longitudinal conductivity is geometric: \(\sigma^{\alpha\alpha\alpha}\) is built from the shift vector \(R_{ab}\) and Berry connections, Eq. (5), starting from the Green-function kernel Eq. (4).
 
-- **Status:** `GAP`
 - **Locator:** Results, Eqs. (4)–(5); Appendix D (app:derivationSigma2)
 - **Supporting equations:** (3), (4), (5), C-1, C-2, D-1
 - **Appendix chain:** Eq. (4) Green kernel → Appendix C: static σ from ∂ω²K and band-basis I^(1,2,3) → Appendix D: μ=β=α → Σ^{ααα} → TR identities on ∂H, ∂²H → antisymmetrization 𝒜 of Green products → shift-vector rewrite → H^α_ab = ξ_ab i A_ab → Eq. (5)
@@ -95,11 +206,10 @@ In TR-symmetric systems the longitudinal conductivity is geometric: \(\sigma^{\a
 - Blocker: The Appendix D algebra (antisymmetrization, shift-vector identity, H=ξ i A substitution) is not compiled as local A−B=0.
 - Blocker: TR matrix-element identities are representation-theoretic, not a checked residual.
 
-### C3 — Asymptotic, uncertified
+#### C3 — `ASYMPTOTIC_UNCERTIFIED`
 
 For an insulator/semiconductor (\(\mu\) in the gap) at low \(T\) (\(\Gamma\ll\xi_{\min}\), \(\beta\Gamma\gg 2\pi\)), \(D^{(2,3)}=O(\Gamma^2)+O(\Gamma^3)\), so \(\sigma^{\alpha\alpha\alpha}=O(\Gamma^2)\).
 
-- **Status:** `ASYMPTOTIC_UNCERTIFIED`
 - **Locator:** Results, Eqs. (8)–(9); Appendix D kernels
 - **Supporting equations:** (6), (7), (8), (9)
 - **Appendix chain:** D (kernels already in main text) → digamma \(\psi(z)\sim\log z\)
@@ -109,11 +219,10 @@ For an insulator/semiconductor (\(\mu\) in the gap) at low \(T\) (\(\Gamma\ll\xi
 
 - Blocker: Finite displayed terms do not prove the O(Γ³) remainder.
 
-### C4 — Asymptotic, uncertified
+#### C4 — `ASYMPTOTIC_UNCERTIFIED`
 
 At high \(T\) (\(\beta\Gamma\ll 2\pi\)), or when \(\mu\) lies in a band, the leading piece is \(O(\Gamma)\).
 
-- **Status:** `ASYMPTOTIC_UNCERTIFIED`
 - **Locator:** Results, Eqs. (10)–(11) and the metallic paragraph
 - **Supporting equations:** (6), (7), (10), (11)
 - **Appendix chain:** same D kernels; no extra appendix identity
@@ -124,11 +233,10 @@ At high \(T\) (\(\beta\Gamma\ll 2\pi\)), or when \(\mu\) lies in a band, the lea
 - Blocker: O(Γ²) remainder in Eqs. (10)–(11) is declared, not certified.
 - Blocker: Metallic O(Γ) is a domain argument, not a compiled expansion.
 
-### C5 — Numerical support
+#### C5 — `NUMERICAL_SUPPORT`
 
 A 1D Rice–Mele calculation produces \(\sigma^{xxx}(\mu,\Gamma,T)\) consistent with dissipation-induced geometric current in a TR-symmetric inversion-broken insulator/metal, and an order estimate for 3D polar semiconductors.
 
-- **Status:** `NUMERICAL_SUPPORT`
 - **Locator:** Model calculation; Figs. 2–3; Appendix E
 - **Supporting equations:** (5), E-1, E-2, E-3
 - **Appendix chain:** Appendix E order estimation (unnumbered Hamiltonian in main text)
@@ -138,15 +246,7 @@ A 1D Rice–Mele calculation produces \(\sigma^{xxx}(\mu,\Gamma,T)\) consistent 
 
 - Blocker: Numerical evaluation of a model is consistency, not derivation.
 
-## C. Load-bearing derivation graph
-
-Central chain reconstructed from the TeX: **Eq. (4)** `eq:currentbyExcitation` → Appendix C band-basis kernel → Appendix D longitudinal + TR + antisymmetrization + shift vector → **Eq. (5)** `eq:sigma2`.
-
-Visual path (reconstructed edges, not adjacency):
-
-- `(3) → (4)` Green kernel
-- `C-1 → C-2 → D-1 → D-2 → D-4` band basis, longitudinal, TR, antisymmetrization
-- `D-1 → D-8 → (5)` shift-vector rewrite to geometric conductivity
+### Central-chain edges
 
 | ID | From | To | Transformation | Assumptions | Status | Locator |
 |---|---|---|---|---|---|---|
@@ -171,20 +271,23 @@ $$ \sum H_{ba}^{\alpha\alpha}H_{ab}^\alpha F(a,b)=-i\sum R_{ba}H_{ba}^\alpha H_{
 $$ \sigma^{\alpha\alpha\alpha}=\frac{e^3}{\hbar}\int_{\mathrm{BZ}}\big[\sum_{a\neq b}R_{ab}|A_{ab}|^2 D^{(2)}_{ab}+\sum \Re(A_{ab}A_{bc}A_{ca})D^{(3)}_{abc}\big] $$
 
 
-### Other load-bearing edges
+### Other reconstructed edges
 
 | ID | From | To | Transformation | Assumptions | Status | Locator |
 |---|---|---|---|---|---|---|
 | `E-unitarity` | (1) | \|t_LR\|=\|t_RL\| | exact algebra | S†S = SS† = I | `EXACT_IF_ASSUMPTIONS` | Introduction, scattering-matrix paragraph |
+| `E-define-K` | (2) | (2) | definition |  | `STRUCTURAL` | Results, Eq. (2) |
 | `E-static-sigma` | (2) | (3) | substitution | velocity gauge A=E/iω; monochromatic E | `GAP` | Results, sentence before Eq. (3); Appendix A |
 | `E-gauge-vanish` | (2) | (3) | gauge argument | gauge invariance; Bloch electrons; static A unphysical | `HUMAN_REVIEW` | Results after Eq. (3); Appendix A (undifferentiated K and mixed ω1² terms) |
+| `E-define-D` | (5) | (6)+(7) | definition | no degeneracy | `STRUCTURAL` | Results, displays immediately after Eq. (5) |
 | `E-lowT` | (6)+(7) | (8)+(9) | asymptotic expansion | μ in gap; Γ≪ξ_min; βΓ≫2π; ψ(z)∼log z | `ASYMPTOTIC_UNCERTIFIED` | Results, low-temperature insulating paragraph |
 | `E-highT` | (6)+(7) | (10)+(11) | asymptotic expansion | βΓ≪2π | `ASYMPTOTIC_UNCERTIFIED` | Results, high-temperature paragraph |
 | `E-numeric-RM` | (5) | Figs. 2–3 | numerical evidence | H(k)=t_0\cos k\,\sigma_x+\delta t\sin k\,\sigma_y+m\sigma_z; TR of Rice–Mele; m=δt=0.1 t_0 in the plots | `NUMERICAL_SUPPORT` | Model calculation; Fig. colorMapvsMu; Fig. riceMelevsGamma |
+| `E-order-est` | (5) | E-1 | asymptotic expansion | small ω; 3D extension of Rice–Mele | `ASYMPTOTIC_UNCERTIFIED` | Appendix E |
 
-## D. Reviewer queue
+### Reviewer obligations (full)
 
-### O1 (priority 1) — `HUMAN_REVIEW`
+#### O1 (priority 1) — `HUMAN_REVIEW`
 
 **Claim being used.** Gauge invariance removes the \(O(\omega^0)\) and \(O(\omega)\) pieces of \(\mathcal{K}(\omega,-\omega)\), so static \(\sigma\) is the \(\omega^2\) term.
 
@@ -196,9 +299,7 @@ $$ \sigma^{\alpha\alpha\alpha}=\frac{e^3}{\hbar}\int_{\mathrm{BZ}}\big[\sum_{a\n
 
 **Blocks.** C2, E-gauge-vanish, E-static-sigma
 
-Human approval does not stamp Exact.
-
-### O5 (priority 2) — `HUMAN_REVIEW`
+#### O5 (priority 2) — `HUMAN_REVIEW`
 
 **Claim being used.** TR symmetry T=KU(k→−k) implies the two H-matrix identities used to antisymmetrize the longitudinal kernel.
 
@@ -210,9 +311,7 @@ Human approval does not stamp Exact.
 
 **Blocks.** C2, E-D-TR-matrix
 
-Human approval does not stamp Exact.
-
-### O6 (priority 3) — `GAP`
+#### O6 (priority 3) — `GAP`
 
 **Claim being used.** After TR, Green-function monomials may be replaced by antisymmetrized equivalents (\(\overset{\mathcal{A}}{=}\)).
 
@@ -224,9 +323,7 @@ Human approval does not stamp Exact.
 
 **Blocks.** C2, E-D-antisym
 
-Human approval does not stamp Exact.
-
-### O7 (priority 4) — `GAP`
+#### O7 (priority 4) — `GAP`
 
 **Claim being used.** The TR rewrite of \(\sum H_{ba}^{\alpha\alpha}H_{ab}^\alpha F(a,b)\) produces the shift vector \(R_{ba}\) and the triple-A term, which become Eq. (5) after \(H=\xi i A\).
 
@@ -238,9 +335,7 @@ Human approval does not stamp Exact.
 
 **Blocks.** C2, E-D-shift, E-D-to-sigma2
 
-Human approval does not stamp Exact.
-
-### O2 (priority 5) — `HUMAN_REVIEW`
+#### O2 (priority 5) — `HUMAN_REVIEW`
 
 **Claim being used.** Finite Γ is the physically relevant non-unitarity that realises C1.
 
@@ -252,9 +347,7 @@ Human approval does not stamp Exact.
 
 **Blocks.** C1
 
-Human approval does not stamp Exact.
-
-### O8 (priority 6) — `ASYMPTOTIC_UNCERTIFIED`
+#### O8 (priority 6) — `ASYMPTOTIC_UNCERTIFIED`
 
 **Claim being used.** \(\psi(z)\sim\log z\) plus the stated \(\Gamma,\beta,\xi\) regime justify C3/C4.
 
@@ -266,9 +359,7 @@ Human approval does not stamp Exact.
 
 **Blocks.** C3, C4, E-lowT, E-highT
 
-Human approval does not stamp Exact.
-
-### O9 (priority 7) — `NUMERICAL_SUPPORT`
+#### O9 (priority 7) — `NUMERICAL_SUPPORT`
 
 **Claim being used.** Rice–Mele numerics confirm dissipation-induced σ^{xxx} in a TR-symmetric model.
 
@@ -280,9 +371,7 @@ Human approval does not stamp Exact.
 
 **Blocks.** C5
 
-Human approval does not stamp Exact.
-
-### O3 (priority 8) — `HUMAN_REVIEW`
+#### O3 (priority 8) — `HUMAN_REVIEW`
 
 **Claim being used.** No band degeneracy.
 
@@ -294,12 +383,9 @@ Human approval does not stamp Exact.
 
 **Blocks.** C2, C3
 
-Human approval does not stamp Exact.
+### Numerical evidence
 
-
-## Numerical evidence
-
-### N1 — `NUMERICAL_SUPPORT`
+#### N1 — `NUMERICAL_SUPPORT`
 
 - Quantity: \(\sigma^{xxx}(\mu,\Gamma,\beta)\) in 1D Rice–Mele
 - Supports: C3/C4 scaling and C2’s claim that TR-symmetric inversion-broken crystals can carry this current
@@ -307,7 +393,7 @@ Human approval does not stamp Exact.
 - Does not prove: Does not prove Eq. (5), the Appendix D identities, or remainder bounds.
 - Locator: Figs. 2–3 (colorMapvsMu, riceMelevsGamma)
 
-## E. Equation detail
+### Equation records
 
 Method: Outer numbered equation/align/gather/multline rows without \nonumber. Nested array/tikzpicture/tabular breaks ignored.
 
@@ -423,7 +509,7 @@ Method: Outer numbered equation/align/gather/multline rows without \nonumber. Ne
 | (10) | eq:highTmpGammaLinear |
 | (11) | high-T D^{(3)} |
 
-## F. Full relation ledger
+### Full relation ledger
 
 | ID | From | To | Transformation | Assumptions | Status | Locator |
 |---|---|---|---|---|---|---|
@@ -445,10 +531,9 @@ Method: Outer numbered equation/align/gather/multline rows without \nonumber. Ne
 | `E-numeric-RM` | (5) | Figs. 2–3 | numerical evidence | H(k)=t_0\cos k\,\sigma_x+\delta t\sin k\,\sigma_y+m\sigma_z; TR of Rice–Mele; m=δt=0.1 t_0 in the plots | `NUMERICAL_SUPPORT` | Model calculation; Fig. colorMapvsMu; Fig. riceMelevsGamma |
 | `E-order-est` | (5) | E-1 | asymptotic expansion | small ω; 3D extension of Rice–Mele | `ASYMPTOTIC_UNCERTIFIED` | Appendix E |
 
-## Provenance
-
 V1 RESULTS greened only 2×2 unitarity under S†S=I. That row is kept as EXACT_IF_ASSUMPTIONS. No other V1 orange row is promoted.
 
 Canonical model: `evidence/audit.json`. HTML twin: `v3/audit.html`.
 V1 (`v1/`) is the visual-ledger baseline. V2 (`v2/`) is the claim-ledger baseline.
+V3.1 is a shorter presentation of V3. Statuses are unchanged.
 

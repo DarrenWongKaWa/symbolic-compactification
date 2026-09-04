@@ -1,0 +1,19 @@
+{
+  "name": "symbolic-compactification",
+  "owner": {
+    "name": "Kawa Wong",
+    "url": "https://github.com/DarrenWongKaWa/symbolic-compactification"
+  },
+  "metadata": {
+    "description": "Scientific derivation-audit skill: numbered equations to reviewer HTML."
+  },
+  "plugins": [
+    {
+      "name": "symbolic-compactification",
+      "source": "./",
+      "description": "Audit scientific papers and derivations. Inventory numbered equations, reconstruct claims and load-bearing edges, emit audit.json plus reviewer HTML and Markdown.",
+      "version": "0.3.2",
+      "skills": "./skills"
+    }
+  ]
+}

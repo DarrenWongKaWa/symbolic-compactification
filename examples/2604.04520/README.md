@@ -2,7 +2,7 @@
 
 Nonreciprocal current induced by dissipation in TR-symmetric systems.
 
-**Canonical output is V3.** Open
+**Canonical output is V3.1** (same V3 statuses, shorter page). Open
 [`v3/audit.html`](v3/audit.html) or [`index.html`](index.html).
 Markdown twin: [`v3/audit.md`](v3/audit.md).
 Evidence model: [`evidence/audit.json`](evidence/audit.json).
@@ -10,7 +10,7 @@ Evidence model: [`evidence/audit.json`](evidence/audit.json).
 ```text
 input/           TeX + corrected inventory.json
 evidence/        canonical audit.json  (do not recertify in the renderer)
-v3/              current product: V1 colours + V2 claims
+v3/              current product: V3.1 five-layer page (V1 colours + V2 claims)
 v1/              historical visual-ledger baseline
 v2/              historical claim-ledger baseline
 comparison/      V1/V2/V3 notes
