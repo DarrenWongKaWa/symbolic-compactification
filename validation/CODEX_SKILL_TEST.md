@@ -2,10 +2,10 @@
 
 Harness: Codex CLI
 Version: 0.151.0 (model `gpt-5.6-terra`)
-Source commit/tag: `bcb7863` on `release/portable-skill`
-  (`github-tree-sha` 7f29c63569e9a9fc77cb36981f82e05004d63848)
-Starting directory: `/tmp/sc-test-codex` (fresh, unrelated; not the
-development repository)
+Source commit/tag: `98f6a5b` on `release/portable-skill`
+  (`github-tree-sha` c99bb39558b0d0bcc5361a0a3d12d735465b22b4, skill 0.3.3)
+Starting directory: `/tmp/sc-test-codex2` (fresh; not the development
+repository; not the earlier `/tmp/sc-test-codex` run)
 Skill acquisition method:
 
 ```bash
@@ -13,40 +13,43 @@ gh skill install DarrenWongKaWa/symbolic-compactification symbolic-compactificat
   --agent codex --scope project --pin release/portable-skill --force
 ```
 
-Skill installed location: `/tmp/sc-test-codex/.agents/skills/symbolic-compactification/`
+Skill installed location: `/tmp/sc-test-codex2/.agents/skills/symbolic-compactification/`
 Minimal prompt: `Audit https://arxiv.org/abs/2604.04520.`
 
-Visible to the harness: the installed skill folder only (SKILL.md,
-scripts, references). No Anan V1/V2/V3 outputs, no `audit.json` answer
-key, no development conversation, no Guo ledger copy.
+Visible to the harness: installed skill only. No Anan V3 answer key, no
+Guo ledger, no previous Codex `audit.json`.
 
 G1 Acquire: PASS
-G2 Discover: PASS (`discover.txt` named `symbolic-compactification`)
-G3 Trigger: PASS (minimal prompt; agent opened SKILL.md unprompted)
-G4 Execute: PASS (`audit/inventory.json`, `audit.json`, `audit.html`,
-`audit.md`; inventory 93 = 11 + 82, appendices A–E)
-G5 Scientific fidelity: PARTIAL
+G2 Discover: PASS (named `symbolic-compactification` and quoted the
+description without being told the skill name)
+G3 Trigger: PASS (minimal prompt opened SKILL.md unprompted)
+G4 Execute: PASS (`audit/{inventory.json,audit.json,audit.html,audit.md}`;
+inventory 93 = 11 + 82, A–E; HTML has `#judge-strip`, map on first screen)
+G5 Scientific fidelity: PASS
 
-Overall: PARTIAL
+Overall: PASS
 
-Failures:
-- G5. Codex reconstructed Eq. (4) → Appendix C → Appendix D → Eq. (5)
-  as a spine, and named TR / antisymmetrization in one collapsed edge
-  (`E-7`). It did not emit separate edges for TR identities,
-  antisymmetrization, and the shift-vector rewrite.
+G5 evidence (semantic, not byte-identical to the golden Anan model):
 
-Cause: SKILL_DEFECT (coarse grain). METHOD now says not to collapse a
-multi-step appendix into one edge. That instruction was **not** in the
-installed `0.3.2` skill. Not a harness-runtime block.
+- Claims cover dissipation/TR nonreciprocity, geometric/shift-vector
+  conductivity, low-T Γ², high-T/metallic Γ, Rice–Mele numerical support.
+- Central chain is reconstructed, not summarized:
+  `(4) → C-1 → C-2 → D-1 → D-4…D-7 → D-8 → (5)`
+  with separate edges for TR (E-8), antisymmetrization (E-9),
+  shift-vector rewrite (E-10), and `H = ξ i A` (E-11).
+- Statuses stay orange on remainders, numerics, and uncompiled algebra.
+  No `0*`. No Guo content.
+- Reviewer queue names the load-bearing human decisions (gauge,
+  continuation, TR/shift-vector, remainders, constant-Γ, numerics).
 
-Skill defects found:
-- Missing “split distinct transformations” instruction (fixed in tree;
-  not in this install).
-- Installed renderer was V3.1 without the later judgment-strip UI.
+Failures: none that block the gates.
 
-Fixes required:
-- Reinstall from a commit that contains METHOD grain + UI renderer.
-- Rerun the same minimal prompt in a new `/tmp` workspace.
+Limitation (not a gate fail): E-3 is `EXACT_IF_ASSUMPTIONS` without a
+compiled engine ZERO. The skill says to leave uncompiled algebra as
+`GAP`. HARNESS_BEHAVIOR.
 
-Classification: PARTIAL / SCIENTIFIC_FAILURE (coarse Appendix D) /
-SKILL_DEFECT
+Earlier `/tmp/sc-test-codex` run on `bcb7863` was G5 PARTIAL (Appendix D
+collapsed). The split-edge METHOD line in `98f6a5b` is the skill fix.
+
+Skill defects found: none remaining for G1–G5 on this replay.
+Fixes required: none for Codex gates.
