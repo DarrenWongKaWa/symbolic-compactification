@@ -1,0 +1,60 @@
+{
+  "paper": {
+    "id": "mini",
+    "title": "Mini identity",
+    "source": "fixture",
+    "authors": "Test"
+  },
+  "summary": {
+    "overall_state": "AUDIT_INCOMPLETE",
+    "claim_count": 1,
+    "relations_reconstructed": 1,
+    "machine_certified_edges": 0,
+    "assumption_dependent_edges": 0,
+    "unresolved_load_bearing": 1
+  },
+  "inventory": {
+    "v2": {"total": 3, "main": 2, "appendix": 1, "by_appendix_letter": {"A": 1}},
+    "equations": [
+      {"id": "M-1", "public": "(1)", "section": "main", "tex_label": "eq:def", "cue": "a = b"},
+      {"id": "M-2", "public": "(2)", "section": "main", "tex_label": null, "cue": "c = a+b"},
+      {"id": "A-1", "public": "A-1", "section": "appendix A", "tex_label": null, "cue": "d = c"}
+    ]
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "statement": "c follows from a and b.",
+      "supporting_equations": ["(1)", "(2)"],
+      "assumptions": ["symbols commute"],
+      "status": "GAP",
+      "unresolved": ["O1"]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E-sum",
+      "from_eq": "(1)",
+      "to_eq": "(2)",
+      "transformation": "substitution",
+      "assumptions": [],
+      "status": "GAP",
+      "locator": "main text",
+      "load_bearing": true,
+      "central": true
+    }
+  ],
+  "reviewer_obligations": [
+    {
+      "id": "O1",
+      "priority": 1,
+      "status": "GAP",
+      "claim_used": "c = a+b is an algebraic rewrite of (1).",
+      "why_not_certified": "Not compiled.",
+      "paper_evidence": "Eq. (2)",
+      "reviewer_must_decide": "Accept the rewrite or request a compiled residual.",
+      "blocks": ["C1"],
+      "actions": ["Accept assumption/reasoning", "Reject", "Needs derivation"]
+    }
+  ]
+}

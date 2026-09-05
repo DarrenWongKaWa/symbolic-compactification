@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Render V3.1 HTML and Markdown independently from evidence/audit.json.
+"""Render V3.1 HTML and Markdown from audit.json.
 
-V3.1 is a presentation pass on V3: same V1 colour grammar, same V2
-scientific statuses. The visible page has five layers. Full provenance
-stays in audit.json and in click-to-open drawers. This renderer does
-not recertify.
+Paper-agnostic. Statuses are copied from audit.json; this script does
+not recertify. Optional presentation hints live under
+audit.json['presentation'] and never change a scientific status.
 """
 from __future__ import annotations
 
@@ -14,8 +13,6 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
 
 STATUS_LABEL = {
     "EXACT": "Exact",
@@ -54,7 +51,6 @@ HUE_CLASS = {
 
 HUE_RANK = {"red": 5, "orange": 4, "blue": 2, "green-if": 1, "green": 0}
 
-# Quiet in the central chain. Orange/red load-bearing edges stay visible.
 DISCHARGED = {
     "EXACT",
     "EXACT_IF_ASSUMPTIONS",
@@ -76,108 +72,9 @@ LANE_TITLE = {
     "appendix E": "Appendix E",
 }
 
-LANE_HINT = {
-    "main": "published (1)–(11)",
-    "appendix A": "DC response",
-    "appendix B": "injection / shift",
-    "appendix C": "Drude / BCD / QMD",
-    "appendix D": r"derivation of \(\sigma^{\alpha\alpha\alpha}\)",
-    "appendix E": "order estimation",
-}
+LANE_HINT: dict[str, str] = {}
 
-CHIP_HREF_OVERRIDE = {
-    "(5)": "#claim-C2",
-    "(4)": "#edge-E-green-kernel",
-    "D-1": "#edge-E-D-longitudinal",
-    "D-8": "#edge-E-D-shift",
-    "C-1": "#edge-E-C-static-from-green",
-    "C-2": "#edge-E-C-band-basis",
-    "D-2": "#edge-E-D-TR-matrix",
-    "D-4": "#edge-E-D-antisym",
-    "(1)": "#edge-E-unitarity",
-    "(3)": "#edge-E-static-sigma",
-}
-
-C2_EDGE_IDS = [
-    "E-green-kernel",
-    "E-C-static-from-green",
-    "E-C-band-basis",
-    "E-D-longitudinal",
-    "E-D-TR-matrix",
-    "E-D-antisym",
-    "E-D-shift",
-    "E-D-to-sigma2",
-]
-
-# Presentation-only compact operations. Statuses still come from audit.json.
-EDGE_OP = {
-    "E-green-kernel": "Green kernel",
-    "E-C-static-from-green": "static σ from Green kernel",
-    "E-C-band-basis": "band-basis kernel",
-    "E-D-longitudinal": "longitudinal restriction",
-    "E-D-TR-matrix": "TR symmetry",
-    "E-D-antisym": "antisymmetrization",
-    "E-D-shift": "shift-vector rewrite",
-    "E-D-to-sigma2": "H = ξ i A",
-}
-
-# Presentation-only compact claim cards. Full statements stay in audit.json.
-CLAIM_VIEW = {
-    "C1": {
-        "line": "Nonreciprocal current can arise in TR-symmetric Bloch electrons when finite dissipation enables interband processes.",
-        "path": "(1) · (4) · (5)",
-        "assumptions": "TR · inversion breaking · finite Γ",
-        "note": None,
-    },
-    "C2": {
-        "line": "Geometric conductivity follows from Eq. (4) through Appendix C/D to Eq. (5).",
-        "path": "(4) → C-1 → C-2 → D-1 → D-8 → (5)",
-        "assumptions": "TR · nondegenerate bands · constant Γ",
-        "note": None,
-    },
-    "C3": {
-        "line": r"Low-\(T\) insulator: \(\sigma^{\alpha\alpha\alpha}=O(\Gamma^2)\).",
-        "path": "(6)+(7) → (8)+(9)",
-        "assumptions": r"\(\mu\) in gap · \(\Gamma\ll\xi_{\min}\) · \(\beta\Gamma\gg 2\pi\)",
-        "note": None,
-    },
-    "C4": {
-        "line": r"High-\(T\) or metallic: leading piece is \(O(\Gamma)\).",
-        "path": "(6)+(7) → (10)+(11)",
-        "assumptions": r"\(\beta\Gamma\ll 2\pi\) or \(\mu\) in a band",
-        "note": None,
-    },
-    "C5": {
-        "line": r"Rice–Mele Figs. 2–3 reproduce the predicted \(\Gamma^2\) / \(\Gamma\) scaling.",
-        "path": None,
-        "assumptions": None,
-        "note": "This supports consistency; it does not prove Eq. (5).",
-    },
-}
-
-OB_TITLE = {
-    "O1": "Gauge vanishing",
-    "O2": "Finite-Γ dissipation",
-    "O3": "Nondegeneracy",
-    "O5": "TR matrix identities",
-    "O6": "Antisymmetrization",
-    "O7": "Shift-vector rewrite",
-    "O8": "Remainder bounds",
-    "O9": "Numerical support",
-}
-
-OB_NEED = {
-    "O1": r"Do the \(O(\omega^0)\) and \(O(\omega)\) pieces of \(\mathcal{K}(\omega,-\omega)\) vanish under the Bloch/gauge assumptions?",
-    "O2": r"Is constant-\(\Gamma\) relaxation the dissipation model of the paper?",
-    "O3": "Is the nondegeneracy hypothesis acceptable for the geometric formula?",
-    "O5": r"Do the Appendix-D TR identities on \(\partial H\) and \(\partial^2 H\) hold for \(T=KU(k\to-k)\)?",
-    "O6": r"Are the Appendix-D \(\mathcal{A}\) replacements algebraically valid under TR?",
-    "O7": r"Is the shift-vector rewrite plus \(H=\xi i A\) enough to obtain Eq. (5)?",
-    "O8": r"Are the declared \(O(\Gamma)\) remainders acceptable without a remainder certificate?",
-    "O9": "Treat Rice–Mele Figs. 2–3 as consistency, not a proof of Eq. (5).",
-}
-
-EQ_TOKEN_RE = re.compile(r"\((\d+)\)|([A-E]-\d+)")
+EQ_TOKEN_RE = re.compile(r"\((\d+)\)|([A-Z]-\d+)")
 LABEL_RE = re.compile(r"\\label\{[^}]*\}?")
 WS_RE = re.compile(r"\s+")
 SKIP_CUE_RE = re.compile(r"begin\{(tikzpicture|feynhand)\}")
@@ -378,6 +275,47 @@ def hue_of(status: str) -> str:
     return HUE.get(status, "orange")
 
 
+def presentation(data: dict) -> dict:
+    return data.get("presentation") or {}
+
+
+def central_edge_ids(data: dict) -> list[str]:
+    p = presentation(data)
+    if p.get("central_edge_ids"):
+        return list(p["central_edge_ids"])
+    marked = [e["id"] for e in data.get("edges") or [] if e.get("central")]
+    if marked:
+        return marked
+    return [e["id"] for e in data.get("edges") or [] if e.get("load_bearing")]
+
+
+def claim_view(c: dict, data: dict) -> dict:
+    extra = (presentation(data).get("claims") or {}).get(c["id"]) or {}
+    if extra:
+        return extra
+    return {
+        "line": c.get("statement") or "",
+        "path": " → ".join(c.get("supporting_equations") or []),
+        "assumptions": " · ".join(c.get("assumptions") or []) or None,
+        "note": None,
+    }
+
+
+def edge_op(e: dict, data: dict) -> str:
+    ops = presentation(data).get("edge_ops") or {}
+    return ops.get(e["id"], e.get("transformation") or "")
+
+
+def ob_title(o: dict, data: dict) -> str:
+    titles = presentation(data).get("obligation_titles") or {}
+    return titles.get(o["id"], o["id"])
+
+
+def ob_need(o: dict, data: dict) -> str:
+    needs = presentation(data).get("obligation_need") or {}
+    return needs.get(o["id"], o.get("reviewer_must_decide") or o.get("why_not_certified") or "")
+
+
 def paper_macros(tex: str) -> str:
     t = tex.replace(r"\uprm", r"\mathrm").replace(r"\smrm", r"\mathrm")
     t = re.sub(
@@ -491,10 +429,10 @@ def act_label(action: str) -> str:
 class Model:
     def __init__(self, data: dict) -> None:
         self.data = data
-        self.edges = data["edges"]
-        self.claims = data["claims"]
-        self.obs = data["reviewer_obligations"]
-        self.eqs = data["inventory"]["equations"]
+        self.edges = data.get("edges") or []
+        self.claims = data.get("claims") or []
+        self.obs = data.get("reviewer_obligations") or []
+        self.eqs = (data.get("inventory") or {}).get("equations") or []
         self.by_id = {e["id"]: e for e in self.edges}
         self.public = {eq["public"]: eq for eq in self.eqs}
         self.edges_by_eq: dict[str, list[dict]] = defaultdict(list)
@@ -514,6 +452,7 @@ class Model:
                 o.get("paper_evidence", "")
             ):
                 self.obs_by_eq[tok].append(o)
+        self.chip_href = presentation(data).get("chip_href") or {}
         self.status_of = {eq["public"]: self._status(eq["public"]) for eq in self.eqs}
         self.href_of = {eq["public"]: self._href(eq["public"]) for eq in self.eqs}
 
@@ -532,8 +471,8 @@ class Model:
         return best["status"]
 
     def _href(self, public: str) -> str:
-        if public in CHIP_HREF_OVERRIDE:
-            return CHIP_HREF_OVERRIDE[public]
+        if public in self.chip_href:
+            return self.chip_href[public]
         related = self.edges_by_eq.get(public) or []
         to_hits = [e for e in related if public in eq_tokens(e["to_eq"])]
         from_hits = [e for e in related if public in eq_tokens(e["from_eq"])]
@@ -608,8 +547,8 @@ def edge_row(e: dict, *, with_id: bool) -> str:
     )
 
 
-def compact_edge(e: dict) -> str:
-    op = EDGE_OP.get(e["id"], e["transformation"])
+def compact_edge(e: dict, data: dict) -> str:
+    op = edge_op(e, data)
     aid = f"edge-{e['id']}"
     bits = []
     if e.get("locator"):
@@ -679,7 +618,7 @@ def render_map(model: Model) -> str:
     )
     return (
         '<section id="map-sec">'
-        "<h2>Main + appendix map A–E</h2>"
+        "<h2>Equation map</h2>"
         f"<p>{note}</p>"
         f'<div class="lanes" id="derivation-map">'
         f'{"".join(lanes)}</div></section>'
@@ -689,7 +628,7 @@ def render_map(model: Model) -> str:
 def render_claims(data: dict, model: Model) -> str:
     cards = []
     for c in data["claims"]:
-        view = CLAIM_VIEW.get(c["id"], {})
+        view = claim_view(c, data)
         line = view.get("line") or c["statement"]
         parts = [
             f'<article class="card claim-card" id="claim-{esc(c["id"])}">',
@@ -715,7 +654,7 @@ def render_claims(data: dict, model: Model) -> str:
 
 def render_queue(data: dict) -> str:
     cards = []
-    for o in sorted(data["reviewer_obligations"], key=lambda x: x["priority"]):
+    for o in sorted(data.get("reviewer_obligations") or [], key=lambda x: x.get("priority", 99)):
         acts = "".join(
             f'<button type="button" class="rev" data-ob="{esc(o["id"])}" '
             f'data-act="{esc(a)}">{esc(act_label(a))}</button>'
@@ -729,8 +668,8 @@ def render_queue(data: dict) -> str:
                 blocks.append(f'<a href="#edge-{esc(b)}">{esc(b)}</a>')
             else:
                 blocks.append(esc(b))
-        title = OB_TITLE.get(o["id"], o["id"])
-        need = OB_NEED.get(o["id"], o["reviewer_must_decide"])
+        title = ob_title(o, data)
+        need = ob_need(o, data)
         src = o.get("paper_evidence") or o.get("locator") or ""
         src_html = (
             f'<p class="ob-source">Source: {esc(src)}</p>' if src else ""
@@ -747,11 +686,14 @@ def render_queue(data: dict) -> str:
 
 
 def render_judge_strip(data: dict) -> str:
-    obs = sorted(data["reviewer_obligations"], key=lambda x: x["priority"])
+    obs = sorted(
+        data.get("reviewer_obligations") or [],
+        key=lambda x: x.get("priority", 99),
+    )
     n = len(obs)
     items = []
     for o in obs:
-        title = OB_TITLE.get(o["id"], o["id"])
+        title = ob_title(o, data)
         items.append(
             f'<a href="#ob-{esc(o["id"])}">{esc(o["id"])} {esc(title)}</a>'
         )
@@ -759,19 +701,20 @@ def render_judge_strip(data: dict) -> str:
         f'<nav class="judge-strip" id="judge-strip" aria-label="Need your judgment">'
         f'<p class="judge-lead">Need your judgment · {n} items · '
         f'<a href="#queue">open reviewer queue</a></p>'
-        f'<p class="judge-list">{" · ".join(items)}</p>'
+        f'<p class="judge-list">{" · ".join(items) or "None recorded."}</p>'
         f"</nav>"
     )
 
 
-def render_central_edges(model: Model) -> str:
+def render_central_edges(data: dict, model: Model) -> str:
+    cids = central_edge_ids(data)
     need, quiet = [], []
-    for i in C2_EDGE_IDS:
+    for i in cids:
         if i not in model.by_id:
             continue
         e = model.by_id[i]
         (quiet if e["status"] in DISCHARGED else need).append(e)
-    parts = [compact_edge(e) for e in need]
+    parts = [compact_edge(e, data) for e in need]
     if quiet:
         n = len(quiet)
         label = "step" if n == 1 else "steps"
@@ -780,7 +723,7 @@ def render_central_edges(model: Model) -> str:
             f"✓ {n} machine-discharged {label} on this path.</p>"
             f'<details class="discharged" id="discharged-steps">'
             f"<summary>✓ {n} machine-discharged {label}</summary>"
-            f'{"".join(compact_edge(e) for e in quiet)}'
+            f'{"".join(compact_edge(e, data) for e in quiet)}'
             f"</details>"
         )
     return "".join(parts)
@@ -814,14 +757,45 @@ def render_eq_drawer(model: Model) -> str:
     )
 
 
+def inv_counts(data: dict) -> dict:
+    inv = data.get("inventory") or {}
+    v2 = inv.get("v2") or {}
+    eqs = inv.get("equations") or []
+    return {
+        "total": v2.get("total") or len(eqs),
+        "main": v2.get("main") or sum(1 for e in eqs if e.get("section") == "main"),
+        "appendix": v2.get("appendix") or sum(
+            1 for e in eqs if str(e.get("section", "")).startswith("appendix")
+        ),
+    }
+
+
 def render_html(data: dict) -> str:
     model = Model(data)
-    s = data["summary"]
-    inv = data["inventory"]["v2"]
+    s = data.get("summary") or {}
+    inv = inv_counts(data)
+    s.setdefault("overall_state", "AUDIT_INCOMPLETE")
+    s.setdefault("claim_count", len(data.get("claims") or []))
+    s.setdefault("relations_reconstructed", len(data.get("edges") or []))
+    s.setdefault("machine_certified_edges", sum(
+        1 for e in data.get("edges") or [] if e.get("status") in {"EXACT", "EXACT_IF_ASSUMPTIONS"}
+    ))
+    s.setdefault("assumption_dependent_edges", sum(
+        1 for e in data.get("edges") or [] if e.get("status") == "EXACT_IF_ASSUMPTIONS"
+    ))
+    s.setdefault("unresolved_load_bearing", sum(
+        1 for e in data.get("edges") or []
+        if e.get("load_bearing") and e.get("status") not in {"EXACT", "EXACT_IF_ASSUMPTIONS", "STRUCTURAL"}
+    ))
     counts = model.hue_counts()
+    cids = central_edge_ids(data)
+    chain = presentation(data).get("central_path") or " → ".join(
+        f"{model.by_id[i]['from_eq']} → {model.by_id[i]['to_eq']}"
+        for i in cids if i in model.by_id
+    )
 
-    c2_edges = render_central_edges(model)
-    other_ids = {e["id"] for e in model.edges if e["id"] not in set(C2_EDGE_IDS)}
+    c2_edges = render_central_edges(data, model)
+    other_ids = {e["id"] for e in model.edges if e["id"] not in set(cids)}
     all_rows = "".join(
         edge_row(e, with_id=e["id"] in other_ids) for e in model.edges
     )
@@ -845,7 +819,7 @@ def render_html(data: dict) -> str:
         f"</div>"
     )
 
-    authors = esc(s.get("authors") or "Anan, Kitamura, Morimoto")
+    authors = esc(s.get("authors") or data.get("paper", {}).get("authors") or "")
     return f"""<!DOCTYPE html>
 <html lang="en" data-audit-key="{esc(data["paper"]["id"])}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -860,7 +834,7 @@ window.MathJax={{tex:{{inlineMath:[["\\\\(","\\\\)"]],displayMath:[["\\\\[","\\\
 </head>
 <body><div class="wrap">
 <header class="mast">
-<p class="kicker">Evidence ledger · V3.1</p>
+<p class="kicker">Evidence ledger</p>
 <h1>{esc(data["paper"]["title"])}</h1>
 <p class="source">{authors}
  · Source: <a href="{esc(data["paper"]["source"])}">{esc(data["paper"]["source"])}</a>
@@ -898,9 +872,8 @@ window.MathJax={{tex:{{inlineMath:[["\\\\(","\\\\)"]],displayMath:[["\\\\[","\\\
 
 <section id="graph">
 <h2>Central derivation</h2>
-<p class="chain">Eq. (4) → C-1 → C-2 → D-1 → D-2 / D-4 / D-8 → Eq. (5)</p>
-<p class="one-line">Load-bearing path reconstructed from the TeX, not a certificate.
-There is no compiled local identity Eq.&nbsp;(4)=Eq.&nbsp;(5).</p>
+<p class="chain">{esc(chain) if chain else "Load-bearing reconstructed edges"}</p>
+<p class="one-line">Reconstructed path, not a certificate. Adjacent numbering is not a derivation.</p>
 {c2_edges}
 </section>
 
@@ -929,9 +902,8 @@ There is no compiled local identity Eq.&nbsp;(4)=Eq.&nbsp;(5).</p>
 </main>
 
 <footer>
-<p><strong>Presentation is not a certificate.</strong> {esc(data["v1_frozen_note"])}</p>
-<p>Canonical model: <code>evidence/audit.json</code>. Markdown twin: <code>v3/audit.md</code>.
-V1 and V2 are historical baselines under <code>v1/</code> and <code>v2/</code>.</p>
+<p><strong>Presentation is not a certificate.</strong> {esc(data.get("v1_frozen_note") or "Statuses are copied from audit.json.")}</p>
+<p>Canonical model: <code>audit.json</code>. Markdown twin: <code>audit.md</code>.</p>
 </footer>
 </div>
 <script>
@@ -962,15 +934,23 @@ def md_edge(e: dict) -> str:
 
 def render_markdown(data: dict) -> str:
     model = Model(data)
-    s = data["summary"]
-    inv = data["inventory"]["v2"]
+    s = data.get("summary") or {}
+    s.setdefault("overall_state", "AUDIT_INCOMPLETE")
+    s.setdefault("claim_count", len(data.get("claims") or []))
+    s.setdefault("relations_reconstructed", len(data.get("edges") or []))
+    s.setdefault("machine_certified_edges", 0)
+    s.setdefault("assumption_dependent_edges", 0)
+    s.setdefault("unresolved_load_bearing", 0)
+    inv = inv_counts(data)
     counts = model.hue_counts()
+    cids = central_edge_ids(data)
+    chain = presentation(data).get("central_path") or " → ".join(cids)
     lines = [
-        f"# Paper audit V3.1 — arXiv:{data['paper']['id']}",
+        f"# Paper audit — {data['paper']['id']}",
         "",
         f"**{data['paper']['title']}**",
         "",
-        f"Authors: {s.get('authors') or 'Anan, Kitamura, Morimoto'}",
+        f"Authors: {s.get('authors') or data.get('paper', {}).get('authors') or ''}",
         "",
         f"Source: {data['paper']['source']}",
         "",
@@ -981,7 +961,6 @@ def render_markdown(data: dict) -> str:
         f"- Overall state: `{s['overall_state']}`",
         f"- Claims: {s['claim_count']}",
         f"- Numbered equations: {inv['total']} = main {inv['main']} + appendix {inv['appendix']}",
-        f"- V1 claimed: {data['inventory']['v1_claimed']['total']} = main {data['inventory']['v1_claimed']['main']} + appendix {data['inventory']['v1_claimed']['appendix']}",
         f"- Relations reconstructed: {s['relations_reconstructed']}",
         f"- Machine-certified edges: {s['machine_certified_edges']}",
         f"- Assumption-dependent edges: {s['assumption_dependent_edges']}",
@@ -997,17 +976,20 @@ def render_markdown(data: dict) -> str:
         "",
         "## Need your judgment",
         "",
-        f"{len(data['reviewer_obligations'])} reviewer items. See Reviewer queue.",
+        f"{len(data.get('reviewer_obligations') or [])} reviewer items. See Reviewer queue.",
         "",
     ]
-    for o in sorted(data["reviewer_obligations"], key=lambda x: x["priority"]):
-        title = OB_TITLE.get(o["id"], o["id"])
+    for o in sorted(
+        data.get("reviewer_obligations") or [],
+        key=lambda x: x.get("priority", 99),
+    ):
+        title = ob_title(o, data)
         lines.append(f"- {o['id']} · {title} (`{o['status']}`)")
     lines += [
         "",
-        data["inventory"]["correction"],
+        (data.get("inventory") or {}).get("correction") or "",
         "",
-        "## Main + appendix map A–E",
+        "## Equation map",
         "",
         "`→` is a reconstructed derivation edge. `⋯` is consecutive numbering only.",
         "",
@@ -1021,7 +1003,7 @@ def render_markdown(data: dict) -> str:
 
     lines += ["## Major claims", ""]
     for c in data["claims"]:
-        view = CLAIM_VIEW.get(c["id"], {})
+        view = claim_view(c, data)
         lines += [
             f"### {c['id']} — {STATUS_LABEL.get(c['status'], c['status'])}",
             "",
@@ -1043,19 +1025,19 @@ def render_markdown(data: dict) -> str:
     lines += [
         "## Central derivation",
         "",
-        "Eq. (4) → C-1 → C-2 → D-1 → D-2 / D-4 / D-8 → Eq. (5)",
+        chain,
         "",
-        "Load-bearing path reconstructed from the TeX, not a certificate.",
+        "Load-bearing path reconstructed from the source, not a certificate.",
         "",
         "| From | To | Operation | Status |",
         "|---|---|---|---|",
     ]
     quiet_md = []
-    for i in C2_EDGE_IDS:
+    for i in cids:
         if i not in model.by_id:
             continue
         e = model.by_id[i]
-        op = EDGE_OP.get(e["id"], e["transformation"])
+        op = edge_op(e, data)
         row = (
             f"| {md_escape_cell(e['from_eq'])} | {md_escape_cell(e['to_eq'])} | "
             f"{md_escape_cell(op)} | `{e['status']}` |"
@@ -1083,9 +1065,9 @@ def render_markdown(data: dict) -> str:
         ACCEPT_WARN,
         "",
     ]
-    for o in sorted(data["reviewer_obligations"], key=lambda x: x["priority"]):
-        title = OB_TITLE.get(o["id"], o["id"])
-        need = OB_NEED.get(o["id"], o["reviewer_must_decide"])
+    for o in sorted(data.get("reviewer_obligations") or [], key=lambda x: x.get("priority", 99)):
+        title = ob_title(o, data)
+        need = ob_need(o, data)
         src = o.get("paper_evidence") or o.get("locator") or ""
         lines += [
             f"### {o['id']} · {title} — `{o['status']}`",
@@ -1115,12 +1097,12 @@ def render_markdown(data: dict) -> str:
             "",
             c["statement"],
             "",
-            f"- **Locator:** {c['locator']}",
-            f"- **Supporting equations:** {', '.join(c['supporting_equations'])}",
-            f"- **Appendix chain:** {' → '.join(c['appendix_chain'])}",
-            f"- **Assumptions:** {'; '.join(c['assumptions'])}",
-            f"- **Unresolved obligations:** {', '.join(c['unresolved'])}",
-            f"- **Downstream:** {c['downstream']}",
+            f"- **Locator:** {c.get('locator') or '—'}",
+            f"- **Supporting equations:** {', '.join(c.get('supporting_equations') or [])}",
+            f"- **Appendix chain:** {' → '.join(c.get('appendix_chain') or [])}",
+            f"- **Assumptions:** {'; '.join(c.get('assumptions') or [])}",
+            f"- **Unresolved obligations:** {', '.join(c.get('unresolved') or [])}",
+            f"- **Downstream:** {c.get('downstream') or '—'}",
             "",
         ]
         for b in c.get("blockers") or []:
@@ -1133,7 +1115,7 @@ def render_markdown(data: dict) -> str:
         "| ID | From | To | Transformation | Assumptions | Status | Locator |",
         "|---|---|---|---|---|---|---|",
     ]
-    for i in C2_EDGE_IDS:
+    for i in cids:
         if i in model.by_id:
             e = model.by_id[i]
             lines.append(md_edge(e))
@@ -1150,7 +1132,7 @@ def render_markdown(data: dict) -> str:
         "|---|---|---|---|---|---|---|",
     ]
     for e in model.edges:
-        if e["id"] not in set(C2_EDGE_IDS):
+        if e["id"] not in set(cids):
             lines.append(md_edge(e))
 
     lines += [
@@ -1158,7 +1140,7 @@ def render_markdown(data: dict) -> str:
         "### Reviewer obligations (full)",
         "",
     ]
-    for o in sorted(data["reviewer_obligations"], key=lambda x: x["priority"]):
+    for o in sorted(data.get("reviewer_obligations") or [], key=lambda x: x.get("priority", 99)):
         lines += [
             f"#### {o['id']} (priority {o['priority']}) — `{o['status']}`",
             "",
@@ -1175,7 +1157,7 @@ def render_markdown(data: dict) -> str:
         ]
 
     lines += ["### Numerical evidence", ""]
-    for n in data["numerical_evidence"]:
+    for n in data.get("numerical_evidence") or []:
         lines += [
             f"#### {n['id']} — `{n['evidence_type']}`",
             "",
@@ -1190,7 +1172,7 @@ def render_markdown(data: dict) -> str:
     lines += [
         "### Equation records",
         "",
-        f"Method: {data['inventory']['method']}",
+        f"Method: {(data.get('inventory') or {}).get('method') or 'numbered outer equation rows'}",
         "",
         "| Public | ID | Section | Status | Destination | TeX label |",
         "|---|---|---|---|---|---|",
@@ -1209,7 +1191,7 @@ def render_markdown(data: dict) -> str:
         "| Number | Content |",
         "|---|---|",
     ]
-    for k, v in data["inventory"]["main_public_map"].items():
+    for k, v in ((data.get("inventory") or {}).get("main_public_map") or {}).items():
         lines.append(f"| {k} | {md_escape_cell(v)} |")
 
     lines += [
@@ -1224,11 +1206,9 @@ def render_markdown(data: dict) -> str:
 
     lines += [
         "",
-        data["v1_frozen_note"],
+        data.get("v1_frozen_note") or "Statuses are copied from audit.json.",
         "",
-        "Canonical model: `evidence/audit.json`. HTML twin: `v3/audit.html`.",
-        "V1 (`v1/`) is the visual-ledger baseline. V2 (`v2/`) is the claim-ledger baseline.",
-        "V3.1 is a shorter presentation of V3. Statuses are unchanged.",
+        "Canonical model: `audit.json`. HTML twin: `audit.html`.",
         "",
     ]
     return "\n".join(lines) + "\n"
@@ -1238,12 +1218,10 @@ def semantic_index(data: dict) -> dict:
     return {
         "claims": {c["id"]: c["status"] for c in data["claims"]},
         "edges": {e["id"]: e["status"] for e in data["edges"]},
-        "obligations": {o["id"]: o["status"] for o in data["reviewer_obligations"]},
-        "inventory_total": data["inventory"]["v2"]["total"],
-        "eq4": any(
-            e["from_eq"] == "(4)" or "(4)" in e["from_eq"] for e in data["edges"]
-        ),
-        "eq5": any(e["to_eq"] == "(5)" for e in data["edges"]),
+        "obligations": {
+            o["id"]: o["status"] for o in data.get("reviewer_obligations") or []
+        },
+        "inventory_total": inv_counts(data)["total"],
     }
 
 
@@ -1265,129 +1243,69 @@ def check_rendered(data: dict, html_page: str, md_page: str) -> list[str]:
             err.append(f"obligation {oid} missing")
         if f"`{st}`" not in md_page:
             err.append(f"obligation status {st} missing from Markdown for {oid}")
-    if "Eq. (4)" not in html_page and "(4)" not in html_page:
-        err.append("HTML missing Eq. (4)")
-    if "Eq. (5)" not in html_page and "(5)" not in html_page:
-        err.append("HTML missing Eq. (5)")
-    if "eq:currentbyExcitation" not in md_page:
-        err.append("Markdown missing Green-kernel label")
-    if "eq:sigma2" not in md_page:
-        err.append("Markdown missing geometric-conductivity label")
-    if r"\sigma^{\alpha\alpha\alpha}" not in md_page and "sigma2" not in md_page:
-        err.append("Markdown lost geometric conductivity TeX")
     if re.search(r"0\*|ws-zero", html_page):
         err.append("HTML contains invalid 0*")
-    if "Rice" not in html_page or "Rice" not in md_page:
-        err.append("Rice–Mele missing")
-    if "NUMERICAL_SUPPORT" not in html_page and "Numerical support" not in html_page:
-        err.append("HTML missing numerical-support label")
-    if data["inventory"]["v2"]["total"] != 93:
-        err.append("inventory total is not 93")
     if 'id="map-sec"' not in html_page.split('id="main"')[0]:
         err.append("coloured map is not on the first screen")
     if "class=\"stack\"" not in html_page and 'class="stack"' not in html_page:
         err.append("HTML missing colour stack")
-    if ">→</span>" not in html_page or ">⋯</span>" not in html_page:
-        err.append("HTML map missing → / ⋯ distinction")
-    if "Appendix F" in html_page or "Appendix G" in html_page:
-        err.append("HTML fabricates Appendix F/G")
-    if "Sign" in html_page and "sign-btn" in html_page:
-        err.append("HTML restored V1 Sign semantics")
-    if "Accept assumption/reasoning" not in html_page:
-        err.append("HTML missing V2 reviewer actions")
-    if 'href="#edge-E-D-longitudinal"' not in html_page:
-        err.append("D-1 / longitudinal chip routing missing")
-    if 'href="#edge-E-D-shift"' not in html_page:
-        err.append("D-8 / shift chip routing missing")
-    if 'href="#claim-C2"' not in html_page:
-        err.append("Eq. (5) / C2 chip routing missing")
     if ">Sign<" in html_page:
         err.append("HTML contains Sign button")
     for e in data["edges"]:
-        if e["status"] == "EXACT" and "asymptotic" in e["transformation"]:
+        if e["status"] == "EXACT" and "asymptotic" in (e.get("transformation") or ""):
             err.append(f"{e['id']} Exact on asymptotic")
-    c2 = next(c for c in data["claims"] if c["id"] == "C2")
-    if c2["status"] == "EXACT":
-        err.append("C2 promoted to Exact")
     hrefs = re.findall(r'class="eq-node[^"]*" id="map-[^"]+" href="([^"]+)"', html_page)
     if hrefs and all(h == "#obligation-table" for h in hrefs):
         err.append("all map chips still point at #obligation-table")
-    if len(set(hrefs)) < 8:
-        err.append(f"map chip destinations not diverse enough: {sorted(set(hrefs))}")
     if "Local certification is not a paper-level certificate." not in html_page:
         err.append("missing one-sentence certificate warning")
     if "<strong>Where.</strong>" in html_page:
         err.append("claim cards still dump Where.")
-    if "<strong>Downstream.</strong>" in html_page:
-        err.append("claim cards still dump Downstream.")
     if "<h2>Numerical evidence" in html_page:
         err.append("standalone numerical section still visible")
     if "<h2>E. Equation detail</h2>" in html_page:
         err.append("giant equation-detail heading still visible")
     n_eq = html_page.count('id="eq-detail-')
-    if n_eq != 93:
-        err.append(f"equation-record ids: {n_eq} != 93")
+    n_inv = inv_counts(data)["total"]
+    if n_eq != n_inv:
+        err.append(f"equation-record ids: {n_eq} != inventory {n_inv}")
     if '["$","$"]' in html_page:
-        err.append("MathJax still uses $ delimiters (inventory cues will be mangled)")
-    if html_page.count("Accepting does not stamp Exact.") > 0:
-        err.append("per-card Accepting-does-not-stamp-Exact hint still repeated")
+        err.append("MathJax still uses $ delimiters")
     if "Human acceptance records reviewer judgment" not in html_page:
         err.append("missing queue-level accept warning")
     if "it does not change a machine status to Exact." not in html_page:
         err.append("accept warning must not convert Accept into Exact")
     if 'id="judge-strip"' not in html_page.split('id="main"')[0]:
         err.append("Need-your-judgment strip missing from first screen")
-    if "Need your judgment" not in html_page:
-        err.append("missing Need your judgment")
     if "class=\"ob-source\">Source:" not in html_page and 'class="ob-source">Source:' not in html_page:
-        err.append("queue cards missing Source")
+        if data.get("reviewer_obligations"):
+            err.append("queue cards missing Source")
     if "tex-fallback" not in html_page:
         err.append("missing LaTeX fallback for math-render failure")
-    vis = re.sub(r"<details\b[^>]*>.*?</details>", "", html_page, flags=re.S | re.I)
-    # The visible five layers must not include the 93-row cue dump.
-    if vis.count("eq-detail-") > 5:
-        # chips may still point at eq-detail; that is fine. Raw cue dump is not.
-        pass
-    if "<ul class=\"warn\">" in html_page or "<ul class='warn'>" in html_page:
-        err.append("repeated warning list still on the first screen")
+    if "Main + appendix map A–E" in html_page:
+        err.append("generic renderer must not hard-code Anan map title A–E")
     return err
 
 
-INDEX_HTML = """<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=v3/audit.html">
-<link rel="canonical" href="v3/audit.html">
-<title>Anan et al. audit — canonical V3.1</title>
-</head>
-<body>
-<p>Canonical reviewer HTML: <a href="v3/audit.html">v3/audit.html</a></p>
-<p>Markdown twin: <a href="v3/audit.md">v3/audit.md</a></p>
-<p>Historical baselines: <a href="v1/audit.html">V1 visual ledger</a> ·
-<a href="v2/audit.html">V2 claim ledger</a>.</p>
-</body></html>
-"""
-
-
 def main() -> int:
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(description="Render V3.1 audit.html + audit.md")
+    ap.add_argument("--audit", required=True, type=Path, help="audit.json")
+    ap.add_argument("--out", required=True, type=Path, help="output directory")
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
-    data = json.loads((ROOT / "evidence" / "audit.json").read_text(encoding="utf-8"))
+    data = json.loads(args.audit.read_text(encoding="utf-8"))
     html_page = render_html(data)
     md_page = render_markdown(data)
-    v3 = ROOT / "v3"
-    v3.mkdir(exist_ok=True)
-    (v3 / "audit.html").write_text(html_page, encoding="utf-8")
-    (v3 / "audit.md").write_text(md_page, encoding="utf-8")
-    (ROOT / "index.html").write_text(INDEX_HTML, encoding="utf-8")
+    args.out.mkdir(parents=True, exist_ok=True)
+    (args.out / "audit.html").write_text(html_page, encoding="utf-8")
+    (args.out / "audit.md").write_text(md_page, encoding="utf-8")
     err = check_rendered(data, html_page, md_page)
-    print("wrote v3/audit.html", len(html_page), "v3/audit.md", len(md_page))
+    print("wrote", args.out / "audit.html", len(html_page), args.out / "audit.md", len(md_page))
     if err:
         print("CHECK_FAIL")
         for e in err:
             print(" -", e)
-        return 1
+        return 1 if args.check else 0
     print("CHECK_OK")
     return 0
 

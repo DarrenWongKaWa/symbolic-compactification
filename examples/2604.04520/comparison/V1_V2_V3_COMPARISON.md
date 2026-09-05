@@ -2,7 +2,8 @@
 
 V1: `../v1/` visual-ledger baseline.
 V2: `../v2/` claim-ledger baseline.
-V3: `../v3/` current canonical product, from `../evidence/audit.json`.
+V3 / V3.1: `../v3/` current canonical product, from `../evidence/audit.json`.
+V3.1 is a shorter presentation of V3. Statuses are unchanged.
 
 V3 is **not scientifically greener** than V1 or V2. Machine-certified
 edges remain **1** (2×2 unitarity under \(S^\dagger S=I\)). Claim C2
@@ -42,6 +43,21 @@ one generic `#obligation-table`.
 - V2 uncoloured locator chips and the extra tan “numerical” colour.
 - Duplicate chip map in the lower page (section E is a table, not a
   second strip).
+
+## V3.1 presentation
+
+V3.1 does not recertify. It keeps the V1 colour grammar and the V2
+claim/derivation/obligation model. Visible layers are only:
+
+1. Summary (state, metrics, colour bar)
+2. Coloured Main + A–E map
+3. Compact C1–C5
+4. Central Eq. (4)→(5) derivation
+5. Reviewer queue
+
+Equation records, the full relation ledger, and numerical-support detail
+stay in `audit.json` and in click-to-open drawers. MathJax no longer
+uses `$` delimiters, so truncated inventory cues cannot be mis-parsed.
 
 ## Why V3 is clearer
 

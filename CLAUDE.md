@@ -1,33 +1,29 @@
 # CLAUDE.md
 
-Same product contract as `AGENTS.md`. Read that file plus
-`docs/paper-audit.md` before auditing a paper.
+Claude Code adapter. The scientific method is **not** defined here.
 
-**Product.** symbolic-compactification takes a scientist's paper or
-derivation, builds auditable evidence layers, and emits reviewer-facing
-HTML and Markdown. You may propose. The engine certifies only exact
-`ZERO`.
+Canonical skill:
 
-**Flagship.** `examples/guo-evidence-ledger/output/index.html`
-(Markdown twin: `output/REPORT.md`).
+`skills/symbolic-compactification/SKILL.md`
 
-**Happy path.**
+Install (user scope, from any directory):
 
 ```bash
-pip install -e ".[dev]"
-symbolic-compactification audit init DIR
-# manuscript → DIR/manuscript/ ; edges → DIR/edges/
-symbolic-compactification audit inventory DIR
-symbolic-compactification audit verify DIR
-symbolic-compactification audit report DIR
+gh skill install DarrenWongKaWa/symbolic-compactification symbolic-compactification --agent claude-code --scope user
 ```
 
-**Invariants.** No invented adjacency edges. No `0*` as Exact. No
-frozen-RESULTS rewrite. `UNKNOWN` never promotes. Presentation is not a
-certificate.
+Alternative (plugin marketplace, after this repo is the catalog):
 
-**Tests.** `make test`. Do not weaken tests.
+```text
+/plugin marketplace add DarrenWongKaWa/symbolic-compactification
+/plugin install symbolic-compactification@symbolic-compactification
+```
 
-Anan V3 (arXiv:2604.04520): `examples/2604.04520/` — `audit.json`
-to `v3/audit.html` and `v3/audit.md`. Keep `v1/` and `v2/` as history.
-Do not stamp Exact from remainders or Rice–Mele numerics.
+Then, from an unrelated working directory, ask:
+
+> Audit https://arxiv.org/abs/2604.04520.
+
+Do not duplicate the method. Read the installed skill. LLM judgment is never proof. Promote only on engine `ZERO`. Presentation is not a certificate.
+
+Golden HTML (this repo only): `examples/guo-evidence-ledger/`.
+Anan benchmark: `examples/2604.04520/v3/`.
