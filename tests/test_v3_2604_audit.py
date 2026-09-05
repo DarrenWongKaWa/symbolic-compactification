@@ -64,6 +64,8 @@ def test_v3_first_screen_has_colour_stack_and_map():
     head = html_page.split('id="main"')[0]
     assert 'class="stack"' in head
     assert 'id="map-sec"' in head
+    assert "Need your judgment" in head
+    assert 'id="judge-strip"' in head
     assert "Appendix A" in head
     assert "Appendix E" in head
     assert "Appendix F" not in html_page
@@ -137,10 +139,15 @@ def test_v31_five_visible_layers_without_redundant_dumps():
     assert "This supports consistency; it does not prove Eq. (5)." in vis
     assert "Geometric conductivity follows from Eq. (4)" in vis
     assert "C-2 → D-1" in vis or "C-2 → D-1" in html_page
-    assert "longitudinal restriction" in vis
+    assert "longitudinal restriction" in html_page
+    assert "Need your judgment" in vis
+    assert 'id="judge-strip"' in vis
+    assert "machine-discharged" in html_page
     # Visible page should be the five layers, not the 93-row cue table.
     assert vis.count('class="eq-rec"') == 0
     assert html_page.count('class="eq-rec"') == 93
+    assert vis.count('class="ob-source"') >= 8
+    assert "tex-fallback" in html_page
 
 
 def test_v31_inventory_cues_render_as_mathjax_not_raw_tex():

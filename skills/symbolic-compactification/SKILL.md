@@ -12,7 +12,7 @@ description: >
 license: MIT
 compatibility: Requires Python 3.10+; network access to fetch arXiv sources.
 metadata:
-  version: "0.3.2"
+  version: "0.3.3"
   product: scientific-derivation-audit
 ---
 
@@ -98,6 +98,8 @@ Required scientific work:
 1. **Major claims** (typically 4–7). What the paper argues.
 2. **Load-bearing derivation** for the central result, as reconstructed
    edges (`from_eq`, `to_eq`, `transformation`, `assumptions`, `status`).
+   Split distinct transformations into separate edges. Do not collapse a
+   whole appendix into one step.
 3. **Assumptions / domain** separate from transformation type.
 4. **Reviewer obligations** for steps the engine cannot certify.
 5. Mark `central: true` on edges that form the load-bearing chain.
@@ -127,17 +129,24 @@ Open `audit/audit.html`. Markdown twin is `audit/audit.md`.
 
 ## HTML: five visible layers (less is more)
 
-1. **Summary** — title, source, `AUDIT_INCOMPLETE`, compact metrics, colour bar.
+The page answers: **what does the physicist still need to judge?**
+
+1. **Summary** — title, source, `AUDIT_INCOMPLETE`, colour bar.
    One sentence: *Local certification is not a paper-level certificate.*
+   First-screen jump strip: *Need your judgment* → reviewer queue.
 2. **Coloured equation map** — chips, `→` = reconstructed edge, `⋯` =
    consecutive numbering only. First screen, never a closed `<details>`.
 3. **Major claims** — compact cards (path, assumptions, blocks).
-4. **Central derivation** — `from → to | operation | status`. Evidence on click.
-5. **Reviewer queue** — actionable unresolved items. One warning:
-   *Human acceptance records reviewer judgment; it never changes a machine status to Exact.*
+4. **Central derivation** — inspect/gap edges visible;
+   `✓ N machine-discharged steps` collapsed behind Show.
+5. **Reviewer queue** — strongest visual weight. Source on each card.
+   One warning: *Human acceptance records reviewer judgment; it does not
+   change a machine status to Exact.*
 
 Full equation records and the relation ledger stay in `audit.json` and in
 click-to-open drawers. Do not dump a giant always-visible equation table.
+MathJax uses only `\(` `\)`. If typesetting fails, show escaped `<pre>`
+LaTeX. Never drop an equation.
 
 ## Invariants
 

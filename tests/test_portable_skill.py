@@ -27,6 +27,9 @@ def test_canonical_skill_frontmatter_and_triggers():
         assert needle in lowered, needle
     assert "2604.04520" not in text
     assert "eq. (4)" not in lowered
+    assert "split distinct transformations" in lowered
+    method = (SKILL / "references" / "METHOD.md").read_text().lower()
+    assert "do not collapse a multi-step" in method
 
 
 def test_skill_scripts_exist_and_are_stdlib():
@@ -72,9 +75,15 @@ def test_inventory_and_render_on_fixture(tmp_path: Path):
     assert "E-sum" in html
     assert 'id="map-sec"' in html.split('id="main"')[0]
     assert "Local certification is not a paper-level certificate." in html
+    assert "Need your judgment" in html.split('id="main"')[0]
+    assert "Equation map" in html
+    assert "Main + appendix map A–E" not in html
+    assert "Source: Eq. (2)" in html
+    assert "tex-fallback" in html
     assert "<h2>E. Equation detail</h2>" not in html
     assert '["$","$"]' not in html
     assert "0*" not in html
+    assert "paper-audit-v3:2604.04520" not in html
     subprocess.run(
         [sys.executable, str(SCRIPTS / "check_audit.py"), "--audit", str(audit)],
         check=True,

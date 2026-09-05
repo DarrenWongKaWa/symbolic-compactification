@@ -77,6 +77,10 @@ Anan, Kitamura, Morimoto, arXiv:2604.04520 (V3.1 five-layer page):
 
 [`examples/2604.04520/v3/audit.html`](examples/2604.04520/v3/audit.html)
 
+Status semantics: [`skills/symbolic-compactification/references/STATUSES.md`](skills/symbolic-compactification/references/STATUSES.md).
+Portability tests: [`validation/PORTABILITY_REPORT.md`](validation/PORTABILITY_REPORT.md).
+UI comparison: [`examples/2604.04520/comparison/UI_COMPARISON.md`](examples/2604.04520/comparison/UI_COMPARISON.md).
+
 ## Forward derivation (engine CLI)
 
 Candidate must be exact `ZERO`. Promote only on `ZERO`. `NONZERO` /

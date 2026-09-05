@@ -54,6 +54,19 @@ HUE_CLASS = {
 
 HUE_RANK = {"red": 5, "orange": 4, "blue": 2, "green-if": 1, "green": 0}
 
+# Quiet in the central chain. Orange/red load-bearing edges stay visible.
+DISCHARGED = {
+    "EXACT",
+    "EXACT_IF_ASSUMPTIONS",
+    "STRUCTURAL",
+    "CITED_RULE",
+}
+
+ACCEPT_WARN = (
+    "Human acceptance records reviewer judgment; it does not change a "
+    "machine status to Exact."
+)
+
 LANE_TITLE = {
     "main": "Main text",
     "appendix A": "Appendix A",
@@ -251,11 +264,24 @@ footer{margin-top:2rem;padding-top:.9rem;border-top:1px solid var(--ink);font-fa
 .eq-rec .tex{margin:.2rem 0 .1rem}
 .need{margin:.25rem 0 .15rem}
 .need-lab{font-family:system-ui,sans-serif;font-size:.78rem;font-weight:650;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.judge-strip{border:2px solid var(--inspect);background:#fff6e8;padding:.7rem .85rem;margin:0 0 1rem;font-family:system-ui,sans-serif}
+.judge-lead{margin:0 0 .35rem;color:var(--inspect);font-weight:700}
+.judge-lead a{color:var(--inspect)}
+.judge-list{margin:0;font-size:.88rem;line-height:1.55}
+.judge-list a{color:var(--ink);font-weight:650;text-decoration:none;border-bottom:1px solid var(--inspect)}
+#queue{border:2px solid var(--inspect);padding:.85rem .9rem 1.1rem;background:#fffaf3;margin:1.8rem 0}
+#queue h2{margin-top:.1rem;color:var(--inspect)}
+.card.ob{border-color:var(--inspect);box-shadow:inset 4px 0 0 var(--inspect)}
+.ob-source{font-family:system-ui,sans-serif;font-size:.82rem;color:var(--muted);margin:.15rem 0 .35rem}
+.discharged{margin:.55rem 0 1rem;border:1px dashed var(--ok);padding:.35rem .6rem;background:#f4faf6;font-family:system-ui,sans-serif}
+.discharged>summary{cursor:pointer;font-weight:650;color:var(--ok)}
+.discharged-line{font-family:system-ui,sans-serif;font-size:.88rem;color:var(--ok);margin:.35rem 0}
+.tex-fallback{white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;background:var(--band);padding:.35rem .5rem;overflow:auto;margin:.2rem 0}
 """.strip()
 
 JS = r"""
 (function(){
-  const KEY="paper-audit-v3:2604.04520";
+  const KEY="paper-audit:"+(document.documentElement.getAttribute("data-audit-key")||"default");
   function load(){try{return JSON.parse(localStorage.getItem(KEY)||"{}");}catch(e){return {};}}
   function save(m){try{localStorage.setItem(KEY, JSON.stringify(m));}catch(e){}}
   function paint(){
@@ -286,6 +312,13 @@ JS = r"""
     }
     el.scrollIntoView({block:"start"});
   }
+  function mathFallback(){
+    document.querySelectorAll(".tex").forEach(function(el){
+      if(el.querySelector("mjx-container, .MathJax, .mjx-chtml")) return;
+      var pre=el.querySelector(".tex-fallback");
+      if(pre) pre.hidden=false;
+    });
+  }
   document.addEventListener("click", function(ev){
     const b=ev.target.closest(".rev");
     if(b){
@@ -306,6 +339,13 @@ JS = r"""
     }
   }, true);
   window.addEventListener("hashchange", openHash);
+  window.addEventListener("load", function(){
+    if(window.MathJax && MathJax.startup && MathJax.startup.promise){
+      MathJax.startup.promise.then(mathFallback).catch(mathFallback);
+    } else {
+      setTimeout(mathFallback, 1200);
+    }
+  });
   paint();
   openHash();
 })();
@@ -388,14 +428,34 @@ def salvage_tex(tex: str) -> str | None:
     return t or None
 
 
+def tex_html(math_src: str | None, raw: str = "") -> str:
+    """MathJax first; escaped <pre> if typesetting fails. Never drop TeX."""
+    raw = raw or math_src or ""
+    if not raw and not math_src:
+        return ""
+    fallback = f'<pre class="tex-fallback" hidden>{esc(raw)}</pre>'
+    if math_src:
+        return (
+            f'<div class="tex" data-tex="{esc(math_src)}">'
+            f"\\({esc(math_src)}\\){fallback}</div>"
+        )
+    return (
+        f'<div class="tex tex-raw" data-tex="{esc(raw)}">'
+        f'<pre class="tex-fallback">{esc(raw)}</pre></div>'
+    )
+
+
 def display_cue(cue: str) -> str:
     """Turn an inventory cue into MathJax, matching ledger quality.
 
     Inventory rows are align fragments. Arrays become pmatrix. Truncated
-    source is salvaged or omitted. This is presentation, not a certificate.
+    source is salvaged, then shown as raw LaTeX if MathJax cannot take it.
     """
-    if not cue or SKIP_CUE_RE.search(cue):
+    if not cue:
         return ""
+    raw = clean_cue(cue)
+    if SKIP_CUE_RE.search(cue):
+        return tex_html(None, raw or cue)
     t = LABEL_RE.sub("", cue)
     t = paper_macros(t)
     t = array_to_pmatrix(t)
@@ -403,8 +463,8 @@ def display_cue(cue: str) -> str:
     t = WS_RE.sub(" ", t).strip()
     t = salvage_tex(t)
     if not t:
-        return ""
-    return f'<div class="tex">\\({esc(t)}\\)</div>'
+        return tex_html(None, raw or cue)
+    return tex_html(t)
 
 
 def clean_cue(cue: str) -> str:
@@ -530,9 +590,9 @@ def edge_row(e: dict, *, with_id: bool) -> str:
     id_attr = f' id="{esc(aid)}"' if with_id else ""
     tex = ""
     if e.get("target_tex"):
-        tex = f'<div class="tex">\\({esc(e["target_tex"])}\\)</div>'
+        tex = tex_html(e["target_tex"])
     elif e.get("source_tex"):
-        tex = f'<div class="tex">\\({esc(e["source_tex"])}\\)</div>'
+        tex = tex_html(e["source_tex"])
     ev = f'<p class="ev">{esc(e["evidence"])}</p>' if e.get("evidence") else ""
     note = f'<p class="note">{esc(e["note"])}</p>' if e.get("note") else ""
     hue = hue_of(e["status"])
@@ -563,9 +623,9 @@ def compact_edge(e: dict) -> str:
     if e.get("note"):
         bits.append(f'<p class="note">{esc(e["note"])}</p>')
     if e.get("target_tex"):
-        bits.append(f'<div class="tex">\\({esc(e["target_tex"])}\\)</div>')
+        bits.append(tex_html(e["target_tex"]))
     elif e.get("source_tex"):
-        bits.append(f'<div class="tex">\\({esc(e["source_tex"])}\\)</div>')
+        bits.append(tex_html(e["source_tex"]))
     extra = "".join(bits) or '<p class="meta">See <code>evidence/audit.json</code>.</p>'
     hue = hue_of(e["status"])
     return (
@@ -671,14 +731,59 @@ def render_queue(data: dict) -> str:
                 blocks.append(esc(b))
         title = OB_TITLE.get(o["id"], o["id"])
         need = OB_NEED.get(o["id"], o["reviewer_must_decide"])
+        src = o.get("paper_evidence") or o.get("locator") or ""
+        src_html = (
+            f'<p class="ob-source">Source: {esc(src)}</p>' if src else ""
+        )
         cards.append(
             f'<article class="card ob ob-card" id="ob-{esc(o["id"])}">'
             f"<h3>{esc(o['id'])} · {esc(title)} {chip(o['status'])}</h3>"
             f'<p class="need"><span class="need-lab">Need to verify</span><br>{need}</p>'
+            f"{src_html}"
             f'<p class="blocks">Blocks: {" · ".join(blocks)}</p>'
             f'<div class="actions">{acts}</div></article>'
         )
     return "".join(cards)
+
+
+def render_judge_strip(data: dict) -> str:
+    obs = sorted(data["reviewer_obligations"], key=lambda x: x["priority"])
+    n = len(obs)
+    items = []
+    for o in obs:
+        title = OB_TITLE.get(o["id"], o["id"])
+        items.append(
+            f'<a href="#ob-{esc(o["id"])}">{esc(o["id"])} {esc(title)}</a>'
+        )
+    return (
+        f'<nav class="judge-strip" id="judge-strip" aria-label="Need your judgment">'
+        f'<p class="judge-lead">Need your judgment · {n} items · '
+        f'<a href="#queue">open reviewer queue</a></p>'
+        f'<p class="judge-list">{" · ".join(items)}</p>'
+        f"</nav>"
+    )
+
+
+def render_central_edges(model: Model) -> str:
+    need, quiet = [], []
+    for i in C2_EDGE_IDS:
+        if i not in model.by_id:
+            continue
+        e = model.by_id[i]
+        (quiet if e["status"] in DISCHARGED else need).append(e)
+    parts = [compact_edge(e) for e in need]
+    if quiet:
+        n = len(quiet)
+        label = "step" if n == 1 else "steps"
+        parts.append(
+            f'<p class="discharged-line" id="discharged-count">'
+            f"✓ {n} machine-discharged {label} on this path.</p>"
+            f'<details class="discharged" id="discharged-steps">'
+            f"<summary>✓ {n} machine-discharged {label}</summary>"
+            f'{"".join(compact_edge(e) for e in quiet)}'
+            f"</details>"
+        )
+    return "".join(parts)
 
 
 def render_eq_drawer(model: Model) -> str:
@@ -715,9 +820,7 @@ def render_html(data: dict) -> str:
     inv = data["inventory"]["v2"]
     counts = model.hue_counts()
 
-    c2_edges = "".join(
-        compact_edge(model.by_id[i]) for i in C2_EDGE_IDS if i in model.by_id
-    )
+    c2_edges = render_central_edges(model)
     other_ids = {e["id"] for e in model.edges if e["id"] not in set(C2_EDGE_IDS)}
     all_rows = "".join(
         edge_row(e, with_id=e["id"] in other_ids) for e in model.edges
@@ -744,7 +847,7 @@ def render_html(data: dict) -> str:
 
     authors = esc(s.get("authors") or "Anan, Kitamura, Morimoto")
     return f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en" data-audit-key="{esc(data["paper"]["id"])}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Evidence ledger — {authors}, arXiv:{esc(data["paper"]["id"])}</title>
 <style>
@@ -774,13 +877,7 @@ window.MathJax={{tex:{{inlineMath:[["\\\\(","\\\\)"]],displayMath:[["\\\\[","\\\
 <p>Local certification is not a paper-level certificate.</p>
 </div>
 
-<div class="metrics">
-<div class="metric"><span class="n">{inv["total"]}</span><span class="l">numbered equations</span><span class="hint">main {inv["main"]} · appendix {inv["appendix"]}</span></div>
-<div class="metric"><span class="n">{s["relations_reconstructed"]}</span><span class="l">reconstructed relations</span></div>
-<div class="metric"><span class="n">{s["machine_certified_edges"]}</span><span class="l">machine-certified edges</span><span class="hint">Exact if A only</span></div>
-<div class="metric"><span class="n">{s["assumption_dependent_edges"]}</span><span class="l">assumption-dependent edges</span></div>
-<div class="metric"><span class="n">{s["unresolved_load_bearing"]}</span><span class="l">unresolved load-bearing</span></div>
-</div>
+{render_judge_strip(data)}
 
 {stack}
 <div class="tone-key">
@@ -809,7 +906,7 @@ There is no compiled local identity Eq.&nbsp;(4)=Eq.&nbsp;(5).</p>
 
 <section id="queue">
 <h2>Reviewer queue</h2>
-<p class="one-line">Human acceptance records reviewer judgment; it never changes a machine status to Exact.</p>
+<p class="one-line">{ACCEPT_WARN}</p>
 {render_queue(data)}
 </section>
 
@@ -898,6 +995,16 @@ def render_markdown(data: dict) -> str:
         f"- Orange / inspect: {counts['orange']}",
         f"- Dark red / nonzero residual: {counts['red']}",
         "",
+        "## Need your judgment",
+        "",
+        f"{len(data['reviewer_obligations'])} reviewer items. See Reviewer queue.",
+        "",
+    ]
+    for o in sorted(data["reviewer_obligations"], key=lambda x: x["priority"]):
+        title = OB_TITLE.get(o["id"], o["id"])
+        lines.append(f"- {o['id']} · {title} (`{o['status']}`)")
+    lines += [
+        "",
         data["inventory"]["correction"],
         "",
         "## Main + appendix map A–E",
@@ -943,30 +1050,52 @@ def render_markdown(data: dict) -> str:
         "| From | To | Operation | Status |",
         "|---|---|---|---|",
     ]
+    quiet_md = []
     for i in C2_EDGE_IDS:
-        if i in model.by_id:
-            e = model.by_id[i]
-            op = EDGE_OP.get(e["id"], e["transformation"])
-            lines.append(
-                f"| {md_escape_cell(e['from_eq'])} | {md_escape_cell(e['to_eq'])} | "
-                f"{md_escape_cell(op)} | `{e['status']}` |"
-            )
+        if i not in model.by_id:
+            continue
+        e = model.by_id[i]
+        op = EDGE_OP.get(e["id"], e["transformation"])
+        row = (
+            f"| {md_escape_cell(e['from_eq'])} | {md_escape_cell(e['to_eq'])} | "
+            f"{md_escape_cell(op)} | `{e['status']}` |"
+        )
+        if e["status"] in DISCHARGED:
+            quiet_md.append(row)
+        else:
+            lines.append(row)
+    if quiet_md:
+        n = len(quiet_md)
+        label = "step" if n == 1 else "steps"
+        lines += [
+            "",
+            f"✓ {n} machine-discharged {label} on this path.",
+            "",
+            "| From | To | Operation | Status |",
+            "|---|---|---|---|",
+        ]
+        lines.extend(quiet_md)
 
     lines += [
         "",
         "## Reviewer queue",
         "",
-        "Human acceptance records reviewer judgment; it never changes a machine status to Exact.",
+        ACCEPT_WARN,
         "",
     ]
     for o in sorted(data["reviewer_obligations"], key=lambda x: x["priority"]):
         title = OB_TITLE.get(o["id"], o["id"])
         need = OB_NEED.get(o["id"], o["reviewer_must_decide"])
+        src = o.get("paper_evidence") or o.get("locator") or ""
         lines += [
             f"### {o['id']} · {title} — `{o['status']}`",
             "",
             f"**Need to verify.** {need}",
             "",
+        ]
+        if src:
+            lines += [f"**Source.** {src}", ""]
+        lines += [
             f"**Blocks.** {', '.join(o['blocks'])}",
             "",
         ]
@@ -1204,6 +1333,16 @@ def check_rendered(data: dict, html_page: str, md_page: str) -> list[str]:
         err.append("per-card Accepting-does-not-stamp-Exact hint still repeated")
     if "Human acceptance records reviewer judgment" not in html_page:
         err.append("missing queue-level accept warning")
+    if "it does not change a machine status to Exact." not in html_page:
+        err.append("accept warning must not convert Accept into Exact")
+    if 'id="judge-strip"' not in html_page.split('id="main"')[0]:
+        err.append("Need-your-judgment strip missing from first screen")
+    if "Need your judgment" not in html_page:
+        err.append("missing Need your judgment")
+    if "class=\"ob-source\">Source:" not in html_page and 'class="ob-source">Source:' not in html_page:
+        err.append("queue cards missing Source")
+    if "tex-fallback" not in html_page:
+        err.append("missing LaTeX fallback for math-render failure")
     vis = re.sub(r"<details\b[^>]*>.*?</details>", "", html_page, flags=re.S | re.I)
     # The visible five layers must not include the 93-row cue dump.
     if vis.count("eq-detail-") > 5:

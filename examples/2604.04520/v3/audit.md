@@ -27,6 +27,19 @@ Status colour grammar (HTML only; Markdown is the semantic twin):
 - Orange / inspect: 13
 - Dark red / nonzero residual: 0
 
+## Need your judgment
+
+8 reviewer items. See Reviewer queue.
+
+- O1 · Gauge vanishing (`HUMAN_REVIEW`)
+- O5 · TR matrix identities (`HUMAN_REVIEW`)
+- O6 · Antisymmetrization (`GAP`)
+- O7 · Shift-vector rewrite (`GAP`)
+- O2 · Finite-Γ dissipation (`HUMAN_REVIEW`)
+- O8 · Remainder bounds (`ASYMPTOTIC_UNCERTIFIED`)
+- O9 · Numerical support (`NUMERICAL_SUPPORT`)
+- O3 · Nondegeneracy (`HUMAN_REVIEW`)
+
 V1 counted 12 main rows by splitting the S-matrix align on an inner array \\. Published numbering gives one number to that display, so main is 11 not 12. Appendix 82 is unchanged. Rice–Mele Hamiltonian is inline math, not a numbered equation.
 
 ## Main + appendix map A–E
@@ -115,19 +128,26 @@ Load-bearing path reconstructed from the TeX, not a certificate.
 | (3) | (4) | Green kernel | `GAP` |
 | (3)+(B-16) | C-1 | static σ from Green kernel | `GAP` |
 | C-1 | C-2 | band-basis kernel | `GAP` |
-| C-2 | D-1 | longitudinal restriction | `STRUCTURAL` |
 | D-1 | D-2 | TR symmetry | `HUMAN_REVIEW` |
 | D-2 | D-4 | antisymmetrization | `GAP` |
 | D-1 | D-8 | shift-vector rewrite | `GAP` |
 | D-8 | (5) | H = ξ i A | `GAP` |
 
+✓ 1 machine-discharged step on this path.
+
+| From | To | Operation | Status |
+|---|---|---|---|
+| C-2 | D-1 | longitudinal restriction | `STRUCTURAL` |
+
 ## Reviewer queue
 
-Human acceptance records reviewer judgment; it never changes a machine status to Exact.
+Human acceptance records reviewer judgment; it does not change a machine status to Exact.
 
 ### O1 · Gauge vanishing — `HUMAN_REVIEW`
 
 **Need to verify.** Do the \(O(\omega^0)\) and \(O(\omega)\) pieces of \(\mathcal{K}(\omega,-\omega)\) vanish under the Bloch/gauge assumptions?
+
+**Source.** Main text after Eq. (3); Appendix A, undifferentiated K and \(\partial_{\omega_1}^2\mathcal{K}|_{0,0}\) vanishing.
 
 **Blocks.** C2, E-gauge-vanish, E-static-sigma
 
@@ -135,11 +155,15 @@ Human acceptance records reviewer judgment; it never changes a machine status to
 
 **Need to verify.** Do the Appendix-D TR identities on \(\partial H\) and \(\partial^2 H\) hold for \(T=KU(k\to-k)\)?
 
+**Source.** Appendix D, two numbered lines after Eq. (D-1).
+
 **Blocks.** C2, E-D-TR-matrix
 
 ### O6 · Antisymmetrization — `GAP`
 
 **Need to verify.** Are the Appendix-D \(\mathcal{A}\) replacements algebraically valid under TR?
+
+**Source.** Appendix D, four 𝒜 replacements on G^R, G^A strings.
 
 **Blocks.** C2, E-D-antisym
 
@@ -147,11 +171,15 @@ Human acceptance records reviewer judgment; it never changes a machine status to
 
 **Need to verify.** Is the shift-vector rewrite plus \(H=\xi i A\) enough to obtain Eq. (5)?
 
+**Source.** Appendix D, F(a,b) display through the last sentence of the appendix.
+
 **Blocks.** C2, E-D-shift, E-D-to-sigma2
 
 ### O2 · Finite-Γ dissipation — `HUMAN_REVIEW`
 
 **Need to verify.** Is constant-\(\Gamma\) relaxation the dissipation model of the paper?
+
+**Source.** Introduction, imaginary part of the self-energy; constant Γ in G^{R,A}.
 
 **Blocks.** C1
 
@@ -159,17 +187,23 @@ Human acceptance records reviewer judgment; it never changes a machine status to
 
 **Need to verify.** Are the declared \(O(\Gamma)\) remainders acceptable without a remainder certificate?
 
+**Source.** Results, paragraphs containing Eqs. (8)–(11).
+
 **Blocks.** C3, C4, E-lowT, E-highT
 
 ### O9 · Numerical support — `NUMERICAL_SUPPORT`
 
 **Need to verify.** Treat Rice–Mele Figs. 2–3 as consistency, not a proof of Eq. (5).
 
+**Source.** Model calculation; Figs. colorMapvsMu and riceMelevsGamma; Appendix E.
+
 **Blocks.** C5
 
 ### O3 · Nondegeneracy — `HUMAN_REVIEW`
 
 **Need to verify.** Is the nondegeneracy hypothesis acceptable for the geometric formula?
+
+**Source.** Results after Eq. (5); Appendix C ‘we assume that there are no degeneracies’.
 
 **Blocks.** C2, C3
 
