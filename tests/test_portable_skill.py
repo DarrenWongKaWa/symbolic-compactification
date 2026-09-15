@@ -33,12 +33,24 @@ def test_canonical_skill_frontmatter_and_triggers():
 
 
 def test_skill_scripts_exist_and_are_stdlib():
-    for name in ("inventory.py", "fetch_arxiv.py", "render.py", "check_audit.py"):
+    for name in ("inventory.py", "fetch_arxiv.py", "render.py"):
         path = SCRIPTS / name
         assert path.is_file(), name
         src = path.read_text(encoding="utf-8")
         assert "import sympy" not in src
         assert "symbolic_compactification" not in src
+        assert "/Users/" not in src
+        assert "/private/tmp" not in src
+    for name in (
+        "check_audit.py",
+        "ledger.py",
+        "certify.py",
+        "doctor.py",
+        "compact_verify.py",
+    ):
+        path = SCRIPTS / name
+        assert path.is_file(), name
+        src = path.read_text(encoding="utf-8")
         assert "/Users/" not in src
         assert "/private/tmp" not in src
 

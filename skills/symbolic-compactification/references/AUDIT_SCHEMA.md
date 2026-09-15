@@ -59,5 +59,14 @@
 }
 ```
 
-`presentation` is optional and must not change a scientific status.
-Allowed statuses: see STATUSES.md.
+`presentation` is optional and must not change a scientific status,
+formula, assumption list, or failure set.
+
+Machine-green statuses (`EXACT`, `EXACT_IF_ASSUMPTIONS`) are legal only
+when `certification.receipts` contains a bound receipt whose independent
+recomputation is `ZERO`. Write proposals without those statuses and run
+`scripts/certify.py`.
+
+Allowed statuses: see STATUSES.md. Overall state may be `DRAFT`,
+`AUDIT_INCOMPLETE`, or `LOCAL_RESIDUALS_ONLY`. `FULLY_VERIFIED` is not a
+legal overall state.

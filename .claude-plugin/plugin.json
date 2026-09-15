@@ -1,6 +1,6 @@
 {
   "name": "symbolic-compactification",
-  "description": "Scientific paper derivation audit: claims, edges, reviewer HTML+Markdown.",
+  "description": "Verified symbolic compactification and paper derivation audit. Agent proposes; only the engine may issue Exact.",
   "version": "0.3.2",
   "author": {
     "name": "Kawa Wong",

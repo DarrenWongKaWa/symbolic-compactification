@@ -51,9 +51,12 @@ HUE_CLASS = {
 
 HUE_RANK = {"red": 5, "orange": 4, "blue": 2, "green-if": 1, "green": 0}
 
+# Only residual-ZERO statuses. Definitions and cited rules are not machine Exact.
 DISCHARGED = {
     "EXACT",
     "EXACT_IF_ASSUMPTIONS",
+}
+CITED_OR_STRUCTURAL = {
     "STRUCTURAL",
     "CITED_RULE",
 }
@@ -74,7 +77,7 @@ LANE_TITLE = {
 
 LANE_HINT: dict[str, str] = {}
 
-EQ_TOKEN_RE = re.compile(r"\((\d+)\)|([A-Z]-\d+)")
+EQ_TOKEN_RE = re.compile(r"\((\d+[a-z]?)\)|([A-Z]-\d+)|(M-\d+)")
 LABEL_RE = re.compile(r"\\label\{[^}]*\}?")
 WS_RE = re.compile(r"\s+")
 SKIP_CUE_RE = re.compile(r"begin\{(tikzpicture|feynhand)\}")
@@ -253,6 +256,14 @@ def esc(s: object) -> str:
     return html.escape("" if s is None else str(s), quote=True)
 
 
+def _safe_source_html(paper: dict) -> str:
+    source = str(paper.get("source") or "")
+    lowered = source.strip().lower()
+    if lowered.startswith("https://") or lowered.startswith("http://arxiv.org/"):
+        return f'<a href="{esc(source)}">{esc(source)}</a>'
+    return esc(source) or "—"
+
+
 def md_escape_cell(s: object) -> str:
     t = "" if s is None else str(s)
     return t.replace("|", "\\|").replace("\n", " ")
@@ -261,7 +272,10 @@ def md_escape_cell(s: object) -> str:
 def eq_tokens(s: str) -> list[str]:
     out = []
     for m in EQ_TOKEN_RE.finditer(s or ""):
-        out.append(f"({m.group(1)})" if m.group(1) else m.group(2))
+        if m.group(1):
+            out.append(f"({m.group(1)})")
+        else:
+            out.append(m.group(2) or m.group(3))
     return out
 
 
@@ -280,30 +294,42 @@ def presentation(data: dict) -> dict:
 
 
 def central_edge_ids(data: dict) -> list[str]:
-    p = presentation(data)
-    if p.get("central_edge_ids"):
-        return list(p["central_edge_ids"])
-    marked = [e["id"] for e in data.get("edges") or [] if e.get("central")]
-    if marked:
-        return marked
-    return [e["id"] for e in data.get("edges") or [] if e.get("load_bearing")]
+    """Presentation may order the path; it cannot drop a marked central edge."""
+    edges = data.get("edges") or []
+    canonical = [
+        e["id"]
+        for e in edges
+        if e.get("id") and (e.get("central") or e.get("load_bearing"))
+    ]
+    preferred = list(presentation(data).get("central_edge_ids") or [])
+    out: list[str] = []
+    seen: set[str] = set()
+    for eid in preferred:
+        if eid in canonical and eid not in seen:
+            out.append(eid)
+            seen.add(eid)
+    for eid in canonical:
+        if eid not in seen:
+            out.append(eid)
+            seen.add(eid)
+    if out:
+        return out
+    return [e["id"] for e in edges if e.get("id")]
 
 
 def claim_view(c: dict, data: dict) -> dict:
     extra = (presentation(data).get("claims") or {}).get(c["id"]) or {}
-    if extra:
-        return extra
+    assumptions = " · ".join(c.get("assumptions") or []) or None
     return {
         "line": c.get("statement") or "",
         "path": " → ".join(c.get("supporting_equations") or []),
-        "assumptions": " · ".join(c.get("assumptions") or []) or None,
-        "note": None,
+        "assumptions": assumptions,
+        "note": extra.get("note") if isinstance(extra, dict) else None,
     }
 
 
 def edge_op(e: dict, data: dict) -> str:
-    ops = presentation(data).get("edge_ops") or {}
-    return ops.get(e["id"], e.get("transformation") or "")
+    return e.get("transformation") or ""
 
 
 def ob_title(o: dict, data: dict) -> str:
@@ -312,8 +338,7 @@ def ob_title(o: dict, data: dict) -> str:
 
 
 def ob_need(o: dict, data: dict) -> str:
-    needs = presentation(data).get("obligation_need") or {}
-    return needs.get(o["id"], o.get("reviewer_must_decide") or o.get("why_not_certified") or "")
+    return o.get("reviewer_must_decide") or o.get("why_not_certified") or ""
 
 
 def paper_macros(tex: str) -> str:
@@ -349,11 +374,8 @@ def strip_align_outside_pmatrix(tex: str) -> str:
 
 
 def salvage_tex(tex: str) -> str | None:
+    """Layout-only close of balanced TeX. Must not delete operators or terms."""
     t = tex.strip().rstrip(",;")
-    t = re.sub(r"\\[A-Za-z]+\{[^{}]*$", "", t)
-    t = re.sub(r"\\[A-Za-z]+$", "", t)
-    t = re.sub(r"[-+]\\frac\{[^{}]+\}\{\s*$", "", t)
-    t = t.rstrip("\\").strip()
     if not t or SKIP_CUE_RE.search(t):
         return None
     if t.count("}") > t.count("{"):
@@ -364,6 +386,21 @@ def salvage_tex(tex: str) -> str | None:
     if lefts > rights:
         t += r"\right." * (lefts - rights)
     return t or None
+
+
+def tex_incomplete(tex: str) -> bool:
+    t = tex or ""
+    if t.count("{") != t.count("}"):
+        return True
+    if t.count("(") != t.count(")"):
+        return True
+    if re.search(r"\\frac\s*\{[^{}]*\}\s*$", t):
+        return True
+    if re.search(r"\\frac\s*$", t):
+        return True
+    if re.search(r"\\[A-Za-z]+\{[^{}]*$", t):
+        return True
+    return False
 
 
 def tex_html(math_src: str | None, raw: str = "") -> str:
@@ -384,25 +421,29 @@ def tex_html(math_src: str | None, raw: str = "") -> str:
 
 
 def display_cue(cue: str) -> str:
-    """Turn an inventory cue into MathJax, matching ledger quality.
+    """Turn an inventory cue into MathJax without changing the math object.
 
-    Inventory rows are align fragments. Arrays become pmatrix. Truncated
-    source is salvaged, then shown as raw LaTeX if MathJax cannot take it.
+    Incomplete source is shown escaped with an INCOMPLETE_SOURCE mark.
+    Salvage never deletes operators. The fallback is the original cue.
     """
     if not cue:
         return ""
     raw = clean_cue(cue)
-    if SKIP_CUE_RE.search(cue):
-        return tex_html(None, raw or cue)
+    if SKIP_CUE_RE.search(cue) or tex_incomplete(cue) or tex_incomplete(raw):
+        return (
+            f'<div class="tex tex-raw tex-incomplete" data-incomplete="1">'
+            f'<p class="tex-incomplete-flag">INCOMPLETE_SOURCE</p>'
+            f'<pre class="tex-fallback">{esc(raw or cue)}</pre></div>'
+        )
     t = LABEL_RE.sub("", cue)
     t = paper_macros(t)
     t = array_to_pmatrix(t)
     t = strip_align_outside_pmatrix(t)
     t = WS_RE.sub(" ", t).strip()
-    t = salvage_tex(t)
-    if not t:
+    typeset = salvage_tex(t)
+    if not typeset:
         return tex_html(None, raw or cue)
-    return tex_html(t)
+    return tex_html(typeset, raw=raw or cue)
 
 
 def clean_cue(cue: str) -> str:
@@ -472,7 +513,9 @@ class Model:
 
     def _href(self, public: str) -> str:
         if public in self.chip_href:
-            return self.chip_href[public]
+            href = str(self.chip_href[public])
+            if href.startswith("#") and not href.startswith("#/"):
+                return href
         related = self.edges_by_eq.get(public) or []
         to_hits = [e for e in related if public in eq_tokens(e["to_eq"])]
         from_hits = [e for e in related if public in eq_tokens(e["from_eq"])]
@@ -633,7 +676,7 @@ def render_claims(data: dict, model: Model) -> str:
         parts = [
             f'<article class="card claim-card" id="claim-{esc(c["id"])}">',
             f'<header><h3>{esc(c["id"])} {chip(c["status"])}</h3></header>',
-            f'<p class="stmt">{line}</p>',
+            f'<p class="stmt">{esc(line)}</p>',
         ]
         if view.get("note"):
             parts.append(f'<p class="stmt">{esc(view["note"])}</p>')
@@ -643,7 +686,7 @@ def render_claims(data: dict, model: Model) -> str:
             )
         if view.get("assumptions"):
             # Compact assumption lines may contain already-delimited TeX.
-            parts.append(f'<p class="ass">Assumptions: {view["assumptions"]}</p>')
+            parts.append(f'<p class="ass">Assumptions: {esc(view["assumptions"])}</p>')
         parts.append(
             f'<p class="blocks">Blocks: {link_obs(c.get("unresolved") or [])}</p>'
         )
@@ -677,7 +720,7 @@ def render_queue(data: dict) -> str:
         cards.append(
             f'<article class="card ob ob-card" id="ob-{esc(o["id"])}">'
             f"<h3>{esc(o['id'])} · {esc(title)} {chip(o['status'])}</h3>"
-            f'<p class="need"><span class="need-lab">Need to verify</span><br>{need}</p>'
+            f'<p class="need"><span class="need-lab">Need to verify</span><br>{esc(need)}</p>'
             f"{src_html}"
             f'<p class="blocks">Blocks: {" · ".join(blocks)}</p>'
             f'<div class="actions">{acts}</div></article>'
@@ -708,22 +751,36 @@ def render_judge_strip(data: dict) -> str:
 
 def render_central_edges(data: dict, model: Model) -> str:
     cids = central_edge_ids(data)
-    need, quiet = [], []
+    need, machine, cited = [], [], []
     for i in cids:
         if i not in model.by_id:
             continue
         e = model.by_id[i]
-        (quiet if e["status"] in DISCHARGED else need).append(e)
+        if e["status"] in DISCHARGED:
+            machine.append(e)
+        elif e["status"] in CITED_OR_STRUCTURAL:
+            cited.append(e)
+        else:
+            need.append(e)
     parts = [compact_edge(e, data) for e in need]
-    if quiet:
-        n = len(quiet)
+    if cited:
+        n = len(cited)
+        label = "step" if n == 1 else "steps"
+        parts.append(
+            f'<details class="cited-steps" id="cited-steps">'
+            f"<summary>{n} definition/cited-rule {label} (not machine Exact)</summary>"
+            f'{"".join(compact_edge(e, data) for e in cited)}'
+            f"</details>"
+        )
+    if machine:
+        n = len(machine)
         label = "step" if n == 1 else "steps"
         parts.append(
             f'<p class="discharged-line" id="discharged-count">'
-            f"✓ {n} machine-discharged {label} on this path.</p>"
+            f"✓ {n} machine-verified exact {label} on this path.</p>"
             f'<details class="discharged" id="discharged-steps">'
-            f"<summary>✓ {n} machine-discharged {label}</summary>"
-            f'{"".join(compact_edge(e, data) for e in quiet)}'
+            f"<summary>✓ {n} machine-verified exact {label}</summary>"
+            f'{"".join(compact_edge(e, data) for e in machine)}'
             f"</details>"
         )
     return "".join(parts)
@@ -739,7 +796,7 @@ def render_eq_drawer(model: Model) -> str:
         else:
             dest_html = ""
         label_html = f" · {esc(eq['tex_label'])}" if eq.get("tex_label") else ""
-        cue_html = display_cue(eq.get("cue") or "")
+        cue_html = display_cue(eq.get("tex") or eq.get("cue") or "")
         rows.append(
             f'<div class="eq-rec" id="eq-detail-{esc(eq["id"])}" '
             f'data-status="{esc(st)}" data-hue="{esc(hue_of(st))}">'
@@ -758,13 +815,11 @@ def render_eq_drawer(model: Model) -> str:
 
 
 def inv_counts(data: dict) -> dict:
-    inv = data.get("inventory") or {}
-    v2 = inv.get("v2") or {}
-    eqs = inv.get("equations") or []
+    eqs = (data.get("inventory") or {}).get("equations") or []
     return {
-        "total": v2.get("total") or len(eqs),
-        "main": v2.get("main") or sum(1 for e in eqs if e.get("section") == "main"),
-        "appendix": v2.get("appendix") or sum(
+        "total": len(eqs),
+        "main": sum(1 for e in eqs if e.get("section") == "main"),
+        "appendix": sum(
             1 for e in eqs if str(e.get("section", "")).startswith("appendix")
         ),
     }
@@ -772,21 +827,27 @@ def inv_counts(data: dict) -> dict:
 
 def render_html(data: dict) -> str:
     model = Model(data)
-    s = data.get("summary") or {}
     inv = inv_counts(data)
-    s.setdefault("overall_state", "AUDIT_INCOMPLETE")
-    s.setdefault("claim_count", len(data.get("claims") or []))
-    s.setdefault("relations_reconstructed", len(data.get("edges") or []))
-    s.setdefault("machine_certified_edges", sum(
-        1 for e in data.get("edges") or [] if e.get("status") in {"EXACT", "EXACT_IF_ASSUMPTIONS"}
-    ))
-    s.setdefault("assumption_dependent_edges", sum(
-        1 for e in data.get("edges") or [] if e.get("status") == "EXACT_IF_ASSUMPTIONS"
-    ))
-    s.setdefault("unresolved_load_bearing", sum(
-        1 for e in data.get("edges") or []
-        if e.get("load_bearing") and e.get("status") not in {"EXACT", "EXACT_IF_ASSUMPTIONS", "STRUCTURAL"}
-    ))
+    s = {
+        "overall_state": "AUDIT_INCOMPLETE",
+        "claim_count": len(data.get("claims") or []),
+        "relations_reconstructed": len(data.get("edges") or []),
+        "machine_certified_edges": sum(
+            1 for e in data.get("edges") or [] if e.get("status") == "EXACT"
+        ),
+        "assumption_dependent_edges": sum(
+            1 for e in data.get("edges") or []
+            if e.get("status") == "EXACT_IF_ASSUMPTIONS"
+        ),
+        "unresolved_load_bearing": sum(
+            1
+            for e in data.get("edges") or []
+            if e.get("status")
+            not in {"EXACT", "EXACT_IF_ASSUMPTIONS", "STRUCTURAL", "CITED_RULE"}
+        ),
+    }
+    if s["unresolved_load_bearing"] == 0 and s["machine_certified_edges"] > 0:
+        s["overall_state"] = "LOCAL_RESIDUALS_ONLY"
     counts = model.hue_counts()
     cids = central_edge_ids(data)
     chain = presentation(data).get("central_path") or " → ".join(
@@ -837,7 +898,7 @@ window.MathJax={{tex:{{inlineMath:[["\\\\(","\\\\)"]],displayMath:[["\\\\[","\\\
 <p class="kicker">Evidence ledger</p>
 <h1>{esc(data["paper"]["title"])}</h1>
 <p class="source">{authors}
- · Source: <a href="{esc(data["paper"]["source"])}">{esc(data["paper"]["source"])}</a>
+ · Source: {_safe_source_html(data.get("paper") or {})}
  · <strong>Presentation is not a certificate</strong></p>
 
 <div class="completeness" role="status">
@@ -1033,6 +1094,7 @@ def render_markdown(data: dict) -> str:
         "|---|---|---|---|",
     ]
     quiet_md = []
+    cited_md = []
     for i in cids:
         if i not in model.by_id:
             continue
@@ -1044,14 +1106,27 @@ def render_markdown(data: dict) -> str:
         )
         if e["status"] in DISCHARGED:
             quiet_md.append(row)
+        elif e["status"] in CITED_OR_STRUCTURAL:
+            cited_md.append(row)
         else:
             lines.append(row)
+    if cited_md:
+        n = len(cited_md)
+        label = "step" if n == 1 else "steps"
+        lines += [
+            "",
+            f"{n} definition/cited-rule {label} (not machine Exact).",
+            "",
+            "| From | To | Operation | Status |",
+            "|---|---|---|---|",
+        ]
+        lines.extend(cited_md)
     if quiet_md:
         n = len(quiet_md)
         label = "step" if n == 1 else "steps"
         lines += [
             "",
-            f"✓ {n} machine-discharged {label} on this path.",
+            f"✓ {n} machine-verified exact {label} on this path.",
             "",
             "| From | To | Operation | Status |",
             "|---|---|---|---|",
