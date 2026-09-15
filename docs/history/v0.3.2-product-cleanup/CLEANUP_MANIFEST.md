@@ -25,7 +25,7 @@ Nothing classified UNKNOWN was deleted.
 | examples/flagship/README.md | KEEP_PRODUCT | Compatibility pointer to Guo | examples/guo-evidence-ledger/ | no |
 | examples/forward/ | KEEP_EXAMPLE | Exact / refused demos | — | no |
 | docs/history/ | KEEP_HISTORY | Closed campaigns, 0* archive | — | no |
-| manuscripts/ | KEEP_MANUSCRIPT | — | — | no |
+| manuscripts/ | KEEP_MANUSCRIPT | unpublished drafts must not be public; archive removed after 0.3.2 | local only | yes (archive) |
 | tests/ | KEEP_TEST | — | — | no |
 | src/ | KEEP_PRODUCT | — | — | no |
 | .grok/skills/symbolic-compactification/ | KEEP_PRODUCT | Agent skill; Guo HTML contract unchanged | — | no |

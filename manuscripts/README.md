@@ -1,9 +1,12 @@
 # Manuscripts
 
-Publication-oriented paper drafts and supporting material live here.
+Unpublished drafts are **not** stored in this public repository.
 
-- `current/` — drafts in active preparation
-- `archive/` — frozen or superseded manuscript packages
+Keep local paper sources, supplements, and verification graphs outside
+git (for example under `manuscripts/current/`, which is gitignored except
+for a placeholder). Public demos use already-released papers only:
 
-Scientific audit cases are **not** manuscripts. Those live under `examples/`.
-Software tests live under `tests/`.
+- `examples/forward/` — synthetic compactification
+- `examples/audit/minimal/` — synthetic audit workspace
+- `examples/guo-evidence-ledger/` — Guo et al., Phys. Rev. Lett. 136, 206303
+- `examples/2604.04520/` — Anan et al., arXiv:2604.04520
