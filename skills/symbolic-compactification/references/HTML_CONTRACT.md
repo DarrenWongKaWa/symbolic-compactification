@@ -11,8 +11,11 @@ the strongest attention. One fact, one home.
 2. Coloured equation map (`#map-sec` before `#main`; `→` vs `⋯`).
 3. Major claims (compact).
 4. Central derivation (`from → to | operation | status`).
-   Exact / Exact-if-A / structural / cited-rule edges collapse behind
-   `✓ N machine-discharged steps`.
+   Exact / Exact-if-A edges collapse behind
+   `✓ N machine-verified exact steps`.
+   Structural / cited-rule edges are listed separately and must not be
+   called machine-discharged. Presentation cannot hide a central
+   `NONZERO_RESIDUAL` edge or replace a claim's conditions.
 5. Reviewer queue (strongest visual weight; Source on each card;
    one Accept-warning).
 

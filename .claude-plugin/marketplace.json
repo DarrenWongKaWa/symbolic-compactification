@@ -11,7 +11,7 @@
     {
       "name": "symbolic-compactification",
       "source": "./",
-      "description": "Audit scientific papers and derivations. Inventory numbered equations, reconstruct claims and load-bearing edges, emit audit.json plus reviewer HTML and Markdown.",
+      "description": "Compactify symbolic expressions with bound engine receipts, or audit paper derivations into a reviewer HTML evidence ledger. The model cannot write Exact.",
       "version": "0.3.2",
       "skills": "./skills"
     }

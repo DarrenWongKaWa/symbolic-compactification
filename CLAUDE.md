@@ -19,11 +19,11 @@ Alternative (plugin marketplace, after this repo is the catalog):
 /plugin install symbolic-compactification@symbolic-compactification
 ```
 
-Then, from an unrelated working directory, ask:
+Then, from an unrelated working directory, ask to compactify a formula, or:
 
 > Audit https://arxiv.org/abs/2604.04520.
 
-Do not duplicate the method. Read the installed skill. LLM judgment is never proof. Promote only on engine `ZERO`. Presentation is not a certificate.
+Do not duplicate the method. Read the installed skill. LLM judgment is never proof. Promote only on engine `ZERO`. The model does not write Exact. Presentation is not a certificate.
 
 Golden HTML (this repo only): `examples/guo-evidence-ledger/`.
 Anan benchmark: `examples/2604.04520/v3/`.

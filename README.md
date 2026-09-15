@@ -2,10 +2,13 @@
 
 **Verified symbolic reasoning for theoretical physics.**
 
-An installable scientific **paper audit** / derivation-audit skill. Give
-Codex or Claude Code a paper. It inventories numbered equations,
-reconstructs claims and load-bearing edges, and emits reviewer **HTML** +
+An installable skill with two tasks over one engine. **Compactify** a
+given expression: the agent proposes a candidate, the program checks the
+residual, and improvement is scored separately. **Paper audit** /
+derivation-audit still inventories numbered equations, reconstructs
+claims and load-bearing edges, and emits reviewer **HTML** +
 **Markdown**. A model may propose. Only exact `ZERO` is machine Exact.
+The model cannot write that status.
 
 This is not a CAS, not a theorem prover, and not an autonomous physicist.
 Core verification needs **no API key**.
@@ -36,12 +39,15 @@ Open a **new, unrelated directory**. Do not open this development repository.
 
 ## 3. Ask only
 
+Compactify a formula, or audit a paper:
+
 ```text
 Audit https://arxiv.org/abs/2604.04520.
 ```
 
-The installed skill supplies inventory, claim/derivation reconstruction,
-statuses, and the renderer.
+The installed skill supplies compactification (`compact_verify.py`),
+inventory, claim/derivation reconstruction, statuses, and the renderer.
+Machine Exact is issued only by `certify.py` / `compact_verify.py`.
 
 ## 4. Open the ledger
 
@@ -92,8 +98,8 @@ python3.12 -m venv .venv
 .venv/bin/symbolic-compactification --version
 ```
 
-Paper-audit **skill** path does not require that install. Scripts ship
-inside the skill folder (Python 3.10 stdlib).
+Reconstruction scripts ship inside the skill folder (Python 3.10 stdlib).
+Machine Exact still requires this engine install; without it, algebra stays a gap.
 
 ## Canonical skill
 
