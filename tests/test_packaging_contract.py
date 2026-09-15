@@ -200,6 +200,6 @@ def test_packaged_readme_is_the_research_preview_entrypoint() -> None:
     assert "derivation-audit" in readme.lower() or "derivation audit" in readme.lower()
     assert "Forward derivation" in readme
     assert all(verdict in readme for verdict in ("ZERO", "NONZERO", "UNKNOWN"))
-    assert "examples/guo-evidence-ledger" in readme
+    assert "examples/forward" in readme or "compact/verification.json" in readme
     assert "Publication decision: **E**" not in readme
     assert "AI discovers physics" not in readme

@@ -4,9 +4,10 @@ Unpublished drafts are **not** stored in this public repository.
 
 Keep local paper sources, supplements, and verification graphs outside
 git (for example under `manuscripts/current/`, which is gitignored except
-for a placeholder). Public demos use already-released papers only:
+for a placeholder). Default demos are synthetic:
 
-- `examples/forward/` — synthetic compactification
-- `examples/audit/minimal/` — synthetic audit workspace
-- `examples/guo-evidence-ledger/` — Guo et al., Phys. Rev. Lett. 136, 206303
-- `examples/2604.04520/` — Anan et al., arXiv:2604.04520
+- `examples/forward/` — compactification
+- `examples/audit/minimal/` — audit workspace
+
+Other trees under `examples/` are an optional case library and are not
+loaded by the installed skill.

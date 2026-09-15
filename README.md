@@ -39,23 +39,26 @@ Open a **new, unrelated directory**. Do not open this development repository.
 
 ## 3. Ask only
 
-Compactify a formula, or audit a paper:
-
 ```text
-Audit https://arxiv.org/abs/2604.04520.
+Compactify this formula. Keep the declared symbols and domain.
+Do not introduce a new name for the whole expression.
 ```
 
-The installed skill supplies compactification (`compact_verify.py`),
-inventory, claim/derivation reconstruction, statuses, and the renderer.
-Machine Exact is issued only by `certify.py` / `compact_verify.py`.
+The installed skill proposes a candidate, runs `compact_verify.py`, and
+writes a bound receipt. Machine Exact is issued only by `certify.py` /
+`compact_verify.py`.
 
-## 4. Open the ledger
+## 4. Open the result
 
 ```text
-audit/audit.html
-audit/audit.md
-audit/audit.json
+compact/result.tex
+compact/report.md
+compact/verification.json
+compact/unresolved.md
 ```
+
+Paper audit is a secondary path. It starts only when the user asks to
+audit a derivation, not because an arXiv link appears in a translation.
 
 ## What green / blue / orange / red mean
 
@@ -69,23 +72,16 @@ audit/audit.json
 
 Green is a local residual, not a paper pass. Human Accept does not stamp Exact.
 
-## Flagship (golden reference)
+## Optional case library (not loaded by the skill)
 
-Guo et al., Phys. Rev. Lett. 136, 206303.
+`examples/` holds historical paper audits and synthetic toys. They are
+**not** default knowledge. A new task must not copy their claims,
+equation numbers, or conclusions.
 
-[`examples/guo-evidence-ledger/output/index.html`](examples/guo-evidence-ledger/output/index.html)
-
-Do not copy Guo claims into another paper.
-
-## Independent benchmark
-
-Anan, Kitamura, Morimoto, arXiv:2604.04520 (V3.1 five-layer page):
-
-[`examples/2604.04520/v3/audit.html`](examples/2604.04520/v3/audit.html)
+- Synthetic compactification: `examples/forward/`
+- Synthetic audit workspace: `examples/audit/minimal/`
 
 Status semantics: [`skills/symbolic-compactification/references/STATUSES.md`](skills/symbolic-compactification/references/STATUSES.md).
-Portability tests: [`validation/PORTABILITY_REPORT.md`](validation/PORTABILITY_REPORT.md).
-UI comparison: [`examples/2604.04520/comparison/UI_COMPARISON.md`](examples/2604.04520/comparison/UI_COMPARISON.md).
 
 ## Forward derivation (engine CLI)
 
