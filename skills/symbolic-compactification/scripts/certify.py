@@ -81,6 +81,12 @@ def certify(proposal: dict, *, inventory: dict | None = None) -> dict:
             functions=edge.get("functions") or [],
             from_eq=str(edge.get("from_eq") or ""),
             to_eq=str(edge.get("to_eq") or ""),
+            from_source_hash=ledger.equation_source_hash(
+                data, str(edge.get("from_eq") or "")
+            ),
+            to_source_hash=ledger.equation_source_hash(
+                data, str(edge.get("to_eq") or "")
+            ),
         )
         receipts[edge["id"]] = receipt
         edge["status"] = ledger.status_from_verdict(
@@ -91,28 +97,50 @@ def certify(proposal: dict, *, inventory: dict | None = None) -> dict:
                 edge["status"] = "ASYMPTOTIC_UNCERTIFIED"
     for claim in data.get("claims") or []:
         related = ledger.supporting_edges(claim, data.get("edges") or [])
+        claim["related_edge_ids"] = [
+            edge.get("id") for edge in related if edge.get("id")
+        ]
+        compiled = bool(
+            claim.get("lhs") and claim.get("rhs") and claim.get("symbols")
+        )
         if ledger.remainder_language(str(claim.get("statement") or "")):
             claim["status"] = "ASYMPTOTIC_UNCERTIFIED"
             continue
-        if claim.get("unresolved"):
-            if claim.get("status") in ledger.MACHINE_GREEN:
-                claim["status"] = "GAP"
-            continue
-        if not related:
-            if claim.get("status") in ledger.MACHINE_GREEN:
-                claim["status"] = "GAP"
-            continue
-        statuses = [edge.get("status") for edge in related]
-        if any(st == "NONZERO_RESIDUAL" for st in statuses):
+        if any(edge.get("status") == "NONZERO_RESIDUAL" for edge in related):
             claim["status"] = "NONZERO_RESIDUAL"
-        elif any(st not in ledger.MACHINE_GREEN | ledger.STRUCTURAL_STATUSES for st in statuses):
+            continue
+        if not compiled:
+            if claim.get("status") in ledger.MACHINE_GREEN:
+                claim["status"] = "GAP"
+            continue
+        if verify is None:
             claim["status"] = "GAP"
-        elif any(st == "EXACT_IF_ASSUMPTIONS" for st in statuses):
-            claim["status"] = "EXACT_IF_ASSUMPTIONS"
-        elif any(st == "EXACT" for st in statuses):
-            claim["status"] = "EXACT"
-        else:
-            claim["status"] = "STRUCTURAL"
+            continue
+        result = verify(
+            claim["lhs"],
+            claim["rhs"],
+            claim["symbols"],
+            assumptions={"declared": claim.get("assumptions") or []},
+            functions=claim.get("functions"),
+        )
+        receipts[claim["id"]] = ledger.make_receipt(
+            edge_id=claim.get("id") or "",
+            lhs=claim["lhs"],
+            rhs=claim["rhs"],
+            assumptions=claim.get("assumptions") or [],
+            symbols=claim["symbols"],
+            domain=str(claim.get("domain") or ""),
+            kind=str(claim.get("kind") or ""),
+            verdict=result.verdict,
+            residual=getattr(result, "residual", "") or "",
+            counterexample=getattr(result, "counterexample", None),
+            functions=claim.get("functions") or [],
+        )
+        claim["status"] = ledger.status_from_verdict(
+            result.verdict,
+            assumptions=claim.get("assumptions") or [],
+            kind=str(claim.get("kind") or ""),
+        )
     data["certification"] = {
         "issuer": ledger.CERTIFY_ISSUER,
         "engine": identity,

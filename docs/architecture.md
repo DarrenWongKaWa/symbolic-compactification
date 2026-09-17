@@ -21,6 +21,27 @@ The human owns scientific meaning and assumptions. A coding agent owns
 structure discovery and candidate proposals. Only the deterministic engine
 owns adjudication and certification.
 
+Portable skill layers (HTML is output, not derivation; the skill is the
+call entry, not the trusted kernel):
+
+```text
+user formula and goal
+    -> input snapshot and mathematical contract
+    -> agent proposes a candidate
+    -> verifier checks a typed relation
+    -> accept only on bound ZERO; keep failures
+    -> fixed template emits HTML / Markdown / LaTeX
+```
+
+| Layer | Owns | Must not |
+|---|---|---|
+| Skill entry | Call the workflow and explain results | Stamp a mathematical conclusion |
+| Input / parse | Keep source, domain, assumptions, location | Silently rewrite the original |
+| Orchestration | Candidates, retries, progress | Turn a failed check into success |
+| Verifier | Check a stated relation under a stated domain | Endorse a paper's physics |
+| Evidence | Bind input, candidate, conditions, engine, result | Store "the model thought this was right" |
+| Presentation | Show source, candidate, conditions, verdicts | Change a formula, drop a condition, or restamp status |
+
 ## Responsibility map
 
 | Stage | Module | Responsibility and boundary |

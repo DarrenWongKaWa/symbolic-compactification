@@ -17,9 +17,9 @@ Then run one of:
 
 - [Forward derivation](forward-derivation.md): `examples/forward/exact-step`
 - [Paper audit](paper-audit.md): `examples/audit/minimal`
-- Flagship HTML: `examples/guo-evidence-ledger/output/index.html`
-- Flagship Markdown: `examples/guo-evidence-ledger/output/REPORT.md`
-- Anan V3 HTML: `examples/2604.04520/v3/audit.html`
+
+Historical paper audits under `examples/` are an optional case library.
+They are not default knowledge for a new task.
 
 `verify` never overwrites your input files. Generated records go under
 `runs/` inside the workspace you copied.

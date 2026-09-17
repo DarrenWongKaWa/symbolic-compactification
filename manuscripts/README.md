@@ -1,9 +1,13 @@
 # Manuscripts
 
-Publication-oriented paper drafts and supporting material live here.
+Unpublished drafts are **not** stored in this public repository.
 
-- `current/` — drafts in active preparation
-- `archive/` — frozen or superseded manuscript packages
+Keep local paper sources, supplements, and verification graphs outside
+git (for example under `manuscripts/current/`, which is gitignored except
+for a placeholder). Default demos are synthetic:
 
-Scientific audit cases are **not** manuscripts. Those live under `examples/`.
-Software tests live under `tests/`.
+- `examples/forward/` — compactification
+- `examples/audit/minimal/` — audit workspace
+
+Other trees under `examples/` are an optional case library and are not
+loaded by the installed skill.

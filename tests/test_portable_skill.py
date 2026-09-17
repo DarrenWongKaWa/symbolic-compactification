@@ -26,6 +26,8 @@ def test_canonical_skill_frontmatter_and_triggers():
     ):
         assert needle in lowered, needle
     assert "2604.04520" not in text
+    assert "guo" not in lowered
+    assert "anan" not in lowered
     assert "eq. (4)" not in lowered
     assert "split distinct transformations" in lowered
     method = (SKILL / "references" / "METHOD.md").read_text().lower()
@@ -108,7 +110,8 @@ def test_agents_and_claude_point_at_canonical_skill_without_duplicating_method()
     for blob in (agents, claude):
         assert "skills/symbolic-compactification/SKILL.md" in blob
         assert "gh skill install" in blob
-        assert "Audit https://arxiv.org/abs/2604.04520." in blob
+        assert "compactify" in blob.lower()
+        assert "2604.04520" not in blob
         assert "Do not duplicate the method" in blob or "not defined here" in blob.lower()
 
 
@@ -117,5 +120,6 @@ def test_readme_install_then_minimal_prompt():
     assert "gh skill install DarrenWongKaWa/symbolic-compactification" in readme
     assert "--agent codex" in readme
     assert "--agent claude-code" in readme
-    assert "Audit https://arxiv.org/abs/2604.04520." in readme
-    assert "audit/audit.html" in readme
+    assert "Compactify this formula" in readme
+    assert "compact/verification.json" in readme
+    assert "2604.04520" not in readme

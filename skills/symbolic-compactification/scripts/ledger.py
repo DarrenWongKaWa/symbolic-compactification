@@ -75,6 +75,8 @@ def binding_fields(payload: dict) -> dict:
         "kind": payload.get("kind") or "",
         "from_eq": payload.get("from_eq") or "",
         "to_eq": payload.get("to_eq") or "",
+        "from_source_hash": payload.get("from_source_hash") or "",
+        "to_source_hash": payload.get("to_source_hash") or "",
     }
 
 
@@ -91,6 +93,23 @@ def eq_tokens(text: str) -> list[str]:
             else (match.group(2) or match.group(3))
         )
     return out
+
+
+def lookup_equation(data: dict, token: str) -> dict | None:
+    needle = (token or "").strip()
+    if not needle:
+        return None
+    for eq in (data.get("inventory") or {}).get("equations") or []:
+        if eq.get("public") == needle or eq.get("id") == needle:
+            return eq
+    return None
+
+
+def equation_source_hash(data: dict, token: str) -> str:
+    eq = lookup_equation(data, token)
+    if not eq:
+        return ""
+    return sha256_text((eq.get("tex") or eq.get("cue") or "").strip())
 
 
 def inventory_keys(data: dict) -> set[str]:
@@ -264,7 +283,7 @@ def check_ledger(data: dict) -> list[str]:
         if status == "EXACT_IF_ASSUMPTIONS" and not (edge.get("assumptions") or []):
             err.append(f"edge {eid} EXACT_IF_ASSUMPTIONS without assumptions")
         if status in MACHINE_GREEN:
-            err.extend(_check_machine_green(edge, receipts.get(eid)))
+            err.extend(_check_machine_green(edge, receipts.get(eid), data))
 
     seen_claims: set[str] = set()
     for claim in claims:
@@ -285,7 +304,15 @@ def check_ledger(data: dict) -> list[str]:
         unresolved = claim.get("unresolved") or []
         if status in MACHINE_GREEN and unresolved:
             err.append(f"claim {cid} {status} lists unresolved items")
-        if status in MACHINE_GREEN:
+        compiled = bool(
+            claim.get("lhs") and claim.get("rhs") and claim.get("symbols")
+        )
+        if status in MACHINE_GREEN and not compiled:
+            err.append(
+                f"claim {cid} {status} is a textual conclusion; "
+                "related edges cannot stamp Exact on uncompiled prose"
+            )
+        if status in MACHINE_GREEN and compiled:
             related = supporting_edges(claim, edges)
             if not related:
                 err.append(f"claim {cid} {status} without supporting edges")
@@ -296,11 +323,29 @@ def check_ledger(data: dict) -> list[str]:
                         f"claim {cid} {status} depends on {edge.get('id')} {est}"
                     )
                 if est in MACHINE_GREEN:
-                    err.extend(_check_machine_green(edge, receipts.get(edge.get("id"))))
-            if status == "EXACT" and not any(
-                edge.get("status") == "EXACT" for edge in related
-            ):
-                err.append(f"claim {cid} EXACT without an EXACT supporting edge")
+                    err.extend(
+                        _check_machine_green(edge, receipts.get(edge.get("id")), data)
+                    )
+            receipt = receipts.get(cid)
+            err.extend(
+                _check_machine_green(
+                    {
+                        "id": cid,
+                        "lhs": claim.get("lhs"),
+                        "rhs": claim.get("rhs"),
+                        "symbols": claim.get("symbols"),
+                        "functions": claim.get("functions") or [],
+                        "assumptions": claim.get("assumptions") or [],
+                        "domain": claim.get("domain") or "",
+                        "kind": claim.get("kind") or "",
+                        "from_eq": "",
+                        "to_eq": "",
+                        "status": status,
+                    },
+                    receipt,
+                    data,
+                )
+            )
 
     for obligation in obligations:
         oid = obligation.get("id") or "?"
@@ -328,7 +373,7 @@ def check_ledger(data: dict) -> list[str]:
     return err
 
 
-def _check_machine_green(edge: dict, receipt: Any) -> list[str]:
+def _check_machine_green(edge: dict, receipt: Any, data: dict) -> list[str]:
     eid = edge.get("id")
     err: list[str] = []
     if not (edge.get("lhs") and edge.get("rhs") and edge.get("symbols")):
@@ -352,10 +397,20 @@ def _check_machine_green(edge: dict, receipt: Any) -> list[str]:
         err.append(f"edge {eid} functions do not match receipt")
     if (edge.get("assumptions") or []) != (receipt.get("assumptions") or []):
         err.append(f"edge {eid} assumptions do not match receipt")
+    if (edge.get("domain") or "") != (receipt.get("domain") or ""):
+        err.append(f"edge {eid} domain does not match receipt")
+    if (edge.get("kind") or "") != (receipt.get("kind") or ""):
+        err.append(f"edge {eid} kind does not match receipt")
     if (edge.get("from_eq") or "") != (receipt.get("from_eq") or "") or (
         edge.get("to_eq") or ""
     ) != (receipt.get("to_eq") or ""):
         err.append(f"edge {eid} equation endpoints do not match receipt")
+    from_h = equation_source_hash(data, str(edge.get("from_eq") or ""))
+    to_h = equation_source_hash(data, str(edge.get("to_eq") or ""))
+    if from_h and (receipt.get("from_source_hash") or "") != from_h:
+        err.append(f"edge {eid} from_eq source no longer matches the receipt")
+    if to_h and (receipt.get("to_source_hash") or "") != to_h:
+        err.append(f"edge {eid} to_eq source no longer matches the receipt")
     stored = receipt.get("input_hash")
     expected = binding_hash(receipt)
     if not (isinstance(stored, str) and _HASH_RE.fullmatch(stored)):
@@ -420,6 +475,8 @@ def make_receipt(
     functions: Any = None,
     from_eq: str = "",
     to_eq: str = "",
+    from_source_hash: str = "",
+    to_source_hash: str = "",
 ) -> dict:
     payload = {
         "schema": RECEIPT_SCHEMA,
@@ -433,6 +490,8 @@ def make_receipt(
         "functions": functions or [],
         "from_eq": from_eq or "",
         "to_eq": to_eq or "",
+        "from_source_hash": from_source_hash or "",
+        "to_source_hash": to_source_hash or "",
         "verdict": verdict,
         "residual": residual,
         "counterexample": counterexample,

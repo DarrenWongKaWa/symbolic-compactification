@@ -44,6 +44,11 @@ workspace/input/expressions/*
 # Local unpublished validation (never commit; never package)
 .private_validation/
 
+# Unpublished manuscript drafts and verification graphs
+manuscripts/archive/
+manuscripts/current/*
+!manuscripts/current/.gitkeep
+
 # Generated audit reports (keep .gitkeep)
 examples/audit/*/reports/*
 !examples/audit/*/reports/.gitkeep

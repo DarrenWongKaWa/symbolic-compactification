@@ -1,1 +1,0 @@
-Rational(1,4) + psi/(2*pi*I)

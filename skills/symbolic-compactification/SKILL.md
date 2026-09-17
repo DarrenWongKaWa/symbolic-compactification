@@ -176,8 +176,8 @@ Required scientific work:
 
 Do **not** invent Eq. (i) → Eq. (i+1) because numbers are consecutive.
 Do **not** stamp Exact on remainders, limits, special functions, or numerics.
-Do **not** copy another paper's claims (Guo is a golden *reference*, not an
-answer key).
+Do **not** copy claims, equation numbers, or conclusions from another paper
+or from any example in this repository.
 
 #### 4. Certify, check, render
 
@@ -236,7 +236,7 @@ different complete equation.
 - Treating a candidate as a result before engine `ZERO`
 - Inventing adjacency edges
 - Putting `0*` in reviewer HTML
-- Copying Guo-specific equation numbers into another paper's audit
+- Copying another paper's equation numbers or conclusions into this audit
 - Requiring the user to name this skill or a script path
 - Writing Exact because the algebra "looks obvious"
 

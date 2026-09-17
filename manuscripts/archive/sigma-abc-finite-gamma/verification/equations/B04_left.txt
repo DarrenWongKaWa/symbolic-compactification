@@ -1,1 +1,0 @@
-I*(v_nm_a*v_mn_a - v_nm_a*v_mn_a)/eps_nm**2
