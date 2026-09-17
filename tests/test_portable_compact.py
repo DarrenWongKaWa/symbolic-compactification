@@ -55,6 +55,9 @@ def test_compact_verify_promotes_only_on_zero_and_records_improvement(tmp_path: 
     assert receipt["relation"]["verdict"] == "ZERO"
     assert receipt["improvement"]["verdict"] in {"IMPROVED", "NO_IMPROVEMENT", "DEPENDS"}
     assert (out / "result.tex").is_file()
+    tex = (out / "result.tex").read_text(encoding="utf-8")
+    assert "**" not in tex
+    assert "^" in tex or "^{" in tex
     assert (out / "report.md").is_file()
     assert (out / "unresolved.md").is_file()
 
@@ -139,6 +142,60 @@ def test_name_wrapper_is_not_an_improvement(tmp_path: Path):
     receipt = json.loads((out / "verification.json").read_text(encoding="utf-8"))
     assert receipt["improvement"]["verdict"] == "NO_IMPROVEMENT"
     assert receipt["improvement"]["reason_code"] == "DEFINITION_WRAP"
+
+
+def test_compact_input_error_does_not_keep_previous_result(tmp_path: Path):
+    current = tmp_path / "current.txt"
+    candidate = tmp_path / "candidate.txt"
+    symbols = tmp_path / "symbols.json"
+    current.write_text("x**2 + 2*x + 1\n", encoding="utf-8")
+    candidate.write_text("(x + 1)**2\n", encoding="utf-8")
+    symbols.write_text(
+        json.dumps({"symbols": [{"name": "x", "real": True, "nonzero": False}]}),
+        encoding="utf-8",
+    )
+    out = tmp_path / "out"
+    first = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPTS / "compact_verify.py"),
+            "--current",
+            str(current),
+            "--candidate",
+            str(candidate),
+            "--symbols",
+            str(symbols),
+            "--out",
+            str(out),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert first.returncode == 0
+    assert (out / "result.tex").is_file()
+    symbols.write_text("{not json", encoding="utf-8")
+    second = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPTS / "compact_verify.py"),
+            "--current",
+            str(current),
+            "--candidate",
+            str(candidate),
+            "--symbols",
+            str(symbols),
+            "--out",
+            str(out),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert second.returncode != 0
+    assert not (out / "result.tex").exists()
+    record = json.loads((out / "verification.json").read_text(encoding="utf-8"))
+    assert record["relation"]["verdict"] == "ERROR"
 
 
 def test_doctor_reports_engine_or_reconstruction_mode():

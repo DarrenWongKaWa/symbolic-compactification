@@ -163,6 +163,9 @@ def verify_candidate(
         residual=result.residual,
         counterexample=result.counterexample,
     )
+    result_latex = ""
+    if result.verdict == "ZERO":
+        result_latex = _to_latex(candidate, symbols)
     return {
         "schema": ledger.RECEIPT_SCHEMA,
         "relation": relation,
@@ -171,7 +174,39 @@ def verify_candidate(
         "engine": bound["engine"],
         "definitions": definitions,
         "domain": domain,
+        "result_latex": result_latex,
     }
+
+
+def _to_latex(expr: str, symbols: list) -> str:
+    try:
+        from symbolic_compactification.parser import parse_expression
+        import sympy
+    except ImportError:
+        return expr
+    parsed = parse_expression(expr, symbols)
+    return sympy.latex(parsed)
+
+
+def _write_failure(out: Path, reason: str) -> None:
+    out.mkdir(parents=True, exist_ok=True)
+    stale = out / "result.tex"
+    if stale.exists():
+        stale.unlink()
+    record = {
+        "schema": "VerificationReceiptV1",
+        "relation": {"verdict": "ERROR", "reason": reason},
+        "improvement": {"verdict": "NO_IMPROVEMENT", "reason_code": "INPUT_ERROR"},
+    }
+    (out / "verification.json").write_text(
+        json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    (out / "unresolved.md").write_text(
+        f"# Unresolved\n\n- {reason}\n", encoding="utf-8"
+    )
+    (out / "report.md").write_text(
+        f"# Compactification report\n\nInput failed: {reason}\n", encoding="utf-8"
+    )
 
 
 def _write_outputs(out: Path, record: dict) -> None:
@@ -214,10 +249,9 @@ def _write_outputs(out: Path, record: dict) -> None:
     ]
     (out / "report.md").write_text("\n".join(report), encoding="utf-8")
     if relation.get("verdict") == "ZERO":
-        (out / "result.tex").write_text(
-            relation.get("candidate_as_submitted") or relation.get("rhs") or "",
-            encoding="utf-8",
-        )
+        submitted = relation.get("candidate_as_submitted") or relation.get("rhs") or ""
+        latex = record.get("result_latex") or submitted
+        (out / "result.tex").write_text(latex + "\n", encoding="utf-8")
 
 
 def main() -> int:
@@ -229,16 +263,21 @@ def main() -> int:
     parser.add_argument("--domain", default="")
     parser.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
-    definitions = {}
-    if args.definitions:
-        definitions = json.loads(args.definitions.read_text(encoding="utf-8"))
-    record = verify_candidate(
-        _read(args.current),
-        _read(args.candidate),
-        _load_symbols(args.symbols),
-        definitions=definitions,
-        domain=args.domain,
-    )
+    try:
+        definitions = {}
+        if args.definitions:
+            definitions = json.loads(args.definitions.read_text(encoding="utf-8"))
+        record = verify_candidate(
+            _read(args.current),
+            _read(args.candidate),
+            _load_symbols(args.symbols),
+            definitions=definitions,
+            domain=args.domain,
+        )
+    except Exception as exc:
+        _write_failure(args.out, str(exc))
+        print("ERROR", args.out)
+        return 4
     _write_outputs(args.out, record)
     verdict = record["relation"].get("verdict")
     if verdict == "ZERO":

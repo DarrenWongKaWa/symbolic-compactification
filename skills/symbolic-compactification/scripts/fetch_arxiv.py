@@ -187,15 +187,14 @@ def fetch(arxiv_id: str, dest: Path) -> Path:
         final_url = getattr(resp, "geturl", lambda: url)()
         blob = _bounded_read(resp, MAX_DOWNLOAD_BYTES)
     digest = hashlib.sha256(blob).hexdigest()
-    _reset_dest(dest)
-    (dest / "eprint").write_bytes(blob)
-
     if _looks_html(blob):
         raise FetchError("server returned HTML, not an e-print")
 
-    staging = Path(tempfile.mkdtemp(prefix="ssc-fetch-", dir=str(dest)))
+    staging = Path(tempfile.mkdtemp(prefix="ssc-fetch-"))
     try:
         if _looks_pdf(blob):
+            _reset_dest(dest)
+            (dest / "eprint").write_bytes(blob)
             pdf = dest / "paper.pdf"
             pdf.write_bytes(blob)
             _write_meta(
@@ -210,10 +209,10 @@ def fetch(arxiv_id: str, dest: Path) -> Path:
 
         try:
             src = _extract_tar(blob, staging)
+            _reset_dest(dest)
+            (dest / "eprint").write_bytes(blob)
             final_src = dest / "src"
-            if final_src.exists():
-                shutil.rmtree(final_src)
-            src.rename(final_src)
+            shutil.move(str(src), str(final_src))
             _write_meta(
                 dest,
                 arxiv_id=aid,
@@ -232,6 +231,8 @@ def fetch(arxiv_id: str, dest: Path) -> Path:
         if _looks_html(raw):
             raise FetchError("server returned HTML, not an e-print")
         if _looks_pdf(raw):
+            _reset_dest(dest)
+            (dest / "eprint").write_bytes(blob)
             pdf = dest / "paper.pdf"
             pdf.write_bytes(raw)
             _write_meta(
@@ -244,6 +245,8 @@ def fetch(arxiv_id: str, dest: Path) -> Path:
             )
             return pdf
         if _looks_tex(raw):
+            _reset_dest(dest)
+            (dest / "eprint").write_bytes(blob)
             src = dest / "src"
             src.mkdir(parents=True, exist_ok=True)
             tex = src / "main.tex"

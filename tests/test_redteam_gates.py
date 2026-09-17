@@ -303,11 +303,175 @@ def test_compiled_identity_is_allowed_as_exact(check_mod):
                 residual=result.residual,
                 from_eq="(1)",
                 to_eq="(2)",
+                from_source_hash=ledger.equation_source_hash(data, "(1)"),
+                to_source_hash=ledger.equation_source_hash(data, "(2)"),
             )
         },
     }
     data["summary"] = ledger.compute_summary(data)
     assert check_mod.check(data) == []
+
+
+def test_inventory_source_change_invalidates_old_receipt(check_mod):
+    pytest.importorskip("symbolic_compactification")
+    ledger = load_script("ledger")
+    verify = ledger.load_verify_equivalent()
+    lhs = "x**2 + 2*x + 1"
+    rhs = "(x + 1)**2"
+    symbols = [{"name": "x", "real": True, "nonzero": False}]
+    result = verify(lhs, rhs, symbols)
+    data = base_audit()
+    data["inventory"]["equations"][1]["tex"] = lhs
+    data["inventory"]["equations"][1]["cue"] = lhs
+    data["edges"][0].update(
+        status="EXACT", lhs=lhs, rhs=rhs, symbols=symbols, transformation="factor"
+    )
+    data["certification"] = {
+        "issuer": "scripts/certify.py",
+        "receipts": {
+            "E-1": ledger.make_receipt(
+                edge_id="E-1",
+                lhs=lhs,
+                rhs=rhs,
+                assumptions=[],
+                symbols=symbols,
+                domain="",
+                kind="",
+                verdict=result.verdict,
+                residual=result.residual,
+                from_eq="(1)",
+                to_eq="(2)",
+                from_source_hash=ledger.equation_source_hash(data, "(1)"),
+                to_source_hash=ledger.equation_source_hash(data, "(2)"),
+            )
+        },
+    }
+    assert check_mod.check(data) == []
+    data["inventory"]["equations"][1]["tex"] = "x**2 + 2*x"
+    data["inventory"]["equations"][1]["cue"] = "x**2 + 2*x"
+    data["inventory"]["equations"][1]["tex_sha256"] = "deadbeef"
+    err = check_mod.check(data)
+    assert any("source" in e.lower() for e in err)
+
+
+def test_domain_change_invalidates_old_receipt(check_mod):
+    pytest.importorskip("symbolic_compactification")
+    ledger = load_script("ledger")
+    verify = ledger.load_verify_equivalent()
+    lhs = "x**2 + 2*x + 1"
+    rhs = "(x + 1)**2"
+    symbols = [{"name": "x", "real": True, "nonzero": False}]
+    result = verify(lhs, rhs, symbols)
+    data = base_audit()
+    data["edges"][0].update(
+        status="EXACT",
+        lhs=lhs,
+        rhs=rhs,
+        symbols=symbols,
+        domain="reals",
+        kind="ALGEBRAIC_EQUIVALENCE",
+    )
+    data["certification"] = {
+        "issuer": "scripts/certify.py",
+        "receipts": {
+            "E-1": ledger.make_receipt(
+                edge_id="E-1",
+                lhs=lhs,
+                rhs=rhs,
+                assumptions=[],
+                symbols=symbols,
+                domain="reals",
+                kind="ALGEBRAIC_EQUIVALENCE",
+                verdict=result.verdict,
+                residual=result.residual,
+                from_eq="(1)",
+                to_eq="(2)",
+                from_source_hash=ledger.equation_source_hash(data, "(1)"),
+                to_source_hash=ledger.equation_source_hash(data, "(2)"),
+            )
+        },
+    }
+    assert check_mod.check(data) == []
+    data["edges"][0]["domain"] = "complex"
+    err = check_mod.check(data)
+    assert any("domain" in e.lower() for e in err)
+
+
+def test_textual_claim_cannot_inherit_exact_from_related_edge(check_mod):
+    pytest.importorskip("symbolic_compactification")
+    ledger = load_script("ledger")
+    verify = ledger.load_verify_equivalent()
+    lhs = "x**2 + 2*x + 1"
+    rhs = "(x + 1)**2"
+    symbols = [{"name": "x", "real": True, "nonzero": False}]
+    result = verify(lhs, rhs, symbols)
+    data = base_audit()
+    data["edges"][0].update(
+        status="EXACT", lhs=lhs, rhs=rhs, symbols=symbols, transformation="factor"
+    )
+    data["claims"] = [
+        {
+            "id": "C1",
+            "status": "EXACT",
+            "statement": "1 = 2",
+            "supporting_equations": ["(2)"],
+            "unresolved": [],
+        }
+    ]
+    data["certification"] = {
+        "issuer": "scripts/certify.py",
+        "receipts": {
+            "E-1": ledger.make_receipt(
+                edge_id="E-1",
+                lhs=lhs,
+                rhs=rhs,
+                assumptions=[],
+                symbols=symbols,
+                domain="",
+                kind="",
+                verdict=result.verdict,
+                residual=result.residual,
+                from_eq="(1)",
+                to_eq="(2)",
+                from_source_hash=ledger.equation_source_hash(data, "(1)"),
+                to_source_hash=ledger.equation_source_hash(data, "(2)"),
+            )
+        },
+    }
+    data["summary"] = ledger.compute_summary(data)
+    err = check_mod.check(data)
+    assert any("textual" in e.lower() or "prose" in e.lower() for e in err)
+    certify = load_script("certify")
+    out = certify.certify(data)
+    assert out["claims"][0]["status"] != "EXACT"
+
+
+def test_render_check_refuses_unearned_exact(tmp_path, render_mod):
+    data = base_audit()
+    data["edges"][0]["status"] = "EXACT"
+    audit = tmp_path / "audit.json"
+    audit.write_text(json.dumps(data), encoding="utf-8")
+    out = tmp_path / "out"
+    import subprocess
+    import sys
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPTS / "render.py"),
+            "--audit",
+            str(audit),
+            "--out",
+            str(out),
+            "--check",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0
+    assert "EVIDENCE_FAIL" in proc.stdout
+    assert not (out / "audit.html").exists()
 
 
 def test_gap_fixture_without_machine_green_still_passes(check_mod):
@@ -479,6 +643,10 @@ def test_f01_archive_traversal_stays_inside_dest(fetch_mod, tmp_path):
 
 def test_f02_html_error_page_is_not_saved_as_pdf(fetch_mod, tmp_path):
     dest = tmp_path / "html"
+    dest.mkdir()
+    kept = dest / "src"
+    kept.mkdir()
+    (kept / "old.tex").write_text("KEEP", encoding="utf-8")
     with pytest.raises(Exception):
         _fetch_bytes(
             fetch_mod,
@@ -486,6 +654,7 @@ def test_f02_html_error_page_is_not_saved_as_pdf(fetch_mod, tmp_path):
             dest,
         )
     assert not (dest / "paper.pdf").exists()
+    assert (kept / "old.tex").read_text(encoding="utf-8") == "KEEP"
 
 
 def test_f03_gzipped_tex_is_not_mislabeled_pdf(fetch_mod, tmp_path):
@@ -547,6 +716,18 @@ def test_r02_presentation_cannot_replace_claim_or_hide_assumptions(render_mod):
     assert view["line"] == "Only if x is positive"
     assert view["assumptions"] is not None
     assert "x>0" in view["assumptions"]
+
+
+def test_cases_environment_keeps_row_breaks(render_mod):
+    cue = r"\begin{cases} x & x>0 \\ -x & x\leq 0 \end{cases}"
+    display = render_mod.display_cue(cue)
+    assert r"\\" in display
+    assert r"\begin{cases}" in display
+    assert "tex-fallback" in display
+    fallback = display[display.find('class="tex-fallback"') :]
+    assert r"\\" in fallback
+    assert r"\begin{cases}" in fallback
+    assert "&amp;" in fallback or "&" in fallback
 
 
 def test_r03_truncated_fraction_is_not_rewritten_into_another_equation(render_mod):

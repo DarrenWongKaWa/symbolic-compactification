@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Render V3.1 HTML and Markdown from audit.json.
 
-Paper-agnostic. Statuses are copied from audit.json; this script does
-not recertify. Optional presentation hints live under
-audit.json['presentation'] and never change a scientific status.
+Presentation copies statuses; it does not invent them. Default --check
+runs the evidence-chain checker first and refuses to emit a page when
+machine-green statuses are unearned. --layout-only is page structure only.
 """
 from __future__ import annotations
 
 import argparse
 import html
+import importlib.util
 import json
 import re
 from collections import defaultdict
@@ -214,9 +215,14 @@ JS = r"""
   }
   function mathFallback(){
     document.querySelectorAll(".tex").forEach(function(el){
-      if(el.querySelector("mjx-container, .MathJax, .mjx-chtml")) return;
       var pre=el.querySelector(".tex-fallback");
-      if(pre) pre.hidden=false;
+      if(!pre) return;
+      var err=el.querySelector("mjx-merror, [data-mjx-error], .mjx-error");
+      var ok=el.querySelector("mjx-container, .MathJax, .mjx-chtml");
+      if(err || !ok){
+        pre.hidden=false;
+        el.classList.add("tex-render-failed");
+      }
     });
   }
   document.addEventListener("click", function(ev){
@@ -360,7 +366,14 @@ def array_to_pmatrix(tex: str) -> str:
     return ARRAY_RE.sub(repl, tex)
 
 
+KEEP_ALIGN_ENV_RE = re.compile(
+    r"\\begin\{(cases|aligned|align|gather|array|matrix|pmatrix|bmatrix|vmatrix|Bmatrix)\}"
+)
+
+
 def strip_align_outside_pmatrix(tex: str) -> str:
+    if KEEP_ALIGN_ENV_RE.search(tex or ""):
+        return tex
     parts = PMATRIX_SPLIT_RE.split(tex)
     out = []
     for i, part in enumerate(parts):
@@ -424,26 +437,25 @@ def display_cue(cue: str) -> str:
     """Turn an inventory cue into MathJax without changing the math object.
 
     Incomplete source is shown escaped with an INCOMPLETE_SOURCE mark.
-    Salvage never deletes operators. The fallback is the original cue.
+    The fallback is the unmodified original string, never a cleaned rewrite.
     """
-    if not cue:
+    original = cue or ""
+    if not original:
         return ""
-    raw = clean_cue(cue)
-    if SKIP_CUE_RE.search(cue) or tex_incomplete(cue) or tex_incomplete(raw):
+    if SKIP_CUE_RE.search(original) or tex_incomplete(original):
         return (
             f'<div class="tex tex-raw tex-incomplete" data-incomplete="1">'
             f'<p class="tex-incomplete-flag">INCOMPLETE_SOURCE</p>'
-            f'<pre class="tex-fallback">{esc(raw or cue)}</pre></div>'
+            f'<pre class="tex-fallback">{esc(original)}</pre></div>'
         )
-    t = LABEL_RE.sub("", cue)
+    t = LABEL_RE.sub("", original)
     t = paper_macros(t)
     t = array_to_pmatrix(t)
     t = strip_align_outside_pmatrix(t)
-    t = WS_RE.sub(" ", t).strip()
     typeset = salvage_tex(t)
     if not typeset:
-        return tex_html(None, raw or cue)
-    return tex_html(typeset, raw=raw or cue)
+        return tex_html(None, original)
+    return tex_html(typeset, raw=original)
 
 
 def clean_cue(cue: str) -> str:
@@ -1362,24 +1374,45 @@ def check_rendered(data: dict, html_page: str, md_page: str) -> list[str]:
     return err
 
 
+def _evidence_errors(data: dict) -> list[str]:
+    path = Path(__file__).resolve().parent / "ledger.py"
+    spec = importlib.util.spec_from_file_location("ssc_skill_ledger", path)
+    if spec is None or spec.loader is None:
+        return ["cannot load evidence checker"]
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return list(mod.check_ledger(data))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Render V3.1 audit.html + audit.md")
     ap.add_argument("--audit", required=True, type=Path, help="audit.json")
     ap.add_argument("--out", required=True, type=Path, help="output directory")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument(
+        "--layout-only",
+        action="store_true",
+        help="Check page structure only; still not a scientific certificate",
+    )
     args = ap.parse_args()
     data = json.loads(args.audit.read_text(encoding="utf-8"))
+    evidence_err = _evidence_errors(data)
+    if evidence_err and not args.layout_only:
+        print("EVIDENCE_FAIL")
+        for item in evidence_err:
+            print(" -", item)
+        return 1
     html_page = render_html(data)
     md_page = render_markdown(data)
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "audit.html").write_text(html_page, encoding="utf-8")
     (args.out / "audit.md").write_text(md_page, encoding="utf-8")
-    err = check_rendered(data, html_page, md_page)
+    layout_err = check_rendered(data, html_page, md_page)
     print("wrote", args.out / "audit.html", len(html_page), args.out / "audit.md", len(md_page))
-    if err:
-        print("CHECK_FAIL")
-        for e in err:
-            print(" -", e)
+    if layout_err:
+        print("LAYOUT_FAIL")
+        for item in layout_err:
+            print(" -", item)
         return 1 if args.check else 0
     print("CHECK_OK")
     return 0
