@@ -18,8 +18,8 @@ Then run one of:
 - [Forward derivation](forward-derivation.md): `examples/forward/exact-step`
 - [Paper audit](paper-audit.md): `examples/audit/minimal`
 
-Historical paper audits under `examples/` are an optional case library.
-They are not default knowledge for a new task.
+Historical paper audits live under `research-cases/` and are not default
+knowledge for a new task.
 
 `verify` never overwrites your input files. Generated records go under
 `runs/` inside the workspace you copied.

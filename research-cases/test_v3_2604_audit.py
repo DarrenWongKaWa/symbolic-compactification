@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-CASE = ROOT / "examples" / "2604.04520"
+CASE = ROOT / "research-cases" / "2604.04520"
 sys.path.insert(0, str(CASE / "tools"))
 
 from render import check_rendered, render_html, render_markdown  # noqa: E402

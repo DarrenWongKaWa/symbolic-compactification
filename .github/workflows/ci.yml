@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,7 +43,3 @@ jobs:
           symbolic-compactification audit verify /tmp/ssc-audit-ci
           symbolic-compactification audit table /tmp/ssc-audit-ci
           symbolic-compactification audit report /tmp/ssc-audit-ci
-      - name: Guo flagship inventory replay
-        run: python examples/guo-evidence-ledger/scripts/inventory_equations.py
-      - name: Guo flagship HTML presentation
-        run: python examples/guo-evidence-ledger/presentation/verify_presentation.py

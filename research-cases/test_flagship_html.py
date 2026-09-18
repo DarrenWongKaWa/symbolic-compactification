@@ -9,9 +9,9 @@ import pytest
 pytestmark = pytest.mark.derivation_audit_release_critical
 
 ROOT = Path(__file__).resolve().parents[1]
-HTML = ROOT / "examples" / "guo-evidence-ledger" / "output" / "index.html"
-REPORT = ROOT / "examples" / "guo-evidence-ledger" / "output" / "REPORT.md"
-RESULTS = ROOT / "examples" / "guo-evidence-ledger" / "evidence" / "RESULTS.md"
+HTML = ROOT / "research-cases" / "guo-evidence-ledger" / "output" / "index.html"
+REPORT = ROOT / "research-cases" / "guo-evidence-ledger" / "output" / "REPORT.md"
+RESULTS = ROOT / "research-cases" / "guo-evidence-ledger" / "evidence" / "RESULTS.md"
 
 
 def test_flagship_html_has_first_screen_appendix_map():

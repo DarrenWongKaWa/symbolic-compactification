@@ -11,5 +11,5 @@ the listed archive tags. Counts are from those frozen commits.
 | Guo selected-edge validation | arXiv:2511.16422v2, 26 selected supplement edges | 18 paper-level `ZERO` plus Leibniz child; 2 `CERTIFIED_BY_RULE`; Eq. (D-57) remainder `UNKNOWN` | Selected, not complete inventory | `archive/guo-selected-edge-validation-v1` (`69ad474`) |
 | Guo full-paper flagship | Same paper, 189/189 numbered equations, 146 source-grounded relations | Coverage 189/189; `EXACT_ZERO` 32; substitution `ZERO` 21; `CERTIFIED_BY_RULE` 11; false promotion 0/155 | Many equations structural or unsupported; remainder stays `UNKNOWN` | `archive/guo-full-paper-audit-flagship-v1` (`d92f3ec`) |
 
-Public entry for the last row:
-[examples/guo-evidence-ledger/evidence/RESULTS.md](../examples/guo-evidence-ledger/evidence/RESULTS.md).
+Historical replay for the last row (not the default skill path):
+[research-cases/guo-evidence-ledger/evidence/RESULTS.md](../research-cases/guo-evidence-ledger/evidence/RESULTS.md).

@@ -25,28 +25,10 @@ That toy workspace contains:
 
 Finite coefficient `ZERO` is not a remainder proof.
 
-## Flagship
+## Historical paper cases
 
-The Guo et al. full-paper audit inventories every numbered equation in
-arXiv:2511.16422v2 and checks only source-grounded relations:
-
-[examples/guo-evidence-ledger/evidence/RESULTS.md](../examples/guo-evidence-ledger/evidence/RESULTS.md)
-
-Human-facing HTML (does not assign verdicts):
-[examples/guo-evidence-ledger/output/index.html](../examples/guo-evidence-ledger/output/index.html).
-
-Matching Markdown:
-[examples/guo-evidence-ledger/output/REPORT.md](../examples/guo-evidence-ledger/output/REPORT.md).
-
-Replay:
-[examples/guo-evidence-ledger/README.md](../examples/guo-evidence-ledger/README.md).
-
-Anan V3 (Anan et al., arXiv:2604.04520): scientific claims and the
-Eq. (4)→(5) Green-to-geometric chain live under
-[examples/2604.04520/](../examples/2604.04520/). Canonical model
-`evidence/audit.json` renders independently to `v3/audit.html` and
-`v3/audit.md`. V1 and V2 are historical baselines. Do not stamp Exact
-from remainders or numerics.
+Paper-specific ledgers are not part of the default skill or CI path.
+They live under [`research-cases/`](../research-cases/README.md).
 
 ## Semantics
 

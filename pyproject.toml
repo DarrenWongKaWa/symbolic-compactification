@@ -32,6 +32,7 @@ ssc = "symbolic_compactification.cli:main"
 where = ["src"]
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 markers = [
     "release_critical: fast fail-closed research-preview release gate",
     "derivation_audit_release_critical: v0.2 derivation-audit release gate",
