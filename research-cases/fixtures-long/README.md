@@ -4,7 +4,7 @@ Raw Guo exact-DC σ_abc source. See `SOURCE.md` for hash and provenance.
 
 ```bash
 symbolic-compactification inspect \
-  examples/long/Guo_Sigma_abc_dc_exact.txt \
+  research-cases/fixtures-long/Guo_Sigma_abc_dc_exact.txt \
   --format wolfram --json
 ```
 

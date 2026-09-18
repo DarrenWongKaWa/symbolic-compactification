@@ -2,6 +2,15 @@
 from __future__ import annotations
 
 
+def pytest_sessionfinish(session, exitstatus):
+    """Reap budget workers so Python 3.13 pytest does not hang after pass."""
+    try:
+        from symbolic_compactification.budgets import shutdown_budget_pool
+    except Exception:
+        return
+    shutdown_budget_pool()
+
+
 def pytest_ignore_collect(collection_path, config):
     """Keep ``pytest -m release_critical`` fast and dependency-minimal.
 

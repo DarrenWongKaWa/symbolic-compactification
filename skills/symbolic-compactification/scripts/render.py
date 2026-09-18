@@ -1395,6 +1395,8 @@ def main() -> int:
         help="Check page structure only; still not a scientific certificate",
     )
     args = ap.parse_args()
+    if args.layout_only:
+        print("LAYOUT_ONLY_NOT_A_CERTIFICATE")
     data = json.loads(args.audit.read_text(encoding="utf-8"))
     evidence_err = _evidence_errors(data)
     if evidence_err and not args.layout_only:

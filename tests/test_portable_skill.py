@@ -25,6 +25,8 @@ def test_canonical_skill_frontmatter_and_triggers():
         "llm judgment is never proof",
     ):
         assert needle in lowered, needle
+    assert "skill_version:" in text
+    assert "engine_compatibility:" in text
     assert "2604.04520" not in text
     assert "guo" not in lowered
     assert "anan" not in lowered

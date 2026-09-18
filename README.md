@@ -13,7 +13,9 @@ The model cannot write that status.
 This is not a CAS, not a theorem prover, and not an autonomous physicist.
 Core verification needs **no API key**.
 
-Package `0.3.2-alpha`. Research preview.
+Package `0.3.2-alpha` (PEP 440: `0.3.2a0`). Engine `0.3.0`.
+Skill metadata `skill_version` `0.3.4` (portable workflow), compatible
+with engine `>=0.3.2a0,<0.4`. Research preview.
 
 ## 1. Install the skill
 

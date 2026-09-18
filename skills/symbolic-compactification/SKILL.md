@@ -13,7 +13,8 @@ description: >
 license: MIT
 compatibility: Requires Python 3.10+. Full verification needs the installed engine (sympy).
 metadata:
-  version: "0.3.4"
+  skill_version: "0.3.4"
+  engine_compatibility: ">=0.3.2a0,<0.4"
   product: symbolic-compactification
 ---
 
@@ -192,6 +193,8 @@ python3 "$SKILL_ROOT/scripts/render.py" \
   --out audit \
   --check
 ```
+
+Never pass `--layout-only`. That flag skips evidence checks and is not a certificate.
 
 If the engine is absent, certify leaves algebra as `GAP`. That is the
 correct result, not a reason to write Exact.
