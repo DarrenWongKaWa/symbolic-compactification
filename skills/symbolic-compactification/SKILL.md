@@ -11,11 +11,11 @@ description: >
   arXiv link appears in a translation or summary.
   LLM judgment is never proof. Not a CAS.
 license: MIT
-compatibility: Requires Python 3.10+. Full verification needs the installed engine (sympy).
 metadata:
-  skill_version: "0.3.4"
+  skill_version: "0.3.5"
   engine_compatibility: ">=0.3.2a0,<0.4"
   product: symbolic-compactification
+  compatibility: Requires Python 3.10+. Full verification needs the installed engine (sympy).
 ---
 
 # symbolic-compactification
@@ -29,6 +29,12 @@ Human Accept never stamps Exact.
 
 Resolve `SKILL_ROOT` as the directory that contains this `SKILL.md`.
 Run scripts as `python3 "$SKILL_ROOT/scripts/<name>.py" ...`.
+
+When a request compares a paper's equivalent formulas or derivation steps,
+read [references/SCIENTIFIC_EQUIVALENCE_WORKFLOW.md](references/SCIENTIFIC_EQUIVALENCE_WORKFLOW.md)
+before acquiring the source. It adds source freezing, convention bridges,
+typed evidence scopes, cold-replay provenance, and reviewer-package gates; it
+does not add domain-specific scientific content.
 
 First command, every session:
 

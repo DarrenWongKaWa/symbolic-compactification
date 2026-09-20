@@ -36,6 +36,29 @@ def test_canonical_skill_frontmatter_and_triggers():
     assert "do not collapse a multi-step" in method
 
 
+def test_scientific_equivalence_workflow_is_portable_and_linked():
+    skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+    workflow = (SKILL / "references" / "SCIENTIFIC_EQUIVALENCE_WORKFLOW.md").read_text(
+        encoding="utf-8"
+    )
+    assert "SCIENTIFIC_EQUIVALENCE_WORKFLOW.md" in skill
+    for needle in (
+        "cold replay",
+        "formula bridge",
+        "POINTWISE_EXACT",
+        "WEAK_GAMMA_ASYMPTOTIC",
+        "NUMERICAL_SUPPORT_ONLY",
+        "source block changed",
+        "residual",
+    ):
+        assert needle in workflow
+    # The reusable workflow must not capture a local paper, path, or result.
+    lowered = workflow.lower()
+    assert "/users/" not in lowered
+    assert "wong" not in lowered
+    assert "berry curvature" not in lowered
+
+
 def test_skill_scripts_exist_and_are_stdlib():
     for name in ("inventory.py", "fetch_arxiv.py", "render.py"):
         path = SCRIPTS / name
