@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence ledger — Guo et al., PRL 136, 206303</title>
+<!-- BEGIN_INLINE_CSS -->
+  <link rel="stylesheet" href="report.css">
+<!-- END_INLINE_CSS -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"]],
+        displayMath: [["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap">
+    <header class="mast">
+      <p class="kicker">Evidence ledger</p>
+      <h1>Guo et al., PRL 136, 206303</h1>
+      <p class="subtitle">Dissipation-Shaped Quantum Geometry in Nonlinear Transport</p>
+      <p class="source">Source: <a href="https://arxiv.org/abs/2511.16422v2">arXiv:2511.16422v2</a>
+        · Projection of frozen machine evidence
+        · <strong>Presentation is not a certificate</strong></p>
+
+      <div class="trust">
+        This page does not assign verdicts. ZERO is exact engine ZERO and is not CERTIFIED_BY_RULE.
+        Inventory is not verification.
+      </div>
+
+      <div class="metrics" aria-label="Three denominators, not a score">
+        <div class="metric">
+          <span class="n">189 / 189</span>
+          <span class="l">inventoried equations</span>
+          <span class="hint">coverage 100% of numbered equations listed — not certified</span>
+        </div>
+        <div class="metric">
+          <span class="n">146</span>
+          <span class="l">extracted relations</span>
+          <span class="hint">source-grounded derivation edges</span>
+        </div>
+        <div class="metric">
+          <span class="n">53</span>
+          <span class="l">executable obligations</span>
+          <span class="hint">compiled for the exact engine</span>
+        </div>
+      </div>
+
+      <div class="stack-wrap">
+        <div class="stack" role="img" aria-label="146 extracted relations by frozen status, line style encodes evidence kind">
+          <span class="seg EXACT_ZERO" title="EXACT_ZERO 32"></span>
+          <span class="seg ZERO_UNDER_SUBSTITUTION" title="ZERO_UNDER_SUBSTITUTION 21"></span>
+          <span class="seg CERTIFIED_BY_RULE" title="CERTIFIED_BY_RULE 11"></span>
+          <span class="seg UNKNOWN_REMAINDER" title="UNKNOWN / remainder 17"></span>
+          <span class="seg STRUCTURAL" title="STRUCTURAL 47"></span>
+          <span class="seg UNSUPPORTED" title="UNSUPPORTED 18"></span>
+        </div>
+        <p class="stack-caption">
+          Appendix D algebra is often locally exact zero; the main-text
+          \(\Gamma\) expansion remains an uncertified remainder; no submitted
+          edge ended at final NONZERO.
+        </p>
+      </div>
+
+      <div class="legend-row" aria-label="Status line styles">
+        <span class="badge EXACT_ZERO" title="Direct residual is exact zero">EXACT_ZERO</span>
+        <span class="badge ZERO_UNDER_SUBSTITUTION" title="Zero only after a recorded condition">ZERO_UNDER_SUBSTITUTION</span>
+        <span class="badge CERTIFIED_BY_RULE" title="Local zero plus a declared rule">CERTIFIED_BY_RULE</span>
+        <span class="badge UNKNOWN_REMAINDER" title="Remainder not certified">UNKNOWN_REMAINDER</span>
+        <span class="badge STRUCTURAL" title="No equality posed">STRUCTURAL</span>
+        <span class="badge UNSUPPORTED" title="Not lowered">UNSUPPORTED</span>
+        <span class="badge NONZERO" title="Submitted obligation still nonzero">NONZERO</span>
+        <span class="help">Line style is evidence kind, not a grade. <a href="#legend-full">Meanings</a></span>
+      </div>
+    </header>
+
+    <nav class="toolbar" aria-label="Filters">
+      <div class="toolbar-inner">
+        <label for="q">Search</label>
+        <input id="q" type="search" placeholder="D-117">
+        <label for="sectionFilter">Part</label>
+        <select id="sectionFilter">
+          <option value="ALL">All parts</option>
+          <option value="main">Main text</option>
+          <option value="A">Appendix A</option>
+          <option value="B">Appendix B</option>
+          <option value="C">Appendix C</option>
+          <option value="D">Appendix D</option>
+          <option value="E">Appendix E</option>
+          <option value="F">Appendix F</option>
+          <option value="G">Appendix G</option>
+        </select>
+        <label for="statusFilter" class="visually-hidden">Status</label>
+        <select id="statusFilter" hidden>
+          <option value="ALL" selected>All</option>
+          <option value="EXACT_ZERO">Exact</option>
+          <option value="ZERO_UNDER_SUBSTITUTION">Substitution</option>
+          <option value="CERTIFIED_BY_RULE">Rule-certified</option>
+          <option value="UNKNOWN_GROUP">Unknown</option>
+          <option value="STRUCTURAL">Structural</option>
+          <option value="UNSUPPORTED">Unsupported</option>
+        </select>
+        <div class="filter-pills" role="toolbar" aria-label="Status filter">
+          <button type="button" data-status="ALL" aria-pressed="true">All</button>
+          <button type="button" data-status="EXACT_ZERO" aria-pressed="false">Exact</button>
+          <button type="button" data-status="ZERO_UNDER_SUBSTITUTION" aria-pressed="false">Substitution</button>
+          <button type="button" data-status="CERTIFIED_BY_RULE" aria-pressed="false">Rule-certified</button>
+          <button type="button" data-status="UNKNOWN_GROUP" aria-pressed="false">Unknown</button>
+          <button type="button" data-status="STRUCTURAL" aria-pressed="false">Structural</button>
+          <button type="button" data-status="UNSUPPORTED" aria-pressed="false">Unsupported</button>
+        </div>
+      </div>
+    </nav>
+
+    <main id="main">
+      <article class="residual-card ZERO_UNDER_SUBSTITUTION" id="rel-R007">
+        <p class="card-kicker">Flagship residual card — read this first</p>
+        <div class="card-head">
+          <h2 class="card-eq">Eq. (D-117) → Eq. (5)</h2>
+          <span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span>
+        </div>
+
+        <div class="forms">
+          <div class="form">
+            <div class="k">Appendix form · Eq. (D-117)</div>
+            <div class="math-scroll">\[\frac{f_{n}^{(4)} v^{a} v^{b} v^{c}}{48}\]</div>
+          </div>
+          <div class="to" aria-hidden="true">→</div>
+          <div class="form">
+            <div class="k">Main-text form · Eq. (5)</div>
+            <div class="math-scroll">\[\frac{f_{0,n}^{(4)} v^{a} v^{b} v^{c}}{24}\]</div>
+          </div>
+        </div>
+
+        <div class="hero nonzero">
+          <div class="k">Direct residual (the object the engine checked)</div>
+          <div class="math-scroll">\[R_{\mathrm{direct}}=\frac{v^{a} v^{b} v^{c}\left(-2 f_{0,n}^{(4)}+f_{n}^{(4)}\right)}{48}\neq 0\]</div>
+          <p>The two fourth derivatives are independent symbols in the encoding.
+            The appendix-to-main convention is not yet applied.</p>
+        </div>
+
+        <div class="cond-row">
+          <div>
+            <div class="k" style="font-family:system-ui,sans-serif;font-size:0.72rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);">Condition \(A\)</div>
+            <div class="math-scroll">\[f_n^{(4)}=2f_{0,n}^{(4)}\]</div>
+            <p>Source-grounded substitution recorded on the frozen relation before verification.</p>
+          </div>
+          <div>
+            <span class="who SOURCE">SOURCE</span>
+            <p class="count-note">not AUDITOR_ASSERTED</p>
+          </div>
+        </div>
+
+        <p>After that condition: \[R_{\mathrm{cond}}=0\]</p>
+        <p class="one-line">Eq. (5) is the same kinetic term, rewritten from the \(f_n\) convention to the \(f_0\) convention. It is not an unconditional engine ZERO.</p>
+        <details class="tech">
+          <summary>Technical provenance (not the mathematics)</summary>
+          <pre>left  Rational(1,48)*va*vb*vc*f4
+right Rational(1,24)*va*vb*vc*f04
+subst {"f4": "2*f04"}
+direct NONZERO → conditional ZERO → ZERO_UNDER_SUBSTITUTION
+engine python_sympy_exact_v1 0.3.0
+software v0.3.0-alpha @ f1d225e</pre>
+        </details>
+      </article>
+
+      <section id="map-sec">
+        <h2>Derivation map</h2>
+        <p>
+          Nodes are equation numbers. Border line style is frozen status.
+          Arrows are frozen source-grounded relations, not “proved implies”.
+          A dotted ellipsis is adjacency in the paper, not an edge.
+        </p>
+        <div class="lanes" id="derivation-map" data-static="true">
+          <div class="lane">
+            <div class="lane-head">Main text
+              <span class="mini-counts">8 relations · remainder on (1) · D-117→(5) is conditional zero</span>
+            </div>
+            <div class="lane-body">
+              <div class="lane-nodes">
+                <a class="eq-node UNKNOWN_REMAINDER" href="#row-R001" title="UNKNOWN_REMAINDER">(1)</a>
+                <span class="dots">⋯</span>
+                <a class="eq-node STRUCTURAL" href="#row-R002" title="STRUCTURAL">(4)</a>
+                <span class="dots">⋯</span>
+                <a class="eq-node ZERO_UNDER_SUBSTITUTION" href="#rel-R007" title="ZERO_UNDER_SUBSTITUTION">(5)</a>
+                <span class="edge-lab">\(f_n^{(4)}=2f_{0,n}^{(4)}\)</span>
+                <span class="dots">⋯</span>
+                <a class="eq-node STRUCTURAL" href="#row-R008" title="STRUCTURAL">(6)</a>
+              </div>
+              <p class="count-note">The arrow into (5) is Eq. (D-117) → Eq. (5), shown in the card above. (1) is the \(O(\Gamma)\) expansion; that remainder is not certified.</p>
+            </div>
+          </div>
+
+          <div class="lane">
+            <div class="lane-head">Appendix D
+              <span class="mini-counts">63 relations · EXACT_ZERO 27 · substitution 17 · rule 4 · remainder 1</span>
+            </div>
+            <div class="lane-body">
+              <div class="lane-chain">
+                <div class="lane-nodes">
+                  <a class="eq-node UNKNOWN_REMAINDER" href="#row-R038" title="UNKNOWN_REMAINDER">D-57</a>
+                  <span class="dots">⋯</span>
+                  <span class="eq-node STRUCTURAL" title="structural bookkeeping">D-69</span>
+                  <span class="dots">⋯</span>
+                  <a class="eq-node ZERO_UNDER_SUBSTITUTION" href="#rel-R007" title="ZERO_UNDER_SUBSTITUTION">D-117</a>
+                  <span class="edge-lab">frozen edge</span>
+                  <a class="eq-node ZERO_UNDER_SUBSTITUTION" href="#rel-R007">(5)</a>
+                </div>
+                <div class="lane-nodes">
+                  <a class="eq-node CERTIFIED_BY_RULE" href="#row-R087" title="D-114 → D-119 CERTIFIED_BY_RULE">D-114</a>
+                  <span class="edge-lab">IBP / rule</span>
+                  <span class="eq-node CERTIFIED_BY_RULE">D-119</span>
+                  <span class="dots">⋯</span>
+                  <span class="eq-node ZERO_UNDER_SUBSTITUTION">D-125</span>
+                </div>
+              </div>
+              <p class="count-note">D-57 → D-69 → D-117 is a reading path through the appendix, not three frozen arrows in a row. Only D-117 → (5) on this sketch is a frozen executable substitution edge.</p>
+            </div>
+          </div>
+
+          <details class="lane">
+            <summary>Appendix C <span class="mini-counts">13 relations · remainder 7 · structural 5 · unsupported 1 · all remainder rows are dotted</span></summary>
+            <div class="lane-body">
+              <div class="lane-nodes">
+                <span class="eq-node UNKNOWN_REMAINDER">C-29</span>
+                <span class="dots">⋯</span>
+                <span class="eq-node UNKNOWN_REMAINDER">C-56</span>
+              </div>
+              <p class="count-note">Kernel \(\Gamma\) expansions are inventoried as remainder claims. Finite coefficient checks elsewhere do not certify these remainders.</p>
+            </div>
+          </details>
+          <details class="lane">
+            <summary>Appendix A <span class="mini-counts">10 · structural 5 · unsupported 3 · remainder 1 · unknown 1</span></summary>
+          </details>
+          <details class="lane">
+            <summary>Appendix B <span class="mini-counts">5 · remainder 2 · structural 2 · unknown 1</span></summary>
+          </details>
+          <details class="lane">
+            <summary>Appendix E <span class="mini-counts">18 · structural 10 · exact 2 · rule 3 · substitution 1 · unsupported 2</span></summary>
+          </details>
+          <details class="lane">
+            <summary>Appendix F <span class="mini-counts">22 · structural 12 · rule 4 · exact 3 · remainder 1 · unsupported 2</span></summary>
+          </details>
+          <details class="lane">
+            <summary>Appendix G <span class="mini-counts">7 · structural 3 · unsupported 3 · remainder 1</span></summary>
+          </details>
+        </div>
+      </section>
+
+      <section id="ledger-sec">
+        <h2>Obligation ledger</h2>
+        <p>
+          The table is the no-JS floor: every extracted relation, copied from
+          frozen <span class="mono">RESULTS.md</span>. Expand residual cards
+          below when JavaScript is available. Clicking a row does not change a status.
+        </p>
+        <div class="ledger-wrap">
+          <table class="ledger">
+            <thead>
+              <tr>
+                <th>Eq. relation</th>
+                <th>Mathematical content</th>
+                <th>Claimed move</th>
+                <th>Condition</th>
+                <th>Final status</th>
+              </tr>
+            </thead>
+            <tbody>
+<!-- BEGIN_LEDGER_ROWS -->
+<!-- END_LEDGER_ROWS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="edges-sec">
+        <h2>Residual cards</h2>
+        <p>Executable edges first. The flagship card is already open above; the copy here is the same frozen row.</p>
+        <div id="edge-list"></div>
+      </section>
+
+      <details class="legend-full" id="legend-full">
+        <summary>Status meanings (not a score)</summary>
+        <div class="legend">
+          <div class="legend-item"><span class="badge EXACT_ZERO">EXACT_ZERO</span><span>Encoded direct residual simplified to exact zero. <span class="not">Not a statement that the whole paper is verified.</span></span></div>
+          <div class="legend-item"><span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span><span>Direct printed-form residual was not zero; after an explicit source-grounded substitution or identity, the residual was exactly zero. <span class="not">Not an unconditional engine ZERO.</span></span></div>
+          <div class="legend-item"><span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span><span>A local machine-checkable identity plus an explicitly declared mathematical rule or domain supports the parent step. Parent is not engine ZERO.</span></div>
+          <div class="legend-item"><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span><span>Finite or local checks do not certify the stated asymptotic remainder. <span class="not">Not a claim that the expansion is false.</span></span></div>
+          <div class="legend-item"><span class="badge UNKNOWN">UNKNOWN</span><span>A recorded limit or similar claim is not certified. Not merged into UNKNOWN_REMAINDER on this page.</span></div>
+          <div class="legend-item"><span class="badge STRUCTURAL">STRUCTURAL</span><span>Definition, bookkeeping, or no equality claim to verify. Not a failed check.</span></div>
+          <div class="legend-item"><span class="badge UNSUPPORTED">UNSUPPORTED</span><span>The current verifier cannot honestly lower the claimed relation. Not a refutation of the paper.</span></div>
+          <div class="legend-item"><span class="badge NONZERO">NONZERO</span><span>An exact direct check refuted the encoded equality under the current assumptions.</span></div>
+        </div>
+      </details>
+
+      <p id="load-error" class="inventory-note" hidden>
+        Could not load the view model. The three denominators, stacked bar,
+        flagship card, map sketch, and ledger table above are still the frozen record.
+      </p>
+    </main>
+
+    <footer class="authority">
+      <p><strong>Presentation is not a certificate.</strong>
+        This HTML does not assign or alter scientific verdicts.</p>
+      <p><code>NONZERO=0</code> means none of the submitted executable relations
+        ended NONZERO. It does not mean the paper has no incorrect steps.</p>
+      <p>Software authority: symbolic-compactification v0.3.0-alpha @ f1d225e.
+        Engine: python_sympy_exact_v1 0.3.0. UNKNOWN never promotes.</p>
+      <p>Machine records: <span class="mono">examples/flagship/guo/RESULTS.md</span> and
+        <span class="mono">RELATIONS_FROZEN.yaml</span> on that tag.
+        View-model SHA is in the inlined JSON tag <span class="mono">data-sha256</span>.</p>
+      <p>Per-row frozen table: EXACT_ZERO 32, ZERO_UNDER_SUBSTITUTION 21,
+        CERTIFIED_BY_RULE 11, STRUCTURAL 47, UNSUPPORTED 18, UNKNOWN_REMAINDER 15, UNKNOWN 2, final NONZERO 0.
+        RESULTS.md summary writes UNKNOWN_REMAINDER: 17 by adding the two UNKNOWN limit rows.
+        This page does not merge those statuses.</p>
+      <p>False promotion on injected invalid controls: 0 / 155 (validation, not a coverage count).</p>
+      <p>Mathematics rendering: MathJax 3 from jsDelivr (network). Offline, TeX delimiters remain readable as source.
+        The ledger table and flagship card do not need JavaScript.</p>
+    </footer>
+  </div>
+<!-- BEGIN_AUDIT_DATA -->
+<!-- END_AUDIT_DATA -->
+  <script src="report-data.js"></script>
+<!-- BEGIN_INLINE_JS -->
+  <script src="report.js"></script>
+<!-- END_INLINE_JS -->
+</body>
+</html>

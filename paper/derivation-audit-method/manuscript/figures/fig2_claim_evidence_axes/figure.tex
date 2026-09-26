@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage[papersize={6.95in,3.55in},margin=9pt]{geometry}
+\input{../_style.tex}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\begin{document}
+\centering
+\begin{tikzpicture}[figbase]
+  \node[boxaccent, font=\footnotesize\selectfont] (ban)
+    {$\mathrm{ZERO}\neq\texttt{CERTIFIED\_BY\_RULE}$
+     \quad finite coefficient ZERO $\neq$ remainder proof};
+  \node[axislab, below=8pt of ban] (sub)
+    {Each cell names a claimed move $\tau$ and a certificate class $c$. The two axes are independent.};
+
+  \matrix (m) [
+    below=10pt of sub,
+    matrix of nodes,
+    row sep=8pt,
+    column sep=10pt,
+    nodes={
+      anchor=center,
+      align=left,
+      font=\footnotesize\selectfont,
+      text width=7.15cm,
+      minimum height=1.22cm,
+      inner sep=5pt,
+    },
+  ] {
+    |[badgeexact]| {$\tau$: algebra\\$c$: engine ZERO\\result: EXACT\_ZERO}
+    & |[badgesubst]| {$\tau$: substitution\\$c$: ZERO after $\varepsilon_{21}=-\varepsilon_{12}$\\result: ZERO\_UNDER\_SUBSTITUTION} \\
+    |[badgerule]| {$\tau$: BZ integration by parts\\$c$: local Leibniz ZERO $+$ torus rule\\result: CERTIFIED\_BY\_RULE}
+    & |[badgeunk]| {$\tau$: asymptotic $O(\Gamma)$ claim\\$c$: no remainder certificate\\result: UNKNOWN\_REMAINDER} \\
+  };
+
+  \node[lab, below=8pt of m]
+    {Certificate class is provenance, not a ranking of mathematical truth.};
+\end{tikzpicture}
+\end{document}

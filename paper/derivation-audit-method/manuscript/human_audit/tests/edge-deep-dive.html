@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edge deep dive — Guo audit (UX test)</title>
+  <link rel="stylesheet" href="tests.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+      options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div class="wrap wide">
+    <p class="test-banner"><strong>PRESENTATION TEST ONLY.</strong>
+      Deep-dive of frozen Guo edges. Residuals are the compiled obligations from frozen encodings,
+      not a universal \(E_{\mathrm{before}}-E_{\mathrm{after}}\) template.
+      Statuses are copied from frozen records.</p>
+
+    <p class="kicker">Paper audit · edge deep dive</p>
+    <h1>Four compiled obligations</h1>
+    <p class="source">Guo et al., PRL 136, 206303 · arXiv:2511.16422v2 · frozen <span class="mono">v0.3.0-alpha @ f1d225e</span></p>
+    <nav class="toc">
+      <a href="#d66">D-66 → D-67</a>
+      <a href="#d114">D-114 → D-119</a>
+      <a href="#d57">D-57</a>
+      <a href="#d59">D-59 → D-60</a>
+    </nav>
+
+    <article class="panel ZERO_UNDER_SUBSTITUTION" id="d66">
+      <h2>Eq. (D-66) → Eq. (D-67) <span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span></h2>
+
+      <h4>Source context</h4>
+      <p>Appendix D, geometric piece of \(T_B^{(-2)}\). Author prose: using \(\epsilon_{21}=-\epsilon_{12}\).
+        This rewrite precedes cancellation with \(T_A^{(-2)}\).</p>
+
+      <h4>Before (printed / encoded D-66 form)</h4>
+      <div class="block math-scroll">\[
+        T_{B,\mathrm{geo}}^{\mathrm{D-66}}
+        =\frac{\epsilon_{12} f_{1}'(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b})}{4}
+        +\frac{\epsilon_{21} f_{2}'(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})}{4}
+      \]</div>
+
+      <h4>After (printed / encoded D-67 form)</h4>
+      <div class="block math-scroll">\[
+        T_{B,\mathrm{geo}}^{\mathrm{D-67}}
+        =\frac{\epsilon_{12}}{4}\Bigl(f_{1}'(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b})
+        -f_{2}'(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})\Bigr)
+      \]</div>
+
+      <h4>Compiled obligation</h4>
+      <p>Claimed equality of two encodings of \(T_{B,\mathrm{geo}}\). The compiled residual is the difference of those encodings:</p>
+      <div class="block math-scroll">\[
+        R
+        = T_{B,\mathrm{geo}}^{\mathrm{D-66}}
+        - T_{B,\mathrm{geo}}^{\mathrm{D-67}}.
+      \]</div>
+      <p>This is an \(E_{\mathrm{lhs}}-E_{\mathrm{rhs}}\) obligation for one claimed equality.
+        It is not a generic “before minus after of the derivation step” applied to every edge type.</p>
+
+      <h4>Exact residual (direct, no substitution)</h4>
+      <div class="block math-scroll">\[
+        R=\frac{f_{2}'(\epsilon_{12}+\epsilon_{21})(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})}{4}
+      \]</div>
+
+      <h4>Direct verdict</h4>
+      <p><span class="badge">NONZERO</span> copied from the frozen RESULTS.md direct-check cell.</p>
+
+      <h4>Why</h4>
+      <p>The printed forms are not an unconditional identity because \(\epsilon_{21}=-\epsilon_{12}\) has not yet been applied.
+        The residual retains the factor \(\epsilon_{12}+\epsilon_{21}\). That factor is in the frozen encoding projection;
+        this is not an LLM-invented mechanism.</p>
+
+      <h4>Source-grounded condition</h4>
+      <div class="block">\[\epsilon_{21}=-\epsilon_{12}\]</div>
+      <p>Recorded on the frozen relation as a source-grounded substitution (author-used identity). Not invented here.</p>
+
+      <h4>Conditional verdict</h4>
+      <div class="check-pair">
+        <div class="check"><div class="kicker">Direct</div>\[R\neq 0\]<p><span class="badge">NONZERO</span></p></div>
+        <div class="plus">+</div>
+        <div class="check cond"><div class="kicker">Identity</div>\[\epsilon_{21}=-\epsilon_{12}\]</div>
+      </div>
+      <p style="text-align:center;margin:0.2rem 0;">↓</p>
+      <div class="check cond"><div class="kicker">Conditional</div>\[
+        \bigl.R\bigr|_{\epsilon_{21}=-\epsilon_{12}}=0
+      \]<p><span class="badge">ZERO</span> · this direct NONZERO is not a paper error</p></div>
+
+      <h4>Final status</h4>
+      <p><span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span></p>
+
+      <h4>Interpretation</h4>
+      <p>The step is exact under the stated upstream identity. It is not an unconditional engine ZERO.</p>
+    </article>
+
+    <article class="panel CERTIFIED_BY_RULE" id="d114">
+      <h2>Eq. (D-114) → Eq. (D-119) <span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span></h2>
+
+      <h4>Source context</h4>
+      <p>Appendix D. Author: apply integration by parts to \(T_0\) to transform a Fermi-sea term to a Fermi-surface term.</p>
+
+      <h4>Before / after</h4>
+      <p>This parent row is not an executable printed-form equality in the frozen table.
+        Direct check cell: N/A. There is no parent residual \(T_0^{\mathrm{D-114}}-T_0^{\mathrm{D-119}}\) in the frozen executable encodings.</p>
+
+      <h4>Compiled obligation</h4>
+      <p>The parent is not compiled as \(E_{\mathrm{lhs}}-E_{\mathrm{rhs}}\) of the global integral.
+        What was compiled and checked is a <strong>local Leibniz / product-rule child</strong>:</p>
+      <div class="block math-scroll">\[
+        R_{\mathrm{Leibniz}}
+        =\partial_k(uv)
+        -\bigl((\partial_k u)v+u(\partial_k v)\bigr).
+      \]</div>
+      <p>Frozen encoding of that child:</p>
+      <p class="mono">diff(u(k)*v(k), k) - (diff(u(k), k)*v(k) + u(k)*diff(v(k), k))</p>
+
+      <h4>Exact residual (local child)</h4>
+      <p>Parent RESULTS.md conditional cell records: local Leibniz child ZERO.
+        The child is a numbered-equation helper, not a printed-equation row.</p>
+      <div class="block">\[R_{\mathrm{Leibniz}}=0\]</div>
+
+      <h4>Direct verdict (parent)</h4>
+      <p><span class="badge">N/A</span> — no parent equality residual was posed.</p>
+
+      <h4>Why</h4>
+      <p>Integration by parts over the Brillouin zone is not the same kind of object as an algebraic encoding difference.
+        A local differential identity can be checked exactly; the global integral is not engine-ZERO in this freeze.</p>
+
+      <h4>Source-grounded condition / rule</h4>
+      <div class="rule-box">
+        <p>Local identity: \(\partial_k(uv)=(\partial_k u)v+u(\partial_k v)\)</p>
+        <p>Local machine result: <span class="badge">ZERO</span> (copied from the parent frozen record)</p>
+        <p>Rule / domain: periodic Brillouin-zone torus
+          (<span class="mono">BZ_TORUS_PERIODICITY</span>, <span class="mono">BRILLOUIN_ZONE_TORUS</span>)</p>
+        <p><strong>The engine did not evaluate the global Brillouin-zone integral to ZERO.</strong></p>
+      </div>
+
+      <h4>Conditional / local verdict</h4>
+      <p>local Leibniz child ZERO</p>
+
+      <h4>Final status</h4>
+      <p><span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span></p>
+
+      <h4>Interpretation</h4>
+      <p>Local child ZERO plus an explicit rule/domain. Do not read this as parent ZERO.</p>
+    </article>
+
+    <article class="panel UNKNOWN_REMAINDER" id="d57">
+      <h2>Eq. (D-57) <span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span></h2>
+
+      <h4>Source context</h4>
+      <p>Appendix D opening. Author: Taylor expansion of the DC conductivity \(\sigma_{abc}\) in \(\Gamma\) around \(\Gamma=0\).</p>
+
+      <h4>Before / after</h4>
+      <p>This is a single displayed expansion, not a two-sided executable equality.</p>
+      <div class="remainder-box math-scroll">\[
+        \sigma_{abc}
+        =\Gamma^{-2}\sigma^{(-2)}
+        +\Gamma^{-1}\sigma^{(-1)}
+        +\sigma^{(0)}
+        +O(\Gamma)
+      \]</div>
+
+      <h4>Compiled obligation</h4>
+      <p><strong>None in the frozen executable set.</strong>
+        An author-declared remainder is not compiled to a residual \(R=E_{\mathrm{lhs}}-E_{\mathrm{rhs}}\).
+        Coefficient identities may be checked on other rows; they do not certify the enclosing \(O(\Gamma)\).</p>
+
+      <h4>Exact residual</h4>
+      <p>Not posed. Direct cell: UNKNOWN.</p>
+
+      <h4>Direct verdict</h4>
+      <p><span class="badge UNKNOWN">UNKNOWN</span></p>
+
+      <h4>Why</h4>
+      <p>A general remainder certificate is not available in the frozen system.
+        UNKNOWN is not a promotion and not a refutation.</p>
+
+      <h4>Source-grounded condition</h4>
+      <p>Author-declared \(O(\Gamma)\) remainder. Author-declared is not machine-certified.</p>
+
+      <h4>Conditional / local verdict</h4>
+      <p>UNKNOWN</p>
+
+      <h4>Final status</h4>
+      <p><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span></p>
+
+      <h4>Interpretation</h4>
+      <p>This is not a claim that the expansion is false.
+        It is a statement that the current evidence does not certify the enclosing remainder.</p>
+    </article>
+
+    <article class="panel EXACT_ZERO" id="d59">
+      <h2>Eq. (D-59) → Eq. (D-60) <span class="badge EXACT_ZERO">EXACT_ZERO</span></h2>
+
+      <h4>Source context</h4>
+      <p>Appendix D, analysis of \(K_A\). This edge is the index regroup of \(K_{1A}\)
+        <em>before</em> the metric-velocity substitution (that substitution is a later row).</p>
+
+      <h4>Before</h4>
+      <div class="block math-scroll">\[
+        v_{21}^{a}(v_{12}^{b}v_{1}^{c}+v_{1}^{b}v_{12}^{c})
+        +v_{12}^{a}(v_{21}^{b}v_{1}^{c}+v_{1}^{b}v_{21}^{c})
+      \]</div>
+
+      <h4>After</h4>
+      <div class="block math-scroll">\[
+        v_{1}^{c}(v_{21}^{a}v_{12}^{b}+v_{12}^{a}v_{21}^{b})
+        +v_{1}^{b}(v_{21}^{a}v_{12}^{c}+v_{12}^{a}v_{21}^{c})
+      \]</div>
+
+      <h4>Compiled obligation</h4>
+      <p>Algebraic equivalence of two encodings of \(K_{1A}\):</p>
+      <div class="block math-scroll">\[
+        R = K_{1A}^{\mathrm{D-59}} - K_{1A}^{\mathrm{D-60}}.
+      \]</div>
+
+      <h4>Exact residual</h4>
+      <div class="block">\[R=0\]</div>
+
+      <h4>Direct verdict</h4>
+      <p><span class="badge">ZERO</span></p>
+
+      <h4>Why</h4>
+      <p>The encoded expressions are exactly symbolically equivalent under the recorded assumptions.
+        No extra substitution is recorded on this row.</p>
+
+      <h4>Source-grounded condition</h4>
+      <p>None on this row.</p>
+
+      <h4>Conditional / local verdict</h4>
+      <p>N/A</p>
+
+      <h4>Final status</h4>
+      <p><span class="badge EXACT_ZERO">EXACT_ZERO</span></p>
+
+      <h4>Interpretation</h4>
+      <p>Direct encoded residual is exact zero. This does not by itself check the metric-velocity identity.</p>
+    </article>
+
+    <article class="panel EXACT_ZERO">
+      <h2>Multi-parent compiled obligation: Eqs. (D-61), (D-67) → Eq. (D-68)</h2>
+      <p>Shown here so a multi-parent residual is not forced into a single-equation before/after template.</p>
+      <h4>Compiled obligation</h4>
+      <div class="block math-scroll">\[
+        R = T_A^{(-2)} + T_{B,\mathrm{geo}}^{(-2)}
+      \]</div>
+      <p>Frozen right-hand encoding is \(0\). This is a sum-to-zero obligation from two parents,
+        not \(E_{\mathrm{D-61}}-E_{\mathrm{D-68}}\).</p>
+      <h4>Exact residual</h4>
+      <div class="block">\[R=0\]</div>
+      <p>Final status <span class="badge EXACT_ZERO">EXACT_ZERO</span> copied from RESULTS.md.
+        It uses the already-substituted \(T_{B,\mathrm{geo}}\) of Eq. (D-67).</p>
+    </article>
+
+    <footer>
+      <p>Frozen encodings from <span class="mono">examples/flagship/guo</span> on <span class="mono">v0.3.0-alpha @ f1d225e</span>.</p>
+      <p>This page does not assign verdicts.</p>
+    </footer>
+  </div>
+</body>
+</html>

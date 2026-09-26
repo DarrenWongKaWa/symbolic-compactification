@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Render stress — Guo audit (UX test)</title>
+  <link rel="stylesheet" href="tests.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+      options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+    };
+    if (/[?&]nomathjax=1/.test(location.search)) {
+      window.MathJax = undefined;
+    }
+  </script>
+  <script>
+    if (!/[?&]nomathjax=1/.test(location.search)) {
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+      s.defer = true;
+      document.head.appendChild(s);
+    }
+  </script>
+</head>
+<body>
+  <div class="wrap wide">
+    <p class="test-banner"><strong>PRESENTATION TEST ONLY.</strong>
+      Rendering stress using frozen Guo mathematics. Append
+      <span class="mono">?nomathjax=1</span> to this URL to view TeX fallback.
+      Print this page to PDF to test print CSS.</p>
+
+    <p class="kicker">Paper audit · render stress</p>
+    <h1>Mathematics that must not clip</h1>
+    <p class="source" id="mode">Guo et al. frozen encodings · arXiv:2511.16422v2</p>
+    <nav class="toc">
+      <a href="#greek">Greek / tensors</a>
+      <a href="#deriv">Derivatives / bars</a>
+      <a href="#long">Long residual</a>
+      <a href="#multi">Multi-parent</a>
+      <a href="#overflow">Overflow</a>
+      <a href="#print">Print</a>
+    </nav>
+
+    <section id="greek">
+      <h2>Greek letters, tensor indices, remainder</h2>
+      <div class="block math-scroll">\[
+        \sigma_{abc}
+        =\Gamma^{-2}\sigma^{(-2)}
+        +\Gamma^{-1}\sigma^{(-1)}
+        +\sigma^{(0)}
+        +O(\Gamma)
+      \]</div>
+      <p>Inline: \(\epsilon_{21}=-\epsilon_{12}\), \(f_n'=2f_{0,n}'\),
+        \(g_{ab}\), \(\Omega_{ab}^{1}\), \(\partial_a\epsilon_{12}\).</p>
+    </section>
+
+    <section id="deriv">
+      <h2>Derivatives and absolute-value bars</h2>
+      <div class="block math-scroll">\[
+        T_{B,\mathrm{intra}}
+        =-\frac18\sum_n \partial_a(v_n^b v_n^c)\,f_n'
+      \]</div>
+      <div class="block math-scroll">\[
+        R_{\mathrm{Leibniz}}
+        =\partial_k(uv)-\bigl((\partial_k u)v+u(\partial_k v)\bigr)
+      \]</div>
+      <p>Bars in remainder and operator names: \(O(\Gamma)\), \(\lvert\epsilon_{12}\rvert\) as a stress glyph
+        (the frozen D-57 remainder is \(O(\Gamma)\), not an absolute-value identity).
+        Display check: \(\lvert f_{1}'-f_{2}'\rvert\), \(\lVert g_{ab}\rVert\).</p>
+    </section>
+
+    <section id="long">
+      <h2>Long exact residual (D-126 → D-127 encodings)</h2>
+      <p>Direct residual of the compact \(f_n'=2f_{0,n}'\) mapping, projected from frozen left/right.
+        Must scroll horizontally rather than shrink into unreadability.</p>
+      <div class="block math-scroll">\[
+        R=
+        \partial_a g_{bc} f_{0,1}'
+        +\partial_a g_{bc} f_{0,2}'
+        -\frac{\partial_a g_{bc} f_{1}'}{2}
+        -\frac{\partial_a g_{bc} f_{2}'}{2}
+        -\frac{2 f_{0,2}' g_{ab} v_{2}^{c}}{\epsilon_{21}}
+        -\frac{2 f_{0,2}' g_{ac} v_{2}^{b}}{\epsilon_{21}}
+        +\frac{4 f_{0,2}' g_{bc} v_{2}^{a}}{\epsilon_{21}}
+        +\frac{f_{2}' g_{ab} v_{2}^{c}}{\epsilon_{21}}
+        +\frac{f_{2}' g_{ac} v_{2}^{b}}{\epsilon_{21}}
+        -\frac{2 f_{2}' g_{bc} v_{2}^{a}}{\epsilon_{21}}
+        -\frac{2 f_{0,1}' g_{ab} v_{1}^{c}}{\epsilon_{12}}
+        -\frac{2 f_{0,1}' g_{ac} v_{1}^{b}}{\epsilon_{12}}
+        +\frac{4 f_{0,1}' g_{bc} v_{1}^{a}}{\epsilon_{12}}
+        +\frac{f_{1}' g_{ab} v_{1}^{c}}{\epsilon_{12}}
+        +\frac{f_{1}' g_{ac} v_{1}^{b}}{\epsilon_{12}}
+        -\frac{2 f_{1}' g_{bc} v_{1}^{a}}{\epsilon_{12}}
+      \]</div>
+      <p>Before / after encodings of the same edge:</p>
+      <div class="block math-scroll">\[
+        E_{\mathrm{lhs}}
+        =f_{1}'\Bigl(-\frac{\partial_a g_{bc}}{2}
+        +\frac{g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b}-2g_{bc}v_{1}^{a}}{\epsilon_{12}}\Bigr)
+        +f_{2}'\Bigl(-\frac{\partial_a g_{bc}}{2}
+        +\frac{g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b}-2g_{bc}v_{2}^{a}}{\epsilon_{21}}\Bigr)
+      \]</div>
+      <div class="block math-scroll">\[
+        E_{\mathrm{rhs}}
+        =2f_{0,1}'\Bigl(-\frac{\partial_a g_{bc}}{2}
+        +\frac{g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b}-2g_{bc}v_{1}^{a}}{\epsilon_{12}}\Bigr)
+        +2f_{0,2}'\Bigl(-\frac{\partial_a g_{bc}}{2}
+        +\frac{g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b}-2g_{bc}v_{2}^{a}}{\epsilon_{21}}\Bigr)
+      \]</div>
+    </section>
+
+    <section id="multi">
+      <h2>Multi-parent relation</h2>
+      <p>Eqs. (D-61), (D-67) → Eq. (D-68). Compiled obligation is a sum, not a single-equation before/after:</p>
+      <div class="block math-scroll">\[
+        R=T_A^{(-2)}+T_{B,\mathrm{geo}}^{(-2)}
+      \]</div>
+      <div class="block math-scroll">\[
+        T_A^{(-2)}+T_{B,\mathrm{geo}}^{(-2)}
+        =\frac{\epsilon_{12}}{4}\bigl(-f_{1}'(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b})
+        +f_{2}'(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})\bigr)
+        +\frac{\epsilon_{12}}{4}\bigl(f_{1}'(g_{ab}v_{1}^{c}+g_{ac}v_{1}^{b})
+        -f_{2}'(g_{ab}v_{2}^{c}+g_{ac}v_{2}^{b})\bigr)
+      \]</div>
+      <p>Frozen residual \(R=0\). Status <span class="badge EXACT_ZERO">EXACT_ZERO</span>.</p>
+    </section>
+
+    <section id="overflow">
+      <h2>Forced horizontal overflow</h2>
+      <p>The box below has a min-width larger than a phone column. Content must scroll, not clip.</p>
+      <div class="block math-scroll">
+        <div class="long">\[
+          \sigma_{abc}^{\mathrm{geo}}
+          =\sum_{n,\mathbf{k}}
+          \bigl[(G_n^{ab}v_n^{c}+G_n^{ac}v_n^{b}-2G_n^{bc}v_n^{a})
+          -\tfrac12\partial_a g_n^{bc}\bigr]\,2f_{0,n}'
+          \qquad\text{and}\qquad
+          \epsilon_{21}=-\epsilon_{12},\quad
+          v_{12}^{a}v_{21}^{b}+v_{12}^{b}v_{21}^{a}=2\epsilon_{12}^{2}g_{ab}.
+        \]</div>
+      </div>
+    </section>
+
+    <section id="print">
+      <h2>Print / PDF</h2>
+      <p>Use the browser print dialog or headless print-to-PDF.
+        Navigation and the test banner should disappear.
+        Mathematics should remain visible. Status meaning is in text and border, not color alone.</p>
+      <p>Fallback without MathJax: TeX delimiters \(\sigma_{abc}\) stay readable as source.</p>
+    </section>
+
+    <noscript>
+      <p class="note">JavaScript is off. MathJax will not load. TeX source in \(\backslash(...\backslash)\) remains visible.</p>
+    </noscript>
+
+    <footer>
+      <p>All displayed formulae are projections of frozen Guo encodings or author-displayed expansions.
+        No residuals were retuned for this test.</p>
+    </footer>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById("mode");
+      if (!el) return;
+      if (/[?&]nomathjax=1/.test(location.search)) {
+        el.textContent += " · MathJax suppressed (?nomathjax=1)";
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Status gallery — Guo audit (UX test)</title>
+  <link rel="stylesheet" href="tests.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+      options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <p class="test-banner"><strong>PRESENTATION TEST ONLY.</strong>
+      Six frozen Guo statuses, one example each. No new scientific evidence.
+      These are not ranked from “bad” to “good.”</p>
+
+    <p class="kicker">Paper audit · status gallery</p>
+    <h1>Can you tell these apart?</h1>
+    <p class="source">Guo et al., PRL 136, 206303 · arXiv:2511.16422v2</p>
+    <p>Each card is one frozen relation. Read the card, then the one-line “not this.”</p>
+
+    <div class="gallery">
+      <article class="panel EXACT_ZERO">
+        <p class="kicker">Example 1 of 6</p>
+        <h2><span class="badge EXACT_ZERO">EXACT_ZERO</span> Eq. (D-59) → Eq. (D-60)</h2>
+        <p>The paper regroups \(K_{1A}\). Two encodings of the same polynomial in the velocities.</p>
+        <p>Compiled obligation: \(R=K_{1A}^{\mathrm{D-59}}-K_{1A}^{\mathrm{D-60}}\).</p>
+        <p>Direct residual: \(R=0\).</p>
+        <p><strong>Means:</strong> the encoded equality is exact under the recorded assumptions.</p>
+        <p><strong>Does not mean:</strong> the whole paper is verified, or that a later substitution was already used.</p>
+      </article>
+
+      <article class="panel ZERO_UNDER_SUBSTITUTION">
+        <p class="kicker">Example 2 of 6</p>
+        <h2><span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span> Eq. (D-66) → Eq. (D-67)</h2>
+        <p>The paper rewrites \(T_{B,\mathrm{geo}}\) using \(\epsilon_{21}=-\epsilon_{12}\).</p>
+        <p>Direct residual (no substitution):
+          \(R=\frac{f_2'(\epsilon_{12}+\epsilon_{21})(g_{ab}v_2^c+g_{ac}v_2^b)}{4}\neq 0\).</p>
+        <p>After the recorded identity: \(R=0\).</p>
+        <p><strong>Means:</strong> exact under that source-grounded identity.</p>
+        <p><strong>Does not mean:</strong> the paper is wrong because the direct check is NONZERO.
+          Does not mean unconditional engine ZERO.</p>
+      </article>
+
+      <article class="panel CERTIFIED_BY_RULE">
+        <p class="kicker">Example 3 of 6</p>
+        <h2><span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span> Eq. (D-114) → Eq. (D-119)</h2>
+        <p>The paper integrates \(T_0\) by parts over the Brillouin zone.</p>
+        <p>Parent equality residual: not posed (N/A).</p>
+        <p>Local Leibniz child: ZERO. Declared domain: periodic BZ torus.</p>
+        <p><strong>Means:</strong> local identity plus an explicit mathematical rule.</p>
+        <p><strong>Does not mean:</strong> the engine evaluated the global BZ integral to ZERO.
+          Child ZERO + rule is not parent ZERO.</p>
+      </article>
+
+      <article class="panel UNKNOWN_REMAINDER">
+        <p class="kicker">Example 4 of 6</p>
+        <h2><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span> Eq. (D-57)</h2>
+        <p>\[\sigma_{abc}=\Gamma^{-2}\sigma^{(-2)}+\Gamma^{-1}\sigma^{(-1)}+\sigma^{(0)}+O(\Gamma)\]</p>
+        <p>Author declares an \(O(\Gamma)\) remainder. No remainder certificate in the freeze.</p>
+        <p><strong>Means:</strong> current evidence does not certify the enclosing remainder.</p>
+        <p><strong>Does not mean:</strong> the expansion is false. UNKNOWN never promotes.</p>
+      </article>
+
+      <article class="panel STRUCTURAL">
+        <p class="kicker">Example 5 of 6</p>
+        <h2><span class="badge STRUCTURAL">STRUCTURAL</span> Eq. (4)</h2>
+        <p>\[\sigma^{(0)}=\sigma^{\mathrm{kin}}+\sigma^{\mathrm{geo}}\]</p>
+        <p>A definition / split. No equality claim was posed for the engine.</p>
+        <p><strong>Means:</strong> bookkeeping or definition.</p>
+        <p><strong>Does not mean:</strong> a failed check, or that the split is false.</p>
+      </article>
+
+      <article class="panel UNSUPPORTED">
+        <p class="kicker">Example 6 of 6</p>
+        <h2><span class="badge UNSUPPORTED">UNSUPPORTED</span> Eq. (A-11) → Eq. (A-14)</h2>
+        <p>Bath integral to polygamma \(f_\pm\). Special-function identity in the source.</p>
+        <p>The current verifier does not lower this to an exact local residual.</p>
+        <p><strong>Means:</strong> not honestly compiled in this freeze.</p>
+        <p><strong>Does not mean:</strong> the paper step is refuted.</p>
+      </article>
+    </div>
+
+    <h2>Quick contrast</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Status</th><th>Was an equality posed?</th><th>What became zero?</th><th>Forbidden reading</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge EXACT_ZERO">EXACT_ZERO</span></td><td>Yes, directly</td><td>The direct residual</td><td>“paper proved”</td></tr>
+          <tr><td><span class="badge ZERO_UNDER_SUBSTITUTION">ZERO_UNDER_SUBSTITUTION</span></td><td>Yes; direct form not identically zero</td><td>Residual after a recorded identity</td><td>“direct NONZERO = paper error”; “unconditional ZERO”</td></tr>
+          <tr><td><span class="badge CERTIFIED_BY_RULE">CERTIFIED_BY_RULE</span></td><td>Parent integral not posed as residual</td><td>A local child identity, plus a rule</td><td>“parent ZERO”</td></tr>
+          <tr><td><span class="badge UNKNOWN_REMAINDER">UNKNOWN_REMAINDER</span></td><td>Remainder, not a closed identity</td><td>Nothing certified</td><td>“the expansion is false”</td></tr>
+          <tr><td><span class="badge STRUCTURAL">STRUCTURAL</span></td><td>No</td><td>—</td><td>“failed check”</td></tr>
+          <tr><td><span class="badge UNSUPPORTED">UNSUPPORTED</span></td><td>Claimed, not lowered</td><td>—</td><td>“refuted”</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <p>Examples copied from frozen Guo RESULTS.md. No new verdicts.</p>
+    </footer>
+  </div>
+</body>
+</html>

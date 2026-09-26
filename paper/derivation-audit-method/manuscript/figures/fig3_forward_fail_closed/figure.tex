@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[papersize={6.95in,3.65in},margin=9pt]{geometry}
+\input{../_style.tex}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\begin{document}
+\centering
+\begin{tikzpicture}[figbase]
+  \node[boxaccent, minimum width=2.05cm, minimum height=0.68cm] (et) at (0,1.35) {$E_t$};
+
+  \node[untrusted, minimum width=3.45cm, minimum height=0.82cm] (a) at (4.05,2.55)
+    {candidate A\\{\footnotesize valid equivalent}};
+  \node[untrusted, minimum width=3.45cm, minimum height=0.82cm] (b) at (4.05,1.35)
+    {candidate B\\{\footnotesize sign / factor error}};
+  \node[untrusted, minimum width=3.45cm, minimum height=0.82cm] (c) at (4.05,0.15)
+    {candidate C\\{\footnotesize undecidable / unsupported}};
+
+  \draw[arr] (et.east) -- ++(0.28,0) |- (a.west);
+  \draw[arr] (et) -- (b);
+  \draw[arr] (et.east) -- ++(0.28,0) |- (c.west);
+
+  \node[badgeexact, minimum width=2.25cm] (za) at (7.55,2.55) {ZERO};
+  \node[badgerefuse, minimum width=2.25cm] (zb) at (7.55,1.35) {NONZERO};
+  \node[badgeunk, minimum width=2.25cm] (zc) at (7.55,0.15) {UNKNOWN};
+  \draw[arr] (a) -- (za);
+  \draw[arr] (b) -- (zb);
+  \draw[arr] (c) -- (zc);
+
+  \node[badgeexact, minimum width=3.05cm] (pa) at (10.95,2.55) {PROMOTE $E_{t+1}$};
+  \node[badgerefuse, minimum width=3.05cm] (pb) at (10.95,1.35) {REFUSE; remain $E_t$};
+  \node[badgerefuse, minimum width=3.05cm] (pc) at (10.95,0.15) {REFUSE; remain $E_t$};
+  \draw[arr] (za) -- (pa);
+  \draw[arr] (zb) -- (pb);
+  \draw[arr] (zc) -- (pc);
+
+  \node[boxband, below=16pt of c, minimum width=15.2cm, align=center, inner sep=4pt] (rec)
+    {refused candidates do not poison state: a later valid candidate from the same $E_t$ may still promote};
+
+  \node[lab, below=7pt of rec, align=center]
+    {Forward workflow demonstrated with caveats.
+     Injected invalids: false promotion $0/36$.\\
+     $E_{t+1}=H_i$ only if admissible evidence permits promotion.};
+\end{tikzpicture}
+\end{document}

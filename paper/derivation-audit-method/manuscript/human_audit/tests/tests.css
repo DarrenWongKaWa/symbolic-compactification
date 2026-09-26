@@ -1,0 +1,150 @@
+/* Disposable UX-stress views. Same visual grammar as the Guo report. */
+:root {
+  --ink: #22272b;
+  --muted: #5c6770;
+  --rule: #b7c0c7;
+  --band: #f3f5f7;
+  --accent: #2e5a88;
+  --accent-fill: #e7f0f6;
+  --paper: #ffffff;
+  --warn: #f4f1ea;
+  --max: 46rem;
+}
+* { box-sizing: border-box; }
+html { font-size: 17px; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", Times, serif;
+  line-height: 1.45;
+}
+.wrap { max-width: var(--max); margin: 0 auto; padding: 1.1rem 1.15rem 3.5rem; }
+.wide { max-width: 58rem; }
+.kicker {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.3rem;
+}
+h1 { font-size: 1.55rem; margin: 0 0 0.25rem; line-height: 1.2; }
+h2 { font-size: 1.12rem; margin: 1.35rem 0 0.45rem; }
+h3 { font-size: 1rem; margin: 1rem 0 0.35rem; }
+h4 {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0.85rem 0 0.25rem;
+}
+p { margin: 0.35rem 0 0.65rem; }
+.source, .mono { font-family: system-ui, -apple-system, sans-serif; }
+.source { color: var(--muted); font-size: 0.9rem; }
+.mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.86em; }
+a { color: var(--accent); }
+.test-banner {
+  background: var(--warn);
+  border: 1px solid var(--ink);
+  padding: 0.55rem 0.7rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.86rem;
+  margin: 0 0 1rem;
+}
+.note {
+  background: var(--band);
+  border: 1px solid var(--rule);
+  padding: 0.55rem 0.7rem;
+  font-size: 0.95rem;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.7rem 0 1rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.metric { border: 1px solid var(--rule); padding: 0.5rem 0.6rem; }
+.metric .n { display: block; font-weight: 700; font-size: 1.12rem; }
+.metric .l { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }
+.badge {
+  display: inline-block;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 650;
+  padding: 0.12rem 0.38rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  white-space: nowrap;
+}
+.badge.EXACT_ZERO { border-width: 2px; }
+.badge.ZERO_UNDER_SUBSTITUTION { border-style: dashed; border-width: 2px; border-color: var(--accent); }
+.badge.CERTIFIED_BY_RULE { border-style: double; border-width: 4px; border-color: var(--accent); }
+.badge.UNKNOWN_REMAINDER, .badge.UNKNOWN { border-style: dotted; border-width: 2px; color: var(--muted); }
+.badge.STRUCTURAL { border-color: var(--rule); color: var(--muted); }
+.badge.UNSUPPORTED { border-style: dashed; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-family: system-ui, -apple-system, sans-serif; font-size: 0.88rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.4rem 0.35rem; border-bottom: 1px solid var(--rule); }
+th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+.flow { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; margin: 0.5rem 0 1rem; }
+.node, .edge {
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  padding: 0.35rem 0.55rem;
+  text-align: center;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.84rem;
+  max-width: 26rem;
+}
+.node .eq { font-weight: 700; display: block; }
+.node.ZERO_UNDER_SUBSTITUTION, .edge.ZERO_UNDER_SUBSTITUTION { border-style: dashed; border-color: var(--accent); }
+.node.CERTIFIED_BY_RULE, .edge.CERTIFIED_BY_RULE { border-style: double; border-width: 4px; border-color: var(--accent); }
+.node.UNKNOWN_REMAINDER { border-style: dotted; }
+.node.EXACT_ZERO { border-width: 2px; }
+.node.STRUCTURAL { border-color: var(--rule); }
+.node.UNSUPPORTED { border-style: dashed; }
+.arrow { color: var(--muted); }
+.chain { background: var(--band); border: 1px solid var(--rule); padding: 0.65rem 0.7rem 0.35rem; margin: 0 0 0.85rem; }
+.chain p { font-size: 0.95rem; }
+.panel { border: 1px solid var(--rule); padding: 0.55rem 0.7rem 0.8rem; margin: 0 0 1rem; overflow-x: auto; }
+.panel.EXACT_ZERO { border-left: 4px solid var(--ink); }
+.panel.ZERO_UNDER_SUBSTITUTION { border-left: 4px dashed var(--accent); }
+.panel.CERTIFIED_BY_RULE { border-left: 4px double var(--accent); }
+.panel.UNKNOWN_REMAINDER { border-left: 4px dotted var(--muted); }
+.panel.STRUCTURAL { border-left: 4px solid var(--rule); }
+.panel.UNSUPPORTED { border-left: 4px dashed var(--muted); }
+.block { background: var(--band); border: 1px solid var(--rule); padding: 0.4rem 0.55rem; overflow-x: auto; max-width: 100%; }
+.check-pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.4rem; align-items: stretch; }
+.check { border: 1px solid var(--ink); padding: 0.4rem 0.5rem; }
+.check.cond { border-style: dashed; border-color: var(--accent); }
+.plus { display: flex; align-items: center; justify-content: center; color: var(--muted); font-weight: 700; }
+.rule-box { border: 4px double var(--accent); padding: 0.5rem 0.65rem; }
+.remainder-box { border: 2px dotted var(--muted); padding: 0.5rem 0.65rem; }
+details.prov { margin-top: 1.2rem; border: 1px dashed var(--rule); }
+details.prov > summary {
+  cursor: pointer;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding: 0.4rem 0.5rem;
+}
+.gallery { display: grid; gap: 0.85rem; }
+.math-scroll { overflow-x: auto; max-width: 100%; }
+.long { min-width: 52rem; }
+nav.toc { font-family: system-ui, -apple-system, sans-serif; font-size: 0.88rem; }
+nav.toc a { margin-right: 0.8rem; }
+footer { margin-top: 1.8rem; padding-top: 0.7rem; border-top: 1px solid var(--ink); font-family: system-ui, -apple-system, sans-serif; font-size: 0.86rem; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 720px) {
+  .metrics, .check-pair { grid-template-columns: 1fr; }
+  .plus { transform: rotate(90deg); }
+}
+@media print {
+  .test-banner, nav.toc { display: none !important; }
+  .panel, .chain { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  .math-scroll { overflow: visible; }
+}

@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[papersize={6.95in,4.75in},margin=9pt]{geometry}
+\input{../_style.tex}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\begin{document}
+\centering
+\begin{tikzpicture}[figbase]
+  \node[head] (hf) at (2.15,0) {FORWARD};
+  \node[lab, below=3pt of hf] (hfs) {construct the next scientific state};
+  \node[boxplain, below=6pt of hfs, minimum width=4.15cm, minimum height=0.78cm] (et)
+    {current $E_t$};
+  \node[untrusted, below=9pt of et, minimum width=4.15cm, minimum height=1.08cm] (hi)
+    {candidate $H_i$\\{\footnotesize human / CAS / optional model}\\{\footnotesize\itshape untrusted}};
+
+  \node[head] (ha) at (13.55,0) {AUDIT};
+  \node[lab, below=3pt of ha] (has) {inspect a printed scientific state};
+  \node[boxplain, below=6pt of has, minimum width=4.15cm, minimum height=0.78cm] (eq)
+    {printed equations\\{\footnotesize Eq.~$(i)$, Eq.~$(j)$}};
+  \node[untrusted, below=9pt of eq, minimum width=4.15cm, minimum height=1.08cm] (rel)
+    {extracted relation\\{\footnotesize\itshape untrusted}};
+
+  \draw[arr] (et) -- (hi);
+  \draw[arr] (eq) -- (rel);
+
+  \path (hi.south) -- (rel.south) coordinate[midway] (mid);
+  \node[boxaccent, below=24pt of mid, minimum width=15.7cm, minimum height=1.92cm, align=center] (core) {%
+    {\footnotesize\bfseries\color{accent}ONE TYPED EVIDENCE GRAPH}\\[5pt]
+    typed claim $\tau$: what mathematical move is claimed?\\[2.5pt]
+    evidence $c$: what supports the claim?\\[2.5pt]
+    fail-closed adjudication\\[5pt]
+    {\footnotesize $(E_i,E_j,\tau,c,\text{source},\text{state})$}};
+
+  \draw[arr] (hi.south) -- ++(0,-0.20) -| ($(core.north west)!0.18!(core.north east)$);
+  \draw[arr] (rel.south) -- ++(0,-0.20) -| ($(core.north west)!0.82!(core.north east)$);
+
+  \node[badgeexact, below=16pt of core.south west, anchor=north west, xshift=0.35cm,
+        minimum width=6.5cm, minimum height=0.62cm] (ok)
+    {admissible evidence $\rightarrow$ promote / verified table};
+  \node[badgerefuse, below=16pt of core.south east, anchor=north east, xshift=-0.35cm,
+        minimum width=6.5cm, minimum height=0.62cm] (no)
+    {NONZERO / UNKNOWN / unsupported $\rightarrow$ refuse};
+
+  \draw[arr] ($(core.south west)!0.22!(core.south east)$) -- (ok.north);
+  \draw[arr] ($(core.south west)!0.78!(core.south east)$) -- (no.north);
+
+  \node[lab, below=10pt of $(ok.south)!0.5!(no.south)$] {two operating modes on the same object};
+\end{tikzpicture}
+\end{document}
