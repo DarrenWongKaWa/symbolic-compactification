@@ -17,6 +17,18 @@ symbolic-compactification audit verify /tmp/ssc-audit
 symbolic-compactification audit table /tmp/ssc-audit
 ```
 
+For a reviewer-facing export, run:
+
+```bash
+symbolic-compactification audit package /tmp/ssc-audit
+```
+
+Open `reviewer-verification-package/REVIEWER_SUMMARY.html` first. It is a
+pre-generated, offline overview of evidence counts, provenance, and the
+unresolved queue for readers who do not run the replay. The matching
+`REVIEWER_SUMMARY.md` is the plain-text version. These files are generated
+from machine records and do not create or upgrade verification statuses.
+
 That toy workspace contains:
 
 - a definition (`STRUCTURAL`)

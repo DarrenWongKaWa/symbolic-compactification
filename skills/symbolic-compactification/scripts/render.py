@@ -8,11 +8,12 @@ machine-green statuses are unearned. --layout-only is page structure only.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import importlib.util
 import json
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 STATUS_LABEL = {
@@ -1384,6 +1385,117 @@ def _evidence_errors(data: dict) -> list[str]:
     return list(mod.check_ledger(data))
 
 
+def reviewer_summary(data: dict, source_sha256: str) -> tuple[str, str]:
+    """Render an offline brief from checked records, never authored totals.
+
+    Called only after the evidence gate. The tables are shared by both views;
+    explicit reviewer tasks supplement (and cannot hide) non-exact edges.
+    """
+    edges = data.get("edges") or []
+    equations = (data.get("inventory") or {}).get("equations") or []
+    counts = Counter(e["status"] for e in edges)
+    related = {token for edge in edges for key in ("from_eq", "to_eq")
+               for token in eq_tokens(str(edge.get(key) or ""))}
+    unmapped = [e["public"] for e in equations if e["public"] not in related]
+    coverage = (data.get("inventory") or {}).get("coverage") or {}
+    certification = data.get("certification") or {}
+    engine = certification.get("engine") or {}
+    queue = sorted(
+        [e for e in edges if e["status"] not in DISCHARGED | CITED_OR_STRUCTURAL],
+        key=lambda e: (e["status"] != "NONZERO_RESIDUAL",
+                       not (e.get("central") or e.get("load_bearing")), e["id"]),
+    )
+    notice = (
+        "No derivation edges have been checked." if not edges else
+        f"{len(queue)} unresolved or nonzero edges require inspection; "
+        "assumptions and cited rules also require scientific judgment."
+    )
+    sections = [
+        ("Coverage and evidence", ["Measure", "Count / scope"], [
+            ["Inventoried numbered equations", len(equations)],
+            ["Inventory completeness", coverage.get("status", "not recorded")],
+            ["Equations mentioned by reconstructed edges",
+             len(equations) - len(unmapped)],
+            ["Unmapped equation references", ", ".join(unmapped) or "none in this inventory"],
+            ["Reconstructed derivation edges", len(edges)],
+        ] + [[status, counts[status]] for status in STATUS_LABEL]),
+        ("Claims and dependencies",
+         ["Claim", "Statement", "Equations / edges", "Assumptions", "Recorded status / open items"],
+         [[c["id"], c["statement"],
+           "; ".join((c.get("supporting_equations") or []) + (c.get("related_edge_ids") or [])),
+           "; ".join(c.get("assumptions") or []) or "none recorded",
+           str(c.get("status", "GAP")) + "; " + "; ".join(c.get("unresolved") or [])]
+          for c in data.get("claims") or []]),
+        ("Reviewer queue (priority order)",
+         ["Edge", "Source / location", "Transformation", "Status", "Assumptions / domain"],
+         [[e["id"],
+           f'{e.get("from_eq", "")} → {e.get("to_eq", "")}; {e.get("locator", "")}',
+           e.get("transformation", ""), e["status"],
+           "; ".join(e.get("assumptions") or []) + "; " + str(e.get("domain") or "domain not recorded")]
+          for e in queue]),
+        ("Recorded reviewer questions",
+         ["Question", "Why it remains open", "Reviewer action", "Affected claims / edges"],
+         [[o["id"], o.get("why_not_certified", ""),
+           o.get("reviewer_must_decide", ""), "; ".join(o.get("blocks") or [])]
+          for o in sorted(data.get("reviewer_obligations") or [], key=lambda o: o.get("priority", 99))]),
+        ("Assumptions and scope ledger", ["Edge", "Scope / kind", "Assumptions", "Domain"],
+         [[e["id"], e.get("scope") or e.get("kind") or e.get("transformation", ""),
+           "; ".join(e.get("assumptions") or []) or "none recorded",
+           e.get("domain") or "not recorded"] for e in edges]),
+        ("Evidence provenance", ["Field", "Recorded value"], [
+            ["Audit SHA-256 (exact input bytes)", source_sha256],
+            ["Source", data.get("paper", {}).get("source", "not recorded")],
+            ["Issuer", certification.get("issuer", "not recorded")],
+            ["Engine", json.dumps(engine, sort_keys=True) if engine else "not recorded"],
+            ["Bound receipts", len(certification.get("receipts") or {})],
+            ["Replay mode / run time",
+             "Not recorded by this ledger schema; do not infer a cold replay from this page."],
+            ["Source freshness",
+             "This page describes the supplied snapshot, not a comparison with later manuscript edits."],
+        ]),
+    ]
+    title = data.get("paper", {}).get("title", "Derivation audit")
+    boundary = (
+        "Local certification is not a paper-level certificate. Coverage counts "
+        "formulas; exact counts refer to submitted derivation edges. Exact if A "
+        "does not prove A. Coefficient identities do not prove a remainder; "
+        "numerical support and cited rules are not machine Exact."
+    )
+    md = ["# Reviewer summary", "", html.escape(title), "", notice, "", boundary, "",
+          "[Detailed audit](audit.html) · [Markdown ledger](audit.md) · [Evidence JSON](audit.json)", ""]
+    parts = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">',
+             '<meta name="viewport" content="width=device-width, initial-scale=1">',
+             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'">',
+             '<title>Reviewer summary</title><style>' + CSS +
+             'table{width:100%;border-collapse:collapse;font: .86rem system-ui}'
+             'td,th{border:1px solid var(--rule);padding:.5rem;text-align:left;vertical-align:top;overflow-wrap:anywhere}'
+             '.scroll{overflow:auto}th{background:var(--band)}'
+             '@media print{.scroll{overflow:visible}tr{break-inside:avoid}}'
+             '</style></head><body><main class="wrap">',
+             '<p class="kicker">Pre-generated reviewer summary · no code required</p>',
+             f'<h1>{esc(title)}</h1><p class="completeness">{esc(notice)}</p>',
+             f'<p>{esc(boundary)}</p>',
+             '<p><a href="audit.html">Detailed audit</a> · <a href="audit.md">Markdown ledger</a>'
+             ' · <a href="audit.json">Evidence JSON</a></p>']
+    for heading, columns, rows in sections:
+        md.extend(["## " + heading, "",
+                   "| " + " | ".join(columns) + " |",
+                   "| " + " | ".join("---" for _ in columns) + " |"])
+        md.extend("| " + " | ".join(md_escape_cell(html.escape(str(v))) for v in row) + " |" for row in rows)
+        md.append("")
+        body = "".join("<tr>" + "".join(f"<td>{esc(v)}</td>" for v in row) + "</tr>" for row in rows)
+        parts.append(f"<section><h2>{heading}</h2><div class='scroll'><table><thead><tr>" +
+                     "".join(f"<th>{c}</th>" for c in columns) +
+                     "</tr></thead><tbody>" + body + "</tbody></table></div></section>")
+    note = ("Read this page first, then inspect the claim dependencies and priority queue "
+            "in the detailed audit. No software or network is required to read this summary. "
+            "To repeat verification, use the package README with its input files and environment; "
+            "opening this HTML does not run a verifier. Presentation is not a certificate.")
+    md.extend([note, ""])
+    parts.extend([f"<footer>{esc(note)}</footer>", "</main></body></html>"])
+    return "\n".join(parts), "\n".join(md)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Render V3.1 audit.html + audit.md")
     ap.add_argument("--audit", required=True, type=Path, help="audit.json")
@@ -1397,7 +1509,8 @@ def main() -> int:
     args = ap.parse_args()
     if args.layout_only:
         print("LAYOUT_ONLY_NOT_A_CERTIFICATE")
-    data = json.loads(args.audit.read_text(encoding="utf-8"))
+    raw_audit = args.audit.read_bytes()
+    data = json.loads(raw_audit)
     evidence_err = _evidence_errors(data)
     if evidence_err and not args.layout_only:
         print("EVIDENCE_FAIL")
@@ -1416,6 +1529,15 @@ def main() -> int:
         for item in layout_err:
             print(" -", item)
         return 1 if args.check else 0
+    if not args.layout_only:
+        brief_html, brief_md = reviewer_summary(data, hashlib.sha256(raw_audit).hexdigest())
+        (args.out / "REVIEWER_SUMMARY.html").write_text(brief_html, encoding="utf-8")
+        (args.out / "REVIEWER_SUMMARY.md").write_text(brief_md, encoding="utf-8")
+        # Preserve the checked evidence bytes for the relative link and hash.
+        if args.audit.resolve() != (args.out / "audit.json").resolve():
+            (args.out / "audit.json").write_bytes(raw_audit)
+        print("wrote", args.out / "REVIEWER_SUMMARY.html", len(brief_html),
+              args.out / "REVIEWER_SUMMARY.md", len(brief_md))
     print("CHECK_OK")
     return 0
 

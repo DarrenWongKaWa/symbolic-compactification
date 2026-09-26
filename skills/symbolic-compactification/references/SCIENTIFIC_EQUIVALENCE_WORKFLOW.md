@@ -133,8 +133,14 @@ Keep the delivery small and auditable:
 - formula inventory and formula-to-edge bridge;
 - convention and assumption ledger;
 - machine certificates and cold-replay manifest;
+- pre-generated `REVIEWER_SUMMARY.html` and matching Markdown for reviewers
+  who do not run code;
 - reviewer Markdown/HTML report with a visible unresolved queue;
 - a short README with exact reproduction commands.
+
+The summary is generated from sealed machine records after verification. It is
+a convenience reading view: it may explain counts and point to the queue, but
+it cannot create, promote, or hide a machine status.
 
 Do not mix GPT notes, abandoned derivations, generated intermediates, unrelated
 model scans, or private working files into the package. Archive them with a

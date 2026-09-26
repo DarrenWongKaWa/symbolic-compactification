@@ -118,6 +118,18 @@ audit/
 └── audit.md             # Markdown twin
 ```
 
+For readers who will not run the verifier, also emit a pre-generated summary
+from the sealed machine records:
+
+```text
+REVIEWER_SUMMARY.html     # self-contained no-code overview
+REVIEWER_SUMMARY.md       # plain-text twin
+```
+
+The summary must show evidence counts, scopes, provenance, and the unresolved
+reviewer queue. It is a reading aid, not a certificate; it must not invent,
+promote, or hide machine statuses.
+
 HTML and Markdown must be generated from `audit.json` after `certify.py`.
 Never author statuses in HTML by hand.
 

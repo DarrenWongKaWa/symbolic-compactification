@@ -15,6 +15,7 @@ from .evidence import latest_audit_run_id, load_audit_run, verify_audit
 from .inventory import inventory_equations, load_equation_manifest
 from .package import build_reviewer_package
 from .report import generate_audit_report
+from .summary import generate_reviewer_summary
 from .schema import AUDIT_SCHEMA_VERSION, NONZERO, AuditError, table_bucket
 from .tables import generate_tables
 from .workspace import initialize_audit_workspace, load_audit_workspace
@@ -169,6 +170,7 @@ def cmd_audit_table(args) -> int:
     run_id = args.run or latest_audit_run_id(workspace)
     run = load_audit_run(workspace, run_id)
     artifacts = generate_tables(workspace, run)
+    summary = generate_reviewer_summary(workspace, run)
     try:
         from .html import generate_html_report
         generate_html_report(workspace, run)
@@ -183,6 +185,8 @@ def cmd_audit_table(args) -> int:
         "nonzero": str(artifacts.nonzero_md),
         "json": str(artifacts.table_json),
         "csv": str(artifacts.table_csv),
+        "reviewer_summary": str(summary.html),
+        "reviewer_summary_markdown": str(summary.markdown),
     }
     if args.json:
         _print_json(payload)
@@ -200,6 +204,7 @@ def cmd_audit_report(args) -> int:
     run_id = args.run or latest_audit_run_id(workspace)
     run = load_audit_run(workspace, run_id)
     path = generate_audit_report(workspace, run)
+    summary = generate_reviewer_summary(workspace, run)
     html_path = None
     try:
         from .html import generate_html_report
@@ -210,6 +215,8 @@ def cmd_audit_report(args) -> int:
         "status": "AUDIT_REPORT",
         "path": str(path),
         "html_path": str(html_path) if html_path else None,
+        "reviewer_summary": str(summary.html),
+        "reviewer_summary_markdown": str(summary.markdown),
         "run_id": run.run_id,
     }
     if args.json:

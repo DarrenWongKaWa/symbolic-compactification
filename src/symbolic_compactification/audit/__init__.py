@@ -33,6 +33,11 @@ from .workspace import (
     initialize_audit_workspace,
     load_audit_workspace,
 )
+from .summary import (
+    SUMMARY_HTML_FILENAME,
+    SUMMARY_MD_FILENAME,
+    generate_reviewer_summary,
+)
 
 __all__ = [
     "APPROVED_CAVEAT",
@@ -59,6 +64,9 @@ __all__ = [
     "initialize_audit_workspace",
     "integrity_ok",
     "load_audit_workspace",
+    "SUMMARY_HTML_FILENAME",
+    "SUMMARY_MD_FILENAME",
+    "generate_reviewer_summary",
     "may_appear_in_verified_table",
     "table_bucket",
 ]

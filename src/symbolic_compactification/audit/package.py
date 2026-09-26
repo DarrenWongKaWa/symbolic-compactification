@@ -38,6 +38,11 @@ from .schema import (
     AuditError,
 )
 from .tables import generate_tables
+from .summary import (
+    SUMMARY_HTML_FILENAME,
+    SUMMARY_MD_FILENAME,
+    generate_reviewer_summary,
+)
 from .workspace import (
     CONFIG_FILE,
     EXPRESSIONS_DIRECTORY,
@@ -83,6 +88,7 @@ def build_reviewer_package(
     dest_path = _prepare_dest(workspace, dest)
     engine_version = _engine_version(run)
     table_sources = _ensure_reviewer_tables(workspace, run)
+    summary_sources = generate_reviewer_summary(workspace, run)
 
     for name in _TABLE_MD_NAMES:
         _export_src_file(
@@ -91,6 +97,19 @@ def build_reviewer_package(
             workspace_root=workspace.root,
             required=True,
         )
+
+    _export_src_file(
+        _require_regular_file(summary_sources.html, SUMMARY_HTML_FILENAME),
+        dest_path / SUMMARY_HTML_FILENAME,
+        workspace_root=workspace.root,
+        required=True,
+    )
+    _export_src_file(
+        _require_regular_file(summary_sources.markdown, SUMMARY_MD_FILENAME),
+        dest_path / SUMMARY_MD_FILENAME,
+        workspace_root=workspace.root,
+        required=True,
+    )
 
     assumptions_src = _require_contained_file(
         workspace, workspace.config.assumptions, "assumptions")
@@ -513,6 +532,14 @@ def _readme_text(run: AuditRun, engine_version: str) -> str:
         f"- Engine version: `{engine_version}`\n"
         f"- Schema: `{AUDIT_SCHEMA_VERSION}`\n"
         "\n"
+        "## Start here (no code required)\n"
+        "\n"
+        "Open `REVIEWER_SUMMARY.html` in a browser. It is a pre-generated, "
+        "offline reading view of the machine evidence: counts, evidence "
+        "scopes, provenance, and the unresolved reviewer queue. The matching "
+        "`REVIEWER_SUMMARY.md` is suitable for plain-text review. These views "
+        "do not create or upgrade machine statuses.\n"
+        "\n"
         "## Reproduce (offline)\n"
         "\n"
         "`reproduce.sh` re-runs verification and then table generation on the "
@@ -537,6 +564,8 @@ def _readme_text(run: AuditRun, engine_version: str) -> str:
         "## Package contents\n"
         "\n"
         f"{table_list}\n"
+        "- `REVIEWER_SUMMARY.html` — pre-generated no-code reviewer overview\n"
+        "- `REVIEWER_SUMMARY.md` — plain-text twin of the overview\n"
         "- `assumptions.yaml` — declared symbols and functions\n"
         "- `obligations/` — residual texts and obligation JSON from records\n"
         "- `machine_results/` — `machine_records.json` and provenance\n"

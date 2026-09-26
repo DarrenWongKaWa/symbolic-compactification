@@ -62,6 +62,12 @@ compact/unresolved.md
 Paper audit is a secondary path. It starts only when the user asks to
 audit a derivation, not because an arXiv link appears in a translation.
 
+Reviewer packages include a pre-generated `REVIEWER_SUMMARY.html` and matching
+Markdown view. Open the HTML first when a reviewer wants to inspect the
+evidence without installing or running the verifier; use `reproduce.sh` for an
+independent replay. The summary is generated from sealed machine records and
+does not promote or hide any status.
+
 ## What green / blue / orange / red mean
 
 | Colour | Meaning |

@@ -30,3 +30,23 @@ One disclaimer: `Local certification is not a paper-level certificate.`
 One Accept-warning: `Human acceptance records reviewer judgment; it does not change a machine status to Exact.`
 `Presentation is not a certificate.` must appear.
 `#obligation-table` may exist inside a drawer for provenance.
+
+## No-code reviewer summary
+
+`REVIEWER_SUMMARY.html` is a separate, pre-generated reading view for a
+reviewer who does not run the verifier. It must be generated only after the
+evidence gate and must include, on its first screen or in its first visible
+sections:
+
+- formula inventory and derivation-edge coverage as separate counts;
+- exact, conditional, rule, asymptotic, numerical, unresolved, and nonzero
+  evidence scopes;
+- the source snapshot, engine/issuer, and run provenance;
+- a visible reviewer queue with source locations and assumptions;
+- links to the detailed ledger and machine tables when those files are
+  present.
+
+The matching `REVIEWER_SUMMARY.md` is a plain-text twin. Neither artifact may
+create, promote, or hide a machine status. If replay mode or freshness is not
+recorded by the source evidence, the summary must say so rather than infer a
+cold replay or current-source status.

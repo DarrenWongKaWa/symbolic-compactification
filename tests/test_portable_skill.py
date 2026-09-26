@@ -110,6 +110,8 @@ def test_inventory_and_render_on_fixture(tmp_path: Path):
     )
     html = (out / "audit.html").read_text(encoding="utf-8")
     md = (out / "audit.md").read_text(encoding="utf-8")
+    summary_html = (out / "REVIEWER_SUMMARY.html").read_text(encoding="utf-8")
+    summary_md = (out / "REVIEWER_SUMMARY.md").read_text(encoding="utf-8")
     assert "C1" in html and "C1" in md
     assert "E-sum" in html
     assert 'id="map-sec"' in html.split('id="main"')[0]
@@ -118,6 +120,10 @@ def test_inventory_and_render_on_fixture(tmp_path: Path):
     assert "Equation map" in html
     assert "Main + appendix map A–E" not in html
     assert "Source: Eq. (2)" in html
+    assert "Reviewer summary" in summary_html
+    assert "reviewer queue" in summary_html.lower()
+    assert "E-sum" in summary_md
+    assert "not a paper-level certificate" in summary_md.lower()
     assert "tex-fallback" in html
     assert "<h2>E. Equation detail</h2>" not in html
     assert '["$","$"]' not in html
