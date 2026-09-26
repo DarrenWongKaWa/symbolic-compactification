@@ -1,0 +1,7 @@
+# Confluent recursion for a repeated end node; f is an arbitrary smooth function.
+expect: ZERO
+check: identity
+symbols: [x, y]
+functions: [f]
+lhs: DD_f(x, y, y)
+rhs: (DD_f(x, y) - D_f(1, y))/(x - y)

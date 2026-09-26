@@ -122,7 +122,9 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     c.add_argument("--functions")
     c.add_argument("--symbols")
     c.add_argument("--positive")
-    for parser in (m, r, i, o, k, d, c):
+    st = msub.add_parser("step", help="run one YAML step card (docs/encoding-cookbook.md)")
+    st.add_argument("card", help="path to the step card")
+    for parser in (m, r, i, o, k, d, c, st):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -148,6 +150,9 @@ def _run(args) -> dict[str, Any]:
             _expr(args.integrand), _expr(args.claim), variable=args.variable,
             symbols=_symbols(args.symbols), beta=args.beta, prefactor=args.prefactor,
             positive=_names(args.positive))
+    if cmd == "step":
+        from .cards import run_card
+        return run_card(args.card)
     if cmd == "identity":
         from .calculus import verify_identity
         return verify_identity(_expr(args.lhs), _expr(args.rhs), symbols=_symbols(args.symbols),
@@ -168,7 +173,7 @@ def _run(args) -> dict[str, Any]:
 def dispatch_manybody(args) -> int:
     try:
         payload = _run(args)
-    except (OSError, ValueError, yaml.YAMLError) as exc:
+    except (OSError, ValueError, yaml.YAMLError) as exc:  # CardError is a ValueError
         print(json.dumps({"error": {"code": "MANYBODY_INPUT_INVALID", "detail": str(exc)[:300]}}))
         return EXIT_INPUT
     print(json.dumps(payload, indent=2, ensure_ascii=False, default=str))

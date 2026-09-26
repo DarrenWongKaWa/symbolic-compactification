@@ -1,0 +1,5 @@
+expect: CERTIFIED_BY_RULE
+check: langreth
+product: [A, B]
+component: less
+claim: A_R*B_less + A_less*B_A

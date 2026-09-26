@@ -158,7 +158,10 @@ symbolic-compactification manybody langreth --product A,B --component less \
 ```
 
 What each check assumes, and what it refuses, is in
-[`docs/many-body-equivalence.md`](docs/many-body-equivalence.md).
+[`docs/many-body-equivalence.md`](docs/many-body-equivalence.md). To encode
+a paper's derivation one step at a time, write step cards: see
+[`docs/encoding-cookbook.md`](docs/encoding-cookbook.md) and
+`examples/cards/`.
 
 ## What green / blue / orange / red mean
 

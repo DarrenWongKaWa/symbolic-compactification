@@ -1,0 +1,17 @@
+# The broadened occupation tends to the Fermi function: rho0 = f0 + O(G).
+expect: CERTIFIED_BY_RULE
+check: remainder
+symbols:
+  - {name: beta, positive: true}
+  - {name: G, positive: true}
+  - {name: e}
+  - {name: mu}
+define:
+  zp(x): 1/2 + beta*(G + I*(x - mu))/(2*pi)
+  zm(x): 1/2 + beta*(G - I*(x - mu))/(2*pi)
+  rho0(x): 1/2 + I/(2*pi)*(polygamma(0, zp(x)) - polygamma(0, zm(x)))
+function: rho0(e)
+approximant: 1/(exp(beta*(e - mu)) + 1)
+variable: G
+point: "0"
+order: 1

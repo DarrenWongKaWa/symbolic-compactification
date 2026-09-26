@@ -1,0 +1,9 @@
+# [w^2] of a divided difference with one shifted node repeats that node twice.
+expect: ZERO
+check: coefficient
+symbols: [x, y, z, w]
+functions: [f]
+expr: DD_f(x + w, y, z)
+variable: w
+order: 2
+claim: DD_f(x, x, x, y, z)
