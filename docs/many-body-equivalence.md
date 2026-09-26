@@ -27,6 +27,9 @@ sum or integral itself.
 | Langreth rules for contour products | Dyson/Keldysh equations, `(AB)^< = A^R B^< + A^< B^A` | Larkin–Ovchinnikov triangular matrices, exact comparison in the free algebra | `CERTIFIED_BY_RULE` |
 | Operator identities | commutators, Lindblad generator versus `H_eff` plus jumps | normal form in the free associative algebra with a declared adjoint | `ZERO` / `NONZERO` |
 | Partial fractions and divided differences of propagator products | `G_n G_m → (G_n − G_m)/(ε_n − ε_m)` | existing `DIVIDED_DIFFERENCE` / `ALGEBRAIC_EQUIVALENCE` edges | `ZERO` |
+| Divided differences with repeated nodes and derivatives of arbitrary functions | confluent kernels `f[x,x,y]`, `f[x,x,x,y,z]` | `manybody identity`: expansion of `DD_f(...)`, `D_f(k,x)`; a counterexample uses a concrete test function | `ZERO` / `NONZERO` |
+| Frequency Taylor coefficients `[ω^k]` | kernels `M = [ω²]ρ₁(ω)`, shifted-node rules | `manybody coefficient`: exact series, then the identity check | `ZERO` / `NONZERO` |
+| Digamma versus Fermi forms | `ψ(1/2+iy) − ψ(1/2−iy) = iπ tanh(πy)`, Γ → 0 limits of broadened occupations | reflection formula `ψ(1−z) − ψ(z) = π cot(πz)` and its derivatives, applied inside every exact check; a Laurent-series route for Γ → 0 remainders | `ZERO` / `CERTIFIED_BY_RULE` |
 | Coefficients of a series | `c_{-1}`, `c_0` of a Laurent expansion | existing `LAURENT_COEFFICIENT` / `SERIES_COEFFICIENT` edges | `ZERO` |
 | Special-function relations | `n_F(−x) = 1 − n_F(x)`, `tanh`/`n_F`, digamma recurrence | exact verifier on explicit exponential forms | `ZERO` |
 
@@ -51,7 +54,12 @@ For asymptotic claims:
 - the limit must be finite, and equal from each declared side;
 - a limit of infinite magnitude is `NONZERO`, because the claimed order
   fails for some admissible parameters;
-- a limit whose finiteness depends on an undeclared sign stays `UNKNOWN`.
+- a limit like `oo·c/|c|` is `NONZERO` when an admissible sample value of
+  `c` makes it infinite (the counterexample is recorded);
+- when SymPy cannot take the limit, the Laurent coefficients below the
+  claimed order are tested one by one. Each must vanish exactly
+  (after polygamma reflection), and a coefficient certified nonzero at a
+  sample point refutes the claim.
 
 A disagreement between the exact result and the numerical cross-check
 always leaves the claim `UNKNOWN`.
@@ -113,6 +121,23 @@ symbolic-compactification manybody integral --variable w --beta beta --positive 
   --claim "1/2 - im(polygamma(0, 1/2 + beta*(g + I*e)/(2*pi)))/pi" \
   --symbols '[{"name":"beta","nonzero":true},{"name":"g","nonzero":true},{"name":"e"},{"name":"w"}]'
 ```
+
+For divided differences and frequency coefficients:
+
+```bash
+symbolic-compactification manybody identity --functions f \
+  --lhs "DD_f(x,y,y)" --rhs "(DD_f(x,y) - D_f(1,y))/(x - y)" \
+  --symbols '[{"name":"x"},{"name":"y"}]'
+
+symbolic-compactification manybody coefficient --functions f --variable w --order 2 \
+  --expr "DD_f(x+w,y,z)" --claim "DD_f(x,x,x,y,z)" \
+  --symbols '[{"name":"x"},{"name":"y"},{"name":"z"},{"name":"w"}]'
+```
+
+Declared functions are arbitrary smooth functions. `NONZERO` is proved by
+a concrete test function at a rational point. The value is certified to
+30 digits with strict evaluation, so the refutation is a genuine
+counterexample to the universal claim.
 
 Each command prints one JSON object with `status` (or `verdict`), the
 reasons, the derived closed form or limit, the numerical cross-check and,

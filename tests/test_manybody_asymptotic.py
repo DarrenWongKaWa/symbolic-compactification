@@ -44,10 +44,11 @@ def test_overclaimed_order_is_nonzero():
     assert "REMAINDER_QUOTIENT_DIVERGES" in result.reasons
 
 
-def test_parameter_dependent_divergence_stays_unknown():
-    # c may be zero, and then the claim holds: not decided without a sign
+def test_parameter_dependent_divergence_is_nonzero_with_counterexample():
+    # the claim fails for every admissible c != 0; a sample point proves it
     result = cert("a/g + c*g", "a/g", "g", "0", 2)
-    assert result.status == "UNKNOWN"
+    assert result.status == "NONZERO"
+    assert "c" in result.numeric["counterexample"]
 
 
 def test_two_sided_limit_must_agree():

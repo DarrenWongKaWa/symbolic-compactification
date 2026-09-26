@@ -230,6 +230,8 @@ symbolic-compactification manybody remainder  --function f --approximant P --var
 symbolic-compactification manybody langreth   --product A,B[,C] --component less|greater|R|A|K --claim C
 symbolic-compactification manybody operator   --operators H,rho,c --hermitian H,rho --lhs L --rhs R
 symbolic-compactification manybody integral   --integrand f --claim C --variable w [--beta beta] --symbols S
+symbolic-compactification manybody identity   --lhs "DD_f(x,y,y)" --rhs R --functions f --symbols S
+symbolic-compactification manybody coefficient --expr E --claim C --variable w --order k --symbols S
 ```
 
 - `CERTIFIED_BY_RULE` means an exact computation plus a named theorem with

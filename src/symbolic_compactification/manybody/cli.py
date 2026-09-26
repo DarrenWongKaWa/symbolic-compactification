@@ -19,7 +19,7 @@ EXIT_OK, EXIT_INPUT = 0, 2
 # Options whose values are expressions; "-tanh(x)" must not read as a flag.
 EXPRESSION_OPTIONS = frozenset({
     "--summand", "--claim", "--function", "--approximant", "--integrand",
-    "--lhs", "--rhs", "--prefactor",
+    "--lhs", "--rhs", "--prefactor", "--expr",
 })
 
 
@@ -107,7 +107,22 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     k.add_argument("--product", required=True, help="comma-separated, e.g. A,B,C")
     k.add_argument("--component", choices=("R", "A", "K", "less", "greater"), required=True)
     k.add_argument("--claim", required=True)
-    for parser in (m, r, i, o, k):
+    d = msub.add_parser("identity", help="identity with DD_f(...), D_f(k, x), polygammas")
+    d.add_argument("--lhs", required=True)
+    d.add_argument("--rhs", required=True)
+    d.add_argument("--functions", help="comma-separated arbitrary smooth functions")
+    d.add_argument("--symbols")
+    d.add_argument("--positive")
+
+    c = msub.add_parser("coefficient", help="[x^k] of an expression versus a claim")
+    c.add_argument("--expr", required=True)
+    c.add_argument("--claim", required=True)
+    c.add_argument("--variable", required=True)
+    c.add_argument("--order", type=int, required=True)
+    c.add_argument("--functions")
+    c.add_argument("--symbols")
+    c.add_argument("--positive")
+    for parser in (m, r, i, o, k, d, c):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -132,6 +147,16 @@ def _run(args) -> dict[str, Any]:
         return check_frequency_integral(
             _expr(args.integrand), _expr(args.claim), variable=args.variable,
             symbols=_symbols(args.symbols), beta=args.beta, prefactor=args.prefactor,
+            positive=_names(args.positive))
+    if cmd == "identity":
+        from .calculus import verify_identity
+        return verify_identity(_expr(args.lhs), _expr(args.rhs), symbols=_symbols(args.symbols),
+                               functions=_names(args.functions), positive=_names(args.positive))
+    if cmd == "coefficient":
+        from .calculus import verify_series_coefficient
+        return verify_series_coefficient(
+            _expr(args.expr), _expr(args.claim), variable=args.variable, order=args.order,
+            symbols=_symbols(args.symbols), functions=_names(args.functions),
             positive=_names(args.positive))
     if cmd == "operator":
         return dict(verify_operator_identity(
