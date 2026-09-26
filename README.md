@@ -2,13 +2,17 @@
 
 **Verified symbolic reasoning for theoretical physics.**
 
-An installable skill with two tasks over one engine. **Compactify** a
-given expression: the agent proposes a candidate, the program checks the
-residual, and improvement is scored separately. **Paper audit** /
-derivation-audit still inventories numbered equations, reconstructs
-claims and load-bearing edges, and emits reviewer **HTML** +
-**Markdown**. A model may propose. Only exact `ZERO` is machine Exact.
-The model cannot write that status.
+An installable skill with three tasks over one engine:
+- **Compactify** a given expression. The agent proposes a candidate, the
+  program checks the residual, and improvement is scored separately.
+- **Paper audit** (derivation audit). It inventories numbered equations,
+  reconstructs claims and load-bearing edges, and emits reviewer **HTML**
+  and **Markdown**.
+- **Many-body checks.** These cover Matsubara sums, asymptotic remainders,
+  Langreth rules, operator identities and Green's-function integrals.
+
+A model may propose. Only exact `ZERO` is machine Exact, and the model
+cannot write that status.
 
 This is not a CAS, not a theorem prover, and not an autonomous physicist.
 Core verification needs **no API key**.
@@ -16,6 +20,50 @@ Core verification needs **no API key**.
 Package `0.3.2-alpha` (PEP 440: `0.3.2a0`). Engine `0.3.0`.
 Skill metadata `skill_version` `0.3.4` (portable workflow), compatible
 with engine `>=0.3.2a0,<0.4`. Research preview.
+
+## What it does
+
+```mermaid
+flowchart TB
+    subgraph IN["You bring"]
+        A1["a formula to shorten"]
+        A2["a paper or derivation to audit"]
+        A3["a many-body step:<br/>Matsubara sum, O(x^n) tail,<br/>Langreth rule, operator identity"]
+    end
+    subgraph PROPOSE["Model proposes (never certifies)"]
+        B1["candidate form"]
+        B2["equations, claims, typed edges"]
+        B3["claimed closed form / order / rule"]
+    end
+    subgraph VERIFY["Program decides"]
+        C1["exact residual<br/>ZERO / NONZERO / UNKNOWN"]
+        C2["named theorem + checked hypotheses<br/>residue theorem, remainder limit, Langreth"]
+        C3["numerical cross-check<br/>support only"]
+    end
+    subgraph OUT["You get"]
+        D1["compact/result.tex<br/>verification.json receipt"]
+        D2["REVIEWER_SUMMARY.html<br/>report.html, tables, reproduce.sh"]
+        D3["JSON verdict with<br/>certificate hash"]
+    end
+    A1 --> B1 --> C1
+    A2 --> B2 --> C1
+    B2 --> C2
+    A3 --> B3 --> C2
+    C2 -.-> C3
+    C1 --> D1
+    C1 --> D2
+    C2 --> D2
+    C2 --> D3
+    C3 -.-> D3
+```
+
+The statuses a reviewer sees:
+- green is an exact local `ZERO`;
+- blue is a definition, a cited rule, or `CERTIFIED_BY_RULE`, which means
+  an exact computation plus a named theorem;
+- orange needs a reviewer, e.g. unknown, assumption required, or numerical
+  support only;
+- red is `NONZERO`.
 
 ## 1. Install the skill
 
@@ -67,6 +115,50 @@ Markdown view. Open the HTML first when a reviewer wants to inspect the
 evidence without installing or running the verifier; use `reproduce.sh` for an
 independent replay. The summary is generated from sealed machine records and
 does not promote or hide any status.
+
+## Tutorial
+
+**A. Compactify a formula.** Install the skill (step 1) and open an empty
+directory in Codex or Claude Code. Paste the formula with its symbols, then
+ask as in step 3. The agent writes `candidate.txt` and runs
+`compact_verify.py`. Read `compact/report.md`: `result.tex` exists only
+when the relation is `ZERO`.
+
+**B. Audit a derivation.** Start a workspace, describe the steps as typed
+edges, and let the engine judge them:
+
+```bash
+symbolic-compactification audit init my-audit          # skeleton workspace
+# put the source in manuscript/, list the steps in edges/edges.yaml
+symbolic-compactification audit verify my-audit        # seal machine records
+symbolic-compactification audit report my-audit        # report.html + REVIEWER_SUMMARY.html
+symbolic-compactification audit package my-audit       # shareable folder with reproduce.sh
+```
+
+`audit verify` exits with 2 when some edge is `NONZERO`, which is a result
+rather than an error. In the package, `./reproduce.sh` replays the audit
+offline and fails if any replayed edge differs from the shipped records.
+Open `reports/REVIEWER_SUMMARY.html` first. It shows the counts, the
+review queue with each claim, and the provenance. `report.html` has every
+edge with a filter. To see a complete example with many-body edges, copy
+`tests/fixtures/audit_demos/M` and run the same commands on the copy.
+
+**C. Check a many-body step directly.** Each command prints one JSON
+verdict:
+
+```bash
+symbolic-compactification manybody matsubara --statistics fermion \
+  --summand "1/((z-a)*(z-c))" --claim "(nF(a)-nF(c))/(a-c)" \
+  --symbols '[{"name":"a"},{"name":"c"},{"name":"beta","nonzero":true}]'
+# -> "status": "CERTIFIED_BY_RULE", numeric cross-check "AGREES"
+
+symbolic-compactification manybody langreth --product A,B --component less \
+  --claim "A_R*B_less + A_less*B_A"
+# -> "status": "CERTIFIED_BY_RULE"; writing B_R for B_A gives NONZERO
+```
+
+What each check assumes, and what it refuses, is in
+[`docs/many-body-equivalence.md`](docs/many-body-equivalence.md).
 
 ## What green / blue / orange / red mean
 
