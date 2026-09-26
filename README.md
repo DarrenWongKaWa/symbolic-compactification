@@ -105,6 +105,70 @@ python3.12 -m venv .venv
 Reconstruction scripts ship inside the skill folder (Python 3.10 stdlib).
 Machine Exact still requires this engine install; without it, algebra stays a gap.
 
+## How the propose-and-verify loop works
+
+The model and the program have separate jobs. The model only writes
+candidates. The program alone issues the verdict, and it writes the receipt
+that binds that verdict to its inputs.
+
+```mermaid
+flowchart LR
+    S["Source expression<br/>declared symbols, domain, assumptions"] --> P["Model writes<br/>candidate.txt"]
+    P --> V{"compact_verify.py<br/>residual: source − candidate"}
+    V -- "ZERO" --> R["result.tex + verification.json<br/>receipt: input hashes, domain, engine"]
+    R --> I{"more compact?<br/>(separate axis)"}
+    I -- "NO_IMPROVEMENT / DEPENDS" --> U["listed in unresolved.md<br/>equivalent, not shorter"]
+    V -- "NONZERO / UNKNOWN / ERROR" --> F["no result.tex<br/>residual or counterexample"]
+    F -->|"next candidate"| P
+```
+
+- **Two axes.** *Relation* (`ZERO` / `NONZERO` / `UNKNOWN` / `ERROR`) is
+  whether the candidate equals the source on the declared domain.
+  *Improvement* is whether it is actually more compact. A new name that only
+  wraps the original can be `ZERO` and still `NO_IMPROVEMENT`.
+- **Fail closed.** `result.tex` is written only on `ZERO`. A failed rerun
+  deletes the stale one. Changing the formula, domain or kind invalidates an
+  old receipt.
+- **What `ZERO` covers.** `ZERO` is a statement about one local identity. It
+  does not certify the paper the identity came from.
+
+## Why this exists
+
+The workflow began as a manual relay during a theoretical-physics derivation.
+A chat model proposed equivalent forms of an expression. Each candidate was
+pasted into a coding agent, which ran a symbolic residual check. The residual
+or counterexample was then pasted back. The loop found useful forms, but every
+step was copy and paste, nothing tied a verdict to the exact input, and it was
+easy to lose track of which candidate had actually been checked.
+
+This repository replaces that relay. The agent writes candidates to files,
+the verifier reads the same files, and the receipt records hashes of what was
+checked. The idea behind the design is that a model may propose but only the
+program may certify.
+
+**Related work.** Pairing a generative model with an automatic checker is an
+established pattern:
+- FunSearch pairs an LLM with a program evaluator (Romera-Paredes *et al.*,
+  Nature **625**, 468 (2024)).
+- AlphaGeometry pairs a language model with a symbolic deduction engine
+  (Trinh *et al.*, Nature **625**, 476 (2024)).
+- LLM-guided theorem proving works inside proof assistants such as Lean.
+
+This project claims no new search algorithm. Its contribution is engineering
+for everyday physics derivations:
+- declared symbols, domains and assumptions;
+- a two-axis verdict (equivalence vs. compactness);
+- receipts bound to input hashes;
+- reviewer-facing HTML and Markdown in which a model cannot write the `Exact`
+  status.
+
+## How to cite
+
+Cite the version you used. [`CITATION.cff`](CITATION.cff) holds the metadata,
+and GitHub shows it under *Cite this repository*. In a paper's methods or
+AI-use statement, name the language model that drove the agent as well as
+this tool. The tool does not record which model proposed a candidate.
+
 ## Canonical skill
 
 [`skills/symbolic-compactification/SKILL.md`](skills/symbolic-compactification/SKILL.md)

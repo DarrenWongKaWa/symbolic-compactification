@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite the version you used, and name the
+  language model that drove the agent separately.
+title: "symbolic-compactification: verified symbolic reasoning for theoretical physics"
+abstract: >-
+  An installable agent skill in which a language model proposes equivalent
+  forms of a symbolic expression and a program alone issues the verdict:
+  exact ZERO residual on the declared domain, bound to input hashes in a
+  receipt. It also builds reviewer-facing derivation audits.
+type: software
+authors:
+  - family-names: Wong
+    given-names: Kawa
+repository-code: "https://github.com/DarrenWongKaWa/symbolic-compactification"
+url: "https://github.com/DarrenWongKaWa/symbolic-compactification"
+license: MIT
+version: 0.3.2-alpha
+keywords:
+  - symbolic computation
+  - theoretical physics
+  - verification
+  - SymPy
+  - language models
