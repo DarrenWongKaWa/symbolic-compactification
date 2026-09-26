@@ -38,6 +38,11 @@ from .schema import (
     AuditError,
 )
 from .tables import generate_tables
+from .summary import (
+    SUMMARY_HTML_FILENAME,
+    SUMMARY_MD_FILENAME,
+    generate_reviewer_summary,
+)
 from .workspace import (
     CONFIG_FILE,
     EXPRESSIONS_DIRECTORY,
@@ -83,6 +88,7 @@ def build_reviewer_package(
     dest_path = _prepare_dest(workspace, dest)
     engine_version = _engine_version(run)
     table_sources = _ensure_reviewer_tables(workspace, run)
+    summary_sources = generate_reviewer_summary(workspace, run)
 
     for name in _TABLE_MD_NAMES:
         _export_src_file(
@@ -91,6 +97,19 @@ def build_reviewer_package(
             workspace_root=workspace.root,
             required=True,
         )
+
+    _export_src_file(
+        _require_regular_file(summary_sources.html, SUMMARY_HTML_FILENAME),
+        dest_path / SUMMARY_HTML_FILENAME,
+        workspace_root=workspace.root,
+        required=True,
+    )
+    _export_src_file(
+        _require_regular_file(summary_sources.markdown, SUMMARY_MD_FILENAME),
+        dest_path / SUMMARY_MD_FILENAME,
+        workspace_root=workspace.root,
+        required=True,
+    )
 
     assumptions_src = _require_contained_file(
         workspace, workspace.config.assumptions, "assumptions")
@@ -513,11 +532,24 @@ def _readme_text(run: AuditRun, engine_version: str) -> str:
         f"- Engine version: `{engine_version}`\n"
         f"- Schema: `{AUDIT_SCHEMA_VERSION}`\n"
         "\n"
+        "## Start here (no code required)\n"
+        "\n"
+        "Open `REVIEWER_SUMMARY.html` in a browser. It is a pre-generated, "
+        "offline reading view of the machine evidence: counts, evidence "
+        "scopes, provenance, and the unresolved reviewer queue. The matching "
+        "`REVIEWER_SUMMARY.md` is suitable for plain-text review. These views "
+        "do not create or upgrade machine statuses.\n"
+        "\n"
         "## Reproduce (offline)\n"
         "\n"
-        "`reproduce.sh` re-runs verification and then table generation on the "
-        "bundled replay workspace in `replay/`. It does not use the network "
-        "and does not install packages.\n"
+        "`reproduce.sh` re-runs verification on the bundled replay workspace "
+        "in `replay/`, then compares every edge with "
+        "`machine_results/machine_records.json` and stops with a nonzero exit "
+        "status on any difference in status, result, rule, conclusion or "
+        "residual binding. Record hashes show that a file is internally "
+        "consistent, not who wrote it; this comparison is what detects an "
+        "edited record. It does not use the network and does not install "
+        "packages.\n"
         "\n"
         "```sh\n"
         "./reproduce.sh\n"
@@ -526,7 +558,8 @@ def _readme_text(run: AuditRun, engine_version: str) -> str:
         "Equivalent commands:\n"
         "\n"
         "```sh\n"
-        "symbolic-compactification audit verify ./replay\n"
+        "symbolic-compactification audit verify ./replay   # exit 2 = NONZERO rows exist\n"
+        "symbolic-compactification audit compare ./replay --records machine_results/machine_records.json\n"
         "symbolic-compactification audit table ./replay\n"
         "```\n"
         "\n"
@@ -537,12 +570,14 @@ def _readme_text(run: AuditRun, engine_version: str) -> str:
         "## Package contents\n"
         "\n"
         f"{table_list}\n"
+        "- `REVIEWER_SUMMARY.html` — pre-generated no-code reviewer overview\n"
+        "- `REVIEWER_SUMMARY.md` — plain-text twin of the overview\n"
         "- `assumptions.yaml` — declared symbols and functions\n"
         "- `obligations/` — residual texts and obligation JSON from records\n"
         "- `machine_results/` — `machine_records.json` and provenance\n"
         "- `replay/` — expressions and manifests sufficient to replay\n"
         "- `MANIFEST.json` — SHA-256 digests of packaged files\n"
-        "- `reproduce.sh` — offline verify-then-table replay\n"
+        "- `reproduce.sh` — offline verify, compare, then table replay\n"
         "\n"
         "A NONZERO residual is a disproof of the encoded identity under the "
         "declared semantics. UNKNOWN fails closed and is not promoted.\n"
@@ -588,7 +623,10 @@ def _write_reproduce_script(path: Path) -> None:
         "  fi\n"
         "}\n"
         "\n"
-        "ssc_audit verify \"$REPLAY\"\n"
+        "# verify exits 2 when NONZERO rows exist; that is a result, not a failure.\n"
+        "ssc_audit verify \"$REPLAY\" || test $? -eq 2\n"
+        "# Fails unless every replayed edge matches the packaged records.\n"
+        "ssc_audit compare \"$REPLAY\" --records \"$ROOT/machine_results/machine_records.json\"\n"
         "ssc_audit table \"$REPLAY\"\n"
     )
     _write_text(path, script)

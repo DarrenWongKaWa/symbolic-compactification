@@ -37,6 +37,8 @@ REQUIRED_FILES = (
     "TABLE_STRUCTURAL.md",
     "TABLE_UNCERTIFIED.md",
     "TABLE_NONZERO.md",
+    "REVIEWER_SUMMARY.html",
+    "REVIEWER_SUMMARY.md",
     "MANIFEST.json",
     "assumptions.yaml",
     "reproduce.sh",
@@ -133,6 +135,10 @@ def test_build_reviewer_package_writes_required_files(tmp_path):
     assert (dest / "machine_results" / "provenance.json").is_file()
     assert (dest / "obligations" / "E001.json").is_file()
     assert (dest / "obligations" / "E001.residual.txt").is_file()
+    assert "Reviewer summary" in (
+        dest / "REVIEWER_SUMMARY.html").read_text(encoding="utf-8")
+    assert "Evidence counts" in (
+        dest / "REVIEWER_SUMMARY.md").read_text(encoding="utf-8")
     assert (dest / "replay" / "audit.yaml").is_file()
     assert (dest / "replay" / "assumptions" / "assumptions.yaml").is_file()
     assert (dest / "replay" / "equations" / "equations.yaml").is_file()

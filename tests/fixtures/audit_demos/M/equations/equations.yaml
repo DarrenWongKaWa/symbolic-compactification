@@ -1,0 +1,37 @@
+schema_version: DerivationAuditV1
+equations:
+  - equation_id: eq.summand
+    label: eq:summand
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/bubble_summand.txt
+    body: "F(z) = 1/((z-a)(z-c))"
+  - equation_id: eq.fermion
+    label: eq:fermion
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/fermion_bubble.txt
+    body: "T sum_n F(i w_n) = (nF(a) - nF(c))/(a - c)"
+  - equation_id: eq.boson
+    label: eq:boson
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/boson_bubble.txt
+    body: "T sum_n F(i v_n) = -(nB(a) - nB(c))/(a - c)"
+  - equation_id: eq.green
+    label: eq:green
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/green.txt
+    body: "G(i w) = 1/(i w - e)"
+  - equation_id: eq.tail
+    label: eq:tail
+    environment: equation
+    source_file: manuscript/source.tex
+    curated: true
+    native_expression: expressions/green_tail.txt
+    body: "G(i w) = 1/(i w) + e/(i w)^2 + O(w^-3)"

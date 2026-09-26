@@ -116,3 +116,21 @@ def test_html_report_empty_run_writes_valid_page(tmp_path):
     assert 'id="reproduction"' in page
     assert "symbolic-compactification audit verify" in page
     assert _ZERO_EDGE not in page
+
+
+def test_html_report_writes_no_absolute_local_paths_and_colours_by_bucket(tmp_path):
+    workspace = initialize_audit_workspace(tmp_path / "private-home" / "html-audit")
+    nonzero = _record(edge_id=_NONZERO_EDGE, status=NONZERO, result=NONZERO)
+    run = AuditRun(
+        run_id="run-paths",
+        audit_id="audit1",
+        directory=workspace.root / "runs" / "run-paths",
+        records=(_record(), nonzero),
+    )
+    page = generate_html_report(workspace, run).read_text(encoding="utf-8")
+    assert str(tmp_path) not in page
+    assert str(workspace.root) not in page
+    assert "runs/run-paths" in page
+    assert "symbolic-compactification audit verify ." in page
+    assert '<span class="chip tone-exact">' in _section(page, "machine-verified")
+    assert '<span class="chip tone-bad">' in _section(page, "nonzero")

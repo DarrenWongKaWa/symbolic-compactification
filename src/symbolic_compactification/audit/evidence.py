@@ -52,6 +52,7 @@ from .io import (
     sha256_bytes,
 )
 from .lowering import LoweringResult
+from .manybody_pass import apply_manybody_certificates
 from .schema import (
     ALLOWED_DECLARED_RULES,
     ASSUMPTION_REQUIRED,
@@ -197,6 +198,9 @@ def verify_audit(
         ))
     sealed = apply_split_parent_statuses(tuple(records))
     sealed = apply_bz_ibp_parent_statuses(sealed, assumptions.rules)
+    sealed = apply_manybody_certificates(
+        sealed, edges, workspace, assumptions,
+        read_expression=_read_workspace_expression, seal=_seal)
     runtime = round(max(0.0, time.monotonic() - started), 6)
     run = persist_audit_run(
         workspace,

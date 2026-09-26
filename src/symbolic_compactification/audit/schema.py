@@ -86,12 +86,24 @@ GLOBAL_SYMMETRY_PAIRING = "GLOBAL_SYMMETRY_PAIRING"
 BOOKKEEPING = "BOOKKEEPING"
 CUSTOM_EXACT = "CUSTOM_EXACT"
 BZ_PERIODIC_INTEGRATION_BY_PARTS = "BZ_PERIODIC_INTEGRATION_BY_PARTS"
+MATSUBARA_SUM = "MATSUBARA_SUM"
 
 # Named global theorems that may be declared in assumptions.yaml ``rules``.
 # The engine never treats these as a local residual.
 BZ_TORUS_PERIODICITY = "BZ_TORUS_PERIODICITY"
 BRILLOUIN_ZONE_TORUS = "BRILLOUIN_ZONE_TORUS"
-ALLOWED_DECLARED_RULES = frozenset({BZ_TORUS_PERIODICITY})
+MATSUBARA_POLES_OFF_AXIS = "MATSUBARA_POLES_OFF_AXIS"
+ALLOWED_DECLARED_RULES = frozenset({BZ_TORUS_PERIODICITY, MATSUBARA_POLES_OFF_AXIS})
+
+# Theorems whose hypotheses the many-body verifiers check before issuing
+# CERTIFIED_BY_RULE (see symbolic_compactification.manybody).
+MATSUBARA_RESIDUE_THEOREM = "MATSUBARA_RESIDUE_THEOREM"
+ASYMPTOTIC_REMAINDER_LIMIT = "ASYMPTOTIC_REMAINDER_LIMIT"
+RULE_CERTIFIED_EDGE_TYPES = {
+    BZ_PERIODIC_INTEGRATION_BY_PARTS: BZ_TORUS_PERIODICITY,
+    MATSUBARA_SUM: MATSUBARA_RESIDUE_THEOREM,
+    ASYMPTOTIC_CLAIM: ASYMPTOTIC_REMAINDER_LIMIT,
+}
 ALLOWED_IBP_DOMAINS = frozenset({BRILLOUIN_ZONE_TORUS})
 
 EDGE_TYPES = frozenset({
@@ -101,7 +113,7 @@ EDGE_TYPES = frozenset({
     COMPLETENESS_RECONSTRUCTION, PAIRWISE_REDUCTION, DIVIDED_DIFFERENCE,
     SPECIAL_FUNCTION_IDENTITY, SPLIT_PARENT, ASYMPTOTIC_CLAIM, LIMIT_CLAIM,
     INTEGRAL_ARGUMENT, GLOBAL_SYMMETRY_PAIRING, BOOKKEEPING, CUSTOM_EXACT,
-    BZ_PERIODIC_INTEGRATION_BY_PARTS,
+    BZ_PERIODIC_INTEGRATION_BY_PARTS, MATSUBARA_SUM,
 })
 
 NON_RESIDUAL_CLAIM_TYPES = frozenset({
@@ -196,6 +208,12 @@ EDGE_TYPE_SPECS: dict[str, EdgeTypeSpec] = {
         "be ZERO; the parent is CERTIFIED_BY_RULE only with declared "
         "BZ_TORUS_PERIODICITY on domain BRILLOUIN_ZONE_TORUS. Never engine "
         "ZERO: SymPy does not evaluate the integral."),
+    MATSUBARA_SUM: EdgeTypeSpec(
+        MATSUBARA_SUM, LOWERING_PARTIAL, NOT_LOWERED,
+        "Matsubara frequency sum of a rational summand. CERTIFIED_BY_RULE "
+        "when the residue theorem's hypotheses are checked (or poles-off-axis "
+        "is declared) and the claimed closed form equals the residue sum "
+        "under the exact verifier. Never engine ZERO for the infinite sum."),
 }
 
 # --------------------------------------------------------------------------- #
@@ -243,6 +261,7 @@ FORBIDDEN_PUBLIC_CLAIMS = (
 
 CLI_AUDIT_COMMANDS = (
     "init", "inventory", "inspect", "verify", "table", "report", "package",
+    "compare",
 )
 
 WORKSPACE_LAYOUT = (
@@ -316,7 +335,7 @@ def public_status_label(status: str) -> str:
     if status == CERTIFIED_BY_CHILDREN:
         return "SPLIT — all children certified"
     if status == CERTIFIED_BY_RULE:
-        return "CERTIFIED_BY_RULE — local ZERO + declared BZ-torus IBP"
+        return "CERTIFIED_BY_RULE — local engine result + named theorem"
     return status
 
 
@@ -543,10 +562,19 @@ def integrity_issues(record: AuditRecord) -> tuple[str, ...]:
         issues.append("BZ_IBP_PARENT_CANNOT_BE_ENGINE_ZERO")
     if record.status == CERTIFIED_BY_CHILDREN and record.edge_type != SPLIT_PARENT:
         issues.append("CERTIFIED_BY_CHILDREN_REQUIRES_SPLIT_PARENT")
-    if (
-            record.status == CERTIFIED_BY_RULE
-            and record.edge_type != BZ_PERIODIC_INTEGRATION_BY_PARTS):
-        issues.append("CERTIFIED_BY_RULE_REQUIRES_BZ_IBP")
+    if record.status == CERTIFIED_BY_RULE:
+        rule_id = RULE_CERTIFIED_EDGE_TYPES.get(record.edge_type)
+        if rule_id is None:
+            issues.append("CERTIFIED_BY_RULE_REQUIRES_BZ_IBP")
+        elif record.edge_type != BZ_PERIODIC_INTEGRATION_BY_PARTS and (
+                record.rule_certificate is None
+                or record.rule_certificate.rule_id != rule_id):
+            issues.append("RULE_CERTIFICATE_REQUIRED")
+        if record.edge_type == ASYMPTOTIC_CLAIM and not asymptotic_remainder_certified(
+                record.remainder_certificate_hash):
+            issues.append("REMAINDER_CERTIFICATE_REQUIRED")
+    if record.edge_type == MATSUBARA_SUM and record.status == ZERO:
+        issues.append("MATSUBARA_SUM_CANNOT_BE_ENGINE_ZERO")
     return tuple(issues)
 
 

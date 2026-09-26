@@ -7,6 +7,7 @@ still raise NOT_IMPLEMENTED until their owners land.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from ..models import ENGINE_VERSION, PACKAGE_VERSION, RELEASE_VERSION
 from ..security import redact_public_data, redact_text
@@ -15,6 +16,7 @@ from .evidence import latest_audit_run_id, load_audit_run, verify_audit
 from .inventory import inventory_equations, load_equation_manifest
 from .package import build_reviewer_package
 from .report import generate_audit_report
+from .summary import generate_reviewer_summary
 from .schema import AUDIT_SCHEMA_VERSION, NONZERO, AuditError, table_bucket
 from .tables import generate_tables
 from .workspace import initialize_audit_workspace, load_audit_workspace
@@ -169,6 +171,7 @@ def cmd_audit_table(args) -> int:
     run_id = args.run or latest_audit_run_id(workspace)
     run = load_audit_run(workspace, run_id)
     artifacts = generate_tables(workspace, run)
+    summary = generate_reviewer_summary(workspace, run)
     try:
         from .html import generate_html_report
         generate_html_report(workspace, run)
@@ -183,6 +186,8 @@ def cmd_audit_table(args) -> int:
         "nonzero": str(artifacts.nonzero_md),
         "json": str(artifacts.table_json),
         "csv": str(artifacts.table_csv),
+        "reviewer_summary": str(summary.html),
+        "reviewer_summary_markdown": str(summary.markdown),
     }
     if args.json:
         _print_json(payload)
@@ -200,6 +205,7 @@ def cmd_audit_report(args) -> int:
     run_id = args.run or latest_audit_run_id(workspace)
     run = load_audit_run(workspace, run_id)
     path = generate_audit_report(workspace, run)
+    summary = generate_reviewer_summary(workspace, run)
     html_path = None
     try:
         from .html import generate_html_report
@@ -210,6 +216,8 @@ def cmd_audit_report(args) -> int:
         "status": "AUDIT_REPORT",
         "path": str(path),
         "html_path": str(html_path) if html_path else None,
+        "reviewer_summary": str(summary.html),
+        "reviewer_summary_markdown": str(summary.markdown),
         "run_id": run.run_id,
     }
     if args.json:
@@ -240,6 +248,28 @@ def cmd_audit_package(args) -> int:
     return 0
 
 
+def cmd_audit_compare(args) -> int:
+    from .replay_compare import compare_records, load_record_file
+    workspace = load_audit_workspace(args.directory)
+    run_id = args.run or latest_audit_run_id(workspace)
+    replayed = load_audit_run(workspace, run_id).records
+    problems = compare_records(load_record_file(Path(args.records)), replayed)
+    payload = {
+        "status": "REPLAY_MATCHES" if not problems else "REPLAY_MISMATCH",
+        "run_id": run_id,
+        "edges_compared": len(replayed),
+        "differences": problems,
+    }
+    if args.json:
+        _print_json(payload)
+    else:
+        print(f"status:          {payload['status']}")
+        print(f"edges_compared:  {len(replayed)}")
+        for item in problems:
+            print(f"  {item['edge_id']}: {item['issue']} {item.get('field', '')}".rstrip())
+    return 0 if not problems else 1
+
+
 def dispatch_audit(args) -> int:
     command = getattr(args, "audit_command", None)
     handlers = {
@@ -250,6 +280,7 @@ def dispatch_audit(args) -> int:
         "table": cmd_audit_table,
         "report": cmd_audit_report,
         "package": cmd_audit_package,
+        "compare": cmd_audit_compare,
     }
     handler = handlers.get(command)
     if handler is None:

@@ -11,11 +11,11 @@ description: >
   arXiv link appears in a translation or summary.
   LLM judgment is never proof. Not a CAS.
 license: MIT
-compatibility: Requires Python 3.10+. Full verification needs the installed engine (sympy).
 metadata:
-  skill_version: "0.3.4"
+  skill_version: "0.3.5"
   engine_compatibility: ">=0.3.2a0,<0.4"
   product: symbolic-compactification
+  compatibility: Requires Python 3.10+. Full verification needs the installed engine (sympy).
 ---
 
 # symbolic-compactification
@@ -29,6 +29,12 @@ Human Accept never stamps Exact.
 
 Resolve `SKILL_ROOT` as the directory that contains this `SKILL.md`.
 Run scripts as `python3 "$SKILL_ROOT/scripts/<name>.py" ...`.
+
+When a request compares a paper's equivalent formulas or derivation steps,
+read [references/SCIENTIFIC_EQUIVALENCE_WORKFLOW.md](references/SCIENTIFIC_EQUIVALENCE_WORKFLOW.md)
+before acquiring the source. It adds source freezing, convention bridges,
+typed evidence scopes, cold-replay provenance, and reviewer-package gates; it
+does not add domain-specific scientific content.
 
 First command, every session:
 
@@ -111,6 +117,18 @@ audit/
 ├── audit.html           # reviewer HTML (V3.1 five layers)
 └── audit.md             # Markdown twin
 ```
+
+For readers who will not run the verifier, also emit a pre-generated summary
+from the sealed machine records:
+
+```text
+REVIEWER_SUMMARY.html     # self-contained no-code overview
+REVIEWER_SUMMARY.md       # plain-text twin
+```
+
+The summary must show evidence counts, scopes, provenance, and the unresolved
+reviewer queue. It is a reading aid, not a certificate; it must not invent,
+promote, or hide machine statuses.
 
 HTML and Markdown must be generated from `audit.json` after `certify.py`.
 Never author statuses in HTML by hand.
@@ -198,6 +216,29 @@ Never pass `--layout-only`. That flag skips evidence checks and is not a certifi
 
 If the engine is absent, certify leaves algebra as `GAP`. That is the
 correct result, not a reason to write Exact.
+
+## C. Many-body steps (engine CLI)
+
+Use these checks when a step is a Matsubara sum, an asymptotic expansion,
+a Langreth rule, an operator identity or a real-frequency Green's-function
+integral. Propose the closed form. Do not decide it yourself: run the
+command and report its JSON `status` unchanged.
+
+```bash
+symbolic-compactification manybody matsubara  --statistics fermion|boson --summand F --claim C --symbols S
+symbolic-compactification manybody remainder  --function f --approximant P --variable x --point 0|oo --order n --symbols S
+symbolic-compactification manybody langreth   --product A,B[,C] --component less|greater|R|A|K --claim C
+symbolic-compactification manybody operator   --operators H,rho,c --hermitian H,rho --lhs L --rhs R
+symbolic-compactification manybody integral   --integrand f --claim C --variable w [--beta beta] --symbols S
+```
+
+- `CERTIFIED_BY_RULE` means an exact computation plus a named theorem with
+  its hypotheses checked. Show it blue, never as Exact.
+- `ASSUMPTION_REQUIRED` names the missing hypothesis, e.g.
+  `MATSUBARA_POLES_OFF_AXIS`. Ask the user. Do not declare it for them.
+- `NUMERICAL_SUPPORT` and a numerical cross-check never promote a claim.
+- In an audit workspace, use `MATSUBARA_SUM` edges and `asymptotic:` specs.
+  Details are in `docs/many-body-equivalence.md` of the engine repository.
 
 ## HTML: five visible layers (less is more)
 

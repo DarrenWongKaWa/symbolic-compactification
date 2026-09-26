@@ -44,6 +44,13 @@ _SECTION_IDS = {
     TABLE_UNCERTIFIED: "uncertified",
 }
 
+_BUCKET_TONE = {
+    TABLE_VERIFIED: "tone-exact",
+    TABLE_STRUCTURAL: "tone-struct",
+    TABLE_NONZERO: "tone-bad",
+    TABLE_UNCERTIFIED: "tone-review",
+}
+
 _SECTION_TITLES = {
     TABLE_VERIFIED: "Machine-verified",
     TABLE_STRUCTURAL: "Structural",
@@ -91,28 +98,54 @@ _FILTER_JS = """
 """.strip()
 
 _CSS = """
-:root { color-scheme: light; }
-html { font-family: ui-sans-serif, system-ui, sans-serif; line-height: 1.4; }
-body { margin: 1.5rem auto; max-width: 72rem; padding: 0 1rem 3rem; color: #111; }
+:root { color-scheme: light dark; --ink: #1d2328; --muted: #5b6670; --rule: #d3d9de;
+  --band: #f5f7f9; --bg: #fff; --link: #1d4f80;
+  --exact: #2d6a4f; --exact-bg: #e8f3ec; --struct: #2e5a88; --struct-bg: #e8eff7;
+  --review: #9a5a0f; --review-bg: #fcf1e1; --bad: #9b2c2c; --bad-bg: #f9e8e8; }
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #e3e7ea; --muted: #9aa5ae; --rule: #3a434b; --band: #1f252a; --bg: #15191d;
+    --link: #8bb8e8; --exact: #7cc79f; --exact-bg: #1c3127; --struct: #8fb4e0;
+    --struct-bg: #1b2a3b; --review: #e7ae62; --review-bg: #36291a; --bad: #ee9090; --bad-bg: #3a1f1f; }
+}
+html { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.45; }
+body { margin: 1.5rem auto; max-width: 74rem; padding: 0 1rem 3rem; color: var(--ink); background: var(--bg); }
+a { color: var(--link); }
 header, section { margin-bottom: 1.75rem; }
-h1 { font-size: 1.6rem; margin: 0 0 0.4rem; }
-h2 { font-size: 1.15rem; margin: 0 0 0.6rem; }
-.muted { color: #555; }
-.banner { background: #f4f4f4; border: 1px solid #ddd; padding: 0.75rem 1rem; }
-nav.jump a, nav.filters button { margin: 0 0.35rem 0.35rem 0; }
-nav.filters button.active { font-weight: 700; }
-input[type="search"] { width: min(36rem, 100%); padding: 0.35rem 0.5rem; }
-table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
-th, td { border: 1px solid #ccc; padding: 0.35rem 0.5rem; vertical-align: top; text-align: left; }
-th { background: #fafafa; }
+h1 { font: 700 1.65rem/1.2 Georgia, serif; margin: 0 0 0.4rem; }
+h2 { font: 700 1.15rem/1.25 Georgia, serif; margin: 0 0 0.6rem; }
+.muted { color: var(--muted); }
+.banner { background: var(--band); border: 1px solid var(--rule); border-left: 4px solid var(--struct); padding: 0.75rem 1rem; }
+nav.jump a { margin: 0 0.6rem 0.35rem 0; }
+nav.filters { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.55rem; }
+nav.filters button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 999px;
+  border: 1px solid var(--rule); background: var(--bg); color: var(--ink); cursor: pointer; }
+nav.filters button.tone-exact { border-color: var(--exact); }
+nav.filters button.tone-struct { border-color: var(--struct); }
+nav.filters button.tone-bad { border-color: var(--bad); }
+nav.filters button.tone-review { border-color: var(--review); }
+nav.filters button.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+nav.filters button:focus-visible, input[type="search"]:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+input[type="search"] { width: min(36rem, 100%); padding: 0.4rem 0.6rem; font: inherit; border: 1px solid var(--rule);
+  border-radius: 6px; background: var(--bg); color: var(--ink); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { border: 1px solid var(--rule); padding: 0.4rem 0.55rem; vertical-align: top; text-align: left; }
+th { background: var(--band); position: sticky; top: 0; }
 .table-wrap { overflow-x: auto; }
+.chip { display: inline-block; padding: 0.05rem 0.45rem; border-radius: 4px; font-size: 0.8rem;
+  font-weight: 600; white-space: nowrap; border: 1px solid currentColor; }
+.tone-exact.chip { color: var(--exact); background: var(--exact-bg); }
+.tone-struct.chip { color: var(--struct); background: var(--struct-bg); }
+.tone-review.chip { color: var(--review); background: var(--review-bg); border-style: dashed; }
+.tone-bad.chip { color: var(--bad); background: var(--bad-bg); }
 pre { white-space: pre-wrap; word-break: break-word; margin: 0.4rem 0 0; }
-.hash, .cmd { font-family: ui-monospace, monospace; font-size: 0.85rem; }
-dl.meta { display: grid; grid-template-columns: 12rem 1fr; gap: 0.25rem 0.75rem; }
+.hash, .cmd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.83rem; word-break: break-all; }
+pre.cmd { background: var(--band); padding: 0.6rem 0.75rem; border-radius: 6px; }
+dl.meta { display: grid; grid-template-columns: minmax(9rem, 12rem) 1fr; gap: 0.25rem 0.75rem; }
 dl.meta dt { font-weight: 600; }
 ul.compact { margin: 0.25rem 0; padding-left: 1.2rem; }
 @media print {
   nav.filters, #edge-filter, label[for="edge-filter"] { display: none; }
+  th { position: static; }
 }
 """.strip()
 
@@ -243,8 +276,8 @@ def _render_metadata(workspace: AuditWorkspace, run: AuditRun) -> str:
     rows = [
         ("audit_id", run.audit_id),
         ("run_id", run.run_id),
-        ("run_directory", str(run.directory)),
-        ("workspace", str(workspace.root)),
+        ("run_directory", _workspace_relative(workspace, run.directory)),
+        ("workspace", ". (paths are relative to the audit workspace)"),
         ("schema_version", run.schema_version),
         ("verifier_profile", workspace.config.verifier_profile),
         ("verifier_routes", ", ".join(routes) or "—"),
@@ -295,13 +328,21 @@ def _render_assumptions(workspace: AuditWorkspace, run: AuditRun) -> str:
     )
 
 
+def _workspace_relative(workspace: AuditWorkspace, path: Path) -> str:
+    """Shareable pages never carry absolute local paths."""
+    try:
+        return Path(path).resolve().relative_to(Path(workspace.root).resolve()).as_posix()
+    except ValueError:
+        return Path(path).name
+
+
 def _render_reproduction(workspace: AuditWorkspace, run: AuditRun) -> str:
-    root = str(workspace.root)
     run_id = run.run_id
     command = (
-        f"symbolic-compactification audit verify {root}\n"
-        f"symbolic-compactification audit table --run {run_id} {root}\n"
-        f"symbolic-compactification audit report --run {run_id} {root}\n"
+        "cd <audit-workspace>\n"
+        "symbolic-compactification audit verify .\n"
+        f"symbolic-compactification audit table --run {run_id} .\n"
+        f"symbolic-compactification audit report --run {run_id} .\n"
     )
     return (
         '<section id="reproduction">'
@@ -319,7 +360,8 @@ def _render_filters(grouped: dict[str, list[AuditRecord]]) -> str:
     for bucket in _BUCKET_ORDER:
         count = len(grouped.get(bucket, []))
         buttons.append(
-            f'<button type="button" data-filter-bucket="{_esc(bucket)}">'
+            f'<button type="button" class="{_BUCKET_TONE[bucket]}" '
+            f'data-filter-bucket="{_esc(bucket)}">'
             f"{_esc(_SECTION_TITLES[bucket])} ({count})</button>"
         )
     return (
@@ -392,7 +434,8 @@ def _render_row(bucket: str, record: AuditRecord) -> str:
         f'data-edge-id="{_esc(record.edge_id)}" '
         f'data-status="{_esc(record.status)}">'
         f"<td>{_esc(record.edge_id)}{claim}{warnings}</td>"
-        f"<td>{_esc(public_status_label(record.status))}</td>"
+        f'<td><span class="chip {_BUCKET_TONE[bucket]}">'
+        f"{_esc(public_status_label(record.status))}</span></td>"
         f"<td>{_esc(record.result)}</td>"
         f"<td>{_esc(record.edge_type)}</td>"
         f"<td>{refs}</td>"
