@@ -66,3 +66,10 @@ def test_cli_manybody_emits_json(capsys):
     assert json.loads(capsys.readouterr().out)["status"] == "CERTIFIED_BY_RULE"
     assert cli.main(["manybody", "matsubara", "--statistics", "fermion", "--summand",
                      "1/(z-a)", "--claim", "nF(a)", "--symbols", "not: [valid"]) == 2
+
+
+def test_cli_accepts_expressions_starting_with_minus(capsys):
+    assert cli.main(["manybody", "matsubara", "--statistics", "fermion", "--summand",
+                     "1/((z-a)*(z+a))", "--claim", "-tanh(beta*a/2)/(2*a)", "--symbols",
+                     '[{"name": "a", "nonzero": true}, {"name": "beta", "nonzero": true}]']) == 0
+    assert json.loads(capsys.readouterr().out)["status"] == "CERTIFIED_BY_RULE"

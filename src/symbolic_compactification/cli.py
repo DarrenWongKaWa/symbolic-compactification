@@ -1024,7 +1024,11 @@ def _emit_workspace_error(args, error: WorkspaceError) -> int:
 
 def main(argv: Optional[list[str]] = None) -> int:
     parser = build_parser()
-    args = parser.parse_args(argv)
+    raw = list(sys.argv[1:] if argv is None else argv)
+    if raw[:1] == ["manybody"]:
+        from .manybody.cli import normalize_argv
+        raw = normalize_argv(raw)
+    args = parser.parse_args(raw)
     try:
         try:
             return args.func(args)
