@@ -4,6 +4,7 @@ Claim language (on top of the usual expression syntax):
   DD_f(x0, x1, ..., xr)   divided difference of a declared function f;
                           repeated nodes use the confluent limit
   D_f(k, x)               k-th derivative of f at x (k a literal integer)
+  Diff(expr, x, k)        k-th derivative of any expression in the symbol x
 Declared functions are *arbitrary* smooth functions. An identity is ZERO
 only if SymPy reduces the residual to zero (after expanding divided
 differences and canonicalizing polygammas by reflection). NONZERO needs a
@@ -69,7 +70,7 @@ class CalculusSpace(Namespace):
             name, params = _parse_definition_key(str(key))
             self.defs[name] = (params, str(body))
         names = [*self.user_functions, *self.defs]
-        helpers = [f"{p}_{f}" for f in names for p in ("DD", "D")]
+        helpers = [f"{p}_{f}" for f in names for p in ("DD", "D")] + ["Diff"]
         declared = {(s if isinstance(s, str) else s.get("name")) for s in (symbols or [])}
         extra = [{"name": p, "real": True} for params, _ in self.defs.values()
                  for p in params if p not in declared]
@@ -99,9 +100,17 @@ class CalculusSpace(Namespace):
                                     lambda k, x, F=F: self._derivative(F, k, x))
             for name in self.defs:
                 expr = expr.replace(sympy.Function(name), self._lambda(name))
+            expr = expr.replace(sympy.Function("Diff"), self._diff)
             if expr == before:
                 return expr
         raise AdapterError("DEFINITIONS_TOO_DEEP_OR_CYCLIC")
+
+    @staticmethod
+    def _diff(expr, variable, k):
+        """Diff(expr, x, k): k-th derivative of any expression in a symbol."""
+        if not (isinstance(variable, sympy.Symbol) and k.is_Integer and k >= 0):
+            raise AdapterError("DIFF_ARGUMENTS_INVALID")
+        return sympy.diff(expr, variable, int(k)).doit()
 
     @staticmethod
     def _derivative(F, k, x):

@@ -50,79 +50,91 @@ In integrands and claims, `nF(x) = 1/(exp(beta x) + 1)` and
 
 ## Worked cards
 
-**Bath integral against a residue form**, from Guo *et al.*, Eq. SM_rho1
-(`examples/cards/guo_rho1_bath_integral.yaml`):
+These examples are deliberately **not** taken from the benchmarks in
+`benchmarks/`. Examples that match a test item teach agents to copy the
+example instead of transcribing the claim in front of them.
+
+**Fermi-weighted propagator pair**
+(`examples/cards/fermi_weighted_propagator_pair.yaml`):
 
 ```yaml
 check: fermi_integral
 symbols:
   - {name: beta, positive: true}
   - {name: G, positive: true}
-  - {name: en}
-  - {name: em}
-  - {name: mu}
+  - {name: a}
+  - {name: b}
   - {name: w}
-  - {name: wb}
 define:
-  zp(x): 1/2 + beta*(G + I*(x - mu))/(2*pi)
-  zm(x): 1/2 + beta*(G - I*(x - mu))/(2*pi)
-  fp(x): 1/2 + I/pi*polygamma(0, zp(x))
-  fm(x): 1/2 - I/pi*polygamma(0, zm(x))
-  rho0(x): (fp(x) + fm(x))/2
-  rp(w, a, b): I*G*(fp(b) - fp(a - w))/(w + b - a)
-  rm(w, a, b): I*G*(fm(b + w) - fm(a))/(w + b - a)
-  rho1(a, b, w): (rho0(b) - rho0(a) + rp(w, a, b) + rm(w, a, b))/(w + b - a + 2*I*G)
-variable: wb
+  zp(x): 1/2 + beta*(G + I*x)/(2*pi)
+  zm(x): 1/2 + beta*(G - I*x)/(2*pi)
+variable: w
 beta: beta
-integrand: G/(pi*(wb**2 + G**2))*(nF(en - mu + wb) - nF(em - mu - wb))/(w + wb + en - em + I*G)
-claim: rho1(em, en, w)
+integrand: nF(w)/((w - a + I*G)*(w - b - I*G))
+claim: (I*pi + polygamma(0, zm(b)) - polygamma(0, zp(a)))/(b - a + 2*I*G)
 ```
 
-The result is `CERTIFIED_BY_RULE`. With `fp(a + w)` in `rp`, a planted error,
-it is `NONZERO`.
+Paper definitions (f±, ρ₀, residue forms) go under `define:` in the same
+way, and a claim can then be written with them, e.g. `claim: rho1(em, en, w)`.
 
-**Confluent divided difference** (`repeated_node_divided_difference.yaml`):
+**Divided differences of an arbitrary function**
+(`divided_difference_symmetry.yaml`, `derivative_repeats_node.yaml`):
 
 ```yaml
 check: identity
 symbols: [x, y]
 functions: [f]
-lhs: DD_f(x, y, y)
-rhs: (DD_f(x, y) - D_f(1, y))/(x - y)
+lhs: Diff(DD_f(x, y), x, 1)
+rhs: DD_f(x, x, y)
 ```
 
-**Frequency coefficient of a kernel** (`shifted_node_coefficient.yaml`):
+- `DD_f(...)` is the divided difference of `f`.
+- `D_f(k, x)` is `f^(k)(x)`, the k-th derivative of `f` itself at `x`.
+- `Diff(expr, x, k)` is the k-th derivative **of any expression** in `x`,
+  for example of a divided difference.
+
+`D_f(2, x)` and `Diff(DD_f(x, y), x, 2)` are different objects; confusing
+them is the most common encoding error.
+
+**Frequency coefficient** (`shifted_node_first_coefficient.yaml`):
 
 ```yaml
 check: coefficient
-symbols: [x, y, z, w]
+symbols: [x, y, w]
 functions: [f]
-expr: DD_f(x + w, y, z)
+expr: DD_f(x + w, y)
 variable: w
-order: 2
-claim: DD_f(x, x, x, y, z)
+order: 1
+claim: DD_f(x, x, y)
 ```
 
-To check a paper's `M = [ω²] ρ₁(ω)`, define `rho1(a, b, w)` as in the
-first card and use `expr: rho1(em, en, w)`.
+To check a kernel `M = [ω²] ρ₁(ω)`, define `rho1(a, b, w)` exactly as the
+paper does. Use `expr: rho1(em, en, w)` and `order: 2`, and transcribe the
+claim term by term.
 
-**Γ → 0 limit of a digamma form** (`occupation_gamma_limit.yaml`):
+**Γ → 0 limit of a digamma form**
+(`broadened_occupation_derivative_limit.yaml`):
 
 ```yaml
 check: remainder
-function: rho0(e)
-approximant: 1/(exp(beta*(e - mu)) + 1)
+function: Diff(occ(e), e, 1)
+approximant: -beta/(4*cosh(beta*e/2)**2)
 variable: G
 point: "0"
 order: 1
 ```
 
-Digamma and Fermi/tanh forms are matched through the reflection formula.
-When SymPy's limit fails, the Laurent coefficients are checked one by one.
+Digamma and Fermi/tanh/cosh forms are matched through the reflection
+formula. When SymPy's limit fails, the Laurent coefficients are checked one
+by one.
 
 **Index-order slip** (`index_swap_diagnosis.yaml`): the result is `NONZERO`
 with the diagnosis `claim = computed with n <-> m (index order)`. Other
 diagnoses name a sign, a factor 2 or a complex conjugate.
+
+**Transcribe, do not reconstruct.** The card must encode the claim exactly
+as written, including any factor that looks wrong. If you "fix" the claim
+while encoding it, the tool verifies your version instead of the author's.
 
 ## When the tool says UNKNOWN
 

@@ -1,0 +1,7 @@
+# Divided differences are symmetric in their nodes; f is an arbitrary smooth function.
+expect: ZERO
+check: identity
+symbols: [x, y, z]
+functions: [f]
+lhs: DD_f(x, y, z)
+rhs: DD_f(z, x, y)

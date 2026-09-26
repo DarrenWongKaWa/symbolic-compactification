@@ -1,0 +1,17 @@
+# int dw nF(w) / ((w - a + iG)(w - b - iG)): a retarded and an advanced
+# propagator weighted by the Fermi function (chemical potential absorbed in a, b).
+expect: CERTIFIED_BY_RULE
+check: fermi_integral
+symbols:
+  - {name: beta, positive: true}
+  - {name: G, positive: true}
+  - {name: a}
+  - {name: b}
+  - {name: w}
+define:
+  zp(x): 1/2 + beta*(G + I*x)/(2*pi)
+  zm(x): 1/2 + beta*(G - I*x)/(2*pi)
+variable: w
+beta: beta
+integrand: nF(w)/((w - a + I*G)*(w - b - I*G))
+claim: (I*pi + polygamma(0, zm(b)) - polygamma(0, zp(a)))/(b - a + 2*I*G)
