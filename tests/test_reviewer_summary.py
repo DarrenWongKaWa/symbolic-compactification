@@ -57,3 +57,20 @@ def test_summary_is_generated_from_records_not_stale_tables(tmp_path):
     assert "FORGED" not in artifacts.markdown.read_text(encoding="utf-8")
     assert "Machine-verified local identities" in artifacts.markdown.read_text(
         encoding="utf-8")
+
+
+def test_summary_colours_follow_machine_buckets_and_queue_shows_claim(tmp_path):
+    root = _copy_demo(tmp_path, "C")
+    from symbolic_compactification.audit.workspace import load_audit_workspace
+
+    workspace = load_audit_workspace(root)
+    run = verify_audit(workspace, run_id="summary-run")
+    html = generate_reviewer_summary(workspace, run).html.read_text(encoding="utf-8")
+    assert '<div class="metric tone-exact"><strong>2</strong>' in html
+    assert '<div class="metric tone-review"><strong>1</strong>' in html
+    assert 'class="bar"' in html
+    summary = html.split('<details class="queue-card tone-review">', 1)[1].split("</summary>", 1)[0]
+    assert "C.asymptotic-O" in summary
+    assert "ASYMPTOTIC_REMAINDER_NOT_CERTIFIED" in summary
+    assert "F(g) = a/g + O(g)" in summary
+    assert str(tmp_path) not in html

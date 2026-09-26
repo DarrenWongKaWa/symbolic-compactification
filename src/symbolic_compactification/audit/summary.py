@@ -31,6 +31,22 @@ from .inventory import load_equation_manifest
 from .workspace import AuditWorkspace
 
 SUMMARY_HTML_FILENAME = "REVIEWER_SUMMARY.html"
+
+# Colour follows the machine table bucket of each record; the page never
+# infers a status from text.
+_BUCKET_TONE = {
+    TABLE_VERIFIED: "tone-exact",
+    TABLE_STRUCTURAL: "tone-struct",
+    TABLE_NONZERO: "tone-bad",
+    TABLE_UNCERTIFIED: "tone-review",
+}
+_BUCKET_LABEL = {
+    TABLE_VERIFIED: "local ZERO",
+    TABLE_STRUCTURAL: "structural / rule",
+    TABLE_NONZERO: "NONZERO",
+    TABLE_UNCERTIFIED: "review queue",
+}
+_CLAIM_PREVIEW = 140
 SUMMARY_MD_FILENAME = "REVIEWER_SUMMARY.md"
 
 
@@ -257,25 +273,30 @@ def _render_html(
     types = Counter(record.edge_type for record in run.records)
     queue = _queue_records(buckets)
     equation_count, equation_warnings = _equation_inventory(workspace)
-    metric_cards = "".join(
-        f'<div class="metric"><strong>{counts[key]}</strong><span>{label}</span></div>'
-        for key, label in (
-            ("total", "recorded"),
-            ("machine_exact", "local ZERO"),
-            ("structural", "structural/rule"),
-            ("nonzero", "NONZERO"),
-            ("needs_review", "review queue"),
+    bucket_of = {id(record): bucket for bucket, rows in buckets.items() for record in rows}
+    metric_cards = (
+        f'<div class="metric"><strong>{counts["total"]}</strong><span>recorded</span></div>'
+        + "".join(
+            f'<div class="metric {_BUCKET_TONE[bucket]}"><strong>{len(buckets[bucket])}</strong>'
+            f'<span>{_BUCKET_LABEL[bucket]}</span></div>'
+            for bucket in (TABLE_VERIFIED, TABLE_STRUCTURAL, TABLE_NONZERO, TABLE_UNCERTIFIED)
         )
     )
+    bar = _html_bucket_bar(buckets, counts["total"])
+    by_status = Counter(
+        (bucket_of.get(id(record), TABLE_UNCERTIFIED), public_status_label(record.status))
+        for record in run.records
+    )
     status_rows = "".join(
-        f"<tr><th><code>{_esc(public_status_label(status))}</code></th><td>{count}</td></tr>"
-        for status, count in sorted(statuses.items())
+        f'<tr><th><span class="chip {_BUCKET_TONE[bucket]}">{_esc(label)}</span></th>'
+        f'<td class="num">{count}</td></tr>'
+        for (bucket, label), count in sorted(by_status.items())
     )
     type_rows = "".join(
-        f"<tr><th><code>{_esc(edge_type)}</code></th><td>{count}</td></tr>"
+        f"<tr><th><code>{_esc(edge_type)}</code></th><td class=\"num\">{count}</td></tr>"
         for edge_type, count in sorted(types.items())
     )
-    queue_html = _html_queue(queue)
+    queue_html = _html_queue(queue, bucket_of)
     provenance_rows = "".join(
         f"<tr><th>{_esc(key)}</th><td><code>{_esc(value)}</code></td></tr>"
         for key, value in _provenance_rows(workspace, run)
@@ -298,6 +319,7 @@ def _render_html(
         f'<div class="banner">{_esc(_status_sentence(counts))}</div>',
         f'<p class="meta">Declared equation inventory: <code>{_esc(equation_count)}</code> entries · inventory warnings: <code>{_esc(equation_warnings)}</code>. Inventory coverage is separate from derivation-edge evidence.</p>',
         '<div class="metrics">' + metric_cards + '</div>',
+        bar,
         '<section class="notice"><strong>How to read this page.</strong> '
         'Green evidence is limited to integrity-bound local residuals returning exact ZERO. '
         'Structural, rule, asymptotic, global, numerical, and unsupported steps remain separately labelled. '
@@ -312,10 +334,12 @@ def _render_html(
         '<li>Use the unresolved table for global, asymptotic, and unsupported steps.</li>'
         '<li>Run <code>./reproduce.sh</code> only when an independent replay is needed.</li>'
         '</ol></section>',
-        '<section><h2>Status distribution</h2><table><thead><tr><th>Status</th><th>Count</th></tr></thead><tbody>'
-        + status_rows + '</tbody></table></section>',
-        '<section><h2>Derivation types</h2><table><thead><tr><th>Type</th><th>Count</th></tr></thead><tbody>'
-        + type_rows + '</tbody></table></section>',
+        '<div class="pair">'
+        '<section><h2>Status distribution</h2><table class="compact"><thead><tr><th>Status</th><th>Count</th></tr></thead><tbody>'
+        + status_rows + '</tbody></table></section>'
+        '<section><h2>Derivation types</h2><table class="compact"><thead><tr><th>Type</th><th>Count</th></tr></thead><tbody>'
+        + type_rows + '</tbody></table></section>'
+        '</div>',
         '<section id="queue"><h2>Reviewer queue</h2>' + queue_html + '</section>',
         '<section id="provenance"><h2>Provenance</h2><table>' + provenance_rows + '</table></section>',
         '<section class="scope"><h2>Scope and limitations</h2>'
@@ -331,18 +355,49 @@ def _render_html(
     ])
 
 
-def _html_queue(records: Sequence[AuditRecord]) -> str:
+def _html_bucket_bar(buckets: Mapping[str, Sequence[AuditRecord]], total: int) -> str:
+    """Proportional bar of the four machine buckets, with an exact-count legend."""
+    if not total:
+        return ""
+    order = (TABLE_VERIFIED, TABLE_STRUCTURAL, TABLE_UNCERTIFIED, TABLE_NONZERO)
+    segments = "".join(
+        f'<span class="seg {_BUCKET_TONE[bucket]}" style="flex-grow:{len(buckets[bucket])}" '
+        f'title="{_BUCKET_LABEL[bucket]}: {len(buckets[bucket])}"></span>'
+        for bucket in order if buckets[bucket]
+    )
+    legend = " ".join(
+        f'<span class="key {_BUCKET_TONE[bucket]}">{_BUCKET_LABEL[bucket]} {len(buckets[bucket])}</span>'
+        for bucket in order
+    )
+    return (
+        f'<div class="bar" role="img" aria-label="Evidence by machine bucket">{segments}</div>'
+        f'<p class="legend">{legend}</p>'
+    )
+
+
+def _preview(text: str) -> str:
+    text = " ".join(text.split())
+    return text if len(text) <= _CLAIM_PREVIEW else text[:_CLAIM_PREVIEW - 1] + "…"
+
+
+def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str]) -> str:
     if not records:
         return '<p class="ok">No NONZERO or uncertified records are present in this run.</p>'
     cards: list[str] = []
     for record in records:
+        tone = _BUCKET_TONE[bucket_of.get(id(record), TABLE_UNCERTIFIED)]
         residual = _display(record.residual_text, "No executable residual recorded.")
         assumptions = _display(", ".join(record.declared_assumptions), "none recorded")
+        claim = _preview(_display(record.claim, ""))
+        reasons = "".join(f'<span class="reason">{_esc(item)}</span>' for item in record.warnings)
         cards.append(
-            '<details class="queue-card">'
-            f'<summary><strong>{_esc(record.edge_id)}</strong> · '
-            f'<span class="status">{_esc(public_status_label(record.status))}</span> · '
-            f'{_esc(record.edge_type)}</summary>'
+            f'<details class="queue-card {tone}">'
+            f'<summary><strong>{_esc(record.edge_id)}</strong> '
+            f'<span class="chip {tone}">{_esc(public_status_label(record.status))}</span> '
+            f'<span class="type">{_esc(record.edge_type)}</span>'
+            + (f'<span class="claim">{_esc(claim)}</span>' if claim else "")
+            + (f'<span class="reasons">{reasons}</span>' if reasons else "")
+            + '</summary>'
             f'<p><b>Source:</b> {_esc(", ".join(record.source_refs))}</p>'
             f'<p><b>Claim:</b> {_esc(record.claim)}</p>'
             f'<p><b>Assumptions:</b> {_esc(assumptions)}</p>'
@@ -353,6 +408,22 @@ def _html_queue(records: Sequence[AuditRecord]) -> str:
 
 
 _CSS = """
-:root{color-scheme:light;--ink:#20252a;--muted:#5b6670;--rule:#c5ccd2;--band:#f4f6f8;--warn:#fff5df;--warn-border:#a96b0b;--ok:#23613e;--bad:#8f2525;--max:68rem}
-*{box-sizing:border-box}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45;color:var(--ink)}body{margin:0;background:#fff}.wrap{max-width:var(--max);margin:0 auto;padding:1.2rem 1.2rem 3rem}h1{font:700 1.8rem/1.2 Georgia,serif;margin:.1rem 0 .35rem}h2{font:700 1.15rem/1.25 Georgia,serif;margin:1.4rem 0 .55rem}.kicker,.meta,footer{color:var(--muted);font-size:.88rem}.kicker{text-transform:uppercase;letter-spacing:.05em}.banner,.notice{border:1px solid var(--warn-border);background:var(--warn);padding:.7rem .85rem;margin:.8rem 0}.notice{border-color:var(--rule);background:var(--band);font-size:.9rem}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.55rem;margin:1rem 0}.metric{border:1px solid var(--rule);padding:.65rem .7rem;background:#fff}.metric strong{display:block;font-size:1.35rem}.metric span{display:block;color:var(--muted);font-size:.8rem}.jump{margin:.75rem 0 1rem}.jump a{color:#1d4f80;margin-right:.55rem}table{border-collapse:collapse;width:100%;font-size:.88rem}th,td{border:1px solid var(--rule);padding:.42rem .55rem;text-align:left;vertical-align:top}th{background:var(--band)}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em}pre{white-space:pre-wrap;overflow:auto;background:var(--band);padding:.5rem}.queue-card{border:1px solid var(--rule);border-left:4px solid var(--warn-border);padding:.45rem .65rem;margin:.45rem 0}.queue-card summary{cursor:pointer}.status{color:var(--warn-border)}.ok{border-left:4px solid var(--ok);padding:.55rem .7rem;background:#f1f8f3;color:var(--ok)}.scope{border-top:1px solid var(--rule);margin-top:1.5rem;padding-top:.2rem}footer{border-top:1px solid var(--ink);margin-top:1.5rem;padding-top:.8rem}@media print{.jump{display:none}.queue-card{break-inside:avoid}}
+:root{color-scheme:light dark;--ink:#1d2328;--muted:#5b6670;--rule:#d3d9de;--band:#f5f7f9;--bg:#fff;--link:#1d4f80;--warn:#fff5df;--warn-border:#a96b0b;--exact:#2d6a4f;--exact-bg:#e8f3ec;--struct:#2e5a88;--struct-bg:#e8eff7;--review:#9a5a0f;--review-bg:#fcf1e1;--bad:#9b2c2c;--bad-bg:#f9e8e8;--max:66rem}
+@media (prefers-color-scheme:dark){:root{--ink:#e3e7ea;--muted:#9aa5ae;--rule:#3a434b;--band:#1f252a;--bg:#15191d;--link:#8bb8e8;--warn:#36291a;--warn-border:#e7ae62;--exact:#7cc79f;--exact-bg:#1c3127;--struct:#8fb4e0;--struct-bg:#1b2a3b;--review:#e7ae62;--review-bg:#36291a;--bad:#ee9090;--bad-bg:#3a1f1f}}
+*{box-sizing:border-box}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5;color:var(--ink);background:var(--bg)}body{margin:0}.wrap{max-width:var(--max);margin:0 auto;padding:1.4rem 1.2rem 3rem}
+h1{font:700 1.8rem/1.2 Georgia,serif;margin:.1rem 0 .35rem}h2{font:700 1.12rem/1.25 Georgia,serif;margin:1.5rem 0 .55rem}a{color:var(--link)}
+.kicker,.meta,footer,.legend{color:var(--muted);font-size:.86rem}.kicker{text-transform:uppercase;letter-spacing:.06em}
+.banner,.notice{border:1px solid var(--warn-border);border-left-width:4px;background:var(--warn);padding:.7rem .9rem;margin:.9rem 0;border-radius:4px}.notice{border-color:var(--rule);border-left-color:var(--struct);background:var(--band);font-size:.9rem}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.6rem;margin:1rem 0 .7rem}.metric{border:1px solid var(--rule);border-top:4px solid var(--rule);padding:.6rem .75rem;border-radius:4px}.metric strong{display:block;font-size:1.5rem;line-height:1.2}.metric span{display:block;color:var(--muted);font-size:.8rem}
+.metric.tone-exact{border-top-color:var(--exact)}.metric.tone-struct{border-top-color:var(--struct)}.metric.tone-review{border-top-color:var(--review)}.metric.tone-bad{border-top-color:var(--bad)}.metric.tone-exact strong{color:var(--exact)}.metric.tone-struct strong{color:var(--struct)}.metric.tone-review strong{color:var(--review)}.metric.tone-bad strong{color:var(--bad)}
+.bar{display:flex;height:.7rem;border-radius:999px;overflow:hidden;background:var(--band);gap:2px}.seg{min-width:4px}.seg.tone-exact{background:var(--exact)}.seg.tone-struct{background:var(--struct)}.seg.tone-review{background:repeating-linear-gradient(45deg,var(--review) 0 6px,var(--review-bg) 6px 9px)}.seg.tone-bad{background:var(--bad)}
+.legend{margin:.35rem 0 1rem}.key{margin-right:.9rem;white-space:nowrap}.key::before{content:"";display:inline-block;width:.65rem;height:.65rem;border-radius:2px;margin-right:.3rem;vertical-align:-.05rem;background:var(--rule)}.key.tone-exact::before{background:var(--exact)}.key.tone-struct::before{background:var(--struct)}.key.tone-review::before{background:var(--review)}.key.tone-bad::before{background:var(--bad)}
+.jump{margin:.75rem 0 1rem}.jump a{margin-right:.55rem}
+table{border-collapse:collapse;width:100%;font-size:.88rem}table.compact{width:auto;min-width:min(100%,18rem)}th,td{border:1px solid var(--rule);padding:.42rem .6rem;text-align:left;vertical-align:top}th{background:var(--band);font-weight:600}td.num{text-align:right;font-variant-numeric:tabular-nums;min-width:4rem}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:0 2rem}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84em}pre{white-space:pre-wrap;word-break:break-word;overflow:auto;background:var(--band);padding:.55rem .65rem;border-radius:4px}#provenance td code{word-break:break-all}
+.chip{display:inline-block;padding:.02rem .45rem;border-radius:4px;font-size:.78rem;font-weight:600;white-space:nowrap;border:1px solid currentColor;font-family:inherit}.chip.tone-exact{color:var(--exact);background:var(--exact-bg)}.chip.tone-struct{color:var(--struct);background:var(--struct-bg)}.chip.tone-review{color:var(--review);background:var(--review-bg);border-style:dashed}.chip.tone-bad{color:var(--bad);background:var(--bad-bg)}
+.queue-card{border:1px solid var(--rule);border-left:4px solid var(--review);padding:.5rem .75rem;margin:.5rem 0;border-radius:4px}.queue-card.tone-bad{border-left-color:var(--bad)}.queue-card summary{cursor:pointer;line-height:1.6}.queue-card .type{color:var(--muted);font-size:.82rem;margin-left:.3rem}.queue-card .claim{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;margin:.15rem 0 0 1.1rem}.queue-card .reasons{display:block;margin:.2rem 0 0 1.1rem}.reason{display:inline-block;font-size:.74rem;color:var(--review);border:1px solid var(--rule);border-radius:999px;padding:0 .5rem;margin-right:.3rem}
+.ok{border-left:4px solid var(--exact);padding:.55rem .7rem;background:var(--exact-bg);color:var(--exact);border-radius:4px}.scope{border-top:1px solid var(--rule);margin-top:1.6rem;padding-top:.2rem}footer{border-top:1px solid var(--ink);margin-top:1.6rem;padding-top:.8rem}
+@media print{.jump{display:none}.queue-card{break-inside:avoid}}
 """.strip()
