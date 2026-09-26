@@ -1,0 +1,87 @@
+{
+  "python": {
+    "summary": {
+      "answered": 29,
+      "binary_correct": 29,
+      "exact_label": 26,
+      "n": 29
+    },
+    "per_category": {
+      "exact-true": {
+        "n": 6,
+        "correct": 6
+      },
+      "seeded-error": {
+        "n": 8,
+        "correct": 8
+      },
+      "hypothesis-trap": {
+        "n": 8,
+        "correct": 8
+      },
+      "asymptotic-operator-true": {
+        "n": 7,
+        "correct": 7
+      }
+    },
+    "errors": []
+  },
+  "tool": {
+    "summary": {
+      "answered": 26,
+      "binary_correct": 26,
+      "exact_label": 26,
+      "abstain": 3,
+      "true_not_confirmed": 1,
+      "n": 29
+    },
+    "per_category": {
+      "exact-true": {
+        "n": 6,
+        "correct": 6
+      },
+      "seeded-error": {
+        "n": 8,
+        "correct": 8
+      },
+      "hypothesis-trap": {
+        "n": 8,
+        "correct": 6,
+        "abstain": 2
+      },
+      "asymptotic-operator-true": {
+        "n": 7,
+        "correct": 6,
+        "abstain": 1
+      }
+    },
+    "errors": []
+  },
+  "whiteboard": {
+    "summary": {
+      "answered": 29,
+      "binary_correct": 29,
+      "exact_label": 26,
+      "n": 29
+    },
+    "per_category": {
+      "exact-true": {
+        "n": 6,
+        "correct": 6
+      },
+      "seeded-error": {
+        "n": 8,
+        "correct": 8
+      },
+      "hypothesis-trap": {
+        "n": 8,
+        "correct": 8
+      },
+      "asymptotic-operator-true": {
+        "n": 7,
+        "correct": 7
+      }
+    },
+    "errors": []
+  }
+}
