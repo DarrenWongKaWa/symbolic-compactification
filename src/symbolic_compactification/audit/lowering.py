@@ -11,6 +11,7 @@ from typing import Optional
 from .edges import AuditEdge, GroundingResult
 from .io import MAX_SOURCE_BYTES, contained_relpath, decode_utf8, read_bytes
 from .schema import (
+    MATSUBARA_SUM,
     ASYMPTOTIC_CLAIM,
     BOOKKEEPING,
     BZ_PERIODIC_INTEGRATION_BY_PARTS,
@@ -40,6 +41,7 @@ _NEVER_EXECUTABLE_TYPES = frozenset({
     ASYMPTOTIC_CLAIM,
     INTEGRAL_ARGUMENT,
     BZ_PERIODIC_INTEGRATION_BY_PARTS,
+    MATSUBARA_SUM,
 })
 
 # PARTIAL types that may execute a supplied residual, but must not treat a
@@ -160,6 +162,8 @@ def lower_edge(
             typed = ("INTEGRAL_ARGUMENT_NOT_LOCAL_RESIDUAL",)
         elif edge.edge_type == BZ_PERIODIC_INTEGRATION_BY_PARTS:
             typed = ("BZ_IBP_NOT_LOCAL_RESIDUAL",)
+        elif edge.edge_type == MATSUBARA_SUM:
+            typed = ("MATSUBARA_SUM_NOT_LOCAL_RESIDUAL",)
         return finish(executable=False, status=default_status, warnings=typed)
 
     residual_text, residual_path, residual_warnings = _load_expression(

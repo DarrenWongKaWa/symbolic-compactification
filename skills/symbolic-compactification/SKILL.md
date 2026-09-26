@@ -217,6 +217,29 @@ Never pass `--layout-only`. That flag skips evidence checks and is not a certifi
 If the engine is absent, certify leaves algebra as `GAP`. That is the
 correct result, not a reason to write Exact.
 
+## C. Many-body steps (engine CLI)
+
+Use these checks when a step is a Matsubara sum, an asymptotic expansion,
+a Langreth rule, an operator identity or a real-frequency Green's-function
+integral. Propose the closed form. Do not decide it yourself: run the
+command and report its JSON `status` unchanged.
+
+```bash
+symbolic-compactification manybody matsubara  --statistics fermion|boson --summand F --claim C --symbols S
+symbolic-compactification manybody remainder  --function f --approximant P --variable x --point 0|oo --order n --symbols S
+symbolic-compactification manybody langreth   --product A,B[,C] --component less|greater|R|A|K --claim C
+symbolic-compactification manybody operator   --operators H,rho,c --hermitian H,rho --lhs L --rhs R
+symbolic-compactification manybody integral   --integrand f --claim C --variable w [--beta beta] --symbols S
+```
+
+- `CERTIFIED_BY_RULE` means an exact computation plus a named theorem with
+  its hypotheses checked. Show it blue, never as Exact.
+- `ASSUMPTION_REQUIRED` names the missing hypothesis, e.g.
+  `MATSUBARA_POLES_OFF_AXIS`. Ask the user. Do not declare it for them.
+- `NUMERICAL_SUPPORT` and a numerical cross-check never promote a claim.
+- In an audit workspace, use `MATSUBARA_SUM` edges and `asymptotic:` specs.
+  Details are in `docs/many-body-equivalence.md` of the engine repository.
+
 ## HTML: five visible layers (less is more)
 
 The page answers: **what does the physicist still need to judge?**

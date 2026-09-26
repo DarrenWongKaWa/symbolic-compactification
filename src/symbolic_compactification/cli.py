@@ -955,13 +955,25 @@ def build_parser() -> argparse.ArgumentParser:
     p_audit_package.add_argument(
         "--dest", help="optional destination directory")
     p_audit_package.add_argument("--json", action="store_true")
+    p_audit_compare = audit_sub.add_parser(
+        "compare",
+        help="compare the latest replay run with packaged machine records")
+    p_audit_compare.add_argument("directory", help="replayed audit workspace")
+    p_audit_compare.add_argument(
+        "--records", required=True, help="machine_records.json from the package")
+    p_audit_compare.add_argument("--run", help="replay run id (default: latest)")
+    p_audit_compare.add_argument("--json", action="store_true")
     p_audit.set_defaults(func=dispatch_audit)
+
+    from .manybody.cli import add_manybody_parser
+    p_manybody = add_manybody_parser(sub)
 
     for command_parser in (
             p_workspace_init, p_inspect, p_verify, p_report, p_init,
             p_summary, p_step, p_finalize, p_obs, p_be, p_audit,
             p_audit_init, p_audit_inventory, p_audit_inspect, p_audit_verify,
-            p_audit_table, p_audit_report, p_audit_package):
+            p_audit_table, p_audit_report, p_audit_package, p_audit_compare,
+            p_manybody):
         _add_debug_argument(command_parser)
 
     return parser

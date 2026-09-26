@@ -1,0 +1,67 @@
+schema_version: DerivationAuditV1
+edges:
+  # expected_status: CERTIFIED_BY_RULE
+  - edge_id: M.fermion-bubble
+    source_from: eq.summand
+    source_to: eq.fermion
+    edge_type: MATSUBARA_SUM
+    rhs: expressions/fermion_bubble.txt
+    matsubara:
+      summand: expressions/bubble_summand.txt
+      variable: z
+      statistics: fermion
+      beta: beta
+    assumptions_used: [a, c, beta]
+    claim: "T sum_n 1/((i w_n - a)(i w_n - c)) = (nF(a) - nF(c))/(a - c)"
+  # expected_status: NONZERO
+  - edge_id: M.fermion-bubble-wrong-sign
+    source_from: eq.summand
+    source_to: eq.fermion
+    edge_type: MATSUBARA_SUM
+    rhs: expressions/fermion_bubble_wrong.txt
+    matsubara:
+      summand: expressions/bubble_summand.txt
+      variable: z
+      statistics: fermion
+      beta: beta
+    assumptions_used: [a, c, beta]
+    claim: "sign-flipped transcription of the fermionic bubble"
+  # expected_status: ASSUMPTION_REQUIRED (a or c may be 0 = v_0)
+  - edge_id: M.boson-bubble
+    source_from: eq.summand
+    source_to: eq.boson
+    edge_type: MATSUBARA_SUM
+    rhs: expressions/boson_bubble.txt
+    matsubara:
+      summand: expressions/bubble_summand.txt
+      variable: z
+      statistics: boson
+      beta: beta
+    assumptions_used: [a, c, beta]
+    claim: "T sum_n 1/((i v_n - a)(i v_n - c)) = -(nB(a) - nB(c))/(a - c)"
+  # expected_status: CERTIFIED_BY_RULE
+  - edge_id: M.tail
+    source_from: eq.green
+    source_to: eq.tail
+    edge_type: ASYMPTOTIC_CLAIM
+    asymptotic:
+      function: expressions/green.txt
+      approximant: expressions/green_tail.txt
+      variable: w
+      point: oo
+      order: -3
+    assumptions_used: [e, w]
+    claim: "G(i w) = 1/(i w) + e/(i w)**2 + O(w**-3) as w -> oo"
+  # expected_status: NONZERO (two terms cannot give O(w**-4))
+  - edge_id: M.tail-overclaimed
+    source_from: eq.green
+    source_to: eq.tail
+    edge_type: ASYMPTOTIC_CLAIM
+    asymptotic:
+      function: expressions/green.txt
+      approximant: expressions/green_tail.txt
+      variable: w
+      point: oo
+      order: -4
+    assumptions_used: [e, w]
+    claim: "G(i w) = 1/(i w) + e/(i w)**2 + O(w**-4) as w -> oo"

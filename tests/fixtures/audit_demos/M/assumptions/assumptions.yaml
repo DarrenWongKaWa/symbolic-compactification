@@ -1,0 +1,19 @@
+symbols:
+  - name: a
+    real: true
+    nonzero: false
+  - name: c
+    real: true
+    nonzero: false
+  - name: e
+    real: true
+    nonzero: true
+  - name: beta
+    real: true
+    nonzero: true
+  - name: w
+    real: true
+    nonzero: true
+functions:
+  - nF
+  - nB

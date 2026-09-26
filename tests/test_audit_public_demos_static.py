@@ -23,7 +23,7 @@ REPO = Path(__file__).resolve().parents[1]
 DEMO_ROOT = REPO / "tests/fixtures/audit_demos"
 PUBLIC_DEMOS = REPO / "docs/paper-audit.md"
 
-DEMO_IDS = ("A", "B", "C")
+DEMO_IDS = ("A", "B", "C", "M")
 REQUIRED_RELATIVE_PATHS = (
     "audit.yaml",
     "demo.yaml",
@@ -176,3 +176,16 @@ def test_public_demo_texts_are_synthetic_and_avoid_private_sources():
             for token in PRIVATE_SUBSTRINGS:
                 assert token not in lowered, f"{path} contains {token!r}"
     assert scanned > 0
+
+
+def test_demo_m_declares_manybody_specs_and_rule_statuses():
+    edges = _load_yaml(_demo_dir("M") / "edges" / "edges.yaml")["edges"]
+    rows = {row["edge_id"]: row for row in
+            _load_yaml(_demo_dir("M") / "demo.yaml")["expected_edges"]}
+    matsubara = [e for e in edges if e["edge_type"] == "MATSUBARA_SUM"]
+    tails = [e for e in edges if e["edge_type"] == "ASYMPTOTIC_CLAIM"]
+    assert len(matsubara) == 3 and len(tails) == 2
+    assert all("matsubara" in e and e.get("rhs") for e in matsubara)
+    assert all("asymptotic" in e and "residual" not in e for e in tails)
+    statuses = {rows[e["edge_id"]]["expected_status"] for e in edges}
+    assert statuses == {"CERTIFIED_BY_RULE", "NONZERO", "ASSUMPTION_REQUIRED"}
