@@ -1,0 +1,31 @@
+\documentclass{article}
+\begin{document}
+Synthetic public demo with textbook many-body identities. It is not a
+research manuscript.
+
+For real $a\neq c$ let
+\begin{equation}
+\label{eq:summand}
+F(z) = \frac{1}{(z-a)(z-c)} .
+\end{equation}
+The fermionic Matsubara sum is
+\begin{equation}
+\label{eq:fermion}
+T\sum_n F(i\omega_n) = \frac{n_F(a)-n_F(c)}{a-c},
+\end{equation}
+and the bosonic one, valid when neither pole sits at $\nu_0=0$, is
+\begin{equation}
+\label{eq:boson}
+T\sum_n F(i\nu_n) = -\frac{n_B(a)-n_B(c)}{a-c}.
+\end{equation}
+The free propagator
+\begin{equation}
+\label{eq:green}
+G(i\omega) = \frac{1}{i\omega-\epsilon}
+\end{equation}
+has the high-frequency tail
+\begin{equation}
+\label{eq:tail}
+G(i\omega) = \frac{1}{i\omega} + \frac{\epsilon}{(i\omega)^2} + O(\omega^{-3}).
+\end{equation}
+\end{document}

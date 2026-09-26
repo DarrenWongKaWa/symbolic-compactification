@@ -1,0 +1,21 @@
+schema_version: DerivationAuditV1
+demo_id: M
+title: Textbook Matsubara sums and a Green's-function tail with remainder certificates
+synthetic: true
+privacy: Textbook identities (fermionic and bosonic bubbles, 1/(i w - e) tail). Not derived from any unpublished manuscript.
+expected_edges:
+  - edge_id: M.fermion-bubble
+    edge_type: MATSUBARA_SUM
+    expected_status: CERTIFIED_BY_RULE
+  - edge_id: M.fermion-bubble-wrong-sign
+    edge_type: MATSUBARA_SUM
+    expected_status: NONZERO
+  - edge_id: M.boson-bubble
+    edge_type: MATSUBARA_SUM
+    expected_status: ASSUMPTION_REQUIRED
+  - edge_id: M.tail
+    edge_type: ASYMPTOTIC_CLAIM
+    expected_status: CERTIFIED_BY_RULE
+  - edge_id: M.tail-overclaimed
+    edge_type: ASYMPTOTIC_CLAIM
+    expected_status: NONZERO

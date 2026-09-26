@@ -17,8 +17,10 @@ from .io import (
     sha256_bytes,
 )
 from .schema import (
+    ASYMPTOTIC_CLAIM,
     AUDIT_SCHEMA_VERSION,
     EDGE_TYPES,
+    MATSUBARA_SUM,
     GROUNDING_FAILURE,
     AuditError,
     _ID_RE,
@@ -41,6 +43,12 @@ class AuditEdge:
     notes: str = ""
     required_rules: tuple[str, ...] = ()
     ibp_domain: Optional[str] = None
+    matsubara: tuple[tuple[str, Any], ...] = ()
+    asymptotic: tuple[tuple[str, Any], ...] = ()
+
+    def spec(self, name: str) -> dict[str, Any]:
+        """Many-body spec as a plain dict (empty when absent)."""
+        return dict(getattr(self, name))
 
 
 @dataclass(frozen=True)
@@ -59,8 +67,20 @@ EDGE_FIELD_KEYS = frozenset({
     "id", "edge_id", "from", "source_from", "to", "source_to",
     "type", "edge_type", "lhs", "rhs", "residual",
     "children", "assumptions_used", "claim", "notes",
-    "required_rules", "ibp_domain",
+    "required_rules", "ibp_domain", "matsubara", "asymptotic",
 })
+
+# Many-body specs (docs/many-body-equivalence.md). Expression values are
+# workspace-relative files; everything else is a short string, an integer
+# order, or a list of symbol names sampled as positive.
+MATSUBARA_SPEC_KEYS = frozenset({
+    "summand", "variable", "statistics", "beta", "convergence", "positive"})
+MATSUBARA_SPEC_REQUIRED = frozenset({"summand", "variable", "statistics", "beta"})
+ASYMPTOTIC_SPEC_KEYS = frozenset({
+    "function", "approximant", "variable", "point", "order", "direction", "positive"})
+ASYMPTOTIC_SPEC_REQUIRED = frozenset({
+    "function", "approximant", "variable", "point", "order"})
+_SPEC_FOR_TYPE = {"matsubara": MATSUBARA_SUM, "asymptotic": ASYMPTOTIC_CLAIM}
 EDGE_FIELD_REQUIRED = frozenset()
 _ID_ALIASES = ("id", "edge_id")
 _FROM_ALIASES = ("from", "source_from")
@@ -187,7 +207,54 @@ def _parse_edge(item: Any, path: Path) -> AuditEdge:
         notes=_optional_text(item, "notes", path),
         required_rules=_optional_string_tuple(item, "required_rules", path),
         ibp_domain=_optional_string(item, "ibp_domain", path),
+        matsubara=_optional_spec(
+            item, "matsubara", edge_type, MATSUBARA_SPEC_KEYS,
+            MATSUBARA_SPEC_REQUIRED, path),
+        asymptotic=_optional_spec(
+            item, "asymptotic", edge_type, ASYMPTOTIC_SPEC_KEYS,
+            ASYMPTOTIC_SPEC_REQUIRED, path),
     )
+
+
+def _optional_spec(item: dict, field: str, edge_type: str, allowed: frozenset,
+                   required: frozenset, path: Path) -> tuple[tuple[str, Any], ...]:
+    if field not in item or item[field] is None:
+        return ()
+    value = item[field]
+    if edge_type != _SPEC_FOR_TYPE[field]:
+        raise AuditError(
+            "EDGE_SCHEMA_INVALID",
+            f"{field} spec is only valid on {_SPEC_FOR_TYPE[field]} edges",
+            path=str(path))
+    if not isinstance(value, dict) or not all(isinstance(k, str) for k in value):
+        raise AuditError(
+            "EDGE_SCHEMA_INVALID", f"{field} must be a mapping", path=str(path))
+    require_keys(value, allowed=allowed, required=required,
+                 code="EDGE_SCHEMA_INVALID", path=path)
+    pairs = []
+    for key in sorted(value):
+        entry = value[key]
+        if key == "order":
+            if not isinstance(entry, int) or isinstance(entry, bool):
+                raise AuditError(
+                    "EDGE_SCHEMA_INVALID", f"{field}.order must be an integer",
+                    path=str(path))
+        elif key == "positive":
+            if not isinstance(entry, list) or not all(
+                    isinstance(name, str) and name.strip() for name in entry):
+                raise AuditError(
+                    "EDGE_SCHEMA_INVALID", f"{field}.positive must be a list of names",
+                    path=str(path))
+            entry = tuple(name.strip() for name in entry)
+        elif not isinstance(entry, (str, int)) or isinstance(entry, bool) \
+                or not str(entry).strip():
+            raise AuditError(
+                "EDGE_SCHEMA_INVALID", f"{field}.{key} must be a non-empty string",
+                path=str(path))
+        else:
+            entry = str(entry).strip()
+        pairs.append((key, entry))
+    return tuple(pairs)
 
 
 def _aliased_string(

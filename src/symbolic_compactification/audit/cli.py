@@ -7,6 +7,7 @@ still raise NOT_IMPLEMENTED until their owners land.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from ..models import ENGINE_VERSION, PACKAGE_VERSION, RELEASE_VERSION
 from ..security import redact_public_data, redact_text
@@ -247,6 +248,28 @@ def cmd_audit_package(args) -> int:
     return 0
 
 
+def cmd_audit_compare(args) -> int:
+    from .replay_compare import compare_records, load_record_file
+    workspace = load_audit_workspace(args.directory)
+    run_id = args.run or latest_audit_run_id(workspace)
+    replayed = load_audit_run(workspace, run_id).records
+    problems = compare_records(load_record_file(Path(args.records)), replayed)
+    payload = {
+        "status": "REPLAY_MATCHES" if not problems else "REPLAY_MISMATCH",
+        "run_id": run_id,
+        "edges_compared": len(replayed),
+        "differences": problems,
+    }
+    if args.json:
+        _print_json(payload)
+    else:
+        print(f"status:          {payload['status']}")
+        print(f"edges_compared:  {len(replayed)}")
+        for item in problems:
+            print(f"  {item['edge_id']}: {item['issue']} {item.get('field', '')}".rstrip())
+    return 0 if not problems else 1
+
+
 def dispatch_audit(args) -> int:
     command = getattr(args, "audit_command", None)
     handlers = {
@@ -257,6 +280,7 @@ def dispatch_audit(args) -> int:
         "table": cmd_audit_table,
         "report": cmd_audit_report,
         "package": cmd_audit_package,
+        "compare": cmd_audit_compare,
     }
     handler = handlers.get(command)
     if handler is None:
