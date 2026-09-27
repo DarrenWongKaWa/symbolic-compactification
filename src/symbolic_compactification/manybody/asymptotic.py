@@ -131,10 +131,23 @@ def _series_route(num, x, x0, order, sample):
             return (NONZERO, str(coeff), ["LOWER_ORDER_TERM_NONZERO"])
         if not _simplify_zero(coeff):
             return None
-    leading = sympy.simplify(reflect_polygamma(terms.get(n, sympy.Integer(0))))
+    try:
+        leading = sympy.simplify(reflect_polygamma(terms.get(n, sympy.Integer(0))))
+    except (AttributeError, TypeError, RecursionError):
+        return None
     if x0 in (sympy.oo, -sympy.oo) and x0 == -sympy.oo:
         leading = leading * (-1) ** n
     return (CERTIFIED_BY_RULE, leading, [])
+
+
+def _tidy(value):
+    """simplify for display and classification only. SymPy 1.14 on Python
+    3.10 can raise inside Piecewise simplification (int.is_integer); the
+    unsimplified limit is equally valid."""
+    try:
+        return sympy.simplify(value)
+    except (AttributeError, TypeError, RecursionError):
+        return value
 
 
 def certify_remainder(function: str, approximant: str, *, variable: str, point: str,
@@ -184,7 +197,7 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         except (NotImplementedError, ValueError, TypeError):
             failure = "LIMIT_NOT_COMPUTED"
             break
-        limits.append(sympy.simplify(value))
+        limits.append(_tidy(value))
     kinds = {_classify(v, sample) for v in limits} if failure is None else {"UNDECIDED"}
     derived = ", ".join(str(v) for v in limits)
     if "INFINITE" in kinds:
@@ -200,7 +213,7 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
             limits, derived, kinds = [value], str(value), {"FINITE"}
         else:
             return result(UNKNOWN, [failure or "LIMIT_NOT_DECIDED"], derived, "UNDECIDED")
-    if len(limits) == 2 and sympy.simplify(limits[0] - limits[1]) != 0:
+    if len(limits) == 2 and _tidy(limits[0] - limits[1]) != 0:
         return result(UNKNOWN, ["ONE_SIDED_LIMITS_DIFFER"], derived, "FINITE")
     free = (q.free_symbols | limits[0].free_symbols) - {x}
     numeric_info = (_numeric_limit_check(q, x, x0, limits[0], free, pos)
