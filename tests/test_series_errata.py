@@ -160,3 +160,10 @@ def test_adversarial_misreadings_are_not_decided(tmp_path):
     assert result["assumptions_to_confirm"]["multiply"] == []
     assert {s["step"]: s["decision"] for s in result["steps"]} == {"py": "NOT_DECIDED",
                                                                    "born": "NOT_DECIDED"}
+
+
+def test_charge_squared_is_not_an_exponential():
+    from symbolic_compactification.manybody.latex import latex_to_plain
+
+    assert "E^" not in latex_to_plain(r"\frac{e^2}{h}")
+    assert "E^(" in latex_to_plain(r"e^{-\beta x}") and "E^(2)" in latex_to_plain(r"{\mathrm e}^{2}")

@@ -168,7 +168,7 @@ def _convert(text: str) -> str:
             # labels in physics, never powers; they become part of the name
             letters = re.fullmatch(r"\s*(?:[A-Za-z<>*/|,]+|\\dagger|\\prime|\\ast)\s*", arg)
             glued = out and re.search(r"[A-Za-z0-9_)]\s*$", "".join(out))
-            if re.search(r"(?<![A-Za-z0-9_])e\s*$", "".join(out)):
+            if re.search(r"(?<![A-Za-z0-9_])[eE]\s*$", "".join(out)):
                 letters = None                        # e^{i x} is the exponential
             if label and glued:
                 _strip_trailing_space(out)
@@ -205,7 +205,8 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",
                   lambda m: f" {(m.group(1) or m.group(2)).lower()}_of ", text)
     plain = _convert(text)
-    plain = re.sub(r"(?<![A-Za-z0-9_])e\^\(", "E^(", plain)   # e^{x} is the exponential
+    # e^{-x}, e^{i w t} are exponentials; e^2 (as in e^2/h) is the charge squared
+    plain = re.sub(r"(?<![A-Za-z0-9_])e\^\((?!\s*\d+\s*\))", "E^(", plain)
     return re.sub(r"_\s+", "_", plain)
 
 
@@ -371,7 +372,7 @@ def rewrite_over(text: str) -> str:
 
 def normalize_exponential(text: str) -> str:
     """{\\mathrm{ e}}^{x}, {\\rm e}^{x}, \\mathrm{e}^{x} -> e^{x}."""
-    return re.sub(r"\{\s*\\(?:mathrm|rm)\s*\{?\s*e\s*\}?\s*\}\s*\^|\\mathrm\{\s*e\s*\}\s*\^", "e^", text)
+    return re.sub(r"\{\s*\\(?:mathrm|rm)\s*\{?\s*e\s*\}?\s*\}\s*\^|\\mathrm\{\s*e\s*\}\s*\^", "E^", text)
 
 
 def _appendix_aware_number(raw: str, env: re.Match, pos: int):
