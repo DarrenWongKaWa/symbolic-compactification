@@ -167,3 +167,17 @@ def test_charge_squared_is_not_an_exponential():
 
     assert "E^" not in latex_to_plain(r"\frac{e^2}{h}")
     assert "E^(" in latex_to_plain(r"e^{-\beta x}") and "E^(2)" in latex_to_plain(r"{\mathrm e}^{2}")
+
+
+def test_matsubara_statistics_come_from_the_text(tmp_path):
+    from symbolic_compactification.manybody.review import review
+
+    body = (r"\begin{equation}\label{s}\frac{1}{\beta}\sum_n \frac{1}{(\ii\omega_n-a)(\ii\omega_n-c)}"
+            r" = \frac{n_F(a)-n_F(c)}{a-c}\end{equation}")
+    head = "\\documentclass{article}\\newcommand{\\ii}{\\mathrm{i}}\\begin{document}\n"
+    for text, expected in (("With $\\beta>0$ the sum is\n", "NOT_DECIDED"),
+                           ("With $\\beta>0$ the fermionic sum is\n", "VALID")):
+        tex = tmp_path / f"{expected}.tex"
+        tex.write_text(head + text + body + "\n\\end{document}\n")
+        steps = review(tex, tmp_path / expected)["steps"]
+        assert [s["decision"] for s in steps] == [expected]

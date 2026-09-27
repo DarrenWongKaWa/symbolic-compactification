@@ -247,6 +247,19 @@ def _langreth(lhs: str, rhs: str, macros: dict) -> dict | None:
             "notation": notation, "source": {"claim": body}}
 
 
+def _statistics(context: str) -> str | None:
+    """Fermionic or bosonic, only when the text says so: frequency letters
+    differ between papers, and the wrong statistics would give a wrong verdict."""
+    text = context.lower()
+    fermi = "fermion" in text or re.search(r"\(\s*2\s*n\s*\+\s*1\s*\)\s*\\pi", context)
+    bose = "boson" in text or re.search(r"2\s*n\s*\\pi|2\s*\\pi\s*n", context)
+    if fermi and not bose:
+        return "fermion"
+    if bose and not fermi:
+        return "boson"
+    return None
+
+
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
     lhs, rhs = step["lhs"], step["rhs"]
     card: dict[str, Any] = {"label": step["id"], "include": "conventions.yaml",
@@ -262,11 +275,10 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         _remainder(card, lhs, "0 + " + rhs, _O_TERM.search("0 + " + rhs))
         card["approximant"] = "0"
         card["source"] = {"function": lhs}
-    elif matsubara:
+    elif matsubara and _statistics(step.get("context", "")):
         body, k = matsubara.group("body").strip(), matsubara.group("index")
-        boson = re.search(rf"\\nu_\{{?{k}\}}?", body) is not None
-        freq = "nu" if boson else "omega"
-        card.update({"check": "matsubara", "statistics": "boson" if boson else "fermion",
+        freq = next((f for f in ("omega", "nu", "Omega") if re.search(rf"\\{f}_\{{?{k}\}}?", body)), "omega")
+        card.update({"check": "matsubara", "statistics": _statistics(step.get("context", "")),
                      "variable": "z", "beta": "beta",
                      "notation": {f"i{freq}_{k}": "z", f"i {freq}_{k}": "z"}})
         card["source"] = {"summand": body, "claim": rhs}
@@ -286,6 +298,9 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     else:
         card["check"] = "identity"
         card["source"] = {"lhs": lhs, "rhs": rhs}
+        if matsubara:
+            card["hint"] = ("a Matsubara sum, but the text does not say fermionic or bosonic: "
+                            "set check: matsubara and statistics: fermion|boson")
         if latex and _langreth(lhs, rhs, macros):
             card["hint"] = ("shaped like a Langreth rule; if the paper claims the exact rule, "
                             "set check: langreth (product, component, notation as for a drafted rule)")
@@ -304,6 +319,8 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         names |= n
         todo |= t
         card.setdefault("_before_paren", set()).update(_before_parenthesis(plain))
+    if card.get("check") in ("matsubara", "fermi_integral"):
+        names.add(str(card.get("beta", "beta")))     # the 1/beta prefix is not in the quote
     return card, names, todo
 
 
