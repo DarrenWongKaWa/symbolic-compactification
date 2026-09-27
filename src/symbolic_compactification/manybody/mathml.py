@@ -194,6 +194,10 @@ def latex_to_mathml(tex: str, macros: dict | None = None, *, display: bool = Tru
     try:
         text = expand_macros(re.sub(r"\\label\{[^}]*\}", "", tex), macros or {})
         text = rewrite_over(normalize_exponential(text))
+        # \frac12, \frac1x, \sqrt2: TeX takes one character per missing brace
+        text = re.sub(r"\\([dt]?frac)\s*([0-9A-Za-z])\s*([0-9A-Za-z])", r"\\\1{\2}{\3}", text)
+        text = re.sub(r"\\([dt]?frac)\s*([0-9A-Za-z])(?=\s*\{)", r"\\\1{\2}", text)
+        text = re.sub(r"\\sqrt\s*([0-9A-Za-z])", r"\\sqrt{\1}", text)
         body = _Parser(text).sequence()
     except (RecursionError, ValueError, IndexError):
         return None

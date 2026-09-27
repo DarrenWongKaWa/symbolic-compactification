@@ -188,7 +188,9 @@ def html_step_cards(records: Sequence[AuditRecord], tone_of: Mapping[int, str],
     return ('<section id="cards"><h2>Step cards</h2>'
             '<p class="meta">Each row is one derivation step replayed with '
             '<code>--require-source</code>: the claim is a verbatim quote of the manuscript, '
-            'translated by fixed rules. A step whose card does not match its quote is never decided.</p>'
+            'translated by fixed rules. A step whose card does not match its quote is never decided. '
+            'VALID means the claim holds identically for generic values of the parameters (away '
+            'from coincident poles and vanishing denominators), under the conventions below.</p>'
             '<div class="scroll"><table><thead><tr><th>Step</th><th>Source</th><th>Check</th>'
             '<th>Status</th><th>Transcription</th><th>Claim as quoted</th></tr></thead><tbody>'
             + "".join(rows) + "</tbody></table></div></section>")

@@ -377,7 +377,9 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
                         for n in sorted(all_names)],
             "notation": {}, "define": {},
             # names written right before "(": a product only if listed here
-            "multiply": [n for n in ambiguous if n in _LOWER_GREEK]}
+            # a Greek letter is taken as a product only if the paper also uses it as a
+            # plain symbol; sigma(omega) alone is more likely a function
+            "multiply": [n for n in ambiguous if n in _LOWER_GREEK and n in all_names]}
         if shared_quotes:
             data["source_document"] = str(rel)
             data["source"] = shared_quotes
@@ -386,7 +388,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         footer = "".join(f"#   {t}\n" for t in sorted(all_todo))
         if footer:
             footer = "# Tokens to map in notation (paper token -> card syntax) or define:\n" + footer
-        undecided = [n for n in ambiguous if n not in _LOWER_GREEK]
+        undecided = [n for n in ambiguous if n not in data["multiply"]]
         if undecided:
             footer += ("# Written right before '(': product or function value? Add a name to\n"
                        "# multiply: if it multiplies, or define it as a function:\n")

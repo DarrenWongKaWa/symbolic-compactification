@@ -127,8 +127,10 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
     fields = (result.get("transcription") or {}).get("fields") or {}
     claim_field = next((f for k, f in fields.items()
                         if k in ("claim", "rhs", "approximant") and f.get("quote")), {})
-    quote, read_as = claim_field.get("quote"), claim_field.get("translated")
-    where = claim_field.get("location") or {}
+    any_field = claim_field or next((f for k, f in fields.items()
+                                     if not k.startswith("define:") and f.get("quote")), {})
+    quote, read_as = any_field.get("quote"), any_field.get("translated")
+    where = any_field.get("location") or {}
     source_at = None
     if where:
         doc = str(card.get("source_document") or "")
