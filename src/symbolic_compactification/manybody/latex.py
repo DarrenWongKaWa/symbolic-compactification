@@ -318,7 +318,11 @@ def _equation_number(raw: str, env: re.Match, pos: int) -> int | None:
             current = rows[-1] + re.split(r"\\\\", rest, maxsplit=1)[0]
             count += sum(1 for r in rows[:-1] if r.strip() and numbered(r))
             if not numbered(current):
-                return None                    # the quoted row itself carries no number
+                # an unnumbered row belongs to the number printed further down
+                # the same display (eqnarray rows ending in \\nonumber); none -> None
+                later = re.split(r"\\\\", rest)[1:]
+                if not any(r.strip() and numbered(r) for r in later):
+                    return None
             count += 1
         else:
             count += sum(1 for r in rows if r.strip() and numbered(r))
