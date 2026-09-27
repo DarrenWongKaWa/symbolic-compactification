@@ -16,6 +16,28 @@ import yaml
 EXIT_OK, EXIT_INPUT = 0, 2
 
 
+# Options whose values are expressions; "-tanh(x)" must not read as a flag.
+EXPRESSION_OPTIONS = frozenset({
+    "--summand", "--claim", "--function", "--approximant", "--integrand",
+    "--lhs", "--rhs", "--prefactor",
+})
+
+
+def normalize_argv(argv: list[str]) -> list[str]:
+    """Join `--claim -expr` into `--claim=-expr` so argparse keeps the sign."""
+    out: list[str] = []
+    i = 0
+    while i < len(argv):
+        token = argv[i]
+        if token in EXPRESSION_OPTIONS and i + 1 < len(argv) and argv[i + 1].startswith("-"):
+            out.append(f"{token}={argv[i + 1]}")
+            i += 2
+            continue
+        out.append(token)
+        i += 1
+    return out
+
+
 def _symbols(value: str | None) -> list:
     if not value:
         return []

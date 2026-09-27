@@ -1,0 +1,147 @@
+{
+  "A1": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "A2": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "A3": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "A4": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "A5": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "A6": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "B1": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "B2": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "B3": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "B4": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "B5": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "B6": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "C1": {
+    "numeric": "CONDITIONAL",
+    "declared_truth": "CONDITIONAL",
+    "note": "breaks at a = 0: v_0 term 1/(0*(0-c)) infinite"
+  },
+  "C2": {
+    "numeric": "CONDITIONAL",
+    "declared_truth": "CONDITIONAL",
+    "note": "symmetric sum = nF(a) - 1/2 = (-0.24554661 + 0.0j)"
+  },
+  "C3": {
+    "numeric": "CONDITIONAL",
+    "declared_truth": "CONDITIONAL",
+    "note": "integral = +1 for g = 0.7, -1 for g = -0.7"
+  },
+  "C4": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "C5": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "C6": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "C7": {
+    "numeric": "CONDITIONAL",
+    "declared_truth": "CONDITIONAL",
+    "note": "breaks at e = 0, g = pi T: pole on w_0"
+  },
+  "C8": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "D1": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "D2": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "D3": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "D4": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "B7": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "D6": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "D5": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  },
+  "B8": {
+    "numeric": "FALSE",
+    "declared_truth": "FALSE",
+    "note": ""
+  },
+  "D7": {
+    "numeric": "TRUE",
+    "declared_truth": "TRUE",
+    "note": ""
+  }
+}

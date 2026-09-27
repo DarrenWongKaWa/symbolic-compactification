@@ -1,0 +1,326 @@
+[
+  {
+    "id": "A1",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "9.61e-18"
+    },
+    "seconds": 0.91
+  },
+  {
+    "id": "A2",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "1.81e-17"
+    },
+    "seconds": 0.95
+  },
+  {
+    "id": "A3",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "5.45e-17"
+    },
+    "seconds": 0.85
+  },
+  {
+    "id": "A4",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "4.68e-17"
+    },
+    "seconds": 0.84
+  },
+  {
+    "id": "A5",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "4.48e-17"
+    },
+    "seconds": 0.93
+  },
+  {
+    "id": "A6",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "8.77e-18"
+    },
+    "seconds": 0.94
+  },
+  {
+    "id": "B1",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "CLAIM_DIFFERS_FROM_RESIDUE_SUM"
+    ],
+    "numeric": {
+      "status": "DISAGREES",
+      "points": 3,
+      "max_rel_diff": "0.717"
+    },
+    "seconds": 2.19
+  },
+  {
+    "id": "B2",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "CLAIM_DIFFERS_FROM_RESIDUE_SUM"
+    ],
+    "numeric": {
+      "status": "DISAGREES",
+      "points": 3,
+      "max_rel_diff": "1.56"
+    },
+    "seconds": 2.2
+  },
+  {
+    "id": "B3",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "CLAIM_DIFFERS_FROM_RESIDUE_SUM"
+    ],
+    "numeric": {
+      "status": "DISAGREES",
+      "points": 3,
+      "max_rel_diff": "0.431"
+    },
+    "seconds": 1.99
+  },
+  {
+    "id": "B4",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "CLAIM_DIFFERS_FROM_RESIDUE_SUM"
+    ],
+    "numeric": {
+      "status": "DISAGREES",
+      "points": 3,
+      "max_rel_diff": "1.0"
+    },
+    "seconds": 1.75
+  },
+  {
+    "id": "B5",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "CLAIM_DIFFERS_FROM_RESIDUE_SUM"
+    ],
+    "numeric": {
+      "status": "DISAGREES",
+      "points": 3,
+      "max_rel_diff": "1.19"
+    },
+    "seconds": 1.94
+  },
+  {
+    "id": "B6",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "CLAIM_DIFFERS_FROM_RESIDUE_SUM"
+    ],
+    "numeric": {
+      "status": "DISAGREES",
+      "points": 3,
+      "max_rel_diff": "2.0"
+    },
+    "seconds": 1.82
+  },
+  {
+    "id": "B7",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "LANGRETH_COMPONENT_MISMATCH"
+    ],
+    "numeric": null,
+    "seconds": 0.22
+  },
+  {
+    "id": "B8",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "FREE_ALGEBRA_RESIDUAL_NONZERO"
+    ],
+    "numeric": null,
+    "seconds": 0.21
+  },
+  {
+    "id": "C1",
+    "answer": "CONDITIONAL",
+    "status": "ASSUMPTION_REQUIRED",
+    "reasons": [
+      "POLE_AXIS_SEPARATION_NOT_PROVEN"
+    ],
+    "numeric": {},
+    "seconds": 0.26
+  },
+  {
+    "id": "C2",
+    "answer": "CONDITIONAL",
+    "status": "UNKNOWN",
+    "reasons": [
+      "CONVERGENCE_FACTOR_REQUIRED"
+    ],
+    "numeric": {},
+    "seconds": 0.22
+  },
+  {
+    "id": "C3",
+    "answer": "ABSTAIN",
+    "status": "NUMERICAL_SUPPORT",
+    "reasons": [],
+    "numeric": "DISAGREES",
+    "seconds": 0.26
+  },
+  {
+    "id": "C4",
+    "answer": "ABSTAIN",
+    "status": "UNKNOWN",
+    "reasons": [
+      "LIMIT_NOT_DECIDED"
+    ],
+    "numeric": {},
+    "seconds": 0.7
+  },
+  {
+    "id": "C5",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "REMAINDER_QUOTIENT_DIVERGES"
+    ],
+    "numeric": {},
+    "seconds": 0.63
+  },
+  {
+    "id": "C6",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "4.29e-4342944819032439"
+    },
+    "seconds": 0.43
+  },
+  {
+    "id": "C7",
+    "answer": "CONDITIONAL",
+    "status": "ASSUMPTION_REQUIRED",
+    "reasons": [
+      "POLE_AXIS_SEPARATION_NOT_PROVEN"
+    ],
+    "numeric": {},
+    "seconds": 0.27
+  },
+  {
+    "id": "C8",
+    "answer": "FALSE",
+    "status": "NONZERO",
+    "reasons": [
+      "REMAINDER_QUOTIENT_DIVERGES"
+    ],
+    "numeric": {},
+    "seconds": 0.5
+  },
+  {
+    "id": "D1",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "1.84e-16"
+    },
+    "seconds": 0.5
+  },
+  {
+    "id": "D2",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "4.63e-18"
+    },
+    "seconds": 0.46
+  },
+  {
+    "id": "D3",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": {
+      "status": "AGREES",
+      "points": 3,
+      "max_rel_diff": "3.95e-17"
+    },
+    "seconds": 0.61
+  },
+  {
+    "id": "D4",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": null,
+    "seconds": 0.21
+  },
+  {
+    "id": "D5",
+    "answer": "TRUE",
+    "status": "ZERO",
+    "reasons": [],
+    "numeric": null,
+    "seconds": 0.21
+  },
+  {
+    "id": "D6",
+    "answer": "TRUE",
+    "status": "CERTIFIED_BY_RULE",
+    "reasons": [],
+    "numeric": null,
+    "seconds": 0.21
+  },
+  {
+    "id": "D7",
+    "answer": "ABSTAIN",
+    "status": "NUMERICAL_SUPPORT",
+    "reasons": [],
+    "numeric": "AGREES",
+    "seconds": 0.32
+  }
+]

@@ -1,0 +1,228 @@
+# Many-body equivalence mini-benchmark v0.
+#
+# Each item states a claim and the declared assumptions. Judges answer
+# TRUE (holds under exactly the declared assumptions), FALSE (fails for some
+# admissible values), or CONDITIONAL (holds only under an extra hypothesis
+# that is not declared). Ground truth is established by
+# verify_ground_truth.py with brute-force numerics, independent of the tool.
+#
+# Conventions for every item: T = 1/beta, beta > 0; fermionic w_n = (2n+1) pi T,
+# bosonic v_n = 2 n pi T; sums run over all integers n;
+# nF(x) = 1/(exp(beta x) + 1), nB(x) = 1/(exp(beta x) - 1).
+# "Sum" means the plain limit of symmetric partial sums unless a convergence
+# factor exp(+- i w_n 0+) is stated. O(.) statements are about the stated limit.
+# Keldysh: A_K = A_less + A_greater, A_R - A_A = A_greater - A_less; products
+# are contour convolutions (noncommutative).
+schema: manybody-equivalence-v0
+items:
+  - id: A1
+    category: exact-true
+    claim: "T sum_n 1/((i w_n - a)(i w_n - c)) = (nF(a) - nF(c))/(a - c)"
+    declared: "a, c real, a != c"
+    truth: "TRUE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/((z-a)*(z-c))", --claim, "(nF(a)-nF(c))/(a-c)",
+           --symbols, '[{"name":"a"},{"name":"c"},{"name":"beta","nonzero":true}]']
+  - id: A2
+    category: exact-true
+    claim: "T sum_n 1/((i w_n - a)(i w_n + a)) = -tanh(beta a/2)/(2 a)"
+    declared: "a real, a != 0"
+    truth: "TRUE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/((z-a)*(z+a))", --claim, "-tanh(beta*a/2)/(2*a)",
+           --symbols, '[{"name":"a","nonzero":true},{"name":"beta","nonzero":true}]']
+  - id: A3
+    category: exact-true
+    claim: "T sum_n 1/(i w_n - a)^2 = -beta exp(beta a)/(exp(beta a) + 1)^2"
+    declared: "a real"
+    truth: "TRUE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/(z-a)**2", --claim, "-beta*exp(beta*a)/(exp(beta*a)+1)**2",
+           --symbols, '[{"name":"a"},{"name":"beta","nonzero":true}]']
+  - id: A4
+    category: exact-true
+    claim: "T sum_n exp(+i w_n 0+)/(i w_n - a) = nF(a)"
+    declared: "a real"
+    truth: "TRUE"
+    tool: [matsubara, --statistics, fermion, --convergence, plus, --summand, "1/(z-a)", --claim, "nF(a)",
+           --symbols, '[{"name":"a"},{"name":"beta","nonzero":true}]']
+  - id: A5
+    category: exact-true
+    claim: "T sum_n 1/((i v_n - a)(i v_n - c)) = -(nB(a) - nB(c))/(a - c)   (bosonic)"
+    declared: "a, c real, a != 0, c != 0, a != c"
+    truth: "TRUE"
+    tool: [matsubara, --statistics, boson, --summand, "1/((z-a)*(z-c))", --claim, "-(nB(a)-nB(c))/(a-c)",
+           --symbols, '[{"name":"a","nonzero":true},{"name":"c","nonzero":true},{"name":"beta","nonzero":true}]']
+  - id: A6
+    category: exact-true
+    claim: "T sum_n 1/((i w_n - a)^2 (i w_n - c)) = (nF(c) - nF(a))/(a - c)^2 + nF'(a)/(a - c), with nF'(a) = -beta exp(beta a)/(exp(beta a)+1)^2"
+    declared: "a, c real, a != c"
+    truth: "TRUE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/((z-a)**2*(z-c))",
+           --claim, "(nF(c)-nF(a))/(a-c)**2 - beta*exp(beta*a)/(exp(beta*a)+1)**2/(a-c)",
+           --symbols, '[{"name":"a"},{"name":"c"},{"name":"beta","nonzero":true}]']
+  - id: B1
+    category: seeded-error
+    claim: "T sum_n 1/((i w_n - a)(i w_n - c)) = (nF(c) - nF(a))/(a - c)"
+    declared: "a, c real, a != c"
+    truth: "FALSE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/((z-a)*(z-c))", --claim, "(nF(c)-nF(a))/(a-c)",
+           --symbols, '[{"name":"a"},{"name":"c"},{"name":"beta","nonzero":true}]']
+  - id: B2
+    category: seeded-error
+    claim: "T sum_n 1/((i v_n - a)(i v_n - c)) = (nB(a) - nB(c))/(a - c)   (bosonic)"
+    declared: "a, c real, a != 0, c != 0, a != c"
+    truth: "FALSE"
+    tool: [matsubara, --statistics, boson, --summand, "1/((z-a)*(z-c))", --claim, "(nB(a)-nB(c))/(a-c)",
+           --symbols, '[{"name":"a","nonzero":true},{"name":"c","nonzero":true},{"name":"beta","nonzero":true}]']
+  - id: B3
+    category: seeded-error
+    claim: "T sum_n 1/((i w_n - a)(i w_n + a)) = -tanh(beta a)/(2 a)"
+    declared: "a real, a != 0"
+    truth: "FALSE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/((z-a)*(z+a))", --claim, "-tanh(beta*a)/(2*a)",
+           --symbols, '[{"name":"a","nonzero":true},{"name":"beta","nonzero":true}]']
+  - id: B4
+    category: seeded-error
+    claim: "T sum_n exp(-i w_n 0+)/(i w_n - a) = nF(a)"
+    declared: "a real"
+    truth: "FALSE"
+    tool: [matsubara, --statistics, fermion, --convergence, minus, --summand, "1/(z-a)", --claim, "nF(a)",
+           --symbols, '[{"name":"a"},{"name":"beta","nonzero":true}]']
+  - id: B5
+    category: seeded-error
+    claim: "T sum_n 1/(i w_n - a)^2 = +beta exp(beta a)/(exp(beta a) + 1)^2"
+    declared: "a real"
+    truth: "FALSE"
+    tool: [matsubara, --statistics, fermion, --summand, "1/(z-a)**2", --claim, "beta*exp(beta*a)/(exp(beta*a)+1)**2",
+           --symbols, '[{"name":"a"},{"name":"beta","nonzero":true}]']
+  - id: B6
+    category: seeded-error
+    claim: "T sum_n exp(+i v_n 0+)/(i v_n - a) = +nB(a)   (bosonic)"
+    declared: "a real, a != 0"
+    truth: "FALSE"
+    tool: [matsubara, --statistics, boson, --convergence, plus, --summand, "1/(z-a)", --claim, "nB(a)",
+           --symbols, '[{"name":"a","nonzero":true},{"name":"beta","nonzero":true}]']
+  - id: B7
+    category: seeded-error
+    claim: "For the contour product C = A B:  C_less = A_R B_less + A_less B_R"
+    declared: "Keldysh conventions above"
+    truth: "FALSE"
+    tool: [langreth, --product, "A,B", --component, less, --claim, "A_R*B_less + A_less*B_R"]
+  - id: B8
+    category: seeded-error
+    claim: "-i[H, rho] + c rho c^dag - (1/2){c^dag c, rho} = -i(H_eff rho - rho H_eff^dag) + c rho c^dag  with  H_eff = H + (i/2) c^dag c"
+    declared: "H, rho Hermitian operators; c an operator"
+    truth: "FALSE"
+    tool: [operator, --operators, "H,rho,c", --hermitian, "H,rho",
+           --lhs, "-I*Comm(H,rho) + c*rho*Dag(c) - Rational(1,2)*Anti(Dag(c)*c, rho)",
+           --rhs, "-I*((H + I/2*Dag(c)*c)*rho - rho*Dag(H + I/2*Dag(c)*c)) + c*rho*Dag(c)"]
+  - id: C1
+    category: hypothesis-trap
+    claim: "T sum_n 1/((i v_n - a)(i v_n - c)) = -(nB(a) - nB(c))/(a - c)   (bosonic)"
+    declared: "a, c real, a != c"
+    truth: "CONDITIONAL"
+    missing: "a != 0 and c != 0 (a pole at v_0 = 0 makes the n = 0 term infinite)"
+    tool: [matsubara, --statistics, boson, --summand, "1/((z-a)*(z-c))", --claim, "-(nB(a)-nB(c))/(a-c)",
+           --symbols, '[{"name":"a"},{"name":"c"},{"name":"beta","nonzero":true}]']
+  - id: C2
+    category: hypothesis-trap
+    claim: "T sum_n 1/(i w_n - a) = nF(a)"
+    declared: "a real; no convergence factor stated"
+    truth: "CONDITIONAL"
+    missing: "the convergence factor exp(+i w_n 0+); the symmetric sum gives nF(a) - 1/2"
+    tool: [matsubara, --statistics, fermion, --summand, "1/(z-a)", --claim, "nF(a)",
+           --symbols, '[{"name":"a"},{"name":"beta","nonzero":true}]']
+  - id: C3
+    category: hypothesis-trap
+    claim: "integral over real w of g/(pi ((w - e)^2 + g^2)) dw = 1"
+    declared: "e real; g real, g != 0"
+    truth: "CONDITIONAL"
+    missing: "g > 0 (the integral is sign(g))"
+    tool: [integral, --variable, w, --integrand, "g/pi/((w-e)**2+g**2)", --claim, "1",
+           --symbols, '[{"name":"g","nonzero":true},{"name":"e"},{"name":"w"}]']
+  - id: C4
+    category: hypothesis-trap
+    claim: "a/g + c g = a/g + O(g^2) as g -> 0"
+    declared: "a, c real; g real, g != 0"
+    truth: "FALSE"
+    missing: "holds only for c = 0"
+    tool: [remainder, --function, "a/g + c*g", --approximant, "a/g", --variable, g, --point, "0", --order, "2",
+           --symbols, '[{"name":"a"},{"name":"c"},{"name":"g","nonzero":true}]']
+  - id: C5
+    category: hypothesis-trap
+    claim: "exp(-1/x) = O(x^5) as x -> 0 (two-sided, x real, x != 0)"
+    declared: "x real, x != 0"
+    truth: "FALSE"
+    missing: "true only for x -> 0+; diverges as x -> 0-"
+    tool: [remainder, --function, "exp(-1/x)", --approximant, "0", --variable, x, --point, "0", --order, "5",
+           --symbols, '[{"name":"x","nonzero":true}]']
+  - id: C6
+    category: hypothesis-trap
+    claim: "exp(-1/x) = O(x^5) as x -> 0+"
+    declared: "x real, x > 0"
+    truth: "TRUE"
+    tool: [remainder, --function, "exp(-1/x)", --approximant, "0", --variable, x, --point, "0", --order, "5",
+           --direction, "+", --symbols, '[{"name":"x","nonzero":true}]']
+  - id: C7
+    category: hypothesis-trap
+    claim: "T sum_n 1/((i w_n - e - i g)(i w_n - e + i g)) = (nF(e + i g) - nF(e - i g))/(2 i g)"
+    declared: "e real; g real, g != 0"
+    truth: "CONDITIONAL"
+    missing: "poles e +- i g off the Matsubara axis (fails when e = 0 and g = w_n)"
+    tool: [matsubara, --statistics, fermion, --summand, "1/((z-e-I*g)*(z-e+I*g))", --claim, "(nF(e+I*g)-nF(e-I*g))/(2*I*g)",
+           --symbols, '[{"name":"e"},{"name":"g","nonzero":true},{"name":"beta","nonzero":true}]']
+  - id: C8
+    category: hypothesis-trap
+    claim: "1/(i w - e) = 1/(i w) + e/(i w)^2 + O(w^-4) as w -> infinity"
+    declared: "e real, e != 0; w real"
+    truth: "FALSE"
+    missing: "only O(w^-3)"
+    tool: [remainder, --function, "1/(I*w - e)", --approximant, "1/(I*w) + e/(I*w)**2", --variable, w, --point, oo,
+           --order, "-4", --symbols, '[{"name":"e","nonzero":true},{"name":"w","nonzero":true}]']
+  - id: D1
+    category: asymptotic-operator-true
+    claim: "1/(i w - e) = 1/(i w) + e/(i w)^2 + O(w^-3) as w -> infinity"
+    declared: "e real, e != 0; w real"
+    truth: "TRUE"
+    tool: [remainder, --function, "1/(I*w - e)", --approximant, "1/(I*w) + e/(I*w)**2", --variable, w, --point, oo,
+           --order, "-3", --symbols, '[{"name":"e","nonzero":true},{"name":"w","nonzero":true}]']
+  - id: D2
+    category: asymptotic-operator-true
+    claim: "digamma(x) = ln x - 1/(2x) + O(x^-2) as x -> +infinity"
+    declared: "x real"
+    truth: "TRUE"
+    tool: [remainder, --function, "polygamma(0, x)", --approximant, "log(x) - 1/(2*x)", --variable, x, --point, oo,
+           --order, "-2", --symbols, '[{"name":"x","nonzero":true}]']
+  - id: D3
+    category: asymptotic-operator-true
+    claim: "a/g + b g = a/g + O(g) as g -> 0"
+    declared: "a, b real; g real, g != 0"
+    truth: "TRUE"
+    tool: [remainder, --function, "a/g + b*g", --approximant, "a/g", --variable, g, --point, "0", --order, "1",
+           --symbols, '[{"name":"a"},{"name":"b"},{"name":"g","nonzero":true}]']
+  - id: D4
+    category: asymptotic-operator-true
+    claim: "For D = A B C on the contour:  D_less = A_R B_R C_less + A_R B_less C_A + A_less B_A C_A"
+    declared: "Keldysh conventions above"
+    truth: "TRUE"
+    tool: [langreth, --product, "A,B,C", --component, less, --claim, "A_R*B_R*C_less + A_R*B_less*C_A + A_less*B_A*C_A"]
+  - id: D5
+    category: asymptotic-operator-true
+    claim: "-i[H, rho] + c rho c^dag - (1/2){c^dag c, rho} = -i(H_eff rho - rho H_eff^dag) + c rho c^dag  with  H_eff = H - (i/2) c^dag c"
+    declared: "H, rho Hermitian operators; c an operator"
+    truth: "TRUE"
+    tool: [operator, --operators, "H,rho,c", --hermitian, "H,rho",
+           --lhs, "-I*Comm(H,rho) + c*rho*Dag(c) - Rational(1,2)*Anti(Dag(c)*c, rho)",
+           --rhs, "-I*((H - I/2*Dag(c)*c)*rho - rho*Dag(H - I/2*Dag(c)*c)) + c*rho*Dag(c)"]
+  - id: D6
+    category: asymptotic-operator-true
+    claim: "For the contour product C = A B:  C_K = A_R B_K + A_K B_A"
+    declared: "Keldysh conventions above"
+    truth: "TRUE"
+    tool: [langreth, --product, "A,B", --component, K, --claim, "A_R*B_K + A_K*B_A"]
+  - id: D7
+    category: asymptotic-operator-true
+    claim: "integral over real w of nF(w) g/(pi ((w - e)^2 + g^2)) dw = 1/2 - Im digamma(1/2 + beta (g + i e)/(2 pi)) / pi"
+    declared: "e real; g real, g > 0"
+    truth: "TRUE"
+    tool: [integral, --variable, w, --beta, beta, --positive, g, --integrand, "nF(w)*g/pi/((w-e)**2+g**2)",
+           --claim, "1/2 - im(polygamma(0, 1/2 + beta*(g + I*e)/(2*pi)))/pi",
+           --symbols, '[{"name":"beta","nonzero":true},{"name":"g","nonzero":true},{"name":"e"},{"name":"w"}]']
