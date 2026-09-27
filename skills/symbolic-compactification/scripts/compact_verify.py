@@ -32,7 +32,11 @@ def _load_ledger():
 
 
 def _read(path: Path) -> str:
-    return path.read_text(encoding="utf-8").strip()
+    text = path.read_text(encoding="utf-8").strip()
+    if re.match(r"^[A-Za-z_][A-Za-z0-9_]*\s*=(?!=)", text):
+        raise ValueError(f"{path.name} holds an equation ('{text[:30]}...'); "
+                         "write only the expression, without 'F ='")
+    return text
 
 
 def _load_symbols(path: Path) -> list:

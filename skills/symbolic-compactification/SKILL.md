@@ -69,7 +69,8 @@ Verify: local algebra. Other relations stay unresolved obligations
 Ask only for conditions that would change the verdict and cannot be read
 from the input.
 
-`symbols.json` declares each symbol's domain:
+`current.txt` and `candidate.txt` hold expressions only (`x + y + 1`, not
+`F = x + y + 1`). `symbols.json` declares each symbol's domain:
 
 ```json
 [{"name": "x", "real": true, "nonzero": false},
@@ -128,7 +129,11 @@ symbolic-compactification manybody review paper.tex --out review/
 
 It drafts one step card per displayed relation, checks each against its
 verbatim quote, builds the audit workspace, and writes
-`review/reviewer-verification-package/REVIEWER_SUMMARY.html`. Its JSON
+`review/reviewer-verification-package/REVIEWER_SUMMARY.html`. That is the
+page to send; `review/reports/` holds the same page as a working copy. The
+workspace is `review/cards/` (cards + conventions.yaml), `review/manuscript/`,
+`review/runs/` (machine records) and the replayable package; there is no
+`audit.json` in this path. Its JSON
 output lists every step with its `decision`, its equation number and its
 line. For `NOT_DECIDED` steps, edit `review/cards/conventions.yaml`
 (symbols, `positive: true`, `notation`, definitions, `multiply`) or a
