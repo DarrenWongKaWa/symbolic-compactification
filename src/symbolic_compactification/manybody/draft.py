@@ -77,10 +77,12 @@ def latex_equations(document: str) -> list[dict[str, Any]]:
         label = _LABEL_RE.search(m.group(2))
         rows = [r for r in re.split(r"\\\\", m.group(2)) if r.strip()]
         found.append({"label": label.group(1) if label else None, "rows": rows,
-                      "offset": m.start()})
+                      "offset": m.start(),
+                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300]})
     for m in _DISPLAY_RE.finditer(body):
         text = m.group(1) or m.group(2)
-        found.append({"label": None, "rows": [text], "offset": m.start()})
+        found.append({"label": None, "rows": [text], "offset": m.start(),
+                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300]})
     return sorted(found, key=lambda e: e["offset"])
 
 
@@ -92,6 +94,10 @@ def _document_fragment(raw: str, fragment: str) -> str | None:
     return fragment if fragment and fragment in squashed else None
 
 
+_CONTINUES = re.compile(r"^(?:\s|&|\\q?quad|\\[,;!]|\\nonumber)*"
+                       r"(?:[-+*/(\[]|\\(?:times|cdot|pm|mp|left|Bigl|bigl|biggl|Big|big|bigg|lbrace)\b)")
+
+
 def steps_from_latex(raw: str) -> list[dict[str, Any]]:
     steps = []
     for n, eq in enumerate(latex_equations(raw), start=1):
@@ -101,8 +107,9 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
             head = _clean(pieces[0])
             if not chains:
                 chains.append(pieces)
-            elif len(pieces) == 1:                 # no '=': the previous side continues
-                chains[-1][-1] += " " + row
+            elif len(pieces) == 1:                 # no '=': continues only if it starts
+                if _CONTINUES.match(row):          # with an operator or a bracket
+                    chains[-1][-1] += " " + row
             elif not head:                         # "&= C": the chain continues
                 chains[-1] += pieces[1:]
             else:                                  # "A &= B" on its own row: a new relation
@@ -114,7 +121,8 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
             stem = base if len(relations) == 1 else f"{base}.r{j + 1}"
             for k in range(len(chain) - 1):
                 steps.append({"id": stem if len(chain) == 2 else f"{stem}.{k + 1}",
-                              "lhs": chain[k], "rhs": chain[k + 1]})
+                              "lhs": chain[k], "rhs": chain[k + 1],
+                              "context": eq.get("context", "")})
     return steps
 
 
@@ -194,6 +202,10 @@ def _remainder(card: dict, lhs: str, rhs: str, o_term) -> None:
     card["source"] = {"function": lhs, "approximant": approx}
 
 
+# names that are constants by convention in many-body papers (inverse
+# temperature, Planck's constant); every other name before "(" is left to
+# the reviewer, because a wrong guess would give a confident wrong verdict
+_CONSTANTS = frozenset({"beta", "hbar"})
 _LOWER_GREEK = frozenset("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu "
                          "xi rho sigma tau upsilon phi chi omega".split())
 
@@ -258,8 +270,8 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                      "variable": "z", "beta": "beta",
                      "notation": {f"i{freq}_{k}": "z", f"i {freq}_{k}": "z"}})
         card["source"] = {"summand": body, "claim": rhs}
-    elif latex and _langreth(lhs, rhs, macros):
-        card.update(_langreth(lhs, rhs, macros))
+    elif latex and _langreth(lhs, rhs, macros) and re.search(r"langreth", step.get("context", ""), re.I):
+        card.update(_langreth(lhs, rhs, macros))      # the paper itself invokes Langreth's rules
     elif series:
         card.update({"check": "series", "variable": series.group("index"),
                      "lower": int(series.group("lower"))})
@@ -274,6 +286,9 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     else:
         card["check"] = "identity"
         card["source"] = {"lhs": lhs, "rhs": rhs}
+        if latex and _langreth(lhs, rhs, macros):
+            card["hint"] = ("shaped like a Langreth rule; if the paper claims the exact rule, "
+                            "set check: langreth (product, component, notation as for a drafted rule)")
     for d in step.get("definitions", []):
         safe = d["name"].replace("+", "p").replace("-", "m")
         card["source"][f"define:TODO_{re.sub(r'[^A-Za-z0-9]', '_', safe)}()"] = d["quote"]
@@ -371,6 +386,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     positive = _positive_symbols(raw)
     if not conventions.exists():
         defined_names = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
+        clash_names = {k.split(":", 1)[1].split("(")[0] for k in clashing}
         ambiguous = sorted(before_paren - defined_names)
         data: dict[str, Any] = {
             "symbols": [{"name": n, **({"positive": True, "stated": positive[n]} if n in positive else {})}
@@ -379,7 +395,8 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             # names written right before "(": a product only if listed here
             # a Greek letter is taken as a product only if the paper also uses it as a
             # plain symbol; sigma(omega) alone is more likely a function
-            "multiply": [n for n in ambiguous if n in _LOWER_GREEK and n in all_names]}
+            "multiply": [n for n in ambiguous if n in _CONSTANTS
+                         and n not in defined_names and n not in clash_names]}
         if shared_quotes:
             data["source_document"] = str(rel)
             data["source"] = shared_quotes

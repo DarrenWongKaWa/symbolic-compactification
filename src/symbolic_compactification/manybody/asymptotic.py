@@ -240,8 +240,8 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         except BudgetExceeded:
             failure = "LIMIT_TIME_BUDGET_EXCEEDED"
             break
-        except Exception:          # PoleError and friends: not computed, never a verdict
-            failure = "LIMIT_NOT_COMPUTED"
+        except Exception as exc:   # PoleError and friends: not computed, never a verdict
+            failure = f"LIMIT_NOT_COMPUTED:{type(exc).__name__}"
             break
         limits.append(_tidy(value))
     kinds = {_classify(v, sample) for v in limits} if failure is None else {"UNDECIDED"}

@@ -142,3 +142,21 @@ def test_langreth_rules_are_drafted_and_checked(tmp_path):
     assert {s["step"]: (s["check"], s["decision"]) for s in result["steps"]} == {
         "rules.r1": ("langreth", "VALID"), "rules.r2": ("langreth", "VALID"),
         "wrong": ("langreth", "INVALID")}
+
+
+def test_adversarial_misreadings_are_not_decided(tmp_path):
+    """Regressions from review: a Born self-energy definition must not be
+    checked as an exact Langreth rule, and gamma(t) must not become a
+    product just because 'gamma > 0' appears in the text."""
+    from symbolic_compactification.manybody.review import review
+
+    tex = tmp_path / "a.tex"
+    tex.write_text("\\begin{document}\nWe have $\\gamma>0$ and write\n"
+                   "\\begin{equation}\\label{g}\\gamma(t) = \\cos(t)\\end{equation}\n"
+                   "\\begin{equation}\\label{py}\\gamma(t)^2 + \\sin(t)^2 = 1\\end{equation}\n"
+                   "The Born self-energy is\n\\begin{equation}\\label{born}\\Sigma^{<}(t,t') = "
+                   "\\int dt_1\\, G^{r}(t,t_1)\\,\\Gamma^{<}(t_1,t')\\end{equation}\n\\end{document}\n")
+    result = review(tex, tmp_path / "review")
+    assert result["assumptions_to_confirm"]["multiply"] == []
+    assert {s["step"]: s["decision"] for s in result["steps"]} == {"py": "NOT_DECIDED",
+                                                                   "born": "NOT_DECIDED"}

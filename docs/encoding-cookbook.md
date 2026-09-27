@@ -31,7 +31,10 @@ symbolic-compactification manybody steps cards/ --require-source --html report.h
   - `Σ_{n=0}^∞`, which becomes `series`;
   - Langreth rules `X^<(t,t') = ∫dt₁ [B^r C^< + B^< C^a]`, which become
     `langreth` cards whose product, component and notation are taken
-    from the quote. Every
+    from the quote. This happens only when the text around the equation
+    invokes Langreth's rules. Otherwise the card stays an `identity` with
+    a hint, because a single-term Born self-energy has the same shape but
+    is a definition, not the exact rule. Every
   expression is a verbatim quote, so the card contains no hand-typed
   formula. It also writes `conventions.yaml`, listing the tokens it could
   not resolve.
@@ -79,8 +82,9 @@ confident wrong verdict:
   The tool reads it as a product only if the name is listed under
   `multiply:` in the conventions; otherwise the quote is refused with
   `SOURCE_APPLICATION_AMBIGUOUS`. Define the name if it is a function.
-  `draft` pre-fills `multiply:` with lowercase Greek letters and lists the
-  other names for you to decide. `psi(z)` and `psi0(z)`…`psi6(z)` are
+  `draft` pre-fills `multiply:` only with conventional constants (`beta`,
+  `hbar`), and only if the paper does not define them as functions. It
+  lists every other name for you to decide. `psi(z)` and `psi0(z)`…`psi6(z)` are
 predefined as polygammas.
 
 ## Decision rule for agents

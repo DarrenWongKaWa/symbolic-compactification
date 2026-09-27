@@ -165,7 +165,7 @@ def _missing_quotes(card: dict, transcription: dict) -> list[str]:
     fields = transcription.get("fields", {})
     return [k for k in _EXPRESSION_KEYS
             if k in card and fields.get(k, {}).get("status") != "MATCH"
-            and not re.fullmatch(r"\s*-?\d+\s*", str(card[k]))]
+            and not (k == "approximant" and re.fullmatch(r"\s*0\s*", str(card[k])))]
 
 
 def _declared_beta(card: dict, symbols: list) -> str | None:
