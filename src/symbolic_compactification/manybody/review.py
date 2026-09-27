@@ -88,6 +88,8 @@ def _manifests(out: Path, source_name: str = "source.tex") -> list[dict[str, Any
     symbols = []
     for entry in (conventions or {}).get("symbols") or []:       # the audit only records these;
         name = str(entry["name"] if isinstance(entry, dict) else entry)   # cards carry their own
+        if isinstance(entry, dict) and entry.get("real") is False:
+            continue          # complex symbols are carried by the cards; the audit file lists real ones
         candidate = {"name": name, "real": True, "nonzero": False}
         try:
             normalize_symbols([candidate])
@@ -154,7 +156,12 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     html = out / "reviewer-verification-package" / "REVIEWER_SUMMARY.html"
     todo = (drafted or {}).get("unresolved_tokens", [])
     conv = yaml.safe_load((out / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
+    assumed_real = [s["name"] for s in conv.get("symbols") or []
+                    if isinstance(s, dict) and "real" not in s and not s.get("positive")]
+    kept_complex = [s["name"] for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("real") is False]
     assumed = {
+        "assumed_real": assumed_real,
+        "complex": kept_complex,
         "positive": [{"name": s["name"], "stated": s.get("stated", "not stated in the text")}
                      for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],
         "multiply": list(conv.get("multiply") or []),

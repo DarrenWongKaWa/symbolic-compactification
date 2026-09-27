@@ -215,3 +215,15 @@ def test_positive_order_remainder_needs_a_stated_point(tmp_path):
         tex = tmp_path / f"{expected}.tex"
         tex.write_text("\\begin{document}\n" + lead + "\n" + body + "\n\\end{document}\n")
         assert [s["decision"] for s in review(tex, tmp_path / expected)["steps"]] == [expected]
+
+
+def test_symbols_under_re_im_are_complex_unless_stated_real(tmp_path):
+    """Regression: z = x + iy is complex, so z = Re z must not be VALID."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "complex_z.tex"
+    result = review(note, tmp_path / "r")
+    assert "z" in result["assumptions_to_confirm"]["complex"]
+    assert all(s["decision"] != "VALID" for s in result["steps"])

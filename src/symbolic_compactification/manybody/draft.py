@@ -399,6 +399,67 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     return [(f"define:{name}({args})", step["rhs"])]
 
 
+_GREEK_NAMES = "alpha beta gamma delta epsilon varepsilon zeta eta theta kappa lambda mu nu xi rho sigma tau phi chi psi omega Gamma Delta Theta Lambda Xi Sigma Phi Psi Omega".split()
+
+
+def _names_in(fragment: str) -> set[str]:
+    """Symbol names in a short piece of LaTeX ($x, y$ or \\epsilon)."""
+    out = set(re.findall(r"\\([A-Za-z]+)", fragment)) & set(_GREEK_NAMES)
+    out |= set(re.findall(r"(?<![\\A-Za-z])([A-Za-z])(?![A-Za-z])", re.sub(r"\\[A-Za-z]+", " ", fragment)))
+    return {"epsilon" if n == "varepsilon" else n for n in out}
+
+
+def _stated_realness(raw: str) -> tuple[dict[str, str], set[str]]:
+    """Names the text calls real ('real $a$', '$x,y$ real', 'x \\in \\mathbb{R}')
+    and names it calls complex ('complex $z$', 'z = x + iy', '\\in \\mathbb{C}')."""
+    real: dict[str, str] = {}
+    complex_: set[str] = set()
+    line = lambda pos: f"line {raw.count(chr(10), 0, pos) + 1}"
+    for m in re.finditer(r"real\s+\$([^$]{1,40})\$|\$([^$]{1,40})\$\s*(?:are|is)?\s*real\b", raw):
+        for n in _names_in(m.group(1) or m.group(2)):
+            real.setdefault(n, f"{line(m.start())}: {m.group(0)[:40]}")
+    for m in re.finditer(r"([^$\s]{1,30})\s*\\in\s*\\mathbb\{R\}", raw):
+        for n in _names_in(m.group(1)):
+            real.setdefault(n, f"{line(m.start())}: {m.group(0)[:40]}")
+    for m in re.finditer(r"complex\s+(?:[A-Za-z ]{0,30})?\$([^$]{1,40})\$|([^$\s]{1,30})\s*\\in\s*\\mathbb\{C\}", raw):
+        complex_ |= _names_in(m.group(1) or m.group(2))
+    for m in re.finditer(r"\$\s*(\\?[A-Za-z]+)\s*=\s*[A-Za-z]\s*\+\s*(?:\\mathrm\{i\}|i|\\ii)\s*[A-Za-z]\s*\$", raw):
+        complex_ |= _names_in(m.group(1))
+    return real, complex_
+
+
+def _realness_sensitive(steps, shared_quotes, macros, latex) -> set[str]:
+    """Names inside a quote that uses Re, Im, a conjugate or |...|: there the
+    verdict can depend on whether the symbol is real."""
+    bound = {v for st in steps for v in st.get("bound", ())}     # integration / summation variables
+    quotes = [q for st in steps for q in (st["lhs"], st["rhs"])]
+    quotes += [v.get("quote") if isinstance(v, dict) else v for v in shared_quotes.values()]
+    out: set[str] = set()
+    for q in quotes:
+        if re.search(r"\\(?:mathrm|operatorname|rm)\s*\{?\s*(?:Re|Im)|\\(?:Re|Im)\b|\^\s*\{?\s*\*|\\bar\b|\\overline|\\ast|\|", str(q)):
+            try:
+                plain = latex_to_plain(str(q), macros) if latex else str(q)
+            except (ValueError, RecursionError):
+                continue
+            out |= _tokens(plain)[0]
+    return out - bound
+
+
+def _symbol_entry(name, positive, real_stated, complex_stated, realness_matters) -> dict:
+    """Real only when the text says so (or says positive), or when realness
+    cannot change a verdict; stated complex is always complex."""
+    if name in positive:
+        return {"name": name, "positive": True, "stated": positive[name]}
+    if name in complex_stated:
+        return {"name": name, "real": False, "stated": "complex in the text"}
+    if name in real_stated:
+        return {"name": name, "real": True, "stated": real_stated[name]}
+    if name in realness_matters:
+        return {"name": name, "real": False,
+                "stated": "not stated real; it appears under Re/Im/conjugate, so it is kept complex"}
+    return {"name": name}
+
+
 def _positive_symbols(raw: str) -> dict[str, str]:
     """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0, with
     where they are stated (so a reviewer can confirm the guess)."""
@@ -438,6 +499,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             before_paren |= _before_parenthesis(plain_rhs)
             continue
         card, names, todo = _card_for(step, str(rel), latex, macros)
+        step["bound"] = {str(card[k]) for k in ("variable",) if card.get(k)}
         before_paren |= card.pop("_before_paren", set())
         all_names |= names
         all_todo |= todo
@@ -461,12 +523,14 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     all_todo = {t for t in all_todo if not t.startswith(("sum_", "iomega_", "inu_"))}
     all_names -= {"d", "int"}
     positive = _positive_symbols(raw)
+    real_stated, complex_stated = _stated_realness(raw)
+    realness_matters = _realness_sensitive(steps, shared_quotes, macros, latex)
     if not conventions.exists():
         defined_names = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
         clash_names = {k.split(":", 1)[1].split("(")[0] for k in clashing}
         ambiguous = sorted(before_paren - defined_names)
         data: dict[str, Any] = {
-            "symbols": [{"name": n, **({"positive": True, "stated": positive[n]} if n in positive else {})}
+            "symbols": [_symbol_entry(n, positive, real_stated, complex_stated, realness_matters)
                         for n in sorted(all_names)],
             "notation": {}, "define": {},
             # names written right before "(": a product only if listed here
