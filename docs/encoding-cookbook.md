@@ -69,8 +69,22 @@ LaTeX quotes are converted by a fixed, reviewable set of rules:
 Anything else is left alone and refused by the parser, which makes the
 field `UNCHECKED`, never misread.
 
-Two readings are never guessed, because a wrong guess would give a
+These readings are never guessed, because a wrong guess would give a
 confident wrong verdict:
+- **The statistics of a Matsubara sum.** Evidence is taken in this order:
+  1. the paper's own definition of that frequency symbol, e.g.
+     `\omega_n = (2n+1)\pi/\beta` or `\Omega_m = 2\pi m T`;
+  2. otherwise, the word fermionic or bosonic in the sentence that leads
+     into the display.
+
+  If neither gives an answer, the card stays an `identity` with a hint.
+- **The limit point of `O(x^n)`.** It is `x → ∞` or `x → 0` when the text
+  says so ("x \to \infty", "large x", "small x"). A negative order is a
+  tail at infinity. A positive order with no stated point is checked at
+  both points and decided only if the two verdicts agree. `x → 0⁺` is
+  used only when the variable is stated positive.
+- **Integration limits.** Only `\int` over the whole real line becomes a
+  `fermi_integral`. Other limits are left alone.
 - **Sub- and superscripts are part of the name.** `A_{L/R}` becomes
   `A_L_R`, never a division.
 - **A superscript made only of letters is a label, not a power.**
