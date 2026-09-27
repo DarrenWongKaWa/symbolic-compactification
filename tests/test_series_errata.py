@@ -332,3 +332,12 @@ def test_named_quantities_and_inline_definitions(tmp_path):
     assert steps["eq:val"]["decision"] == "NOT_DECIDED"
     assert "LHS_IS_A_NAMED_QUANTITY" in steps["eq:val"]["why_not_decided"]
     assert steps["eq:pf"]["decision"] == "VALID"
+
+
+def test_adjacent_greek_names_stay_separate():
+    """Regression (user test): \\Gamma_L\\Gamma_R is a product of two widths,
+    not one symbol 'Gamma_LGamma_R'."""
+    from symbolic_compactification.manybody.latex import latex_to_plain
+
+    assert latex_to_plain(r"\Gamma_L\Gamma_R").split() == ["Gamma_L", "Gamma_R"]
+    assert latex_to_plain(r"\epsilon_0").strip() == "epsilon_0"

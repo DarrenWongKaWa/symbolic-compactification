@@ -150,7 +150,9 @@ def _convert(text: str) -> str:
             elif name in _DROP or name in (",", ";", "!", ":", " ", "\\"):
                 out.append(" ")
             elif name in _GREEK:
-                out.append(f" {name} " if not text[i:i + 1] == "_" else name)
+                # always a space before (\Gamma_L\Gamma_R is two names, not one);
+                # none after when a subscript follows (\Gamma_L stays one name)
+                out.append(f" {name} " if not text[i:i + 1] == "_" else f" {name}")
             elif name in _ALIASES:
                 out.append(f" {_ALIASES[name]} " if _ALIASES[name].isalpha() else _ALIASES[name])
             elif name in ("{", "}"):
