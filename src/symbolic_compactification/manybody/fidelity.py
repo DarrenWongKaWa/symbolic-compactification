@@ -198,6 +198,21 @@ def expand_sum_pm(text: str) -> str:
     return text
 
 
+def expand_re_im(text: str) -> str:
+    """re_of X / im_of X -> re(X) / im(X), X being the next factor."""
+    pattern = re.compile(r"(?<![A-Za-z0-9_])(re|im)_of")
+    for _ in range(16):
+        m = pattern.search(text)
+        if not m:
+            return text
+        end = _term_end(text, m.end())
+        term = text[m.end():end]
+        if not term.strip():
+            raise AdapterError("RE_IM_WITHOUT_ARGUMENT")
+        text = text[:m.start()] + f"{m.group(1)}({term})" + text[end:]
+    return text
+
+
 def _pick_branch(text: str, branch: str | None) -> str:
     """Resolve pm/mp, ±/∓ and subscript markers (_pm, _PM, ...) to one sign.
     In a subscript the sign becomes a letter: z0_pm -> z0_p or z0_m."""
@@ -307,7 +322,7 @@ def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
     text = erratum_of(entry) or quote
     if ctx.latex or looks_like_latex(text):
         text = latex_to_plain(text, ctx.macros)
-    text = _pick_branch(expand_sum_pm(text), branch)
+    text = _pick_branch(expand_sum_pm(expand_re_im(text)), branch)
     expression = translate(text, ctx.notation, ctx.callables, ctx.keep_i, ctx.names)
     if not _balanced(expression):
         raise AdapterError("SOURCE_BRACKETS_UNBALANCED")

@@ -138,6 +138,10 @@ def _convert(text: str) -> str:
             elif name in _WRAPPERS:
                 arg, i = _argument(text, i)
                 out.append(_convert(arg))
+            elif name == "psi" and re.match(r"\s*('+)", text[i:]):
+                primes = re.match(r"\s*('+)", text[i:])
+                out.append(f"psi{len(primes.group(1))}")
+                i += primes.end()
             elif name == "psi" and re.match(r"\s*\^\s*\{?\s*\((\d)\)\s*\}?", text[i:]):
                 k = re.match(r"\s*\^\s*\{?\s*\((\d)\)\s*\}?", text[i:])
                 out.append(f"psi{k.group(1)}")
@@ -181,6 +185,9 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
     text = rewrite_over(normalize_exponential(text))
+    # Re / Im of the next factor: \mathrm{Im}\,\psi(z) -> im_of psi(z)
+    text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",
+                  lambda m: f" {(m.group(1) or m.group(2)).lower()}_of ", text)
     plain = _convert(text)
     plain = re.sub(r"(?<![A-Za-z0-9_])e\^\(", "E^(", plain)   # e^{x} is the exponential
     return re.sub(r"_\s+", "_", plain)

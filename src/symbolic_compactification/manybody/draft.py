@@ -150,6 +150,11 @@ _INTEGRAL = re.compile(
     r"^\\int(?:\\limits)?(?:_\{?[^\s{}]*\}?\^\{?[^\s{}]*\}?)?\s*"
     r"(?:\\frac\{\s*d\s*(?P<v1>\\?[A-Za-z]+)\s*\}\{\s*2\s*\\pi\s*\}|d\s*(?P<v2>\\?[A-Za-z]+))"
     r"\s*(?:\\[,;!]\s*)?(?P<body>.+)$", re.S)
+_MATSUBARA = re.compile(
+    r"^(?:\\frac\{1\}\{\\beta\}|\{\s*1\s*\\over\s*\\beta\s*\}|T|k_B\s*T)\s*"
+    r"\\sum_\{?\s*(?P<index>[a-z])\s*\}?\s*(?P<body>.+)$", re.S)
+_SERIES = re.compile(
+    r"^\\sum_\{\s*(?P<index>[a-z])\s*=\s*(?P<lower>-?\d+)\s*\}\^\{?\s*\\infty\s*\}?\s*(?P<body>.+)$", re.S)
 _DEFINITION_LHS = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*([A-Za-z_][\w\s,]*)\)\s*$")
 
 
@@ -180,8 +185,22 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     card: dict[str, Any] = {"include": "conventions.yaml", "source_document": doc_name}
     o_term = _O_TERM.search(rhs)
     integral = _INTEGRAL.match(lhs) if latex else None
+    matsubara = _MATSUBARA.match(lhs.strip()) if latex else None
+    series = _SERIES.match(lhs.strip()) if latex else None
     if o_term:
         _remainder(card, lhs, rhs, o_term)
+    elif matsubara:
+        body, k = matsubara.group("body").strip(), matsubara.group("index")
+        boson = re.search(rf"\\nu_\{{?{k}\}}?", body) is not None
+        freq = "nu" if boson else "omega"
+        card.update({"check": "matsubara", "statistics": "boson" if boson else "fermion",
+                     "variable": "z", "beta": "beta",
+                     "notation": {f"i{freq}_{k}": "z", f"i {freq}_{k}": "z"}})
+        card["source"] = {"summand": body, "claim": rhs}
+    elif series:
+        card.update({"check": "series", "variable": series.group("index"),
+                     "lower": int(series.group("lower"))})
+        card["source"] = {"summand": series.group("body").strip(), "claim": rhs}
     elif integral and re.search(r"n_\{?F", integral.group("body")):
         body = integral.group("body").strip()
         card.update({"check": "fermi_integral",
@@ -258,7 +277,8 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         all_todo |= todo
         path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', step['id'])}.yaml"
         header = "# Draft from " + doc.name + ". Quotes are verbatim; do not edit them.\n"
-        todo = todo - {"n_F", "n_B"} - {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
+        todo = todo - {"n_F", "n_B", "im_of", "re_of", "sum_pm"} - {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
+        todo = {t for t in todo if not t.startswith(("sum_", "iomega_", "inu_"))}
         if todo:
             header += "# Needs notation or definitions for: " + ", ".join(sorted(todo)) + "\n"
         path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
@@ -266,7 +286,8 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         written.append(str(path))
     conventions = out / "conventions.yaml"
     defined = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
-    all_todo -= defined | {"n_F", "n_B"}
+    all_todo -= defined | {"n_F", "n_B", "im_of", "re_of", "sum_pm"}
+    all_todo = {t for t in all_todo if not t.startswith(("sum_", "iomega_", "inu_"))}
     all_names -= {"d", "int"}
     positive = _positive_symbols(raw)
     if not conventions.exists():

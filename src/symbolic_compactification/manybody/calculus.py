@@ -165,6 +165,14 @@ def _certified_value(value: sympy.Expr):
     return number if number.is_Number or number.is_number else None
 
 
+def _tiny(value) -> bool:
+    try:
+        estimate = sympy.N(value, 60)
+    except (TypeError, ValueError, ZeroDivisionError):
+        return False
+    return estimate.is_number and not estimate.has(sympy.zoo, sympy.nan) and abs(estimate) < 1e-40
+
+
 def _screen(residual, names, free, positive) -> tuple[dict | None, bool]:
     """(counterexample, all_small). A value certified to 30 digits and larger
     than 1e-20 in magnitude proves the residual is not identically zero."""
@@ -172,9 +180,13 @@ def _screen(residual, names, free, positive) -> tuple[dict | None, bool]:
     for seed in (11, 23, 37):
         concrete = _concretize(residual, names, seed)
         for point in sample_points(free, positive=positive, count=2, seed=seed):
-            number = _certified_value(concrete.subs(point))
+            value = concrete.subs(point)
+            number = _certified_value(value)
             if number is None:
-                all_small = False
+                # strict evalf cannot certify digits of a value that is 0; a
+                # 60-digit estimate may support ZERO but never proves NONZERO
+                if not _tiny(value):
+                    all_small = False
                 continue
             if abs(number) > sympy.Float("1e-20"):
                 return ({"point": {str(k): str(v) for k, v in point.items()},
@@ -225,8 +237,20 @@ def diagnose(lhs, rhs, space, positive=(), labels: tuple[str, ...] = ()) -> list
     return found
 
 
+def _explicit_re_im(expr: sympy.Expr) -> sympy.Expr:
+    """re(x), im(x) -> (x + conj x)/2, (x - conj x)/(2i): both sides then
+    evaluate and simplify like any other expression."""
+    expr = expr.replace(sympy.im, lambda x: (x - sympy.conjugate(x)) / (2 * sympy.I))
+    expr = expr.replace(sympy.re, lambda x: (x + sympy.conjugate(x)) / 2)
+    # polygammas are real-analytic: conj psi^(k)(z) = psi^(k)(conj z)
+    return expr.replace(
+        lambda e: isinstance(e, sympy.conjugate) and isinstance(e.args[0], sympy.polygamma),
+        lambda e: sympy.polygamma(e.args[0].args[0], sympy.conjugate(e.args[0].args[1])))
+
+
 def compare(lhs: sympy.Expr, rhs: sympy.Expr, space: CalculusSpace,
             positive: tuple[str, ...] = (), labels: tuple[str, ...] = ()) -> dict:
+    lhs, rhs = _explicit_re_im(lhs), _explicit_re_im(rhs)
     residual = lhs - rhs
     pos = space.positives(tuple(positive))
     hit, all_small = _screen(residual, space.user_functions, residual.free_symbols, pos)
