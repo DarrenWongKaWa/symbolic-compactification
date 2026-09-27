@@ -170,8 +170,18 @@ source:                                        # card field -> verbatim quote
 (`examples/cards/fermi_pair_with_source.yaml`.)
 
 - **Quote, do not retype.** Each quote must occur in `source_document`
-  word for word (whitespace aside), or the result is `NOT_IN_DOCUMENT`.
-  Copy the claim out of the document; do not write it from memory.
+  word for word, or the result is `NOT_IN_DOCUMENT`. Whitespace and layout
+  (`&`, `\\`, `\nonumber`, `\label`) are ignored when comparing. Copy
+  the claim out of the document; do not write it from memory.
+- **A quote is a whole piece, from its own display.**
+  - The quote must stand on its own. Its edges must be the edge of the
+    display, a row end, `=`, punctuation, spacing, an integration measure
+    or sum, or `+ O(...)`. So `a + b` quoted out of `x = a + b^2` is
+    refused.
+  - Drafted cards record their `display` (the `\label`, or `#n` for the
+    n-th display). Their quotes must come from that display, so a card
+    whose equation was later edited is not decided. It cannot pass on
+    text found elsewhere.
 - **Quote only the expression.** Leave out "Claim:", the left-hand side
   and "=". A measure the quote leaves out goes in `wrap`, e.g.
   `{quote: "...", wrap: "({})/(2*pi)"}`.
