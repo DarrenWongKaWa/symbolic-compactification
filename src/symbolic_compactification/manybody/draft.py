@@ -498,9 +498,18 @@ def _inline_definitions(raw: str, macros: dict) -> list[tuple[str, Any, str]]:
         bare = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain)
         if call and call.group(1) not in _KNOWN | {"n_F", "n_B"}:
             name, args = call.group(1), ",".join(a.strip() for a in call.group(2).split(","))
-        elif bare and bare.group(1) not in _KNOWN:
-            name, args = bare.group(1), ""
+        elif bare and bare.group(1) not in _KNOWN and not re.fullmatch(r"[A-Za-z]", bare.group(1)):
+            name, args = bare.group(1), ""      # a single Latin letter (x, t, n) is a variable
         else:
+            continue
+        # a condition ("where $x = 0$", "with $n = 1, 2$") is not a definition:
+        # the right side must name something and must not contain the name itself
+        try:
+            rhs_names = _tokens(latex_to_plain(rhs_raw, macros))[0] | _tokens(latex_to_plain(rhs_raw, macros))[1]
+        except (ValueError, RecursionError):
+            continue
+        base_name = name.replace("PM", "").removesuffix("_pm")
+        if not rhs_names or name in rhs_names or base_name in rhs_names or "," in rhs_raw or "\\dots" in rhs_raw:
             continue
         if "PM" in name or name.endswith("_pm"):
             base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"

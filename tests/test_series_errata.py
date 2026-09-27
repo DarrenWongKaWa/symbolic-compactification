@@ -357,3 +357,16 @@ def test_absolute_values_with_and_without_stated_realness(tmp_path):
         tex.write_text("\\begin{document}\n" + lead + body + "\\end{document}\n")
         got = {s["step"]: s["decision"] for s in review(tex, tmp_path / f"r{k}")["steps"]}
         assert got == expected, (lead, got)
+
+
+def test_prose_conditions_are_not_definitions(tmp_path):
+    """'where $x = 0$' and 'with $n = 1, 2, \\dots$' are conditions; x^2 = 2x
+    must not become 0 = 0. 'where $z_\\pm = ...$' is a definition."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "prose_conditions.tex"
+    result = review(note, tmp_path / "r")
+    assert {s["step"]: s["decision"] for s in result["steps"]} == {"eq:sq": "INVALID", "eq:zz": "VALID"}
+    assert "x" not in result["assumptions_to_confirm"]["notation"]
