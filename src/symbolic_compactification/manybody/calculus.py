@@ -139,8 +139,8 @@ def _simplify_zero(residual: sympy.Expr) -> bool:
                 budget_key="simplify_seconds")
             if rewritten == 0:
                 return True
-        except BudgetExceeded:
-            continue
+        except (BudgetExceeded, AttributeError, TypeError, RecursionError):
+            continue            # a failed simplification is "not shown zero", never ZERO
     return False
 
 
