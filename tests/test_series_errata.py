@@ -249,3 +249,35 @@ def test_rerun_drafts_new_relations_and_keeps_edits(tmp_path):
     assert len(second["steps"]) == len(first["steps"]) + 1
     assert "# reviewer note: kept" in conventions.read_text()
     assert "../manuscript/source.tex" in (tmp_path / "o" / "cards" / "eq_new.yaml").read_text()
+
+
+def test_realness_statements_and_unstated_realness(tmp_path):
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "real_energies.tex"
+    steps = {s["step"]: s["decision"] for s in review(note, tmp_path / "a")["steps"]}
+    assert steps["eq:abssq"] == "VALID"            # "for real energies $\epsilon$"
+    bare = tmp_path / "bare.tex"
+    bare.write_text("\\begin{document}\n\\begin{equation}\\label{eq:abssq}"
+                    "|\\mathrm{Re}\\,\\epsilon|^2 + (\\mathrm{Im}\\,\\epsilon)^2 = \\epsilon^2"
+                    "\\end{equation}\n\\end{document}\n")
+    result = review(bare, tmp_path / "b")
+    assert [s["decision"] for s in result["steps"]] == ["NOT_DECIDED"]
+
+
+def test_an_edited_claim_never_passes_on_a_stale_card(tmp_path):
+    """Regression: after editing x + y = y + x into x + y = y - x the old card
+    must not be certified against text found elsewhere in the paper."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    tex = tmp_path / "p.tex"
+    tex.write_text("\\documentclass{article}\n\\begin{document}\n\\begin{equation}\n\\label{eq:one}\n"
+                   "x + y = y + x\n\\end{equation}\n\\end{document}\n")
+    assert [s["decision"] for s in review(tex, tmp_path / "o")["steps"]] == ["VALID"]
+    tex.write_text((Path(__file__).parent / "fixtures" / "notes" / "stale_edit.tex").read_text())
+    decisions = {s["step"]: s["decision"] for s in review(tex, tmp_path / "o")["steps"]}
+    assert decisions["eq:one"] == "NOT_DECIDED" and decisions["eq:two"] == "VALID"

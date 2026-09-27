@@ -269,6 +269,8 @@ _REASONS = (
     ("CONVENTION_CONFLICT", "The card redefines a shared convention", "Remove the card's override."),
     ("SOURCE_REQUIRED", "An expression is not quoted from the paper", "Quote it verbatim."),
     ("MANYBODY_INPUT_ERROR", "The card could not be read", "Open the card and fix its fields."),
+    ("REALNESS_UNSTATED", "The claim takes Re, Im, a conjugate or |…| of a symbol the paper never calls real",
+     "State the symbol real or complex in conventions.yaml (real: true / real: false)."),
     ("LIMIT_POINT_UNSTATED", "The limit point of an O(…) claim is not stated",
      "The verdict differs between x → 0 and x → ∞; set point: 0 or oo on the card."),
     ("CARD_LHS_BARE", "States or defines a named quantity",

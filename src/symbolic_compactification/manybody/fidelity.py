@@ -341,9 +341,31 @@ def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
     return quote, wrap.replace("{}", expression)
 
 
-def in_document(quote: str, ctx: SourceContext) -> bool:
-    """Verbatim up to whitespace and layout (&, row breaks, \\nonumber, \\label)."""
-    return ctx.document is None or layout_free(quote) in ctx.document
+def in_document(quote: str, ctx: SourceContext, display: str | None = None) -> bool:
+    """Verbatim up to whitespace and layout (&, row breaks, \\nonumber, \\label).
+    With a display anchor (a \\label, or #n for the n-th display) the quote must
+    sit in that display: a stale card cannot pass on text found elsewhere."""
+    if ctx.document is None:
+        return True
+    if display and ctx.raw is not None:
+        region = display_text(ctx.raw, display)
+        return region is not None and layout_free(quote) in layout_free(region)
+    return layout_free(quote) in ctx.document
+
+
+def display_text(raw: str, display: str) -> str | None:
+    from .draft import latex_equations
+    if display.startswith("#"):
+        try:
+            k = int(display[1:])
+        except ValueError:
+            return None
+        eqs = latex_equations(raw)
+        return "\\\\".join(eqs[k - 1]["rows"]) if 0 < k <= len(eqs) else None
+    for eq in latex_equations(raw):
+        if eq["label"] == display:
+            return "\\\\".join(eq["rows"])
+    return None
 
 
 def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,
@@ -410,7 +432,9 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
             fields[key] = {"quote": None, "status": UNCHECKED, "reason": exc.code}
             continue
         record: dict[str, Any] = {"quote": quote}
-        if not in_document(quote, ctx):
+        anchor = (entry.get("display") if isinstance(entry, dict) else None) or \
+            (None if key.startswith("define:") else card.get("display"))
+        if not in_document(quote, ctx, anchor):
             fields[key] = {**record, "status": NOT_IN_DOCUMENT}
             continue
         if ctx.raw:

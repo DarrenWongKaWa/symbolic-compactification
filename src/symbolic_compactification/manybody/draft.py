@@ -119,6 +119,7 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
             else:                                  # "A &= B" on its own row: a new relation
                 chains.append(pieces)
         base = eq["label"] or f"eq{n}"
+        display = eq["label"] or f"#{n}"
         relations = [[_clean(p) for p in chain if _clean(p)] for chain in chains]
         relations = [r for r in relations if len(r) >= 2]
         for j, chain in enumerate(relations):
@@ -127,7 +128,7 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
                 steps.append({"id": stem if len(chain) == 2 else f"{stem}.{k + 1}",
                               "lhs": chain[k], "rhs": chain[k + 1],
                               "context": eq.get("context", ""), "sentence": eq.get("sentence", ""),
-                              "document": eq.get("document", "")})
+                              "document": eq.get("document", ""), "display": display})
     return steps
 
 
@@ -321,6 +322,8 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     lhs, rhs = step["lhs"], step["rhs"]
     card: dict[str, Any] = {"label": step["id"], "include": "conventions.yaml",
                             "source_document": doc_name}
+    if step.get("display"):
+        card["display"] = step["display"]     # quotes must come from this display
     o_term = _O_TERM.search(rhs)
     only_o = _ONLY_O.match(rhs)
     integral = _INTEGRAL.match(lhs) if latex else None
@@ -392,11 +395,12 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     if m.group(1) in _KNOWN | {"n_F", "n_B"}:
         return None                     # n_F, exp, ... are already defined
     name, args = m.group(1), ",".join(a.strip() for a in m.group(2).split(","))
+    anchor = {"display": step["display"]} if step.get("display") else {}
     if "PM" in name or name.endswith("_pm"):
         base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
-        return [(f"define:{base}p({args})", {"quote": step["rhs"], "branch": "+"}),
-                (f"define:{base}m({args})", {"quote": step["rhs"], "branch": "-"})]
-    return [(f"define:{name}({args})", step["rhs"])]
+        return [(f"define:{base}p({args})", {"quote": step["rhs"], "branch": "+", **anchor}),
+                (f"define:{base}m({args})", {"quote": step["rhs"], "branch": "-", **anchor})]
+    return [(f"define:{name}({args})", {"quote": step["rhs"], **anchor} if anchor else step["rhs"])]
 
 
 _GREEK_NAMES = "alpha beta gamma delta epsilon varepsilon zeta eta theta kappa lambda mu nu xi rho sigma tau phi chi psi omega Gamma Delta Theta Lambda Xi Sigma Phi Psi Omega".split()
@@ -415,10 +419,13 @@ def _stated_realness(raw: str) -> tuple[dict[str, str], set[str]]:
     real: dict[str, str] = {}
     complex_: set[str] = set()
     line = lambda pos: f"line {raw.count(chr(10), 0, pos) + 1}"
-    for m in re.finditer(r"real\s+\$([^$]{1,40})\$|\$([^$]{1,40})\$\s*(?:are|is)?\s*real\b", raw):
+    stated_real = re.compile(
+        r"real(?:-valued)?\s+(?:[A-Za-z-]+\s+){0,3}\$([^$]{1,40})\$"          # real energies $\epsilon$
+        r"|\$([^$]{1,40})\$\s*(?:(?:is|are)\s+(?:a\s+|all\s+)?)?real(?:-valued)?\b")   # $x,y$ (are) real
+    for m in stated_real.finditer(raw):
         for n in _names_in(m.group(1) or m.group(2)):
             real.setdefault(n, f"{line(m.start())}: {m.group(0)[:40]}")
-    for m in re.finditer(r"([^$\s]{1,30})\s*\\in\s*\\mathbb\{R\}", raw):
+    for m in re.finditer(r"([^$\s]{1,30})\s*\\in\s*\\mathbb\s*\{?\s*R\s*\}?", raw):
         for n in _names_in(m.group(1)):
             real.setdefault(n, f"{line(m.start())}: {m.group(0)[:40]}")
     for m in re.finditer(r"complex\s+(?:[A-Za-z ]{0,30})?\$([^$]{1,40})\$|([^$\s]{1,30})\s*\\in\s*\\mathbb\{C\}", raw):
@@ -455,8 +462,9 @@ def _symbol_entry(name, positive, real_stated, complex_stated, realness_matters)
     if name in real_stated:
         return {"name": name, "real": True, "stated": real_stated[name]}
     if name in realness_matters:
-        return {"name": name, "real": False,
-                "stated": "not stated real; it appears under Re/Im/conjugate, so it is kept complex"}
+        # read as real, but a card that takes Re/Im/conj/|.| of it is not decided
+        return {"name": name, "realness": "unstated",
+                "stated": "realness not stated; it appears under Re/Im/conjugate/|.|"}
     return {"name": name}
 
 

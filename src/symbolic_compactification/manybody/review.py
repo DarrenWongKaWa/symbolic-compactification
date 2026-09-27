@@ -142,10 +142,12 @@ def _ident(label: str, seen: set[str]) -> str:
     return ident
 
 
-def _cli(*argv: str) -> int:
+def _cli(*argv: str) -> tuple[int, str]:
     from .. import cli
-    with redirect_stdout(io.StringIO()):
-        return cli.main(list(argv))
+    buffer = io.StringIO()
+    with redirect_stdout(buffer):
+        code = cli.main(list(argv))
+    return code, buffer.getvalue()
 
 
 def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
@@ -158,9 +160,13 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     else:
         drafted, added = _draft_new_steps(out, _source_name(document))
     rows = _manifests(out, _source_name(document))
-    verify = _cli("audit", "verify", str(out))
-    _cli("audit", "report", str(out))
-    _cli("audit", "package", str(out))
+    verify, printed = _cli("audit", "verify", str(out))
+    # report and package exactly this run: run ids from the same second have
+    # no reliable order, so "latest" could pick a previous run's records
+    run = re.search(r"^run_id:\s*(\S+)", printed, re.M)
+    pin = ["--run", run.group(1)] if run else []
+    _cli("audit", "report", str(out), *pin)
+    _cli("audit", "package", str(out), *pin)
     records_path = out / "reviewer-verification-package" / "machine_results" / "machine_records.json"
     records = json.loads(records_path.read_text(encoding="utf-8")) if records_path.exists() else []
     records = records.get("records", records) if isinstance(records, dict) else records
@@ -188,11 +194,15 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     todo = (drafted or {}).get("unresolved_tokens", [])
     conv = yaml.safe_load((out / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
     assumed_real = [s["name"] for s in conv.get("symbols") or []
-                    if isinstance(s, dict) and "real" not in s and not s.get("positive")]
+                    if isinstance(s, dict) and "real" not in s and not s.get("positive")
+                    and s.get("realness") != "unstated"]
+    realness_unstated = [s["name"] for s in conv.get("symbols") or []
+                         if isinstance(s, dict) and s.get("realness") == "unstated" and not s.get("positive")]
     kept_complex = [s["name"] for s in conv.get("symbols") or []
                     if isinstance(s, dict) and s.get("real") is False and not s.get("positive")]
     assumed = {
         "assumed_real": assumed_real,
+        "realness_unstated": realness_unstated,
         "complex": kept_complex,
         "positive": [{"name": s["name"], "stated": s.get("stated", "not stated in the text")}
                      for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],

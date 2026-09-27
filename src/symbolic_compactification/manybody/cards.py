@@ -196,6 +196,18 @@ def _remainder_both(card, f, P, variable, order, symbols, functions, positive, d
             "at_0": runs["0"]["status"], "at_infinity": runs["oo"]["status"]}
 
 
+def _realness_blockers(card: dict, raw_symbols: list) -> list[str]:
+    names = {str(s["name"]) for s in raw_symbols
+             if isinstance(s, dict) and s.get("realness") == "unstated" and not s.get("positive")}
+    if not names:
+        return []
+    texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
+    if not re.search(r"\b(?:re|im|conjugate|Abs)\s*\(", texts):
+        return []
+    used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", texts))
+    return sorted(names & used)
+
+
 def _used_symbols(symbols: list, card: dict, defs: dict) -> list:
     """Only the declared symbols a card actually uses: a shared conventions
     file may declare many more than one check can take."""
@@ -234,6 +246,7 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
     raw = card.get("symbols") or []
     symbols = [{k: v for k, v in s.items() if k in ("name", "real", "nonzero")}
                if isinstance(s, dict) else s for s in raw]
+    card["symbols"] = raw
     # a positive symbol is real; an explicit real: false is complex
     symbols = [{**s, "real": True} if isinstance(s, dict)
                and any(isinstance(r, dict) and r.get("name") == s["name"] and r.get("positive") for r in raw)
@@ -362,6 +375,9 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
                     if k.split("(")[0].strip() not in quoted | shared_defs | builtin)
     if strict and ad_hoc:                  # a card's own definitions must be quoted
         why.append("UNQUOTED_CARD_DEFINITION:" + ",".join(ad_hoc))
+    unstated = _realness_blockers(card, card.get("symbols") or [])
+    if unstated:            # the claim takes Re/Im/conj/|.| of a symbol the paper never calls real
+        why.append("REALNESS_UNSTATED:" + ",".join(unstated))
     errata = sorted(k for k, f in (transcription.get("fields") or {}).items() if f.get("erratum"))
     decision_with_errata = None
     if errata:                    # the printed formula is not what was checked
