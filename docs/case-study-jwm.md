@@ -19,12 +19,12 @@ MUTATE=1 examples/case-studies/jwm1994/fetch_and_run.sh /tmp/jwm1994-mutated
 ## Whole paper in one command
 
 With two lines of conventions (`Psi: psi`, and `a, b, Γ, t` positive),
-`manybody review jwm.tex --out review/` drafts 71 relations and decides 3
+`manybody review jwm.tex --out review/` drafts 85 relations and decides 3
 of them, with no false verdict:
 - the Langreth rules (A3) for `A^r` and `A^<`;
 - the digamma relation (D3).
 
-In the reviewer page, the other 68 are grouped by why they were not
+In the reviewer page, the other 82 are grouped by why they were not
 decided:
 - notation outside the checks: integrals with limits, traces, operator
   expectations;
@@ -85,7 +85,7 @@ The long-time limit is unchanged and still passes.
 ## What this shows
 
 - **The review is honest about coverage.** In one command the tool
-  decides 3 of 71 drafted relations: the paper's closed-form Keldysh
+  decides 3 of 85 drafted relations: the paper's closed-form Keldysh
   rules and its appendix relation. The report does not claim that the
   rest of the paper is verified, and it says why each remaining step was
   not decided.
