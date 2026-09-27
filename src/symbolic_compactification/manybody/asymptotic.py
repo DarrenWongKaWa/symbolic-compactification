@@ -137,6 +137,43 @@ def _series_route(num, x, x0, order, sample):
     return (CERTIFIED_BY_RULE, leading, [])
 
 
+def _exponential_route(expr, x, x0, positive) -> bool:
+    """True when every term of expr is R(x) exp(lam x + mu) with R rational
+    and Re(lam) provably < 0 (at +oo) or > 0 (at -oo), and the terms without
+    an exponential cancel exactly. Then expr / x**n -> 0 for every n."""
+    if x0 not in (sympy.oo, -sympy.oo):
+        return False
+    sure = {s: sympy.Symbol(s.name, positive=True) for s in positive}
+    x = sure.get(x, x)
+    expr = sympy.expand(expr.xreplace(sure), power_exp=False)
+
+    def exponent_of(factor):
+        if isinstance(factor, sympy.exp):
+            return factor.args[0]
+        if isinstance(factor, sympy.Pow) and isinstance(factor.base, sympy.exp) \
+                and factor.exp.is_number:
+            return factor.base.args[0] * factor.exp
+        return None
+
+    plain = sympy.Integer(0)
+    for term in sympy.Add.make_args(expr):
+        factors = sympy.Mul.make_args(term)
+        exps = [exponent_of(f) for f in factors if exponent_of(f) is not None]
+        if not exps:
+            plain += term
+            continue
+        exponent = sympy.expand(sum(exps))
+        coeff = sympy.Mul(*[f for f in factors if exponent_of(f) is None])
+        if coeff.has(sympy.exp) or not sympy.together(coeff).is_rational_function(x):
+            return False
+        if not exponent.is_polynomial(x) or sympy.degree(exponent, x) != 1:
+            return False
+        rate = sympy.re(sympy.expand(exponent.diff(x)))
+        if not (rate.is_negative if x0 == sympy.oo else rate.is_positive):
+            return False
+    return sympy.simplify(plain) == 0
+
+
 def certify_remainder(function: str, approximant: str, *, variable: str, point: str,
                       order: int, symbols: Any, functions: Any = None,
                       direction: str = "+-", positive: tuple[str, ...] = (),
@@ -190,6 +227,9 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
     if "INFINITE" in kinds:
         return result(NONZERO, ["REMAINDER_QUOTIENT_DIVERGES"], derived, "INFINITE",
                       {"counterexample": {str(k): str(v) for k, v in sample.items()}})
+    if kinds != {"FINITE"} and _exponential_route(f - P, x, x0, pos):
+        return result(CERTIFIED_BY_RULE, ["EXPONENTIAL_DECAY_ROUTE"], "0", "FINITE",
+                      {"status": "NOT_RUN"})
     if kinds != {"FINITE"}:
         series = _series_route(f - P, x, x0, int(order), sample)
         if series is not None:

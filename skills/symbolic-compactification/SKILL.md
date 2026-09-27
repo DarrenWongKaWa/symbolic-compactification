@@ -235,6 +235,14 @@ formulas; draft the cards from the source:
    template for each kind.
 4. Run `symbolic-compactification manybody steps cards/ --require-source`.
 
+For a reviewer package, list the cards as `STEP_CARD` edges
+(`step_card: {card: cards/X.yaml}`) and run `audit verify` and then
+`audit package`. The reviewer summary renders each quoted formula and
+cites its line and equation. If a printed formula is malformed, for
+example because of an unbalanced bracket, report that. Add a bracket-only
+`erratum` only when the fix is obvious, and report both the printed
+status and `decision_with_errata`.
+
 Report each card's `decision` field unchanged: VALID, INVALID, or "not
 decided by the tool". A card whose expressions do not match their quotes
 is never decided. Never report INVALID just because the tool did not

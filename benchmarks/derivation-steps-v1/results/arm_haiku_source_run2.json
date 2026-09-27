@@ -1,0 +1,194 @@
+[
+ {
+  "id": "K1.1",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "VALID"
+ },
+ {
+  "id": "K1.2",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K1.3",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "VALID"
+ },
+ {
+  "id": "K1.4",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K1.5",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K1.6",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K1.7",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K2.1",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K2.2",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "INVALID"
+ },
+ {
+  "id": "K2.3",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "INVALID"
+ },
+ {
+  "id": "K2.4",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K2.5",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K2.6",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K3.1",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K3.2",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K3.3",
+  "verdict": "INVALID",
+  "computed": true,
+  "tool_status": "INVALID"
+ },
+ {
+  "id": "K3.4",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K3.5",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K4.1",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "K4.2",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "INVALID"
+ },
+ {
+  "id": "K4.3",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "VALID"
+ },
+ {
+  "id": "K4.4",
+  "verdict": "INVALID",
+  "computed": true,
+  "tool_status": "INVALID"
+ },
+ {
+  "id": "K4.5",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "VALID"
+ },
+ {
+  "id": "G1.1",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G1.2",
+  "verdict": "VALID",
+  "computed": true,
+  "tool_status": "VALID"
+ },
+ {
+  "id": "G1.3",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G1.4",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G2.1",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G2.2",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G2.3",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G2.4",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ },
+ {
+  "id": "G2.5",
+  "verdict": "VALID",
+  "computed": false,
+  "tool_status": null
+ }
+]

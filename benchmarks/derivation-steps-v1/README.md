@@ -147,6 +147,51 @@ frontier model on this benchmark, and 4 of its 6 catches are machine
 `NONZERO` verdicts with counterexamples. A small model with the tool does
 not, because transcription fails.
 
+## Round 3: source-tied cards, drafts from the document (PR #18)
+
+After round 2 showed that every wrong answer from Haiku came from a
+mis-transcribed card, the tool was changed so that a card can be checked
+against the text:
+- **Verbatim quotes.** A card quotes the source verbatim. The tool checks
+  that each quote occurs in the document, translates it by fixed rules and
+  compares it with the card. `--require-source` makes every expression
+  and every card-level definition a checked quote.
+- **Drafts.** `manybody draft` writes the cards from the document itself,
+  so no formula is retyped. The agent only fills in one conventions file
+  and picks the checks.
+
+| Arm | Correct | Caught | False alarms | Tool decided the reported verdict |
+|---|---:|---:|---:|---|
+| haiku_source_run1 (quotes optional) | 20/32 | 2/6 | 8/26 | no card carried a quote |
+| haiku_source_run2 (quotes optional) | 26/32 | 1/6 | 1/26 | 7 of 10 tool-checked steps (it overrode the tool on 3) |
+| haiku_draft_run1 | 26/32 | 0/6 | 0/26 | none |
+| haiku_draft_run2 | 26/32 | 0/6 | 0/26 | none |
+| sonnet_draft | 32/32 | 6/6 | 0/26 | none (see below) |
+
+- **Optional quotes do not help a small model.** In run 1, Haiku wrote no
+  `source:` block at all. Its unfaithful cards got decisive verdicts on
+  valid steps, which gave 8 false alarms. Replayed with
+  `--require-source`, every one of its cards is `NOT_DECIDED`: the strict
+  replay turns those false alarms into abstentions.
+- **Drafting removes transcription but moves the work into conventions.**
+  Haiku filled `conventions.yaml` with identity maps (`rho0_n: rho0_n`) and
+  declared `e_nm` as an independent symbol. That silently drops the
+  convention `e_nm = e_n − e_m`. The tool then decided nothing, and Haiku
+  approved every step. Writing the notation table and definitions is the
+  one step a small model cannot do here.
+- **Sonnet caught 6/6 with no false alarm, by its own numerics.** Midway
+  through its run, every tool call stalled. The cause was the environment:
+  the repository sat in an iCloud-synced folder and file reads blocked.
+  It was not a defect of the tool, and Sonnet reported it. Its verdicts
+  therefore count as the "Python" setup, not as tool-decided.
+
+**Conclusion.** The strict pipeline is now safe for small models: a wrong
+card is never decided. It still needs the conventions to come from the
+author, the reviewer or a strong model. Once they do, the cards are
+mechanical, and the reviewer package shows exactly those conventions
+for a one-time check. [`../../docs/case-study-jwm.md`](../../docs/case-study-jwm.md)
+applies this to a published paper.
+
 ## Caveats
 
 - **Single runs.** There is one run per arm.
@@ -155,4 +200,6 @@ not, because transcription fails.
 - **Local errors only.** Non-local errors (conventions across sections, a
   missing term in a long sum, the order of limits) are not tested.
 - **Tool versions differ.** The tool version differs between the Opus arm
-  and the Sonnet/Haiku arms.
+  and the Sonnet/Haiku arms, and between rounds.
+- **Environment stalls.** Some round-3 runs were slowed or stalled by an
+  iCloud-synced working directory.

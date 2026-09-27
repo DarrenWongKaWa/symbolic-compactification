@@ -88,8 +88,8 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
     ``names`` are the declared symbols: a token ``i<name>`` that is not
     itself declared, such as ``iG``, is read as ``I*<name>``.
     """
-    text = _ascii(text)
-    notation = {_ascii(k): v for k, v in notation.items()}
+    text = " ".join(_ascii(text).split())
+    notation = {" ".join(_ascii(k).split()): v for k, v in notation.items()}
     known = set(names) | {"pi"}
     text = _LEADING_NUMBER.sub(r"\1 ", text)
     pattern = _notation_pattern(notation)
@@ -275,16 +275,43 @@ def source_context(card: dict, base_dir: Path | None, *, symbols: Any,
         callables=callables, names=names, keep_i="i" in _symbol_names(symbols), error=error)
 
 
+_BRACKETS = "()[]{}"
+
+
+def erratum_of(entry: Any) -> str | None:
+    """A declared correction of a printed formula. It may only add, remove or
+    move bracket characters; anything else is refused."""
+    if not isinstance(entry, dict) or entry.get("erratum") in (None, ""):
+        return None
+    fixed, quote = str(entry["erratum"]), str(entry.get("quote", ""))
+    strip = lambda t: "".join(ch for ch in t if not ch.isspace() and ch not in _BRACKETS)
+    if strip(fixed) != strip(quote):
+        raise AdapterError("ERRATUM_MAY_ONLY_CHANGE_BRACKETS")
+    return fixed
+
+
+def _balanced(text: str) -> bool:
+    depth = 0
+    for ch in text:
+        depth += ch == "("
+        depth -= ch == ")"
+        if depth < 0:
+            return False
+    return depth == 0
+
+
 def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
     """(verbatim quote, card-syntax expression). Raises AdapterError or
     ValueError when the quote is outside the supported grammar."""
     quote, wrap, branch = _quote(entry)
-    text = quote
+    text = erratum_of(entry) or quote
     if ctx.latex or looks_like_latex(text):
         text = latex_to_plain(text, ctx.macros)
     text = _pick_branch(expand_sum_pm(text), branch)
-    return quote, wrap.replace("{}", translate(text, ctx.notation, ctx.callables,
-                                               ctx.keep_i, ctx.names))
+    expression = translate(text, ctx.notation, ctx.callables, ctx.keep_i, ctx.names)
+    if not _balanced(expression):
+        raise AdapterError("SOURCE_BRACKETS_UNBALANCED")
+    return quote, wrap.replace("{}", expression)
 
 
 def in_document(quote: str, ctx: SourceContext) -> bool:
@@ -316,7 +343,11 @@ def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,
                 card[key] = quote_expression(entry, ctx)[1]
             else:
                 continue
-        except (AdapterError, ValueError):
+        except AdapterError as exc:
+            card.setdefault("_source_failures", {})[key] = exc.code
+            continue
+        except ValueError:
+            card.setdefault("_source_failures", {})[key] = "LATEX_UNBALANCED"
             continue
         filled.append(key)
     if new_defs != definitions:
@@ -355,6 +386,14 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
             where = locate_quote(ctx.raw, quote)
             if where:
                 record["location"] = where
+        failure = (card.get("_source_failures") or {}).get(key)
+        if failure:
+            fields[key] = {**record, "status": UNCHECKED, "reason": failure}
+            continue
+        if isinstance(entry, dict) and entry.get("erratum"):
+            record["erratum"] = str(entry["erratum"])
+            if entry.get("note"):
+                record["erratum_note"] = str(entry["note"])
         if key in filled:
             try:
                 record["translated"] = quote_expression(entry, ctx)[1]

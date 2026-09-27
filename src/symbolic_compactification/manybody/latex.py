@@ -21,6 +21,7 @@ _GREEK = ("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu
           "Sigma Upsilon Phi Psi Omega").split()
 _ALIASES = {"varepsilon": "epsilon", "vartheta": "theta", "varphi": "phi", "varrho": "rho",
             "ell": "l", "infty": "oo", "ln": "log", "cdot": "*", "times": "*",
+            "lbrace": "(", "rbrace": ")", "lbrack": "(", "rbrack": ")",
             "pm": "±", "mp": "∓", "exp": "exp", "log": "log", "cosh": "cosh",
             "sinh": "sinh", "tanh": "tanh", "cos": "cos", "sin": "sin", "tan": "tan"}
 _DROP = ("left", "right", "big", "Big", "bigg", "Bigg", "bigl", "bigr", "Bigl", "Bigr",
@@ -117,7 +118,11 @@ def _convert(text: str) -> str:
     while i < len(text):
         c = text[i]
         if c == "\\":
-            m = re.match(r"\\([A-Za-z]+|.)", text[i:])
+            m = re.match(r"\\([A-Za-z]+|.)", text[i:], re.S)
+            if m is None:                       # a lone trailing backslash
+                out.append("\\")
+                i += 1
+                continue
             name, i = m.group(1), i + m.end()
             sum_pm = re.match(r"_\s*\{?\s*\\(pm|mp)\s*\}?", text[i:]) if name == "sum" else None
             if sum_pm:
@@ -175,6 +180,7 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     """Convert a LaTeX math fragment; raises ValueError on unbalanced braces."""
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
+    text = rewrite_over(normalize_exponential(text))
     plain = _convert(text)
     plain = re.sub(r"(?<![A-Za-z0-9_])e\^\(", "E^(", plain)   # e^{x} is the exponential
     return re.sub(r"_\s+", "_", plain)
@@ -221,11 +227,17 @@ def locate_quote(raw: str, quote: str) -> dict | None:
     its \\label, and its number when displays are numbered in order."""
     squashed, where = _squash_with_map(raw)
     target = " ".join(quote.split())
-    k = squashed.find(target)
-    if k < 0:
+    hits, k = [], squashed.find(target)
+    while k >= 0 and len(hits) < 50:
+        hits.append(where[k])
+        k = squashed.find(target, k + 1)
+    if not hits:
         return None
-    pos = where[k]
+    inside = [h for h in hits if _enclosing_env(raw, h) is not None]
+    pos = (inside or hits)[0]                  # prefer an occurrence in displayed math
     info: dict = {"line": raw.count("\n", 0, pos) + 1}
+    if len(hits) > 1:
+        info["occurrences"] = len(hits)
     opens = [m for m in _ENV_OPEN.finditer(raw, 0, pos)]
     if opens:
         env = opens[-1]
@@ -236,10 +248,19 @@ def locate_quote(raw: str, quote: str) -> dict | None:
             label = re.search(r"\\label\{([^}]*)\}", body)
             if label:
                 info["label"] = label.group(1)
-            number = None if env.group(2) else _equation_number(raw, env, pos)
+            number = None if env.group(2) else _appendix_aware_number(raw, env, pos)
             if number:
                 info["number"] = number
     return info
+
+
+def _enclosing_env(raw: str, pos: int):
+    opens = list(_ENV_OPEN.finditer(raw, 0, pos))
+    if not opens:
+        return None
+    env = opens[-1]
+    end = raw.find(f"\\end{{{env.group(1)}{env.group(2)}}}", env.end())
+    return env if end == -1 or end >= pos else None
 
 
 def _equation_number(raw: str, env: re.Match, pos: int) -> int | None:
@@ -267,3 +288,66 @@ def _equation_number(raw: str, env: re.Match, pos: int) -> int | None:
         else:
             count += sum(1 for r in rows if r.strip() and numbered(r))
     return count
+
+
+_OVER = re.compile(r"\\over(?![A-Za-z])")
+
+
+def rewrite_over(text: str) -> str:
+    """Plain-TeX fractions: '{a \\over b}' -> '\\frac{a}{b}' at every depth."""
+    def top_level_over(body: str) -> int:
+        depth = 0
+        for m in re.finditer(r"[{}]|\\over(?![A-Za-z])", body):
+            tok = m.group(0)
+            if tok == "{":
+                depth += 1
+            elif tok == "}":
+                depth -= 1
+            elif depth == 0:
+                return m.start()
+        return -1
+
+    def rewrite(body: str) -> str:
+        out, i = [], 0
+        while i < len(body):
+            if body[i] == "{":
+                try:
+                    inner, j = _group(body, i)
+                except ValueError:
+                    out.append(body[i:])
+                    break
+                out.append("{" + rewrite(inner) + "}")
+                i = j
+            else:
+                out.append(body[i])
+                i += 1
+        joined = "".join(out)
+        k = top_level_over(joined)
+        if k < 0:
+            return joined
+        return "\\frac{" + joined[:k] + "}{" + joined[k + len("\\over"):] + "}"
+
+    return rewrite(text) if _OVER.search(text) else text
+
+
+def normalize_exponential(text: str) -> str:
+    """{\\mathrm{ e}}^{x}, {\\rm e}^{x}, \\mathrm{e}^{x} -> e^{x}."""
+    return re.sub(r"\{\s*\\(?:mathrm|rm)\s*\{?\s*e\s*\}?\s*\}\s*\^|\\mathrm\{\s*e\s*\}\s*\^", "e^", text)
+
+
+def _appendix_aware_number(raw: str, env: re.Match, pos: int):
+    """Sequential number, or A1, B3, ... after \\appendix (RevTeX style:
+    each appendix section restarts the count with the next letter)."""
+    appendix = raw.rfind("\\appendix", 0, pos)
+    if appendix == -1:
+        return _equation_number(raw, env, pos)
+    sections = [m.start() for m in re.finditer(r"\\section\*?\s*[\[{]", raw[appendix:pos])]
+    if not sections:
+        return _equation_number(raw, env, pos)
+    start = appendix + sections[-1]
+    sub = raw[start:]
+    local = next((m for m in _ENV_OPEN.finditer(sub) if m.start() == env.start() - start), None)
+    if local is None:
+        return _equation_number(raw, env, pos)
+    count = _equation_number(sub, local, pos - start)
+    return None if count is None else f"{chr(ord('A') + len(sections) - 1)}{count}"

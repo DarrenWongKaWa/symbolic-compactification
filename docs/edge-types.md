@@ -32,6 +32,8 @@ Finite coefficient identities never certify an enclosing remainder claim.
 | `BOOKKEEPING` | NOT_APPLICABLE | `RECORDED` | Assembly or reconstruction bookkeeping, not an exact residual. |
 | `CUSTOM_EXACT` | SUPPORTED | `NOT_LOWERED` | Explicit user-supplied residual with declared semantics. |
 | `BZ_PERIODIC_INTEGRATION_BY_PARTS` | PARTIAL | `NOT_LOWERED` | Global BZ-torus IBP. Local Leibniz children may be `ZERO`. Parent is `CERTIFIED_BY_RULE` only with declared `BZ_TORUS_PERIODICITY` on `BRILLOUIN_ZONE_TORUS`. Never engine `ZERO`. |
+| `MATSUBARA_SUM` | PARTIAL | `NOT_LOWERED` | Matsubara sum of a rational summand. `CERTIFIED_BY_RULE` when the residue theorem's hypotheses are checked and the closed form matches. Never engine `ZERO`. |
+| `STEP_CARD` | NOT_APPLICABLE | `NOT_LOWERED` | One step card (`step_card: {card: cards/X.yaml}`) replayed with `--require-source`. `CERTIFIED_BY_RULE` (`SOURCE_TIED_STEP_CARD`) when the card's check decides VALID and every expression matches a verbatim quote of the manuscript; `NONZERO` when it decides INVALID; otherwise `UNKNOWN`. Never engine `ZERO`. |
 
 `NON_RESIDUAL_CLAIM_TYPES` = `ASYMPTOTIC_CLAIM`, `LIMIT_CLAIM`,
 `INTEGRAL_ARGUMENT`. Do not rewrite those as `F - A/gamma = 0`.

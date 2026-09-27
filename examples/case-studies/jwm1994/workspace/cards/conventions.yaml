@@ -1,0 +1,15 @@
+# Conventions for Jauho, Wingreen, Meir, PRB 50, 5528 (1994), cond-mat/9404027.
+# Wide-band limit, level epsilon_0 stepped by Delta at t_0; time origin t_0 = 0.
+symbols:
+  - {name: epsilon}
+  - {name: epsilon_0}
+  - {name: Delta}
+  - {name: Gamma, positive: true}
+  - {name: t, positive: true}
+  - {name: a, positive: true}
+  - {name: b, positive: true}
+  - {name: n}
+notation:
+  t_0: "0"            # time origin at the step (the paper's t - t_0 is t)
+  delta t: t          # the paper writes t - t_0 = delta t
+  Psi: psi            # "where Psi is the digamma function"

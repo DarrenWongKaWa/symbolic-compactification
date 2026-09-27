@@ -140,6 +140,11 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
              *((f"QUOTE:{quote[:_MAX_CONCLUSION]}",) if quote else ()),
              *((f"READ_AS:{read_as[:_MAX_CONCLUSION]}",) if read_as else ()),
              *((f"SOURCE_AT:{source_at}",) if source_at else ()),
+             *(f"ERRATUM:{f['erratum'][:_MAX_CONCLUSION]}" for f in fields.values() if f.get("erratum")),
+             *(f"ERRATUM_NOTE:{f['erratum_note'][:500]}" for f in fields.values() if f.get("erratum_note")),
+             *(f"PRINTED:{f['quote'][:_MAX_CONCLUSION]}" for f in fields.values() if f.get("erratum")),
+             *((f"WITH_ERRATUM:{result['decision_with_errata']}",)
+               if result.get("decision_with_errata") else ()),
              *((f"DERIVED:{str(result['derived'])[:_MAX_CONCLUSION]}",) if result.get("derived") else ()),
              *((f"COUNTEREXAMPLE:{point}",) if point else ()))
     warnings = tuple(dict.fromkeys((*record.warnings, *notes)))

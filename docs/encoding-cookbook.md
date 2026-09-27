@@ -96,6 +96,7 @@ only for what you typed.
 | `[w^k] F(w) = C` (kernel coefficients, shifted-node rules) | `coefficient` | `expr`, `variable`, `order`, `claim` |
 | `f = P + O(x^n)`, `lim_{x→x0} f = P` (use order 1) | `remainder` | `function`, `approximant`, `variable`, `point` (0, oo, -oo), `order`, `direction` |
 | `∫ R(ω) nF(c ± ω) dω = C` (bath integrals, Lorentzian averages; at most two Fermi factors; a real-axis pole via `ω − a + I*eta`) | `fermi_integral` | `integrand`, `variable`, `beta`, `claim`, optional `infinitesimal: eta` |
+| `Σ_{n≥n0} R(n) = C` (rational R; Matsubara sums over n ≥ 0) | `series` | `summand`, `variable`, `lower`, `claim` |
 | `T Σ_n F(iω_n) = C` | `matsubara` | `summand`, `statistics`, `claim`, `convergence`, `rules` |
 | Keldysh product components | `langreth` | `product`, `component`, `claim` |
 | Operator identities | `operator` | `lhs`, `rhs`, `operators`, `hermitian` |
@@ -153,6 +154,28 @@ source:                                        # card field -> verbatim quote
 
 On `MISMATCH`, fix the card, not the quote. If you believe the source is
 wrong, the tool will say so through `INVALID` once the card matches it.
+
+**Strict mode also requires**
+- A card's own `define:` entries must be quoted as `define:NAME(args)`.
+  Definitions from the shared `conventions.yaml` are allowed; they are
+  reviewed once.
+- `wrap` may only restore an integration measure: `({})/(2*pi)` and its
+  powers.
+- `sum_pm` must be followed by a bracketed group or a function call.
+
+**When the printed formula is broken.** If a quote cannot be read, the step
+is not decided. The typical cause is an unbalanced bracket
+(`SOURCE_BRACKETS_UNBALANCED`). Declare the obvious fix as an erratum:
+
+```yaml
+source:
+  function: {quote: "<printed LaTeX>", erratum: "<same LaTeX with the bracket fixed>",
+             note: "closing ] missing in the printed equation"}
+```
+
+The erratum may only add, remove or move bracket characters, and this is
+checked. The result stays `NOT_DECIDED` for the printed formula, and
+`decision_with_errata` gives the verdict after correction. Report both.
 
 ## Worked cards
 

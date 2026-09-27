@@ -36,7 +36,7 @@ import yaml
 
 from ..models import AdapterError
 
-CHECKS = ("identity", "coefficient", "remainder", "fermi_integral", "matsubara",
+CHECKS = ("identity", "coefficient", "remainder", "fermi_integral", "series", "matsubara",
           "operator", "langreth", "numeric_integral")
 
 
@@ -200,6 +200,27 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
         declared=[*(s if isinstance(s, str) else s["name"] for s in symbols), *functions])
     labels = _names(card.get("labels"))
     check = card["check"]
+    failures = card.get("_source_failures") or {}
+    try:
+        out = _dispatch(card, check, symbols, positive, functions, defs, labels)
+    except CardError:
+        if not failures:
+            raise
+        from .fidelity import check_transcription
+        blocked = [f"SOURCE_UNREADABLE:{k}:{v}" for k, v in sorted(failures.items())]
+        return {"check": check, "decision": "NOT_DECIDED", "decision_blocked_by": blocked,
+                "transcription_verified": False, "require_source": _require_source(require_source),
+                "status": "UNKNOWN", "reasons": blocked,
+                "transcription": check_transcription(card, symbols=symbols, functions=functions,
+                                                     definitions=defs, positive=positive,
+                                                     base_dir=base_dir, filled=filled),
+                "unquoted_definitions": [], "notation_used": card.get("notation") or {},
+                "convention_conflicts": conflicts, "built_from_source": filled}
+    return _finish(card, check, out, symbols, positive, functions, defs, conflicts, filled,
+                   base_dir, shared_defs, require_source)
+
+
+def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
     from . import (certify_remainder, check_frequency_integral, verify_identity,
                    verify_langreth, verify_matsubara_sum, verify_operator_identity,
                    verify_series_coefficient)
@@ -223,6 +244,12 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
         out = verify_fermi_integral(integrand, claim, variable=variable, beta=beta, symbols=symbols,
                                     functions=functions, definitions=defs, positive=positive,
                                     infinitesimal=card.get("infinitesimal"))
+    elif check == "series":
+        from .series import verify_series_sum
+        summand, claim, variable = _need(card, "summand", "claim", "variable")
+        out = verify_series_sum(summand, claim, variable=variable, symbols=symbols,
+                                lower=int(card.get("lower", 0)), functions=functions,
+                                definitions=defs, positive=positive)
     elif check == "matsubara":
         summand, claim, statistics = _need(card, "summand", "claim", "statistics")
         out = verify_matsubara_sum(summand, claim, variable=str(card.get("variable", "z")),
@@ -244,6 +271,11 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
         out = check_frequency_integral(integrand, claim, variable=variable, symbols=symbols,
                                        functions=functions, beta=card.get("beta"),
                                        positive=positive)
+    return out
+
+
+def _finish(card, check, out, symbols, positive, functions, defs, conflicts, filled,
+            base_dir, shared_defs, require_source) -> dict:
     from .fidelity import ABSENT, check_transcription, decide
     try:
         transcription = check_transcription(card, symbols=symbols, functions=functions,
@@ -273,6 +305,11 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
                     if k.split("(")[0].strip() not in quoted | shared_defs | builtin)
     if strict and ad_hoc:                  # a card's own definitions must be quoted
         why.append("UNQUOTED_CARD_DEFINITION:" + ",".join(ad_hoc))
+    errata = sorted(k for k, f in (transcription.get("fields") or {}).items() if f.get("erratum"))
+    decision_with_errata = None
+    if errata:                    # the printed formula is not what was checked
+        decision_with_errata = decision
+        why.append("ERRATUM_APPLIED:" + ",".join(errata))
     if why:
         decision = "NOT_DECIDED"
     unquoted = sorted(k for k in defs if k.split("(")[0].strip() not in quoted | builtin)
@@ -281,4 +318,5 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
             "require_source": strict, **out, "transcription": transcription,
             "unquoted_definitions": unquoted, "notation_used": card.get("notation") or {},
             "convention_conflicts": conflicts,
-            "built_from_source": filled}
+            "built_from_source": filled,
+            **({"decision_with_errata": decision_with_errata} if errata else {})}

@@ -1,0 +1,33 @@
+include: conventions.yaml
+source_document: ../manuscript/source.tex
+check: remainder
+variable: t
+point: '0'
+direction: +
+order: 2
+source:
+  function:
+    quote: '{ 1 \over \epsilon - \epsilon_0 +i\Gamma/2}
+
+      \nonumber\\
+
+      && \times\Bigl\lbrace 1 + \Delta{
+
+      [1-\exp{[i(\epsilon-(\epsilon_0+\Delta)+i\Gamma/2)(t-t_0)}]
+
+      \over \epsilon-(\epsilon_0+\Delta)+i\Gamma/2}
+
+      \Bigr\rbrace'
+    erratum: '{ 1 \over \epsilon - \epsilon_0 +i\Gamma/2}
+
+      \nonumber\\
+
+      && \times\Bigl\lbrace 1 + \Delta{
+
+      [1-\exp{[i(\epsilon-(\epsilon_0+\Delta)+i\Gamma/2)(t-t_0)}]]
+
+      \over \epsilon-(\epsilon_0+\Delta)+i\Gamma/2}
+
+      \Bigr\rbrace'
+    note: closing ] of [1 - exp[...] is missing in the printed Eq. (Aabrupt)
+  approximant: '{1-i\Delta\delta t \over \epsilon-\epsilon_0+i\Gamma/2}'

@@ -1,0 +1,26 @@
+symbols:
+- name: epsilon
+  real: true
+  nonzero: false
+- name: epsilon_0
+  real: true
+  nonzero: false
+- name: Delta
+  real: true
+  nonzero: false
+- name: Gamma
+  real: true
+  nonzero: false
+- name: t
+  real: true
+  nonzero: false
+- name: a
+  real: true
+  nonzero: false
+- name: b
+  real: true
+  nonzero: false
+- name: n
+  real: true
+  nonzero: false
+functions: []

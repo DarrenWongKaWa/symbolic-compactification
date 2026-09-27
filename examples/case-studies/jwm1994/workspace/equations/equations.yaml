@@ -1,0 +1,26 @@
+schema_version: DerivationAuditV1
+equations:
+- equation_id: eq.Aabrupt
+  label: Aabrupt
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: A(eps,t) after a step of the level
+- equation_id: eq.long
+  label: eq:long
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: A(eps, t -> oo)
+- equation_id: eq.short
+  label: eq:short
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: A(eps,t) for small delta t
+- equation_id: eq.digamma
+  label: eq:digamma
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: sum_n 1/((n+a)(n+b)) = [Psi(a)-Psi(b)]/(a-b)

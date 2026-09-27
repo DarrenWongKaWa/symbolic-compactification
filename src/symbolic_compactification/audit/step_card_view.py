@@ -22,7 +22,8 @@ __all__ = ["STEP_CARD", "card_meta", "chip_warnings", "conventions", "html_conve
            "render_expression", "render_tex", "step_card_records"]
 from .workspace import AuditWorkspace
 
-_DETAIL_PREFIXES = ("QUOTE:", "READ_AS:", "DERIVED:", "COUNTEREXAMPLE:", "SOURCE_AT:")
+_DETAIL_PREFIXES = ("QUOTE:", "READ_AS:", "DERIVED:", "COUNTEREXAMPLE:", "SOURCE_AT:",
+                    "ERRATUM:", "ERRATUM_NOTE:", "PRINTED:", "WITH_ERRATUM:")
 _META_PREFIXES = ("CARD_CHECK:", "CARD_CHECKER:", "TRANSCRIPTION:", "BLOCKED:", "DIAGNOSIS:")
 
 
@@ -143,6 +144,16 @@ def html_step_card_body(record: AuditRecord, macros: dict | None = None,
         parts.append("<p><b>Claim, as written in the manuscript:</b></p>" + render_tex(value, macros))
         for at in meta.get("SOURCE_AT", []):
             parts.append(citation(at, title))
+    for printed, fixed in zip(meta.get("PRINTED", []), meta.get("ERRATUM", [])):
+        verdict = (meta.get("WITH_ERRATUM") or ["not decided"])[0]
+        note = " ".join(meta.get("ERRATUM_NOTE", []))
+        parts.append(
+            '<div class="erratum"><p><b>Typesetting defect in the manuscript.</b> '
+            + (_esc(note) + ". " if note else "")
+            + "The printed formula cannot be read as written, so the step is not decided. "
+            f"With the bracket-only correction below the claim is <b>{_esc(verdict)}</b>.</p>"
+            "<p><b>Printed:</b></p>" + render_tex(printed, macros)
+            + "<p><b>Corrected (brackets only):</b></p>" + render_tex(fixed, macros) + "</div>")
     for value in meta.get("READ_AS", []):
         parts.append("<p><b>Claim, as the tool read it:</b></p>" + render_expression(value))
     for value in meta.get("DERIVED", []):
@@ -166,7 +177,9 @@ def html_step_cards(records: Sequence[AuditRecord], tone_of: Mapping[int, str],
             f"<td>{_short_source(meta, r)}</td>"
             f"<td>{_esc(', '.join(meta.get('CARD_CHECK', ['—'])))}</td>"
             f"<td><span class=\"chip {tone_of.get(id(r), 'tone-review')}\">"
-            f"{_esc(public_status_label(r.status))}</span></td>"
+            f"{_esc(public_status_label(r.status))}</span>"
+            + (f"<br><span class=\"meta\">{_esc(meta['WITH_ERRATUM'][0])} after bracket erratum</span>"
+               if meta.get("WITH_ERRATUM") else "") + "</td>"
             f"<td>{_esc(', '.join(meta.get('TRANSCRIPTION', ['—'])))}</td>"
             f"<td>{render_tex(' '.join(meta['QUOTE']), macros, display=False, source=False) if meta.get('QUOTE') else '—'}</td>"
             "</tr>")

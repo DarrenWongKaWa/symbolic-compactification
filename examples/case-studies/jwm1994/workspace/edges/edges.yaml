@@ -1,0 +1,23 @@
+schema_version: DerivationAuditV1
+edges:
+- edge_id: JWM.long-time
+  source_from: eq.Aabrupt
+  source_to: eq.long
+  edge_type: STEP_CARD
+  step_card:
+    card: cards/aabrupt_long_time.yaml
+  claim: A(eps,t) settles to its new steady-state value
+- edge_id: JWM.short-time
+  source_from: eq.Aabrupt
+  source_to: eq.short
+  edge_type: STEP_CARD
+  step_card:
+    card: cards/aabrupt_short_time.yaml
+  claim: short-time form of A(eps,t)
+- edge_id: JWM.digamma-series
+  source_from: eq.digamma
+  source_to: eq.digamma
+  edge_type: STEP_CARD
+  step_card:
+    card: cards/digamma_series.yaml
+  claim: digamma relation used for the harmonic modulation

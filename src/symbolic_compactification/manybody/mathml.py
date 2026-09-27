@@ -18,7 +18,7 @@ from __future__ import annotations
 import html
 import re
 
-from .latex import expand_macros
+from .latex import expand_macros, normalize_exponential, rewrite_over
 
 _GREEK = {
     "alpha": "α", "beta": "β", "gamma": "γ", "delta": "δ", "epsilon": "ϵ", "varepsilon": "ε",
@@ -193,6 +193,7 @@ class _Parser:
 def latex_to_mathml(tex: str, macros: dict | None = None, *, display: bool = True) -> str | None:
     try:
         text = expand_macros(re.sub(r"\\label\{[^}]*\}", "", tex), macros or {})
+        text = rewrite_over(normalize_exponential(text))
         body = _Parser(text).sequence()
     except (RecursionError, ValueError, IndexError):
         return None

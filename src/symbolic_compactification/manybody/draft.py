@@ -197,7 +197,12 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         card["source"][f"define:TODO_{re.sub(r'[^A-Za-z0-9]', '_', safe)}()"] = d["quote"]
     names, todo = set(), set()
     for quote in card["source"].values():
-        plain = latex_to_plain(quote, macros) if latex else quote
+        text = quote["quote"] if isinstance(quote, dict) else quote
+        try:
+            plain = latex_to_plain(text, macros) if latex else text
+        except (ValueError, RecursionError):
+            todo.add("(unbalanced LaTeX in a quote)")
+            continue
         n, t = _tokens(plain)
         names |= n
         todo |= t
@@ -238,7 +243,10 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         rel = doc.resolve()
     all_names, all_todo, written, shared_quotes = set(), set(), [], {}
     for step in steps:
-        definition = _definition(step, latex, macros)
+        try:
+            definition = _definition(step, latex, macros)
+        except (ValueError, RecursionError):
+            definition = None
         if definition:
             shared_quotes.update(definition)
             params = set(definition[0][0].split("(", 1)[1].rstrip(")").split(","))

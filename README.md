@@ -171,6 +171,23 @@ checks that each quote occurs in the document and translates it itself.
 A card that does not match its source is never decided, and a shared
 convention cannot be silently redefined by one step.
 
+**E. Review a many-body paper.** List the cards as `STEP_CARD` edges in an
+audit workspace and package it (see
+[`docs/paper-audit.md`](docs/paper-audit.md)). The reviewer page shows,
+for every step:
+- the formula rendered from the paper's own LaTeX;
+- its source: title, line, equation number and `\label`;
+- how the tool read it and what the tool computed;
+- a counterexample when the step fails.
+
+The page also lists the conventions to check once, and it flags formulas
+that are broken as printed.
+
+[`docs/case-study-jwm.md`](docs/case-study-jwm.md) reviews Jauho,
+Wingreen and Meir, PRB 50, 5528 (1994). The review certifies its digamma
+relation, finds an unbalanced bracket in its step-response formula, and
+catches planted sign errors.
+
 What each check assumes, and what it refuses, is in
 [`docs/many-body-equivalence.md`](docs/many-body-equivalence.md). To encode
 a paper's derivation one step at a time, write step cards: see
