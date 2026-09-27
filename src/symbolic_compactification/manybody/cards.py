@@ -174,6 +174,28 @@ def _declared_beta(card: dict, symbols: list) -> str | None:
     return name if any((s if isinstance(s, str) else s.get("name")) == name for s in symbols) else None
 
 
+def _remainder_both(card, f, P, variable, order, symbols, functions, positive, defs) -> dict:
+    """The text states no limit point: check x -> 0 and x -> oo, decide only
+    when both agree (a remainder true at one point and false at the other
+    means the claim depends on a point the paper did not state)."""
+    from . import certify_remainder
+    runs = {}
+    for point, direction in (("0", str(card.get("direction", "+-"))), ("oo", "+-")):
+        runs[point] = certify_remainder(
+            f, P, variable=variable, point=point, order=order, direction=direction,
+            symbols=symbols, functions=functions, positive=positive, definitions=defs,
+            beta=_declared_beta(card, symbols)).to_dict()
+    statuses = {r["status"] for r in runs.values()}
+    if len(statuses) == 1 and statuses & {"CERTIFIED_BY_RULE", "NONZERO"}:
+        out = dict(runs["0"])
+        out["reasons"] = list(out.get("reasons", [])) + ["SAME_VERDICT_AT_0_AND_INFINITY"]
+        return out
+    return {**runs["0"], "status": "UNKNOWN",
+            "reasons": ["LIMIT_POINT_UNSTATED: the verdict differs between x -> 0 and x -> oo"
+                        if statuses >= {"CERTIFIED_BY_RULE", "NONZERO"} else "LIMIT_POINT_UNSTATED"],
+            "at_0": runs["0"]["status"], "at_infinity": runs["oo"]["status"]}
+
+
 def _used_symbols(symbols: list, card: dict, defs: dict) -> list:
     """Only the declared symbols a card actually uses: a shared conventions
     file may declare many more than one check can take."""
@@ -263,6 +285,9 @@ def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
                                         definitions=defs, labels=labels)
     elif check == "remainder":
         f, P, variable, point, order = _need(card, "function", "approximant", "variable", "point", "order")
+        if str(point) == "unstated":
+            return _remainder_both(card, f, P, variable, int(order), symbols, functions,
+                                   positive, defs)
         out = certify_remainder(f, P, variable=variable, point=point, order=int(order),
                                 direction=str(card.get("direction", "+-")), symbols=symbols,
                                 functions=functions, positive=positive, definitions=defs,

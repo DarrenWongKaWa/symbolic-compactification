@@ -205,3 +205,13 @@ def test_fermi_integrals_with_finite_limits_are_not_drafted(tmp_path):
     note = Path(__file__).parent / "fixtures" / "notes" / "integral_limits.tex"
     steps = {s["step"]: (s["check"], s["decision"]) for s in review(note, tmp_path / "r")["steps"]}
     assert steps == {"half": ("identity", "NOT_DECIDED"), "full": ("fermi_integral", "VALID")}
+
+
+def test_positive_order_remainder_needs_a_stated_point(tmp_path):
+    from symbolic_compactification.manybody.review import review
+
+    body = r"\begin{equation}\label{big}x^2 + x + \frac{1}{x} = x^2 + \mathcal{O}(x)\end{equation}"
+    for lead, expected in (("For large $x$ one has", "VALID"), ("One has", "NOT_DECIDED")):
+        tex = tmp_path / f"{expected}.tex"
+        tex.write_text("\\begin{document}\n" + lead + "\n" + body + "\n\\end{document}\n")
+        assert [s["decision"] for s in review(tex, tmp_path / expected)["steps"]] == [expected]

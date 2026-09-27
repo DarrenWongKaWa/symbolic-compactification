@@ -191,21 +191,40 @@ def _var_name(token: str) -> str:
     return token.lstrip("\\")
 
 
-def _remainder(card: dict, lhs: str, rhs: str, o_term) -> None:
+def _limit_point(var: str, text: str) -> str | None:
+    """'x \\to \\infty' / 'large x' -> oo, 'x \\to 0' / 'small x' -> 0, else None."""
+    v = rf"\\?{re.escape(var)}"
+    infinity = re.search(rf"{v}\s*\\(?:to|rightarrow)\s*\+?\s*\\infty|large\s+\$?{v}\b", text)
+    zero = re.search(rf"{v}\s*\\(?:to|rightarrow)\s*0|small\s+\$?{v}\b", text)
+    if infinity and not zero:
+        return "oo"
+    if zero and not infinity:
+        return "0"
+    return None
+
+
+def _remainder(card: dict, lhs: str, rhs: str, o_term, step: dict | None = None) -> None:
+    """O(x^n): at x -> 0 for n > 0 and x -> oo for n < 0, unless the text
+    says otherwise; the text contradicting the order leaves it for the user."""
+    step = step or {}
     approx = rhs[:o_term.start()].strip()
     order_text = o_term.group(1)
     var_order = re.fullmatch(r"\s*\\?([A-Za-z]+)\s*(?:\^\s*\{?\s*(-?\d+)\s*\}?)?\s*", order_text)
     card["check"] = "remainder"
     if var_order:
-        order = int(var_order.group(2) or 1)
-        card["variable"] = var_order.group(1)
-        card["order"] = order
-        if order < 0:
-            card["point"] = "oo"
-        else:
-            card["point"], card["direction"] = "0", "+"
+        var, order = var_order.group(1), int(var_order.group(2) or 1)
+        card["variable"], card["order"] = var, order
+        said = _limit_point(var, step.get("sentence", "") + " " + lhs + " " + rhs)
+        # no stated limit point: a negative order is a tail at infinity; a
+        # positive one is checked at 0 and at infinity and decided only if they agree
+        point = said or ("oo" if order < 0 else "unstated")
+        if order < 0 and point == "0":
+            card.update({"variable": "TODO", "hint": "negative order at 0: check the limit point"})
+        card["point"] = point
+        if point in ("0", "unstated"):        # one-sided only when the variable is positive
+            card["direction"] = "+" if var in step.get("positive_names", ()) else "+-"
     else:
-        card.update({"variable": "TODO", "order": 1, "point": "0", "direction": "+"})
+        card.update({"variable": "TODO", "order": 1, "point": "0", "direction": "+-"})
     card["source"] = {"function": lhs, "approximant": approx}
 
 
@@ -308,9 +327,9 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     matsubara = _MATSUBARA.match(lhs.strip()) if latex else None
     series = _SERIES.match(lhs.strip()) if latex else None
     if o_term:
-        _remainder(card, lhs, rhs, o_term)
+        _remainder(card, lhs, rhs, o_term, step)
     elif only_o:                          # f = O(x^n): the approximant is 0
-        _remainder(card, lhs, "0 + " + rhs, _O_TERM.search("0 + " + rhs))
+        _remainder(card, lhs, "0 + " + rhs, _O_TERM.search("0 + " + rhs), step)
         card["approximant"] = "0"
         card["source"] = {"function": lhs}
     elif matsubara and _matsubara_statistics(step, matsubara):
@@ -400,6 +419,9 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     rel = Path(os.path.relpath(doc.resolve(), out.resolve()))
     if rel.parts[:4] == ("..",) * 4:                     # far apart: keep it absolute
         rel = doc.resolve()
+    positive = _positive_symbols(raw)
+    for step in steps:
+        step["positive_names"] = set(positive)
     all_names, all_todo, written, shared_quotes = set(), set(), [], {}
     before_paren: set[str] = set()
     for step in steps:
