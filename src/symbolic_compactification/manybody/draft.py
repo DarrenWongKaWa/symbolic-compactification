@@ -468,6 +468,49 @@ def _symbol_entry(name, positive, real_stated, complex_stated, realness_matters)
     return {"name": name}
 
 
+_INLINE_DEF = re.compile(
+    r"(?:\bwhere|\bwith|\blet|\bLet|\bdefine|\bdefining|\bhere)\s+(?:[A-Za-z ,]{0,20}?)\$([^$]{1,160})\$")
+
+
+def _inline_definitions(raw: str, macros: dict) -> list[tuple[str, Any, str]]:
+    """'where $z_\\pm = \\varepsilon_d \\pm i\\Gamma$', 'with $f(x) = ...$': definitions
+    stated in the running text, as quoted define: entries. Returns
+    (key, entry, name) triples; bare names get zero-argument definitions."""
+    out = []
+    body = raw.split("\\begin{document}", 1)[-1]
+    text = _ENV_RE.sub(" ", body)                       # prose only, displays removed
+    for m in _INLINE_DEF.finditer(text):
+        math = m.group(1)
+        sides = split_top_level(re.sub(r"\\equiv", "=", math))
+        if len(sides) != 2 or not sides[0].strip() or not sides[1].strip():
+            continue
+        lhs, rhs = sides[0].strip(), sides[1].strip()
+        if re.search(r"\\equiv", math):
+            lhs_raw, rhs_raw = math.split("\\equiv", 1)
+        else:
+            lhs_raw, rhs_raw = math.split("=", 1)
+        rhs_raw = rhs_raw.strip()
+        try:
+            plain = latex_to_plain(lhs, macros).strip()
+        except (ValueError, RecursionError):
+            continue
+        call = _DEFINITION_LHS.match(plain)
+        bare = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain)
+        if call and call.group(1) not in _KNOWN | {"n_F", "n_B"}:
+            name, args = call.group(1), ",".join(a.strip() for a in call.group(2).split(","))
+        elif bare and bare.group(1) not in _KNOWN:
+            name, args = bare.group(1), ""
+        else:
+            continue
+        if "PM" in name or name.endswith("_pm"):
+            base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
+            out.append((f"define:{base}p({args})", {"quote": rhs_raw, "branch": "+"}, base + "p"))
+            out.append((f"define:{base}m({args})", {"quote": rhs_raw, "branch": "-"}, base + "m"))
+        else:
+            out.append((f"define:{name}({args})", rhs_raw, name))
+    return out
+
+
 def _positive_symbols(raw: str) -> dict[str, str]:
     """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0, with
     where they are stated (so a reviewer can confirm the guess)."""
@@ -536,6 +579,40 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
                         encoding="utf-8")
         written.append(str(path))
+    # subscripted names (epsilon_d, Gamma_L) are symbols unless the paper gives
+    # them a value (a display "X = ...") or they look like a combination of two
+    # other names (e_nm next to e_n and e_m): those stay for the reviewer
+    valued = set()
+    for step in steps:
+        try:
+            head = latex_to_plain(step["lhs"], macros).strip() if latex else step["lhs"].strip()
+        except (ValueError, RecursionError):
+            continue
+        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", head):
+            valued.add(head)
+    for name in sorted(all_todo):
+        if "_" not in name or name in valued or name.startswith("_") or name.endswith("_"):
+            continue
+        stem, _, sub = name.partition("_")
+        combined = len(sub) == 2 and {f"{stem}_{sub[0]}", f"{stem}_{sub[1]}"} <= (all_names | all_todo)
+        if not combined and re.fullmatch(r"[A-Za-z0-9_]+", name) and "__" not in name:
+            all_todo.discard(name)
+            all_names.add(name)
+    # definitions stated in the running text ("where $z_\\pm = ...$")
+    inline_notation: dict[str, str] = {}
+    if latex:
+        for key, entry, name in _inline_definitions(raw, macros):
+            if key in shared_quotes or any(k.split(":", 1)[1].split("(")[0] == name for k in shared_quotes):
+                continue
+            shared_quotes[key] = entry
+            if key.endswith("()"):                     # a named constant: z_p -> z_p()
+                inline_notation[name] = f"{name}()"
+                all_names.discard(name)
+            try:
+                quote = entry["quote"] if isinstance(entry, dict) else entry
+                all_names |= _tokens(latex_to_plain(quote, macros))[0]
+            except (ValueError, RecursionError):
+                pass
     # a drafted definition whose name is also used as a plain symbol (papers
     # reuse letters) would turn every such use into a function: keep it inactive
     clashing = {k: v for k, v in shared_quotes.items()
@@ -556,7 +633,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         data: dict[str, Any] = {
             "symbols": [_symbol_entry(n, positive, real_stated, complex_stated, realness_matters)
                         for n in sorted(all_names)],
-            "notation": {}, "define": {},
+            "notation": dict(inline_notation), "define": {},
             # names written right before "(": a product only if listed here
             # a Greek letter is taken as a product only if the paper also uses it as a
             # plain symbol; sigma(omega) alone is more likely a function

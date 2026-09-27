@@ -183,7 +183,7 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             "status": rec.get("status"),
             "check": next((w.split(":", 1)[1] for w in warn if w.startswith("CARD_CHECK:")), None),
             "after_erratum": next((w.split(":", 1)[1] for w in warn if w.startswith("WITH_ERRATUM:")), None),
-            "why_not_decided": [w.split(":", 1)[1] for w in warn if w.startswith("BLOCKED:")]
+            "why_not_decided": [w.split(":", 1)[1] for w in warn if w.startswith(("BLOCKED:", "REASON:"))]
             or ([r for r in warn if not r.startswith(("CARD_", "TRANSCRIPTION", "QUOTE", "READ_AS",
                                                       "DERIVED", "SOURCE_AT", "COUNTEREXAMPLE",
                                                       "DIAGNOSIS", "PRINTED", "ERRATUM", "WITH_"))][:3]

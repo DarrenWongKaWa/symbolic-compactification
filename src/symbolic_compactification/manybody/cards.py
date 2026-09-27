@@ -196,6 +196,12 @@ def _remainder_both(card, f, P, variable, order, symbols, functions, positive, d
             "at_0": runs["0"]["status"], "at_infinity": runs["oo"]["status"]}
 
 
+def _lhs_is_a_name(card: dict, defs: dict) -> bool:
+    lhs = str(card.get("lhs", ""))
+    m = re.fullmatch(r"\(*\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)*", lhs)
+    return bool(m) and m.group(1) not in {k.split("(")[0].strip() for k in defs}
+
+
 def _realness_blockers(card: dict, raw_symbols: list) -> list[str]:
     names = {str(s["name"]) for s in raw_symbols
              if isinstance(s, dict) and s.get("realness") == "unstated" and not s.get("positive")}
@@ -375,6 +381,10 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
                     if k.split("(")[0].strip() not in quoted | shared_defs | builtin)
     if strict and ad_hoc:                  # a card's own definitions must be quoted
         why.append("UNQUOTED_CARD_DEFINITION:" + ",".join(ad_hoc))
+    if check == "identity" and _lhs_is_a_name(card, defs):
+        # "A = ..." states the value of a named quantity: without A's own
+        # definition the relation cannot be checked (A would be a free symbol)
+        why.append("LHS_IS_A_NAMED_QUANTITY")
     unstated = _realness_blockers(card, card.get("symbols") or [])
     if unstated:            # the claim takes Re/Im/conj/|.| of a symbol the paper never calls real
         why.append("REALNESS_UNSTATED:" + ",".join(unstated))

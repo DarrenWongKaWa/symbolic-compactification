@@ -22,7 +22,7 @@ __all__ = ["STEP_CARD", "card_meta", "chip_warnings", "conventions", "html_conve
            "render_expression", "render_tex", "step_card_records"]
 from .workspace import AuditWorkspace
 
-_DETAIL_PREFIXES = ("QUOTE:", "READ_AS:", "DERIVED:", "COUNTEREXAMPLE:", "SOURCE_AT:",
+_DETAIL_PREFIXES = ("QUOTE:", "READ_AS:", "DERIVED:", "COUNTEREXAMPLE:", "SOURCE_AT:", "REASON:",
                     "ERRATUM:", "ERRATUM_NOTE:", "PRINTED:", "WITH_ERRATUM:")
 _META_PREFIXES = ("CARD_CHECK:", "CARD_CHECKER:", "TRANSCRIPTION:", "BLOCKED:", "DIAGNOSIS:")
 
@@ -273,6 +273,9 @@ _REASONS = (
      "State the symbol real or complex in conventions.yaml (real: true / real: false)."),
     ("LIMIT_POINT_UNSTATED", "The limit point of an O(…) claim is not stated",
      "The verdict differs between x → 0 and x → ∞; set point: 0 or oo on the card."),
+    ("LHS_IS_A_NAMED_QUANTITY", "States the value of a named quantity",
+     "Without that quantity's own definition the relation cannot be checked; quote its "
+     "definition in conventions.yaml if the paper gives one."),
     ("CARD_LHS_BARE", "States or defines a named quantity",
      "If the equation defines the name, move it to conventions.yaml as a quoted definition so "
      "other steps can use it; if it is defined elsewhere, quote that definition."),

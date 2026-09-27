@@ -157,7 +157,9 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
                if result.get("decision_with_errata") else ()),
              *((f"DERIVED:{str(result['derived'])[:_MAX_CONCLUSION]}",) if result.get("derived") else ()),
              *((f"COUNTEREXAMPLE:{point}",) if point else ()),
-             *(("CARD_LHS_BARE",) if bare_lhs and decision == "NOT_DECIDED" else ()))
+             *(("CARD_LHS_BARE",) if bare_lhs and decision == "NOT_DECIDED" else ()),
+             *(f"REASON:{r}" for r in (result.get("reasons") or [])[:3]
+               if decision == "NOT_DECIDED" and not result.get("decision_blocked_by")))
     warnings = tuple(dict.fromkeys((*record.warnings, *notes)))
     if decision == "VALID":
         certificate = RuleCertificate(

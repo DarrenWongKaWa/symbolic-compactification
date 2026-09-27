@@ -313,3 +313,22 @@ def test_every_display_surfaces_under_its_own_label(tmp_path):
     decided = {s["step"]: s["decision"] for s in steps if s["decision"] != "NOT_DECIDED"}
     assert all(d == ("VALID" if name.endswith("-true") else "INVALID") for name, d in decided.items())
     assert {"eq:series-true", "eq:pf-true"} <= set(decided)
+
+
+def test_named_quantities_and_inline_definitions(tmp_path):
+    """'A = ...' is not checked with A free; 'where $z_\\pm = ...$' in the text
+    is a quoted definition; subscripted parameters are symbols."""
+    from symbolic_compactification.manybody.review import review
+
+    tex = tmp_path / "p.tex"
+    tex.write_text(
+        "\\begin{document}\nLet $\\Gamma>0$ and real $\\varepsilon_d$.\n"
+        "\\begin{equation}\\label{eq:def} A = \\int d\\omega\\, g(\\omega) \\end{equation}\n"
+        "\\begin{equation}\\label{eq:val} A = \\frac{\\pi}{\\Gamma} \\end{equation}\n"
+        "The poles are $z_+$ and $z_-$, where $z_\\pm = \\varepsilon_d \\pm i\\Gamma$.\n"
+        "\\begin{equation}\\label{eq:pf} \\frac{1}{(\\omega-z_+)(\\omega-z_-)} = "
+        "\\frac{1}{(\\omega-\\varepsilon_d)^2+\\Gamma^2} \\end{equation}\n\\end{document}\n")
+    steps = {s["step"]: s for s in review(tex, tmp_path / "r")["steps"]}
+    assert steps["eq:val"]["decision"] == "NOT_DECIDED"
+    assert "LHS_IS_A_NAMED_QUANTITY" in steps["eq:val"]["why_not_decided"]
+    assert steps["eq:pf"]["decision"] == "VALID"
