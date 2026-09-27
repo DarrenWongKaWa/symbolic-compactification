@@ -16,10 +16,32 @@ examples/case-studies/jwm1994/fetch_and_run.sh /tmp/jwm1994-review
 MUTATE=1 examples/case-studies/jwm1994/fetch_and_run.sh /tmp/jwm1994-mutated
 ```
 
-## What the tool could check
+## Whole paper in one command
 
-`manybody draft` turned the 88 displayed environments into 137 candidate
-steps. Most are Keldysh Green-function relations with time integrals,
+With two lines of conventions (`Psi: psi`, and `a, b, Γ, t` positive),
+`manybody review jwm.tex --out review/` drafts 71 relations and decides 3
+of them, with no false verdict:
+- the Langreth rules (A3) for `A^r` and `A^<`;
+- the digamma relation (D3).
+
+In the reviewer page, the other 68 are grouped by why they were not
+decided:
+- notation outside the checks: integrals with limits, traces, operator
+  expectations;
+- a name before `(` that could be a product or a function (the ambiguous
+  names are listed);
+- a quantity that is being defined.
+
+In the user tests:
+- Codex decided 4 steps; it also encoded the Dyson equation.
+- Sonnet decided 1 step and left the rest honestly undecided.
+
+Neither reported a step right or wrong without the tool.
+
+## What the tool could check, with a hand-picked workspace
+
+The drafts turn the paper's displayed environments into candidate steps.
+Most are Keldysh Green-function relations with time integrals,
 matrix structure in the leads, or Bessel-function sums. None of the
 checks covers these forms, so they stay outside the review. Three steps
 are checkable with the current checks, and the cards quote them verbatim:
@@ -62,10 +84,11 @@ The long-time limit is unchanged and still passes.
 
 ## What this shows
 
-- **The review is honest about coverage.** The tool decides 3 of 137
-  drafted relations, which cover the paper's closed-form claims in its
-  wide-band limit and its appendix. The report does not claim that the
-  rest of the paper is verified.
+- **The review is honest about coverage.** In one command the tool
+  decides 3 of 71 drafted relations: the paper's closed-form Keldysh
+  rules and its appendix relation. The report does not claim that the
+  rest of the paper is verified, and it says why each remaining step was
+  not decided.
 - **Nothing was retyped.** Each expression comes from a verbatim quote,
   located by line, equation number and `\label`. The hand-written part is
   `cards/conventions.yaml`: the symbols, the time origin `t₀ = 0`,

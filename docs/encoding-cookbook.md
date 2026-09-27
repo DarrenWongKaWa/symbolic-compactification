@@ -22,8 +22,16 @@ symbolic-compactification manybody draft paper.tex --out cards/
 symbolic-compactification manybody steps cards/ --require-source --html report.html
 ```
 
-- **`draft`** writes one card per displayed equation. `A = B = C` becomes
-  two steps, and a trailing `+ O(x^n)` becomes a `remainder` card. Every
+- **`draft`** writes one card per displayed relation. It recognises:
+  - chains: `A = B = C` becomes two steps;
+  - continuation rows of `eqnarray`/`align`;
+  - `+ O(x^n)` and `= O(x^n)`, which become `remainder` cards;
+  - `\int dω … n_F`, which becomes `fermi_integral`;
+  - `(1/β) Σ_n f(iω_n)`, which becomes `matsubara`;
+  - `Σ_{n=0}^∞`, which becomes `series`;
+  - Langreth rules `X^<(t,t') = ∫dt₁ [B^r C^< + B^< C^a]`, which become
+    `langreth` cards whose product, component and notation are taken
+    from the quote. Every
   expression is a verbatim quote, so the card contains no hand-typed
   formula. It also writes `conventions.yaml`, listing the tokens it could
   not resolve.
@@ -60,6 +68,8 @@ field `UNCHECKED`, never misread.
 
 Two readings are never guessed, because a wrong guess would give a
 confident wrong verdict:
+- **Sub- and superscripts are part of the name.** `A_{L/R}` becomes
+  `A_L_R`, never a division.
 - **A superscript made only of letters is a label, not a power.**
   `G^r`, `G^{<}` and `c^\dagger` become the names `G__r`, `G__lt` and
   `c__dagger`. Numbers and expressions are still powers (`\omega^2`,
