@@ -85,6 +85,17 @@ confident wrong verdict:
   used only when the variable is stated positive.
 - **Integration limits.** Only `\int` over the whole real line becomes a
   `fermi_integral`. Other limits are left alone.
+- **Named quantities.** An identity whose left side is a lone name
+  (`A = …`) states the value of a quantity. With `A` as a free symbol it
+  could be refuted wrongly, so it is not decided unless `A` has a
+  definition in the conventions.
+- **Definitions in the prose.** `where $z_\pm = \varepsilon_d \pm i\Gamma$`,
+  `with $f(x) = …$` and `$X \equiv …$` become quoted shared definitions.
+  A bare name is mapped through `notation`, as in `z_p: z_p()`.
+- **Subscripted names** such as `\varepsilon_d` and `\Gamma_L` are
+  symbols, unless the paper assigns them a value or they look like a
+  combination of two other names (`e_nm` next to `e_n` and `e_m`). Those
+  are left for you to define.
 - **Sub- and superscripts are part of the name.** `A_{L/R}` becomes
   `A_L_R`, never a division.
 - **A superscript made only of letters is a label, not a power.**
