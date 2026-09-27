@@ -116,6 +116,10 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
         code = getattr(exc, "code", "STEP_CARD_INVALID")
         return replace(record, status=UNKNOWN, result=UNKNOWN,
                        warnings=(*record.warnings, f"MANYBODY_INPUT_ERROR:{code}"))
+    except Exception as exc:       # one card must never stop the audit of the others
+        code = f"INTERNAL:{type(exc).__name__}"
+        return replace(record, status=UNKNOWN, result=UNKNOWN,
+                       warnings=(*record.warnings, f"MANYBODY_INPUT_ERROR:{code}"))
     decision = result["decision"]
     transcription = (result.get("transcription") or {}).get("status", "ABSENT")
     checker = str(result.get("status") or result.get("verdict") or "UNKNOWN")

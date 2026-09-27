@@ -158,7 +158,8 @@ def _exponential_route(expr, x, x0, positive) -> bool:
         return False
     sure = {s: sympy.Symbol(s.name, positive=True) for s in positive}
     x = sure.get(x, x)
-    expr = sympy.expand(expr.xreplace(sure), power_exp=False)
+    expr = expr.xreplace(sure).rewrite(sympy.exp)          # cos, sin, cosh ... as exponentials
+    expr = sympy.expand(expr, power_exp=False)
 
     def exponent_of(factor):
         if isinstance(factor, sympy.exp):
@@ -194,7 +195,7 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
                       order: int, symbols: Any, functions: Any = None,
                       direction: str = "+-", positive: tuple[str, ...] = (),
                       definitions: dict | None = None,
-                      numeric: bool = True) -> ManyBodyResult:
+                      numeric: bool = True, beta: str | None = None) -> ManyBodyResult:
     """Certify  function = approximant + O(variable**order)  as variable -> point."""
     inputs = {"rule": ASYMPTOTIC_REMAINDER_LIMIT, "function_sha256": text_hash(function),
               "approximant_sha256": text_hash(approximant), "variable": variable,
@@ -220,6 +221,11 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         space = CalculusSpace(symbols, functions or (), definitions=definitions)
         x = space.symbol(variable)
         f, P = space.parse_expanded(function), space.parse_expanded(approximant)
+        if beta and (f.has(sympy.Function("nF")) or f.has(sympy.Function("nB"))
+                     or P.has(sympy.Function("nF")) or P.has(sympy.Function("nB"))):
+            from ._common import expand_distributions      # nF(x) = 1/(exp(beta x) + 1)
+            b = space.symbol(beta)
+            f, P = expand_distributions(f, b), expand_distributions(P, b)
         pos = space.positives(tuple(positive))
     except AdapterError as exc:
         return result(UNKNOWN, [f"PARSE_FAILED:{exc.code}"])
@@ -234,7 +240,7 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         except BudgetExceeded:
             failure = "LIMIT_TIME_BUDGET_EXCEEDED"
             break
-        except (NotImplementedError, ValueError, TypeError):
+        except Exception:          # PoleError and friends: not computed, never a verdict
             failure = "LIMIT_NOT_COMPUTED"
             break
         limits.append(_tidy(value))
@@ -247,7 +253,10 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         return result(CERTIFIED_BY_RULE, ["EXPONENTIAL_DECAY_ROUTE"], "0", "FINITE",
                       {"status": "NOT_RUN"})
     if kinds != {"FINITE"}:
-        series = _series_route(f - P, x, x0, int(order), sample)
+        try:
+            series = _series_route(f - P, x, x0, int(order), sample)
+        except Exception:          # a series that cannot be expanded decides nothing
+            series = None
         if series is not None:
             status, value, reasons = series
             if status == NONZERO:

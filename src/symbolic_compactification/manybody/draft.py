@@ -34,6 +34,7 @@ _ENV_RE = re.compile(r"\\begin\{(" + "|".join(_ENVIRONMENTS) + r")\*?\}(.*?)\\en
 _DISPLAY_RE = re.compile(r"\\\[(.*?)\\\]|\$\$(.*?)\$\$", re.S)
 _LABEL_RE = re.compile(r"\\label\{([^}]*)\}")
 _O_TERM = re.compile(r"\s*\+\s*(?:\\mathcal\{O\}|O)\s*[\(\[]\s*(.+?)\s*[\)\]]\s*[.,;]?\s*$")
+_ONLY_O = re.compile(r"^\s*(?:\\mathcal\{O\}|O)\s*[\(\[]\s*(.+?)\s*[\)\]]\s*[.,;]?\s*$")
 _KNOWN = set(_ALLOWED_FUNCTIONS) | {"pi", "E", "I", "oo", "i", "nF", "nB", "Diff", "exp", "log"}
 
 
@@ -208,11 +209,16 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     card: dict[str, Any] = {"label": step["id"], "include": "conventions.yaml",
                             "source_document": doc_name}
     o_term = _O_TERM.search(rhs)
+    only_o = _ONLY_O.match(rhs)
     integral = _INTEGRAL.match(lhs) if latex else None
     matsubara = _MATSUBARA.match(lhs.strip()) if latex else None
     series = _SERIES.match(lhs.strip()) if latex else None
     if o_term:
         _remainder(card, lhs, rhs, o_term)
+    elif only_o:                          # f = O(x^n): the approximant is 0
+        _remainder(card, lhs, "0 + " + rhs, _O_TERM.search("0 + " + rhs))
+        card["approximant"] = "0"
+        card["source"] = {"function": lhs}
     elif matsubara:
         body, k = matsubara.group("body").strip(), matsubara.group("index")
         boson = re.search(rf"\\nu_\{{?{k}\}}?", body) is not None
@@ -259,8 +265,10 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     branches when the name carries a +- subscript)."""
     plain = latex_to_plain(step["lhs"], macros) if latex else step["lhs"]
     m = _DEFINITION_LHS.match(plain)
-    if not m:
-        return None
+    if not m or _O_TERM.search(step["rhs"]) or _ONLY_O.match(step["rhs"]):
+        return None                     # f(x) = ... + O(x^n) is an expansion, not a definition
+    if m.group(1) in _KNOWN | {"n_F", "n_B"}:
+        return None                     # n_F, exp, ... are already defined
     name, args = m.group(1), ",".join(a.strip() for a in m.group(2).split(","))
     if "PM" in name or name.endswith("_pm"):
         base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"

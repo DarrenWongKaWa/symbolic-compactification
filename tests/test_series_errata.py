@@ -109,3 +109,21 @@ def test_physics_notation_is_never_misread_into_a_verdict(tmp_path):
     assert any("SOURCE_APPLICATION_AMBIGUOUS" in b
                for b in run_card(product, require_source=True)["decision_blocked_by"])
     assert run_card({**product, "multiply": ["beta"]})["decision"] == "VALID"
+
+
+def test_one_command_review_of_the_toolbox_note(tmp_path):
+    """Eight displayed relations, every drafted check type, two planted errors
+    (telescoping sum 1/(a+1) instead of 1/a; n_F slope beta/2 instead of beta/4)."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "toolbox.tex"
+    result = review(note, tmp_path / "review")
+    decisions = {s["step"]: (s["check"], s["decision"]) for s in result["steps"]}
+    assert decisions == {
+        "eq:pf": ("identity", "VALID"), "eq:telescope": ("series", "INVALID"),
+        "eq:triple": ("matsubara", "VALID"), "eq:small": ("remainder", "INVALID"),
+        "eq:decay": ("remainder", "VALID"), "eq:lorentz": ("fermi_integral", "VALID"),
+        "eq:trigamma": ("series", "VALID"), "eq:spectral": ("identity", "VALID")}
+    assert result["html"] and Path(result["html"]).is_file()

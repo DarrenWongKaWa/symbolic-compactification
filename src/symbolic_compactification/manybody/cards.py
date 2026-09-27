@@ -160,9 +160,18 @@ def _require_source(flag: bool | None) -> bool:
 
 
 def _missing_quotes(card: dict, transcription: dict) -> list[str]:
+    """Expression fields not backed by a matching quote. A bare integer such
+    as the 0 of 'f = O(x^n)' cannot be mistranscribed and needs no quote."""
     fields = transcription.get("fields", {})
     return [k for k in _EXPRESSION_KEYS
-            if k in card and fields.get(k, {}).get("status") != "MATCH"]
+            if k in card and fields.get(k, {}).get("status") != "MATCH"
+            and not re.fullmatch(r"\s*-?\d+\s*", str(card[k]))]
+
+
+def _declared_beta(card: dict, symbols: list) -> str | None:
+    """The inverse temperature, when the card declares it (for nF / nB)."""
+    name = str(card.get("beta", "beta"))
+    return name if any((s if isinstance(s, str) else s.get("name")) == name for s in symbols) else None
 
 
 def _used_symbols(symbols: list, card: dict, defs: dict) -> list:
@@ -256,7 +265,8 @@ def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
         f, P, variable, point, order = _need(card, "function", "approximant", "variable", "point", "order")
         out = certify_remainder(f, P, variable=variable, point=point, order=int(order),
                                 direction=str(card.get("direction", "+-")), symbols=symbols,
-                                functions=functions, positive=positive, definitions=defs).to_dict()
+                                functions=functions, positive=positive, definitions=defs,
+                                beta=_declared_beta(card, symbols)).to_dict()
     elif check == "fermi_integral":
         integrand, claim, variable, beta = _need(card, "integrand", "claim", "variable", "beta")
         out = verify_fermi_integral(integrand, claim, variable=variable, beta=beta, symbols=symbols,
