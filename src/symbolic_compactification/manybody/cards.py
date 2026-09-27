@@ -235,7 +235,7 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
     symbols = [{k: v for k, v in s.items() if k in ("name", "real", "nonzero")}
                if isinstance(s, dict) else s for s in raw]
     # a positive symbol is real; an explicit real: false is complex
-    symbols = [{**s, "real": True} if isinstance(s, dict) and s.get("real") is None
+    symbols = [{**s, "real": True} if isinstance(s, dict)
                and any(isinstance(r, dict) and r.get("name") == s["name"] and r.get("positive") for r in raw)
                else s for s in symbols]
     positive = tuple(s["name"] for s in raw if isinstance(s, dict) and s.get("positive")) \

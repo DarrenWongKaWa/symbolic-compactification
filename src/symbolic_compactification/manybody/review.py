@@ -88,7 +88,7 @@ def _manifests(out: Path, source_name: str = "source.tex") -> list[dict[str, Any
     symbols = []
     for entry in (conventions or {}).get("symbols") or []:       # the audit only records these;
         name = str(entry["name"] if isinstance(entry, dict) else entry)   # cards carry their own
-        if isinstance(entry, dict) and entry.get("real") is False:
+        if isinstance(entry, dict) and entry.get("real") is False and not entry.get("positive"):
             continue          # complex symbols are carried by the cards; the audit file lists real ones
         candidate = {"name": name, "real": True, "nonzero": False}
         try:
@@ -158,7 +158,8 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     conv = yaml.safe_load((out / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
     assumed_real = [s["name"] for s in conv.get("symbols") or []
                     if isinstance(s, dict) and "real" not in s and not s.get("positive")]
-    kept_complex = [s["name"] for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("real") is False]
+    kept_complex = [s["name"] for s in conv.get("symbols") or []
+                    if isinstance(s, dict) and s.get("real") is False and not s.get("positive")]
     assumed = {
         "assumed_real": assumed_real,
         "complex": kept_complex,
