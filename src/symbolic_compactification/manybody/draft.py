@@ -173,8 +173,10 @@ def _tokens(plain: str) -> tuple[set[str], set[str]]:
     return names, todo
 
 
+# a Fermi integral over the whole real line only: \int or \int_{-\infty}^{\infty};
+# other limits are a different integral and are never drafted as fermi_integral
 _INTEGRAL = re.compile(
-    r"^\\int(?:\\limits)?(?:_\{?[^\s{}]*\}?\^\{?[^\s{}]*\}?)?\s*"
+    r"^\\int(?:\\limits)?(?:_\{\s*-\s*\\infty\s*\}\^\{?\s*\+?\s*\\infty\s*\}?)?\s*"
     r"(?:\\frac\{\s*d\s*(?P<v1>\\?[A-Za-z]+)\s*\}\{\s*2\s*\\pi\s*\}|d\s*(?P<v2>\\?[A-Za-z]+))"
     r"\s*(?:\\[,;!]\s*)?(?P<body>.+)$", re.S)
 _MATSUBARA = re.compile(

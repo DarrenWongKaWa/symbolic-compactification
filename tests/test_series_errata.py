@@ -195,3 +195,13 @@ def test_statistics_do_not_bleed_from_earlier_paragraphs(tmp_path):
     assert all(s["decision"] != "INVALID" for s in result["steps"])
     cards = list((tmp_path / "review" / "cards").glob("*.yaml"))
     assert not any("statistics: fermion" in c.read_text() for c in cards)
+
+
+def test_fermi_integrals_with_finite_limits_are_not_drafted(tmp_path):
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "integral_limits.tex"
+    steps = {s["step"]: (s["check"], s["decision"]) for s in review(note, tmp_path / "r")["steps"]}
+    assert steps == {"half": ("identity", "NOT_DECIDED"), "full": ("fermi_integral", "VALID")}
