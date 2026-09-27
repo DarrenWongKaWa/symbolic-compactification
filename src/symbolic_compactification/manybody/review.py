@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import io
 import json
+import re
 import shutil
 from contextlib import redirect_stdout
 from pathlib import Path
@@ -57,17 +58,19 @@ def _manifests(out: Path) -> list[dict[str, Any]]:
     from .cards import run_card
     cards = sorted(p for p in (out / "cards").glob("*.yaml") if p.name != "conventions.yaml")
     equations, edges, rows = [], [], []
+    seen: set[str] = set()
     for path in cards:
         card = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-        eq_id = "eq." + _slug(path.stem)
-        equations.append({"equation_id": eq_id, "label": path.stem, "environment": "equation",
+        ident = _ident(str(card.get("label") or path.stem), seen)
+        eq_id = ident
+        equations.append({"equation_id": eq_id, "label": ident, "environment": "equation",
                           "source_file": "manuscript/source.tex", "curated": True,
                           "body": str((card.get("source") or {}).get("rhs")
                                       or (card.get("source") or {}).get("claim") or path.stem)[:400]})
-        edges.append({"edge_id": "step." + _slug(path.stem), "source_from": eq_id, "source_to": eq_id,
+        edges.append({"edge_id": ident, "source_from": eq_id, "source_to": eq_id,
                       "edge_type": "STEP_CARD", "step_card": {"card": f"cards/{path.name}"},
                       "claim": f"displayed relation {path.stem} as printed"})
-        rows.append({"card": path.stem, "path": path})
+        rows.append({"card": ident, "path": path})
     (out / "equations" / "equations.yaml").write_text(yaml.safe_dump(
         {"schema_version": "DerivationAuditV1", "equations": equations}, sort_keys=False), encoding="utf-8")
     (out / "edges" / "edges.yaml").write_text(yaml.safe_dump(
@@ -92,6 +95,18 @@ def _manifests(out: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _ident(label: str, seen: set[str]) -> str:
+    """The paper's own label (eq:bubble) as the audit id, made unique."""
+    base = re.sub(r"[^A-Za-z0-9._:-]", "-", label).strip("-.:") or "step"
+    if not re.match(r"[A-Za-z0-9]", base):
+        base = "s" + base
+    ident, k = base[:120], 2
+    while ident in seen:
+        ident, k = f"{base[:115]}-{k}", k + 1
+    seen.add(ident)
+    return ident
+
+
 def _cli(*argv: str) -> int:
     from .. import cli
     with redirect_stdout(io.StringIO()):
@@ -114,7 +129,7 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     decision_of = {"CERTIFIED_BY_RULE": "VALID", "NONZERO": "INVALID"}
     steps = []
     for row in rows:
-        rec = by_edge.get("step." + _slug(row["card"]), {})
+        rec = by_edge.get(row["card"], {})
         warn = rec.get("warnings", [])
         at = next((w.split(":", 1)[1] for w in warn if w.startswith("SOURCE_AT:")), "")
         _, line, label, number = (at.split("|") + ["", "", "", ""])[:4]
@@ -134,7 +149,8 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     todo = (drafted or {}).get("unresolved_tokens", [])
     conv = yaml.safe_load((out / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
     assumed = {
-        "positive": [s["name"] for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],
+        "positive": [{"name": s["name"], "stated": s.get("stated", "not stated in the text")}
+                     for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],
         "multiply": list(conv.get("multiply") or []),
         "notation": dict(conv.get("notation") or {}),
     }

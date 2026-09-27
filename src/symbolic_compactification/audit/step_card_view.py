@@ -245,3 +245,74 @@ def md_step_cards(records: Sequence[AuditRecord], rows: Sequence[tuple[str, str,
                   "| --- | --- | --- |"]
         lines += [f"| {cell(kind)} | `{cell(key)}` | `{cell(value)}` |" for _, kind, key, value in rows]
     return lines
+
+
+# Why a step was not decided, in words a reviewer can act on. First match wins.
+_REASONS = (
+    ("SOURCE_APPLICATION_AMBIGUOUS", "A name before “(” could be a product or a function",
+     "List the name under multiply: in conventions.yaml if it multiplies, or define it as a function."),
+    ("SOURCE_BRACKETS_UNBALANCED", "Brackets do not pair up as printed",
+     "If the fix is obvious, add a bracket-only erratum to the card."),
+    ("NOT_IN_DOCUMENT", "A quote is not in the manuscript",
+     "Re-draft the card; quotes must be copied from the source."),
+    ("SOURCE_CHARACTER_UNSUPPORTED", "Notation outside the supported forms",
+     "Integrals with limits, ⟨…⟩, derivatives, matrices and similar stay with the reviewer."),
+    ("SOURCE_FUNCTION_WITHOUT_ARGUMENTS", "A function name without its arguments",
+     "Map the token in notation, or rename the definition."),
+    ("RE_IM_WITHOUT_ARGUMENT", "Re or Im without an argument", "Check the quote boundaries."),
+    ("UNDECLARED_OR_DISALLOWED_NAME", "Uses a name the conventions do not declare",
+     "Declare the symbol, map it in notation, or define it."),
+    ("UNQUOTED_CARD_DEFINITION", "A card definition is not quoted from the paper",
+     "Quote it as define:NAME(args), or move it to conventions.yaml."),
+    ("CONVENTION_CONFLICT", "The card redefines a shared convention", "Remove the card's override."),
+    ("SOURCE_REQUIRED", "An expression is not quoted from the paper", "Quote it verbatim."),
+    ("MANYBODY_INPUT_ERROR", "The card could not be read", "Open the card and fix its fields."),
+)
+_UNDECIDED_BY_CHECK = ("The check could not decide the claim",
+                       "The quote was read; the claim is outside what this check can prove.")
+
+
+def explain(record: AuditRecord) -> tuple[str, str]:
+    text = " ".join(record.warnings)
+    for code, title, hint in _REASONS:
+        if code in text:
+            return title, hint
+    return _UNDECIDED_BY_CHECK
+
+
+def is_undecided_card(record: AuditRecord) -> bool:
+    return (record.edge_type == STEP_CARD and record.status not in ("CERTIFIED_BY_RULE", "NONZERO")
+            and not any(w.startswith("WITH_ERRATUM:") for w in record.warnings))
+
+
+def html_undecided_groups(records: Sequence[AuditRecord], macros: dict | None = None) -> str:
+    """Undecided step cards, grouped by why, each group collapsed."""
+    if not records:
+        return ""
+    groups: dict[tuple[str, str], list[AuditRecord]] = {}
+    for r in records:
+        groups.setdefault(explain(r), []).append(r)
+    parts = [f'<h3 class="undecided">Not decided by the tool ({len(records)} steps)</h3>',
+             '<p class="meta">These steps are not claimed right or wrong. Each group says why and '
+             'what would let the tool decide them.</p>']
+    for (title, hint), rows in sorted(groups.items(), key=lambda kv: -len(kv[1])):
+        names: dict[str, int] = {}
+        for r in rows:
+            for w in r.warnings:
+                if "SOURCE_APPLICATION_AMBIGUOUS:" in w:
+                    name = w.rsplit("SOURCE_APPLICATION_AMBIGUOUS:", 1)[1]
+                    names[name] = names.get(name, 0) + 1
+        if names:
+            hint += " Names: " + ", ".join(f"{n} ({k})" for n, k in sorted(names.items(), key=lambda x: -x[1])) + "."
+        body = []
+        for r in rows:
+            meta = card_meta(r)
+            quote = " ".join(meta.get("QUOTE", []))
+            claim = render_tex(quote, macros or {}, display=False, source=False) if quote else "—"
+            body.append(f"<tr><td><code>{_esc(r.edge_id)}</code></td>"
+                        f"<td>{_short_source(meta, r)}</td><td>{claim}</td></tr>")
+        parts.append(f'<details class="group"><summary><b>{_esc(title)}</b> — {len(rows)}</summary>'
+                     f'<p class="meta">{_esc(hint)}</p><div class="scroll"><table><thead><tr>'
+                     '<th>Step</th><th>Source</th><th>Claim as quoted</th></tr></thead><tbody>'
+                     + "".join(body) + "</tbody></table></div></details>")
+    return "".join(parts)

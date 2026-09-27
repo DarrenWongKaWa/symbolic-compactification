@@ -94,20 +94,26 @@ def _document_fragment(raw: str, fragment: str) -> str | None:
 def steps_from_latex(raw: str) -> list[dict[str, Any]]:
     steps = []
     for n, eq in enumerate(latex_equations(raw), start=1):
-        chain: list[str] = []
+        chains: list[list[str]] = []
         for row in eq["rows"]:
-            pieces = [p for p in split_top_level(row)]
-            if not chain:
-                chain += pieces
-            else:                                  # "&= C" continues the chain
-                if pieces and not pieces[0].strip(" &"):
-                    pieces = pieces[1:]
-                chain += pieces
-        chain = [_clean(p) for p in chain if _clean(p)]
+            pieces = split_top_level(row)
+            head = _clean(pieces[0])
+            if not chains:
+                chains.append(pieces)
+            elif len(pieces) == 1:                 # no '=': the previous side continues
+                chains[-1][-1] += " " + row
+            elif not head:                         # "&= C": the chain continues
+                chains[-1] += pieces[1:]
+            else:                                  # "A &= B" on its own row: a new relation
+                chains.append(pieces)
         base = eq["label"] or f"eq{n}"
-        for k in range(len(chain) - 1):
-            steps.append({"id": base if len(chain) == 2 else f"{base}.{k + 1}",
-                          "lhs": chain[k], "rhs": chain[k + 1]})
+        relations = [[_clean(p) for p in chain if _clean(p)] for chain in chains]
+        relations = [r for r in relations if len(r) >= 2]
+        for j, chain in enumerate(relations):
+            stem = base if len(relations) == 1 else f"{base}.r{j + 1}"
+            for k in range(len(chain) - 1):
+                steps.append({"id": stem if len(chain) == 2 else f"{stem}.{k + 1}",
+                              "lhs": chain[k], "rhs": chain[k + 1]})
     return steps
 
 
@@ -199,7 +205,8 @@ def _before_parenthesis(plain: str) -> set[str]:
 
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
     lhs, rhs = step["lhs"], step["rhs"]
-    card: dict[str, Any] = {"include": "conventions.yaml", "source_document": doc_name}
+    card: dict[str, Any] = {"label": step["id"], "include": "conventions.yaml",
+                            "source_document": doc_name}
     o_term = _O_TERM.search(rhs)
     integral = _INTEGRAL.match(lhs) if latex else None
     matsubara = _MATSUBARA.match(lhs.strip()) if latex else None
@@ -262,9 +269,13 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     return [(f"define:{name}({args})", step["rhs"])]
 
 
-def _positive_symbols(raw: str) -> set[str]:
-    """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0."""
-    return {m.group(1) for m in re.finditer(r"\\?([A-Za-z]+)\s*>\s*0(?![.\d])", raw)}
+def _positive_symbols(raw: str) -> dict[str, str]:
+    """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0, with
+    where they are stated (so a reviewer can confirm the guess)."""
+    found: dict[str, str] = {}
+    for m in re.finditer(r"\\?([A-Za-z]+)\s*>\s*0(?![.\d])", raw):
+        found.setdefault(m.group(1), f"line {raw.count(chr(10), 0, m.start()) + 1}: {m.group(0)}")
+    return found
 
 
 def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
@@ -321,7 +332,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         defined_names = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
         ambiguous = sorted(before_paren - defined_names)
         data: dict[str, Any] = {
-            "symbols": [{"name": n, **({"positive": True} if n in positive else {})}
+            "symbols": [{"name": n, **({"positive": True, "stated": positive[n]} if n in positive else {})}
                         for n in sorted(all_names)],
             "notation": {}, "define": {},
             # names written right before "(": a product only if listed here

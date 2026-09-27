@@ -215,11 +215,23 @@ _NUMBERED_ENVS = ("equation", "align", "eqnarray", "gather", "multline", "flalig
 _ENV_OPEN = re.compile(r"\\begin\{(" + "|".join(_NUMBERED_ENVS) + r")(\*?)\}")
 
 
+_LAYOUT = re.compile(r"\\label\{[^}]*\}|\\nonumber|\\notag|\\\\(?:\[[^\]]*\])?|&")
+
+
+def layout_free(text: str) -> str:
+    """Text with alignment and row layout removed (&, \\\\, \\nonumber,
+    \\label) and whitespace squashed: the form verbatim quotes are compared in."""
+    return " ".join(_LAYOUT.sub(" ", text).split())
+
+
 def _squash_with_map(text: str) -> tuple[str, list[int]]:
-    """Whitespace-squashed text and, for each kept character, its raw offset."""
+    """layout_free text and, for each kept character, its raw offset."""
+    blank = set()
+    for m in _LAYOUT.finditer(text):
+        blank.update(range(m.start(), m.end()))
     out, where, space = [], [], False
     for i, ch in enumerate(text):
-        if ch.isspace():
+        if ch.isspace() or i in blank:
             if out and not space:
                 out.append(" ")
                 where.append(i)
@@ -247,7 +259,7 @@ def locate_quote(raw: str, quote: str) -> dict | None:
     """Where a verbatim quote sits: line, enclosing display environment,
     its \\label, and its number when displays are numbered in order."""
     squashed, where = _squash_with_map(raw)
-    target = " ".join(quote.split())
+    target = layout_free(quote)
     hits, k = [], squashed.find(target)
     while k >= 0 and len(hits) < 50:
         hits.append(where[k])

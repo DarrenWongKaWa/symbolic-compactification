@@ -43,7 +43,7 @@ from typing import Any, Iterable
 from ..models import AdapterError
 from ..parser import _ALLOWED_FUNCTIONS
 from .calculus import CalculusSpace, compare
-from .latex import latex_to_plain, locate_quote, looks_like_latex, read_macros
+from .latex import latex_to_plain, layout_free, locate_quote, looks_like_latex, read_macros
 
 MATCH, MISMATCH, UNCHECKED, NOT_IN_DOCUMENT, ABSENT = (
     "MATCH", "MISMATCH", "UNCHECKED", "NOT_IN_DOCUMENT", "ABSENT")
@@ -292,7 +292,7 @@ def source_context(card: dict, base_dir: Path | None, *, symbols: Any,
                  *(f"{p}_{f}" for f in [*funcs, *def_names] for p in ("DD", "D"))}
     names = _symbol_names(symbols) | params
     return SourceContext(
-        document=None if raw is None else _squash(raw), raw=raw,
+        document=None if raw is None else layout_free(raw), raw=raw,
         macros=read_macros(raw) if (raw and latex) else {},
         latex=latex,
         notation={**_DEFAULT_NOTATION,
@@ -342,7 +342,8 @@ def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
 
 
 def in_document(quote: str, ctx: SourceContext) -> bool:
-    return ctx.document is None or _squash(quote) in ctx.document
+    """Verbatim up to whitespace and layout (&, row breaks, \\nonumber, \\label)."""
+    return ctx.document is None or layout_free(quote) in ctx.document
 
 
 def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,

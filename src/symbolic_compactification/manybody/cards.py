@@ -79,7 +79,7 @@ _EXPRESSION_KEYS = ("lhs", "rhs", "claim", "expr", "integrand", "function",
 def _symbol_entries(value) -> dict[str, dict]:
     out = {}
     for s in value or []:
-        entry = {"name": s} if isinstance(s, str) else dict(s)
+        entry = {"name": s} if isinstance(s, str) else {k: v for k, v in dict(s).items() if k != "stated"}
         out[str(entry["name"])] = entry
     return out
 

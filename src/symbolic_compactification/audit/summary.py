@@ -33,6 +33,8 @@ from .step_card_view import (
     html_conventions,
     html_step_card_body,
     html_step_cards,
+    html_undecided_groups,
+    is_undecided_card,
     manuscript_macros,
     manuscript_title,
     md_step_cards,
@@ -404,6 +406,9 @@ def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str],
                 macros: Mapping | None = None, title: str | None = None) -> str:
     if not records:
         return '<p class="ok">No NONZERO or uncertified records are present in this run.</p>'
+    undecided = [r for r in records if is_undecided_card(r)]
+    records = sorted((r for r in records if not is_undecided_card(r)),
+                     key=lambda r: (r.status != "NONZERO", r.edge_id))     # wrong steps first
     cards: list[str] = []
     for record in records:
         tone = _BUCKET_TONE[bucket_of.get(id(record), TABLE_UNCERTIFIED)]
@@ -426,7 +431,7 @@ def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str],
                else f'<pre>{_esc(residual)}</pre>')
             + '</details>'
         )
-    return "\n".join(cards)
+    return "\n".join(cards) + html_undecided_groups(undecided, dict(macros or {}))
 
 
 _CSS = """
@@ -447,6 +452,6 @@ code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84em
 .chip{display:inline-block;padding:.02rem .45rem;border-radius:4px;font-size:.78rem;font-weight:600;white-space:nowrap;border:1px solid currentColor;font-family:inherit}.chip.tone-exact{color:var(--exact);background:var(--exact-bg)}.chip.tone-struct{color:var(--struct);background:var(--struct-bg)}.chip.tone-review{color:var(--review);background:var(--review-bg);border-style:dashed}.chip.tone-bad{color:var(--bad);background:var(--bad-bg)}
 .queue-card{border:1px solid var(--rule);border-left:4px solid var(--review);padding:.5rem .75rem;margin:.5rem 0;border-radius:4px}.queue-card.tone-bad{border-left-color:var(--bad)}.queue-card summary{cursor:pointer;line-height:1.6}.queue-card .type{color:var(--muted);font-size:.82rem;margin-left:.3rem}.queue-card .claim{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;margin:.15rem 0 0 1.1rem}.queue-card .reasons{display:block;margin:.2rem 0 0 1.1rem}.reason{display:inline-block;font-size:.74rem;color:var(--review);border:1px solid var(--rule);border-radius:999px;padding:0 .5rem;margin-right:.3rem}
 .ok{border-left:4px solid var(--exact);padding:.55rem .7rem;background:var(--exact-bg);color:var(--exact);border-radius:4px}.scope{border-top:1px solid var(--rule);margin-top:1.6rem;padding-top:.2rem}footer{border-top:1px solid var(--ink);margin-top:1.6rem;padding-top:.8rem}
-.scroll{overflow-x:auto}.math{overflow-x:auto;padding:.2rem 0}math{font-size:1.08em}td .math{display:inline-block}td math{math-style:normal;font-size:1em}.erratum{border:1px dashed var(--review);border-radius:4px;padding:.4rem .7rem;margin:.5rem 0;background:var(--review-bg)}.cite{color:var(--muted);font-size:.8rem;margin:.1rem 0 .6rem}details.tex summary{cursor:pointer;color:var(--muted);font-size:.78rem}details.tex pre{margin:.2rem 0}
+.scroll{overflow-x:auto}.math{overflow-x:auto;padding:.2rem 0}math{font-size:1.08em}td .math{display:inline-block}td math{math-style:normal;font-size:1em}.erratum{border:1px dashed var(--review);border-radius:4px;padding:.4rem .7rem;margin:.5rem 0;background:var(--review-bg)}details.group{border:1px solid var(--rule);border-left:4px solid var(--review);border-radius:4px;padding:.4rem .7rem;margin:.4rem 0}details.group summary{cursor:pointer}h3.undecided{font:700 1rem/1.3 Georgia,serif;margin:1.2rem 0 .3rem}.cite{color:var(--muted);font-size:.8rem;margin:.1rem 0 .6rem}details.tex summary{cursor:pointer;color:var(--muted);font-size:.78rem}details.tex pre{margin:.2rem 0}
 @media print{.jump{display:none}.queue-card{break-inside:avoid}}
 """.strip()
