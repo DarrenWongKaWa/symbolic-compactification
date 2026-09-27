@@ -591,14 +591,22 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     # subscripted names (epsilon_d, Gamma_L) are symbols unless the paper gives
     # them a value (a display "X = ...") or they look like a combination of two
     # other names (e_nm next to e_n and e_m): those stay for the reviewer
-    valued = set()
+    valued, valued_functions = set(), set()
     for step in steps:
-        try:
-            head = latex_to_plain(step["lhs"], macros).strip() if latex else step["lhs"].strip()
-        except (ValueError, RecursionError):
-            continue
-        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", head):
-            valued.add(head)
+        for side, is_left in ((step["lhs"], True), (step["rhs"], False)):
+            try:
+                head = latex_to_plain(side, macros).strip() if latex else side.strip()
+            except (ValueError, RecursionError):
+                continue
+            # "-A = ...", "2A = ..." and "... = -A" give A a value; "... = 2 epsilon"
+            # is an ordinary claim about a parameter
+            strip = r"^[-+]?\s*(?:\d+(?:\.\d+)?\s*\*?\s*)?" if is_left else r"^[-+]?\s*"
+            head = re.sub(strip, "", head).strip(" ()")
+            if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", head):
+                valued.add(head)                      # "A = ...", "... = -2A"
+            m = re.fullmatch(r"([A-Za-z_][A-Za-z0-9_]*)\s*\([^()]*\)", head)
+            if m:
+                valued_functions.add(m.group(1))      # "A(w) = ..."
     for name in sorted(all_todo):
         if "_" not in name or name in valued or name.startswith("_") or name.endswith("_"):
             continue
@@ -643,6 +651,10 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             "symbols": [_symbol_entry(n, positive, real_stated, complex_stated, realness_matters)
                         for n in sorted(all_names)],
             "notation": dict(inline_notation), "define": {},
+            # quantities the paper gives a value; without a definition a card
+            # using them is not decided (they are not free symbols)
+            "named_quantities": sorted((valued - defined_names - {"x"}) - _KNOWN),
+            "named_functions": sorted((valued_functions - defined_names) - _KNOWN - {"n_F", "n_B"}),
             # names written right before "(": a product only if listed here
             # a Greek letter is taken as a product only if the paper also uses it as a
             # plain symbol; sigma(omega) alone is more likely a function

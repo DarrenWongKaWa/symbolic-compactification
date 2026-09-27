@@ -370,3 +370,18 @@ def test_prose_conditions_are_not_definitions(tmp_path):
     result = review(note, tmp_path / "r")
     assert {s["step"]: s["decision"] for s in result["steps"]} == {"eq:sq": "INVALID", "eq:zz": "VALID"}
     assert "x" not in result["assumptions_to_confirm"]["notation"]
+
+
+def test_named_quantity_is_not_refuted_as_a_free_symbol(tmp_path):
+    """Sigma is never defined, so 'Sigma = G_L+G_R', 'G_L+G_R = Sigma' and
+    '-Sigma = -G_L-G_R' say nothing checkable; a real identity still is."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "named_quantity.tex"
+    result = review(note, tmp_path / "r")
+    decisions = {s["step"]: s["decision"] for s in result["steps"]}
+    assert decisions == {"e1": "NOT_DECIDED", "e2": "NOT_DECIDED", "e3": "NOT_DECIDED", "e4": "VALID"}
+    for step in result["steps"][:3]:
+        assert any("NAMED_QUANTITY_UNDEFINED" in w for w in step["why_not_decided"]), step

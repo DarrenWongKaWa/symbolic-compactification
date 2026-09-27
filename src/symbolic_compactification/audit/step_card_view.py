@@ -273,6 +273,8 @@ _REASONS = (
      "State the symbol real or complex in conventions.yaml (real: true / real: false)."),
     ("LIMIT_POINT_UNSTATED", "The limit point of an O(…) claim is not stated",
      "The verdict differs between x → 0 and x → ∞; set point: 0 or oo on the card."),
+    ("NAMED_QUANTITY_UNDEFINED", "Uses a quantity the paper gives a value elsewhere, without its definition",
+     "Quote that quantity's definition in conventions.yaml (define:NAME(args)) so it is not a free symbol."),
     ("LHS_IS_A_NAMED_QUANTITY", "States the value of a named quantity",
      "Without that quantity's own definition the relation cannot be checked; quote its "
      "definition in conventions.yaml if the paper gives one."),

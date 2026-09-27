@@ -91,7 +91,12 @@ confident wrong verdict:
 - **Named quantities.** An identity whose left side is a lone name
   (`A = …`) states the value of a quantity. With `A` as a free symbol it
   could be refuted wrongly, so it is not decided unless `A` has a
-  definition in the conventions.
+  definition in the conventions. The same holds wherever the paper gives
+  a name a value: `Γ_L + Γ_R = Σ`, `−Σ = …` and `2Σ = …` all mark `Σ` as
+  a named quantity (`named_quantities` in `conventions.yaml`, and
+  `named_functions` for `G(ω) = …`). Any card that uses an undefined
+  named quantity is `NAMED_QUANTITY_UNDEFINED`. Give it a definition,
+  or remove it from the list if it really is a free parameter.
 - **Definitions in the prose.** `where $z_\pm = \varepsilon_d \pm i\Gamma$`,
   `with $f(x) = …$` and `$X \equiv …$` become quoted shared definitions.
   A bare name is mapped through `notation`, as in `z_p: z_p()`.

@@ -121,6 +121,8 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
                 shared[key][str(k)] = str(v)
         shared["functions"] += list(_names(data.get("functions")))
         shared["multiply"] += list(_names(data.get("multiply")))
+        for key in ("named_quantities", "named_functions"):
+            shared.setdefault(key, []).extend(_names(data.get(key)))
         for k, v in (data.get("source") or {}).items():       # quoted shared definitions
             if not str(k).startswith("define:"):
                 raise CardError(f"include {item}: only define: quotes may be shared")
@@ -142,6 +144,8 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
         merged[key] = {**shared[key], **own}
     merged["functions"] = sorted(set(shared["functions"]) | set(_names(card.get("functions"))))
     merged["multiply"] = sorted(set(shared["multiply"]) | set(_names(card.get("multiply"))))
+    for key in ("named_quantities", "named_functions"):
+        merged[key] = sorted(set(shared.get(key, [])) | set(_names(card.get(key))))
     own_source = dict(card.get("source") or {})
     for k, v in shared["source"].items():
         if k in own_source and own_source[k] != v:
@@ -194,6 +198,24 @@ def _remainder_both(card, f, P, variable, order, symbols, functions, positive, d
             "reasons": ["LIMIT_POINT_UNSTATED: the verdict differs between x -> 0 and x -> oo"
                         if statuses >= {"CERTIFIED_BY_RULE", "NONZERO"} else "LIMIT_POINT_UNSTATED"],
             "at_0": runs["0"]["status"], "at_infinity": runs["oo"]["status"]}
+
+
+def _named_quantity_blockers(card: dict, defs: dict, check: str) -> list[str]:
+    """Names the paper gives a value somewhere (a side of a relation that is
+    just the name, up to sign and a number). Used without a definition, they
+    would be free symbols, and a restatement such as '-S = ...' could be
+    refuted wrongly."""
+    if check == "langreth":
+        return []
+    plain = set(_names(card.get("named_quantities")))
+    funcs = set(_names(card.get("named_functions")))
+    if not plain and not funcs:
+        return []
+    defined = {k.split("(")[0].strip() for k in defs}
+    texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
+    used_plain = set(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)(?!\s*\(|[A-Za-z0-9_])", texts))
+    used_calls = set(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\s*\(", texts))
+    return sorted(((plain & used_plain) | (funcs & used_calls)) - defined)
 
 
 def _lhs_is_a_name(card: dict, defs: dict) -> bool:
@@ -381,6 +403,9 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
                     if k.split("(")[0].strip() not in quoted | shared_defs | builtin)
     if strict and ad_hoc:                  # a card's own definitions must be quoted
         why.append("UNQUOTED_CARD_DEFINITION:" + ",".join(ad_hoc))
+    named = _named_quantity_blockers(card, defs, check)
+    if named:
+        why.append("NAMED_QUANTITY_UNDEFINED:" + ",".join(named))
     if check == "identity" and _lhs_is_a_name(card, defs):
         # "A = ..." states the value of a named quantity: without A's own
         # definition the relation cannot be checked (A would be a free symbol)
