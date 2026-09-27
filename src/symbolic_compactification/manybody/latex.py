@@ -206,10 +206,23 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     # Re / Im of the next factor: \mathrm{Im}\,\psi(z) -> im_of psi(z)
     text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",
                   lambda m: f" {(m.group(1) or m.group(2)).lower()}_of ", text)
-    plain = _convert(text)
+    text = re.sub(r"\\(?:left|right|big|Big|bigg|Bigg)[lr]?\s*\|", "|", text)
+    text = re.sub(r"\\[lr]vert\b|\\vert\b", "|", text)
+    plain = _absolute_values(_convert(text))
     # e^{-x}, e^{i w t} are exponentials; e^2 (as in e^2/h) is the charge squared
     plain = re.sub(r"(?<![A-Za-z0-9_])e\^\((?!\s*\d+\s*\))", "E^(", plain)
     return re.sub(r"_\s+", "_", plain)
+
+
+def _absolute_values(plain: str) -> str:
+    """|X| -> Abs(X), innermost first. An odd or nested use of '|' is left
+    alone and the parser then refuses the quote."""
+    for _ in range(8):
+        new = re.sub(r"\|([^|]+)\|", r"Abs(\1)", plain, count=1)
+        if new == plain:
+            break
+        plain = new
+    return plain
 
 
 def looks_like_latex(text: str) -> bool:

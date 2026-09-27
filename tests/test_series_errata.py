@@ -341,3 +341,19 @@ def test_adjacent_greek_names_stay_separate():
 
     assert latex_to_plain(r"\Gamma_L\Gamma_R").split() == ["Gamma_L", "Gamma_R"]
     assert latex_to_plain(r"\epsilon_0").strip() == "epsilon_0"
+
+
+def test_absolute_values_with_and_without_stated_realness(tmp_path):
+    from symbolic_compactification.manybody.review import review
+
+    body = ("\\begin{equation}\\label{eq:ok}\\left|\\frac{1}{\\omega-i\\Gamma}\\right|^2 = "
+            "\\frac{1}{\\omega^2+\\Gamma^2}\\end{equation}\n"
+            "\\begin{equation}\\label{eq:bad}\\left|\\frac{1}{\\omega-i\\Gamma}\\right|^2 = "
+            "\\frac{1}{\\omega^2-\\Gamma^2}\\end{equation}\n")
+    cases = (("Let $\\Gamma>0$ and real $\\omega$.\n", {"eq:ok": "VALID", "eq:bad": "INVALID"}),
+             ("Let $\\Gamma>0$.\n", {"eq:ok": "NOT_DECIDED", "eq:bad": "NOT_DECIDED"}))
+    for k, (lead, expected) in enumerate(cases):
+        tex = tmp_path / f"p{k}.tex"
+        tex.write_text("\\begin{document}\n" + lead + body + "\\end{document}\n")
+        got = {s["step"]: s["decision"] for s in review(tex, tmp_path / f"r{k}")["steps"]}
+        assert got == expected, (lead, got)
