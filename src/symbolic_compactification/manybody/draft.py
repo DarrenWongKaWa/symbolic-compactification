@@ -78,11 +78,15 @@ def latex_equations(document: str) -> list[dict[str, Any]]:
         rows = [r for r in re.split(r"\\\\", m.group(2)) if r.strip()]
         found.append({"label": label.group(1) if label else None, "rows": rows,
                       "offset": m.start(),
-                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300]})
+                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],
+                      "sentence": _last_sentence(body[max(0, m.start() - 800):m.start()]),
+                      "document": body})
     for m in _DISPLAY_RE.finditer(body):
         text = m.group(1) or m.group(2)
         found.append({"label": None, "rows": [text], "offset": m.start(),
-                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300]})
+                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],
+                      "sentence": _last_sentence(body[max(0, m.start() - 800):m.start()]),
+                      "document": body})
     return sorted(found, key=lambda e: e["offset"])
 
 
@@ -122,7 +126,8 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
             for k in range(len(chain) - 1):
                 steps.append({"id": stem if len(chain) == 2 else f"{stem}.{k + 1}",
                               "lhs": chain[k], "rhs": chain[k + 1],
-                              "context": eq.get("context", "")})
+                              "context": eq.get("context", ""), "sentence": eq.get("sentence", ""),
+                              "document": eq.get("document", "")})
     return steps
 
 
@@ -247,17 +252,48 @@ def _langreth(lhs: str, rhs: str, macros: dict) -> dict | None:
             "notation": notation, "source": {"claim": body}}
 
 
-def _statistics(context: str) -> str | None:
-    """Fermionic or bosonic, only when the text says so: frequency letters
-    differ between papers, and the wrong statistics would give a wrong verdict."""
-    text = context.lower()
-    fermi = "fermion" in text or re.search(r"\(\s*2\s*n\s*\+\s*1\s*\)\s*\\pi", context)
-    bose = "boson" in text or re.search(r"2\s*n\s*\\pi|2\s*\\pi\s*n", context)
-    if fermi and not bose:
-        return "fermion"
-    if bose and not fermi:
-        return "boson"
+def _last_sentence(text: str) -> str:
+    """The sentence that leads into a display: text after the last full stop,
+    paragraph break or previous display."""
+    cut = max(text.rfind(". "), text.rfind(".\n"), text.rfind("\n\n"), text.rfind("\\par"),
+              text.rfind("\\end{"))
+    return text[cut + 1:] if cut >= 0 else text
+
+
+def _statistics(step: dict, freq: str, index: str) -> str | None:
+    """Fermionic or bosonic, never guessed from the letter. Structural
+    evidence first: the paper's definition of this very frequency symbol,
+    (2n+1) pi/beta or 2 n pi/beta. Otherwise the word fermionic/bosonic in the
+    sentence that leads into the display. Conflicting or absent evidence ->
+    None, so the step is not decided."""
+    doc = step.get("document", "")
+    defn = re.compile(rf"\\{freq}_\{{?\s*{index}\s*\}}?\s*=\s*([^$\n]{{0,60}})")
+    kinds = set()
+    for m in defn.finditer(doc):
+        rhs = m.group(1)
+        if re.search(rf"\(\s*2\s*{index}\s*\+\s*1\s*\)", rhs):
+            kinds.add("fermion")
+        elif re.search(rf"2\s*{index}\s*\\pi|2\s*\\pi\s*{index}", rhs):
+            kinds.add("boson")
+    if len(kinds) == 1:
+        return kinds.pop()
+    if kinds:
+        return None                               # the paper defines it both ways
+    lead = step.get("sentence", "").lower()
+    fermi, bose = "fermion" in lead, "boson" in lead
+    if fermi != bose:
+        return "fermion" if fermi else "boson"
     return None
+
+
+def _frequency(body: str, index: str) -> str:
+    return next((f for f in ("omega", "nu", "Omega", "xi", "epsilon")
+                 if re.search(rf"\\{f}_\{{?{index}\}}?", body)), "omega")
+
+
+def _matsubara_statistics(step: dict, match: re.Match) -> str | None:
+    body, index = match.group("body"), match.group("index")
+    return _statistics(step, _frequency(body, index), index)
 
 
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
@@ -275,10 +311,10 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         _remainder(card, lhs, "0 + " + rhs, _O_TERM.search("0 + " + rhs))
         card["approximant"] = "0"
         card["source"] = {"function": lhs}
-    elif matsubara and _statistics(step.get("context", "")):
+    elif matsubara and _matsubara_statistics(step, matsubara):
         body, k = matsubara.group("body").strip(), matsubara.group("index")
-        freq = next((f for f in ("omega", "nu", "Omega") if re.search(rf"\\{f}_\{{?{k}\}}?", body)), "omega")
-        card.update({"check": "matsubara", "statistics": _statistics(step.get("context", "")),
+        freq = _frequency(body, k)
+        card.update({"check": "matsubara", "statistics": _matsubara_statistics(step, matsubara),
                      "variable": "z", "beta": "beta",
                      "notation": {f"i{freq}_{k}": "z", f"i {freq}_{k}": "z"}})
         card["source"] = {"summand": body, "claim": rhs}

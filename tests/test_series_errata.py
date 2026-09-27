@@ -181,3 +181,17 @@ def test_matsubara_statistics_come_from_the_text(tmp_path):
         tex.write_text(head + text + body + "\n\\end{document}\n")
         steps = review(tex, tmp_path / expected)["steps"]
         assert [s["decision"] for s in steps] == [expected]
+
+
+def test_statistics_do_not_bleed_from_earlier_paragraphs(tmp_path):
+    """Regression: 'fermionic' in earlier sentences must not tag a bosonic sum
+    (defined via Omega_m = 2 pi m T) as fermionic and report it INVALID."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "context_bleed.tex"
+    result = review(note, tmp_path / "review")
+    assert all(s["decision"] != "INVALID" for s in result["steps"])
+    cards = list((tmp_path / "review" / "cards").glob("*.yaml"))
+    assert not any("statistics: fermion" in c.read_text() for c in cards)
