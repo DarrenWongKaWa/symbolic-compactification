@@ -132,11 +132,20 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     steps.sort(key=lambda s: (s["line"] is None, s["line"] or 0, s["step"]))
     html = out / "reviewer-verification-package" / "REVIEWER_SUMMARY.html"
     todo = (drafted or {}).get("unresolved_tokens", [])
+    conv = yaml.safe_load((out / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
+    assumed = {
+        "positive": [s["name"] for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],
+        "multiply": list(conv.get("multiply") or []),
+        "notation": dict(conv.get("notation") or {}),
+    }
+    verify_meaning = {0: "all recorded steps checked; no NONZERO", 2: "done; some steps are INVALID (NONZERO)"}
     return {
         "document": str(document), "workspace": str(out), "html": str(html) if html.exists() else None,
-        "verify_exit": verify, "steps": steps,
+        "verify": verify_meaning.get(verify, f"audit verify failed (exit {verify}); see the workspace"),
+        "assumptions_to_confirm": assumed, "steps": steps,
         "counts": {k: sum(1 for s in steps if s["decision"] == k) for k in ("VALID", "INVALID", "NOT_DECIDED")},
-        "next": ("Every VALID/INVALID above was decided by the tool from verbatim quotes. "
+        "next": ("Every VALID/INVALID above was decided by the tool from verbatim quotes, under "
+                 "assumptions_to_confirm (guessed from the text; check them against the paper). "
                  "NOT_DECIDED steps are outside the supported forms or need conventions: edit "
                  f"{out / 'cards' / 'conventions.yaml'} (symbols, notation, definitions) or a card's "
                  "check, then run the same command again."

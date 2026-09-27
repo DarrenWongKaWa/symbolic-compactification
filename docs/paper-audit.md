@@ -46,7 +46,14 @@ symbolic-compactification manybody review paper.tex --out review/
 ```
 
 Rerun it after editing `review/cards/conventions.yaml`. It keeps the
-cards and only re-verifies. The steps it performs are:
+cards and only re-verifies.
+
+The JSON output has these fields:
+- `steps`: one row per step, with its decision, check, equation and line.
+- `verify`: "some steps are INVALID" is a result, not a failure.
+- `assumptions_to_confirm`: the `positive: true` guesses, taken from
+  statements such as `x > 0` in the text, plus the `multiply` list and the
+  notation. Confirm them against the paper; they can change a verdict. The steps it performs are:
 
 ```bash
 symbolic-compactification manybody draft manuscript/source.tex --out cards/
