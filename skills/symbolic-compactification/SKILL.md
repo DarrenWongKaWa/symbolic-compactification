@@ -86,8 +86,11 @@ python3 "$SKILL_ROOT/scripts/compact_verify.py" \
   --current current.txt \
   --candidate candidate.txt \
   --symbols symbols.json \
+  --domain "x != y" \
   --out compact/
 ```
+
+`--domain` is optional. It records a stated condition on the receipt.
 
 Outputs:
 

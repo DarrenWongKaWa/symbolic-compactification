@@ -144,6 +144,9 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         "verify": verify_meaning.get(verify, f"audit verify failed (exit {verify}); see the workspace"),
         "assumptions_to_confirm": assumed, "steps": steps,
         "counts": {k: sum(1 for s in steps if s["decision"] == k) for k in ("VALID", "INVALID", "NOT_DECIDED")},
+        "how_to_read": ("Report each step's `decision` (VALID / INVALID / NOT_DECIDED); `status` is "
+                        "the audit record behind it. Send `html` to a colleague: it is the "
+                        "self-contained reviewer page of the replayable package."),
         "next": ("Every VALID/INVALID above was decided by the tool from verbatim quotes, under "
                  "assumptions_to_confirm (guessed from the text; check them against the paper). "
                  "NOT_DECIDED steps are outside the supported forms or need conventions: edit "
