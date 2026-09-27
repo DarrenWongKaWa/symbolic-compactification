@@ -493,12 +493,28 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         step["positive_names"] = set(positive)
     all_names, all_todo, written, shared_quotes = set(), set(), [], {}
     before_paren: set[str] = set()
-    for step in steps:
+
+    def definition_of(step):
         try:
-            definition = _definition(step, latex, macros)
+            return _definition(step, latex, macros)
         except (ValueError, RecursionError):
+            return None
+
+    # a name "defined" twice with different right-hand sides is not a
+    # definition: those relations are claims and are drafted as steps
+    bodies: dict[str, set[str]] = {}
+    for step in steps:
+        for key, _ in definition_of(step) or []:
+            bodies.setdefault(key.split(":", 1)[1].split("(")[0], set()).add(" ".join(step["rhs"].split()))
+    contested = {name for name, rhs in bodies.items() if len(rhs) > 1}
+    drafted_definitions: list[dict] = []
+    for step in steps:
+        definition = definition_of(step)
+        if definition and definition[0][0].split(":", 1)[1].split("(")[0] in contested:
             definition = None
         if definition:
+            drafted_definitions.append({"step": step["id"], "defines": [k.split(":", 1)[1] for k, _ in definition],
+                                        "display": step.get("display")})
             shared_quotes.update(definition)
             params = set(definition[0][0].split("(", 1)[1].rstrip(")").split(","))
             plain_rhs = latex_to_plain(step["rhs"], macros) if latex else step["rhs"]
@@ -568,5 +584,6 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
                                + footer, encoding="utf-8")
     return {"document": str(doc), "cards": written, "conventions": str(conventions),
             "shared_definitions": sorted(shared_quotes),
+            "definitions_drafted": drafted_definitions,
             "inactive_definitions": sorted(clashing),
             "unresolved_tokens": sorted(all_todo), "symbols_guessed": sorted(all_names)}

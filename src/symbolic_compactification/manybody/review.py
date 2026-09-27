@@ -214,6 +214,8 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         "document": str(document), "workspace": str(out), "html": str(html) if html.exists() else None,
         "verify": verify_meaning.get(verify, f"audit verify failed (exit {verify}); see the workspace"),
         "assumptions_to_confirm": assumed, "steps": steps, "added_on_rerun": added,
+        # relations taken as definitions (not checked; they define names other steps use)
+        "definitions": (drafted or {}).get("definitions_drafted", []),
         "counts": {k: sum(1 for s in steps if s["decision"] == k) for k in ("VALID", "INVALID", "NOT_DECIDED")},
         "how_to_read": ("Report each step's `decision` (VALID / INVALID / NOT_DECIDED); `status` is "
                         "the audit record behind it. Send `html` to a colleague: it is the "

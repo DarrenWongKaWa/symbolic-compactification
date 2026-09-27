@@ -268,14 +268,16 @@ def document_title(raw: str) -> str | None:
     return " ".join(re.sub(r"\\\\|[{}]|\\[A-Za-z]+\s*", " ", body).split()) or None
 
 
-def locate_quote(raw: str, quote: str) -> dict | None:
+def locate_quote(raw: str, quote: str, within: tuple[int, int] | None = None) -> dict | None:
     """Where a verbatim quote sits: line, enclosing display environment,
-    its \\label, and its number when displays are numbered in order."""
+    its \\label, and its number when displays are numbered in order.
+    ``within`` restricts the search to a character span (the card's display)."""
     squashed, where = _squash_with_map(raw)
     target = layout_free(quote)
     hits, k = [], squashed.find(target)
-    while k >= 0 and len(hits) < 50:
-        hits.append(where[k])
+    while k >= 0 and len(hits) < 200:
+        if within is None or within[0] <= where[k] < within[1]:
+            hits.append(where[k])
         k = squashed.find(target, k + 1)
     if not hits:
         return None

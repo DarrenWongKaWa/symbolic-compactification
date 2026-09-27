@@ -472,7 +472,12 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
             fields[key] = {**record, "status": NOT_IN_DOCUMENT}
             continue
         if ctx.raw:
-            where = locate_quote(ctx.raw, quote)
+            span = None
+            if anchor:
+                region = display_text(ctx.raw, anchor)
+                start = ctx.raw.find(region) if region else -1
+                span = (start, start + len(region)) if start >= 0 else None
+            where = locate_quote(ctx.raw, quote, within=span)   # the card's own display
             if where:
                 record["location"] = where
         failure = (card.get("_source_failures") or {}).get(key)

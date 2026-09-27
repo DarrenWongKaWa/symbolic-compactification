@@ -296,3 +296,20 @@ def test_a_truncated_quote_is_not_the_paper_s_claim(tmp_path):
         assert result["decision"] == "NOT_DECIDED", (display, rhs)
     whole = {**base, "display": "eq:main", "source": {"lhs": "x", "rhs": "a + b^2"}}
     assert run_card(whole, require_source=True)["transcription"]["status"] == "MATCH"
+
+
+def test_every_display_surfaces_under_its_own_label(tmp_path):
+    """Regression (review round 6): twelve true/false pairs; every label is
+    reported once, at its own equation, and the decided ones are right."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = Path(__file__).parent / "fixtures" / "notes" / "mixed_twelve.tex"
+    steps = review(note, tmp_path / "r")["steps"]
+    labels = [s["step"] for s in steps]
+    assert len(labels) == len(set(labels)) == 12
+    assert all(s["label"] == s["step"] for s in steps)
+    decided = {s["step"]: s["decision"] for s in steps if s["decision"] != "NOT_DECIDED"}
+    assert all(d == ("VALID" if name.endswith("-true") else "INVALID") for name, d in decided.items())
+    assert {"eq:series-true", "eq:pf-true"} <= set(decided)
