@@ -221,10 +221,20 @@ _ENV_OPEN = re.compile(r"\\begin\{(" + "|".join(_NUMBERED_ENVS) + r")(\*?)\}")
 _LAYOUT = re.compile(r"\\label\{[^}]*\}|\\nonumber|\\notag|\\\\(?:\[[^\]]*\])?|&")
 
 
+_ROW_BREAK = re.compile(r"\\\\(?:\[[^\]]*\])?")
+ROW = "\u00b6"          # marks where a display row ended, for quote boundaries
+
+
+def layout_rows(text: str) -> str:
+    """layout_free, but row breaks are kept as a marker (a row end is a
+    legitimate place for a quote to stop)."""
+    return layout_free(_ROW_BREAK.sub(f" {ROW} ", text))
+
+
 def layout_free(text: str) -> str:
     """Text with alignment and row layout removed (&, \\\\, \\nonumber,
     \\label) and whitespace squashed: the form verbatim quotes are compared in."""
-    return " ".join(_LAYOUT.sub(" ", text).split())
+    return " ".join(_LAYOUT.sub(" ", text).replace(ROW, ROW).split())
 
 
 def _squash_with_map(text: str) -> tuple[str, list[int]]:

@@ -43,7 +43,7 @@ from typing import Any, Iterable
 from ..models import AdapterError
 from ..parser import _ALLOWED_FUNCTIONS
 from .calculus import CalculusSpace, compare
-from .latex import latex_to_plain, layout_free, locate_quote, looks_like_latex, read_macros
+from .latex import ROW, latex_to_plain, layout_free, layout_rows, locate_quote, looks_like_latex, read_macros
 
 MATCH, MISMATCH, UNCHECKED, NOT_IN_DOCUMENT, ABSENT = (
     "MATCH", "MISMATCH", "UNCHECKED", "NOT_IN_DOCUMENT", "ABSENT")
@@ -349,8 +349,42 @@ def in_document(quote: str, ctx: SourceContext, display: str | None = None) -> b
         return True
     if display and ctx.raw is not None:
         region = display_text(ctx.raw, display)
-        return region is not None and layout_free(quote) in layout_free(region)
-    return layout_free(quote) in ctx.document
+        return region is not None and _whole_occurrence(layout_free(quote), layout_rows(region),
+                                                          ctx.latex)
+    return _whole_occurrence(layout_free(quote), layout_rows(ctx.raw) if ctx.raw is not None
+                             else ctx.document, ctx.latex)
+
+
+_LEFT_OK = re.compile(
+    r"(?:^|=|\\approx|\\simeq|\\equiv|,|;|:|\\[,;!]|\\q?quad|\\left\s*\.|"
+    r"\\begin\{[A-Za-z*]+\}|\\end\{[A-Za-z*]+\}|\\\[|\$\$|\$|"
+    r"\\sum_\{[^{}]*\}(?:\^\{?[^{}\s]*\}?)?|\\sum_[A-Za-z]|"
+    r"\bd\s*\\?[A-Za-z]+(?:_\{?\w+\}?)?(?:\s*\\[,;!])?)\s*$")
+_RIGHT_OK = re.compile(
+    r"^\s*(?:$|=|\\approx|\\simeq|\\equiv|,|\.|;|:|\\[,;!]|\\q?quad|\\label|\\nonumber|"
+    r"\\\\|\\end|\\\]|\$|\+\s*(?:\\mathcal\{O\}|O)\s*[(\[]|\\text)")
+
+
+_PROSE_LEFT = re.compile(r"(?:^|\s)[A-Za-z]{2,}\s*$")
+
+
+def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
+    """The quote occurs as a whole piece: bounded by the display edge, a row
+    end, a relation sign, punctuation, spacing, an integration measure or a
+    sum, or '+ O(...)' -- never as a fragment such as 'a + b' inside 'a + b^2'.
+    In a plain-text sheet a quote may also follow a word of prose."""
+    if not quote:
+        return False
+    gap = r"(?:\s*" + ROW + r"\s*|\s+)"         # a space in the quote may be a row end in the display
+    pattern = re.compile(gap.join(re.escape(tok) for tok in quote.split(" ")))
+    for m in pattern.finditer(region):
+        left, right = region[:m.start()], region[m.end():]
+        left_ok = _LEFT_OK.search(left) or left.rstrip().endswith(ROW) or (
+            not latex and _PROSE_LEFT.search(left))
+        right_ok = _RIGHT_OK.match(right) or right.lstrip().startswith(ROW)
+        if left_ok and right_ok:
+            return True
+    return False
 
 
 def display_text(raw: str, display: str) -> str | None:

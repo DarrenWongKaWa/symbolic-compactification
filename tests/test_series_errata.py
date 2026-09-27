@@ -281,3 +281,18 @@ def test_an_edited_claim_never_passes_on_a_stale_card(tmp_path):
     tex.write_text((Path(__file__).parent / "fixtures" / "notes" / "stale_edit.tex").read_text())
     decisions = {s["step"]: s["decision"] for s in review(tex, tmp_path / "o")["steps"]}
     assert decisions["eq:one"] == "NOT_DECIDED" and decisions["eq:two"] == "VALID"
+
+
+def test_a_truncated_quote_is_not_the_paper_s_claim(tmp_path):
+    """Regression (review round 5): 'a + b' quoted out of 'x = a + b^2', or
+    '(a + b)' out of 'x = (a + b) c', is a fragment, not a claim."""
+    tex = tmp_path / "p.tex"
+    tex.write_text("\\begin{document}\n\\begin{equation}\\label{eq:main} x = a + b^2 \\end{equation}\n"
+                   "\\begin{equation}\\label{eq:prod} x = (a + b) c \\end{equation}\n\\end{document}\n")
+    base = {"check": "identity", "symbols": ["a", "b", "c", "x"], "source_document": str(tex)}
+    for display, rhs in (("eq:main", "a + b"), ("eq:prod", "(a + b)")):
+        card = {**base, "display": display, "source": {"lhs": "x", "rhs": rhs}}
+        result = run_card(card, require_source=True)
+        assert result["decision"] == "NOT_DECIDED", (display, rhs)
+    whole = {**base, "display": "eq:main", "source": {"lhs": "x", "rhs": "a + b^2"}}
+    assert run_card(whole, require_source=True)["transcription"]["status"] == "MATCH"
