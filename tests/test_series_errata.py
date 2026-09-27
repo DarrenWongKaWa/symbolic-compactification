@@ -227,3 +227,25 @@ def test_symbols_under_re_im_are_complex_unless_stated_real(tmp_path):
     result = review(note, tmp_path / "r")
     assert "z" in result["assumptions_to_confirm"]["complex"]
     assert all(s["decision"] != "VALID" for s in result["steps"])
+
+
+def test_rerun_drafts_new_relations_and_keeps_edits(tmp_path):
+    import shutil
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.review import review
+
+    note = tmp_path / "n.tex"
+    shutil.copy(Path(__file__).parent / "fixtures" / "notes" / "broadened_level.tex", note)
+    first = review(note, tmp_path / "o")
+    conventions = tmp_path / "o" / "cards" / "conventions.yaml"
+    conventions.write_text(conventions.read_text() + "# reviewer note: kept\n")
+    note.write_text(note.read_text().replace(
+        "\\end{document}",
+        "\\begin{equation}\\label{eq:new}\\frac{1}{x-a}-\\frac{1}{x-b} = \\frac{a-b}{(x-a)(x-b)}"
+        "\\end{equation}\n\\end{document}"))
+    second = review(note, tmp_path / "o")
+    assert second["added_on_rerun"] == ["eq_new"]
+    assert len(second["steps"]) == len(first["steps"]) + 1
+    assert "# reviewer note: kept" in conventions.read_text()
+    assert "../manuscript/source.tex" in (tmp_path / "o" / "cards" / "eq_new.yaml").read_text()

@@ -103,6 +103,33 @@ def _manifests(out: Path, source_name: str = "source.tex") -> list[dict[str, Any
     return rows
 
 
+def _draft_new_steps(out: Path, source_name: str) -> tuple[dict, list[str]]:
+    """Rerun: add cards for relations that are new in the paper; never touch
+    existing cards or conventions except to append missing symbol names."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        fresh = draft(out / "manuscript" / source_name, Path(tmp) / "cards")
+        conv = yaml.safe_load((out / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
+        new_conv = yaml.safe_load((Path(tmp) / "cards" / "conventions.yaml").read_text(encoding="utf-8")) or {}
+        have = {str(s["name"] if isinstance(s, dict) else s) for s in conv.get("symbols") or []}
+        missing = [s for s in new_conv.get("symbols") or []
+                   if str(s["name"] if isinstance(s, dict) else s) not in have]
+        added = []
+        for path in sorted((Path(tmp) / "cards").glob("*.yaml")):
+            if path.name == "conventions.yaml" or (out / "cards" / path.name).exists():
+                continue
+            card = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            card["source_document"] = f"../manuscript/{source_name}"   # portable, as in a first draft
+            if missing:           # new names go on the new card; conventions.yaml is never rewritten
+                card["symbols"] = missing
+            (out / "cards" / path.name).write_text(
+                "# Drafted on rerun: a relation new in the paper.\n"
+                + yaml.safe_dump(card, sort_keys=False, allow_unicode=True), encoding="utf-8")
+            added.append(path.stem)
+    fresh["added_on_rerun"] = added
+    return fresh, added
+
+
 def _ident(label: str, seen: set[str]) -> str:
     """The paper's own label (eq:bubble) as the audit id, made unique."""
     base = re.sub(r"[^A-Za-z0-9._:-]", "-", label).strip("-.:") or "step"
@@ -125,7 +152,11 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     document, out = Path(document).resolve(), Path(out_dir).resolve()
     fresh = not (out / "cards" / "conventions.yaml").exists()
     _workspace(out, document)
-    drafted = draft(out / "manuscript" / _source_name(document), out / "cards") if fresh else None
+    if fresh:
+        drafted = draft(out / "manuscript" / _source_name(document), out / "cards")
+        added = []
+    else:
+        drafted, added = _draft_new_steps(out, _source_name(document))
     rows = _manifests(out, _source_name(document))
     verify = _cli("audit", "verify", str(out))
     _cli("audit", "report", str(out))
@@ -172,7 +203,7 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     return {
         "document": str(document), "workspace": str(out), "html": str(html) if html.exists() else None,
         "verify": verify_meaning.get(verify, f"audit verify failed (exit {verify}); see the workspace"),
-        "assumptions_to_confirm": assumed, "steps": steps,
+        "assumptions_to_confirm": assumed, "steps": steps, "added_on_rerun": added,
         "counts": {k: sum(1 for s in steps if s["decision"] == k) for k in ("VALID", "INVALID", "NOT_DECIDED")},
         "how_to_read": ("Report each step's `decision` (VALID / INVALID / NOT_DECIDED); `status` is "
                         "the audit record behind it. Send `html` to a colleague: it is the "
