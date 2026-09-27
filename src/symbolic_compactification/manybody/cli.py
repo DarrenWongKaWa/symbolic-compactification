@@ -124,7 +124,16 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     c.add_argument("--positive")
     st = msub.add_parser("step", help="run one YAML step card (docs/encoding-cookbook.md)")
     st.add_argument("card", help="path to the step card")
-    for parser in (m, r, i, o, k, d, c, st):
+    st.add_argument("--require-source", action="store_true",
+                    help="NOT_DECIDED unless every expression is quoted from source_document")
+    sts = msub.add_parser("steps", help="run a directory of step cards; table and HTML report")
+    sts.add_argument("paths", nargs="+", help="card files or directories")
+    sts.add_argument("--require-source", action="store_true")
+    sts.add_argument("--html", help="write a reviewer HTML report here")
+    dr = msub.add_parser("draft", help="draft step cards from a .tex file or a plain-text sheet")
+    dr.add_argument("document")
+    dr.add_argument("--out", required=True, help="directory for the cards and conventions.yaml")
+    for parser in (m, r, i, o, k, d, c, st, sts, dr):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -152,7 +161,17 @@ def _run(args) -> dict[str, Any]:
             positive=_names(args.positive))
     if cmd == "step":
         from .cards import run_card
-        return run_card(args.card)
+        return run_card(args.card, require_source=args.require_source or None)
+    if cmd == "draft":
+        from .draft import draft
+        return draft(args.document, args.out)
+    if cmd == "steps":
+        from .batch import run_cards, to_html
+        report = run_cards(args.paths, require_source=args.require_source or None)
+        if args.html:
+            Path(args.html).write_text(to_html(report), encoding="utf-8")
+            report = {**report, "html": args.html}
+        return report
     if cmd == "identity":
         from .calculus import verify_identity
         return verify_identity(_expr(args.lhs), _expr(args.rhs), symbols=_symbols(args.symbols),

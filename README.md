@@ -157,6 +157,20 @@ symbolic-compactification manybody langreth --product A,B --component less \
 # -> "status": "CERTIFIED_BY_RULE"; writing B_R for B_A gives NONZERO
 ```
 
+**D. Check a whole paper, straight from LaTeX.** Draft the cards from the
+source, fill one conventions file, and replay them strictly:
+
+```bash
+symbolic-compactification manybody draft paper.tex --out cards/
+# edit cards/conventions.yaml: symbols, notation, definitions
+symbolic-compactification manybody steps cards/ --require-source --html cards/report.html
+```
+
+Every expression in a card is a verbatim quote of the paper. The tool
+checks that each quote occurs in the document and translates it itself.
+A card that does not match its source is never decided, and a shared
+convention cannot be silently redefined by one step.
+
 What each check assumes, and what it refuses, is in
 [`docs/many-body-equivalence.md`](docs/many-body-equivalence.md). To encode
 a paper's derivation one step at a time, write step cards: see

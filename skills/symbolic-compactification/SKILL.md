@@ -224,13 +224,21 @@ a Langreth rule, an operator identity or a real-frequency Green's-function
 integral. Propose the closed form. Do not decide it yourself: run the
 command and report its JSON `status` unchanged.
 
-The easiest route is one YAML **step card** per step:
-`symbolic-compactification manybody step card.yaml`. Copy the paper's
-definitions once under `define:`, and pick the `check` from the table in
-the engine repository's `docs/encoding-cookbook.md` (`examples/cards/` has
-a template for each kind). Report VALID only on `ZERO` or
-`CERTIFIED_BY_RULE`, and INVALID only on `NONZERO`. Anything else is
-"not decided by the tool", never INVALID by default.
+The easiest route is one YAML **step card** per step. Do not retype
+formulas; draft the cards from the source:
+1. Run `symbolic-compactification manybody draft paper.tex --out cards/`.
+   Plain-text sheets with `Claim:` lines also work.
+2. Fill `cards/conventions.yaml` once. It holds the symbols, the notation
+   table and the paper's definitions, quoted where possible.
+3. Choose the `check` of each card, using the table in the engine
+   repository's `docs/encoding-cookbook.md`. `examples/cards/` has a
+   template for each kind.
+4. Run `symbolic-compactification manybody steps cards/ --require-source`.
+
+Report each card's `decision` field unchanged: VALID, INVALID, or "not
+decided by the tool". A card whose expressions do not match their quotes
+is never decided. Never report INVALID just because the tool did not
+decide.
 
 ```bash
 symbolic-compactification manybody matsubara  --statistics fermion|boson --summand F --claim C --symbols S

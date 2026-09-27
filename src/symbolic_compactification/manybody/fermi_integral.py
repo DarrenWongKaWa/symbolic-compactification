@@ -42,10 +42,54 @@ class _Refusal(Exception):
         self.reason = reason
 
 
+def _unit_argument(arg, w):
+    """nF(arg) with arg = c - w rewritten as 1 - nF(-c + w); returns (sign, c, const)
+    so that nF(arg) = const + sign * nF(c + w)."""
+    arg = sympy.expand(arg)
+    slope = arg.diff(w)
+    if slope == 1:
+        return 1, sympy.expand(arg - w), 0
+    if slope == -1:
+        return -1, sympy.expand(-arg - w), 1
+    raise _Refusal("FERMI_ARGUMENT_NOT_C_PLUS_MINUS_W")
+
+
+def reduce_fermi_products(expr, w):
+    """Products of two Fermi factors in w become linear in nF.
+
+    With x = a + w and y = b + w, y - x = b - a does not depend on w and
+        nF(x) nF(y) = nF(x) - (1 + nB(b - a)) (nF(x) - nF(y)),
+    which is exact for b != a (generic parameters). nF(c - w) = 1 - nF(-c + w)
+    first brings every argument to slope +1.
+    """
+    nF, nB = sympy.Function("nF"), sympy.Function("nB")
+    out = sympy.Integer(0)
+    for term in sympy.Add.make_args(sympy.expand(expr, mul=True, multinomial=False, power_exp=False)):
+        calls = [f for f in sympy.Mul.make_args(term) if isinstance(f, sympy.Function) and f.func == nF
+                 and f.args[0].has(w)]
+        powers = [f for f in sympy.Mul.make_args(term) if isinstance(f, sympy.Pow)
+                  and isinstance(f.base, sympy.Function) and f.base.func == nF and f.base.args[0].has(w)]
+        if powers or len(calls) > 2:
+            raise _Refusal("UNSUPPORTED_FERMI_PRODUCT")
+        if len(calls) < 2:
+            out += term
+            continue
+        rest = term / (calls[0] * calls[1])
+        (s1, a, k1), (s2, b, k2) = (_unit_argument(c.args[0], w) for c in calls)
+        if sympy.simplify(b - a) == 0:
+            raise _Refusal("FERMI_PRODUCT_SAME_ARGUMENT")
+        fx, fy = nF(a + w), nF(b + w)
+        product = fx - (1 + nB(b - a)) * (fx - fy)
+        # (k1 + s1 fx)(k2 + s2 fy) with fx fy replaced by the linear form
+        out += rest * (k1 * k2 + k1 * s2 * fy + k2 * s1 * fx + s1 * s2 * product)
+    return out
+
+
 def _split_terms(expr, w):
     """{c: R_c(w)} for R_c(w) nF(c + w), plus None -> fermion-free part."""
     nF = sympy.Function("nF")
     groups: dict = {}
+    expr = reduce_fermi_products(expr, w)
     for term in sympy.Add.make_args(sympy.expand(expr, mul=True, multinomial=False, power_exp=False)):
         calls = [f for f in term.atoms(sympy.Function) if f.func == nF]
         if not calls:
@@ -121,10 +165,21 @@ def fermi_integral(expr, w, beta):
 def verify_fermi_integral(integrand: str, claim: str, *, variable: str, beta: str,
                           symbols: Any, functions: Iterable[str] = (),
                           definitions: dict | None = None,
-                          positive: tuple[str, ...] = ()) -> dict:
-    """int_R integrand d(variable) == claim, integrand built from nF(c +- w)."""
+                          positive: tuple[str, ...] = (),
+                          infinitesimal: str | None = None) -> dict:
+    """int_R integrand d(variable) == claim, integrand built from nF(c +- w).
+
+    ``infinitesimal`` names a positive symbol eta that moves real-axis
+    poles off the axis (w - a + i eta): the integral is done at eta > 0 and
+    the claim is compared with its limit eta -> 0+. The limit is taken by
+    substitution, which is exact because the closed form is analytic in eta
+    at 0 unless a denominator vanishes there; that case is refused.
+    """
     inputs = {"rule": FERMI_RESIDUE_SPLITTING, "integrand_sha256": text_hash(integrand),
-              "claim_sha256": text_hash(claim), "variable": variable, "beta": beta}
+              "claim_sha256": text_hash(claim), "variable": variable, "beta": beta,
+              **({"infinitesimal": infinitesimal} if infinitesimal else {})}
+    if infinitesimal and infinitesimal not in positive:
+        positive = (*positive, infinitesimal)
     try:
         space = CalculusSpace(symbols, functions, definitions=definitions)
         w, b = space.symbol(variable), space.symbol(beta)
@@ -138,6 +193,12 @@ def verify_fermi_integral(integrand: str, claim: str, *, variable: str, beta: st
         closed = fermi_integral(body.xreplace(sure), w, b.xreplace(sure)).xreplace(back)
     except _Refusal as refusal:
         return {**inputs, "status": UNKNOWN, "reasons": [refusal.reason]}
+    if infinitesimal:
+        eta = space.symbol(infinitesimal)
+        limit = closed.subs(eta, 0)
+        if limit.has(sympy.zoo, sympy.nan, sympy.oo) or target.has(eta):
+            return {**inputs, "status": UNKNOWN, "reasons": ["INFINITESIMAL_LIMIT_NOT_REGULAR"]}
+        closed = limit
     result = compare(closed, target, space, positive)
     status = {"ZERO": CERTIFIED_BY_RULE, "NONZERO": NONZERO}.get(result["verdict"], UNKNOWN)
     cert = {**inputs, "status": status, "derived": str(closed)[:4000]}

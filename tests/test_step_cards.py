@@ -32,8 +32,8 @@ def test_fermi_integral_refuses_unsupported_forms():
     S = [{"name": "beta", "nonzero": True}, {"name": "G", "nonzero": True},
          {"name": "e"}, {"name": "w"}]
     kw = {"variable": "w", "beta": "beta", "symbols": S, "positive": ("beta", "G")}
-    two = verify_fermi_integral("nF(e + w)*nF(e - w)/(w**2 + G**2)", "0", **kw)
-    assert two["status"] == "UNKNOWN" and "MORE_THAN_ONE_FERMI_FACTOR" in two["reasons"]
+    three = verify_fermi_integral("nF(e + w)*nF(e - w)*nF(w)/(w**2 + G**2)", "0", **kw)
+    assert three["status"] == "UNKNOWN" and "UNSUPPORTED_FERMI_PRODUCT" in three["reasons"]
     slow = verify_fermi_integral("nF(e + w)/(w + I*G)", "0", **kw)
     assert "INTEGRAND_DECAY_BELOW_1_OVER_W2" in slow["reasons"]
     unsigned = verify_fermi_integral("nF(e + w)/(w**2 + G**2)", "0", variable="w", beta="beta",

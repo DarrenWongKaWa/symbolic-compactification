@@ -1,0 +1,213 @@
+"""Draft step cards from a document, so that nobody retypes a formula.
+
+    symbolic-compactification manybody draft paper.tex --out cards/
+
+For each displayed equation (LaTeX ``equation``, ``align``, ``gather``,
+``multline``, ``\\[...\\]``, ``$$...$$``; in a plain-text sheet, every line
+``Claim: ...``) a card is written whose expressions are verbatim quotes:
+
+- ``A = B = C`` becomes the steps ``A = B`` and ``B = C``;
+- a trailing ``+ O(x^n)`` becomes a ``remainder`` card for ``x -> 0``;
+- ``, name = expr`` clauses after the claim are proposed as definitions.
+
+Every card includes one shared ``conventions.yaml``. The drafter lists the
+tokens it could not resolve there as comments: a person or an agent fills
+the notation and definitions once for the whole document, and the cards
+themselves never contain hand-written expressions. A draft is a proposal:
+run the cards with ``--require-source``.
+"""
+from __future__ import annotations
+
+import os
+import re
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+from ..parser import _ALLOWED_FUNCTIONS
+from .latex import latex_to_plain, read_macros
+
+_ENVIRONMENTS = ("equation", "align", "gather", "multline", "eqnarray", "flalign")
+_ENV_RE = re.compile(r"\\begin\{(" + "|".join(_ENVIRONMENTS) + r")\*?\}(.*?)\\end\{\1\*?\}", re.S)
+_DISPLAY_RE = re.compile(r"\\\[(.*?)\\\]|\$\$(.*?)\$\$", re.S)
+_LABEL_RE = re.compile(r"\\label\{([^}]*)\}")
+_O_TERM = re.compile(r"\s*\+\s*(?:\\mathcal\{O\}|O)\s*[\(\[]\s*(.+?)\s*[\)\]]\s*[.,;]?\s*$")
+_KNOWN = set(_ALLOWED_FUNCTIONS) | {"pi", "E", "I", "oo", "i", "nF", "nB", "Diff", "exp", "log"}
+
+
+def split_top_level(text: str, sep: str = "=") -> list[str]:
+    """Split at ``sep`` outside brackets; ``==``, ``<=``, ``>=``, ``!=`` are kept."""
+    parts, depth, start, i = [], 0, 0, 0
+    while i < len(text):
+        c = text[i]
+        if c in "([{":
+            depth += 1
+        elif c in ")]}":
+            depth -= 1
+        elif (c == sep and depth == 0 and text[i - 1:i] not in ("<", ">", "!", "=")
+              and text[i + 1:i + 2] != "="):
+            parts.append(text[start:i])
+            start = i + 1
+        i += 1
+    parts.append(text[start:])
+    return parts
+
+
+def _clean(fragment: str) -> str:
+    fragment = _LABEL_RE.sub("", fragment)
+    fragment = re.sub(r"\\(nonumber|notag)", "", fragment)
+    fragment = fragment.replace("&", " ")
+    return " ".join(fragment.split()).strip(" ,.;")
+
+
+def latex_equations(document: str) -> list[dict[str, Any]]:
+    """[{label, rows: [text, ...]}] for every display in a LaTeX document."""
+    body = document.split("\\begin{document}", 1)[-1]
+    found = []
+    for m in _ENV_RE.finditer(body):
+        label = _LABEL_RE.search(m.group(2))
+        rows = [r for r in re.split(r"\\\\", m.group(2)) if r.strip()]
+        found.append({"label": label.group(1) if label else None, "rows": rows,
+                      "offset": m.start()})
+    for m in _DISPLAY_RE.finditer(body):
+        text = m.group(1) or m.group(2)
+        found.append({"label": None, "rows": [text], "offset": m.start()})
+    return sorted(found, key=lambda e: e["offset"])
+
+
+def _document_fragment(raw: str, fragment: str) -> str | None:
+    """The verbatim document text for a cleaned fragment (whitespace aside).
+    Cleaning only removes labels, '&' and surrounding punctuation, so the
+    fragment is verbatim unless an '&' sat inside it."""
+    squashed = " ".join(raw.split())
+    return fragment if fragment and fragment in squashed else None
+
+
+def steps_from_latex(raw: str) -> list[dict[str, Any]]:
+    steps = []
+    for n, eq in enumerate(latex_equations(raw), start=1):
+        chain: list[str] = []
+        for row in eq["rows"]:
+            pieces = [p for p in split_top_level(row)]
+            if not chain:
+                chain += pieces
+            else:                                  # "&= C" continues the chain
+                if pieces and not pieces[0].strip(" &"):
+                    pieces = pieces[1:]
+                chain += pieces
+        chain = [_clean(p) for p in chain if _clean(p)]
+        base = eq["label"] or f"eq{n}"
+        for k in range(len(chain) - 1):
+            steps.append({"id": base if len(chain) == 2 else f"{base}.{k + 1}",
+                          "lhs": chain[k], "rhs": chain[k + 1]})
+    return steps
+
+
+def steps_from_sheet(raw: str) -> list[dict[str, Any]]:
+    """Plain-text sheets: '### ID' headings followed by 'Claim: A = B'."""
+    steps, current = [], None
+    for line in raw.splitlines():
+        head = re.match(r"#{2,4}\s+(\S+)", line)
+        if head:
+            current = head.group(1)
+            continue
+        claim = re.match(r"\s*Claim:\s*(.+)", line)
+        if claim and current:
+            text = claim.group(1).strip()
+            clauses = split_top_level(text, ",")
+            main = clauses[0]
+            sides = split_top_level(main)
+            extra = []
+            for clause in clauses[1:]:
+                kv = split_top_level(clause)
+                if len(kv) == 2 and re.fullmatch(r"\s*[A-Za-z_][\w+\-^()]*\s*", kv[0]):
+                    extra.append({"name": kv[0].strip(), "quote": kv[1].strip()})
+            if len(sides) >= 2:
+                for k in range(len(sides) - 1):
+                    steps.append({"id": current if len(sides) == 2 else f"{current}.{k + 1}",
+                                  "lhs": sides[k].strip(), "rhs": sides[k + 1].strip(),
+                                  "definitions": extra})
+            current = None
+    return steps
+
+
+def _tokens(plain: str) -> tuple[set[str], set[str]]:
+    """(plain names, names that need notation or a definition)."""
+    names, todo = set(), set()
+    for m in re.finditer(r"[A-Za-z_][A-Za-z0-9_]*(?:_[+\-])?(\()?", plain):
+        name = m.group(0).rstrip("(")
+        if name in _KNOWN or re.fullmatch(r"psi\d?", name):
+            continue
+        if m.group(1) or "_" in name:
+            todo.add(name)
+        else:
+            names.add(name)
+    return names, todo
+
+
+def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
+    lhs, rhs = step["lhs"], step["rhs"]
+    card: dict[str, Any] = {"include": "conventions.yaml", "source_document": doc_name}
+    o_term = _O_TERM.search(rhs)
+    if o_term:
+        approx = rhs[:o_term.start()].strip()
+        order_text = o_term.group(1)
+        var_order = re.fullmatch(r"\s*\\?([A-Za-z]+)\s*(?:\^\s*\{?\s*(\d+)\s*\}?)?\s*", order_text)
+        card.update({"check": "remainder", "point": "0", "direction": "+"})
+        if var_order:
+            card["variable"] = var_order.group(1)
+            card["order"] = int(var_order.group(2) or 1)
+        else:
+            card["variable"], card["order"] = "TODO", 1
+        card["source"] = {"function": lhs, "approximant": approx}
+    else:
+        card["check"] = "identity"
+        card["source"] = {"lhs": lhs, "rhs": rhs}
+    for d in step.get("definitions", []):
+        safe = d["name"].replace("+", "p").replace("-", "m")
+        card["source"][f"define:TODO_{re.sub(r'[^A-Za-z0-9]', '_', safe)}()"] = d["quote"]
+    names, todo = set(), set()
+    for quote in card["source"].values():
+        plain = latex_to_plain(quote, macros) if latex else quote
+        n, t = _tokens(plain)
+        names |= n
+        todo |= t
+    return card, names, todo
+
+
+def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
+    doc = Path(document)
+    raw = doc.read_text(encoding="utf-8")
+    latex = doc.suffix == ".tex"
+    steps = steps_from_latex(raw) if latex else steps_from_sheet(raw)
+    macros = read_macros(raw) if latex else {}
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    rel = Path(os.path.relpath(doc.resolve(), out.resolve()))
+    if rel.parts[:4] == ("..",) * 4:                     # far apart: keep it absolute
+        rel = doc.resolve()
+    all_names, all_todo, written = set(), set(), []
+    for step in steps:
+        card, names, todo = _card_for(step, str(rel), latex, macros)
+        all_names |= names
+        all_todo |= todo
+        path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', step['id'])}.yaml"
+        header = "# Draft from " + doc.name + ". Quotes are verbatim; do not edit them.\n"
+        if todo:
+            header += "# Needs notation or definitions for: " + ", ".join(sorted(todo)) + "\n"
+        path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
+                        encoding="utf-8")
+        written.append(str(path))
+    conventions = out / "conventions.yaml"
+    if not conventions.exists():
+        lines = [f"# Shared conventions for {doc.name}: fill once, used by every card.",
+                 "# Mark symbols whose sign matters with positive: true.",
+                 "symbols:"]
+        lines += [f"  - {{name: {n}}}" for n in sorted(all_names)] or ["  []"]
+        lines += ["notation: {}", "define: {}",
+                  "# Tokens to map in notation (paper token -> card syntax) or define:"]
+        lines += [f"#   {t}" for t in sorted(all_todo)]
+        conventions.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return {"document": str(doc), "cards": written, "conventions": str(conventions),
+            "unresolved_tokens": sorted(all_todo), "symbols_guessed": sorted(all_names)}

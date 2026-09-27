@@ -11,13 +11,69 @@ symbolic-compactification manybody step card.yaml
 
 Every card below exists in `examples/cards/` and is run by the test suite.
 
+## Fastest path: draft the cards from the document
+
+Nobody should retype a formula. Start from the paper itself, either a
+`.tex` file or a plain-text sheet with `Claim:` lines:
+
+```bash
+symbolic-compactification manybody draft paper.tex --out cards/
+# fill cards/conventions.yaml once: symbols, notation, definitions
+symbolic-compactification manybody steps cards/ --require-source --html report.html
+```
+
+- **`draft`** writes one card per displayed equation. `A = B = C` becomes
+  two steps, and a trailing `+ O(x^n)` becomes a `remainder` card. Every
+  expression is a verbatim quote, so the card contains no hand-typed
+  formula. It also writes `conventions.yaml`, listing the tokens it could
+  not resolve.
+- **`conventions.yaml`** is included by every card. It holds the symbols
+  (mark `positive: true` where a sign matters), the `notation` table and
+  the paper's definitions. A card may add names, but it may not give a
+  shared name a different meaning: that is a `CONVENTION_CONFLICT`, and the
+  card is not decided. `steps` also warns when two cards on the same
+  document map a token differently.
+- **`--require-source`** (or `SYMBOLIC_COMPACTIFICATION_REQUIRE_SOURCE=1`)
+  makes every expression field a quote that matches the document.
+  Otherwise the decision is `NOT_DECIDED` (`decision_blocked_by` says
+  why). Reviewers should always replay with it.
+- **Omitted fields are built from their quotes.** A card needs no
+  `lhs`/`rhs`/`claim` of its own when `source:` quotes it, and a
+  definition can come from a quote as `define:NAME(args)`.
+  `built_from_source` lists what was built that way.
+- **Editing a draft.** Change the `check` and its fields, or shorten a
+  quote to drop prose. A shortened quote must still occur verbatim in the
+  document.
+
+LaTeX quotes are converted by a fixed, reviewable set of rules:
+- document macros (`\newcommand`, `\def`, with arguments) are expanded;
+- `\frac`, `\sqrt`, `^{}`, Greek letters, `\exp`, `\cosh`, `\ln`,
+  `\mathrm{i}`, `\psi^{(k)}` → `psik`;
+- subscripts are flattened into names: `e_{nm}` → `e_nm`,
+  `z_{n,+}` → `z_np`, `\rho^{(0)}_n` → `rho__0_n`;
+- `\pm`/`\mp` are resolved by `branch`, and `\sum_{\pm} X` expands to
+  both signs;
+- sizing and spacing commands are dropped.
+
+Anything else is left alone and refused by the parser, which makes the
+field `UNCHECKED`, never misread. `psi(z)` and `psi0(z)`…`psi6(z)` are
+predefined as polygammas.
+
 ## Decision rule for agents
 
-| Tool result | What you report |
+Every card result has a field `decision`. **Report it as is.**
+
+| `decision` | What you report |
 |---|---|
-| `ZERO` or `CERTIFIED_BY_RULE` | VALID |
-| `NONZERO` (with a counterexample) | INVALID, and quote the `diagnosis` if there is one |
-| `UNKNOWN`, `NUMERICAL_SUPPORT`, `ASSUMPTION_REQUIRED`, or a parse error | **not decided by the tool**. Fix the encoding, or check the step yourself and say so. Never report INVALID just because the tool could not decide. |
+| `VALID` | VALID |
+| `INVALID` | INVALID, and quote the `diagnosis` if there is one |
+| `NOT_DECIDED` | the tool did not decide. Fix the card, or check the step yourself and say so. Never report INVALID just because the tool could not decide. |
+
+`decision` is `NOT_DECIDED` whenever the card does not match its quoted
+source (see below), so a wrong card cannot produce a confident answer.
+`transcription_verified: true` means the card was checked against the
+source. Without a `source:` block it is `false`, and the decision holds
+only for what you typed.
 
 ## Recipe
 
@@ -39,7 +95,7 @@ Every card below exists in `examples/cards/` and is run by the test suite.
 | `A = B` (algebra, divided differences, derivatives, conjugation) | `identity` | `lhs`, `rhs` |
 | `[w^k] F(w) = C` (kernel coefficients, shifted-node rules) | `coefficient` | `expr`, `variable`, `order`, `claim` |
 | `f = P + O(x^n)`, `lim_{x→x0} f = P` (use order 1) | `remainder` | `function`, `approximant`, `variable`, `point` (0, oo, -oo), `order`, `direction` |
-| `∫ R(ω) nF(c ± ω) dω = C` (bath integrals, Lorentzian averages) | `fermi_integral` | `integrand`, `variable`, `beta`, `claim` |
+| `∫ R(ω) nF(c ± ω) dω = C` (bath integrals, Lorentzian averages; at most two Fermi factors; a real-axis pole via `ω − a + I*eta`) | `fermi_integral` | `integrand`, `variable`, `beta`, `claim`, optional `infinitesimal: eta` |
 | `T Σ_n F(iω_n) = C` | `matsubara` | `summand`, `statistics`, `claim`, `convergence`, `rules` |
 | Keldysh product components | `langreth` | `product`, `component`, `claim` |
 | Operator identities | `operator` | `lhs`, `rhs`, `operators`, `hermitian` |
@@ -47,6 +103,56 @@ Every card below exists in `examples/cards/` and is run by the test suite.
 In integrands and claims, `nF(x) = 1/(exp(beta x) + 1)` and
 `nB(x) = 1/(exp(beta x) − 1)`, so the Fermi function `f0(e)` of a paper is
 `nF(e - mu)`.
+
+## Tie the card to its source
+
+In benchmark v1 every wrong answer from a small model came from a wrong
+card, never from a wrong verdict: a term was dropped, a factor was added, a
+derivative was taken of the wrong object, or an example was copied instead
+of the claim. A `source:` block makes the tool check the card against the
+text:
+
+```yaml
+source_document: sources/propagator_note.md   # the text the step is taken from
+notation:                                      # paper token -> card syntax
+  z_+: zp
+  z_-: zm
+source:                                        # card field -> verbatim quote
+  integrand: "nF(w) / ((w − a + iG)(w − b − iG))"
+  claim: "[iπ + ψ(z_−(b)) − ψ(z_+(a))]/(b − a + 2iG)"
+  define:zp(x): {quote: "1/2 + β(G ± ix)/(2π)", branch: "+"}
+  define:zm(x): {quote: "1/2 + β(G ± ix)/(2π)", branch: "-"}
+```
+
+(`examples/cards/fermi_pair_with_source.yaml`.)
+
+- **Quote, do not retype.** Each quote must occur in `source_document`
+  word for word (whitespace aside), or the result is `NOT_IN_DOCUMENT`.
+  Copy the claim out of the document; do not write it from memory.
+- **Quote only the expression.** Leave out "Claim:", the left-hand side
+  and "=". A measure the quote leaves out goes in `wrap`, e.g.
+  `{quote: "...", wrap: "({})/(2*pi)"}`.
+- **The tool translates the quote itself.** It handles Unicode (ψ, β, π,
+  −), `^`, square brackets, implicit multiplication (`2G`, `beta (x)`,
+  `(a)(b)`), `i` and tokens such as `iG` = `I*G` when `G` is declared, and
+  `pm`/`mp`/`±` through `branch`. Every other paper token (subscripted
+  names, `f_+`, `e_nm`, `r_-`) needs a `notation` entry. Entries replace
+  whole tokens once, and a multi-symbol value is bracketed automatically.
+- **Quote definitions too.** `define:NAME(args)` checks a definition the
+  same way. An unchecked definition is where a sign slips in unnoticed.
+- The card and the quote must agree **identically**, not merely
+  numerically at a point.
+
+| `transcription.status` | Meaning |
+|---|---|
+| `MATCH` | every quoted field equals its card field |
+| `MISMATCH` | some card field differs from the quote; `decision` is `NOT_DECIDED` |
+| `NOT_IN_DOCUMENT` | a quote is not in the document; `decision` is `NOT_DECIDED` |
+| `UNCHECKED` | a quote could not be translated (add `notation`) |
+| `ABSENT` | no `source:` block |
+
+On `MISMATCH`, fix the card, not the quote. If you believe the source is
+wrong, the tool will say so through `INVALID` once the card matches it.
 
 ## Worked cards
 
