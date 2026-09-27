@@ -102,6 +102,7 @@ def _flatten(text: str) -> str:
     r"""Subscript/label text -> identifier characters: e_{n,+} -> e_np,
     f_{\pm} -> f_PM (a branch marker, see fidelity._pick_branch)."""
     text = re.sub(r"[\s{},()]", "", text)
+    text = text.replace("/", "_").replace("|", "_")          # A_{L/R} -> A_L_R, never a division
     return "".join(_SUB_SIGNS.get(ch, ch) for ch in text)
 
 
@@ -165,7 +166,7 @@ def _convert(text: str) -> str:
             label = re.fullmatch(r"\s*\((.*)\)\s*", arg)
             # G^r, G^{<}, c^\dagger, T^{nm}: letters (and <, >, dagger, prime) are
             # labels in physics, never powers; they become part of the name
-            letters = re.fullmatch(r"\s*(?:[A-Za-z<>*]+|\\dagger|\\prime|\\ast)\s*", arg)
+            letters = re.fullmatch(r"\s*(?:[A-Za-z<>*/|,]+|\\dagger|\\prime|\\ast)\s*", arg)
             glued = out and re.search(r"[A-Za-z0-9_)]\s*$", "".join(out))
             if re.search(r"(?<![A-Za-z0-9_])e\s*$", "".join(out)):
                 letters = None                        # e^{i x} is the exponential
@@ -174,7 +175,8 @@ def _convert(text: str) -> str:
                 out.append("__" + _flatten(_convert(label.group(1))))   # rho^{(0)} is a label
             elif letters and glued:
                 _strip_trailing_space(out)
-                tag = arg.strip().replace("\\", "").replace("<", "lt").replace(">", "gt").replace("*", "star")
+                tag = (arg.strip().replace("\\", "").replace("<", "lt").replace(">", "gt")
+                       .replace("*", "star").replace("/", "_").replace("|", "_").replace(",", ""))
                 joined = "".join(out)
                 boxed = re.search(r"\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)$", joined)   # {\mathbf G}^r
                 if boxed:

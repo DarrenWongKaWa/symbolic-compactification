@@ -30,7 +30,7 @@ from .draft import draft
 
 _AUDIT_YAML = """schema_version: DerivationAuditV1
 audit_name: {name}
-manuscript_source: manuscript/source.tex
+manuscript_source: manuscript/{source}
 equation_manifest: equations/equations.yaml
 edge_manifest: edges/edges.yaml
 assumptions: assumptions/assumptions.yaml
@@ -47,13 +47,19 @@ def _slug(text: str) -> str:
 def _workspace(out: Path, document: Path) -> None:
     for sub in ("manuscript", "cards", "equations", "edges", "assumptions", "reports", "runs"):
         (out / sub).mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(document, out / "manuscript" / "source.tex")
+    shutil.copyfile(document, out / "manuscript" / _source_name(document))
     audit = out / "audit.yaml"
     if not audit.exists():
-        audit.write_text(_AUDIT_YAML.format(name=_slug(document.stem) + "-review"), encoding="utf-8")
+        audit.write_text(_AUDIT_YAML.format(name=_slug(document.stem) + "-review",
+                                            source=_source_name(document)), encoding="utf-8")
 
 
-def _manifests(out: Path) -> list[dict[str, Any]]:
+def _source_name(document: Path) -> str:
+    """source.tex for LaTeX, source.md / source.txt for plain-text sheets."""
+    return "source" + (document.suffix.lower() or ".txt")
+
+
+def _manifests(out: Path, source_name: str = "source.tex") -> list[dict[str, Any]]:
     """Equation and edge manifests from the cards (rewritten on every run)."""
     from .cards import run_card
     cards = sorted(p for p in (out / "cards").glob("*.yaml") if p.name != "conventions.yaml")
@@ -64,7 +70,7 @@ def _manifests(out: Path) -> list[dict[str, Any]]:
         ident = _ident(str(card.get("label") or path.stem), seen)
         eq_id = ident
         equations.append({"equation_id": eq_id, "label": ident, "environment": "equation",
-                          "source_file": "manuscript/source.tex", "curated": True,
+                          "source_file": f"manuscript/{source_name}", "curated": True,
                           "body": str((card.get("source") or {}).get("rhs")
                                       or (card.get("source") or {}).get("claim") or path.stem)[:400]})
         edges.append({"edge_id": ident, "source_from": eq_id, "source_to": eq_id,
@@ -117,8 +123,8 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     document, out = Path(document).resolve(), Path(out_dir).resolve()
     fresh = not (out / "cards" / "conventions.yaml").exists()
     _workspace(out, document)
-    drafted = draft(out / "manuscript" / "source.tex", out / "cards") if fresh else None
-    rows = _manifests(out)
+    drafted = draft(out / "manuscript" / _source_name(document), out / "cards") if fresh else None
+    rows = _manifests(out, _source_name(document))
     verify = _cli("audit", "verify", str(out))
     _cli("audit", "report", str(out))
     _cli("audit", "package", str(out))
@@ -154,7 +160,7 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         "multiply": list(conv.get("multiply") or []),
         "notation": dict(conv.get("notation") or {}),
     }
-    verify_meaning = {0: "all recorded steps checked; no NONZERO", 2: "done; some steps are INVALID (NONZERO)"}
+    verify_meaning = {0: "audit ran; no step is INVALID", 2: "audit ran; some steps are INVALID (NONZERO)"}
     return {
         "document": str(document), "workspace": str(out), "html": str(html) if html.exists() else None,
         "verify": verify_meaning.get(verify, f"audit verify failed (exit {verify}); see the workspace"),

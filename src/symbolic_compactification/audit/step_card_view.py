@@ -267,6 +267,9 @@ _REASONS = (
     ("CONVENTION_CONFLICT", "The card redefines a shared convention", "Remove the card's override."),
     ("SOURCE_REQUIRED", "An expression is not quoted from the paper", "Quote it verbatim."),
     ("MANYBODY_INPUT_ERROR", "The card could not be read", "Open the card and fix its fields."),
+    ("CARD_LHS_BARE", "States or defines a named quantity",
+     "If the equation defines the name, move it to conventions.yaml as a quoted definition so "
+     "other steps can use it; if it is defined elsewhere, quote that definition."),
 )
 _UNDECIDED_BY_CHECK = ("The check could not decide the claim",
                        "The quote was read; the claim is outside what this check can prove.")

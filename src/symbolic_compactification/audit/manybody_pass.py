@@ -7,6 +7,7 @@ is CERTIFIED_BY_RULE (structural table), never an engine ZERO.
 """
 from __future__ import annotations
 
+import re
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, Callable
@@ -138,6 +139,8 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
         source_at = "|".join([doc, str(where.get("line", "")), str(where.get("label", "")),
                               str(where.get("number", ""))])
     point = (result.get("counterexample") or {}).get("point")
+    lhs_read = (fields.get("lhs") or fields.get("function") or {}).get("translated", "")
+    bare_lhs = bool(re.fullmatch(r"\(*\s*[A-Za-z_][A-Za-z0-9_]*\s*(\([^()]*\))?\s*\)*", lhs_read or ""))
     notes = (f"CARD_CHECK:{result.get('check')}", f"CARD_CHECKER:{checker}",
              f"TRANSCRIPTION:{transcription}",
              *(f"BLOCKED:{why}" for why in result.get("decision_blocked_by", [])),
@@ -151,7 +154,8 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
              *((f"WITH_ERRATUM:{result['decision_with_errata']}",)
                if result.get("decision_with_errata") else ()),
              *((f"DERIVED:{str(result['derived'])[:_MAX_CONCLUSION]}",) if result.get("derived") else ()),
-             *((f"COUNTEREXAMPLE:{point}",) if point else ()))
+             *((f"COUNTEREXAMPLE:{point}",) if point else ()),
+             *(("CARD_LHS_BARE",) if bare_lhs and decision == "NOT_DECIDED" else ()))
     warnings = tuple(dict.fromkeys((*record.warnings, *notes)))
     if decision == "VALID":
         certificate = RuleCertificate(

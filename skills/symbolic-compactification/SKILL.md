@@ -132,7 +132,8 @@ verbatim quote, builds the audit workspace, and writes
 output lists every step with its `decision`, its equation number and its
 line. For `NOT_DECIDED` steps, edit `review/cards/conventions.yaml`
 (symbols, `positive: true`, `notation`, definitions, `multiply`) or a
-card's `check`, then run the same command again. Report each step's
+card's `check`, then run the same command again. The rerun keeps your
+edited cards and conventions and only re-verifies. Report each step's
 `decision` exactly:
 - **VALID or INVALID only when the tool says so.**
 - Otherwise the step is "not decided by the tool". Never INVALID because

@@ -204,6 +204,37 @@ def _before_parenthesis(plain: str) -> set[str]:
             if m.group(1) not in _KNOWN | {"n_F", "n_B"} and not re.fullmatch(r"psi\d?", m.group(1))}
 
 
+_COMPONENT = {"r": "R", "a": "A", "lt": "less", "gt": "greater"}
+_KELDYSH_FACTOR = re.compile(r"([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)\s*\(([^()]*)\)")
+_TIME_INTEGRAL = re.compile(r"^\\int\s*d\s*t_?\{?\s*1\s*\}?\s*(?:\\[,;!]\s*)?(?P<body>.+)$", re.S)
+
+
+def _langreth(lhs: str, rhs: str, macros: dict) -> dict | None:
+    """X^c(t,t') = int dt_1 [products of B^r, C^<, ...] is a Langreth rule:
+    check the component c of the contour product, quoting the integrand."""
+    head = re.fullmatch(r"\s*([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)\s*\([^()]*\)\s*",
+                        latex_to_plain(lhs, macros))
+    integral = _TIME_INTEGRAL.match(rhs.strip())
+    if not head or not integral:
+        return None
+    body = integral.group("body").strip()
+    plain = latex_to_plain(body, macros)
+    factors = _KELDYSH_FACTOR.findall(plain)
+    if len(factors) < 2:
+        return None
+    product: list[str] = []
+    for name, _, _ in factors:
+        if name in product:
+            break
+        product.append(name)
+    if len(product) < 2 or any(name not in product for name, _, _ in factors):
+        return None
+    notation = {m.group(0): f"{m.group(1)}_{_COMPONENT[m.group(2)]}"
+                for m in _KELDYSH_FACTOR.finditer(plain)}
+    return {"check": "langreth", "product": product, "component": _COMPONENT[head.group(2)],
+            "notation": notation, "source": {"claim": body}}
+
+
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
     lhs, rhs = step["lhs"], step["rhs"]
     card: dict[str, Any] = {"label": step["id"], "include": "conventions.yaml",
@@ -227,6 +258,8 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                      "variable": "z", "beta": "beta",
                      "notation": {f"i{freq}_{k}": "z", f"i {freq}_{k}": "z"}})
         card["source"] = {"summand": body, "claim": rhs}
+    elif latex and _langreth(lhs, rhs, macros):
+        card.update(_langreth(lhs, rhs, macros))
     elif series:
         card.update({"check": "series", "variable": series.group("index"),
                      "lower": int(series.group("lower"))})

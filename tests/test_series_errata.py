@@ -127,3 +127,18 @@ def test_one_command_review_of_the_toolbox_note(tmp_path):
         "eq:decay": ("remainder", "VALID"), "eq:lorentz": ("fermi_integral", "VALID"),
         "eq:trigamma": ("series", "VALID"), "eq:spectral": ("identity", "VALID")}
     assert result["html"] and Path(result["html"]).is_file()
+
+
+def test_langreth_rules_are_drafted_and_checked(tmp_path):
+    """JWM-style Langreth rules become langreth cards; C^r in place of C^a is caught."""
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.latex import latex_to_plain
+    from symbolic_compactification.manybody.review import review
+
+    assert "L_R" in latex_to_plain(r"\Gamma^{L/R}") and "/" not in latex_to_plain(r"A_{L/R}(t)")
+    note = Path(__file__).parent / "fixtures" / "notes" / "langreth_rules.tex"
+    result = review(note, tmp_path / "review")
+    assert {s["step"]: (s["check"], s["decision"]) for s in result["steps"]} == {
+        "rules.r1": ("langreth", "VALID"), "rules.r2": ("langreth", "VALID"),
+        "wrong": ("langreth", "INVALID")}

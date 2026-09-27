@@ -396,11 +396,14 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
     if ctx.error:
         return {"status": UNCHECKED, "fields": {}, "reason": ctx.error}
     filled = set(filled)
+    used_defs = _used_definition_names(card, definitions)
     funcs = [*functions, "nF", "nB"]
     space = CalculusSpace(symbols, funcs, definitions=definitions)
     fields: dict[str, dict] = {}
     for key, entry in source.items():
         key = str(key)
+        if key.startswith("define:") and key.split(":", 1)[1].split("(")[0].strip() not in used_defs:
+            continue                  # a shared definition this card does not use
         try:
             quote = _quote(entry)[0]
         except AdapterError as exc:
@@ -465,6 +468,24 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
         if worst in statuses:
             return {"status": worst, "fields": fields}
     return {"status": MATCH if fields else ABSENT, "fields": fields}
+
+
+def _used_definition_names(card: dict, definitions: dict) -> set[str]:
+    """Definitions a card's expressions use, directly or through each other."""
+    bodies = {k.split("(")[0].strip(): str(v) for k, v in definitions.items()}
+    source_defs = {str(k).split(":", 1)[1].split("(")[0].strip()
+                   for k in (card.get("source") or {}) if str(k).startswith("define:")}
+    texts = [str(card[k]) for k in _EXPRESSION_FIELDS if k in card]
+    texts += [str(v.get("quote") if isinstance(v, dict) else v)
+              for k, v in (card.get("source") or {}).items() if not str(k).startswith("define:")]
+    texts += [str(v) for v in (card.get("notation") or {}).values()]
+    names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(texts)))
+    used, frontier = set(), (set(bodies) | source_defs) & names
+    while frontier:
+        used |= frontier
+        more = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(bodies.get(n, "") for n in frontier)))
+        frontier = ((set(bodies) | source_defs) & more) - used
+    return used
 
 
 def decide(verdict: str | None, transcription: str) -> str:
