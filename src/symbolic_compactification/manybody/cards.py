@@ -99,7 +99,8 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
         includes = [includes]
     if not includes:
         return card, []
-    shared: dict[str, Any] = {"symbols": {}, "define": {}, "notation": {}, "functions": []}
+    shared: dict[str, Any] = {"symbols": {}, "define": {}, "notation": {}, "functions": [],
+                              "source": {}}
     conflicts: list[str] = []
     for item in includes:
         path = Path(str(item))
@@ -118,6 +119,10 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
                     conflicts.append(f"{key} {k} differs between includes")
                 shared[key][str(k)] = str(v)
         shared["functions"] += list(_names(data.get("functions")))
+        for k, v in (data.get("source") or {}).items():       # quoted shared definitions
+            if not str(k).startswith("define:"):
+                raise CardError(f"include {item}: only define: quotes may be shared")
+            shared["source"][str(k)] = v
         if data.get("source_document") and "source_document" not in shared:
             doc = Path(str(data["source_document"]))
             shared["source_document"] = str(doc if doc.is_absolute() else path.parent / doc)
@@ -134,6 +139,12 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
                 conflicts.append(f"card redefines shared {key} {k}")
         merged[key] = {**shared[key], **own}
     merged["functions"] = sorted(set(shared["functions"]) | set(_names(card.get("functions"))))
+    own_source = dict(card.get("source") or {})
+    for k, v in shared["source"].items():
+        if k in own_source and own_source[k] != v:
+            conflicts.append(f"card redefines shared quote {k}")
+    if shared["source"]:
+        merged["source"] = {**shared["source"], **own_source}
     if "source_document" not in card and "source_document" in shared:
         merged["source_document"] = shared["source_document"]
     return merged, conflicts
@@ -151,9 +162,29 @@ def _missing_quotes(card: dict, transcription: dict) -> list[str]:
             if k in card and fields.get(k, {}).get("status") != "MATCH"]
 
 
+def _shared_definition_names(card: dict, base_dir: Path | None) -> set[str]:
+    """Definitions that come from include files (shared conventions)."""
+    includes = card.get("include") or []
+    includes = [includes] if isinstance(includes, str) else list(includes)
+    names: set[str] = set()
+    for item in includes:
+        path = Path(str(item))
+        if not path.is_absolute() and base_dir is not None:
+            path = base_dir / path
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except (OSError, yaml.YAMLError):
+            continue
+        names |= {str(k).split("(")[0].strip() for k in (data.get("define") or {})}
+        names |= {str(k).split(":", 1)[1].split("(")[0].strip()
+                  for k in (data.get("source") or {}) if str(k).startswith("define:")}
+    return names
+
+
 def run_card(source: str | Path | dict, *, require_source: bool | None = None) -> dict[str, Any]:
     card = load_card(source)
     base_dir = None if isinstance(source, dict) else Path(source).resolve().parent
+    shared_defs = _shared_definition_names(card, base_dir)
     card, conflicts = resolve_includes(card, base_dir)
     raw = card.get("symbols") or []
     symbols = [{k: v for k, v in s.items() if k in ("name", "real", "nonzero")}
@@ -233,13 +264,21 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
         why.append("SOURCE_REQUIRED:" + ",".join(missing))
     if strict and not card.get("source_document"):
         why.append("SOURCE_DOCUMENT_REQUIRED")
+    quoted = {k.split(":", 1)[1].split("(")[0].strip()
+              for k, f in (transcription.get("fields") or {}).items()
+              if k.startswith("define:") and f.get("status") == "MATCH"}
+    from .fidelity import DEFAULT_FUNCTIONS
+    builtin = {k.split("(")[0] for k in DEFAULT_FUNCTIONS}
+    ad_hoc = sorted(k.split("(")[0].strip() for k in defs
+                    if k.split("(")[0].strip() not in quoted | shared_defs | builtin)
+    if strict and ad_hoc:                  # a card's own definitions must be quoted
+        why.append("UNQUOTED_CARD_DEFINITION:" + ",".join(ad_hoc))
     if why:
         decision = "NOT_DECIDED"
-    unquoted = sorted(k for k in defs
-                      if f"define:{k}" not in transcription.get("fields", {})
-                      and f"define:{k.split('(')[0]}" not in transcription.get("fields", {}))
+    unquoted = sorted(k for k in defs if k.split("(")[0].strip() not in quoted | builtin)
     return {"check": check, "decision": decision, "decision_blocked_by": why,
             "transcription_verified": transcription["status"] == "MATCH" and not missing,
             "require_source": strict, **out, "transcription": transcription,
-            "unquoted_definitions": unquoted, "convention_conflicts": conflicts,
+            "unquoted_definitions": unquoted, "notation_used": card.get("notation") or {},
+            "convention_conflicts": conflicts,
             "built_from_source": filled}

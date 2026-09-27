@@ -43,7 +43,7 @@ from typing import Any, Iterable
 from ..models import AdapterError
 from ..parser import _ALLOWED_FUNCTIONS
 from .calculus import CalculusSpace, compare
-from .latex import latex_to_plain, looks_like_latex, read_macros
+from .latex import latex_to_plain, locate_quote, looks_like_latex, read_macros
 
 MATCH, MISMATCH, UNCHECKED, NOT_IN_DOCUMENT, ABSENT = (
     "MATCH", "MISMATCH", "UNCHECKED", "NOT_IN_DOCUMENT", "ABSENT")
@@ -135,18 +135,30 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
 
 _BRANCH = {"+": {"pm": "+", "mp": "-", "±": "+", "∓": "-", "PM": "p", "MP": "m"},
            "-": {"pm": "-", "mp": "+", "±": "-", "∓": "+", "PM": "m", "MP": "p"}}
+_DEFAULT_NOTATION = {"n_F": "nF", "n_B": "nB"}
 DEFAULT_FUNCTIONS = {"psi(z)": "polygamma(0, z)",
                      **{f"psi{k}(z)": f"polygamma({k}, z)" for k in range(7)}}
 
 
+# A wrap may only restore an integration measure the quote leaves out;
+# anything else (a sign, a factor, a shift) would change the claim.
+ALLOWED_WRAPS = frozenset({"{}", "({})", "({})/(2*pi)", "({})/(2*pi)**2", "({})/(2*pi)**3"})
+
+
 def _quote(entry: Any) -> tuple[str, str, str | None]:
     if isinstance(entry, dict):
+        if not isinstance(entry.get("quote"), str) or not entry["quote"].strip():
+            raise AdapterError("SOURCE_QUOTE_MISSING")
         branch = entry.get("branch")
         if branch is not None and str(branch) not in _BRANCH:
             raise AdapterError("SOURCE_BRANCH_MUST_BE_PLUS_OR_MINUS")
-        return str(entry["quote"]), str(entry.get("wrap", "{}")), \
-            None if branch is None else str(branch)
-    return str(entry), "{}", None
+        wrap = " ".join(str(entry.get("wrap", "{}")).split()).replace(" ", "")
+        if wrap not in ALLOWED_WRAPS:
+            raise AdapterError("SOURCE_WRAP_NOT_ALLOWED")
+        return str(entry["quote"]), wrap, None if branch is None else str(branch)
+    if not isinstance(entry, str) or not entry.strip():
+        raise AdapterError("SOURCE_QUOTE_MISSING")
+    return entry, "{}", None
 
 
 def _term_end(text: str, i: int) -> int:
@@ -179,8 +191,8 @@ def expand_sum_pm(text: str) -> str:
             return text
         end = _term_end(text, m.end())
         term = text[m.end():end]
-        if not term.strip():
-            raise AdapterError("SUM_PM_WITHOUT_TERM")
+        if not term.strip() or not term.rstrip().endswith((")", "]")):
+            raise AdapterError("SUM_PM_REQUIRES_GROUP")     # sum_pm A + B is ambiguous
         text = (text[:m.start()] + f"(({_pick_branch(term, '+')}) + ({_pick_branch(term, '-')}))"
                 + text[end:])
     return text
@@ -216,6 +228,7 @@ def with_default_functions(definitions: dict[str, str], texts: Iterable[str],
 @dataclass
 class SourceContext:
     document: str | None            # whitespace-squashed text, for the verbatim test
+    raw: str | None
     macros: dict
     latex: bool
     notation: dict[str, str]
@@ -254,10 +267,11 @@ def source_context(card: dict, base_dir: Path | None, *, symbols: Any,
                  *(f"{p}_{f}" for f in [*funcs, *def_names] for p in ("DD", "D"))}
     names = _symbol_names(symbols) | params
     return SourceContext(
-        document=None if raw is None else _squash(raw),
+        document=None if raw is None else _squash(raw), raw=raw,
         macros=read_macros(raw) if (raw and latex) else {},
         latex=latex,
-        notation={str(k): str(v) for k, v in (card.get("notation") or {}).items()},
+        notation={**_DEFAULT_NOTATION,
+                  **{str(k): str(v) for k, v in (card.get("notation") or {}).items()}},
         callables=callables, names=names, keep_i="i" in _symbol_names(symbols), error=error)
 
 
@@ -328,11 +342,19 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
     fields: dict[str, dict] = {}
     for key, entry in source.items():
         key = str(key)
-        quote = _quote(entry)[0]
+        try:
+            quote = _quote(entry)[0]
+        except AdapterError as exc:
+            fields[key] = {"quote": None, "status": UNCHECKED, "reason": exc.code}
+            continue
         record: dict[str, Any] = {"quote": quote}
         if not in_document(quote, ctx):
             fields[key] = {**record, "status": NOT_IN_DOCUMENT}
             continue
+        if ctx.raw:
+            where = locate_quote(ctx.raw, quote)
+            if where:
+                record["location"] = where
         if key in filled:
             try:
                 record["translated"] = quote_expression(entry, ctx)[1]

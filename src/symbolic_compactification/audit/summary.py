@@ -26,6 +26,18 @@ from .schema import (
     integrity_issues,
     public_status_label,
 )
+from .step_card_view import (
+    STEP_CARD,
+    chip_warnings,
+    conventions,
+    html_conventions,
+    html_step_card_body,
+    html_step_cards,
+    manuscript_macros,
+    manuscript_title,
+    md_step_cards,
+    step_card_records,
+)
 from .tables import bucket_records, write_reports_text
 from .inventory import load_equation_manifest
 from .workspace import AuditWorkspace
@@ -231,6 +243,7 @@ def _render_markdown(
             )
     else:
         lines.append("No NONZERO or uncertified rows are listed; this does not establish complete coverage.")
+    lines.extend(md_step_cards(step_card_records(run.records), conventions(workspace), _md_cell))
     lines.extend([
         "",
         "## Provenance",
@@ -296,7 +309,12 @@ def _render_html(
         f"<tr><th><code>{_esc(edge_type)}</code></th><td class=\"num\">{count}</td></tr>"
         for edge_type, count in sorted(types.items())
     )
-    queue_html = _html_queue(queue, bucket_of)
+    queue_html = _html_queue(queue, bucket_of, manuscript_macros(workspace), manuscript_title(workspace))
+    cards = step_card_records(run.records)
+    tone_of = {key: _BUCKET_TONE[bucket] for key, bucket in bucket_of.items()}
+    macros = manuscript_macros(workspace) if cards else {}
+    cards_html = (html_step_cards(cards, tone_of, macros)
+                  + html_conventions(conventions(workspace), macros)) if cards else ""
     provenance_rows = "".join(
         f"<tr><th>{_esc(key)}</th><td><code>{_esc(value)}</code></td></tr>"
         for key, value in _provenance_rows(workspace, run)
@@ -325,7 +343,8 @@ def _render_html(
         'Structural, rule, asymptotic, global, numerical, and unsupported steps remain separately labelled. '
         'This page is a reading aid, not a paper-level certificate.</section>',
         '<nav class="jump"><a href="#queue">Reviewer queue</a> · '
-        '<a href="#provenance">Provenance</a> · '
+        + ('<a href="#cards">Step cards</a> · <a href="#conventions">Conventions</a> · ' if cards else '')
+        + '<a href="#provenance">Provenance</a> · '
         '<a href="TABLE_VERIFIED.md">Exact table</a> · '
         '<a href="TABLE_UNCERTIFIED.md">Unresolved table</a></nav>',
         '<section><h2>Read this first</h2><ol>'
@@ -341,6 +360,7 @@ def _render_html(
         + type_rows + '</tbody></table></section>'
         '</div>',
         '<section id="queue"><h2>Reviewer queue</h2>' + queue_html + '</section>',
+        cards_html,
         '<section id="provenance"><h2>Provenance</h2><table>' + provenance_rows + '</table></section>',
         '<section class="scope"><h2>Scope and limitations</h2>'
         f'<p>{_esc(APPROVED_MACHINE_CLAIM)}</p>'
@@ -380,7 +400,8 @@ def _preview(text: str) -> str:
     return text if len(text) <= _CLAIM_PREVIEW else text[:_CLAIM_PREVIEW - 1] + "…"
 
 
-def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str]) -> str:
+def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str],
+                macros: Mapping | None = None, title: str | None = None) -> str:
     if not records:
         return '<p class="ok">No NONZERO or uncertified records are present in this run.</p>'
     cards: list[str] = []
@@ -389,7 +410,7 @@ def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str]) ->
         residual = _display(record.residual_text, "No executable residual recorded.")
         assumptions = _display(", ".join(record.declared_assumptions), "none recorded")
         claim = _preview(_display(record.claim, ""))
-        reasons = "".join(f'<span class="reason">{_esc(item)}</span>' for item in record.warnings)
+        reasons = " ".join(f'<span class="reason">{_esc(item)}</span>' for item in chip_warnings(record))
         cards.append(
             f'<details class="queue-card {tone}">'
             f'<summary><strong>{_esc(record.edge_id)}</strong> '
@@ -401,8 +422,9 @@ def _html_queue(records: Sequence[AuditRecord], bucket_of: Mapping[int, str]) ->
             f'<p><b>Source:</b> {_esc(", ".join(record.source_refs))}</p>'
             f'<p><b>Claim:</b> {_esc(record.claim)}</p>'
             f'<p><b>Assumptions:</b> {_esc(assumptions)}</p>'
-            f'<pre>{_esc(residual)}</pre>'
-            '</details>'
+            + (html_step_card_body(record, dict(macros or {}), title) if record.edge_type == STEP_CARD
+               else f'<pre>{_esc(residual)}</pre>')
+            + '</details>'
         )
     return "\n".join(cards)
 
@@ -425,5 +447,6 @@ code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84em
 .chip{display:inline-block;padding:.02rem .45rem;border-radius:4px;font-size:.78rem;font-weight:600;white-space:nowrap;border:1px solid currentColor;font-family:inherit}.chip.tone-exact{color:var(--exact);background:var(--exact-bg)}.chip.tone-struct{color:var(--struct);background:var(--struct-bg)}.chip.tone-review{color:var(--review);background:var(--review-bg);border-style:dashed}.chip.tone-bad{color:var(--bad);background:var(--bad-bg)}
 .queue-card{border:1px solid var(--rule);border-left:4px solid var(--review);padding:.5rem .75rem;margin:.5rem 0;border-radius:4px}.queue-card.tone-bad{border-left-color:var(--bad)}.queue-card summary{cursor:pointer;line-height:1.6}.queue-card .type{color:var(--muted);font-size:.82rem;margin-left:.3rem}.queue-card .claim{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;margin:.15rem 0 0 1.1rem}.queue-card .reasons{display:block;margin:.2rem 0 0 1.1rem}.reason{display:inline-block;font-size:.74rem;color:var(--review);border:1px solid var(--rule);border-radius:999px;padding:0 .5rem;margin-right:.3rem}
 .ok{border-left:4px solid var(--exact);padding:.55rem .7rem;background:var(--exact-bg);color:var(--exact);border-radius:4px}.scope{border-top:1px solid var(--rule);margin-top:1.6rem;padding-top:.2rem}footer{border-top:1px solid var(--ink);margin-top:1.6rem;padding-top:.8rem}
+.scroll{overflow-x:auto}.math{overflow-x:auto;padding:.2rem 0}math{font-size:1.08em}td .math{display:inline-block}td math{math-style:normal;font-size:1em}.cite{color:var(--muted);font-size:.8rem;margin:.1rem 0 .6rem}details.tex summary{cursor:pointer;color:var(--muted);font-size:.78rem}details.tex pre{margin:.2rem 0}
 @media print{.jump{display:none}.queue-card{break-inside:avoid}}
 """.strip()

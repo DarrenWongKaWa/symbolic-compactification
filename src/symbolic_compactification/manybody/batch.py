@@ -26,7 +26,8 @@ def collect_cards(paths: Iterable[str | Path]) -> list[Path]:
     for item in paths:
         path = Path(item)
         if path.is_dir():
-            out += sorted(p for p in path.glob("*.yaml") if not p.name.startswith("_"))
+            out += sorted(p for p in path.glob("*.yaml")
+                          if not p.name.startswith("_") and p.name != "conventions.yaml")
         else:
             out.append(path)
     return out

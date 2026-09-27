@@ -182,3 +182,88 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
 
 def looks_like_latex(text: str) -> bool:
     return "\\" in text or bool(re.search(r"[_^]\{", text))
+
+
+_NUMBERED_ENVS = ("equation", "align", "eqnarray", "gather", "multline", "flalign")
+_ENV_OPEN = re.compile(r"\\begin\{(" + "|".join(_NUMBERED_ENVS) + r")(\*?)\}")
+
+
+def _squash_with_map(text: str) -> tuple[str, list[int]]:
+    """Whitespace-squashed text and, for each kept character, its raw offset."""
+    out, where, space = [], [], False
+    for i, ch in enumerate(text):
+        if ch.isspace():
+            if out and not space:
+                out.append(" ")
+                where.append(i)
+            space = True
+            continue
+        out.append(ch)
+        where.append(i)
+        space = False
+    return "".join(out), where
+
+
+def document_title(raw: str) -> str | None:
+    m = re.search(r"\\title(?:\[[^\]]*\])?\s*\{", raw)
+    if not m:
+        return None
+    try:
+        body, _ = _group(raw, m.end() - 1)
+    except ValueError:
+        return None
+    body = re.sub(r"\\(thanks|footnote)\{[^{}]*\}", "", body)
+    return " ".join(re.sub(r"\\\\|[{}]|\\[A-Za-z]+\s*", " ", body).split()) or None
+
+
+def locate_quote(raw: str, quote: str) -> dict | None:
+    """Where a verbatim quote sits: line, enclosing display environment,
+    its \\label, and its number when displays are numbered in order."""
+    squashed, where = _squash_with_map(raw)
+    target = " ".join(quote.split())
+    k = squashed.find(target)
+    if k < 0:
+        return None
+    pos = where[k]
+    info: dict = {"line": raw.count("\n", 0, pos) + 1}
+    opens = [m for m in _ENV_OPEN.finditer(raw, 0, pos)]
+    if opens:
+        env = opens[-1]
+        end = raw.find(f"\\end{{{env.group(1)}{env.group(2)}}}", env.end())
+        if end == -1 or end >= pos:
+            info["environment"] = env.group(1) + env.group(2)
+            body = raw[env.end(): end if end != -1 else len(raw)]
+            label = re.search(r"\\label\{([^}]*)\}", body)
+            if label:
+                info["label"] = label.group(1)
+            number = None if env.group(2) else _equation_number(raw, env, pos)
+            if number:
+                info["number"] = number
+    return info
+
+
+def _equation_number(raw: str, env: re.Match, pos: int) -> int | None:
+    """Count numbered displays (and numbered align rows) up to pos."""
+    count = 0
+    for m in _ENV_OPEN.finditer(raw, 0, env.end()):
+        if m.group(2):
+            continue
+        end = raw.find(f"\\end{{{m.group(1)}}}", m.end())
+        stop = pos if m.start() == env.start() else (end if end != -1 else len(raw))
+        body = raw[m.end():stop]
+        if m.group(1) in ("equation", "multline"):
+            count += 1
+            continue
+        numbered = lambda row: not re.search(r"\\(nonumber|notag)", row)
+        rows = re.split(r"\\\\", body)
+        if m.start() == env.start():
+            # complete rows before the quote, then the row that holds it
+            rest = raw[pos:end if end != -1 else len(raw)]
+            current = rows[-1] + re.split(r"\\\\", rest, maxsplit=1)[0]
+            count += sum(1 for r in rows[:-1] if r.strip() and numbered(r))
+            if not numbered(current):
+                return None                    # the quoted row itself carries no number
+            count += 1
+        else:
+            count += sum(1 for r in rows if r.strip() and numbered(r))
+    return count

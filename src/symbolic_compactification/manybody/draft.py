@@ -146,21 +146,49 @@ def _tokens(plain: str) -> tuple[set[str], set[str]]:
     return names, todo
 
 
+_INTEGRAL = re.compile(
+    r"^\\int(?:\\limits)?(?:_\{?[^\s{}]*\}?\^\{?[^\s{}]*\}?)?\s*"
+    r"(?:\\frac\{\s*d\s*(?P<v1>\\?[A-Za-z]+)\s*\}\{\s*2\s*\\pi\s*\}|d\s*(?P<v2>\\?[A-Za-z]+))"
+    r"\s*(?:\\[,;!]\s*)?(?P<body>.+)$", re.S)
+_DEFINITION_LHS = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*([A-Za-z_][\w\s,]*)\)\s*$")
+
+
+def _var_name(token: str) -> str:
+    return token.lstrip("\\")
+
+
+def _remainder(card: dict, lhs: str, rhs: str, o_term) -> None:
+    approx = rhs[:o_term.start()].strip()
+    order_text = o_term.group(1)
+    var_order = re.fullmatch(r"\s*\\?([A-Za-z]+)\s*(?:\^\s*\{?\s*(-?\d+)\s*\}?)?\s*", order_text)
+    card["check"] = "remainder"
+    if var_order:
+        order = int(var_order.group(2) or 1)
+        card["variable"] = var_order.group(1)
+        card["order"] = order
+        if order < 0:
+            card["point"] = "oo"
+        else:
+            card["point"], card["direction"] = "0", "+"
+    else:
+        card.update({"variable": "TODO", "order": 1, "point": "0", "direction": "+"})
+    card["source"] = {"function": lhs, "approximant": approx}
+
+
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
     lhs, rhs = step["lhs"], step["rhs"]
     card: dict[str, Any] = {"include": "conventions.yaml", "source_document": doc_name}
     o_term = _O_TERM.search(rhs)
+    integral = _INTEGRAL.match(lhs) if latex else None
     if o_term:
-        approx = rhs[:o_term.start()].strip()
-        order_text = o_term.group(1)
-        var_order = re.fullmatch(r"\s*\\?([A-Za-z]+)\s*(?:\^\s*\{?\s*(\d+)\s*\}?)?\s*", order_text)
-        card.update({"check": "remainder", "point": "0", "direction": "+"})
-        if var_order:
-            card["variable"] = var_order.group(1)
-            card["order"] = int(var_order.group(2) or 1)
-        else:
-            card["variable"], card["order"] = "TODO", 1
-        card["source"] = {"function": lhs, "approximant": approx}
+        _remainder(card, lhs, rhs, o_term)
+    elif integral and re.search(r"n_\{?F", integral.group("body")):
+        body = integral.group("body").strip()
+        card.update({"check": "fermi_integral",
+                     "variable": _var_name(integral.group("v1") or integral.group("v2")),
+                     "beta": "beta"})
+        entry: Any = body if integral.group("v2") else {"quote": body, "wrap": "({})/(2*pi)"}
+        card["source"] = {"integrand": entry, "claim": rhs}
     else:
         card["check"] = "identity"
         card["source"] = {"lhs": lhs, "rhs": rhs}
@@ -176,6 +204,27 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
     return card, names, todo
 
 
+def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] | None:
+    """``name(args) = body`` with plain arguments is a definition, not a
+    claim: it goes to conventions.yaml as quoted define: entries (both
+    branches when the name carries a +- subscript)."""
+    plain = latex_to_plain(step["lhs"], macros) if latex else step["lhs"]
+    m = _DEFINITION_LHS.match(plain)
+    if not m:
+        return None
+    name, args = m.group(1), ",".join(a.strip() for a in m.group(2).split(","))
+    if "PM" in name or name.endswith("_pm"):
+        base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
+        return [(f"define:{base}p({args})", {"quote": step["rhs"], "branch": "+"}),
+                (f"define:{base}m({args})", {"quote": step["rhs"], "branch": "-"})]
+    return [(f"define:{name}({args})", step["rhs"])]
+
+
+def _positive_symbols(raw: str) -> set[str]:
+    """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0."""
+    return {m.group(1) for m in re.finditer(r"\\?([A-Za-z]+)\s*>\s*0(?![.\d])", raw)}
+
+
 def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     doc = Path(document)
     raw = doc.read_text(encoding="utf-8")
@@ -187,27 +236,46 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     rel = Path(os.path.relpath(doc.resolve(), out.resolve()))
     if rel.parts[:4] == ("..",) * 4:                     # far apart: keep it absolute
         rel = doc.resolve()
-    all_names, all_todo, written = set(), set(), []
+    all_names, all_todo, written, shared_quotes = set(), set(), [], {}
     for step in steps:
+        definition = _definition(step, latex, macros)
+        if definition:
+            shared_quotes.update(definition)
+            params = set(definition[0][0].split("(", 1)[1].rstrip(")").split(","))
+            n, _ = _tokens(latex_to_plain(step["rhs"], macros) if latex else step["rhs"])
+            all_names |= n - params
+            continue
         card, names, todo = _card_for(step, str(rel), latex, macros)
         all_names |= names
         all_todo |= todo
         path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', step['id'])}.yaml"
         header = "# Draft from " + doc.name + ". Quotes are verbatim; do not edit them.\n"
+        todo = todo - {"n_F", "n_B"} - {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
         if todo:
             header += "# Needs notation or definitions for: " + ", ".join(sorted(todo)) + "\n"
         path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
                         encoding="utf-8")
         written.append(str(path))
     conventions = out / "conventions.yaml"
+    defined = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
+    all_todo -= defined | {"n_F", "n_B"}
+    all_names -= {"d", "int"}
+    positive = _positive_symbols(raw)
     if not conventions.exists():
-        lines = [f"# Shared conventions for {doc.name}: fill once, used by every card.",
-                 "# Mark symbols whose sign matters with positive: true.",
-                 "symbols:"]
-        lines += [f"  - {{name: {n}}}" for n in sorted(all_names)] or ["  []"]
-        lines += ["notation: {}", "define: {}",
-                  "# Tokens to map in notation (paper token -> card syntax) or define:"]
-        lines += [f"#   {t}" for t in sorted(all_todo)]
-        conventions.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        data: dict[str, Any] = {
+            "symbols": [{"name": n, **({"positive": True} if n in positive else {})}
+                        for n in sorted(all_names)],
+            "notation": {}, "define": {}}
+        if shared_quotes:
+            data["source_document"] = str(rel)
+            data["source"] = shared_quotes
+        header = (f"# Shared conventions for {doc.name}: fill once, used by every card.\n"
+                  "# Check the positive: true guesses (taken from 'x > 0' in the text).\n")
+        footer = "".join(f"#   {t}\n" for t in sorted(all_todo))
+        if footer:
+            footer = "# Tokens to map in notation (paper token -> card syntax) or define:\n" + footer
+        conventions.write_text(header + yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
+                               + footer, encoding="utf-8")
     return {"document": str(doc), "cards": written, "conventions": str(conventions),
+            "shared_definitions": sorted(shared_quotes),
             "unresolved_tokens": sorted(all_todo), "symbols_guessed": sorted(all_names)}

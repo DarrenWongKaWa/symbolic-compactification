@@ -8,15 +8,19 @@ is CERTIFIED_BY_RULE (structural table), never an engine ZERO.
 from __future__ import annotations
 
 from dataclasses import replace
+from pathlib import Path
 from typing import Any, Callable
 
 from .edges import AuditEdge
+from .io import assert_contained, contained_relpath, sha256_bytes
 from .schema import (
     ASYMPTOTIC_CLAIM,
     CERTIFIED_BY_RULE,
     MATSUBARA_SUM,
     NONZERO,
     NOT_LOWERED,
+    SOURCE_TIED_STEP_CARD,
+    STEP_CARD,
     UNKNOWN,
     AuditError,
     AuditRecord,
@@ -87,6 +91,74 @@ def _certificate(record: AuditRecord, edge: AuditEdge, outcome,
     )
 
 
+def _card_paths(card: dict, card_path: Path) -> list[Path]:
+    """Every file a card reads: its source document and include files."""
+    includes = card.get("include") or []
+    includes = [includes] if isinstance(includes, str) else list(includes)
+    raw = [*includes, *([card["source_document"]] if card.get("source_document") else [])]
+    return [card_path.parent / str(item) for item in raw]
+
+
+def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
+    """Replay one step card strictly; its decision becomes the record status."""
+    import yaml
+
+    from ..manybody.cards import CardError, load_card, run_card
+    try:
+        relpath, path = contained_relpath(workspace.root, edge.spec("step_card")["card"],
+                                          "step_card.card")
+        card = load_card(path)
+        for dependency in _card_paths(card, path):       # a package must be self-contained
+            assert_contained(workspace.root, dependency, "step_card dependency")
+        result = run_card(path, require_source=True)
+    except (AuditError, CardError, OSError, ValueError, yaml.YAMLError) as exc:
+        code = getattr(exc, "code", "STEP_CARD_INVALID")
+        return replace(record, status=UNKNOWN, result=UNKNOWN,
+                       warnings=(*record.warnings, f"MANYBODY_INPUT_ERROR:{code}"))
+    decision = result["decision"]
+    transcription = (result.get("transcription") or {}).get("status", "ABSENT")
+    checker = str(result.get("status") or result.get("verdict") or "UNKNOWN")
+    fields = (result.get("transcription") or {}).get("fields") or {}
+    claim_field = next((f for k, f in fields.items()
+                        if k in ("claim", "rhs", "approximant") and f.get("quote")), {})
+    quote, read_as = claim_field.get("quote"), claim_field.get("translated")
+    where = claim_field.get("location") or {}
+    source_at = None
+    if where:
+        doc = str(card.get("source_document") or "")
+        try:
+            doc = str((path.parent / doc).resolve().relative_to(workspace.root.resolve()))
+        except (OSError, ValueError):
+            pass
+        source_at = "|".join([doc, str(where.get("line", "")), str(where.get("label", "")),
+                              str(where.get("number", ""))])
+    point = (result.get("counterexample") or {}).get("point")
+    notes = (f"CARD_CHECK:{result.get('check')}", f"CARD_CHECKER:{checker}",
+             f"TRANSCRIPTION:{transcription}",
+             *(f"BLOCKED:{why}" for why in result.get("decision_blocked_by", [])),
+             *(f"DIAGNOSIS:{d}" for d in (result.get("diagnosis") or [])[:3]),
+             *((f"QUOTE:{quote[:_MAX_CONCLUSION]}",) if quote else ()),
+             *((f"READ_AS:{read_as[:_MAX_CONCLUSION]}",) if read_as else ()),
+             *((f"SOURCE_AT:{source_at}",) if source_at else ()),
+             *((f"DERIVED:{str(result['derived'])[:_MAX_CONCLUSION]}",) if result.get("derived") else ()),
+             *((f"COUNTEREXAMPLE:{point}",) if point else ()))
+    warnings = tuple(dict.fromkeys((*record.warnings, *notes)))
+    if decision == "VALID":
+        certificate = RuleCertificate(
+            rule_id=SOURCE_TIED_STEP_CARD,
+            local_children=(("card", relpath), ("card-sha256", sha256_bytes(path.read_bytes())),
+                            ("checker", checker), ("transcription", transcription)),
+            domain=f"check={result.get('check')}; strict source replay",
+            conclusion=(f"claim as quoted: {quote or '(see card)'}")[:_MAX_CONCLUSION],
+            result=CERTIFIED_BY_RULE,
+            integrand_periodic="not_applicable")
+        return replace(record, status=CERTIFIED_BY_RULE, result=CERTIFIED_BY_RULE,
+                       executable=False, warnings=warnings, rule_certificate=certificate)
+    if decision == "INVALID":
+        return replace(record, status=NONZERO, result=NONZERO, warnings=warnings)
+    return replace(record, status=UNKNOWN, result=UNKNOWN, warnings=warnings)
+
+
 def apply_manybody_certificates(
     records: tuple[AuditRecord, ...],
     edges: list[AuditEdge] | tuple[AuditEdge, ...],
@@ -101,6 +173,13 @@ def apply_manybody_certificates(
     updated: list[AuditRecord] = []
     for record in records:
         edge = edges_by_id.get(record.edge_id)
+        if edge is not None and record.edge_type == STEP_CARD:
+            if not edge.step_card:
+                updated.append(seal(replace(record, status=UNKNOWN, result=UNKNOWN,
+                                            warnings=(*record.warnings, "STEP_CARD_SPEC_MISSING"))))
+            else:
+                updated.append(seal(_step_card(record, edge, workspace)))
+            continue
         wants = edge is not None and (
             record.edge_type == MATSUBARA_SUM
             or (record.edge_type == ASYMPTOTIC_CLAIM and edge.asymptotic))

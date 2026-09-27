@@ -23,7 +23,7 @@ REPO = Path(__file__).resolve().parents[1]
 DEMO_ROOT = REPO / "tests/fixtures/audit_demos"
 PUBLIC_DEMOS = REPO / "docs/paper-audit.md"
 
-DEMO_IDS = ("A", "B", "C", "M")
+DEMO_IDS = ("A", "B", "C", "M", "S")
 REQUIRED_RELATIVE_PATHS = (
     "audit.yaml",
     "demo.yaml",
@@ -78,7 +78,8 @@ def test_public_demo_trees_exist_and_load():
         for relative in REQUIRED_RELATIVE_PATHS:
             assert (root / relative).is_file(), f"{demo_id} missing {relative}"
         expressions = list((root / "expressions").glob("*.txt"))
-        assert expressions, f"{demo_id} has no expression files"
+        cards = list((root / "cards").glob("*.yaml")) if (root / "cards").is_dir() else []
+        assert expressions or cards, f"{demo_id} has no expression files or step cards"
         run_files = sorted(
             path.name for path in (root / "runs").iterdir() if path.is_file()
         )

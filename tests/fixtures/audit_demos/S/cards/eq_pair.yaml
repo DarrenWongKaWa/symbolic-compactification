@@ -1,0 +1,9 @@
+# Draft from source.tex. Quotes are verbatim; do not edit them.
+include: conventions.yaml
+source_document: ../manuscript/source.tex
+check: fermi_integral
+variable: omega
+beta: beta
+source:
+  integrand: \frac{n_F(\omega)}{(\omega - a + \ii\Gamma)(\omega - b - \ii\Gamma)}
+  claim: \frac{\ii\pi + \psi(z_-(b)) - \psi(z_+(a))}{b - a + 2\ii\Gamma}

@@ -1,0 +1,10 @@
+# Draft from source.tex. Quotes are verbatim; do not edit them.
+include: conventions.yaml
+source_document: ../manuscript/source.tex
+check: remainder
+variable: omega
+order: -4
+point: oo
+source:
+  function: \Lor{\omega}
+  approximant: \frac{2\Gamma}{\omega^2}

@@ -1,0 +1,18 @@
+symbols:
+- name: Gamma
+  real: true
+  nonzero: true
+- name: a
+  real: true
+  nonzero: false
+- name: b
+  real: true
+  nonzero: false
+- name: beta
+  real: true
+  nonzero: true
+- name: omega
+  real: true
+  nonzero: false
+functions:
+- nF
