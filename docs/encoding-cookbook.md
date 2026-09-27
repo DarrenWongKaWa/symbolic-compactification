@@ -64,6 +64,9 @@ LaTeX quotes are converted by a fixed, reviewable set of rules:
   `z_{n,+}` → `z_np`, `\rho^{(0)}_n` → `rho__0_n`;
 - `\pm`/`\mp` are resolved by `branch`, and `\sum_{\pm} X` expands to
   both signs;
+- `|X|`, `\left| X \right|` and `\lvert X \rvert` are read as `Abs(X)`.
+  A claim that takes `|…|` of a symbol whose realness the paper does not
+  state is not decided;
 - sizing and spacing commands are dropped.
 
 Anything else is left alone and refused by the parser, which makes the
