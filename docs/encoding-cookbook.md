@@ -56,7 +56,21 @@ LaTeX quotes are converted by a fixed, reviewable set of rules:
 - sizing and spacing commands are dropped.
 
 Anything else is left alone and refused by the parser, which makes the
-field `UNCHECKED`, never misread. `psi(z)` and `psi0(z)`…`psi6(z)` are
+field `UNCHECKED`, never misread.
+
+Two readings are never guessed, because a wrong guess would give a
+confident wrong verdict:
+- **A superscript made only of letters is a label, not a power.**
+  `G^r`, `G^{<}` and `c^\dagger` become the names `G__r`, `G__lt` and
+  `c__dagger`. Numbers and expressions are still powers (`\omega^2`,
+  `x^{-1}`), and `e^{...}` is the exponential.
+- **A name directly before `(` could be a product or a function value.**
+  `\beta(\Gamma + i x)` is a product and `G(\epsilon)` is a function.
+  The tool reads it as a product only if the name is listed under
+  `multiply:` in the conventions; otherwise the quote is refused with
+  `SOURCE_APPLICATION_AMBIGUOUS`. Define the name if it is a function.
+  `draft` pre-fills `multiply:` with lowercase Greek letters and lists the
+  other names for you to decide. `psi(z)` and `psi0(z)`…`psi6(z)` are
 predefined as polygammas.
 
 ## Decision rule for agents

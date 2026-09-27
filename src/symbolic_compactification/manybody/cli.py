@@ -130,10 +130,13 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     sts.add_argument("paths", nargs="+", help="card files or directories")
     sts.add_argument("--require-source", action="store_true")
     sts.add_argument("--html", help="write a reviewer HTML report here")
+    rv = msub.add_parser("review", help="one command: LaTeX paper -> checked steps -> reviewer HTML")
+    rv.add_argument("document")
+    rv.add_argument("--out", required=True, help="review workspace (rerun it to re-verify)")
     dr = msub.add_parser("draft", help="draft step cards from a .tex file or a plain-text sheet")
     dr.add_argument("document")
     dr.add_argument("--out", required=True, help="directory for the cards and conventions.yaml")
-    for parser in (m, r, i, o, k, d, c, st, sts, dr):
+    for parser in (m, r, i, o, k, d, c, st, sts, dr, rv):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -162,6 +165,9 @@ def _run(args) -> dict[str, Any]:
     if cmd == "step":
         from .cards import run_card
         return run_card(args.card, require_source=args.require_source or None)
+    if cmd == "review":
+        from .review import review
+        return review(args.document, args.out)
     if cmd == "draft":
         from .draft import draft
         return draft(args.document, args.out)

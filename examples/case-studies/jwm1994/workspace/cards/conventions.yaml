@@ -9,6 +9,7 @@ symbols:
   - {name: a, positive: true}
   - {name: b, positive: true}
   - {name: n}
+multiply: [Delta]     # Delta{[1 - exp...]} is a product
 notation:
   t_0: "0"            # time origin at the step (the paper's t - t_0 is t)
   delta t: t          # the paper writes t - t_0 = delta t

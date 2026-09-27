@@ -67,3 +67,45 @@ def test_plain_tex_over_and_appendix_numbers():
     assert locate_quote(raw, "cc3")["number"] == "B1"
     assert locate_quote(raw, "bb2")["number"] == "A1"
     assert locate_quote(raw, "a")["environment"] == "equation"      # displayed math preferred
+
+
+def test_draft_and_review_of_a_textbook_note(tmp_path):
+    """A LaTeX note with a Matsubara sum, a Lorentzian Fermi integral written
+    with Im psi, a trigamma series and a tail with a planted sign error."""
+    import shutil
+    from pathlib import Path
+
+    from symbolic_compactification.manybody.batch import run_cards
+    from symbolic_compactification.manybody.draft import draft
+
+    note = tmp_path / "note.tex"
+    shutil.copy(Path(__file__).parent / "fixtures" / "notes" / "broadened_level.tex", note)
+    draft(note, tmp_path / "cards")
+    report = run_cards([tmp_path / "cards"], require_source=True)
+    by = {c["card"]: (c["check"], c["decision"]) for c in report["cards"]}
+    assert by == {"eq_bubble": ("matsubara", "VALID"), "eq_lorentz": ("fermi_integral", "VALID"),
+                  "eq_trigamma": ("series", "VALID"), "eq_tail": ("remainder", "INVALID")}
+
+
+def test_physics_notation_is_never_misread_into_a_verdict(tmp_path):
+    """Regression: the Dyson equation G^r(e) = [(g^r)^-1 - Sigma^r(e)]^-1 was
+    once read as G**r * e and reported INVALID. Letter superscripts are labels
+    and name(...) needs a declared reading, so it must not be decided."""
+    from symbolic_compactification.manybody.latex import latex_to_plain
+
+    assert "G__r" in latex_to_plain(r"{\mathbf G}^r(\epsilon)")
+    assert "E^(" in latex_to_plain(r"e^{i x}") and "^(2)" in latex_to_plain(r"\omega^2")
+    tex = tmp_path / "p.tex"
+    tex.write_text(r"\begin{equation} {\mathbf G}^r(\epsilon)=[({\mathbf g}^r)^{-1}"
+                   r"-{\mathbf\Sigma}^r(\epsilon)]^{-1} \end{equation}")
+    card = {"check": "identity", "symbols": ["G", "g", "Sigma", "epsilon", "r"],
+            "source_document": str(tex),
+            "source": {"lhs": r"{\mathbf G}^r(\epsilon)",
+                       "rhs": r"[({\mathbf g}^r)^{-1}-{\mathbf\Sigma}^r(\epsilon)]^{-1}"}}
+    assert run_card(card, require_source=True)["decision"] == "NOT_DECIDED"
+    product = {"check": "identity", "symbols": ["beta", "x"], "source_document": str(tex),
+               "source": {"lhs": r"\beta(x)"}, "rhs": "beta*x"}
+    tex.write_text(r"\beta(x)")
+    assert any("SOURCE_APPLICATION_AMBIGUOUS" in b
+               for b in run_card(product, require_source=True)["decision_blocked_by"])
+    assert run_card({**product, "multiply": ["beta"]})["decision"] == "VALID"

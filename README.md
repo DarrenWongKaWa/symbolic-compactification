@@ -157,8 +157,16 @@ symbolic-compactification manybody langreth --product A,B --component less \
 # -> "status": "CERTIFIED_BY_RULE"; writing B_R for B_A gives NONZERO
 ```
 
-**D. Check a whole paper, straight from LaTeX.** Draft the cards from the
-source, fill one conventions file, and replay them strictly:
+**D. Check a whole paper, straight from LaTeX.**
+
+```bash
+symbolic-compactification manybody review paper.tex --out review/
+```
+
+This one command drafts the cards, checks each step against its verbatim
+quote, and writes the reviewer package. Open
+`review/reviewer-verification-package/REVIEWER_SUMMARY.html`. You can
+also run the stages by hand:
 
 ```bash
 symbolic-compactification manybody draft paper.tex --out cards/

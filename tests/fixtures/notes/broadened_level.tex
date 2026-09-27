@@ -1,0 +1,28 @@
+\documentclass{article}
+\newcommand{\ii}{\mathrm{i}}
+\title{Notes on a broadened level: sums, integrals and a tail}
+\begin{document}
+\maketitle
+Let $\beta>0$ and $\Gamma>0$, and let $n_F(x)=1/(e^{\beta x}+1)$.
+For real $a\neq c$ the fermionic Matsubara sum of two propagators is
+\begin{equation}
+\label{eq:bubble}
+\frac{1}{\beta}\sum_n \frac{1}{(\ii\omega_n-a)(\ii\omega_n-c)} = \frac{n_F(a)-n_F(c)}{a-c}.
+\end{equation}
+Averaging the occupation over a Lorentzian of width $\Gamma$ gives
+\begin{equation}
+\label{eq:lorentz}
+\int d\omega\,\frac{n_F(\omega)}{(\omega-\epsilon)^2+\Gamma^2}
+ = \frac{\pi}{\Gamma}\Bigl[\frac12-\frac{1}{\pi}\,\mathrm{Im}\,\psi\Bigl(\frac12+\frac{\beta(\Gamma+\ii\epsilon)}{2\pi}\Bigr)\Bigr].
+\end{equation}
+The residue sum over the positive Matsubara frequencies reduces to
+\begin{equation}
+\label{eq:trigamma}
+\sum_{n=0}^{\infty}\frac{1}{(n+a)^2} = \psi'(a) ,
+\end{equation}
+and the free propagator $G(\ii\omega)=1/(\ii\omega-\epsilon)$ has the tail
+\begin{equation}
+\label{eq:tail}
+\frac{1}{\ii\omega-\epsilon} = \frac{1}{\ii\omega} - \frac{\epsilon}{(\ii\omega)^2} + \mathcal{O}(\omega^{-3}) .
+\end{equation}
+\end{document}

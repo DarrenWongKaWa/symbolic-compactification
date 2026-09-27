@@ -104,6 +104,7 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
     import yaml
 
     from ..manybody.cards import CardError, load_card, run_card
+    from ..models import AdapterError
     try:
         relpath, path = contained_relpath(workspace.root, edge.spec("step_card")["card"],
                                           "step_card.card")
@@ -111,7 +112,7 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
         for dependency in _card_paths(card, path):       # a package must be self-contained
             assert_contained(workspace.root, dependency, "step_card dependency")
         result = run_card(path, require_source=True)
-    except (AuditError, CardError, OSError, ValueError, yaml.YAMLError) as exc:
+    except (AuditError, AdapterError, CardError, OSError, ValueError, yaml.YAMLError) as exc:
         code = getattr(exc, "code", "STEP_CARD_INVALID")
         return replace(record, status=UNKNOWN, result=UNKNOWN,
                        warnings=(*record.warnings, f"MANYBODY_INPUT_ERROR:{code}"))

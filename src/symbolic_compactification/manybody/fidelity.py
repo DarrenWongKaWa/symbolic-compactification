@@ -80,8 +80,12 @@ def _ascii(text: str) -> str:
     return text
 
 
+_ALWAYS_MULTIPLY = frozenset({"I", "pi", "E"})
+
+
 def translate(text: str, notation: dict[str, str], callables: Iterable[str],
-              keep_i: bool = False, names: Iterable[str] = ()) -> str:
+              keep_i: bool = False, names: Iterable[str] = (),
+              multiply: Iterable[str] | None = None) -> str:
     """Source text -> explicit card syntax. Raises AdapterError if a
     character is outside the supported grammar.
 
@@ -124,6 +128,11 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
             if op not in "+-*/(),**" and op != "**":
                 raise AdapterError("SOURCE_CHARACTER_UNSUPPORTED")
             kind, tok = ("open" if op == "(" else "close" if op == ")" else "op"), op
+        if prev == "name" and kind == "open" and multiply is not None \
+                and out[-1] not in _ALWAYS_MULTIPLY and not out[-1].startswith("(I*") \
+                and out[-1] not in multiply:
+            # beta(x) is a product, G(x) a function value: the source cannot tell
+            raise AdapterError(f"SOURCE_APPLICATION_AMBIGUOUS:{out[-1]}")
         if prev in ("num", "name", "close") and kind in ("num", "name", "call", "open"):
             out.append("*")
         elif prev == "call" and kind != "open":
@@ -251,6 +260,7 @@ class SourceContext:
     names: set[str]
     keep_i: bool
     error: str | None = None
+    multiply: frozenset = frozenset()
 
 
 def _symbol_names(symbols: Any) -> set[str]:
@@ -287,7 +297,8 @@ def source_context(card: dict, base_dir: Path | None, *, symbols: Any,
         latex=latex,
         notation={**_DEFAULT_NOTATION,
                   **{str(k): str(v) for k, v in (card.get("notation") or {}).items()}},
-        callables=callables, names=names, keep_i="i" in _symbol_names(symbols), error=error)
+        callables=callables, names=names, keep_i="i" in _symbol_names(symbols), error=error,
+        multiply=frozenset(str(m) for m in (card.get("multiply") or [])))
 
 
 _BRACKETS = "()[]{}"
@@ -323,7 +334,8 @@ def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
     if ctx.latex or looks_like_latex(text):
         text = latex_to_plain(text, ctx.macros)
     text = _pick_branch(expand_sum_pm(expand_re_im(text)), branch)
-    expression = translate(text, ctx.notation, ctx.callables, ctx.keep_i, ctx.names)
+    expression = translate(text, ctx.notation, ctx.callables, ctx.keep_i, ctx.names,
+                           multiply=ctx.multiply)
     if not _balanced(expression):
         raise AdapterError("SOURCE_BRACKETS_UNBALANCED")
     return quote, wrap.replace("{}", expression)

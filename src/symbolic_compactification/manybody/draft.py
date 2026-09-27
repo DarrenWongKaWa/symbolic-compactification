@@ -18,6 +18,7 @@ run the cards with ``--require-source``.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 from pathlib import Path
@@ -58,7 +59,13 @@ def _clean(fragment: str) -> str:
     fragment = _LABEL_RE.sub("", fragment)
     fragment = re.sub(r"\\(nonumber|notag)", "", fragment)
     fragment = fragment.replace("&", " ")
-    return " ".join(fragment.split()).strip(" ,.;")
+    fragment = " ".join(fragment.split())
+    previous = None
+    while previous != fragment:                  # trailing \; \, \quad and punctuation
+        previous = fragment
+        # strip(" ,.;") can leave the backslash of a trailing "\;" behind
+        fragment = re.sub(r"(\\[,;:!]|\\q?quad|\\\\|\\)\s*$", "", fragment).strip(" ,.;")
+    return fragment
 
 
 def latex_equations(document: str) -> list[dict[str, Any]]:
@@ -135,7 +142,7 @@ def steps_from_sheet(raw: str) -> list[dict[str, Any]]:
 def _tokens(plain: str) -> tuple[set[str], set[str]]:
     """(plain names, names that need notation or a definition)."""
     names, todo = set(), set()
-    for m in re.finditer(r"[A-Za-z_][A-Za-z0-9_]*(?:_[+\-])?(\()?", plain):
+    for m in re.finditer(r"(?<![\\A-Za-z0-9_])[A-Za-z_][A-Za-z0-9_]*(?:_[+\-])?(\()?", plain):
         name = m.group(0).rstrip("(")
         if name in _KNOWN or re.fullmatch(r"psi\d?", name):
             continue
@@ -178,6 +185,16 @@ def _remainder(card: dict, lhs: str, rhs: str, o_term) -> None:
     else:
         card.update({"variable": "TODO", "order": 1, "point": "0", "direction": "+"})
     card["source"] = {"function": lhs, "approximant": approx}
+
+
+_LOWER_GREEK = frozenset("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu "
+                         "xi rho sigma tau upsilon phi chi omega".split())
+
+
+def _before_parenthesis(plain: str) -> set[str]:
+    """Names written directly before '(' : product or function value?"""
+    return {m.group(1) for m in re.finditer(r"(?<![\\A-Za-z0-9_])([A-Za-z][A-Za-z0-9_]*)\s*\(", plain)
+            if m.group(1) not in _KNOWN | {"n_F", "n_B"} and not re.fullmatch(r"psi\d?", m.group(1))}
 
 
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
@@ -225,6 +242,7 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         n, t = _tokens(plain)
         names |= n
         todo |= t
+        card.setdefault("_before_paren", set()).update(_before_parenthesis(plain))
     return card, names, todo
 
 
@@ -261,6 +279,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     if rel.parts[:4] == ("..",) * 4:                     # far apart: keep it absolute
         rel = doc.resolve()
     all_names, all_todo, written, shared_quotes = set(), set(), [], {}
+    before_paren: set[str] = set()
     for step in steps:
         try:
             definition = _definition(step, latex, macros)
@@ -269,10 +288,13 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         if definition:
             shared_quotes.update(definition)
             params = set(definition[0][0].split("(", 1)[1].rstrip(")").split(","))
-            n, _ = _tokens(latex_to_plain(step["rhs"], macros) if latex else step["rhs"])
+            plain_rhs = latex_to_plain(step["rhs"], macros) if latex else step["rhs"]
+            n, _ = _tokens(plain_rhs)
             all_names |= n - params
+            before_paren |= _before_parenthesis(plain_rhs)
             continue
         card, names, todo = _card_for(step, str(rel), latex, macros)
+        before_paren |= card.pop("_before_paren", set())
         all_names |= names
         all_todo |= todo
         path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', step['id'])}.yaml"
@@ -284,6 +306,11 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
                         encoding="utf-8")
         written.append(str(path))
+    # a drafted definition whose name is also used as a plain symbol (papers
+    # reuse letters) would turn every such use into a function: keep it inactive
+    clashing = {k: v for k, v in shared_quotes.items()
+                if k.split(":", 1)[1].split("(")[0] in all_names}
+    shared_quotes = {k: v for k, v in shared_quotes.items() if k not in clashing}
     conventions = out / "conventions.yaml"
     defined = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
     all_todo -= defined | {"n_F", "n_B", "im_of", "re_of", "sum_pm"}
@@ -291,10 +318,14 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     all_names -= {"d", "int"}
     positive = _positive_symbols(raw)
     if not conventions.exists():
+        defined_names = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
+        ambiguous = sorted(before_paren - defined_names)
         data: dict[str, Any] = {
             "symbols": [{"name": n, **({"positive": True} if n in positive else {})}
                         for n in sorted(all_names)],
-            "notation": {}, "define": {}}
+            "notation": {}, "define": {},
+            # names written right before "(": a product only if listed here
+            "multiply": [n for n in ambiguous if n in _LOWER_GREEK]}
         if shared_quotes:
             data["source_document"] = str(rel)
             data["source"] = shared_quotes
@@ -303,8 +334,19 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         footer = "".join(f"#   {t}\n" for t in sorted(all_todo))
         if footer:
             footer = "# Tokens to map in notation (paper token -> card syntax) or define:\n" + footer
+        undecided = [n for n in ambiguous if n not in _LOWER_GREEK]
+        if undecided:
+            footer += ("# Written right before '(': product or function value? Add a name to\n"
+                       "# multiply: if it multiplies, or define it as a function:\n")
+            footer += "".join(f"#   {n}\n" for n in undecided)
+        if clashing:
+            footer += ("# Definitions found but not activated: the name is also used as a plain\n"
+                       "# symbol elsewhere. Move one under source: if it applies to every card.\n")
+            footer += "".join(f"#   {k}: {json.dumps(v if isinstance(v, str) else v.get('quote'))}\n"
+                              for k, v in sorted(clashing.items()))
         conventions.write_text(header + yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
                                + footer, encoding="utf-8")
     return {"document": str(doc), "cards": written, "conventions": str(conventions),
             "shared_definitions": sorted(shared_quotes),
+            "inactive_definitions": sorted(clashing),
             "unresolved_tokens": sorted(all_todo), "symbols_guessed": sorted(all_names)}

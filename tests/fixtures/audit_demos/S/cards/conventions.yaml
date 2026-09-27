@@ -10,6 +10,8 @@ symbols:
 - name: omega
 notation: {}
 define: {}
+multiply:
+- beta
 source_document: ../manuscript/source.tex
 source:
   define:z_p(x):

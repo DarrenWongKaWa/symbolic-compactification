@@ -163,9 +163,23 @@ def _convert(text: str) -> str:
         elif c == "^":
             arg, i = _argument(text, i + 1)
             label = re.fullmatch(r"\s*\((.*)\)\s*", arg)
-            if label and out and re.search(r"[A-Za-z0-9_]\s*$", "".join(out)):
+            # G^r, G^{<}, c^\dagger, T^{nm}: letters (and <, >, dagger, prime) are
+            # labels in physics, never powers; they become part of the name
+            letters = re.fullmatch(r"\s*(?:[A-Za-z<>*]+|\\dagger|\\prime|\\ast)\s*", arg)
+            glued = out and re.search(r"[A-Za-z0-9_)]\s*$", "".join(out))
+            if re.search(r"(?<![A-Za-z0-9_])e\s*$", "".join(out)):
+                letters = None                        # e^{i x} is the exponential
+            if label and glued:
                 _strip_trailing_space(out)
                 out.append("__" + _flatten(_convert(label.group(1))))   # rho^{(0)} is a label
+            elif letters and glued:
+                _strip_trailing_space(out)
+                tag = arg.strip().replace("\\", "").replace("<", "lt").replace(">", "gt").replace("*", "star")
+                joined = "".join(out)
+                boxed = re.search(r"\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)$", joined)   # {\mathbf G}^r
+                if boxed:
+                    out[:] = [joined[:boxed.start()] + boxed.group(1)]
+                out.append("__" + tag)
             else:
                 out.append(f"^({_convert(arg)})")
         elif c in "&~":

@@ -69,6 +69,18 @@ Verify: local algebra. Other relations stay unresolved obligations
 Ask only for conditions that would change the verdict and cannot be read
 from the input.
 
+`symbols.json` declares each symbol's domain:
+
+```json
+[{"name": "x", "real": true, "nonzero": false},
+ {"name": "y", "real": true, "nonzero": true}]
+```
+
+Only per-symbol `real` and `nonzero` are checked. A relation between
+symbols, such as `x != y`, is recorded with `--domain "x != y"` for the
+reader but is not used by the verifier. If the verdict depends on it, say
+so in `unresolved.md`.
+
 ```bash
 python3 "$SKILL_ROOT/scripts/compact_verify.py" \
   --current current.txt \
@@ -103,6 +115,29 @@ promote. A cited rule is not engine `ZERO`.
 
 Use only when asked to audit a paper, check numbered equations, reconstruct
 how a result is derived, or emit a reviewer-facing evidence ledger.
+
+**LaTeX paper or note with displayed equations (many-body, transport,
+Green's functions): run one command first.**
+
+```bash
+symbolic-compactification manybody review paper.tex --out review/
+```
+
+It drafts one step card per displayed relation, checks each against its
+verbatim quote, builds the audit workspace, and writes
+`review/reviewer-verification-package/REVIEWER_SUMMARY.html`. Its JSON
+output lists every step with its `decision`, its equation number and its
+line. For `NOT_DECIDED` steps, edit `review/cards/conventions.yaml`
+(symbols, `positive: true`, `notation`, definitions, `multiply`) or a
+card's `check`, then run the same command again. Report each step's
+`decision` exactly:
+- **VALID or INVALID only when the tool says so.**
+- Otherwise the step is "not decided by the tool". Never INVALID because
+  the tool could not decide.
+- If you check a step yourself, say so separately.
+
+The five-layer workflow below is for papers whose steps the cards cannot
+express.
 
 ### Output contract
 

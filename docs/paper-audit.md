@@ -39,8 +39,14 @@ Finite coefficient `ZERO` is not a remainder proof.
 
 ## Many-body papers: step cards in a reviewer package
 
-For a many-body paper, the fastest route is to draft step cards straight
-from the LaTeX source and put them into an audit as `STEP_CARD` edges:
+For a many-body paper, one command does everything:
+
+```bash
+symbolic-compactification manybody review paper.tex --out review/
+```
+
+Rerun it after editing `review/cards/conventions.yaml`. It keeps the
+cards and only re-verifies. The steps it performs are:
 
 ```bash
 symbolic-compactification manybody draft manuscript/source.tex --out cards/

@@ -29,6 +29,7 @@ NOT_DECIDED whenever the card does not match its quoted source.
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -100,7 +101,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
     if not includes:
         return card, []
     shared: dict[str, Any] = {"symbols": {}, "define": {}, "notation": {}, "functions": [],
-                              "source": {}}
+                              "source": {}, "multiply": []}
     conflicts: list[str] = []
     for item in includes:
         path = Path(str(item))
@@ -119,6 +120,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
                     conflicts.append(f"{key} {k} differs between includes")
                 shared[key][str(k)] = str(v)
         shared["functions"] += list(_names(data.get("functions")))
+        shared["multiply"] += list(_names(data.get("multiply")))
         for k, v in (data.get("source") or {}).items():       # quoted shared definitions
             if not str(k).startswith("define:"):
                 raise CardError(f"include {item}: only define: quotes may be shared")
@@ -139,6 +141,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
                 conflicts.append(f"card redefines shared {key} {k}")
         merged[key] = {**shared[key], **own}
     merged["functions"] = sorted(set(shared["functions"]) | set(_names(card.get("functions"))))
+    merged["multiply"] = sorted(set(shared["multiply"]) | set(_names(card.get("multiply"))))
     own_source = dict(card.get("source") or {})
     for k, v in shared["source"].items():
         if k in own_source and own_source[k] != v:
@@ -160,6 +163,17 @@ def _missing_quotes(card: dict, transcription: dict) -> list[str]:
     fields = transcription.get("fields", {})
     return [k for k in _EXPRESSION_KEYS
             if k in card and fields.get(k, {}).get("status") != "MATCH"]
+
+
+def _used_symbols(symbols: list, card: dict, defs: dict) -> list:
+    """Only the declared symbols a card actually uses: a shared conventions
+    file may declare many more than one check can take."""
+    texts = [str(card[k]) for k in _EXPRESSION_KEYS if k in card]
+    texts += [*defs.values(), *defs.keys(), str(card.get("variable", "z")), str(card.get("beta", "beta")),
+              str(card.get("infinitesimal", "")), *map(str, _names(card.get("labels")))]
+    used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(texts)))
+    kept = [s for s in symbols if (s if isinstance(s, str) else s.get("name")) in used]
+    return kept or symbols[:1]
 
 
 def _shared_definition_names(card: dict, base_dir: Path | None) -> set[str]:
@@ -195,6 +209,9 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
     from .fidelity import fill_from_source, with_default_functions
     card, filled = fill_from_source(card, base_dir, symbols=symbols, functions=functions)
     defs = {str(k): str(v) for k, v in (card.get("define") or {}).items()}
+    symbols = _used_symbols(symbols, card, defs)
+    kept = {s if isinstance(s, str) else s["name"] for s in symbols}
+    positive = tuple(n for n in positive if n in kept)
     defs = with_default_functions(
         defs, [str(card[k]) for k in _EXPRESSION_KEYS if k in card] + list(defs.values()),
         declared=[*(s if isinstance(s, str) else s["name"] for s in symbols), *functions])
@@ -207,7 +224,8 @@ def run_card(source: str | Path | dict, *, require_source: bool | None = None) -
         if not failures:
             raise
         from .fidelity import check_transcription
-        blocked = [f"SOURCE_UNREADABLE:{k}:{v}" for k, v in sorted(failures.items())]
+        needed = {k: v for k, v in failures.items() if not k.startswith("define:")}
+        blocked = [f"SOURCE_UNREADABLE:{k}:{v}" for k, v in sorted((needed or failures).items())]
         return {"check": check, "decision": "NOT_DECIDED", "decision_blocked_by": blocked,
                 "transcription_verified": False, "require_source": _require_source(require_source),
                 "status": "UNKNOWN", "reasons": blocked,

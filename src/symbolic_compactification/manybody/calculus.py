@@ -90,15 +90,20 @@ class CalculusSpace(Namespace):
         return self._lambdas[name]
 
     def expand(self, expr: sympy.Expr) -> sympy.Expr:
+        from sympy.core.function import AppliedUndef
         for _ in range(_MAX_DEPTH):
             before = expr
-            for name in [*self.user_functions, *self.defs]:
+            present = {f.func.__name__ for f in expr.atoms(AppliedUndef)}
+            # only definitions this expression uses are parsed: an unrelated
+            # shared definition must not affect the check
+            for name in [n for n in [*self.user_functions, *self.defs]
+                         if {n, f"DD_{n}", f"D_{n}"} & present]:
                 F = self._lambda(name) if name in self.defs else sympy.Function(name)
                 expr = expr.replace(sympy.Function(f"DD_{name}"),
                                     lambda *nodes, F=F: divided_difference(F, list(nodes)))
                 expr = expr.replace(sympy.Function(f"D_{name}"),
                                     lambda k, x, F=F: self._derivative(F, k, x))
-            for name in self.defs:
+            for name in [n for n in self.defs if n in present]:
                 expr = expr.replace(sympy.Function(name), self._lambda(name))
             expr = expr.replace(sympy.Function("Diff"), self._diff)
             if expr == before:

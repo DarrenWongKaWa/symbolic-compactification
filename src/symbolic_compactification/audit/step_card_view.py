@@ -77,6 +77,8 @@ def conventions(workspace: AuditWorkspace) -> list[tuple[str, str, str, str]]:
                 rows.append((rel, "assumption", str(s["name"]), "positive"))
         for k, v in (data.get("notation") or {}).items():
             rows.append((rel, "notation", str(k), str(v)))
+        for name in data.get("multiply") or []:
+            rows.append((rel, "product before (", str(name), f"{name}(x) is read as {name}*x"))
         for k, v in (data.get("define") or {}).items():
             rows.append((rel, "definition (typed)", str(k), str(v)))
         for k, v in (data.get("source") or {}).items():
