@@ -1,0 +1,7 @@
+# Differentiating a divided difference in one node repeats that node.
+expect: ZERO
+check: identity
+symbols: [x, y]
+functions: [f]
+lhs: Diff(DD_f(x, y), x, 1)
+rhs: DD_f(x, x, y)

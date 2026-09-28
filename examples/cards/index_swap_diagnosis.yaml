@@ -1,0 +1,10 @@
+# A transcription with the two labels swapped: NONZERO plus a diagnosis.
+expect: NONZERO
+check: identity
+symbols: [n, m]
+labels: [n, m]
+define:
+  h(t): exp(t)*t
+  K(a, b): (h(a) - h(b))/(a - b) + I*a
+lhs: K(n, m)
+rhs: (h(m) - h(n))/(m - n) + I*m

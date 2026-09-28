@@ -4,6 +4,7 @@ Claim language (on top of the usual expression syntax):
   DD_f(x0, x1, ..., xr)   divided difference of a declared function f;
                           repeated nodes use the confluent limit
   D_f(k, x)               k-th derivative of f at x (k a literal integer)
+  Diff(expr, x, k)        k-th derivative of any expression in the symbol x
 Declared functions are *arbitrary* smooth functions. An identity is ZERO
 only if SymPy reduces the residual to zero (after expanding divided
 differences and canonicalizing polygammas by reflection). NONZERO needs a
@@ -16,6 +17,7 @@ agreement reported as support only.
 from __future__ import annotations
 
 import random
+import re
 from typing import Any, Iterable
 
 import sympy
@@ -44,23 +46,71 @@ def divided_difference(F, nodes: list) -> sympy.Expr:
     return (divided_difference(F, ordered[:-1]) - divided_difference(F, ordered[1:])) / (first - last)
 
 
+_DEF_RE = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(([^()]*)\)\s*$")
+_MAX_DEPTH = 12
+
+
+def _parse_definition_key(key: str) -> tuple[str, tuple[str, ...]]:
+    match = _DEF_RE.match(key)
+    if not match:
+        raise AdapterError("DEFINITION_KEY_INVALID")
+    params = tuple(p.strip() for p in match.group(2).split(",") if p.strip())
+    return match.group(1), params
+
+
 class CalculusSpace(Namespace):
-    """Namespace that also knows DD_f and D_f for each declared function."""
+    """Namespace that also knows DD_f and D_f for each declared function, and
+    named definitions ``name(params): body`` that may use each other."""
 
     def __init__(self, symbols: Any, functions: Iterable[str] = (), *,
-                 complex_names: tuple[str, ...] = ()):
+                 complex_names: tuple[str, ...] = (), definitions: dict | None = None):
         self.user_functions = [str(f) for f in functions]
-        helpers = [f"{p}_{f}" for f in self.user_functions for p in ("DD", "D")]
-        super().__init__(symbols, [*self.user_functions, *helpers], complex_names=complex_names)
+        self.defs = {}
+        for key, body in (definitions or {}).items():
+            name, params = _parse_definition_key(str(key))
+            self.defs[name] = (params, str(body))
+        names = [*self.user_functions, *self.defs]
+        helpers = [f"{p}_{f}" for f in names for p in ("DD", "D")] + ["Diff"]
+        declared = {(s if isinstance(s, str) else s.get("name")) for s in (symbols or [])}
+        extra = [{"name": p, "real": True} for params, _ in self.defs.values()
+                 for p in params if p not in declared]
+        seen, unique_extra = set(), []
+        for item in extra:
+            if item["name"] not in seen:
+                seen.add(item["name"])
+                unique_extra.append(item)
+        super().__init__([*(symbols or []), *unique_extra], [*names, *helpers],
+                         complex_names=complex_names)
+        self._lambdas: dict = {}
+
+    def _lambda(self, name):
+        if name not in self._lambdas:
+            params, body = self.defs[name]
+            self._lambdas[name] = sympy.Lambda(tuple(self.symbol(p) for p in params), self.parse(body))
+        return self._lambdas[name]
 
     def expand(self, expr: sympy.Expr) -> sympy.Expr:
-        for name in self.user_functions:
-            F = sympy.Function(name)
-            expr = expr.replace(sympy.Function(f"DD_{name}"),
-                                lambda *nodes, F=F: divided_difference(F, list(nodes)))
-            expr = expr.replace(sympy.Function(f"D_{name}"),
-                                lambda k, x, F=F: self._derivative(F, k, x))
-        return expr
+        for _ in range(_MAX_DEPTH):
+            before = expr
+            for name in [*self.user_functions, *self.defs]:
+                F = self._lambda(name) if name in self.defs else sympy.Function(name)
+                expr = expr.replace(sympy.Function(f"DD_{name}"),
+                                    lambda *nodes, F=F: divided_difference(F, list(nodes)))
+                expr = expr.replace(sympy.Function(f"D_{name}"),
+                                    lambda k, x, F=F: self._derivative(F, k, x))
+            for name in self.defs:
+                expr = expr.replace(sympy.Function(name), self._lambda(name))
+            expr = expr.replace(sympy.Function("Diff"), self._diff)
+            if expr == before:
+                return expr
+        raise AdapterError("DEFINITIONS_TOO_DEEP_OR_CYCLIC")
+
+    @staticmethod
+    def _diff(expr, variable, k):
+        """Diff(expr, x, k): k-th derivative of any expression in a symbol."""
+        if not (isinstance(variable, sympy.Symbol) and k.is_Integer and k >= 0):
+            raise AdapterError("DIFF_ARGUMENTS_INVALID")
+        return sympy.diff(expr, variable, int(k)).doit()
 
     @staticmethod
     def _derivative(F, k, x):
@@ -133,13 +183,56 @@ def _screen(residual, names, free, positive) -> tuple[dict | None, bool]:
     return None, all_small
 
 
+def _numeric(expr, names, point, seed):
+    value = _certified_value(_concretize(expr, names, seed).subs(point))
+    return None if value is None else complex(value)
+
+
+def diagnose(lhs, rhs, space, positive=(), labels: tuple[str, ...] = ()) -> list[str]:
+    """Name a simple relation between claim (rhs) and computed value (lhs).
+
+    Convention slips (sign, factor 2, conjugation, a swapped label pair)
+    are the commonest transcription errors; naming them makes a NONZERO
+    actionable. Matches are numerical at two sample points, so they are
+    hints, never verdicts.
+    """
+    names, pos = space.user_functions, space.positives(tuple(positive))
+    syms = [space.symbol(n) for n in labels]
+    candidates = {
+        "claim = -(computed)": -lhs,
+        "claim = conj(computed): check index order or the sign of i": sympy.conjugate(lhs),
+        "claim = -conj(computed)": -sympy.conjugate(lhs),
+        "claim = 2 * computed (missing factor 1/2 in the claim?)": 2 * lhs,
+        "claim = computed / 2 (missing factor 2 in the claim?)": lhs / 2,
+    }
+    for i, a in enumerate(syms):
+        for b in syms[i + 1:]:
+            swapped = lhs.xreplace({a: b, b: a})
+            candidates[f"claim = computed with {a} <-> {b} (index order)"] = swapped
+            candidates[f"claim = conj(computed) with {a} <-> {b}"] = sympy.conjugate(swapped)
+    free = (lhs.free_symbols | rhs.free_symbols)
+    points = sample_points(free, positive=pos, count=2, seed=41)
+    found = []
+    for text, cand in candidates.items():
+        ok = True
+        for point in points:
+            r, c = _numeric(rhs, names, point, 11), _numeric(cand, names, point, 11)
+            if r is None or c is None or abs(r - c) > 1e-12 * max(1.0, abs(r)):
+                ok = False
+                break
+        if ok:
+            found.append(text)
+    return found
+
+
 def compare(lhs: sympy.Expr, rhs: sympy.Expr, space: CalculusSpace,
-            positive: tuple[str, ...] = ()) -> dict:
+            positive: tuple[str, ...] = (), labels: tuple[str, ...] = ()) -> dict:
     residual = lhs - rhs
     pos = space.positives(tuple(positive))
     hit, all_small = _screen(residual, space.user_functions, residual.free_symbols, pos)
     if hit is not None:
-        return {"verdict": "NONZERO", "reasons": ["COUNTEREXAMPLE"], "counterexample": hit}
+        return {"verdict": "NONZERO", "reasons": ["COUNTEREXAMPLE"], "counterexample": hit,
+                "diagnosis": diagnose(lhs, rhs, space, positive, labels)}
     if _simplify_zero(residual):
         return {"verdict": "ZERO", "reasons": []}
     reasons = ["NUMERICAL_SUPPORT_ONLY"] if all_small else ["UNDECIDED"]
@@ -147,14 +240,15 @@ def compare(lhs: sympy.Expr, rhs: sympy.Expr, space: CalculusSpace,
 
 
 def verify_identity(lhs: str, rhs: str, *, symbols: Any, functions: Iterable[str] = (),
-                    positive: tuple[str, ...] = ()) -> dict:
-    """ZERO / NONZERO / UNKNOWN for an identity with DD_f and D_f."""
+                    positive: tuple[str, ...] = (), definitions: dict | None = None,
+                    labels: tuple[str, ...] = ()) -> dict:
+    """ZERO / NONZERO / UNKNOWN for an identity with DD_f, D_f and definitions."""
     try:
-        space = CalculusSpace(symbols, functions)
+        space = CalculusSpace(symbols, functions, definitions=definitions)
         left, right = space.parse_expanded(lhs), space.parse_expanded(rhs)
     except AdapterError as exc:
         return {"verdict": "UNKNOWN", "reasons": [f"PARSE_FAILED:{exc.code}"]}
-    return compare(left, right, space, positive)
+    return compare(left, right, space, positive, labels)
 
 
 def _series_coefficient(expr, variable, order):
@@ -164,10 +258,11 @@ def _series_coefficient(expr, variable, order):
 
 def verify_series_coefficient(expr: str, claim: str, *, variable: str, order: int,
                               symbols: Any, functions: Iterable[str] = (),
-                              positive: tuple[str, ...] = ()) -> dict:
+                              positive: tuple[str, ...] = (), definitions: dict | None = None,
+                              labels: tuple[str, ...] = ()) -> dict:
     """[variable^order] of expr (Taylor/Laurent at 0) versus the claim."""
     try:
-        space = CalculusSpace(symbols, functions)
+        space = CalculusSpace(symbols, functions, definitions=definitions)
         w = space.symbol(variable)
         body, target = space.parse_expanded(expr), space.parse_expanded(claim)
     except AdapterError as exc:
@@ -177,5 +272,5 @@ def verify_series_coefficient(expr: str, claim: str, *, variable: str, order: in
             "series", _series_coefficient, (body, w, int(order)), budget_key="simplify_seconds")
     except (BudgetExceeded, NotImplementedError, ValueError, TypeError):
         return {"verdict": "UNKNOWN", "reasons": ["SERIES_NOT_COMPUTED"]}
-    result = compare(coefficient, target, space, positive)
+    result = compare(coefficient, target, space, positive, labels)
     return {**result, "coefficient": str(coefficient)[:2000]}

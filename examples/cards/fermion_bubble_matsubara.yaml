@@ -1,0 +1,6 @@
+expect: CERTIFIED_BY_RULE
+check: matsubara
+statistics: fermion
+symbols: [a, c, {name: beta, nonzero: true}]
+summand: 1/((z - a)*(z - c))
+claim: (nF(a) - nF(c))/(a - c)

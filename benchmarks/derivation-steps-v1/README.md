@@ -90,6 +90,63 @@ were correct. Every `NONZERO` fell on a planted error and every
    frontier-level reliability.** The bottleneck is encoding a step into a
    checkable form, not the checker.
 
+## Round 2: step cards and the encoding cookbook (PR #17)
+
+The tool gained three things in PR #17:
+- **Step cards:** one YAML file per step, with named definitions.
+- **An encoding cookbook** with a decision rule for agents: VALID only on
+  `ZERO` or a certificate, INVALID only on `NONZERO`, otherwise "not
+  decided".
+- **Exact Fermi-weighted integrals.**
+
+The Sonnet and Haiku arms were then rerun on the same sheet:
+
+| Arm | Correct | Planted errors caught | False alarms | Abstained | Steps decided by the tool |
+|---|---:|---:|---:|---:|---:|
+| sonnet_cards | 31/32 | 6/6 | 1/26 | 0 | 13 |
+| haiku_cards_run1 | 13/32 | 2/6 | 1/26 | 17 | 11 |
+| haiku_cards_run2 | 25/32 | 1/6 | 2/26 | 0 | 8 |
+
+- **Sonnet.** It catches all six errors again. Its only false alarm (G1.4,
+  confidence 0.55) came from its own numerics. The index-order slip of round
+  1 (G2.3) did not recur. Its catch of G1.3 is **not independent**: the
+  first version of the cookbook used Guo's ρ₁ integral as its worked
+  example and described the planted `f₊(ε_m + ω)` error.
+- **Haiku.** The cookbook changed its behaviour but not its detection.
+  - It now calls the tool: 8–11 decided steps, versus none before.
+  - False alarms fell from 10 to 1–2, because it abstains instead of
+    rejecting.
+  - It still catches only 1–2 of the six errors.
+- **Every wrong Haiku result traces to encoding, not to the checker.** We
+  read the cards Haiku wrote:
+  - K2.2 and K2.3: where a step took the second derivative of a divided
+    difference, it encoded the second derivative of the underlying
+    function. The card language had no way to write the latter, so
+    `Diff(expr, x, k)` was added.
+  - K1.4: it divided the divided differences by the gap a second time, and
+    it transcribed only the first term of the claim.
+  - G1.3: it copied the cookbook's example card, which holds Guo's
+    **correct** formula, instead of transcribing the planted claim.
+
+  For each of these the tool's verdict was correct for the card it was
+  given, but it was wrong about the step.
+
+**Fixes after round 2.**
+- `Diff(expr, x, k)` for derivatives of any expression.
+- Every worked example in the cookbook and `examples/cards/` is replaced by
+  one that is not a benchmark item.
+- The cookbook now states "transcribe, do not reconstruct".
+
+These arms were run before the fixes, so they measure the version with the
+contaminated examples.
+
+**Conclusion.** The checker is sound, and every decisive verdict was
+correct for its encoded input. Its value depends on whether the agent
+transcribes the step faithfully. A mid-size model with the tool matches a
+frontier model on this benchmark, and 4 of its 6 catches are machine
+`NONZERO` verdicts with counterexamples. A small model with the tool does
+not, because transcription fails.
+
 ## Caveats
 
 - **Single runs.** There is one run per arm.

@@ -7,6 +7,8 @@ behind each check, and how results map onto audit statuses.
 """
 from ._common import DISTRIBUTION_FUNCTIONS, ManyBodyResult
 from .calculus import divided_difference, verify_identity, verify_series_coefficient
+from .cards import run_card
+from .fermi_integral import FERMI_RESIDUE_SPLITTING, verify_fermi_integral
 from .asymptotic import (ASYMPTOTIC_REMAINDER_LIMIT, certify_remainder,
                          estimate_remainder_order)
 from .integrals import NUMERICAL_SUPPORT, check_frequency_integral
@@ -19,6 +21,7 @@ from .special import reflect_polygamma
 __all__ = [
     "ASYMPTOTIC_REMAINDER_LIMIT",
     "DISTRIBUTION_FUNCTIONS",
+    "FERMI_RESIDUE_SPLITTING",
     "LANGRETH_KELDYSH_ALGEBRA",
     "MATSUBARA_POLES_OFF_AXIS",
     "MATSUBARA_RESIDUE_THEOREM",
@@ -30,6 +33,8 @@ __all__ = [
     "estimate_remainder_order",
     "matsubara_closed_form",
     "reflect_polygamma",
+    "run_card",
+    "verify_fermi_integral",
     "verify_identity",
     "verify_langreth",
     "verify_matsubara_sum",

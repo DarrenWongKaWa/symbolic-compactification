@@ -224,6 +224,14 @@ a Langreth rule, an operator identity or a real-frequency Green's-function
 integral. Propose the closed form. Do not decide it yourself: run the
 command and report its JSON `status` unchanged.
 
+The easiest route is one YAML **step card** per step:
+`symbolic-compactification manybody step card.yaml`. Copy the paper's
+definitions once under `define:`, and pick the `check` from the table in
+the engine repository's `docs/encoding-cookbook.md` (`examples/cards/` has
+a template for each kind). Report VALID only on `ZERO` or
+`CERTIFIED_BY_RULE`, and INVALID only on `NONZERO`. Anything else is
+"not decided by the tool", never INVALID by default.
+
 ```bash
 symbolic-compactification manybody matsubara  --statistics fermion|boson --summand F --claim C --symbols S
 symbolic-compactification manybody remainder  --function f --approximant P --variable x --point 0|oo --order n --symbols S

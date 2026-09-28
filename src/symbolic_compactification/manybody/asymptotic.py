@@ -140,6 +140,7 @@ def _series_route(num, x, x0, order, sample):
 def certify_remainder(function: str, approximant: str, *, variable: str, point: str,
                       order: int, symbols: Any, functions: Any = None,
                       direction: str = "+-", positive: tuple[str, ...] = (),
+                      definitions: dict | None = None,
                       numeric: bool = True) -> ManyBodyResult:
     """Certify  function = approximant + O(variable**order)  as variable -> point."""
     inputs = {"rule": ASYMPTOTIC_REMAINDER_LIMIT, "function_sha256": text_hash(function),
@@ -162,9 +163,10 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         return result(UNKNOWN, ["DIRECTION_NOT_APPLICABLE_AT_INFINITY"])
     try:
         x0 = _point(point)
-        space = Namespace(symbols, functions)
+        from .calculus import CalculusSpace
+        space = CalculusSpace(symbols, functions or (), definitions=definitions)
         x = space.symbol(variable)
-        f, P = space.parse(function), space.parse(approximant)
+        f, P = space.parse_expanded(function), space.parse_expanded(approximant)
         pos = space.positives(tuple(positive))
     except AdapterError as exc:
         return result(UNKNOWN, [f"PARSE_FAILED:{exc.code}"])

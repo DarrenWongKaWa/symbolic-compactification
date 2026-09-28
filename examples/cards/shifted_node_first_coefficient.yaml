@@ -1,0 +1,9 @@
+# [w^1] of a divided difference with one shifted node repeats that node once.
+expect: ZERO
+check: coefficient
+symbols: [x, y, w]
+functions: [f]
+expr: DD_f(x + w, y)
+variable: w
+order: 1
+claim: DD_f(x, x, y)
