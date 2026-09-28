@@ -26,6 +26,7 @@ import sympy
 from ..audit.schema import ASYMPTOTIC_REMAINDER_LIMIT
 from ..budgets import BudgetExceeded, run_symbolic_operation
 from ..models import AdapterError
+from .special import reflect_polygamma
 from ._common import (CERTIFIED_BY_RULE, NONZERO, NUMERIC_AGREES,
                       NUMERIC_DISAGREES, NUMERIC_UNAVAILABLE, UNKNOWN,
                       ManyBodyResult, Namespace, certificate_hash, sample_points,
@@ -48,11 +49,15 @@ def _sides(point: sympy.Expr, direction: str) -> tuple[tuple[sympy.Expr, str], .
     return tuple((point, side) for side in ("+", "-") if side in direction)
 
 
-def _classify(value: sympy.Expr) -> str:
+def _classify(value: sympy.Expr, sample: dict | None = None) -> str:
     # |q| -> oo means some admissible parameter point violates the claimed
     # order (the verifier's NONZERO semantics), e.g. I*oo or oo*sign(c).
     if value in _INFINITE or sympy.Abs(value) == sympy.oo:
         return "INFINITE"
+    if sample and value.has(sympy.oo, -sympy.oo, sympy.zoo):
+        at_point = value.subs(sample)
+        if at_point in _INFINITE or sympy.Abs(at_point) == sympy.oo:
+            return "INFINITE"  # e.g. oo*c/|c| at an admissible c != 0
     if value is sympy.nan or value.has(sympy.nan, sympy.zoo, sympy.oo, -sympy.oo) \
             or value.has(sympy.Limit) or isinstance(value, sympy.AccumBounds) \
             or value.has(sympy.AccumBounds):
@@ -79,10 +84,118 @@ def _numeric_limit_check(q, x, point, value, free, positive=()) -> dict:
     return {"status": status, "points": 3, "max_rel_diff": mpmath.nstr(worst, 3)}
 
 
+def _certified_nonzero(value: sympy.Expr, sample: dict) -> bool:
+    try:
+        number = value.subs(sample).evalf(30, strict=True)
+    except (sympy.core.evalf.PrecisionExhausted, TypeError, ValueError, ZeroDivisionError):
+        return False
+    return bool(number.is_number) and abs(number) > sympy.Float("1e-20")
+
+
+def _series_terms(expr: sympy.Expr, var: sympy.Symbol, upto: int):
+    """Laurent coefficients {power: coeff} below var**upto, or None."""
+    try:
+        series = run_symbolic_operation(
+            "series", sympy.series, (expr, var, 0, upto), budget_key="simplify_seconds")
+    except (BudgetExceeded, NotImplementedError, ValueError, TypeError):
+        return None
+    terms: dict[int, sympy.Expr] = {}
+    for term in sympy.Add.make_args(sympy.expand(series.removeO())):
+        coeff, power = term.as_coeff_exponent(var)
+        if coeff.has(var) or not power.is_Integer or coeff.has(sympy.log):
+            return None  # not a plain Laurent series
+        terms[int(power)] = terms.get(int(power), 0) + coeff
+    return terms
+
+
+def _series_route(num, x, x0, order, sample):
+    """Certify num = O(x**order) from its Laurent coefficients.
+
+    Every coefficient below the claimed order must vanish identically
+    (checked with polygamma reflection and simplify), and the next one is
+    reported as the limit. A coefficient certified nonzero at an admissible
+    sample point refutes the claim. Returns None when undecided.
+    """
+    from .calculus import _simplify_zero
+    var, n = x, order
+    if x0 in (sympy.oo, -sympy.oo):
+        var = sympy.Dummy("t", positive=True)
+        num = num.subs(x, (1 if x0 == sympy.oo else -1) / var)
+        n = -order
+    terms = _series_terms(num, var, n + 1)
+    if terms is None:
+        return None
+    for power in sorted(p for p in terms if p < n):
+        coeff = terms[power]
+        if _certified_nonzero(coeff, sample):
+            return (NONZERO, str(coeff), ["LOWER_ORDER_TERM_NONZERO"])
+        if not _simplify_zero(coeff):
+            return None
+    try:
+        leading = sympy.simplify(reflect_polygamma(terms.get(n, sympy.Integer(0))))
+    except (AttributeError, TypeError, RecursionError):
+        return None
+    if x0 in (sympy.oo, -sympy.oo) and x0 == -sympy.oo:
+        leading = leading * (-1) ** n
+    return (CERTIFIED_BY_RULE, leading, [])
+
+
+def _tidy(value):
+    """simplify for display and classification only. SymPy 1.14 on Python
+    3.10 can raise inside Piecewise simplification (int.is_integer); the
+    unsimplified limit is equally valid."""
+    try:
+        return sympy.simplify(value)
+    except (AttributeError, TypeError, RecursionError):
+        return value
+
+
+def _exponential_route(expr, x, x0, positive) -> bool:
+    """True when every term of expr is R(x) exp(lam x + mu) with R rational
+    and Re(lam) provably < 0 (at +oo) or > 0 (at -oo), and the terms without
+    an exponential cancel exactly. Then expr / x**n -> 0 for every n."""
+    if x0 not in (sympy.oo, -sympy.oo):
+        return False
+    sure = {s: sympy.Symbol(s.name, positive=True) for s in positive}
+    x = sure.get(x, x)
+    expr = expr.xreplace(sure).rewrite(sympy.exp)          # cos, sin, cosh ... as exponentials
+    expr = sympy.expand(expr, power_exp=False)
+
+    def exponent_of(factor):
+        if isinstance(factor, sympy.exp):
+            return factor.args[0]
+        if isinstance(factor, sympy.Pow) and isinstance(factor.base, sympy.exp) \
+                and factor.exp.is_number:
+            return factor.base.args[0] * factor.exp
+        return None
+
+    plain = sympy.Integer(0)
+    for term in sympy.Add.make_args(expr):
+        factors = sympy.Mul.make_args(term)
+        exps = [exponent_of(f) for f in factors if exponent_of(f) is not None]
+        if not exps:
+            plain += term
+            continue
+        exponent = sympy.expand(sum(exps))
+        coeff = sympy.Mul(*[f for f in factors if exponent_of(f) is None])
+        if coeff.has(sympy.exp) or not sympy.together(coeff).is_rational_function(x):
+            return False
+        if not exponent.is_polynomial(x) or sympy.degree(exponent, x) != 1:
+            return False
+        rate = sympy.re(sympy.expand(exponent.diff(x)))
+        if not (rate.is_negative if x0 == sympy.oo else rate.is_positive):
+            return False
+    try:
+        return sympy.simplify(plain) == 0
+    except (AttributeError, TypeError, RecursionError):
+        return False
+
+
 def certify_remainder(function: str, approximant: str, *, variable: str, point: str,
                       order: int, symbols: Any, functions: Any = None,
                       direction: str = "+-", positive: tuple[str, ...] = (),
-                      numeric: bool = True) -> ManyBodyResult:
+                      definitions: dict | None = None,
+                      numeric: bool = True, beta: str | None = None) -> ManyBodyResult:
     """Certify  function = approximant + O(variable**order)  as variable -> point."""
     inputs = {"rule": ASYMPTOTIC_REMAINDER_LIMIT, "function_sha256": text_hash(function),
               "approximant_sha256": text_hash(approximant), "variable": variable,
@@ -104,30 +217,55 @@ def certify_remainder(function: str, approximant: str, *, variable: str, point: 
         return result(UNKNOWN, ["DIRECTION_NOT_APPLICABLE_AT_INFINITY"])
     try:
         x0 = _point(point)
-        space = Namespace(symbols, functions)
+        from .calculus import CalculusSpace
+        space = CalculusSpace(symbols, functions or (), definitions=definitions)
         x = space.symbol(variable)
-        f, P = space.parse(function), space.parse(approximant)
+        f, P = space.parse_expanded(function), space.parse_expanded(approximant)
+        if beta and (f.has(sympy.Function("nF")) or f.has(sympy.Function("nB"))
+                     or P.has(sympy.Function("nF")) or P.has(sympy.Function("nB"))):
+            from ._common import expand_distributions      # nF(x) = 1/(exp(beta x) + 1)
+            b = space.symbol(beta)
+            f, P = expand_distributions(f, b), expand_distributions(P, b)
         pos = space.positives(tuple(positive))
     except AdapterError as exc:
         return result(UNKNOWN, [f"PARSE_FAILED:{exc.code}"])
     q = (f - P) / x ** int(order)
-    limits = []
+    free_params = (q.free_symbols - {x})
+    sample = sample_points(free_params, positive=pos, count=1)[0] if free_params else {}
+    limits, failure = [], None
     for pt, side in _sides(x0, direction):
         try:
             value = run_symbolic_operation(
                 "limit", sympy.limit, (q, x, pt, side), budget_key="simplify_seconds")
         except BudgetExceeded:
-            return result(UNKNOWN, ["LIMIT_TIME_BUDGET_EXCEEDED"])
-        except (NotImplementedError, ValueError, TypeError):
-            return result(UNKNOWN, ["LIMIT_NOT_COMPUTED"])
-        limits.append(sympy.simplify(value))
-    kinds = {_classify(v) for v in limits}
+            failure = "LIMIT_TIME_BUDGET_EXCEEDED"
+            break
+        except Exception as exc:   # PoleError and friends: not computed, never a verdict
+            failure = f"LIMIT_NOT_COMPUTED:{type(exc).__name__}"
+            break
+        limits.append(_tidy(value))
+    kinds = {_classify(v, sample) for v in limits} if failure is None else {"UNDECIDED"}
     derived = ", ".join(str(v) for v in limits)
     if "INFINITE" in kinds:
-        return result(NONZERO, ["REMAINDER_QUOTIENT_DIVERGES"], derived, "INFINITE")
+        return result(NONZERO, ["REMAINDER_QUOTIENT_DIVERGES"], derived, "INFINITE",
+                      {"counterexample": {str(k): str(v) for k, v in sample.items()}})
+    if kinds != {"FINITE"} and _exponential_route(f - P, x, x0, pos):
+        return result(CERTIFIED_BY_RULE, ["EXPONENTIAL_DECAY_ROUTE"], "0", "FINITE",
+                      {"status": "NOT_RUN"})
     if kinds != {"FINITE"}:
-        return result(UNKNOWN, ["LIMIT_NOT_DECIDED"], derived, "UNDECIDED")
-    if len(limits) == 2 and sympy.simplify(limits[0] - limits[1]) != 0:
+        try:
+            series = _series_route(f - P, x, x0, int(order), sample)
+        except Exception:          # a series that cannot be expanded decides nothing
+            series = None
+        if series is not None:
+            status, value, reasons = series
+            if status == NONZERO:
+                return result(NONZERO, reasons, value, "SERIES",
+                              {"counterexample": {str(k): str(v) for k, v in sample.items()}})
+            limits, derived, kinds = [value], str(value), {"FINITE"}
+        else:
+            return result(UNKNOWN, [failure or "LIMIT_NOT_DECIDED"], derived, "UNDECIDED")
+    if len(limits) == 2 and _tidy(limits[0] - limits[1]) != 0:
         return result(UNKNOWN, ["ONE_SIDED_LIMITS_DIFFER"], derived, "FINITE")
     free = (q.free_symbols | limits[0].free_symbols) - {x}
     numeric_info = (_numeric_limit_check(q, x, x0, limits[0], free, pos)

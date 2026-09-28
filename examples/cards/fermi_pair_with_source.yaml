@@ -1,0 +1,28 @@
+# Same step as fermi_weighted_propagator_pair.yaml, with a transcription
+# check: every expression is tied to a verbatim quote of the note.
+expect: CERTIFIED_BY_RULE
+check: fermi_integral
+symbols:
+  - {name: beta, positive: true}
+  - {name: G, positive: true}
+  - {name: a}
+  - {name: b}
+  - {name: w}
+define:
+  psi(z): polygamma(0, z)
+  zp(x): 1/2 + beta*(G + I*x)/(2*pi)
+  zm(x): 1/2 + beta*(G - I*x)/(2*pi)
+variable: w
+beta: beta
+integrand: nF(w)/((w - a + I*G)*(w - b - I*G))
+claim: (I*pi + psi(zm(b)) - psi(zp(a)))/(b - a + 2*I*G)
+source_document: sources/propagator_note.md
+multiply: [beta]      # beta(G + ix) is a product
+notation:
+  z_+: zp
+  z_-: zm
+source:
+  integrand: "nF(w) / ((w − a + iG)(w − b − iG))"
+  claim: "[iπ + ψ(z_−(b)) − ψ(z_+(a))]/(b − a + 2iG)"
+  define:zp(x): {quote: "1/2 + β(G ± ix)/(2π)", branch: "+"}
+  define:zm(x): {quote: "1/2 + β(G ± ix)/(2π)", branch: "-"}

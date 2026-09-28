@@ -1,0 +1,22 @@
+# Shared conventions for source.tex: fill once, used by every card.
+# Check the positive: true guesses (taken from 'x > 0' in the text).
+symbols:
+- name: Gamma
+  positive: true
+- name: a
+- name: b
+- name: beta
+  positive: true
+- name: omega
+notation: {}
+define: {}
+multiply:
+- beta
+source_document: ../manuscript/source.tex
+source:
+  define:z_p(x):
+    quote: \frac12 + \frac{\beta(\Gamma \pm \ii x)}{2\pi}
+    branch: +
+  define:z_m(x):
+    quote: \frac12 + \frac{\beta(\Gamma \pm \ii x)}{2\pi}
+    branch: '-'

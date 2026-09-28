@@ -23,10 +23,17 @@ sum or integral itself.
 | Convergence factor `e^{±iω_n 0⁺}` for `1/z` decay | equal-time densities, `G(τ=0^±)` | residue theorem with `n_F(z)` or `n_F(−z)` (bosons `n_B`) | `CERTIFIED_BY_RULE` |
 | Asymptotic expansion `f = P + O(x^n)` | `Γ → 0` Laurent series, high-frequency tails `G(iω) ~ 1/iω + ⟨H⟩/(iω)² + …`, large-argument digamma | exact limit of `(f − P)/x^n`, two-sided when declared; numerical cross-check | `CERTIFIED_BY_RULE` with a remainder-certificate hash |
 | Asymptotic-only series (Sommerfeld, Stirling) where no limit is computable | `T → 0` expansions | local slope of `log|f − P|` versus `log x` | `NUMERICAL_SUPPORT` |
-| Real-frequency integral with Fermi functions and broadened propagators | `∫dω n_F(ω) A(ω)` → digamma, dissipative kernels | high-precision quadrature at rational sample points, split at pole real parts | `NUMERICAL_SUPPORT` |
+| Semi-infinite rational series `Σ_{n≥n0} R(n)` | Matsubara sums rewritten over n ≥ 0, `Σ 1/((n+a)(n+b)) = [ψ(a) − ψ(b)]/(a − b)` | `series` (step card): partial fractions in n; `Σ 1/(n+a)^m` gives polygammas; decay `O(1/n²)` and explicit roots are checked; a pole on the summation range is refused, and `n0 + a ∉ {0, −1, …}` for symbolic a is reported as an assumption | `CERTIFIED_BY_RULE` |
+| Real-frequency integral `∫ R(ω) n_F(c ± ω) dω`, `R` rational and `O(1/ω²)` | bath integrals, `∫dω n_F(ω) A(ω)` → digamma, dissipative kernels | `manybody fermi_integral` (step card): split `n_F` into digamma parts analytic in opposite half planes and close each contour; the half plane of each pole is decided from declared signs. A product of two Fermi factors `n_F(a ± ω) n_F(b ± ω)` is first made linear by the exact identity `n_F(x) n_F(y) = n_F(x) − (1 + n_B(y − x))(n_F(x) − n_F(y))` (`y − x` independent of ω). A pole on the real axis needs `infinitesimal: eta` (`ω − a + iη`): the integral is done at η > 0 and compared at η → 0⁺ | `CERTIFIED_BY_RULE` |
+
+Remainders at `x → ±∞` whose every term is `R(x) exp(λx + μ)`, with `Re λ` provably of the right sign under the declared assumptions, are certified by the exponential-decay route (transients such as `e^{i(ε − ε₀ + iΓ/2)t}`). An oscillating or growing exponential is never certified.
+| Other real-frequency integrals | general integrands | high-precision quadrature at rational sample points, split at pole real parts | `NUMERICAL_SUPPORT` |
 | Langreth rules for contour products | Dyson/Keldysh equations, `(AB)^< = A^R B^< + A^< B^A` | Larkin–Ovchinnikov triangular matrices, exact comparison in the free algebra | `CERTIFIED_BY_RULE` |
 | Operator identities | commutators, Lindblad generator versus `H_eff` plus jumps | normal form in the free associative algebra with a declared adjoint | `ZERO` / `NONZERO` |
 | Partial fractions and divided differences of propagator products | `G_n G_m → (G_n − G_m)/(ε_n − ε_m)` | existing `DIVIDED_DIFFERENCE` / `ALGEBRAIC_EQUIVALENCE` edges | `ZERO` |
+| Divided differences with repeated nodes and derivatives of arbitrary functions | confluent kernels `f[x,x,y]`, `f[x,x,x,y,z]` | `manybody identity`: expansion of `DD_f(...)`, `D_f(k,x)`; a counterexample uses a concrete test function | `ZERO` / `NONZERO` |
+| Frequency Taylor coefficients `[ω^k]` | kernels `M = [ω²]ρ₁(ω)`, shifted-node rules | `manybody coefficient`: exact series, then the identity check | `ZERO` / `NONZERO` |
+| Digamma versus Fermi forms | `ψ(1/2+iy) − ψ(1/2−iy) = iπ tanh(πy)`, Γ → 0 limits of broadened occupations | reflection formula `ψ(1−z) − ψ(z) = π cot(πz)` and its derivatives, applied inside every exact check; a Laurent-series route for Γ → 0 remainders | `ZERO` / `CERTIFIED_BY_RULE` |
 | Coefficients of a series | `c_{-1}`, `c_0` of a Laurent expansion | existing `LAURENT_COEFFICIENT` / `SERIES_COEFFICIENT` edges | `ZERO` |
 | Special-function relations | `n_F(−x) = 1 − n_F(x)`, `tanh`/`n_F`, digamma recurrence | exact verifier on explicit exponential forms | `ZERO` |
 
@@ -51,7 +58,12 @@ For asymptotic claims:
 - the limit must be finite, and equal from each declared side;
 - a limit of infinite magnitude is `NONZERO`, because the claimed order
   fails for some admissible parameters;
-- a limit whose finiteness depends on an undeclared sign stays `UNKNOWN`.
+- a limit like `oo·c/|c|` is `NONZERO` when an admissible sample value of
+  `c` makes it infinite (the counterexample is recorded);
+- when SymPy cannot take the limit, the Laurent coefficients below the
+  claimed order are tested one by one. Each must vanish exactly
+  (after polygamma reflection), and a coefficient certified nonzero at a
+  sample point refutes the claim.
 
 A disagreement between the exact result and the numerical cross-check
 always leaves the claim `UNKNOWN`.
@@ -113,6 +125,23 @@ symbolic-compactification manybody integral --variable w --beta beta --positive 
   --claim "1/2 - im(polygamma(0, 1/2 + beta*(g + I*e)/(2*pi)))/pi" \
   --symbols '[{"name":"beta","nonzero":true},{"name":"g","nonzero":true},{"name":"e"},{"name":"w"}]'
 ```
+
+For divided differences and frequency coefficients:
+
+```bash
+symbolic-compactification manybody identity --functions f \
+  --lhs "DD_f(x,y,y)" --rhs "(DD_f(x,y) - D_f(1,y))/(x - y)" \
+  --symbols '[{"name":"x"},{"name":"y"}]'
+
+symbolic-compactification manybody coefficient --functions f --variable w --order 2 \
+  --expr "DD_f(x+w,y,z)" --claim "DD_f(x,x,x,y,z)" \
+  --symbols '[{"name":"x"},{"name":"y"},{"name":"z"},{"name":"w"}]'
+```
+
+Declared functions are arbitrary smooth functions. `NONZERO` is proved by
+a concrete test function at a rational point. The value is certified to
+30 digits with strict evaluation, so the refutation is a genuine
+counterexample to the universal claim.
 
 Each command prints one JSON object with `status` (or `verdict`), the
 reasons, the derived closed form or limit, the numerical cross-check and,

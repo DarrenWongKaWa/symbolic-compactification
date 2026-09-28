@@ -1,0 +1,35 @@
+\documentclass{article}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\Lor}[1]{\frac{2\Gamma}{#1^2+\Gamma^2}}
+\title{A broadened level and its bath integrals (synthetic demo)}
+\begin{document}
+Synthetic public demo: textbook identities for a level broadened by a
+wide-band bath. It is not a research manuscript. We use $\Gamma>0$,
+$\beta>0$ and
+\begin{equation}
+\label{eq:zdef}
+z_\pm(x) = \frac12 + \frac{\beta(\Gamma \pm \ii x)}{2\pi} .
+\end{equation}
+The Lorentzian splits into a retarded and an advanced pole,
+\begin{equation}
+\label{eq:split}
+\Lor{\omega} = \frac{\ii}{\omega + \ii\Gamma} - \frac{\ii}{\omega - \ii\Gamma},
+\end{equation}
+and decays as
+\begin{equation}
+\label{eq:tail}
+\Lor{\omega} = \frac{2\Gamma}{\omega^2} + \mathcal{O}(\omega^{-4}) .
+\end{equation}
+Closing the contour in both half planes,
+\begin{equation}
+\label{eq:pair}
+\int d\omega\, \frac{n_F(\omega)}{(\omega - a + \ii\Gamma)(\omega - b - \ii\Gamma)}
+ = \frac{\ii\pi + \psi(z_-(b)) - \psi(z_+(a))}{b - a + 2\ii\Gamma},
+\end{equation}
+and for the average over two advanced poles one finds
+\begin{equation}
+\label{eq:pair-wrong}
+\int d\omega\, \frac{n_F(\omega)}{(\omega - a - \ii\Gamma)(\omega - b - \ii\Gamma)}
+ = \frac{\psi(z_+(a)) - \psi(z_+(b))}{a - b} .
+\end{equation}
+\end{document}

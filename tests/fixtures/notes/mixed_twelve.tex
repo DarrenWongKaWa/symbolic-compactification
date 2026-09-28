@@ -1,0 +1,81 @@
+\documentclass{article}
+\newcommand{\ii}{\mathrm{i}}
+\title{Adversarial round six: many-body relations}
+\begin{document}
+\maketitle
+
+Let $\beta>0$ be inverse temperature, $n_F(x)=1/(e^{\beta x}+1)$ the Fermi
+function, $n_B(x)=1/(e^{\beta x}-1)$ the Bose function, and $\xi$ real.
+The Matsubara sum of the free fermion propagator with a convergence
+factor gives the occupation directly,
+\begin{equation}
+\label{eq:matsubara-true}
+\frac{1}{\beta}\sum_n \frac{e^{\ii\omega_n 0^+}}{\ii\omega_n-\xi} = n_F(\xi).
+\end{equation}
+A different bookkeeping of the same sum is sometimes claimed to give the
+complementary occupation instead,
+\begin{equation}
+\label{eq:matsubara-false}
+\frac{1}{\beta}\sum_n \frac{e^{\ii\omega_n 0^+}}{\ii\omega_n-\xi} = 1-n_F(\xi).
+\end{equation}
+
+Expanding the Fermi function's derivative about the chemical potential,
+the small-$\omega$ behaviour is
+\begin{equation}
+\label{eq:remainder-true}
+n_F'(\omega) = -\frac{\beta}{4} + \mathcal{O}(\omega^2), \qquad \omega\to 0.
+\end{equation}
+A commonly mistyped version doubles the leading coefficient,
+\begin{equation}
+\label{eq:remainder-false}
+n_F'(\omega) = -\frac{\beta}{2} + \mathcal{O}(\omega^2), \qquad \omega\to 0.
+\end{equation}
+
+For a Lorentzian broadened level of width $\Gamma>0$, the frequency
+integral of the density is
+\begin{equation}
+\label{eq:integral-true}
+\int_{-\infty}^{\infty} d\omega\, \frac{\Gamma/\pi}{\omega^2+(\Gamma/2)^2} = 2.
+\end{equation}
+It is sometimes misquoted as unit-normalized,
+\begin{equation}
+\label{eq:integral-false}
+\int_{-\infty}^{\infty} d\omega\, \frac{\Gamma/\pi}{\omega^2+(\Gamma/2)^2} = 1.
+\end{equation}
+
+The Basel sum that appears in bosonic tail estimates is
+\begin{equation}
+\label{eq:series-true}
+\sum_{n=1}^{\infty}\frac{1}{n^2} = \frac{\pi^2}{6}.
+\end{equation}
+A frequently confused variant claims
+\begin{equation}
+\label{eq:series-false}
+\sum_{n=1}^{\infty}\frac{1}{n^2} = \frac{\pi^2}{8}.
+\end{equation}
+
+For real $a\neq b$, the partial-fraction identity used in bubble
+diagrams reads
+\begin{equation}
+\label{eq:pf-true}
+\frac{1}{(x-a)(x-b)} = \frac{1}{a-b}\left(\frac{1}{x-a}-\frac{1}{x-b}\right).
+\end{equation}
+A sign-reversed form of the same decomposition is
+\begin{equation}
+\label{eq:pf-false}
+\frac{1}{(x-a)(x-b)} = \frac{1}{b-a}\left(\frac{1}{x-a}-\frac{1}{x-b}\right).
+\end{equation}
+
+The fluctuation--dissipation theorem relates the symmetrized noise
+$S(\omega)$ to the retarded susceptibility $\chi^r(\omega)$ by
+\begin{equation}
+\label{eq:fdt-true}
+S(\omega) = 2\coth\!\left(\frac{\beta\omega}{2}\right)\mathrm{Im}\,\chi^r(\omega).
+\end{equation}
+A hyperbolic-tangent misprint of the same relation is
+\begin{equation}
+\label{eq:fdt-false}
+S(\omega) = 2\tanh\!\left(\frac{\beta\omega}{2}\right)\mathrm{Im}\,\chi^r(\omega).
+\end{equation}
+
+\end{document}

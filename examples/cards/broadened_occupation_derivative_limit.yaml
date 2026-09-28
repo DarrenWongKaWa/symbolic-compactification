@@ -1,0 +1,16 @@
+# d/de of the Lorentzian-broadened occupation tends to f0'(e) = -beta/(4 cosh^2(beta e/2)).
+expect: CERTIFIED_BY_RULE
+check: remainder
+symbols:
+  - {name: beta, positive: true}
+  - {name: G, positive: true}
+  - {name: e}
+define:
+  zp(x): 1/2 + beta*(G + I*x)/(2*pi)
+  zm(x): 1/2 + beta*(G - I*x)/(2*pi)
+  occ(x): 1/2 + I/(2*pi)*(polygamma(0, zp(x)) - polygamma(0, zm(x)))
+function: Diff(occ(e), e, 1)
+approximant: -beta/(4*cosh(beta*e/2)**2)
+variable: G
+point: "0"
+order: 1

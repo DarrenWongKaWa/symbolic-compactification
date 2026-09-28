@@ -19,7 +19,7 @@ EXIT_OK, EXIT_INPUT = 0, 2
 # Options whose values are expressions; "-tanh(x)" must not read as a flag.
 EXPRESSION_OPTIONS = frozenset({
     "--summand", "--claim", "--function", "--approximant", "--integrand",
-    "--lhs", "--rhs", "--prefactor",
+    "--lhs", "--rhs", "--prefactor", "--expr",
 })
 
 
@@ -107,7 +107,36 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     k.add_argument("--product", required=True, help="comma-separated, e.g. A,B,C")
     k.add_argument("--component", choices=("R", "A", "K", "less", "greater"), required=True)
     k.add_argument("--claim", required=True)
-    for parser in (m, r, i, o, k):
+    d = msub.add_parser("identity", help="identity with DD_f(...), D_f(k, x), polygammas")
+    d.add_argument("--lhs", required=True)
+    d.add_argument("--rhs", required=True)
+    d.add_argument("--functions", help="comma-separated arbitrary smooth functions")
+    d.add_argument("--symbols")
+    d.add_argument("--positive")
+
+    c = msub.add_parser("coefficient", help="[x^k] of an expression versus a claim")
+    c.add_argument("--expr", required=True)
+    c.add_argument("--claim", required=True)
+    c.add_argument("--variable", required=True)
+    c.add_argument("--order", type=int, required=True)
+    c.add_argument("--functions")
+    c.add_argument("--symbols")
+    c.add_argument("--positive")
+    st = msub.add_parser("step", help="run one YAML step card (docs/encoding-cookbook.md)")
+    st.add_argument("card", help="path to the step card")
+    st.add_argument("--require-source", action="store_true",
+                    help="NOT_DECIDED unless every expression is quoted from source_document")
+    sts = msub.add_parser("steps", help="run a directory of step cards; table and HTML report")
+    sts.add_argument("paths", nargs="+", help="card files or directories")
+    sts.add_argument("--require-source", action="store_true")
+    sts.add_argument("--html", help="write a reviewer HTML report here")
+    rv = msub.add_parser("review", help="one command: LaTeX paper -> checked steps -> reviewer HTML")
+    rv.add_argument("document")
+    rv.add_argument("--out", required=True, help="review workspace (rerun it to re-verify)")
+    dr = msub.add_parser("draft", help="draft step cards from a .tex file or a plain-text sheet")
+    dr.add_argument("document")
+    dr.add_argument("--out", required=True, help="directory for the cards and conventions.yaml")
+    for parser in (m, r, i, o, k, d, c, st, sts, dr, rv):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -133,6 +162,32 @@ def _run(args) -> dict[str, Any]:
             _expr(args.integrand), _expr(args.claim), variable=args.variable,
             symbols=_symbols(args.symbols), beta=args.beta, prefactor=args.prefactor,
             positive=_names(args.positive))
+    if cmd == "step":
+        from .cards import run_card
+        return run_card(args.card, require_source=args.require_source or None)
+    if cmd == "review":
+        from .review import review
+        return review(args.document, args.out)
+    if cmd == "draft":
+        from .draft import draft
+        return draft(args.document, args.out)
+    if cmd == "steps":
+        from .batch import run_cards, to_html
+        report = run_cards(args.paths, require_source=args.require_source or None)
+        if args.html:
+            Path(args.html).write_text(to_html(report), encoding="utf-8")
+            report = {**report, "html": args.html}
+        return report
+    if cmd == "identity":
+        from .calculus import verify_identity
+        return verify_identity(_expr(args.lhs), _expr(args.rhs), symbols=_symbols(args.symbols),
+                               functions=_names(args.functions), positive=_names(args.positive))
+    if cmd == "coefficient":
+        from .calculus import verify_series_coefficient
+        return verify_series_coefficient(
+            _expr(args.expr), _expr(args.claim), variable=args.variable, order=args.order,
+            symbols=_symbols(args.symbols), functions=_names(args.functions),
+            positive=_names(args.positive))
     if cmd == "operator":
         return dict(verify_operator_identity(
             _expr(args.lhs), _expr(args.rhs), operators=_names(args.operators),
@@ -143,7 +198,7 @@ def _run(args) -> dict[str, Any]:
 def dispatch_manybody(args) -> int:
     try:
         payload = _run(args)
-    except (OSError, ValueError, yaml.YAMLError) as exc:
+    except (OSError, ValueError, yaml.YAMLError) as exc:  # CardError is a ValueError
         print(json.dumps({"error": {"code": "MANYBODY_INPUT_INVALID", "detail": str(exc)[:300]}}))
         return EXIT_INPUT
     print(json.dumps(payload, indent=2, ensure_ascii=False, default=str))

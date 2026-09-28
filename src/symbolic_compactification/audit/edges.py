@@ -21,6 +21,7 @@ from .schema import (
     AUDIT_SCHEMA_VERSION,
     EDGE_TYPES,
     MATSUBARA_SUM,
+    STEP_CARD,
     GROUNDING_FAILURE,
     AuditError,
     _ID_RE,
@@ -45,6 +46,7 @@ class AuditEdge:
     ibp_domain: Optional[str] = None
     matsubara: tuple[tuple[str, Any], ...] = ()
     asymptotic: tuple[tuple[str, Any], ...] = ()
+    step_card: tuple[tuple[str, Any], ...] = ()
 
     def spec(self, name: str) -> dict[str, Any]:
         """Many-body spec as a plain dict (empty when absent)."""
@@ -67,7 +69,7 @@ EDGE_FIELD_KEYS = frozenset({
     "id", "edge_id", "from", "source_from", "to", "source_to",
     "type", "edge_type", "lhs", "rhs", "residual",
     "children", "assumptions_used", "claim", "notes",
-    "required_rules", "ibp_domain", "matsubara", "asymptotic",
+    "required_rules", "ibp_domain", "matsubara", "asymptotic", "step_card",
 })
 
 # Many-body specs (docs/many-body-equivalence.md). Expression values are
@@ -80,7 +82,10 @@ ASYMPTOTIC_SPEC_KEYS = frozenset({
     "function", "approximant", "variable", "point", "order", "direction", "positive"})
 ASYMPTOTIC_SPEC_REQUIRED = frozenset({
     "function", "approximant", "variable", "point", "order"})
-_SPEC_FOR_TYPE = {"matsubara": MATSUBARA_SUM, "asymptotic": ASYMPTOTIC_CLAIM}
+STEP_CARD_SPEC_KEYS = frozenset({"card"})
+STEP_CARD_SPEC_REQUIRED = frozenset({"card"})
+_SPEC_FOR_TYPE = {"matsubara": MATSUBARA_SUM, "asymptotic": ASYMPTOTIC_CLAIM,
+                  "step_card": STEP_CARD}
 EDGE_FIELD_REQUIRED = frozenset()
 _ID_ALIASES = ("id", "edge_id")
 _FROM_ALIASES = ("from", "source_from")
@@ -213,6 +218,9 @@ def _parse_edge(item: Any, path: Path) -> AuditEdge:
         asymptotic=_optional_spec(
             item, "asymptotic", edge_type, ASYMPTOTIC_SPEC_KEYS,
             ASYMPTOTIC_SPEC_REQUIRED, path),
+        step_card=_optional_spec(
+            item, "step_card", edge_type, STEP_CARD_SPEC_KEYS,
+            STEP_CARD_SPEC_REQUIRED, path),
     )
 
 

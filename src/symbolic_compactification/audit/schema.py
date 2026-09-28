@@ -87,6 +87,7 @@ BOOKKEEPING = "BOOKKEEPING"
 CUSTOM_EXACT = "CUSTOM_EXACT"
 BZ_PERIODIC_INTEGRATION_BY_PARTS = "BZ_PERIODIC_INTEGRATION_BY_PARTS"
 MATSUBARA_SUM = "MATSUBARA_SUM"
+STEP_CARD = "STEP_CARD"
 
 # Named global theorems that may be declared in assumptions.yaml ``rules``.
 # The engine never treats these as a local residual.
@@ -99,10 +100,12 @@ ALLOWED_DECLARED_RULES = frozenset({BZ_TORUS_PERIODICITY, MATSUBARA_POLES_OFF_AX
 # CERTIFIED_BY_RULE (see symbolic_compactification.manybody).
 MATSUBARA_RESIDUE_THEOREM = "MATSUBARA_RESIDUE_THEOREM"
 ASYMPTOTIC_REMAINDER_LIMIT = "ASYMPTOTIC_REMAINDER_LIMIT"
+SOURCE_TIED_STEP_CARD = "SOURCE_TIED_STEP_CARD"
 RULE_CERTIFIED_EDGE_TYPES = {
     BZ_PERIODIC_INTEGRATION_BY_PARTS: BZ_TORUS_PERIODICITY,
     MATSUBARA_SUM: MATSUBARA_RESIDUE_THEOREM,
     ASYMPTOTIC_CLAIM: ASYMPTOTIC_REMAINDER_LIMIT,
+    STEP_CARD: SOURCE_TIED_STEP_CARD,
 }
 ALLOWED_IBP_DOMAINS = frozenset({BRILLOUIN_ZONE_TORUS})
 
@@ -113,7 +116,7 @@ EDGE_TYPES = frozenset({
     COMPLETENESS_RECONSTRUCTION, PAIRWISE_REDUCTION, DIVIDED_DIFFERENCE,
     SPECIAL_FUNCTION_IDENTITY, SPLIT_PARENT, ASYMPTOTIC_CLAIM, LIMIT_CLAIM,
     INTEGRAL_ARGUMENT, GLOBAL_SYMMETRY_PAIRING, BOOKKEEPING, CUSTOM_EXACT,
-    BZ_PERIODIC_INTEGRATION_BY_PARTS, MATSUBARA_SUM,
+    BZ_PERIODIC_INTEGRATION_BY_PARTS, MATSUBARA_SUM, STEP_CARD,
 })
 
 NON_RESIDUAL_CLAIM_TYPES = frozenset({
@@ -214,6 +217,13 @@ EDGE_TYPE_SPECS: dict[str, EdgeTypeSpec] = {
         "when the residue theorem's hypotheses are checked (or poles-off-axis "
         "is declared) and the claimed closed form equals the residue sum "
         "under the exact verifier. Never engine ZERO for the infinite sum."),
+    STEP_CARD: EdgeTypeSpec(
+        STEP_CARD, LOWERING_NOT_APPLICABLE, NOT_LOWERED,
+        "One step card (docs/encoding-cookbook.md), replayed with "
+        "--require-source: every expression is a verbatim quote of the "
+        "manuscript. CERTIFIED_BY_RULE when the card's check decides VALID "
+        "and the transcription matches; NONZERO when it decides INVALID; "
+        "otherwise UNKNOWN. Never engine ZERO."),
 }
 
 # --------------------------------------------------------------------------- #
@@ -575,6 +585,8 @@ def integrity_issues(record: AuditRecord) -> tuple[str, ...]:
             issues.append("REMAINDER_CERTIFICATE_REQUIRED")
     if record.edge_type == MATSUBARA_SUM and record.status == ZERO:
         issues.append("MATSUBARA_SUM_CANNOT_BE_ENGINE_ZERO")
+    if record.edge_type == STEP_CARD and record.status == ZERO:
+        issues.append("STEP_CARD_CANNOT_BE_ENGINE_ZERO")
     return tuple(issues)
 
 

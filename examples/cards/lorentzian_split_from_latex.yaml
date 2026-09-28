@@ -1,0 +1,11 @@
+# A card with no hand-written expressions: lhs and rhs are built from the
+# LaTeX quotes (macros \Lor and \ii are read from the document).
+expect: ZERO
+check: identity
+symbols:
+  - {name: Gamma, positive: true}
+  - {name: omega}
+source_document: sources/lorentzian_note.tex
+source:
+  lhs: "\\Lor{\\omega}"
+  rhs: "\\frac{\\ii}{\\omega + \\ii\\Gamma} - \\frac{\\ii}{\\omega - \\ii\\Gamma}"

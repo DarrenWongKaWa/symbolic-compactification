@@ -69,13 +69,29 @@ Verify: local algebra. Other relations stay unresolved obligations
 Ask only for conditions that would change the verdict and cannot be read
 from the input.
 
+`current.txt` and `candidate.txt` hold expressions only (`x + y + 1`, not
+`F = x + y + 1`). `symbols.json` declares each symbol's domain:
+
+```json
+[{"name": "x", "real": true, "nonzero": false},
+ {"name": "y", "real": true, "nonzero": true}]
+```
+
+Only per-symbol `real` and `nonzero` are checked. A relation between
+symbols, such as `x != y`, is recorded with `--domain "x != y"` for the
+reader but is not used by the verifier. If the verdict depends on it, say
+so in `unresolved.md`.
+
 ```bash
 python3 "$SKILL_ROOT/scripts/compact_verify.py" \
   --current current.txt \
   --candidate candidate.txt \
   --symbols symbols.json \
+  --domain "x != y" \
   --out compact/
 ```
+
+`--domain` is optional. It records a stated condition on the receipt.
 
 Outputs:
 
@@ -103,6 +119,34 @@ promote. A cited rule is not engine `ZERO`.
 
 Use only when asked to audit a paper, check numbered equations, reconstruct
 how a result is derived, or emit a reviewer-facing evidence ledger.
+
+**LaTeX paper or note with displayed equations (many-body, transport,
+Green's functions): run one command first.**
+
+```bash
+symbolic-compactification manybody review paper.tex --out review/
+```
+
+It drafts one step card per displayed relation, checks each against its
+verbatim quote, builds the audit workspace, and writes
+`review/reviewer-verification-package/REVIEWER_SUMMARY.html`. That is the
+page to send; `review/reports/` holds the same page as a working copy. The
+workspace is `review/cards/` (cards + conventions.yaml), `review/manuscript/`,
+`review/runs/` (machine records) and the replayable package; there is no
+`audit.json` in this path. Its JSON
+output lists every step with its `decision`, its equation number and its
+line. For `NOT_DECIDED` steps, edit `review/cards/conventions.yaml`
+(symbols, `positive: true`, `notation`, definitions, `multiply`) or a
+card's `check`, then run the same command again. The rerun keeps your
+edited cards and conventions and only re-verifies. Report each step's
+`decision` exactly:
+- **VALID or INVALID only when the tool says so.**
+- Otherwise the step is "not decided by the tool". Never INVALID because
+  the tool could not decide.
+- If you check a step yourself, say so separately.
+
+The five-layer workflow below is for papers whose steps the cards cannot
+express.
 
 ### Output contract
 
@@ -224,12 +268,38 @@ a Langreth rule, an operator identity or a real-frequency Green's-function
 integral. Propose the closed form. Do not decide it yourself: run the
 command and report its JSON `status` unchanged.
 
+The easiest route is one YAML **step card** per step. Do not retype
+formulas; draft the cards from the source:
+1. Run `symbolic-compactification manybody draft paper.tex --out cards/`.
+   Plain-text sheets with `Claim:` lines also work.
+2. Fill `cards/conventions.yaml` once. It holds the symbols, the notation
+   table and the paper's definitions, quoted where possible.
+3. Choose the `check` of each card, using the table in the engine
+   repository's `docs/encoding-cookbook.md`. `examples/cards/` has a
+   template for each kind.
+4. Run `symbolic-compactification manybody steps cards/ --require-source`.
+
+For a reviewer package, list the cards as `STEP_CARD` edges
+(`step_card: {card: cards/X.yaml}`) and run `audit verify` and then
+`audit package`. The reviewer summary renders each quoted formula and
+cites its line and equation. If a printed formula is malformed, for
+example because of an unbalanced bracket, report that. Add a bracket-only
+`erratum` only when the fix is obvious, and report both the printed
+status and `decision_with_errata`.
+
+Report each card's `decision` field unchanged: VALID, INVALID, or "not
+decided by the tool". A card whose expressions do not match their quotes
+is never decided. Never report INVALID just because the tool did not
+decide.
+
 ```bash
 symbolic-compactification manybody matsubara  --statistics fermion|boson --summand F --claim C --symbols S
 symbolic-compactification manybody remainder  --function f --approximant P --variable x --point 0|oo --order n --symbols S
 symbolic-compactification manybody langreth   --product A,B[,C] --component less|greater|R|A|K --claim C
 symbolic-compactification manybody operator   --operators H,rho,c --hermitian H,rho --lhs L --rhs R
 symbolic-compactification manybody integral   --integrand f --claim C --variable w [--beta beta] --symbols S
+symbolic-compactification manybody identity   --lhs "DD_f(x,y,y)" --rhs R --functions f --symbols S
+symbolic-compactification manybody coefficient --expr E --claim C --variable w --order k --symbols S
 ```
 
 - `CERTIFIED_BY_RULE` means an exact computation plus a named theorem with

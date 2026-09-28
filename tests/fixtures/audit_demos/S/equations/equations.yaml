@@ -1,0 +1,32 @@
+schema_version: DerivationAuditV1
+equations:
+- equation_id: eq.zdef
+  label: eq:zdef
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: z_pm(x) = 1/2 + beta(Gamma pm i x)/(2 pi)
+- equation_id: eq.split
+  label: eq:split
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: Lorentzian = i/(w + iGamma) - i/(w - iGamma)
+- equation_id: eq.tail
+  label: eq:tail
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: Lorentzian = 2 Gamma/w^2 + O(w^-4)
+- equation_id: eq.pair
+  label: eq:pair
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: int nF(w)/((w-a+iG)(w-b-iG)) = (i pi + psi(z_-(b)) - psi(z_+(a)))/(b-a+2iG)
+- equation_id: eq.pair-wrong
+  label: eq:pair-wrong
+  environment: equation
+  source_file: manuscript/source.tex
+  curated: true
+  body: int nF(w)/((w-a-iG)(w-b-iG)) = (psi(z_+(a)) - psi(z_+(b)))/(a-b)

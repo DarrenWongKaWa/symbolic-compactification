@@ -1,0 +1,34 @@
+schema_version: DerivationAuditV1
+edges:
+  # expected_status: CERTIFIED_BY_RULE
+  - edge_id: S.split
+    source_from: eq.split
+    source_to: eq.split
+    edge_type: STEP_CARD
+    step_card:
+      card: cards/eq_split.yaml
+    claim: Lorentzian splits into retarded and advanced poles
+  # expected_status: CERTIFIED_BY_RULE
+  - edge_id: S.tail
+    source_from: eq.split
+    source_to: eq.tail
+    edge_type: STEP_CARD
+    step_card:
+      card: cards/eq_tail.yaml
+    claim: Lorentzian tail 2 Gamma/w^2 + O(w^-4)
+  # expected_status: CERTIFIED_BY_RULE
+  - edge_id: S.pair
+    source_from: eq.zdef
+    source_to: eq.pair
+    edge_type: STEP_CARD
+    step_card:
+      card: cards/eq_pair.yaml
+    claim: Fermi-weighted retarded-advanced pair
+  # expected_status: NONZERO (planted: z_+ where z_- is correct)
+  - edge_id: S.pair-wrong
+    source_from: eq.zdef
+    source_to: eq.pair-wrong
+    edge_type: STEP_CARD
+    step_card:
+      card: cards/eq_pair-wrong.yaml
+    claim: Two advanced poles, claimed with z_+ (planted error)

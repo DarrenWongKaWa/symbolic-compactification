@@ -476,8 +476,27 @@ def _export_replay(
             "equations",
             "edges",
             "assumptions",
-            "manuscript"):
+            "manuscript",
+            *_step_card_dirs(workspace)):
         _export_tree(workspace, rel_dir, replay / rel_dir, dest)
+
+
+def _step_card_dirs(workspace: AuditWorkspace) -> tuple[str, ...]:
+    """Top-level directories holding STEP_CARD cards (their conventions
+    files live beside them), so the replay can rerun every card."""
+    from .edges import load_edges
+    try:
+        edges = load_edges(workspace)
+    except AuditError:
+        return ()
+    dirs = []
+    for edge in edges:
+        card = edge.spec("step_card").get("card") if edge.step_card else None
+        if card and "/" in card:
+            top = card.split("/", 1)[0]
+            if top not in dirs:
+                dirs.append(top)
+    return tuple(dirs)
 
 
 def _export_tree(

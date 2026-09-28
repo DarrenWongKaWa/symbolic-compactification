@@ -1,0 +1,10 @@
+include: conventions.yaml
+source_document: ../manuscript/source.tex
+check: series
+variable: n
+lower: 0            # the paper's sum_{n=0}^{infinity}
+source:
+  summand: '{1\over(n+a)(n+b)}'
+  claim: |-
+    {1\over a-b}
+    [\Psi(a)-\Psi(b)]

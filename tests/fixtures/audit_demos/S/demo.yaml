@@ -1,0 +1,19 @@
+schema_version: DerivationAuditV1
+demo_id: S
+title: 'Step cards drafted from LaTeX: a broadened level and its bath integrals'
+synthetic: true
+privacy: Textbook identities for a Lorentzian-broadened level. Not derived from any
+  unpublished manuscript.
+expected_edges:
+- edge_id: S.split
+  edge_type: STEP_CARD
+  expected_status: CERTIFIED_BY_RULE
+- edge_id: S.tail
+  edge_type: STEP_CARD
+  expected_status: CERTIFIED_BY_RULE
+- edge_id: S.pair
+  edge_type: STEP_CARD
+  expected_status: CERTIFIED_BY_RULE
+- edge_id: S.pair-wrong
+  edge_type: STEP_CARD
+  expected_status: NONZERO
