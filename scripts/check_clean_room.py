@@ -2,7 +2,9 @@
 
 Allowed scientific *input* (not answers): files under ``examples/long/``
 are the Skill's long-workload originals. Forbidden: ``reference/``,
-runtime ``workspace/runs/*`` and ``workspace/input/*`` (except gitkeep).
+runtime ``workspace/runs/*`` and ``workspace/input/*`` (except gitkeep),
+and unpublished manuscript drafts (``paper/``, ``manuscripts/archive/``,
+``manuscripts/current/*`` except gitkeep; see ``manuscripts/README.md``).
 """
 from __future__ import annotations
 
@@ -27,6 +29,14 @@ def main() -> int:
                 and path.name != ".gitkeep":
             offenders.append(path)
         if len(parts) >= 2 and parts[:2] == ("workspace", "input") \
+                and path.name != ".gitkeep":
+            offenders.append(path)
+        # Unpublished manuscript drafts never live in the public repo.
+        if parts and parts[0] == "paper":
+            offenders.append(path)
+        if len(parts) >= 2 and parts[:2] == ("manuscripts", "archive"):
+            offenders.append(path)
+        if len(parts) >= 2 and parts[:2] == ("manuscripts", "current") \
                 and path.name != ".gitkeep":
             offenders.append(path)
 
