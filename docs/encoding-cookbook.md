@@ -187,6 +187,24 @@ confident wrong verdict:
   matrices or do not commute (`are matrices`, `Nambu`, `2\times2 Green's
   function`, a bold `$\mathbf{G}$`), every commutative check is withheld
   (`NONCOMMUTING_STATED`).
+- **What the running text says about symbols.** Names the text calls
+  operators, spin components, Pauli or coupling matrices, or that occur in
+  a sentence about the Hamiltonian, (anti)commutation or a trace, are not
+  multiplied as numbers (`OPERATORS`); a claim that only reorders factors
+  (`c_k c_q = -c_q c_k`) is never refuted. A relation the text imposes
+  without defining a new name (`$e^{iqL}=1$`, `$t > s$`, `$\eta < 0$`)
+  makes its names `CONSTRAINED_IN_TEXT`; a name called negative or of
+  either sign anywhere is not taken as positive, and `$\Gamma_L>0$` makes
+  `Gamma_L` positive (not `L`). "To first order", "linear response" or
+  "approximately" before a display withholds an INVALID
+  (`APPROXIMATION_STATED`), and so does a negative value under a square
+  root or a log when the text does not state the symbols positive
+  (`BRANCH_DEPENDS_ON_SIGN`). When the paper writes its own `n_F` (with a
+  chemical potential, say) or calls it non-thermal, the built-in
+  `1/(e^{βx}+1)` is not used for it (`DISTRIBUTION_IN_TEXT`,
+  `DISTRIBUTION_NOT_THERMAL`). A Matsubara sum is drafted only over all
+  frequencies, and a prefactor `T` only when the text calls `T` the
+  temperature. A Fermi integral needs a real shift in `n_F(ω + c)`.
 - **Macros redefined in the document** (`\renewcommand` after the first
   definition) are not expanded: which meaning a display has depends on
   where it sits, so quotes using them are refused. A Langreth

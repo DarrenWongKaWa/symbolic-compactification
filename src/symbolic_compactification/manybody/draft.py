@@ -28,12 +28,15 @@ import yaml
 
 from .latex import latex_to_plain, read_macros, split_integral
 # names used here, and the ones callers import from draft (kept for them)
-from .prose import (_dollar_math, _inline_definitions, _matsubara_names, _positive_symbols,
+from .prose import (_distribution_not_thermal, _dollar_math, _inline_definitions, _matsubara_names,
+                    distribution_defined_in_text, prose_constraints,
+                    _operator_names, _positive_symbols,
                     _realness_sensitive,
                     _stated_integers, _stated_numbers, _stated_realness, _symbol_entry,
                     prose_assignments, prose_values, stated_noncommuting)
 from .relations import (_DEFINITION_LHS, _INTEGRAL, _KNOWN, _MATSUBARA, _O_TERM, _ONLY_O,
-                        _SERIES, split_top_level, steps_from_latex, steps_from_sheet, _tokens)
+                        _SERIES, _last_sentence, split_top_level, steps_from_latex, steps_from_sheet,
+                        _tokens)
 
 __all__ = ["draft", "split_top_level", "steps_from_latex", "steps_from_sheet",
            "stated_noncommuting", "_positive_symbols", "_stated_numbers", "_stated_realness"]
@@ -227,9 +230,33 @@ def _frequency(body: str, index: str) -> str:
                  if re.search(rf"\\{f}_\{{?{index}\}}?", body)), "omega")
 
 
+_RESTRICTED_SUM = re.compile(
+    r"restricted|non-?negative|positive\s+(?:Matsubara\s+)?frequenc|only\s+(?:positive|negative)"
+    r"|[nm]\s*(?:\\ge|\\geq|>|\\gt)\s*0|half\s+of\s+the\s+frequenc", re.I)
+
+
 def _matsubara_statistics(step: dict, match: re.Match) -> str | None:
+    """The statistics of a sum over all Matsubara frequencies, or None. A sum
+    the text restricts (n >= 0, positive frequencies) is a different sum,
+    and a prefactor T must be stated to be the temperature."""
     body, index = match.group("body"), match.group("index")
+    if _RESTRICTED_SUM.search(_lead_in(step.get("before", "")) + " " + step.get("sentence", "")):
+        return None
+    prefix = match.group(0)[:match.start("index")]
+    if re.match(r"\s*T\s*\\sum", prefix) and not _temperature_named_T(step.get("document", "")):
+        return None                       # T may be a tunnelling amplitude or a transmission
     return _statistics(step, _frequency(body, index), index)
+
+
+def _temperature_named_T(document: str) -> bool:
+    """The text calls T the temperature ('temperature $T$', '$\\beta = 1/T$',
+    '$k_B T$') and gives no other meaning to a bare T."""
+    called = re.search(r"temperature\s+(?:\$T\$|\\\(T\\\))|\$T\$\s+is\s+the\s+temperature"
+                       r"|\\(?:omega|Omega|nu|xi)_\{?[a-z]\}?\s*=\s*[^$]{0,30}\\pi[^$]{0,10}\bT\b"   # 2 pi m T
+                       r"|\\beta\s*=\s*1\s*/\s*(?:k_B\s*)?T\b|\\beta\s*=\s*\\frac\{1\}\{(?:k_B\s*)?T\}", document)
+    other = re.search(r"(?:amplitude|transmission|hopping|tunnel\w*|matrix|period)\s+(?:\$T|\\\(T)"
+                      r"|\$T\$\s+(?:is|be|denotes?)\s+(?:a|the)\s+(?!temperature)", document)
+    return bool(called) and not other
 
 
 def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
@@ -292,6 +319,10 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                             "set check: langreth (product, component, notation as for a drafted rule)")
     if step.get("conditional"):
         card["conditional"] = step["conditional"]
+    if re.search(r"first\s+order|leading\s+order|lowest\s+order|to\s+order|linear\s+(?:in|response|order)"
+                 r"|approximat|\\approx|\\simeq|neglect|small\s+(?:\$|\\\()",
+                 _lead_in(step.get("before", "")) + " " + step.get("sentence", ""), re.I):
+        card["approximation_stated"] = True    # the text says this holds to some order only
     if step.get("equiv_relation"):
         card["equiv_relation"] = True
     if step.get("rhs_display"):           # the right side is quoted from another display
@@ -374,6 +405,14 @@ def _consistency_steps(steps: list[dict], latex: bool, macros: dict, assigned: d
                         "rhs_display": b.get("display"), "consistency_of": a["lhs"],
                         "displays": [a.get("display"), b.get("display")]})
     return out
+
+
+def _lead_in(context: str) -> str:
+    """The paragraph that leads into a display (back to the previous display
+    or blank line), where 'to first order in V' and similar are stated."""
+    before = context[-800:]
+    cut = max(before.rfind("\\end{"), before.rfind("\n\n"))
+    return before[cut + 1:] if cut >= 0 else before
 
 
 def _redefined(values: dict[str, list[tuple[int, str]]]) -> dict[str, list[tuple[int, str]]]:
@@ -481,7 +520,13 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     # values the displays give bare names (X = ..., X \equiv ...), for scopes and contests
     display_values: dict[str, list[tuple[int, str]]] = {}
     bound_names: set[str] = set()
+    equiv_names: set[str] = set()
     for step in steps:
+        if step.get("equiv"):
+            try:
+                equiv_names.add(latex_to_plain(step["lhs"], macros).strip() if latex else step["lhs"].strip())
+            except (ValueError, RecursionError):
+                pass
         try:
             plain_lhs = latex_to_plain(step["lhs"], macros).strip() if latex else step["lhs"].strip()
         except (ValueError, RecursionError):
@@ -582,6 +627,8 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
                 continue
             if len({squash(rhs) for _, rhs in assigned.get(name, [])}) > 1:
                 continue                   # given two different values in the text
+            if name in display_values or name in equiv_names:
+                continue                   # a display gives it a value too: which one holds where?
             shared_quotes[key] = entry
             if key.endswith("()"):                     # a named constant: z_p -> z_p()
                 inline_notation[name] = f"{name}()"
@@ -646,6 +693,17 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             # names the text calls real or positive as bare symbols: where a card also
             # uses one bare, it cannot be a function there
             "stated_numbers": sorted(n for n in ambiguous if _stated_number(n))}
+        operators = sorted(_operator_names(prose))
+        if operators:
+            data["operators"] = operators     # names the text calls operators: products do not commute
+        if _distribution_not_thermal(prose):
+            data["distribution_not_thermal"] = _distribution_not_thermal(prose)
+        if distribution_defined_in_text(prose):
+            data["distribution_in_text"] = distribution_defined_in_text(prose)
+        constraints = prose_constraints(raw, macros) if latex else {}
+        if constraints:
+            # names in relations the text imposes (e^{iqL} = 1, t > s): never refuted as free
+            data["constrained"] = sorted(constraints)
         noncommuting = stated_noncommuting(prose)
         if noncommuting:
             # products of matrices do not commute: scalar checks would be wrong

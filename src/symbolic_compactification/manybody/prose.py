@@ -13,10 +13,18 @@ _GREEK_NAMES = "alpha beta gamma delta epsilon varepsilon zeta eta theta kappa l
 
 
 def _names_in(fragment: str) -> set[str]:
-    """Symbol names in a short piece of LaTeX ($x, y$ or \\epsilon)."""
-    out = set(re.findall(r"\\([A-Za-z]+)", fragment)) & set(_GREEK_NAMES)
-    out |= set(re.findall(r"(?<![\\A-Za-z])([A-Za-z])(?![A-Za-z])", re.sub(r"\\[A-Za-z]+", " ", fragment)))
-    return {"epsilon" if n == "varepsilon" else n for n in out}
+    """Symbol names in a short piece of LaTeX, as the cards spell them:
+    '$x, y$' -> x, y; '\\epsilon' -> epsilon; '\\Gamma_L' -> Gamma_L (not
+    Gamma and L); '\\Gamma_{L,R}' -> Gamma_L, Gamma_R."""
+    fragment = re.sub(r"(\\?[A-Za-z]+)_\{\s*([A-Za-z0-9]+)\s*,\s*([A-Za-z0-9]+)\s*\}",
+                      r"\1_\2, \1_\3", fragment)
+    try:
+        plain = latex_to_plain(fragment)
+    except (ValueError, RecursionError):
+        return set()
+    plain = re.sub(r"\\[A-Za-z]+", " ", plain)           # commands the reader leaves (\in, \neq)
+    names = set(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9_]*)", plain))
+    return {n for n in names if n not in _KNOWN | {"i", "E", "I", "oo", "mathbb", "d"}}
 
 
 _ITEMS = r"((?:\$[^$]{1,40}\$(?:\s*,\s*|\s+and\s+|\s*,\s*and\s+)?){1,8})"
@@ -42,6 +50,11 @@ def _stated_real_pieces(raw: str):
 
 
 def _stated_integers(raw: str) -> set[str]:
+    return _stated_integer_words(raw) | {n for m in re.finditer(
+        r"\$\s*(\\?[A-Za-z]+)\s*=\s*0\s*,\s*(?:\\pm\s*)?1\s*,", raw) for n in _names_in(m.group(1))}
+
+
+def _stated_integer_words(raw: str) -> set[str]:
     """'integer $n$', 'integers $n$, $m$', '$n$ an integer', '$n \\in \\mathbb{Z}$'."""
     found: set[str] = set()
     for m in re.finditer(r"\bintegers?\s+(?:[A-Za-z-]+\s+){0,2}" + _ITEMS, raw):
@@ -69,6 +82,65 @@ def _matsubara_names(raw: str) -> set[str]:
             for piece in re.findall(r"\$([^$]{1,80})\$", sentence):
                 found |= _names_in(piece)
     return found
+
+
+_OPERATOR_WORDS = re.compile(r"operator|\bspin\b|angular\s+momentum|Pauli|creation|annihilation"
+                             r"|matri(?:x|ces)|spinor|Hamiltonian|anti-?commut|\bcommut|\bTr\b|\\mathrm\{Tr\}"
+                             r"|\btrace\b", re.I)
+
+
+def _operator_names(raw: str) -> set[str]:
+    """Names in a sentence that calls them operators, spin components,
+    creation or annihilation operators or matrices ('the fermionic operators
+    $p$ and $q$'), plus daggered and hatted names: their products need not
+    commute."""
+    found: set[str] = set()
+    for sentence in re.split(r"(?<=[.;:])\s+", raw):
+        if _OPERATOR_WORDS.search(sentence) and not re.search(r"density\s+matri|T-matri|S-matri", sentence):
+            for piece in re.findall(r"\$([^$]{1,60})\$", sentence):
+                found |= {n for n in _names_in(piece) if len(n) <= 3 or "_" in n}
+    for m in re.finditer(r"\\hat\s*\{?\s*\\?([A-Za-z]+)|\\?([A-Za-z]+)\s*\^\s*\{?\s*\\dagger", raw):
+        found.add(m.group(1) or m.group(2))
+    return found
+
+
+def distribution_defined_in_text(raw: str) -> str | None:
+    """Where the text writes its own n_F / n_B / f (n_F(\\omega) = 1/(e^{\\beta(\\omega-\\mu)}+1)),
+    or puts a chemical potential into the occupations: the built-in
+    nF(x) = 1/(e^{beta x}+1) may then not be the paper's."""
+    for m in re.finditer(r"\$([^$]*?)\b(n_F|n_\{F\}|n_B|n_\{B\})\s*\(([^)]*)\)\s*=([^$]*)\$", raw):
+        if not _is_builtin_distribution(m.group(2), m.group(3), m.group(4)):
+            return " ".join(m.group(0).split())[:80]
+    m = re.search(r"chemical\s+potential\s+(?:of\s+)?(?:\$\\mu|\\\(\\mu)|\$\\mu[^$]*\$\s+is\s+the\s+chemical", raw)
+    return None if m is None else " ".join(m.group(0).split())[:80]
+
+
+def _is_builtin_distribution(name: str, arg: str, body: str) -> bool:
+    """Whether '$n_F(x) = 1/(e^{\\beta x}+1)$' is exactly the built-in one."""
+    import sympy
+    try:
+        x = sympy.Symbol(latex_to_plain(arg).strip())
+        beta = sympy.Symbol("beta")
+        from sympy.parsing.sympy_parser import (implicit_multiplication, parse_expr,
+                                                standard_transformations)
+        text = latex_to_plain(body).replace("^", "**").replace("E**", "exp")
+        expr = parse_expr(" ".join(text.split()), local_dict={"beta": beta, str(x): x, "exp": sympy.exp},
+                          transformations=standard_transformations + (implicit_multiplication,))
+    except Exception:
+        return False
+    sign = 1 if "F" in name else -1
+    return sympy.simplify(expr - 1 / (sympy.exp(beta * x) + sign)) == 0
+
+
+def _distribution_not_thermal(raw: str) -> str | None:
+    """Where the text says n_F (or the Fermi function f) is not the thermal
+    distribution: then n_F must not be expanded as one."""
+    for sentence in re.split(r"(?<=[.;])\s+", raw):
+        if re.search(r"n_F|n_\{F\}|n_B|Fermi\s+function|occupation|distribution", sentence) and re.search(
+                r"arbitrary|non-?equilibrium|not\s+the\s+(?:thermal\s+|equilibrium\s+)?(?:Fermi|Bose)"
+                r"|out\s+of\s+equilibrium|generic\s+occupation", sentence, re.I):
+            return " ".join(sentence.split())[:80]
+    return None
 
 
 def _stated_numbers(raw: str) -> set[str]:
@@ -269,16 +341,67 @@ def _dollar_math(raw: str) -> str:
 
 
 def _positive_symbols(raw: str) -> dict[str, str]:
-    """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0, with
-    where they are stated (so a reviewer can confirm the guess). 'Im z > 0'
-    says nothing about z itself."""
+    """Names stated positive in the text ($\\Gamma>0$, $\\Gamma_{L,R}>0$,
+    'positive rates $\\Gamma_L$ and $\\Gamma_R$'), with where they are stated.
+    'Im z > 0' and '$\\epsilon - \\mu > 0$' say nothing about one name, and a
+    name the text also calls negative or nonpositive anywhere is left out."""
     found: dict[str, str] = {}
-    for m in re.finditer(r"(\\?[A-Za-z]+(?:_\{?\\?[A-Za-z0-9]+\}?)?)\s*>\s*0(?![.\d])", raw):
+    line = lambda pos: f"line {raw.count(chr(10), 0, pos) + 1}"
+    for m in re.finditer(r"(\\?[A-Za-z]+(?:_\{[^{}]*\}|_\\?[A-Za-z0-9]+)?)\s*>\s*0(?![.\d])", raw):
         before = raw[max(0, m.start() - 16):m.start()]
         if re.search(r"(?:Im|Re|\\Im|\\Re|\|)\s*\}?\s*(?:\\[,;!]\s*)*[({]?\s*$", before):
             continue
         if re.search(r"[-+*/^_A-Za-z0-9)}]\s*$", before):
             continue                     # '$\epsilon - \mu > 0$' says nothing about mu alone
         for name in _names_in(m.group(1)):
-            found.setdefault(name, f"line {raw.count(chr(10), 0, m.start()) + 1}: {m.group(0)}")
+            found.setdefault(name, f"{line(m.start())}: {m.group(0)}")
+    for m in re.finditer(r"\bpositive\s+(?:[A-Za-z-]+\s+){0,3}" + _ITEMS, raw):
+        for piece in re.findall(r"\$([^$]{1,40})\$", m.group(1)):
+            if not re.search(r"[(<>=]", piece):
+                for name in _names_in(piece):
+                    found.setdefault(name, f"{line(m.start())}: {m.group(0)[:40]}")
+    for name in _signs_contested(raw):
+        found.pop(name, None)
     return found
+
+
+def _signs_contested(raw: str) -> set[str]:
+    """Names the text also calls negative, nonpositive or of either sign
+    ($\\eta<0$, '$\\epsilon$ takes either sign')."""
+    out: set[str] = set()
+    for m in re.finditer(r"(\\?[A-Za-z]+(?:_\{[^{}]*\}|_\\?[A-Za-z0-9]+)?)\s*(?:<|\\le|\\leq)\s*0(?![.\d])", raw):
+        out |= _names_in(m.group(1))
+    for m in re.finditer(r"\$([^$]{1,40})\$[^.$]{0,40}\b(?:either\s+sign|any\s+sign|negative|both\s+signs)", raw):
+        out |= _names_in(m.group(1))
+    return out
+
+
+def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
+    """Names in relations the text imposes that are not definitions of a new
+    name: '$e^{iqL} = 1$', '$\\Omega T = 2\\pi$', '$x = \\beta\\epsilon = \\epsilon/T$',
+    '$t > s$', '$\\eta < 0$', '$k \\neq q$'. A refutation that treats them as
+    free may be wrong. name -> where."""
+    body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
+    displays = [(m.start(), m.end()) for m in _ENV_RE.finditer(body)]
+    out: dict[str, str] = {}
+    for m in re.finditer(r"\$([^$]{1,160})\$", body):
+        if any(a <= m.start() < b for a, b in displays):
+            continue
+        math = m.group(1)
+        if not re.search(r"=|<|>|\\le|\\ge|\\neq|\\ne\b", math):
+            continue
+        if re.fullmatch(r"\s*\\?[A-Za-z]+(?:_\{[^{}]*\}|_\\?[A-Za-z0-9]+)?\s*>\s*0\s*", math):
+            continue                     # a plain positivity statement is used as an assumption
+        sides = split_top_level(re.sub(r"\\equiv|:=", "=", math))
+        try:
+            lhs = latex_to_plain(sides[0], macros).strip() if len(sides) == 2 else ""
+        except (ValueError, RecursionError):
+            lhs = ""
+        if len(sides) == 2 and (re.fullmatch(r"\(*\s*[A-Za-z][A-Za-z0-9_]*\s*\)*", lhs)
+                                or _DEFINITION_LHS.match(lhs)) \
+                and not re.search(r"<|>|\\le|\\ge|\\neq", math):
+            continue                     # 'X = expr', 'f(x) = expr': a value or definition, handled elsewhere
+        where = f"line {raw.count(chr(10), 0, raw.find(m.group(0)))+1}: ${' '.join(math.split())[:50]}$"
+        for name in _names_in(math):
+            out.setdefault(name, where)
+    return out

@@ -123,10 +123,14 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
         shared["multiply"] += list(_names(data.get("multiply")))
         if data.get("noncommuting"):
             shared["noncommuting"] = str(data["noncommuting"])
+        for key in ("distribution_not_thermal", "distribution_in_text"):
+            if data.get(key):
+                shared[key] = str(data[key])
         if isinstance(data.get("stated_values"), dict):
             shared.setdefault("stated_values", {}).update(data["stated_values"])
         shared.setdefault("either", []).extend(_names(data.get("either")))
-        for key in ("named_quantities", "named_functions", "integers", "valued_in_text", "stated_numbers"):
+        for key in ("named_quantities", "named_functions", "integers", "valued_in_text", "stated_numbers",
+                    "operators", "constrained"):
             shared.setdefault(key, []).extend(_names(data.get(key)))
         for k, v in (data.get("source") or {}).items():       # quoted shared definitions
             if not str(k).startswith("define:"):
@@ -150,7 +154,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
     merged["functions"] = sorted(set(shared["functions"]) | set(_names(card.get("functions"))))
     merged["multiply"] = sorted(set(shared["multiply"]) | set(_names(card.get("multiply"))))
     for key in ("named_quantities", "named_functions", "either", "integers", "valued_in_text",
-                "stated_numbers"):
+                "stated_numbers", "operators", "constrained"):
         merged[key] = sorted(set(shared.get(key, [])) | set(_names(card.get(key))))
     own_source = dict(card.get("source") or {})
     for k, v in shared["source"].items():
@@ -158,8 +162,9 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
             conflicts.append(f"card redefines shared quote {k}")
     if shared["source"]:
         merged["source"] = {**shared["source"], **own_source}
-    if shared.get("noncommuting") and "noncommuting" not in card:
-        merged["noncommuting"] = shared["noncommuting"]
+    for key in ("noncommuting", "distribution_not_thermal", "distribution_in_text"):
+        if shared.get(key) and key not in card:
+            merged[key] = shared[key]
     if shared.get("stated_values"):
         merged["stated_values"] = {**shared["stated_values"], **(card.get("stated_values") or {})}
     if "source_document" not in card and "source_document" in shared:
@@ -259,6 +264,36 @@ def _periodic_blockers(card: dict, symbols: list, functions, defs: dict) -> list
                 continue                 # x**2: not periodic
             hits |= {str(x) for x in f.free_symbols if _integer_like(str(x), stated)} - bound
     return sorted(hits)
+
+
+def _branch_sensitive(card: dict, symbols: list, functions, defs: dict, positive) -> list[str]:
+    """Symbols not stated positive inside sqrt, log, |.| or a non-integer power."""
+    import sympy
+    from .calculus import CalculusSpace
+    try:
+        space = CalculusSpace(symbols, functions, definitions=defs)
+        exprs = [space.parse_expanded(str(card[k])) for k in _EXPRESSION_KEYS if k in card]
+    except Exception:
+        return []
+    sure = {str(x) for x in positive}
+    hits: set[str] = set()
+    for e in exprs:
+        for a in e.atoms(sympy.Pow, sympy.log, sympy.Abs):
+            if isinstance(a, sympy.Pow) and (a.exp.is_Integer or not a.base.free_symbols):
+                continue
+            hits |= {str(x) for x in a.free_symbols} - sure
+    return sorted(hits)
+
+
+def _reordering_only(card: dict, check: str) -> bool:
+    """lhs and rhs are the same product up to the order of factors and a sign
+    (A B = B A, c_k c_q = -c_q c_k): a statement about operators."""
+    if check != "identity" or "lhs" not in card or "rhs" not in card:
+        return False
+    factor = lambda t: sorted(re.findall(r"[A-Za-z_][A-Za-z0-9_]*(?:\([^()]*\))?", t))
+    lhs, rhs = (re.sub(r"\s+", "", str(card[k])).lstrip("-+") for k in ("lhs", "rhs"))
+    plain = lambda t: re.fullmatch(r"[A-Za-z0-9_*()]+", t) is not None
+    return plain(lhs) and plain(rhs) and lhs != rhs and factor(lhs) == factor(rhs) and len(factor(lhs)) >= 2
 
 
 def _valued_free_names(card: dict, defs: dict) -> list[str]:
@@ -637,6 +672,20 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
                     if k.split("(")[0].strip() not in quoted | shared_defs | builtin)
     if strict and ad_hoc:                  # a card's own definitions must be quoted
         why.append("UNQUOTED_CARD_DEFINITION:" + ",".join(ad_hoc))
+    texts_all = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
+    if card.get("distribution_in_text") and (check in ("matsubara", "fermi_integral")
+                                            or re.search(r"\bn[FB]\s*\(", texts_all)):
+        why.append("DISTRIBUTION_IN_TEXT")     # the paper's n_F (with mu, say) may not be the built-in one
+    if card.get("distribution_not_thermal") and re.search(
+            r"\bn[FB]\s*\(", " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)) \
+            or (card.get("distribution_not_thermal") and check in ("matsubara", "fermi_integral")):
+        why.append("DISTRIBUTION_NOT_THERMAL")    # the text says n_F is not the Fermi function
+    operators = set(_names(card.get("operators")))
+    if operators and check not in ("langreth", "operator"):
+        used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*",
+                              " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)))
+        if used & operators:
+            why.append("OPERATORS:" + ",".join(sorted(used & operators)))   # products need not commute
     if card.get("conditional"):
         # a second relation, a condition or words sit next to this one in the display
         why.append("CONDITION_IN_DISPLAY")
@@ -670,6 +719,19 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
         periodic = _periodic_blockers(card, symbols, functions, defs)
         if periodic:
             why.append("PERIODIC_IN_AN_INDEX:" + ",".join(periodic))
+        branch = _branch_sensitive(card, symbols, functions, defs, positive)
+        if branch:
+            # sqrt(ab) = sqrt(a) sqrt(b) fails only for negative a, b: unless the text says
+            # they are positive, the counterexample may lie outside what the paper means
+            why.append("BRANCH_DEPENDS_ON_SIGN:" + ",".join(branch))
+        if _reordering_only(card, check):
+            why.append("REORDERING_ONLY")     # c_k c_q = -c_q c_k is about operators, not numbers
+        if card.get("approximation_stated") and check not in ("remainder", "coefficient"):
+            why.append("APPROXIMATION_STATED")     # 'to first order in V': exact equality not claimed
+        constrained = set(_names(card.get("constrained"))) & set(re.findall(
+            r"[A-Za-z_][A-Za-z0-9_]*", " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)))
+        if constrained:
+            why.append("CONSTRAINED_IN_TEXT:" + ",".join(sorted(constrained)))
         valued = _valued_free_names(card, defs)
         if valued:
             # the text gives these a value; with them free, a refutation may be wrong

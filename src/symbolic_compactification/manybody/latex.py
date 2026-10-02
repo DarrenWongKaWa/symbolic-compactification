@@ -177,9 +177,13 @@ def _convert(text: str) -> str:
             glued = out and re.search(r"[A-Za-z0-9_)]\s*$", "".join(out))
             if re.search(r"(?<![A-Za-z0-9_])[eE]\s*$", "".join(out)):
                 letters = None                        # e^{i x} is the exponential
-            if re.fullmatch(r"\s*0\s*", arg) and glued and re.match(r"\s*[(_]", text[i:]) \
-                    and re.search(r"(?:[A-Z]|\\[A-Z][a-z]+)\s*$", text[:text.rfind("^", 0, i)]):
-                label = re.fullmatch(r"\s*(0)\s*", arg)   # G^0(w): the bare propagator, not G**0
+            name_before = re.search(r"(?:[A-Za-z]|\\[A-Za-z]+)\s*$", text[:text.rfind("^", 0, i)])
+            if re.fullmatch(r"\s*0\s*", arg) and glued and name_before and (
+                    re.match(r"\s*[(_]", text[i:]) or re.match(r"[A-Z\\]", name_before.group(0).strip())):
+                label = re.fullmatch(r"\s*(0)\s*", arg)   # G^0, f^0(e): the bare/equilibrium one, not **0
+            rm = re.fullmatch(r"\s*\\(?:rm|mathrm|text)\s*\{?\s*([A-Za-z]+)\s*\}?\s*", arg)
+            if rm and glued:
+                label = re.fullmatch(r"\s*(\w+)\s*", rm.group(1))   # G^{\rm R}: a label
             if label and glued:
                 _strip_trailing_space(out)
                 out.append("__" + _flatten(_convert(label.group(1))))   # rho^{(0)} is a label

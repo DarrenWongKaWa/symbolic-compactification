@@ -80,12 +80,14 @@ def latex_equations(document: str) -> list[dict[str, Any]]:
                       "offset": m.start(),
                       "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],
                       "sentence": _last_sentence(body[max(0, m.start() - 800):m.start()]),
+                      "before": body[max(0, m.start() - 800):m.start()],
                       "document": body})
     for m in _DISPLAY_RE.finditer(body):
         text = m.group(1) or m.group(2)
         found.append({"label": None, "rows": [text], "offset": m.start(),
                       "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],
                       "sentence": _last_sentence(body[max(0, m.start() - 800):m.start()]),
+                      "before": body[max(0, m.start() - 800):m.start()],
                       "document": body})
     return sorted(found, key=lambda e: e["offset"])
 
@@ -190,6 +192,7 @@ def _condition_in_row(row: str) -> str | None:
 
 def steps_from_latex(raw: str) -> list[dict[str, Any]]:
     steps = []
+    seen_labels: set = set()
     for n, eq in enumerate(latex_equations(raw), start=1):
         chains: list[list[str]] = []
         equivs: list[list[str]] = []
@@ -223,6 +226,8 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
             elif len(pieces) == 1:                 # no '=': continues only if it starts
                 if _CONTINUES.match(row) and not tangled:      # with an operator or a bracket
                     chains[-1][-1] += " " + row
+                elif row.strip():                  # a row that is not read: the relation is cut
+                    conditional = conditional or "a row of the display is not read"
             elif not head:                         # "&= C": the chain continues
                 if tangled:                        # ... but which of the two relations?
                     chains.append([])
@@ -231,8 +236,10 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
                 chains.append(pieces)
             # a new relation resets it; continuation rows of a tangled one stay ambiguous
             tangled = _tangled(row) or (tangled and not head)
-        base = eq["label"] or f"eq{n}"
-        display = eq["label"] or f"#{n}"
+        label = eq["label"] if eq["label"] not in seen_labels else None    # a duplicate \label
+        seen_labels.add(eq["label"])
+        base = label or f"eq{n}"
+        display = label or f"#{n}"
         relations = [[_clean(p) for p in chain if _clean(p)] for chain in chains]
         relations = [r for r in relations if len(r) >= 2]
         for pair in equivs:                         # "X \\equiv ..." in a display: a definition
@@ -243,6 +250,7 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
                               **({"equiv_relation": True} if pair[2:] else {}),
                               **({"conditional": conditional} if conditional else {}),
                               "context": eq.get("context", ""), "sentence": eq.get("sentence", ""),
+                              "before": eq.get("before", ""),
                               "document": eq.get("document", ""), "display": display})
         for j, chain in enumerate(relations):
             stem = base if len(relations) == 1 else f"{base}.r{j + 1}"
@@ -251,6 +259,7 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
                               "lhs": chain[k], "rhs": chain[k + 1], "offset": eq.get("offset", 0),
                               **({"conditional": conditional} if conditional else {}),
                               "context": eq.get("context", ""), "sentence": eq.get("sentence", ""),
+                              "before": eq.get("before", ""),
                               "document": eq.get("document", ""), "display": display})
     return steps
 
