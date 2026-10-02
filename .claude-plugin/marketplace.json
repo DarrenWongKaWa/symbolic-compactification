@@ -12,7 +12,7 @@
       "name": "symbolic-compactification",
       "source": "./",
       "description": "Compactify symbolic expressions with bound engine receipts, or audit paper derivations into a reviewer HTML evidence ledger. The model cannot write Exact.",
-      "version": "0.3.2",
+      "version": "0.3.2-alpha",
       "skills": "./skills"
     }
   ]

@@ -50,8 +50,8 @@ user formula and goal
 | Native ingestion | `parser.py` | Enforce characters, tokens, depth, size, symbols, functions, and assumptions before safe construction |
 | Semantic record | `models.py` | Versioned expression, verdict, state, hashes, and orthogonal status axes |
 | Structural view | `structure.py` | Deterministic inventories and explicitly diagnostic finite lowering |
-| Proposer protocol | `conjecture.py`, `.grok/skills/symbolic-compactification/STRUCTURAL_PROPOSER.md` | Construct attention-isolated packets and record hypotheses; never invoke a model or promote |
-| Agent skill | `.grok/skills/symbolic-compactification/SKILL.md` | Optional human/CAS/AI proposer; does not certify |
+| Proposer protocol | `conjecture.py`, [`docs/roles/STRUCTURAL_PROPOSER.md`](roles/STRUCTURAL_PROPOSER.md) | Construct attention-isolated packets and record hypotheses; never invoke a model or promote |
+| Agent skill | `skills/symbolic-compactification/SKILL.md` (`.grok/skills/` holds pointer stubs only) | Optional human/CAS/AI proposer; does not certify |
 | Candidate transforms | `transforms.py`, `rules.py` | Small named operations, op caps, assumption gates, and local checkability |
 | Resource control | `budgets.py` | Central operation budgets and engine-owned process lifecycle |
 | Adjudication | `verifier.py` | Structural residual, bounded targeted lowering, exact proof/counterexample, fail-closed UNKNOWN |

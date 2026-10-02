@@ -42,6 +42,16 @@ from symbolic_compactification import (
     verify_equivalent,
 )
 
+
+# Budget for the deliberately slow worker on paths that later read the PID
+# the worker writes once it runs. The deadline also covers worker start-up
+# (spawn + interpreter + SymPy import: ~0.3 s warm, >2 s on a cold macOS
+# run), so a sub-second budget can kill the worker before it ever reports.
+# The worker sleeps far past any such budget, so the timeout itself stays
+# deterministic. Override with SSC_TEST_SLOW_WORKER_BUDGET (seconds).
+SLOW_WORKER_BUDGET = float(os.environ.get("SSC_TEST_SLOW_WORKER_BUDGET", "10"))
+SLOW_WORKER_SLEEP = max(60.0, 6 * SLOW_WORKER_BUDGET)
+
 # --------------------------------------------------------------------------- #
 # scripted workers (module-level: picklable by the spawn context)
 # --------------------------------------------------------------------------- #
@@ -154,8 +164,9 @@ def test_case_b_timeout_raises_budget_exceeded_and_reaps_worker(tmp_path):
     set_budget_policy(mode="process", kill_grace_seconds=0.2)
 
     with pytest.raises(BudgetExceeded) as excinfo:
-        run_with_budget(_slow_pid_report_worker, (60.0, str(pid_path)),
-                        seconds=0.8, operation="case-b-slow")
+        run_with_budget(_slow_pid_report_worker,
+                        (SLOW_WORKER_SLEEP, str(pid_path)),
+                        seconds=SLOW_WORKER_BUDGET, operation="case-b-slow")
     assert excinfo.value.code == "TIME_BUDGET_EXCEEDED"
     assert excinfo.value.operation == "case-b-slow"
 
@@ -287,8 +298,9 @@ def test_case_d_registry_never_contains_non_engine_pids(tmp_path):
             # observer inspects the registry mid-flight
             with pytest.raises(BudgetExceeded):
                 run_with_budget(_slow_pid_report_worker,
-                                (60.0, str(pid_path)),
-                                seconds=2.5, operation="case-d-registry")
+                                (SLOW_WORKER_SLEEP, str(pid_path)),
+                                seconds=SLOW_WORKER_BUDGET,
+                                operation="case-d-registry")
         finally:
             observer.join(timeout=10)
             assert not observer.is_alive()
