@@ -53,6 +53,49 @@ term that removes a whole symbol from one side is therefore usually not
 refuted. Most of a Keldysh paper (time convolutions of unknown functions,
 traces, operator algebra) stays NOT_DECIDED.
 
+## Sixteen real papers (swarm test)
+
+Eight PRD-type thermal field theory papers and eight NEGF transport papers
+were reviewed:
+
+- hep-ph and hep-th: 0804.3414, 0808.3382, 0907.5007, 1311.2512,
+  1607.01929, 1612.00466, 1802.09095, hep-ph/0603048;
+- cond-mat: 1403.8035, 1408.3608, 1510.00762, 1511.03276, 1708.01124,
+  1712.02308, 2007.14827, 2208.00180.
+
+Four agents worked as a physicist's assistant, four papers each. Each
+agent added conventions taken only from what the paper states. It then
+checked every verdict independently with sympy and mpmath.
+
+| Mode | Relations | VALID | INVALID | Wrong verdicts |
+|---|---:|---:|---:|---:|
+| One command, no conventions | 1 277 | 0 | 0 | 0 |
+| With the assistant's conventions | 1 322 | 8 | 0 | 0 |
+
+Two notes on the counts:
+- The two INVALIDs the agents first obtained were wrong. Both were `ζ(4) =
+  π⁴/90` and `ζ(2) = π²/6` with ζ declared an arbitrary function. Both are
+  now withheld (`ARBITRARY_FUNCTION`). A paper that names the Riemann zeta
+  function gets the real one (`zeta_fn`).
+- Two of the eight VALIDs appeared only after this round's fix for glued
+  letters (`px` read as p·x).
+
+What blocks real papers, in this order:
+1. integrals over unknown functions or with transmissions and Fermi
+   functions of several leads;
+2. derivatives of functions that are written bare;
+3. sums over indices;
+4. undefined named quantities;
+5. ⟨…⟩ expectation values and traces.
+
+The agents also found two likely errors in the papers themselves, which
+the tool did not decide:
+- a sign in 1511.03276, Eq. (81);
+- a factor 3 in the μ² term of 0808.3382, Eq. (n5).
+
+So on real papers the tool is today a strict checker for the algebraic
+steps an assistant isolates. It does not review a paper on its own.
+
 ## What this supports
 
 - **Claim:** a VALID means the quoted relation is an exact identity under

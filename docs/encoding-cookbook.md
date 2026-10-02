@@ -222,6 +222,27 @@ confident wrong verdict:
   reorders factors (`A B = B A`) is not decided either way. A Langreth
   rule is drafted only if its time arguments chain from `t` through the
   integration variable to `t'`.
+- **Reading real papers.** Display environments opened by the paper's own
+  macros (`\newcommand{\be}{\begin{equation}}`), `\providecommand` and
+  `\DeclareMathOperator` macros, and `aligned`/`split` inside an equation
+  are read. In math mode a run of letters is a product (`px` is p·x, `eV`
+  is e·V); subscripts and letter-only superscripts stay labels (`Γ_{eff}`,
+  `G^{ra}`). `\coth\frac{βω}{2}`, `\ln x` and `\sin^2θ` take the next
+  factor as their argument, unless more follows (`\cos\omega t` is
+  refused). `\frac{\partial X}{\partial y}` is a derivative when X shows y;
+  `dE/dk` with a bare E is refused. A relation with `\pm`/`\mp` gives two
+  steps, `id.p` and `id.m`, which must both hold. Traces and determinants
+  are not checked (`TRACE_OF_MATRICES`). `\mathsf{T}`, `\dot N`,
+  `\tilde G` and `\mathcal S` are names of their own.
+- **Declared functions are arbitrary.** A name under `functions:` stands
+  for any function, so a card using it is VALID only if it holds for every
+  function, and it is never INVALID (`ARBITRARY_FUNCTION`): `ζ(4) = π⁴/90`
+  is true for Riemann's ζ, false for an arbitrary one. For a special
+  function, map the name instead: `notation: {zeta: zeta_fn}` (Riemann or
+  Hurwitz ζ) or `{Gamma: gamma_fn}`; `erf` and `erfc` are built in. The
+  drafter does this when the text says "ζ is the Riemann zeta function"
+  or "Γ is the gamma function". `real: true` on a symbol overrides a
+  drafted `realness: unstated`.
 - **Macros redefined in the document** (`\renewcommand` after the first
   definition) are not expanded: which meaning a display has depends on
   where it sits, so quotes using them are refused. A Langreth

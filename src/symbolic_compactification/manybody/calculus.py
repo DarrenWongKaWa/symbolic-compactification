@@ -124,7 +124,10 @@ class CalculusSpace(Namespace):
         return sympy.Subs(sympy.Derivative(F(_T), (_T, int(k))), _T, x).doit()
 
     def parse_expanded(self, text: str) -> sympy.Expr:
-        return self.expand(self.parse(text))
+        expr = self.parse(text)
+        if not isinstance(expr, sympy.Basic):     # 'a, b' parses to a tuple
+            raise AdapterError("EXPRESSION_IS_NOT_ONE_TERM")
+        return self.expand(expr)
 
 
 def _simplify_zero(residual: sympy.Expr) -> bool:

@@ -112,6 +112,7 @@
  "r10_cl_k_crash.tex": {
   "k10": "VALID",
   "k11": "VALID",
+  "k12": "VALID",
   "k13": "VALID"
  },
  "r10_cl_r9_at.tex": {},
@@ -194,6 +195,7 @@
  "r11_cl_k06_unbal.tex": {},
  "r11_cl_k07_badlabel.tex": {},
  "r11_cl_p01_probe.tex": {
+  "eq:charge": "VALID",
   "eq:hub": "INVALID"
  },
  "r11_cx_conditional_definition_leak.tex": {},

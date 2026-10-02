@@ -82,13 +82,65 @@ def blank_inactive(text: str) -> str:
     return _INACTIVE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
 
 
+_ALIAS_DEF = re.compile(
+    r"\\(?:re)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*\{\s*\\(begin|end)\s*\{(" + "|".join(_ENVIRONMENTS)
+    + r")(\*?)\}\s*\}|\\def\s*\\([A-Za-z]+)\s*\{\s*\\(begin|end)\s*\{(" + "|".join(_ENVIRONMENTS) + r")(\*?)\}\s*\}")
+
+
+class _Display:
+    """A display found by display_spans: the same interface as a regex match."""
+
+    def __init__(self, start: int, end: int, inner: str):
+        self._start, self._end, self._inner = start, end, inner
+
+    def start(self) -> int:
+        return self._start
+
+    def end(self) -> int:
+        return self._end
+
+    def group(self, k: int = 0) -> str:
+        return self._inner
+
+
+def display_spans(body: str, document: str | None = None) -> list[_Display]:
+    """Every display environment in ``body``, also when the paper opens and
+    closes it with its own macros (\newcommand{\be}{\begin{equation}})."""
+    aliases: dict[str, tuple[str, str]] = {}            # macro -> (begin|end, environment)
+    for m in _ALIAS_DEF.finditer(document or body):
+        name, kind, env = (m.group(1), m.group(2), m.group(3)) if m.group(1) else (m.group(5), m.group(6), m.group(7))
+        aliases[name] = (kind, env)
+    if not aliases:
+        return list(_ENV_RE.finditer(body))
+    opener = re.compile(r"\\begin\{(" + "|".join(_ENVIRONMENTS) + r")\*?\}|\\("
+                        + "|".join(re.escape(a) for a, (k, _) in aliases.items() if k == "begin")
+                        + r")(?![A-Za-z])" if any(k == "begin" for k, _ in aliases.values()) else
+                        r"\\begin\{(" + "|".join(_ENVIRONMENTS) + r")\*?\}()")
+    out, pos = [], 0
+    while True:
+        m = opener.search(body, pos)
+        if not m:
+            return out
+        env = m.group(1) or aliases[m.group(2)][1]
+        ends = [r"\\end\{" + env + r"\*?\}"] + [r"\\" + re.escape(a) + r"(?![A-Za-z])"
+                                               for a, (k, e) in aliases.items() if k == "end" and e == env]
+        close = re.compile("|".join(ends)).search(body, m.end())
+        if not close:
+            return out
+        out.append(_Display(m.start(), close.end(), body[m.end():close.start()]))
+        pos = close.end()
+
+
 def latex_equations(document: str) -> list[dict[str, Any]]:
     """[{label, rows: [text, ...]}] for every display in a LaTeX document."""
     body = blank_inactive(document.split("\\begin{document}", 1)[-1].split("\\end{document}", 1)[0])
     found = []
-    for m in _ENV_RE.finditer(body):
+    for m in display_spans(body, document):
         label = _LABEL_RE.search(m.group(2))
-        rows = [r for r in _top_level_rows(m.group(2)) if r.strip()]
+        # aligned/split/gathered inside an equation only lay out its rows
+        inner = re.sub(r"\\(?:begin|end)\{(?:aligned|split|gathered|alignedat)\}(?:\{\d+\})?",
+                       lambda t: " " * len(t.group(0)), m.group(2))
+        rows = [r for r in _top_level_rows(inner) if r.strip()]
         found.append({"label": label.group(1) if label else None, "rows": rows,
                       "offset": m.start(),
                       "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],

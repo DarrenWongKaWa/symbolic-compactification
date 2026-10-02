@@ -337,6 +337,16 @@ def _reordering_only(card: dict, check: str) -> bool:
         and left != right                 # the same factors in a different order
 
 
+def _arbitrary_functions(card: dict, functions, defs: dict) -> list[str]:
+    """Declared functions without a definition that the card's expressions call."""
+    declared = set(functions) - {k.split("(")[0].strip() for k in defs}
+    if not declared:
+        return []
+    texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
+    called = set(re.findall(r"(?<![A-Za-z0-9_])(?:DD_|D_)?([A-Za-z_][A-Za-z0-9_]*)\s*\(", texts))
+    return sorted(called & declared)
+
+
 def _valued_free_names(card: dict, defs: dict) -> list[str]:
     names = set(_names(card.get("valued_in_text"))) - {k.split("(")[0].strip() for k in defs}
     if not names:
@@ -430,8 +440,9 @@ def _lhs_is_a_name(card: dict, defs: dict) -> bool:
 
 
 def _realness_blockers(card: dict, raw_symbols: list, defs: dict | None = None) -> list[str]:
-    names = {str(s["name"]) for s in raw_symbols
-             if isinstance(s, dict) and s.get("realness") == "unstated" and not s.get("positive")}
+    names = {str(s["name"]) for s in raw_symbols      # real: true written by a person settles it
+             if isinstance(s, dict) and s.get("realness") == "unstated" and not s.get("positive")
+             and s.get("real") is not True}
     if not names:
         return []
     texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
@@ -594,7 +605,7 @@ def _run_resolved(card: dict, base_dir, shared_defs, conflicts, require_source) 
     from .fidelity import fill_from_source, with_default_functions
     card, filled = fill_from_source(card, base_dir, symbols=symbols, functions=functions)
     defs = {str(k): str(v) for k, v in (card.get("define") or {}).items()}
-    symbols = _used_symbols(symbols, card, defs)
+    symbols = _used_symbols(symbols, card, defs) or [{"name": "unused_symbol"}]   # zeta(4) = pi^4/90 has none
     kept = {s if isinstance(s, str) else s["name"] for s in symbols}
     positive = tuple(n for n in positive if n in kept)
     defs = with_default_functions(
@@ -738,6 +749,8 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
         # A B = B A or c_k c_q = -c_q c_k is a statement about operators, Grassmann
         # numbers or generators: as numbers it is trivially true or false
         why.append("REORDERING_ONLY")
+    if card.get("trace") and check not in ("langreth", "operator"):
+        why.append("TRACE_OF_MATRICES")        # Tr(ABC) = Tr(BAC) holds for numbers, not matrices
     if card.get("bold_symbols") and check not in ("langreth", "operator"):
         why.append("VECTOR_OR_MATRIX")         # bold k, q: dot products are not products of numbers
     if card.get("conditional"):
@@ -764,6 +777,11 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
         decision_with_errata = decision
         why.append("ERRATUM_APPLIED:" + ",".join(errata))
     if decision == "INVALID" and not why:
+        arbitrary = _arbitrary_functions(card, functions, defs)
+        if arbitrary:
+            # a declared function is arbitrary here; the paper's may be a specific one
+            # (zeta(4) = pi^4/90 is false for an arbitrary zeta): never refuted
+            why.append("ARBITRARY_FUNCTION:" + ",".join(arbitrary))
         one_sided = _one_sided(card, symbols, functions, defs, check)
         if one_sided:
             why.append("ONE_SIDED_SYMBOL:" + ",".join(one_sided))

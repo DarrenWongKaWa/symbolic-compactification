@@ -281,6 +281,10 @@ _REASONS = (
      "State the symbols positive if the paper means them so (rates, widths)."),
     ("REORDERING_ONLY", "A claim that only reorders factors",
      "A B = ±B A is about operators, Grassmann numbers or generators; it is not checked as numbers."),
+    ("ARBITRARY_FUNCTION", "A refutation that treats a declared function as arbitrary",
+     "The paper's function may be a specific one (ζ(4) = π⁴/90 fails for an arbitrary ζ). Map a "
+     "special function by notation (zeta: zeta_fn, Gamma: gamma_fn) or quote its definition."),
+    ("TRACE_OF_MATRICES", "A trace or determinant", "Its arguments are matrices; the checks here are commutative."),
     ("VECTOR_OR_MATRIX", "Bold symbols in the claim", "Vectors or matrices: dot and matrix products are not products of numbers."),
     ("SOURCE_SLASH_PRECEDENCE", "A slash whose reach is ambiguous",
      "ω/2T means ω/(2T) to a physicist and (ω/2)T to a parser; write \\frac or brackets."),

@@ -29,7 +29,7 @@ import yaml
 from .latex import latex_to_plain, read_macros, split_integral
 # names used here, and the ones callers import from draft (kept for them)
 from .prose import (_distribution_not_thermal, _dollar_math, _inline_definitions, _matsubara_names,
-                    distribution_defined_in_text, prose_constraints,
+                    distribution_defined_in_text, prose_constraints, special_functions_named,
                     _operator_names, _positive_symbols,
                     _realness_sensitive,
                     _stated_integers, _stated_numbers, _stated_realness, _symbol_entry,
@@ -346,8 +346,20 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         if latex and _langreth(lhs, rhs, macros):
             card["hint"] = ("shaped like a Langreth rule; if the paper claims the exact rule, "
                             "set check: langreth (product, component, notation as for a drafted rule)")
+    if step.get("branch"):                  # one sign of a \pm relation
+        for key, entry in list(card["source"].items()):
+            if key.startswith("define:"):
+                continue
+            entry = {"quote": entry} if isinstance(entry, str) else dict(entry)
+            card["source"][key] = {**entry, "branch": step["branch"]}
     if step.get("conditional"):
         card["conditional"] = step["conditional"]
+    try:
+        expanded = latex_to_plain(lhs + " = " + rhs, macros) if latex else lhs + rhs
+    except (ValueError, RecursionError):
+        expanded = ""
+    if re.search(r"(?<![A-Za-z0-9_])(?:Tr|tr|Sp|det)\s*\(|\\(?:Tr|tr)\b", expanded + " " + lhs + " " + rhs):
+        card["trace"] = True                   # a trace or determinant of matrices
     if re.search(r"\\(?:mathbf|boldsymbol|bm|vec)\b", lhs + " " + rhs):
         card["bold_symbols"] = True           # vectors or matrices: products are not numbers
     if re.search(r"first\s+order|leading\s+order|lowest\s+order|to\s+order|linear\s+(?:in|response|order)"
@@ -450,6 +462,19 @@ def _redefined(values: dict[str, list[tuple[int, str]]]) -> dict[str, list[tuple
     """Names given a value more than once: a pair of displays across them may
     compare two different things."""
     return {name: vals for name, vals in values.items() if len(vals) > 1}
+
+
+_PM = re.compile(r"\\(?:pm|mp)\b|[±∓]")
+
+
+def _branches(step: dict) -> list[dict]:
+    """A relation with \\pm or \\mp states two relations, one per sign: two
+    steps, 'id.p' and 'id.m', each quoting with its branch. A sum over both
+    signs (\\sum_{\\pm}) is one relation."""
+    text = step["lhs"] + " " + step["rhs"]
+    if not _PM.search(text) or re.search(r"\\sum_\s*\{?\s*\\(?:pm|mp)", text):
+        return [step]                     # the signs of \\sum_\\pm are summed, not split
+    return [{**step, "id": f"{step['id']}.{tag}", "branch": sign} for tag, sign in (("p", "+"), ("m", "-"))]
 
 
 def _safe_card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
@@ -603,14 +628,15 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             before_paren |= _before_parenthesis(plain_rhs)
             continue
         drafted_steps.append(step)
-        card, names, todo = _safe_card_for(step, str(rel), latex, macros)
-        step["plain_identity"] = card.get("check") == "identity"
-        step["bound"] = {str(card[k]) for k in ("variable",) if card.get(k)}
-        before_paren |= card.pop("_before_paren", set())
-        all_names |= names
-        all_todo |= todo
-        path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', step['id'])}.yaml"
-        pending.append((path, card, todo - set(card.get("notation") or {})))
+        for variant in _branches(step):        # A = B \pm C holds for both signs
+            card, names, todo = _safe_card_for(variant, str(rel), latex, macros)
+            step["plain_identity"] = card.get("check") == "identity"
+            step["bound"] = {str(card[k]) for k in ("variable",) if card.get(k)}
+            before_paren |= card.pop("_before_paren", set())
+            all_names |= names
+            all_todo |= todo
+            path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', variant['id'])}.yaml"
+            pending.append((path, card, todo - set(card.get("notation") or {})))
     body = raw.split("\\begin{document}", 1)[-1]
     sections = [m.start() for m in re.finditer(r"\\(?:sub)*section\*?\s*\{|\\appendix\b", body)]
     scoped = {n: values.get(n, []) + display_values.get(n, []) for n in set(values) | set(display_values)}
@@ -655,6 +681,9 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         constants.pop(name)
         shared_quotes = {k: v for k, v in shared_quotes.items() if k != f"define:{name}()"}
     inline_notation: dict[str, str] = {name: f"{name}()" for name in constants}
+    special = special_functions_named(raw) if latex else {}
+    inline_notation.update(special)            # zeta -> zeta_fn when the text says so
+    all_names -= set(special)
     all_names -= set(constants)
     if latex:
         for key, entry, name in _inline_definitions(prose, macros):
@@ -685,6 +714,10 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     clashing = {k: v for k, v in shared_quotes.items()
                 if not k.endswith("()") and k.split(":", 1)[1].split("(")[0] in bare}
     shared_quotes = {k: v for k, v in shared_quotes.items() if k not in clashing}
+    # a shared definition whose quote cannot be found verbatim would block every card using it
+    squashed_raw = " ".join(raw.split())
+    shared_quotes = {k: v for k, v in shared_quotes.items()
+                     if " ".join(str(v.get("quote") if isinstance(v, dict) else v).split()) in squashed_raw}
     all_names -= {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}   # defined, not free
     conventions = out / "conventions.yaml"
     defined = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}

@@ -23,13 +23,30 @@ _ALIASES = {"varepsilon": "epsilon", "vartheta": "theta", "varphi": "phi", "varr
             "ell": "l", "infty": "oo", "ln": "log", "cdot": "*", "times": "*",
             "lbrace": "(", "rbrace": ")", "lbrack": "(", "rbrack": ")",
             "pm": "±", "mp": "∓", "exp": "exp", "log": "log", "cosh": "cosh",
-            "sinh": "sinh", "tanh": "tanh", "cos": "cos", "sin": "sin", "tan": "tan"}
+            "sinh": "sinh", "tanh": "tanh", "cos": "cos", "sin": "sin", "tan": "tan",
+            "coth": "coth", "cot": "cot", "sec": "sec", "csc": "csc", "sech": "sech", "csch": "csch",
+            "arctan": "atan", "arcsin": "asin", "arccos": "acos", "arccot": "acot",
+            "arctanh": "atanh", "artanh": "atanh", "arcsinh": "asinh", "arsinh": "asinh",
+            "arccosh": "acosh", "arcosh": "acosh"}
+_BARE_FUNCTIONS = frozenset({"sin", "cos", "tan", "cot", "sec", "csc", "sinh", "cosh", "tanh", "coth",
+                             "sech", "csch", "ln", "log", "exp", "arctan", "arcsin", "arccos", "arctanh",
+                             "artanh", "arcsinh", "arccosh"})
+# accents that make a new name: \dot N -> N__dot, \tilde G -> G__tilde (never a conjugate:
+# \bar and \overline stay unread, since they often mean complex conjugation)
+_ACCENTS = {"mathsf": "sf", "dot": "dot", "ddot": "ddot", "tilde": "tilde", "widetilde": "tilde", "hat": "hat",
+            "widehat": "hat", "check": "check", "breve": "breve", "mathcal": "cal", "mathscr": "scr",
+            "mathfrak": "frak"}
+_DIFF_NUM = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*(\S.*)$", re.S)
+_DIFF_DEN = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(\\?[A-Za-z]+(?:_\{?\s*[A-Za-z0-9]+\s*\}?)?)"
+                       r"\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*$")
 _DROP = ("left", "right", "big", "Big", "bigg", "Bigg", "bigl", "bigr", "Bigl", "Bigr",
          "biggl", "biggr", "nonumber", "notag", "displaystyle", "quad", "qquad")
 _WRAPPERS = ("mathrm", "text", "operatorname", "mathit", "mathbf", "boldsymbol", "rm")
 _MACRO_DEF = re.compile(
-    r"\\(?:re)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*\{"
-    r"|\\def\s*\\([A-Za-z]+)\s*((?:#\d)*)\s*\{")
+    r"\\(?:re|provide)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*\{"
+    r"|\\def\s*\\([A-Za-z]+)\s*((?:#\d)*)\s*\{"
+    r"|\\providecommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*\{"
+    r"|\\DeclareMathOperator\*?\s*\{?\\([A-Za-z]+)\}?\s*\{")
 
 
 def _group(text: str, start: int) -> tuple[str, int]:
@@ -67,8 +84,14 @@ def read_macros(document: str) -> dict[str, tuple[int, str]]:
             body, _ = _group(document, m.end() - 1)
         except ValueError:
             continue
-        name, entry = ((m.group(1), (int(m.group(2) or 0), body)) if m.group(1)
-                       else (m.group(3), (len(m.group(4) or "") // 2, body)))
+        if m.group(1):
+            name, entry = m.group(1), (int(m.group(2) or 0), body)
+        elif m.group(3):
+            name, entry = m.group(3), (len(m.group(4) or "") // 2, body)
+        elif m.group(5):
+            name, entry = m.group(5), (int(m.group(6) or 0), body)
+        else:                              # \DeclareMathOperator{\Tr}{Tr}: an upright name
+            name, entry = m.group(7), (0, "\\operatorname{" + body + "}")
         if name in macros and macros[name] != entry:
             # redefined in the document: which meaning a display has depends on where
             # it sits, so the macro is left unexpanded and quotes using it are refused
@@ -135,7 +158,48 @@ def _convert(text: str) -> str:
             elif name in ("frac", "dfrac", "tfrac"):
                 num, i = _argument(text, i)
                 den, i = _argument(text, i)
-                out.append(f"(({_convert(num)})/({_convert(den)}))")
+                top, bottom = _DIFF_NUM.match(num), _DIFF_DEN.match(den)
+                variable = _flatten(_convert(bottom.group(1))).strip() if bottom else ""
+                operand = _convert(top.group(2)) if top else ""
+                if top and bottom and (top.group(1) or "1") == (bottom.group(2) or "1") \
+                        and not re.match(r"[_^]", top.group(2)) \
+                        and re.search(rf"(?<![A-Za-z0-9_]){re.escape(variable)}(?![A-Za-z0-9_])", operand):
+                    # \frac{\partial X}{\partial y}: a derivative of X in y, read only when X
+                    # shows y; dE/dk with a bare E would be the derivative of a constant
+                    out.append(f" Diff(({operand}), {variable}, {top.group(1) or 1}) ")
+                elif top and bottom:
+                    out.append("\\partial")             # a derivative the reader cannot place
+                else:
+                    out.append(f"(({_convert(num)})/({_convert(den)}))")
+            elif name in _BARE_FUNCTIONS and not re.match(r"\s*(?:\(|\\left\s*[(\[]|\\big[lr]?\s*\(|\[)", text[i:]):
+                # \ln x, \coth\frac{\beta\omega}{2}, \sin^2\theta: the argument is the next factor;
+                # \cos\omega t (cos(w) t or cos(w t)?) is refused
+                power = re.match(r"\s*\^\s*(\{[^{}]*\}|\d)", text[i:])
+                if power:
+                    i += power.end()
+                arg, i = _argument(text, i)
+                if arg.startswith("\\frac") or arg.startswith("\\tfrac") or arg.startswith("\\dfrac"):
+                    first, i = _argument(text, i)
+                    second, i = _argument(text, i)
+                    arg = f"\\frac{{{first}}}{{{second}}}"
+                sub = re.match(r"\s*_\s*(\{[^{}]*\}|\\?[A-Za-z0-9])", text[i:])
+                if sub:
+                    arg += "_" + sub.group(1)
+                    i += sub.end()
+                if re.match(r"\s*(?:\\(?!right|,|;|!|quad|qquad|cdot|times|pm|mp|label|nonumber|\\)[A-Za-z]|[A-Za-z0-9({^])",
+                            text[i:]):
+                    out.append("\\" + name)            # the argument does not end here: refuse
+                else:
+                    exponent = power.group(1).strip("{}") if power else None
+                    call = f" {_ALIASES.get(name, name)}({_convert(arg)})"
+                    out.append(f"({call})^({_convert(exponent)})" if exponent else call)
+            elif name in _ACCENTS:
+                arg, i = _argument(text, i)
+                inner = _convert(arg).strip()
+                if re.fullmatch(r"[A-Za-z][A-Za-z0-9]*", inner):
+                    out.append(f" {inner}__{_ACCENTS[name]}")
+                else:
+                    out.append("\\" + name)       # an accent on an expression: unread
             elif name == "sqrt":
                 arg, i = _argument(text, i)
                 out.append(f"sqrt({_convert(arg)})")
@@ -168,6 +232,8 @@ def _convert(text: str) -> str:
             arg, i = _argument(text, i + 1)
             _strip_trailing_space(out)
             out.append("_" + _flatten(_convert(arg)))
+            if re.match(r"[A-Za-z]", text[i:i + 1]):
+                out.append(" ")                # x_{d}f is x_d times f, not one name
         elif c == "^":
             arg, i = _argument(text, i + 1)
             label = re.fullmatch(r"\s*\((.*)\)\s*", arg)
@@ -210,17 +276,88 @@ def _convert(text: str) -> str:
     return "".join(out)
 
 
+_VERBATIM_GROUPS = frozenset({"mathrm", "text", "textrm", "textit", "mbox", "operatorname", "label",
+                              "ref", "eqref", "begin", "end", "mathsf", "mathcal", "mathscr", "mathfrak",
+                              "mathbb", "mathit", "rm", "it", "cite"})
+
+
+def split_letter_runs(text: str) -> str:
+    """In math mode 'px' is p times x and 'eV' is e times V: a run of Latin
+    letters outside commands, \\mathrm{...}/\\text{...}, subscripts and
+    letter-only superscripts (labels: G^{ra}) is split into single letters;
+    an exponent such as e^{-iEt} is math and is split."""
+    out, i, depth_verbatim = [], 0, 0
+    stack: list[bool] = []                 # for each open brace: is its content kept as written?
+    while i < len(text):
+        c = text[i]
+        if c == "\\":
+            m = re.match(r"\\([A-Za-z]+|.)", text[i:], re.S)
+            name = m.group(1) if m else ""
+            out.append(text[i:i + (m.end() if m else 1)])
+            i += m.end() if m else 1
+            if name in _VERBATIM_GROUPS:
+                j = i
+                while j < len(text) and text[j].isspace():
+                    j += 1
+                if j < len(text) and text[j] == "{":
+                    out.append(text[i:j + 1])
+                    stack.append(True)
+                    i = j + 1
+            continue
+        if c in "_^":
+            j = i + 1
+            while j < len(text) and text[j].isspace():
+                j += 1
+            out.append(text[i:j])
+            exponential = c == "^" and re.search(r"(?<![A-Za-z\\])e\s*$", text[:i])
+            i = j
+            if i < len(text) and text[i] == "{":
+                try:
+                    inner = _group(text, i)[0]
+                except ValueError:
+                    inner = ""
+                label = c == "_" or (re.fullmatch(r"\s*[A-Za-z<>*]+\s*", inner) and not exponential)
+                out.append("{")
+                stack.append(bool(label))      # a subscript or G^{ra} is a label: kept as written
+                i += 1
+            elif i < len(text) and text[i].isalpha():
+                out.append(text[i])            # x_d f: only one letter belongs to the subscript
+                i += 1
+            continue
+        if c == "{":
+            stack.append(bool(stack and stack[-1]))
+            out.append(c)
+            i += 1
+            continue
+        if c == "}":
+            if stack:
+                stack.pop()
+            out.append(c)
+            i += 1
+            continue
+        if c.isascii() and c.isalpha() and not (stack and stack[-1]):
+            m = re.match(r"[A-Za-z]+", text[i:])
+            run = m.group(0)
+            out.append(" ".join(run) if len(run) > 1 else run)
+            i += len(run)
+            continue
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
 def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) -> str:
     """Convert a LaTeX math fragment; raises ValueError on unbalanced braces."""
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
+    text = split_letter_runs(text)
     # a capital E or I written in LaTeX is a quantity (an energy, a current),
     # never Euler's number or the imaginary unit, which are written e and i
     text = re.sub(r"(?<![\\A-Za-z])([EI])(?![A-Za-z])", r"\1sym", text)
     text = rewrite_over(normalize_exponential(text))
     # Re / Im of the next factor: \mathrm{Im}\,\psi(z) -> im_of psi(z)
     text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",
-                  lambda m: f" {(m.group(1) or m.group(2)).lower()}_of ", text)
+                  lambda m: f" {(m.group(1) or m.group(2)).lower()}_{{of}} ", text)
     text = re.sub(r"\\(?:left|right|big|Big|bigg|Bigg)[lr]?\s*\|", "|", text)
     text = re.sub(r"\\[lr]vert\b|\\vert\b", "|", text)
     plain = _absolute_values(_convert(text))

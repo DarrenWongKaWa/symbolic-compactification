@@ -7,7 +7,7 @@ import re
 from typing import Any
 
 from .latex import latex_to_plain
-from .relations import _DEFINITION_LHS, _ENV_RE, _KNOWN, _tokens, split_top_level
+from .relations import _DEFINITION_LHS, _KNOWN, _tokens, display_spans, split_top_level
 
 _GREEK_NAMES = "alpha beta gamma delta epsilon varepsilon zeta eta theta kappa lambda mu nu xi rho sigma tau phi chi psi omega Gamma Delta Theta Lambda Xi Sigma Phi Psi Omega".split()
 
@@ -90,6 +90,10 @@ _OPERATOR_WORDS = re.compile(r"operator|\bspin\b|angular\s+momentum|Pauli|creati
                              re.I)
 
 
+_OPERATOR_NOUN = (r"(?:operator|Hamiltonian|matri(?:x|ce)|Pauli\s+matri(?:x|ce)|spin|generator|Grassmann"
+                  r"|creation|annihilation|component|spinor|projector)")
+
+
 def _operator_names(raw: str) -> set[str]:
     """Names in a sentence that calls them operators, spin components,
     creation or annihilation operators or matrices ('the fermionic operators
@@ -97,11 +101,25 @@ def _operator_names(raw: str) -> set[str]:
     commute."""
     found: set[str] = set()
     for sentence in re.split(r"(?<=[.;:])\s+", raw):
-        if _OPERATOR_WORDS.search(sentence) and not re.search(r"density\s+matri|T-matri|S-matri", sentence):
-            for piece in re.findall(r"\$([^$]{1,60})\$", sentence):
-                found |= {n for n in _names_in(piece) if len(n) <= 3 or "_" in n}
-    for m in re.finditer(r"\\hat\s*\{?\s*\\?([A-Za-z]+)|\\?([A-Za-z]+)\s*\^\s*\{?\s*\\dagger", raw):
-        found.add(m.group(1) or m.group(2))
+        if not _OPERATOR_WORDS.search(sentence) or re.search(r"density\s+matri|T-matri|S-matri", sentence):
+            continue
+        for m in re.finditer(r"\$([^$]{1,60})\$", sentence):
+            # only math the word describes: 'the fermionic operators $p$ and $q$',
+            # 'the Hamiltonian of the dot is $H_0 + V$', '$A$ and $B$ denote the
+            # components of one spin' -- not every symbol in the sentence
+            before, after = sentence[max(0, m.start() - 80):m.start()], sentence[m.end():m.end() + 120]
+            named_before = re.search(_OPERATOR_NOUN + r"s?\s+(?:[A-Za-z-]+\s+){0,4}(?:\$[^$]*\$\s*(?:,|and)\s*)*$",
+                                     before, re.I)
+            named_after = re.match(r"\s*(?:(?:,|and)\s*\$[^$]*\$\s*)*(?:is|are|denotes?|be|being|as)\s+"
+                                   r"(?:[A-Za-z-]+\s+){0,5}" + _OPERATOR_NOUN, after, re.I)
+            if named_before or named_after:
+                # the operator itself, not the labels on it (\hat I^{e(h)}_p: not e, h)
+                base = _names_in(re.sub(r"[_^]\s*(?:\{[^{}]*\}|\\?[A-Za-z0-9]+)", " ", m.group(1)))
+                found |= {n for n in _names_in(m.group(1))
+                          if (len(n) <= 3 or "_" in n) and re.split(r"__|_", n)[0] in
+                          {re.split(r"__|_", b)[0] for b in base}}
+    for m in re.finditer(r"\\(?:hat|widehat)\s*\{?\s*\\?[A-Za-z]+\s*\}?|\\?[A-Za-z]+\s*\^\s*\{?\s*\\dagger", raw):
+        found |= _names_in(m.group(0))
     return found
 
 
@@ -142,6 +160,21 @@ def _distribution_not_thermal(raw: str) -> str | None:
                 r"|out\s+of\s+equilibrium|generic\s+occupation", sentence, re.I):
             return " ".join(sentence.split())[:80]
     return None
+
+
+def special_functions_named(raw: str) -> dict[str, str]:
+    """Notation for special functions the text names: '$\\zeta$ is the Riemann
+    zeta function' -> zeta: zeta_fn, '$\\Gamma$ is the gamma function' ->
+    Gamma: gamma_fn. Only an explicit statement maps a letter."""
+    out: dict[str, str] = {}
+    text = _dollar_math(raw)
+    if re.search(r"(?:\$\\zeta\$|\\zeta\s*\(s\))[^.]{0,40}(?:Riemann|Hurwitz)?\s*zeta[- ]function"
+                 r"|(?:Riemann|Hurwitz)\s+zeta[- ]function", text, re.I):
+        out["zeta"] = "zeta_fn"
+    if re.search(r"\$\\Gamma(?:\s*\(\s*[a-z]\s*\))?\$[^.]{0,40}\b(?:Euler\s+)?gamma[- ]function"
+                 r"|gamma[- ]function\s+\$\\Gamma", text, re.I):
+        out["Gamma"] = "gamma_fn"
+    return out
 
 
 def _stated_numbers(raw: str) -> set[str]:
@@ -233,7 +266,9 @@ def _inline_definitions(raw: str, macros: dict) -> list[tuple[str, Any, str]]:
     (key, entry, name) triples; bare names get zero-argument definitions."""
     out = []
     body = raw.split("\\begin{document}", 1)[-1]
-    text = _ENV_RE.sub(" ", body)                       # prose only, displays removed
+    text = body
+    for m in reversed(display_spans(body, raw)):        # prose only, displays removed
+        text = text[:m.start()] + " " + text[m.end():]
     for m in _INLINE_DEF.finditer(text):
         math = m.group(1)
         sides = split_top_level(re.sub(r"\\equiv", "=", math))
@@ -282,7 +317,7 @@ def prose_assignments(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]
     \\Gamma_L + \\Gamma_R$', '$X \\equiv ...$'. name -> [(offset in the body, right
     side)], conditions ('$x = 0$', '$n = 1, 2, \\dots$') left out."""
     body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
-    displays = [(m.start(), m.end()) for m in _ENV_RE.finditer(body)]
+    displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
     out: dict[str, list[tuple[int, str]]] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):
         if any(a <= m.start() < b for a, b in displays):
@@ -308,7 +343,7 @@ def prose_values(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]]:
     """Every value the running text gives a bare name, conditions included:
     '$p = 0$', '$a = 0$', '$x = \\omega/\\Delta$'. name -> [(offset, right side)]."""
     body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
-    displays = [(m.start(), m.end()) for m in _ENV_RE.finditer(body)]
+    displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
     out: dict[str, list[tuple[int, str]]] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):
         if any(a <= m.start() < b for a, b in displays):
@@ -328,15 +363,20 @@ def prose_values(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]]:
 
 _NONCOMMUTING = re.compile(
     r"\b(?:are|is|as|be)\s+(?:[^\s.,;]+\s+){0,3}matri(?:x|ces)\b|\bmatri(?:x|ces)\s+in\s+\w+(?:\s+\w+)?\s+space"
-    r"|\bdo(?:es)?\s+not\s+commute|\bnon-?commut\w*|\boperator-valued|\bNambu\b|\bspinor"
-    r"|\d\s*(?:\\times|\u00d7|x)\s*\d\s+(?:matri|Green|self-energy|Nambu|Keldysh)"
-    r"|\$\\(?:mathbf|boldsymbol|bm)\s*\{\s*\\?[A-Z]", re.I)
+    r"|\bdo(?:es)?\s+not\s+commute|\bnon-?commut\w*|\boperator-valued|\bNambu\b"
+    r"|\d\s*(?:\\times|\u00d7|x)\s*\d\s+(?:matri|Green|self-energy|Nambu|Keldysh)", re.I)
 
 
 def stated_noncommuting(raw: str) -> str | None:
-    """Where the text says its quantities are matrices or do not commute."""
-    m = _NONCOMMUTING.search(raw.split("\\begin{document}", 1)[-1])
-    return None if m is None else f"{m.group(0)[:60]}"
+    """Where the text says its quantities are matrices or do not commute
+    ('the density matrix', 'the transfer matrix element', 'the S-matrix'
+    are single objects, not a statement that the quantities are matrices)."""
+    for m in _NONCOMMUTING.finditer(raw.split("\\begin{document}", 1)[-1]):
+        if re.search(r"density|transfer|scattering|transmission|hopping|tunnel|[TSK]-|matrix\s+elements?",
+                     m.group(0) + raw[m.end():m.end() + 10], re.I):
+            continue
+        return f"{m.group(0)[:60]}"
+    return None
 
 
 def _dollar_math(raw: str) -> str:
@@ -388,7 +428,7 @@ def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
     '$t > s$', '$\\eta < 0$', '$k \\neq q$'. A refutation that treats them as
     free may be wrong. name -> where."""
     body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
-    displays = [(m.start(), m.end()) for m in _ENV_RE.finditer(body)]
+    displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
     out: dict[str, str] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):
         if any(a <= m.start() < b for a, b in displays):

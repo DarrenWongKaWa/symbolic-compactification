@@ -107,7 +107,8 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
         raise AdapterError("SOURCE_SLASH_PRECEDENCE")
     calls = set(callables)
     bracketed = re.search(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\s*\[", text)
-    if bracketed and bracketed.group(1) in calls:
+    if bracketed and bracketed.group(1) in calls and bracketed.group(1) not in _ALLOWED_FUNCTIONS:
+        # log[...] is log(...); f[x, y] may be a divided difference
         # f[x, y] is a divided difference or a functional, not the value f(x, y)
         raise AdapterError("SOURCE_BRACKET_AFTER_FUNCTION")
     text = text.replace("[", "(").replace("]", ")").replace("{", "(").replace("}", ")")
@@ -412,7 +413,7 @@ _LEFT_OK = re.compile(
     r"\\sum_\{[^{}]*\}(?:\^\{?[^{}\s]*\}?)?|\\sum_[A-Za-z]|"
     r"\bd\s*\\?[A-Za-z]+(?:_\{?\w+\}?)?(?:\s*\\[,;!])?)\s*$")
 _RIGHT_OK = re.compile(
-    r"^\s*(?:$|=|\\approx|\\simeq|\\equiv|,|\.|;|:|\\[,;!]|\\q?quad|\\label|\\nonumber|"
+    r"^\s*(?:$|=|\\approx|\\simeq|\\equiv|,|\.|;|:|\\[,;! ]|~|\\q?quad|\\label|\\nonumber|"
     r"\\\\|\\end|\\\]|\$|\+\s*(?:\\mathcal\{O\}|O)\s*[(\[]|\\text)")
 
 
