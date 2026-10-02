@@ -44,10 +44,13 @@ workspace/input/expressions/*
 # Local unpublished validation (never commit; never package)
 .private_validation/
 
-# Unpublished manuscript drafts and verification graphs
+# Unpublished manuscript drafts and verification graphs.
+# Policy: manuscripts/README.md -- drafts are never stored in this public repo.
 manuscripts/archive/
 manuscripts/current/*
 !manuscripts/current/.gitkeep
+# Former methods-paper workspace (removed from main; keep drafts local only).
+/paper/
 
 # Generated audit reports (keep .gitkeep)
 examples/audit/*/reports/*

@@ -1,5 +1,10 @@
 # Engineering Closure and Paper Handoff
 
+> **Note (2026-10):** the methods-paper workspace `paper/derivation-audit-method/`
+> cited below has been removed from the public repository. Unpublished
+> manuscript drafts are kept outside git (policy: `manuscripts/README.md`).
+> The paths below are a historical record only.
+
 Canonical lock after product freeze: `paper/derivation-audit-method/SOFTWARE_AUTHORITY.md`
 and `paper/derivation-audit-method/HANDOFF.md`.
 
