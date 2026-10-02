@@ -18,7 +18,7 @@ import tempfile
 import urllib.request
 from pathlib import Path
 
-UA = "symbolic-compactification-skill/0.3.4 (scientific audit; +https://arxiv.org)"
+UA = "symbolic-compactification-skill/0.3.5 (scientific audit; +https://arxiv.org)"
 MAX_DOWNLOAD_BYTES = 32 * 1024 * 1024
 MAX_MEMBER_BYTES = 8 * 1024 * 1024
 MAX_TOTAL_UNPACK = 64 * 1024 * 1024
