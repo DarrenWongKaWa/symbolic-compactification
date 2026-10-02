@@ -126,10 +126,13 @@ Notes on the counts:
   so its agent reviewed two sections of it (123 relations, 7 of the 24
   VALIDs). Each card re-read the whole paper. The displays, macros and
   conventions are now read once per paper. The whole course (1 229
-  relations) then takes 281 s, and the other 29 papers 149 s instead of
-  796 s. In the whole course its 6 one-command VALIDs are withheld: its QED
-  sections say the γ's are matrices, and that flag holds for every card
-  (`noncommuting: false` on a card lifts it).
+  relations) then takes 232 s, and the other 29 papers 112 s instead of
+  796 s. In the whole course the 6 one-command VALIDs of the two-section
+  copy stay undecided. First, a remark that a gauge fixing "does not
+  commute" with a limit had marked every quantity a matrix; that is fixed.
+  Now k₀ is the blocker: the course sets it to several values (2πinT,
+  (2m+1)iπT, ±ω_k), so it is not read as a free symbol
+  (`NAMED_QUANTITY_UNDEFINED`).
 - The first one-command run of this set gave one wrong VALID. In 1005.2389
   a boundary condition, u(0) = u(a) = 0, was read as a definition of u. This
   was fixed before the agents started: a value at a point no longer counts
@@ -160,7 +163,10 @@ Fixed after this round:
 - `{\cal E}`, `\Biggl` and `\textstyle`;
 - Matsubara sums over the paper's definitions (ω_k = √(k² + m²)), with exact
   residues at such poles;
-- the two guards above.
+- the two guards above;
+- "does not commute" marks the paper's quantities as matrices only when it
+  has a mathematical subject, and the arguments of an operator (k in a(k))
+  are no longer taken for operators.
 
 Likely errors in the papers that the agents found while checking (the
 tool did not decide these; they need a physicist to confirm):
