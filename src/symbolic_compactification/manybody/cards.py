@@ -195,26 +195,32 @@ def _declared_beta(card: dict, symbols: list) -> str | None:
     return name if any((s if isinstance(s, str) else s.get("name")) == name for s in symbols) else None
 
 
-def _remainder_both(card, f, P, variable, order, symbols, functions, positive, defs) -> dict:
-    """The text states no limit point: check x -> 0 and x -> oo, decide only
-    when both agree (a remainder true at one point and false at the other
-    means the claim depends on a point the paper did not state)."""
+def _remainder_both(card, f, P, variable, order, symbols, functions, positive, defs,
+                    points=None) -> dict:
+    """The text states no limit point: check x -> 0 and x -> oo (or x -> +oo and
+    x -> -oo for a tail with no stated side), decide only when both agree (a
+    remainder true at one point and false at the other means the claim
+    depends on a point the paper did not state)."""
     from . import certify_remainder
     runs = {}
-    for point, direction in (("0", str(card.get("direction", "+-"))), ("oo", "+-")):
+    points = points or (("0", str(card.get("direction", "+-"))), ("oo", "+-"))
+    for point, direction in points:
         runs[point] = certify_remainder(
             f, P, variable=variable, point=point, order=order, direction=direction,
             symbols=symbols, functions=functions, positive=positive, definitions=defs,
             beta=_declared_beta(card, symbols)).to_dict()
     statuses = {r["status"] for r in runs.values()}
+    first = runs[points[0][0]]
     if len(statuses) == 1 and statuses & {"CERTIFIED_BY_RULE", "NONZERO"}:
-        out = dict(runs["0"])
-        out["reasons"] = list(out.get("reasons", [])) + ["SAME_VERDICT_AT_0_AND_INFINITY"]
+        out = dict(first)
+        out["reasons"] = list(out.get("reasons", [])) + [
+            "SAME_VERDICT_AT_" + "_AND_".join(p for p, _ in points)]
         return out
-    return {**runs["0"], "status": "UNKNOWN",
-            "reasons": ["LIMIT_POINT_UNSTATED: the verdict differs between x -> 0 and x -> oo"
+    return {**first, "status": "UNKNOWN",
+            "reasons": ["LIMIT_POINT_UNSTATED: the verdict differs between "
+                        + " and ".join(f"x -> {p}" for p, _ in points)
                         if statuses >= {"CERTIFIED_BY_RULE", "NONZERO"} else "LIMIT_POINT_UNSTATED"],
-            "at_0": runs["0"]["status"], "at_infinity": runs["oo"]["status"]}
+            **{f"at_{p}": r["status"] for p, r in runs.items()}}
 
 
 def _named_quantity_blockers(card: dict, defs: dict, check: str) -> list[str]:
@@ -285,15 +291,50 @@ def _branch_sensitive(card: dict, symbols: list, functions, defs: dict, positive
     return sorted(hits)
 
 
+def _holds_at_special_phases(card: dict, symbols: list, functions, defs: dict, check: str,
+                             out: dict) -> bool:
+    """Whether the refuted equality becomes exact once a phase factor takes a
+    special value: e^{iu} = 1 or -1, sin u = 0, cos u = 1 or -1."""
+    import sympy
+    from .calculus import CalculusSpace, _simplify_zero
+    try:
+        space = CalculusSpace(symbols, functions, definitions=defs)
+        if check == "identity":
+            residual = space.parse_expanded(str(card["lhs"])) - space.parse_expanded(str(card["rhs"]))
+        elif check == "definite_integral" and out.get("derived"):
+            residual = sympy.sympify(str(out["derived"]), locals={str(x): x for x in
+                                     space.parse_expanded(str(card["claim"])).free_symbols}) \
+                - space.parse_expanded(str(card["claim"]))
+        else:
+            return False
+    except Exception:
+        return False
+    phases = [a for a in residual.atoms(sympy.exp) if a.args[0].has(sympy.I)]
+    trig = list(residual.atoms(sympy.sin, sympy.cos))
+    if not phases and not trig:
+        return False
+    for value in (1, -1):
+        trial = residual.subs({a: value for a in phases})
+        trial = trial.subs({a: (0 if isinstance(a, sympy.sin) else value) for a in trig})
+        try:
+            if _simplify_zero(sympy.expand(trial)):
+                return True
+        except Exception:
+            return True                    # cannot tell: do not refute
+    return False
+
+
 def _reordering_only(card: dict, check: str) -> bool:
     """lhs and rhs are the same product up to the order of factors and a sign
     (A B = B A, c_k c_q = -c_q c_k): a statement about operators."""
     if check != "identity" or "lhs" not in card or "rhs" not in card:
         return False
-    factor = lambda t: sorted(re.findall(r"[A-Za-z_][A-Za-z0-9_]*(?:\([^()]*\))?", t))
+    factors = lambda t: re.findall(r"[A-Za-z_][A-Za-z0-9_]*(?:\([^()]*\))?", t)
     lhs, rhs = (re.sub(r"\s+", "", str(card[k])).lstrip("-+") for k in ("lhs", "rhs"))
     plain = lambda t: re.fullmatch(r"[A-Za-z0-9_*()]+", t) is not None
-    return plain(lhs) and plain(rhs) and lhs != rhs and factor(lhs) == factor(rhs) and len(factor(lhs)) >= 2
+    left, right = factors(lhs), factors(rhs)
+    return plain(lhs) and plain(rhs) and len(left) >= 2 and sorted(left) == sorted(right) \
+        and left != right                 # the same factors in a different order
 
 
 def _valued_free_names(card: dict, defs: dict) -> list[str]:
@@ -404,6 +445,12 @@ def _realness_blockers(card: dict, raw_symbols: list, defs: dict | None = None) 
         expanded += " " + " ".join(bodies[n] for n in called)
     infinite = card.get("check") == "definite_integral" and any(
         "oo" in str(card.get(k, "")) for k in ("lower_limit", "upper_limit"))   # decay needs real parts
+    if card.get("check") == "fermi_integral":
+        # the shift c in n_F(w + c) must be real for the half-plane split
+        shifts = " ".join(re.findall(r"\bn[FB]\s*\(([^()]*)\)", str(card.get("integrand", ""))))
+        unstated = names & set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", shifts)) - {str(card.get("variable"))}
+        if unstated:
+            return sorted(unstated)
     if not infinite and not re.search(r"\b(?:re|im|conjugate|Abs)\s*\(", expanded):
         return []
     used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", expanded))
@@ -592,9 +639,10 @@ def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
                                         definitions=defs, labels=labels)
     elif check == "remainder":
         f, P, variable, point, order = _need(card, "function", "approximant", "variable", "point", "order")
-        if str(point) == "unstated":
+        if str(point) in ("unstated", "+-oo"):
             return _remainder_both(card, f, P, variable, int(order), symbols, functions,
-                                   positive, defs)
+                                   positive, defs,
+                                   points=(("oo", "+-"), ("-oo", "+-")) if str(point) == "+-oo" else None)
         out = certify_remainder(f, P, variable=variable, point=point, order=int(order),
                                 direction=str(card.get("direction", "+-")), symbols=symbols,
                                 functions=functions, positive=positive, definitions=defs,
@@ -686,6 +734,12 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
                               " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)))
         if used & operators:
             why.append("OPERATORS:" + ",".join(sorted(used & operators)))   # products need not commute
+    if _reordering_only(card, check):
+        # A B = B A or c_k c_q = -c_q c_k is a statement about operators, Grassmann
+        # numbers or generators: as numbers it is trivially true or false
+        why.append("REORDERING_ONLY")
+    if card.get("bold_symbols") and check not in ("langreth", "operator"):
+        why.append("VECTOR_OR_MATRIX")         # bold k, q: dot products are not products of numbers
     if card.get("conditional"):
         # a second relation, a condition or words sit next to this one in the display
         why.append("CONDITION_IN_DISPLAY")
@@ -724,8 +778,10 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
             # sqrt(ab) = sqrt(a) sqrt(b) fails only for negative a, b: unless the text says
             # they are positive, the counterexample may lie outside what the paper means
             why.append("BRANCH_DEPENDS_ON_SIGN:" + ",".join(branch))
-        if _reordering_only(card, check):
-            why.append("REORDERING_ONLY")     # c_k c_q = -c_q c_k is about operators, not numbers
+        if _holds_at_special_phases(card, symbols, functions, defs, check, out):
+            # e^{i pi N} = 1 for even N, e^{iqL} = 1 for a lattice momentum: the claim may
+            # be about such quantized values, which the generic counterexample misses
+            why.append("HOLDS_AT_SPECIAL_PHASES")
         if card.get("approximation_stated") and check not in ("remainder", "coefficient"):
             why.append("APPROXIMATION_STATED")     # 'to first order in V': exact equality not claimed
         constrained = set(_names(card.get("constrained"))) & set(re.findall(

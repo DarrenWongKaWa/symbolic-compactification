@@ -205,6 +205,23 @@ confident wrong verdict:
   `DISTRIBUTION_NOT_THERMAL`). A Matsubara sum is drafted only over all
   frequencies, and a prefactor `T` only when the text calls `T` the
   temperature. A Fermi integral needs a real shift in `n_F(ω + c)`.
+- **What the reader takes literally.** A capital `E` or `I` is a quantity
+  (an energy, a current); Euler's number and the imaginary unit are `e`
+  and `i`. Comments, `\iffalse … \fi`, `verbatim` and `comment`
+  environments, and anything after `\end{document}` are not read. A slash
+  whose reach is unclear (`\omega/2T`) is refused; write `\frac`. Bold
+  symbols (`\mathbf{k}`) are vectors or matrices and are not checked as
+  numbers. A row that ends in an operator continues on the next row; two
+  relations side by side in an `align` row block the display. `x \to
+  -\infty` and `x \to \pm\infty` are read, and a negative-order `O(...)`
+  with no stated side is checked at both `+∞` and `−∞`. A refutation that
+  becomes exact when a phase factor is `±1` (`e^{i\pi N}` for even `N`,
+  `e^{iqL}` on a periodic lattice) is withheld (`HOLDS_AT_SPECIAL_PHASES`),
+  and so is one using names the text says take only discrete values
+  (Ising spins, projectors, occupations `0` or `1`). A claim that only
+  reorders factors (`A B = B A`) is not decided either way. A Langreth
+  rule is drafted only if its time arguments chain from `t` through the
+  integration variable to `t'`.
 - **Macros redefined in the document** (`\renewcommand` after the first
   definition) are not expanded: which meaning a display has depends on
   where it sits, so quotes using them are refused. A Langreth

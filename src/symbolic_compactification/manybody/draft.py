@@ -35,7 +35,7 @@ from .prose import (_distribution_not_thermal, _dollar_math, _inline_definitions
                     _stated_integers, _stated_numbers, _stated_realness, _symbol_entry,
                     prose_assignments, prose_values, stated_noncommuting)
 from .relations import (_DEFINITION_LHS, _INTEGRAL, _KNOWN, _MATSUBARA, _O_TERM, _ONLY_O,
-                        _SERIES, _last_sentence, split_top_level, steps_from_latex, steps_from_sheet,
+                        _SERIES, split_top_level, steps_from_latex, steps_from_sheet,
                         _tokens)
 
 __all__ = ["draft", "split_top_level", "steps_from_latex", "steps_from_sheet",
@@ -63,8 +63,16 @@ def _var_name(token: str) -> str:
 def _limit_point(var: str, text: str) -> str | None:
     """'x \\to \\infty' / 'large x' -> oo, 'x \\to 0' / 'small x' -> 0, else None."""
     v = rf"\\?{re.escape(var)}"
+    both = re.search(rf"{v}\s*\\(?:to|rightarrow)\s*\\pm\s*\\infty|\|\s*{v}\s*\|\s*\\(?:to|rightarrow)\s*\\infty", text)
+    minus = re.search(rf"{v}\s*\\(?:to|rightarrow)\s*-\s*\\infty", text)
     infinity = re.search(rf"{v}\s*\\(?:to|rightarrow)\s*\+?\s*\\infty|large\s+\$?{v}\b", text)
     zero = re.search(rf"{v}\s*\\(?:to|rightarrow)\s*0|small\s+\$?{v}\b", text)
+    if zero and (both or minus or infinity):
+        return None
+    if both or (minus and infinity):
+        return "+-oo"
+    if minus:
+        return "-oo"
     if infinity and not zero:
         return "oo"
     if zero and not infinity:
@@ -86,7 +94,10 @@ def _remainder(card: dict, lhs: str, rhs: str, o_term, step: dict | None = None)
         said = _limit_point(var, step.get("sentence", "") + " " + lhs + " " + rhs)
         # no stated limit point: a negative order is a tail at infinity; a
         # positive one is checked at 0 and at infinity and decided only if they agree
-        point = said or ("oo" if order < 0 else "unstated")
+        # a negative order with no stated direction: both +oo and -oo must agree,
+        # unless the variable is stated positive
+        point = said or (("oo" if var in step.get("positive_names", ()) else "+-oo")
+                         if order < 0 else "unstated")
         if order < 0 and point == "0":
             card.update({"variable": "TODO", "hint": "negative order at 0: check the limit point"})
         card["point"] = point
@@ -142,10 +153,28 @@ def _langreth(lhs: str, rhs: str, macros: dict) -> dict | None:
         product.append(name)
     if len(product) < 2 or any(name not in product for name, _, _ in factors):
         return None
+    if not _chained_arguments(latex_to_plain(lhs, macros), factors, len(product)):
+        return None                       # B^<(t', t_1) is not part of the convolution
     notation = {m.group(0): f"{m.group(1)}_{_COMPONENT[m.group(2)]}"
                 for m in _KELDYSH_FACTOR.finditer(plain)}
     return {"check": "langreth", "product": product, "component": _COMPONENT[head.group(2)],
             "notation": notation, "source": {"claim": body}}
+
+
+def _chained_arguments(lhs_plain: str, factors: list, size: int) -> bool:
+    """Each term of C(t,t') = int dt_1 A(t,t_1) B(t_1,t') must chain its time
+    arguments from t through the integration variables to t'."""
+    outer = re.search(r"\(([^()]*)\)", lhs_plain)
+    ends = [a.strip() for a in outer.group(1).split(",")] if outer else []
+    if len(ends) != 2 or len(factors) % size:
+        return False
+    for k in range(0, len(factors), size):
+        args = [[a.strip() for a in f[2].split(",")] for f in factors[k:k + size]]
+        if any(len(a) != 2 for a in args) or args[0][0] != ends[0] or args[-1][1] != ends[1]:
+            return False
+        if any(args[j][1] != args[j + 1][0] or args[j][1] in ends for j in range(size - 1)):
+            return False
+    return True
 
 
 _BARE_FACTOR = re.compile(r"(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)(?![A-Za-z0-9_(])")
@@ -319,6 +348,8 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                             "set check: langreth (product, component, notation as for a drafted rule)")
     if step.get("conditional"):
         card["conditional"] = step["conditional"]
+    if re.search(r"\\(?:mathbf|boldsymbol|bm|vec)\b", lhs + " " + rhs):
+        card["bold_symbols"] = True           # vectors or matrices: products are not numbers
     if re.search(r"first\s+order|leading\s+order|lowest\s+order|to\s+order|linear\s+(?:in|response|order)"
                  r"|approximat|\\approx|\\simeq|neglect|small\s+(?:\$|\\\()",
                  _lead_in(step.get("before", "")) + " " + step.get("sentence", ""), re.I):
@@ -619,6 +650,10 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             all_todo.discard(name)
             all_names.add(name)
     # definitions stated in the running text ("where $z_\\pm = ...$")
+    # a constant (Sigma \equiv -i Gamma/2) also written as Sigma(omega) is not one constant
+    for name in [n for n in constants if n in before_paren]:
+        constants.pop(name)
+        shared_quotes = {k: v for k, v in shared_quotes.items() if k != f"define:{name}()"}
     inline_notation: dict[str, str] = {name: f"{name}()" for name in constants}
     all_names -= set(constants)
     if latex:

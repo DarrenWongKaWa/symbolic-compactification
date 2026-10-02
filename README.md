@@ -196,6 +196,12 @@ Wingreen and Meir, PRB 50, 5528 (1994). The review certifies its digamma
 relation, finds an unbalanced bracket in its step-response formula, and
 catches planted sign errors.
 
+How far the reviewer mode can be trusted today, with the adversarial
+rounds behind that judgement, is in
+[`docs/product-evaluation.md`](docs/product-evaluation.md): the checking
+engine is reliable on correctly encoded claims, and reading a paper's
+LaTeX is a fail-closed research preview.
+
 What each check assumes, and what it refuses, is in
 [`docs/many-body-equivalence.md`](docs/many-body-equivalence.md). To encode
 a paper's derivation one step at a time, write step cards: see

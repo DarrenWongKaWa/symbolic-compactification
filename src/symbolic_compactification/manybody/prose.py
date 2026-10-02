@@ -86,7 +86,8 @@ def _matsubara_names(raw: str) -> set[str]:
 
 _OPERATOR_WORDS = re.compile(r"operator|\bspin\b|angular\s+momentum|Pauli|creation|annihilation"
                              r"|matri(?:x|ces)|spinor|Hamiltonian|anti-?commut|\bcommut|\bTr\b|\\mathrm\{Tr\}"
-                             r"|\btrace\b", re.I)
+                             r"|\btrace\b|Grassmann|generator|non-?Abelian|Lie\s+algebra|\bSU\(|\bSO\(|quaternion",
+                             re.I)
 
 
 def _operator_names(raw: str) -> set[str]:
@@ -179,7 +180,8 @@ def _realness_sensitive(steps, shared_quotes, macros, latex) -> set[str]:
     quotes += [v.get("quote") if isinstance(v, dict) else v for v in shared_quotes.values()]
     out: set[str] = set()
     for q in quotes:
-        infinite = str(q).lstrip().startswith("\\int") and "\\infty" in str(q)   # decay needs real parts
+        infinite = str(q).lstrip().startswith("\\int") and (            # decay, or a real n_F shift
+            "\\infty" in str(q) or re.search(r"n_\{?F|n_\{?B", str(q)) is not None)
         if infinite or re.search(r"\\(?:mathrm|operatorname|rm)\s*\{?\s*(?:Re|Im)|\\(?:Re|Im)\b|\^\s*\{?\s*\*|\\bar\b|\\overline|\\ast|\|", str(q)):
             try:
                 plain = latex_to_plain(str(q), macros) if latex else str(q)
@@ -264,6 +266,8 @@ def _inline_definitions(raw: str, macros: dict) -> list[tuple[str, Any, str]]:
         base_name = name.replace("PM", "").removesuffix("_pm")
         if not rhs_names or name in rhs_names or base_name in rhs_names or "," in rhs_raw or "\\dots" in rhs_raw:
             continue
+        if re.fullmatch(r"\s*\\?[A-Za-z]+(?:_\{?\\?[A-Za-z0-9]+\}?)?\s*", rhs_raw):
+            continue                     # 'with $\Gamma_R = \Gamma_L$' is a condition, not a definition
         if "PM" in name or name.endswith("_pm"):
             base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
             out.append((f"define:{base}p({args})", {"quote": rhs_raw, "branch": "+"}, base + "p"))
@@ -336,8 +340,10 @@ def stated_noncommuting(raw: str) -> str | None:
 
 
 def _dollar_math(raw: str) -> str:
-    """\\( ... \\) written as $ ... $, for the scans of the running text."""
-    return raw.replace("\\(", "$").replace("\\)", "$")
+    """\\( ... \\) written as $ ... $, with comments and other text TeX does not
+    print blanked out, for the scans of the running text."""
+    from .relations import blank_inactive
+    return blank_inactive(raw).replace("\\(", "$").replace("\\)", "$")
 
 
 def _positive_symbols(raw: str) -> dict[str, str]:
@@ -404,4 +410,12 @@ def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
         where = f"line {raw.count(chr(10), 0, raw.find(m.group(0)))+1}: ${' '.join(math.split())[:50]}$"
         for name in _names_in(math):
             out.setdefault(name, where)
+    # names that take only discrete values ('take only the values $+1$ and $-1$')
+    for sentence in re.split(r"(?<=[.;])\s+", body):
+        if re.search(r"projector|idempoten|nilpoten|involution|Ising|occupation\s+number|number\s+operator"
+                     r"|eigenvalues?|\bvalues?\s+(?:\$?[+-]?\s*[01]\b|plus|minus|zero|one)"
+                     r"|\\pm\s*1\b|\$\s*[+-]?[01]\s*\$\s+(?:and|or)\s+\$\s*[+-]?[01]\s*\$", sentence, re.I):
+            for piece in re.findall(r"\$([^$]{1,60})\$", sentence):
+                for name in _names_in(piece):
+                    out.setdefault(name, " ".join(sentence.split())[:60])
     return out

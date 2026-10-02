@@ -101,6 +101,10 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
         text = pattern.sub(lambda m: f" ({notation[m.group(0)]}) "
                            if not re.fullmatch(r"[A-Za-z_]\w*", notation[m.group(0)])
                            else f" {notation[m.group(0)]} ", text)
+    if re.search(r"/\s*(?:\d+(?:\.\d+)?|[A-Za-z_][A-Za-z0-9_]*)\s+(?=[A-Za-z_])|/\s*\d+(?:\.\d+)?(?=[A-Za-z_])",
+                 text):
+        # omega/2T: omega/(2T) to a physicist, (omega/2)*T to a parser
+        raise AdapterError("SOURCE_SLASH_PRECEDENCE")
     calls = set(callables)
     bracketed = re.search(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\s*\[", text)
     if bracketed and bracketed.group(1) in calls:

@@ -214,6 +214,9 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     """Convert a LaTeX math fragment; raises ValueError on unbalanced braces."""
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
+    # a capital E or I written in LaTeX is a quantity (an energy, a current),
+    # never Euler's number or the imaginary unit, which are written e and i
+    text = re.sub(r"(?<![\\A-Za-z])([EI])(?![A-Za-z])", r"\1sym", text)
     text = rewrite_over(normalize_exponential(text))
     # Re / Im of the next factor: \mathrm{Im}\,\psi(z) -> im_of psi(z)
     text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",

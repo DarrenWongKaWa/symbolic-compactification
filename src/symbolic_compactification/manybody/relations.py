@@ -69,9 +69,22 @@ def _top_level_rows(body: str) -> list[str]:
     return rows + [body[start:]]
 
 
+_INACTIVE = re.compile(
+    r"(?<!\\)%[^\n]*"                                          # a comment
+    r"|\\iffalse\b.*?\\fi\b"                                    # \iffalse ... \fi
+    r"|\\begin\{(verbatim\*?|comment|lstlisting|minted)\}.*?\\end\{\1\}", re.S)
+
+
+def blank_inactive(text: str) -> str:
+    """Comments, \\iffalse ... \\fi and verbatim or comment environments
+    replaced by spaces (newlines kept, so every offset stays where it was):
+    TeX prints none of them, so nothing in them is a claim of the paper."""
+    return _INACTIVE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+
+
 def latex_equations(document: str) -> list[dict[str, Any]]:
     """[{label, rows: [text, ...]}] for every display in a LaTeX document."""
-    body = document.split("\\begin{document}", 1)[-1]
+    body = blank_inactive(document.split("\\begin{document}", 1)[-1].split("\\end{document}", 1)[0])
     found = []
     for m in _ENV_RE.finditer(body):
         label = _LABEL_RE.search(m.group(2))
@@ -190,6 +203,27 @@ def _condition_in_row(row: str) -> str | None:
     return None
 
 
+_OPEN_END = re.compile(r"(?:[-+=]|\\times|\\cdot|\\pm|\\mp)\s*$")
+
+
+def _join_open_rows(rows: list[str]) -> list[str]:
+    """A row that ends in an operator ('\frac{e^x}{2} +') continues on the
+    next row, whatever that row starts with."""
+    out: list[str] = []
+    for row in rows:
+        text = re.sub(r"\\(?:nonumber|notag)\b", " ", row).rstrip()
+        if out and _OPEN_END.search(re.sub(r"[&\s]+$", "", out[-1])):
+            out[-1] = out[-1].rstrip() + " " + re.sub(r"^\s*&?\s*(?:\\q?quad\s*)*", "", row)
+        else:
+            out.append(text if text else row)
+    return out
+
+
+def _two_columns(row: str) -> bool:
+    """'A &= 1 & B &= -1': two relations side by side in an align."""
+    return bool(re.search(r"&\s*=[^&]*[^\s&][^&]*&[^&=]*[^\s&][^&=]*&\s*=", row))
+
+
 def steps_from_latex(raw: str) -> list[dict[str, Any]]:
     steps = []
     seen_labels: set = set()
@@ -217,10 +251,19 @@ def steps_from_latex(raw: str) -> list[dict[str, Any]]:
                     equivs.append(re.split(r"\\equiv|:=", segment, maxsplit=1) + ["relation"])
                 else:
                     rows.append(segment)
+        rows = _join_open_rows(rows)
+        if any(_two_columns(row) for row in rows):
+            conditional = conditional or "two columns of relations side by side"
         tangled = False
         for row in rows:
             pieces = split_top_level(row)
             head = _clean(pieces[0])
+            if chains and len(pieces) > 1 and _CONTINUES.match(pieces[0]) and head:
+                # "&\quad - X = Y": the row continues the last side, then relates it
+                chains[-1][-1] += " " + pieces[0]
+                chains[-1] += pieces[1:]
+                tangled = tangled or _tangled(row)
+                continue
             if not chains:
                 chains.append(pieces)
             elif len(pieces) == 1:                 # no '=': continues only if it starts

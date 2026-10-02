@@ -204,6 +204,188 @@
  "r11_cx_prose_zero_bias_function.tex": {},
  "r11_cx_prose_zero_temperature.tex": {},
  "r11_cx_redefined_fermi_symbol.tex": {},
+ "r12_cl_a01_E_energy.tex": {},
+ "r12_cl_a02_I_current.tex": {
+  "eq:pow": "VALID"
+ },
+ "r12_cl_a03_dnF.tex": {},
+ "r12_cl_a04_vec.tex": {},
+ "r12_cl_a05_gamma.tex": {},
+ "r12_cl_b01_slash_T.tex": {},
+ "r12_cl_b02_E_bound.tex": {},
+ "r12_cl_b02b_E_bound.tex": {},
+ "r12_cl_b02c_E_bound.tex": {},
+ "r12_cl_b03_E_absneg.tex": {},
+ "r12_cl_b04_E_valid_wrong.tex": {},
+ "r12_cl_b04b_E_valid_wrong.tex": {},
+ "r12_cl_b04c_E_valid_wrong.tex": {},
+ "r12_cl_b05_I_current.tex": {},
+ "r12_cl_b06_leibniz.tex": {},
+ "r12_cl_b07_leibniz2.tex": {},
+ "r12_cl_b08_E_k_ikappa.tex": {},
+ "r12_cl_b09_E_sqrt_wrong.tex": {},
+ "r12_cl_b10_E_abs_wrong.tex": {},
+ "r12_cl_c03_mats_conv.tex": {},
+ "r12_cl_c04_mats_conv2.tex": {},
+ "r12_cl_c05_mats_sym.tex": {},
+ "r12_cl_d01_TE_param.tex": {},
+ "r12_cl_d02_ising.tex": {},
+ "r12_cl_d02b_ising.tex": {},
+ "r12_cl_d02c_ising.tex": {},
+ "r12_cl_d02d_ising.tex": {},
+ "r12_cl_d02e_ising.tex": {},
+ "r12_cl_d03_grassmann.tex": {},
+ "r12_cl_d04_projector.tex": {},
+ "r12_cl_d05_signs.tex": {},
+ "r12_cl_d06_kron.tex": {},
+ "r12_cl_d07_occ.tex": {},
+ "r12_cl_e01_tail_pm.tex": {},
+ "r12_cl_e02_tail_minus_wrong.tex": {},
+ "r12_cl_e03_tail_minus_right.tex": {},
+ "r12_cl_e04_tail_abs.tex": {},
+ "r12_cl_e05_fermi_tail.tex": {},
+ "r12_cl_e06_fermi_tail_wrong.tex": {},
+ "r12_cl_e07_exp_tail.tex": {
+  "eq:tail": "VALID"
+ },
+ "r12_cl_e08_bcs_minus_right.tex": {
+  "eq:deep": "VALID"
+ },
+ "r12_cl_e09_bcs_minus_wrong.tex": {},
+ "r12_cl_e10_bcs_pm_wrong.tex": {},
+ "r12_cl_f01_bacab.tex": {},
+ "r12_cl_f02_kq_wrong.tex": {},
+ "r12_cl_f02b_kq_wrong.tex": {},
+ "r12_cl_f03_lagrange.tex": {},
+ "r12_cl_f04_kdotq.tex": {},
+ "r12_cl_g01_iffalse.tex": {},
+ "r12_cl_g01b_iffalse.tex": {
+  "eq:new": "VALID"
+ },
+ "r12_cl_g02_comment_env.tex": {},
+ "r12_cl_g03_pm.tex": {},
+ "r12_cl_g04_four_either.tex": {},
+ "r12_cl_g05_sqrt3.tex": {},
+ "r12_cl_g06_pctcomment.tex": {
+  "eq:x": "VALID"
+ },
+ "r12_cl_h01_pos.tex": {},
+ "r12_cl_h02_E_cert.tex": {},
+ "r12_cl_h03_E_log.tex": {},
+ "r12_cl_i01_controw.tex": {
+  "eq:nf.1": "VALID",
+  "eq:nf.2": "VALID"
+ },
+ "r12_cl_i02_controw_valid.tex": {
+  "eq:x.1": "INVALID",
+  "eq:x.2": "VALID"
+ },
+ "r12_cl_i03_trailing_op.tex": {},
+ "r12_cl_i04_rowskip.tex": {},
+ "r12_cl_j01_Ek_even.tex": {
+  "eq:even": "VALID"
+ },
+ "r12_cl_j02_Ek_double.tex": {},
+ "r12_cl_j03_IV.tex": {},
+ "r12_cl_j04_IV_noDef.tex": {},
+ "r12_cl_k01_nF_display_mu.tex": {},
+ "r12_cl_k02_nF_display_mu_int.tex": {},
+ "r12_cl_l01_geom.tex": {},
+ "r12_cl_l02_geom_exp.tex": {},
+ "r12_cl_l03_series_div.tex": {},
+ "r12_cl_l04_series_cond.tex": {},
+ "r12_cl_m01_const_then_call.tex": {},
+ "r12_cl_m02_const_then_call2.tex": {},
+ "r12_cl_m03_const_odd.tex": {},
+ "r12_cl_m04_prose_const.tex": {},
+ "r12_cl_n01_pm_vs_p.tex": {},
+ "r12_cl_o01_mats_bare.tex": {},
+ "r12_cl_o02_mats_ok.tex": {
+  "eq:s": "VALID"
+ },
+ "r12_cl_q01_eq_only.tex": {},
+ "r12_cl_q02_trailing_caret.tex": {},
+ "r12_cl_q03_frac_missing.tex": {},
+ "r12_cl_q04_macro_rec.tex": {},
+ "r12_cl_q05_macro_blow.tex": {},
+ "r12_cl_q06_def_call_arity.tex": {},
+ "r12_cl_q07_def_zero_args.tex": {},
+ "r12_cl_q08_nested_abs.tex": {},
+ "r12_cl_q09_huge_power.tex": {
+  "eq1": "VALID"
+ },
+ "r12_cl_q10_big_int.tex": {
+  "eq1": "INVALID"
+ },
+ "r12_cl_q11_unicode.tex": {},
+ "r12_cl_q12_label_weird.tex": {},
+ "r12_cl_q13_pm_def.tex": {
+  "eq2": "VALID"
+ },
+ "r12_cl_q14_empty_align.tex": {},
+ "r12_cl_q15_sum_pm.tex": {},
+ "r12_cl_q16_int_noint.tex": {},
+ "r12_cl_q17_int_dx_only.tex": {},
+ "r12_cl_q18_mats_only.tex": {},
+ "r12_cl_q19_O_only.tex": {},
+ "r12_cl_q20_series_body.tex": {},
+ "r12_cl_r01_defdelim.tex": {},
+ "r12_cl_r02_sub_frac.tex": {
+  "eq1": "VALID"
+ },
+ "r12_cl_r03_left_brace.tex": {},
+ "r12_cl_r04_def_self.tex": {},
+ "r12_cl_r05_def_chain.tex": {},
+ "r12_cl_r06_def_arg_number.tex": {
+  "eq1": "VALID",
+  "eq3": "VALID"
+ },
+ "r12_cl_r07_equiv_twice.tex": {},
+ "r12_cl_r08_def_greek_arg.tex": {
+  "eq2": "VALID"
+ },
+ "r12_cl_r09_def_I_arg.tex": {},
+ "r12_cl_r10_pi_arg.tex": {},
+ "r12_cl_s01_with_condition.tex": {},
+ "r12_cl_s01b_with_condition.tex": {},
+ "r12_cl_t01_langreth_args.tex": {},
+ "r12_cl_t01b_langreth_one_slip.tex": {},
+ "r12_cl_t02_langreth_ok.tex": {
+  "eq:lang": "VALID"
+ },
+ "r12_cl_u01_mats_integer.tex": {},
+ "r12_cl_u02_integer_word.tex": {},
+ "r12_cl_v01_align_columns.tex": {},
+ "r12_cl_v02_after_enddoc.tex": {
+  "eq:ok": "VALID"
+ },
+ "r12_cl_w01_fermi_complex_shift.tex": {},
+ "r12_cl_w01b_fermi_complex_shift.tex": {},
+ "r12_cl_x01_remainder_defvar.tex": {},
+ "r12_cl_x02_remainder_defvar_b.tex": {},
+ "r12_cl_z_ti.tex": {
+  "eq:adiabatic": "VALID",
+  "eq:damped": "VALID",
+  "eq:drive": "VALID",
+  "eq:moment": "INVALID",
+  "eq:phase": "VALID",
+  "eq:switch": "VALID"
+ },
+ "r12_cx_r12_commented_out_display.tex": {},
+ "r12_cx_r12_display_defined_shifted_fermi.tex": {},
+ "r12_cx_r12_even_lattice_periodicity.tex": {},
+ "r12_cx_r12_fermionic_modes.tex": {},
+ "r12_cx_r12_hermitian_adjoint.tex": {},
+ "r12_cx_r12_if_false_display.tex": {},
+ "r12_cx_r12_ising_variable.tex": {},
+ "r12_cx_r12_pauli_without_keyword.tex": {},
+ "r12_cx_r12_projector_idempotence.tex": {},
+ "r12_cx_r12_reciprocal_vector_periodicity.tex": {},
+ "r12_cx_r12_su2_generators.tex": {},
+ "r12_cx_r12_su2_no_spin_word.tex": {},
+ "r12_cx_r12_tensor_product.tex": {},
+ "r12_cx_r12_vector_cross_product.tex": {},
+ "r12_cx_r12_verbatim_display.tex": {},
  "s1_pipulse.tex": {},
  "s2_mu0.tex": {},
  "s3_at.tex": {},
