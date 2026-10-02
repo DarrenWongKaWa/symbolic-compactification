@@ -155,7 +155,9 @@ def _test_functions(names: list[str], seed: int) -> dict:
 
 def _concretize(expr: sympy.Expr, names: list[str], seed: int) -> sympy.Expr:
     for name, lam in _test_functions(names, seed).items():
-        expr = expr.replace(sympy.Function(name), lam)
+        # G(t, t') gets a test function of all its arguments, not a unary one
+        expr = expr.replace(sympy.Function(name),
+                            lambda *args, lam=lam: lam(sum((k + 1) * a for k, a in enumerate(args))))
     return expr.doit()
 
 

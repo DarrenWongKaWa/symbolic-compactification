@@ -26,166 +26,31 @@ from typing import Any
 
 import yaml
 
-from ..parser import _ALLOWED_FUNCTIONS
-from .latex import latex_to_plain, read_macros
+from .latex import latex_to_plain, read_macros, split_integral
+# names used here, and the ones callers import from draft (kept for them)
+from .prose import (_dollar_math, _inline_definitions, _matsubara_names, _positive_symbols,
+                    _realness_sensitive,
+                    _stated_integers, _stated_numbers, _stated_realness, _symbol_entry,
+                    prose_assignments, prose_values, stated_noncommuting)
+from .relations import (_DEFINITION_LHS, _INTEGRAL, _KNOWN, _MATSUBARA, _O_TERM, _ONLY_O,
+                        _SERIES, split_top_level, steps_from_latex, steps_from_sheet, _tokens)
 
-_ENVIRONMENTS = ("equation", "align", "gather", "multline", "eqnarray", "flalign")
-_ENV_RE = re.compile(r"\\begin\{(" + "|".join(_ENVIRONMENTS) + r")\*?\}(.*?)\\end\{\1\*?\}", re.S)
-_DISPLAY_RE = re.compile(r"\\\[(.*?)\\\]|\$\$(.*?)\$\$", re.S)
-_LABEL_RE = re.compile(r"\\label\{([^}]*)\}")
-_O_TERM = re.compile(r"\s*\+\s*(?:\\mathcal\{O\}|O)\s*[\(\[]\s*(.+?)\s*[\)\]]\s*[.,;]?\s*$")
-_ONLY_O = re.compile(r"^\s*(?:\\mathcal\{O\}|O)\s*[\(\[]\s*(.+?)\s*[\)\]]\s*[.,;]?\s*$")
-_KNOWN = set(_ALLOWED_FUNCTIONS) | {"pi", "E", "I", "oo", "i", "nF", "nB", "Diff", "exp", "log"}
-
-
-def split_top_level(text: str, sep: str = "=") -> list[str]:
-    """Split at ``sep`` outside brackets; ``==``, ``<=``, ``>=``, ``!=`` are kept."""
-    parts, depth, start, i = [], 0, 0, 0
-    while i < len(text):
-        c = text[i]
-        if c in "([{":
-            depth += 1
-        elif c in ")]}":
-            depth -= 1
-        elif (c == sep and depth == 0 and text[i - 1:i] not in ("<", ">", "!", "=")
-              and text[i + 1:i + 2] != "="):
-            parts.append(text[start:i])
-            start = i + 1
-        i += 1
-    parts.append(text[start:])
-    return parts
+__all__ = ["draft", "split_top_level", "steps_from_latex", "steps_from_sheet",
+           "stated_noncommuting", "_positive_symbols", "_stated_numbers", "_stated_realness"]
 
 
-def _clean(fragment: str) -> str:
-    fragment = _LABEL_RE.sub("", fragment)
-    fragment = re.sub(r"\\(nonumber|notag)", "", fragment)
-    fragment = fragment.replace("&", " ")
-    fragment = " ".join(fragment.split())
-    previous = None
-    while previous != fragment:                  # trailing \; \, \quad and punctuation
-        previous = fragment
-        # strip(" ,.;") can leave the backslash of a trailing "\;" behind
-        fragment = re.sub(r"(\\[,;:!]|\\q?quad|\\\\|\\)\s*$", "", fragment).strip(" ,.;")
-    return fragment
-
-
-def latex_equations(document: str) -> list[dict[str, Any]]:
-    """[{label, rows: [text, ...]}] for every display in a LaTeX document."""
-    body = document.split("\\begin{document}", 1)[-1]
-    found = []
-    for m in _ENV_RE.finditer(body):
-        label = _LABEL_RE.search(m.group(2))
-        rows = [r for r in re.split(r"\\\\", m.group(2)) if r.strip()]
-        found.append({"label": label.group(1) if label else None, "rows": rows,
-                      "offset": m.start(),
-                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],
-                      "sentence": _last_sentence(body[max(0, m.start() - 800):m.start()]),
-                      "document": body})
-    for m in _DISPLAY_RE.finditer(body):
-        text = m.group(1) or m.group(2)
-        found.append({"label": None, "rows": [text], "offset": m.start(),
-                      "context": body[max(0, m.start() - 800):m.start()] + body[m.end():m.end() + 300],
-                      "sentence": _last_sentence(body[max(0, m.start() - 800):m.start()]),
-                      "document": body})
-    return sorted(found, key=lambda e: e["offset"])
-
-
-def _document_fragment(raw: str, fragment: str) -> str | None:
-    """The verbatim document text for a cleaned fragment (whitespace aside).
-    Cleaning only removes labels, '&' and surrounding punctuation, so the
-    fragment is verbatim unless an '&' sat inside it."""
-    squashed = " ".join(raw.split())
-    return fragment if fragment and fragment in squashed else None
-
-
-_CONTINUES = re.compile(r"^(?:\s|&|\\q?quad|\\[,;!]|\\nonumber)*"
-                       r"(?:[-+*/(\[]|\\(?:times|cdot|pm|mp|left|Bigl|bigl|biggl|Big|big|bigg|lbrace)\b)")
-
-
-def steps_from_latex(raw: str) -> list[dict[str, Any]]:
-    steps = []
-    for n, eq in enumerate(latex_equations(raw), start=1):
-        chains: list[list[str]] = []
-        for row in eq["rows"]:
-            pieces = split_top_level(row)
-            head = _clean(pieces[0])
-            if not chains:
-                chains.append(pieces)
-            elif len(pieces) == 1:                 # no '=': continues only if it starts
-                if _CONTINUES.match(row):          # with an operator or a bracket
-                    chains[-1][-1] += " " + row
-            elif not head:                         # "&= C": the chain continues
-                chains[-1] += pieces[1:]
-            else:                                  # "A &= B" on its own row: a new relation
-                chains.append(pieces)
-        base = eq["label"] or f"eq{n}"
-        display = eq["label"] or f"#{n}"
-        relations = [[_clean(p) for p in chain if _clean(p)] for chain in chains]
-        relations = [r for r in relations if len(r) >= 2]
-        for j, chain in enumerate(relations):
-            stem = base if len(relations) == 1 else f"{base}.r{j + 1}"
-            for k in range(len(chain) - 1):
-                steps.append({"id": stem if len(chain) == 2 else f"{stem}.{k + 1}",
-                              "lhs": chain[k], "rhs": chain[k + 1],
-                              "context": eq.get("context", ""), "sentence": eq.get("sentence", ""),
-                              "document": eq.get("document", ""), "display": display})
-    return steps
-
-
-def steps_from_sheet(raw: str) -> list[dict[str, Any]]:
-    """Plain-text sheets: '### ID' headings followed by 'Claim: A = B'."""
-    steps, current = [], None
-    for line in raw.splitlines():
-        head = re.match(r"#{2,4}\s+(\S+)", line)
-        if head:
-            current = head.group(1)
+def _bare_uses(quotes, macros: dict, latex: bool) -> set[str]:
+    """Names some quote uses as a plain value, not followed by '(' (S in
+    'S + 1', not in 'S(w)'): a definition S(w) = ... would clash with it."""
+    out: set[str] = set()
+    for q in quotes:
+        try:
+            plain = latex_to_plain(str(q), macros) if latex else str(q)
+        except (ValueError, RecursionError):
             continue
-        claim = re.match(r"\s*Claim:\s*(.+)", line)
-        if claim and current:
-            text = claim.group(1).strip()
-            clauses = split_top_level(text, ",")
-            main = clauses[0]
-            sides = split_top_level(main)
-            extra = []
-            for clause in clauses[1:]:
-                kv = split_top_level(clause)
-                if len(kv) == 2 and re.fullmatch(r"\s*[A-Za-z_][\w+\-^()]*\s*", kv[0]):
-                    extra.append({"name": kv[0].strip(), "quote": kv[1].strip()})
-            if len(sides) >= 2:
-                for k in range(len(sides) - 1):
-                    steps.append({"id": current if len(sides) == 2 else f"{current}.{k + 1}",
-                                  "lhs": sides[k].strip(), "rhs": sides[k + 1].strip(),
-                                  "definitions": extra})
-            current = None
-    return steps
-
-
-def _tokens(plain: str) -> tuple[set[str], set[str]]:
-    """(plain names, names that need notation or a definition)."""
-    names, todo = set(), set()
-    for m in re.finditer(r"(?<![\\A-Za-z0-9_])[A-Za-z_][A-Za-z0-9_]*(?:_[+\-])?(\()?", plain):
-        name = m.group(0).rstrip("(")
-        if name in _KNOWN or re.fullmatch(r"psi\d?", name):
-            continue
-        if m.group(1) or "_" in name:
-            todo.add(name)
-        else:
-            names.add(name)
-    return names, todo
-
-
-# a Fermi integral over the whole real line only: \int or \int_{-\infty}^{\infty};
-# other limits are a different integral and are never drafted as fermi_integral
-_INTEGRAL = re.compile(
-    r"^\\int(?:\\limits)?(?:_\{\s*-\s*\\infty\s*\}\^\{?\s*\+?\s*\\infty\s*\}?)?\s*"
-    r"(?:\\frac\{\s*d\s*(?P<v1>\\?[A-Za-z]+)\s*\}\{\s*2\s*\\pi\s*\}|d\s*(?P<v2>\\?[A-Za-z]+))"
-    r"\s*(?:\\[,;!]\s*)?(?P<body>.+)$", re.S)
-_MATSUBARA = re.compile(
-    r"^(?:\\frac\{1\}\{\\beta\}|\{\s*1\s*\\over\s*\\beta\s*\}|T|k_B\s*T)\s*"
-    r"\\sum_\{?\s*(?P<index>[a-z])\s*\}?\s*(?P<body>.+)$", re.S)
-_SERIES = re.compile(
-    r"^\\sum_\{\s*(?P<index>[a-z])\s*=\s*(?P<lower>-?\d+)\s*\}\^\{?\s*\\infty\s*\}?\s*(?P<body>.+)$", re.S)
-_DEFINITION_LHS = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*([A-Za-z_][\w\s,]*)\)\s*$")
+        out |= {m.group(1) for m in re.finditer(
+            r"(?<![\\A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)(?![A-Za-z0-9_])(?!\s*\()", plain)}
+    return out
 
 
 def _var_name(token: str) -> str:
@@ -251,13 +116,19 @@ _TIME_INTEGRAL = re.compile(r"^\\int\s*d\s*t_?\{?\s*1\s*\}?\s*(?:\\[,;!]\s*)?(?P
 def _langreth(lhs: str, rhs: str, macros: dict) -> dict | None:
     """X^c(t,t') = int dt_1 [products of B^r, C^<, ...] is a Langreth rule:
     check the component c of the contour product, quoting the integrand."""
-    head = re.fullmatch(r"\s*([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)\s*\([^()]*\)\s*",
-                        latex_to_plain(lhs, macros))
+    try:
+        head = re.fullmatch(r"\s*([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)\s*\([^()]*\)\s*",
+                            latex_to_plain(lhs, macros))
+    except (ValueError, RecursionError):
+        return None
     integral = _TIME_INTEGRAL.match(rhs.strip())
     if not head or not integral:
         return None
     body = integral.group("body").strip()
-    plain = latex_to_plain(body, macros)
+    try:
+        plain = latex_to_plain(body, macros)
+    except (ValueError, RecursionError):
+        return None
     factors = _KELDYSH_FACTOR.findall(plain)
     if len(factors) < 2:
         return None
@@ -274,12 +145,55 @@ def _langreth(lhs: str, rhs: str, macros: dict) -> dict | None:
             "notation": notation, "source": {"claim": body}}
 
 
-def _last_sentence(text: str) -> str:
-    """The sentence that leads into a display: text after the last full stop,
-    paragraph break or previous display."""
-    cut = max(text.rfind(". "), text.rfind(".\n"), text.rfind("\n\n"), text.rfind("\\par"),
-              text.rfind("\\end{"))
-    return text[cut + 1:] if cut >= 0 else text
+_BARE_FACTOR = re.compile(r"(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)(?![A-Za-z0-9_(])")
+
+
+_LOCAL_PRODUCT = re.compile(
+    r"point-?wise|component-?wise|element-?wise|equal-time\s+product|local\s+product"
+    r"|not\s+a\s+(?:contour\s+)?convolution|does\s+not\s+apply", re.I)
+
+
+def _stated_product(head: str, context: str, document: str = "") -> list[str] | None:
+    """The order of a contour convolution as the text states it ("C = A*B",
+    "$C = A \ast B$", or "the convolution $C = AB$"). The shorthand
+    C^r = A^r B^r shows neither the order nor that the product is a
+    convolution; a product written with its arguments, C(t,t') =
+    A(t,t') B(t,t'), or called pointwise anywhere in the paper, is not one."""
+    text = document or context
+    if _LOCAL_PRODUCT.search(text) or re.search(
+            rf"(?<![A-Za-z0-9_\\]){re.escape(head)}\s*\([^()]*\)\s*=\s*[A-Z]\s*\([^()]*\)\s*[A-Z]\s*\(", text):
+        return None
+    for m in re.finditer(rf"(?<![A-Za-z0-9_\\]){re.escape(head)}\s*=\s*"
+                         r"((?:[A-Z]\s*(?:\*|\\ast|\\star|\\otimes|\\circ)?\s*){2,4})(?=\s*(?:\$|\\\)|,|\.|;|$))",
+                         context):
+        names = re.findall(r"[A-Z]", m.group(1))
+        marked = re.search(r"\*|\\ast|\\star|\\otimes|\\circ", m.group(1)) or \
+            re.search(r"convol", context[max(0, m.start() - 160):m.end() + 80], re.I)
+        if marked and len(set(names)) == len(names) >= 2:
+            return names
+    return None
+
+
+def _langreth_shorthand(lhs: str, rhs: str, macros: dict, context: str, document: str = "") -> dict | None:
+    """C^c = A^r B^< + ... without times: a Langreth rule in shorthand. Drafted
+    only when the text states the product (C = A*B) the rule is about."""
+    try:
+        head = re.fullmatch(r"\s*([A-Za-z][A-Za-z0-9]*?)__(r|a|lt|gt)\s*", latex_to_plain(lhs, macros))
+        plain = latex_to_plain(rhs, macros)
+    except (ValueError, RecursionError):
+        return None
+    if not head:
+        return None
+    factors = _BARE_FACTOR.findall(plain)
+    if len(factors) < 2 or re.sub(r"[\s*+\-()]", "", _BARE_FACTOR.sub("", plain)):
+        return None                       # anything besides components, products and signs
+    product = _stated_product(head.group(1), context, document)
+    if not product or {name for name, _ in factors} != set(product):
+        return None
+    notation = {f"{name}__{c}": f"{name}_{_COMPONENT[c]}" for name, c in factors}
+    return {"check": "langreth", "product": product, "component": _COMPONENT[head.group(2)],
+            "notation": notation, "source": {"claim": rhs}}
+
 
 
 def _statistics(step: dict, freq: str, index: str) -> str | None:
@@ -342,8 +256,12 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                      "variable": "z", "beta": "beta",
                      "notation": {f"i{freq}_{k}": "z", f"i {freq}_{k}": "z"}})
         card["source"] = {"summand": body, "claim": rhs}
-    elif latex and _langreth(lhs, rhs, macros) and re.search(r"langreth", step.get("context", ""), re.I):
-        card.update(_langreth(lhs, rhs, macros))      # the paper itself invokes Langreth's rules
+    elif latex and re.search(r"langreth", step.get("context", ""), re.I) and (
+            _langreth(lhs, rhs, macros) or _langreth_shorthand(lhs, rhs, macros, step.get("context", ""),
+                                                               step.get("document", ""))):
+        # the paper itself invokes Langreth's rules
+        card.update(_langreth(lhs, rhs, macros)
+                    or _langreth_shorthand(lhs, rhs, macros, step["context"], step.get("document", "")))
     elif series:
         card.update({"check": "series", "variable": series.group("index"),
                      "lower": int(series.group("lower"))})
@@ -355,6 +273,14 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                      "beta": "beta"})
         entry: Any = body if integral.group("v2") else {"quote": body, "wrap": "({})/(2*pi)"}
         card["source"] = {"integrand": entry, "claim": rhs}
+    elif latex and split_integral(lhs):
+        # int_a^b dx f = R: checked through a verified antiderivative (entire f only)
+        var = latex_to_plain(split_integral(lhs)["variable"], macros).strip()
+        name = re.sub(r"\s*'", "_prime", var)
+        card.update({"check": "definite_integral", "variable": name})
+        if name != var:
+            card["notation"] = {var: name}
+        card["source"] = {"integral": lhs, "claim": rhs}
     else:
         card["check"] = "identity"
         card["source"] = {"lhs": lhs, "rhs": rhs}
@@ -364,6 +290,14 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         if latex and _langreth(lhs, rhs, macros):
             card["hint"] = ("shaped like a Langreth rule; if the paper claims the exact rule, "
                             "set check: langreth (product, component, notation as for a drafted rule)")
+    if step.get("conditional"):
+        card["conditional"] = step["conditional"]
+    if step.get("equiv_relation"):
+        card["equiv_relation"] = True
+    if step.get("rhs_display"):           # the right side is quoted from another display
+        for key in ("rhs", "claim", "approximant"):
+            if isinstance(card["source"].get(key), str):
+                card["source"][key] = {"quote": card["source"][key], "display": step["rhs_display"]}
     for d in step.get("definitions", []):
         safe = d["name"].replace("+", "p").replace("-", "m")
         card["source"][f"define:TODO_{re.sub(r'[^A-Za-z0-9]', '_', safe)}()"] = d["quote"]
@@ -381,7 +315,84 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         card.setdefault("_before_paren", set()).update(_before_parenthesis(plain))
     if card.get("check") in ("matsubara", "fermi_integral"):
         names.add(str(card.get("beta", "beta")))     # the 1/beta prefix is not in the quote
+    if card.get("check") == "definite_integral":
+        names.add(card["variable"])
+        names -= {"int", "d"} | set(card.get("notation") or {})
     return card, names, todo
+
+
+def _same_scope(a: dict, b: dict, assigned: dict, sections: list[int], macros: dict, latex: bool) -> bool:
+    """No section starts between the two displays, and no name in either right
+    side is given a value in the text twice or anywhere between them."""
+    lo, hi = sorted((a.get("offset", 0), b.get("offset", 0)))
+    if any(lo < s < hi for s in sections):
+        return False
+    names: set[str] = set()
+    for side in (a["rhs"], b["rhs"]):
+        try:
+            t = _tokens(latex_to_plain(side, macros) if latex else side)
+        except (ValueError, RecursionError):
+            return False
+        names |= t[0] | t[1]
+    for name in names & set(assigned):
+        if len(assigned[name]) > 1 or any(lo < at < hi for at, _ in assigned[name]):
+            return False
+    return True
+
+
+def _consistency_steps(steps: list[dict], latex: bool, macros: dict, assigned: dict | None = None,
+                       sections: list[int] | None = None) -> list[dict]:
+    """Two displays that give the same left side (T(w) = A here, T(w) = C
+    later) imply A = C. Each such pair becomes a step; the paper did not state
+    A = C itself, so a mismatch is reported as a disagreement, not a verdict
+    (the displays may hold under different conditions). Pairs across a
+    section, or across a new value of a name they use, are skipped."""
+    assigned, sections = assigned or {}, sections or []
+    def norm(text):
+        try:
+            plain = latex_to_plain(text, macros) if latex else text
+        except (ValueError, RecursionError):
+            return None
+        return re.sub(r"\s+", "", plain)
+    heads: dict[str, list[dict]] = {}
+    for step in steps:
+        key = norm(step["lhs"])
+        # a named quantity, T or T(w); x = ... is often a reused variable
+        if key and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*(?:\([^()]*\))?", key) \
+                and not re.fullmatch(r"[A-Za-z]", key):
+            heads.setdefault(key, []).append(step)
+    out = []
+    for group in heads.values():
+        for a, b in zip(group, group[1:]):
+            if a.get("display") == b.get("display") or norm(a["rhs"]) == norm(b["rhs"]):
+                continue
+            if not _same_scope(a, b, assigned, sections, macros, latex):
+                continue                  # a name may mean something else by then
+            if not (a.get("plain_identity") and b.get("plain_identity")):
+                continue                  # two integrals or two rules: nothing checkable
+            out.append({**a, "id": f"{a['id']}.vs.{b['id']}", "lhs": a["rhs"], "rhs": b["rhs"],
+                        "rhs_display": b.get("display"), "consistency_of": a["lhs"],
+                        "displays": [a.get("display"), b.get("display")]})
+    return out
+
+
+def _redefined(values: dict[str, list[tuple[int, str]]]) -> dict[str, list[tuple[int, str]]]:
+    """Names given a value more than once: a pair of displays across them may
+    compare two different things."""
+    return {name: vals for name, vals in values.items() if len(vals) > 1}
+
+
+def _safe_card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dict, set, set]:
+    """_card_for, but LaTeX it cannot read (a typo, unbalanced braces) gives a
+    plain identity card whose quotes then fail to translate: the step is
+    reported as not decided instead of stopping the whole review."""
+    try:
+        return _card_for(step, doc_name, latex, macros)
+    except (ValueError, RecursionError):
+        card = {"label": step["id"], "include": "conventions.yaml", "source_document": doc_name,
+                **({"display": step["display"]} if step.get("display") else {}),
+                "check": "identity", "source": {"lhs": step["lhs"], "rhs": step["rhs"]}}
+        return card, set(), {"(unbalanced LaTeX in a quote)"}
 
 
 def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] | None:
@@ -389,11 +400,35 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     claim: it goes to conventions.yaml as quoted define: entries (both
     branches when the name carries a +- subscript)."""
     plain = latex_to_plain(step["lhs"], macros) if latex else step["lhs"]
+    if step.get("equiv"):                 # "X \\equiv ..." in a display names X
+        if step.get("equiv_relation") or step.get("conditional"):
+            return None
+        bare = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain)
+        if bare and bare.group(1) not in _KNOWN:
+            anchor = {"display": step["display"]} if step.get("display") else {}
+            name = bare.group(1)
+            if "PM" in name or name.endswith("_pm"):          # z_\pm \equiv e \pm i G: both branches
+                base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
+                return [(f"define:{base}p()", {"quote": step["rhs"], "branch": "+", **anchor}),
+                        (f"define:{base}m()", {"quote": step["rhs"], "branch": "-", **anchor})]
+            return [(f"define:{name}()", {"quote": step["rhs"], **anchor} if anchor else step["rhs"])]
+        return None
     m = _DEFINITION_LHS.match(plain)
     if not m or _O_TERM.search(step["rhs"]) or _ONLY_O.match(step["rhs"]):
         return None                     # f(x) = ... + O(x^n) is an expansion, not a definition
     if m.group(1) in _KNOWN | {"n_F", "n_B"}:
         return None                     # n_F, exp, ... are already defined
+    try:
+        body = latex_to_plain(step["rhs"], macros) if latex else step["rhs"]
+    except (ValueError, RecursionError):
+        return None
+    if re.search(rf"(?<![A-Za-z0-9_]){re.escape(m.group(1))}(?![A-Za-z0-9_])", body):
+        return None                     # G = g + g Sigma G is an equation for G, not a definition
+    if latex and re.search(r"langreth", step.get("context", ""), re.I) and (
+            _langreth(step["lhs"], step["rhs"], macros)
+            or _langreth_shorthand(step["lhs"], step["rhs"], macros, step.get("context", ""),
+                                   step.get("document", ""))):
+        return None                     # a Langreth rule the paper states: a claim to check
     name, args = m.group(1), ",".join(a.strip() for a in m.group(2).split(","))
     anchor = {"display": step["display"]} if step.get("display") else {}
     if "PM" in name or name.endswith("_pm"):
@@ -403,144 +438,21 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     return [(f"define:{name}({args})", {"quote": step["rhs"], **anchor} if anchor else step["rhs"])]
 
 
-_GREEK_NAMES = "alpha beta gamma delta epsilon varepsilon zeta eta theta kappa lambda mu nu xi rho sigma tau phi chi psi omega Gamma Delta Theta Lambda Xi Sigma Phi Psi Omega".split()
-
-
-def _names_in(fragment: str) -> set[str]:
-    """Symbol names in a short piece of LaTeX ($x, y$ or \\epsilon)."""
-    out = set(re.findall(r"\\([A-Za-z]+)", fragment)) & set(_GREEK_NAMES)
-    out |= set(re.findall(r"(?<![\\A-Za-z])([A-Za-z])(?![A-Za-z])", re.sub(r"\\[A-Za-z]+", " ", fragment)))
-    return {"epsilon" if n == "varepsilon" else n for n in out}
-
-
-def _stated_realness(raw: str) -> tuple[dict[str, str], set[str]]:
-    """Names the text calls real ('real $a$', '$x,y$ real', 'x \\in \\mathbb{R}')
-    and names it calls complex ('complex $z$', 'z = x + iy', '\\in \\mathbb{C}')."""
-    real: dict[str, str] = {}
-    complex_: set[str] = set()
-    line = lambda pos: f"line {raw.count(chr(10), 0, pos) + 1}"
-    stated_real = re.compile(
-        r"real(?:-valued)?\s+(?:[A-Za-z-]+\s+){0,3}\$([^$]{1,40})\$"          # real energies $\epsilon$
-        r"|\$([^$]{1,40})\$\s*(?:(?:is|are)\s+(?:a\s+|all\s+)?)?real(?:-valued)?\b")   # $x,y$ (are) real
-    for m in stated_real.finditer(raw):
-        for n in _names_in(m.group(1) or m.group(2)):
-            real.setdefault(n, f"{line(m.start())}: {m.group(0)[:40]}")
-    for m in re.finditer(r"([^$\s]{1,30})\s*\\in\s*\\mathbb\s*\{?\s*R\s*\}?", raw):
-        for n in _names_in(m.group(1)):
-            real.setdefault(n, f"{line(m.start())}: {m.group(0)[:40]}")
-    for m in re.finditer(r"complex\s+(?:[A-Za-z ]{0,30})?\$([^$]{1,40})\$|([^$\s]{1,30})\s*\\in\s*\\mathbb\{C\}", raw):
-        complex_ |= _names_in(m.group(1) or m.group(2))
-    for m in re.finditer(r"\$\s*(\\?[A-Za-z]+)\s*=\s*[A-Za-z]\s*\+\s*(?:\\mathrm\{i\}|i|\\ii)\s*[A-Za-z]\s*\$", raw):
-        complex_ |= _names_in(m.group(1))
-    return real, complex_
-
-
-def _realness_sensitive(steps, shared_quotes, macros, latex) -> set[str]:
-    """Names inside a quote that uses Re, Im, a conjugate or |...|: there the
-    verdict can depend on whether the symbol is real."""
-    bound = {v for st in steps for v in st.get("bound", ())}     # integration / summation variables
-    quotes = [q for st in steps for q in (st["lhs"], st["rhs"])]
-    quotes += [v.get("quote") if isinstance(v, dict) else v for v in shared_quotes.values()]
-    out: set[str] = set()
-    for q in quotes:
-        if re.search(r"\\(?:mathrm|operatorname|rm)\s*\{?\s*(?:Re|Im)|\\(?:Re|Im)\b|\^\s*\{?\s*\*|\\bar\b|\\overline|\\ast|\|", str(q)):
-            try:
-                plain = latex_to_plain(str(q), macros) if latex else str(q)
-            except (ValueError, RecursionError):
-                continue
-            out |= _tokens(plain)[0]
-    return out - bound
-
-
-def _symbol_entry(name, positive, real_stated, complex_stated, realness_matters) -> dict:
-    """Real only when the text says so (or says positive), or when realness
-    cannot change a verdict; stated complex is always complex."""
-    if name in positive:
-        return {"name": name, "positive": True, "stated": positive[name]}
-    if name in complex_stated:
-        return {"name": name, "real": False, "stated": "complex in the text"}
-    if name in real_stated:
-        return {"name": name, "real": True, "stated": real_stated[name]}
-    if name in realness_matters:
-        # read as real, but a card that takes Re/Im/conj/|.| of it is not decided
-        return {"name": name, "realness": "unstated",
-                "stated": "realness not stated; it appears under Re/Im/conjugate/|.|"}
-    return {"name": name}
-
-
-_INLINE_DEF = re.compile(
-    r"(?:\bwhere|\bwith|\blet|\bLet|\bdefine|\bdefining|\bhere)\s+(?:[A-Za-z ,]{0,20}?)\$([^$]{1,160})\$")
-
-
-def _inline_definitions(raw: str, macros: dict) -> list[tuple[str, Any, str]]:
-    """'where $z_\\pm = \\varepsilon_d \\pm i\\Gamma$', 'with $f(x) = ...$': definitions
-    stated in the running text, as quoted define: entries. Returns
-    (key, entry, name) triples; bare names get zero-argument definitions."""
-    out = []
-    body = raw.split("\\begin{document}", 1)[-1]
-    text = _ENV_RE.sub(" ", body)                       # prose only, displays removed
-    for m in _INLINE_DEF.finditer(text):
-        math = m.group(1)
-        sides = split_top_level(re.sub(r"\\equiv", "=", math))
-        if len(sides) != 2 or not sides[0].strip() or not sides[1].strip():
-            continue
-        lhs, rhs = sides[0].strip(), sides[1].strip()
-        if re.search(r"\\equiv", math):
-            lhs_raw, rhs_raw = math.split("\\equiv", 1)
-        else:
-            lhs_raw, rhs_raw = math.split("=", 1)
-        rhs_raw = rhs_raw.strip()
-        try:
-            plain = latex_to_plain(lhs, macros).strip()
-        except (ValueError, RecursionError):
-            continue
-        call = _DEFINITION_LHS.match(plain)
-        bare = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain)
-        if call and call.group(1) not in _KNOWN | {"n_F", "n_B"}:
-            name, args = call.group(1), ",".join(a.strip() for a in call.group(2).split(","))
-        elif bare and bare.group(1) not in _KNOWN and not re.fullmatch(r"[A-Za-z]", bare.group(1)):
-            name, args = bare.group(1), ""      # a single Latin letter (x, t, n) is a variable
-        else:
-            continue
-        # a condition ("where $x = 0$", "with $n = 1, 2$") is not a definition:
-        # the right side must name something and must not contain the name itself
-        try:
-            rhs_names = _tokens(latex_to_plain(rhs_raw, macros))[0] | _tokens(latex_to_plain(rhs_raw, macros))[1]
-        except (ValueError, RecursionError):
-            continue
-        base_name = name.replace("PM", "").removesuffix("_pm")
-        if not rhs_names or name in rhs_names or base_name in rhs_names or "," in rhs_raw or "\\dots" in rhs_raw:
-            continue
-        if "PM" in name or name.endswith("_pm"):
-            base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
-            out.append((f"define:{base}p({args})", {"quote": rhs_raw, "branch": "+"}, base + "p"))
-            out.append((f"define:{base}m({args})", {"quote": rhs_raw, "branch": "-"}, base + "m"))
-        else:
-            out.append((f"define:{name}({args})", rhs_raw, name))
-    return out
-
-
-def _positive_symbols(raw: str) -> dict[str, str]:
-    """Names stated positive in the text, e.g. $\\Gamma>0$ or beta > 0, with
-    where they are stated (so a reviewer can confirm the guess)."""
-    found: dict[str, str] = {}
-    for m in re.finditer(r"\\?([A-Za-z]+)\s*>\s*0(?![.\d])", raw):
-        found.setdefault(m.group(1), f"line {raw.count(chr(10), 0, m.start()) + 1}: {m.group(0)}")
-    return found
-
-
 def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
     doc = Path(document)
     raw = doc.read_text(encoding="utf-8")
     latex = doc.suffix == ".tex"
     steps = steps_from_latex(raw) if latex else steps_from_sheet(raw)
     macros = read_macros(raw) if latex else {}
+    prose = _dollar_math(raw)             # \( x \) is inline math too
+    assigned = prose_assignments(raw, macros) if latex else {}
+    values = prose_values(raw, macros) if latex else {}      # conditions such as $p = 0$ too
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     rel = Path(os.path.relpath(doc.resolve(), out.resolve()))
     if rel.parts[:4] == ("..",) * 4:                     # far apart: keep it absolute
         rel = doc.resolve()
-    positive = _positive_symbols(raw)
+    positive = _positive_symbols(prose)
     for step in steps:
         step["positive_names"] = set(positive)
     all_names, all_todo, written, shared_quotes = set(), set(), [], {}
@@ -560,34 +472,80 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             bodies.setdefault(key.split(":", 1)[1].split("(")[0], set()).add(" ".join(step["rhs"].split()))
     contested = {name for name, rhs in bodies.items() if len(rhs) > 1}
     drafted_definitions: list[dict] = []
+    constants: dict[str, bool] = {}
+    pending: list[tuple[Path, dict, set]] = []
+    drafted_steps: list[dict] = []
+    def squash(text):
+        return " ".join(str(text).split())
+
+    # values the displays give bare names (X = ..., X \equiv ...), for scopes and contests
+    display_values: dict[str, list[tuple[int, str]]] = {}
+    bound_names: set[str] = set()
+    for step in steps:
+        try:
+            plain_lhs = latex_to_plain(step["lhs"], macros).strip() if latex else step["lhs"].strip()
+        except (ValueError, RecursionError):
+            continue
+        bare_lhs = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain_lhs)
+        if bare_lhs:
+            display_values.setdefault(bare_lhs.group(1), []).append((step.get("offset", 0), step["rhs"]))
+        integral = split_integral(step["lhs"]) if latex else None
+        if integral:
+            try:
+                bound_names.add(latex_to_plain(integral["variable"], macros).strip())
+            except (ValueError, RecursionError):
+                pass
+
+    def given_otherwise(name, rhs):
+        # the text gives the name another value somewhere (Gamma = G_L + G_R + G_phi later)
+        return any(squash(other) != squash(rhs) for _, other in assigned.get(name, []))
+
     for step in steps:
         definition = definition_of(step)
         if definition and definition[0][0].split(":", 1)[1].split("(")[0] in contested:
             definition = None
+        if definition and step.get("equiv"):
+            name = definition[0][0].split(":", 1)[1][:-2]
+            others = [v for _, v in display_values.get(name, [])]
+            if given_otherwise(name, step["rhs"]) or name in bound_names \
+                    or any(squash(v) != squash(step["rhs"]) for v in others):
+                definition = None         # another value elsewhere, or an integration variable
         if definition:
             drafted_definitions.append({"step": step["id"], "defines": [k.split(":", 1)[1] for k, _ in definition],
                                         "display": step.get("display")})
             shared_quotes.update(definition)
+            for key, _ in definition:
+                if key.endswith("()"):                    # a named constant: Gamma -> Gamma()
+                    constants[key.split(":", 1)[1][:-2]] = True
             params = set(definition[0][0].split("(", 1)[1].rstrip(")").split(","))
-            plain_rhs = latex_to_plain(step["rhs"], macros) if latex else step["rhs"]
+            try:
+                plain_rhs = latex_to_plain(step["rhs"], macros) if latex else step["rhs"]
+            except (ValueError, RecursionError):
+                plain_rhs = ""
             n, _ = _tokens(plain_rhs)
             all_names |= n - params
             before_paren |= _before_parenthesis(plain_rhs)
             continue
-        card, names, todo = _card_for(step, str(rel), latex, macros)
+        drafted_steps.append(step)
+        card, names, todo = _safe_card_for(step, str(rel), latex, macros)
+        step["plain_identity"] = card.get("check") == "identity"
         step["bound"] = {str(card[k]) for k in ("variable",) if card.get(k)}
         before_paren |= card.pop("_before_paren", set())
         all_names |= names
         all_todo |= todo
         path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', step['id'])}.yaml"
-        header = "# Draft from " + doc.name + ". Quotes are verbatim; do not edit them.\n"
-        todo = todo - {"n_F", "n_B", "im_of", "re_of", "sum_pm"} - {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
-        todo = {t for t in todo if not t.startswith(("sum_", "iomega_", "inu_"))}
-        if todo:
-            header += "# Needs notation or definitions for: " + ", ".join(sorted(todo)) + "\n"
-        path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
-                        encoding="utf-8")
-        written.append(str(path))
+        pending.append((path, card, todo - set(card.get("notation") or {})))
+    body = raw.split("\\begin{document}", 1)[-1]
+    sections = [m.start() for m in re.finditer(r"\\(?:sub)*section\*?\s*\{|\\appendix\b", body)]
+    scoped = {n: values.get(n, []) + display_values.get(n, []) for n in set(values) | set(display_values)}
+    for cstep in _consistency_steps(drafted_steps, latex, macros, _redefined(scoped), sections):
+        card, names, todo = _safe_card_for(cstep, str(rel), latex, macros)
+        card["consistency"] = {"of": cstep["consistency_of"], "displays": cstep["displays"]}
+        card.pop("_before_paren", None)
+        all_names |= names
+        all_todo |= todo
+        path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', cstep['id'])}.yaml"
+        pending.append((path, card, todo - set(card.get("notation") or {})))
     # subscripted names (epsilon_d, Gamma_L) are symbols unless the paper gives
     # them a value (a display "X = ...") or they look like a combination of two
     # other names (e_nm next to e_n and e_m): those stay for the reviewer
@@ -616,11 +574,14 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             all_todo.discard(name)
             all_names.add(name)
     # definitions stated in the running text ("where $z_\\pm = ...$")
-    inline_notation: dict[str, str] = {}
+    inline_notation: dict[str, str] = {name: f"{name}()" for name in constants}
+    all_names -= set(constants)
     if latex:
-        for key, entry, name in _inline_definitions(raw, macros):
+        for key, entry, name in _inline_definitions(prose, macros):
             if key in shared_quotes or any(k.split(":", 1)[1].split("(")[0] == name for k in shared_quotes):
                 continue
+            if len({squash(rhs) for _, rhs in assigned.get(name, [])}) > 1:
+                continue                   # given two different values in the text
             shared_quotes[key] = entry
             if key.endswith("()"):                     # a named constant: z_p -> z_p()
                 inline_notation[name] = f"{name}()"
@@ -632,17 +593,39 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
                 pass
     # a drafted definition whose name is also used as a plain symbol (papers
     # reuse letters) would turn every such use into a function: keep it inactive
+    all_names -= set(constants)          # quotes may mention a constant again
+    quotes = [q.get("quote") if isinstance(q, dict) else q
+              for _, card, _ in pending for q in (card.get("source") or {}).values()]
+    quotes += [q.get("quote") if isinstance(q, dict) else q for q in shared_quotes.values()]
+    # a name the text calls positive or real as a bare symbol is a number there
+    bare = _bare_uses(quotes, macros, latex) | set(_positive_symbols(prose)) | _stated_numbers(prose)
+    # a named constant (Gamma -> Gamma()) is used bare on purpose and never clashes
     clashing = {k: v for k, v in shared_quotes.items()
-                if k.split(":", 1)[1].split("(")[0] in all_names}
+                if not k.endswith("()") and k.split(":", 1)[1].split("(")[0] in bare}
     shared_quotes = {k: v for k, v in shared_quotes.items() if k not in clashing}
+    all_names -= {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}   # defined, not free
     conventions = out / "conventions.yaml"
     defined = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
     all_todo -= defined | {"n_F", "n_B", "im_of", "re_of", "sum_pm"}
     all_todo = {t for t in all_todo if not t.startswith(("sum_", "iomega_", "inu_"))}
+    for path, card, todo in pending:       # written now, so the hint lists only what is still open
+        header = "# Draft from " + doc.name + ". Quotes are verbatim; do not edit them.\n"
+        todo = todo & all_todo
+        if todo:
+            header += "# Needs notation or definitions for: " + ", ".join(sorted(todo)) + "\n"
+        path.write_text(header + yaml.safe_dump(card, sort_keys=False, allow_unicode=True),
+                        encoding="utf-8")
+        written.append(str(path))
     all_names -= {"d", "int"}
-    positive = _positive_symbols(raw)
-    real_stated, complex_stated = _stated_realness(raw)
+    positive = _positive_symbols(prose)
+    real_stated, complex_stated = _stated_realness(prose)
+    numbers = _stated_numbers(prose)
     realness_matters = _realness_sensitive(steps, shared_quotes, macros, latex)
+    def _stated_number(name):
+        # the text calls it real or positive, uses it bare as a symbol and never
+        # writes "name(...) = ...": a number, so name(x) is a product
+        return (name in numbers or name in positive) and name in all_names \
+            and name not in valued_functions
     if not conventions.exists():
         defined_names = {k.split(":", 1)[1].split("(")[0] for k in shared_quotes}
         clash_names = {k.split(":", 1)[1].split("(")[0] for k in clashing}
@@ -659,7 +642,27 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             # a Greek letter is taken as a product only if the paper also uses it as a
             # plain symbol; sigma(omega) alone is more likely a function
             "multiply": [n for n in ambiguous if n in _CONSTANTS
-                         and n not in defined_names and n not in clash_names]}
+                         and n not in defined_names and n not in clash_names],
+            # names the text calls real or positive as bare symbols: where a card also
+            # uses one bare, it cannot be a function there
+            "stated_numbers": sorted(n for n in ambiguous if _stated_number(n))}
+        noncommuting = stated_noncommuting(prose)
+        if noncommuting:
+            # products of matrices do not commute: scalar checks would be wrong
+            data["noncommuting"] = noncommuting
+        # names the running text gives a value without a definition being used
+        # (x = w/Delta, or two values): free symbols for VALID, never refuted
+        data["valued_in_text"] = sorted((set(assigned) | set(values)) - defined_names - _KNOWN)
+        # numbers the text sets a name to ($a = 0$): a VALID that is singular there is withheld
+        numeric = {n: sorted({v for _, v in vals if re.fullmatch(r"-?\s*\d+(?:\.\d+)?", v)})
+                   for n, vals in values.items() if n not in defined_names}
+        data["stated_values"] = {n: v for n, v in sorted(numeric.items()) if v}
+        # names the text calls integers ('integer $n$', 'n \\in \\mathbb{Z}')
+        data["integers"] = sorted(_stated_integers(prose) | _matsubara_names(prose))
+        # the rest is checked both ways (function and product); a verdict
+        # stands only if the readings agree
+        data["either"] = [n for n in ambiguous if n not in data["multiply"]
+                          and n not in {"im_of", "re_of", "sum_pm"} | _KNOWN]
         if shared_quotes:
             data["source_document"] = str(rel)
             data["source"] = shared_quotes
@@ -668,11 +671,11 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         footer = "".join(f"#   {t}\n" for t in sorted(all_todo))
         if footer:
             footer = "# Tokens to map in notation (paper token -> card syntax) or define:\n" + footer
-        undecided = [n for n in ambiguous if n not in data["multiply"]]
-        if undecided:
-            footer += ("# Written right before '(': product or function value? Add a name to\n"
-                       "# multiply: if it multiplies, or define it as a function:\n")
-            footer += "".join(f"#   {n}\n" for n in undecided)
+        if data["either"]:
+            footer += ("# either: names written right before '(' with no word on whether they\n"
+                       "# multiply or are functions. Each card is checked both ways and decided\n"
+                       "# only if the two readings agree. Move a name to multiply: or functions:\n"
+                       "# (or define it) once you know which it is.\n")
         if clashing:
             footer += ("# Definitions found but not activated: the name is also used as a plain\n"
                        "# symbol elsewhere. Move one under source: if it applies to every card.\n")

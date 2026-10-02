@@ -251,6 +251,48 @@ def md_step_cards(records: Sequence[AuditRecord], rows: Sequence[tuple[str, str,
 
 # Why a step was not decided, in words a reviewer can act on. First match wins.
 _REASONS = (
+    ("DISPLAYS_DISAGREE", "Two displays give the same quantity different values",
+     "The paper writes the quantity twice and the two right-hand sides differ. Unless the "
+     "displays hold under different conditions (a limit, a special case), one of them is wrong."),
+    ("FUNCTION_OR_PRODUCT", "The verdict depends on whether a name before “(” is a function or a product",
+     "The card was checked both ways and the readings disagree. List the name under multiply: or "
+     "functions: in conventions.yaml once you know which the paper means."),
+    ("INTEGRAND_NOT_ENTIRE", "An integral with limits whose integrand may have a singularity",
+     "Only integrands built from polynomials, exp, sin and cos are checked; this one stays with the reviewer."),
+    ("ANTIDERIVATIVE_", "No verified antiderivative for an integral with limits",
+     "The integral may still be right; it is outside what this check proves."),
+    ("INFINITE_LIMIT_DECAY_UNDECIDED", "An infinite limit whose convergence depends on unstated signs",
+     "State the damping symbol positive (e.g. $\\eta > 0$) and the frequencies real."),
+    ("INFINITE_LIMIT_TERM_NOT_DECAYING", "An infinite limit where the integrand does not decay",
+     "Check the convergence factor of the integral."),
+    ("INTEGRATION_VARIABLE_MISMATCH", "The integration variable does not match the card",
+     "Re-draft the card from the source."),
+    ("INTEGRAL_NOT_UNDERSTOOD", "An integral whose limits or measure could not be read",
+     "Integrals with both limits and one measure (dx before or after the integrand) are read."),
+    ("LANGRETH_ORDER_ONLY", "A Langreth rule that differs from the exact one only in the order of factors",
+     "Right if the functions commute (scalars of one frequency), wrong for matrices and time convolutions."),
+    ("PERIODIC_IN_AN_INDEX", "A refutation that may fail for an integer index",
+     "e^{2πin} = 1 for integer n: the counterexample used a generic value. Declare the index under "
+     "integers: if the paper does not say so."),
+    ("NONCOMMUTING_STATED", "The paper says its quantities are matrices or do not commute",
+     "The checks treat products as commuting. Remove noncommuting: from conventions.yaml only if "
+     "this step involves scalars alone."),
+    ("CONDITION_IN_DISPLAY", "The display holds a condition, a second relation or words next to this one",
+     "\\qquad Ωt = π, (μ = 0), \\text{at} …: the extra piece may restrict the claim, so it is not decided."),
+    ("EQUIV_RELATION", "A definition written with ≡ or :=", "It defines a quantity; it is not a claim to check."),
+    ("ONE_SIDED_SYMBOL", "A refutation of a relation in which some symbol appears on one side only",
+     "Such a relation may fix that symbol (a definition such as Γ = 2πρV², or a condition such as "
+     "e^{iqL} = 1) rather than claim an identity, so it is not reported as wrong."),
+    ("APPROXIMATE_NUMBER", "A refutation of a claim with a rounded decimal",
+     "0.7468 means ≈; compare the value numerically by hand."),
+    ("SINGULAR_AT_STATED_VALUE", "The claim is undefined at a value the text sets",
+     "The identity holds for generic values, but the text fixes a name ($a = 0$) where a "
+     "denominator vanishes. Check which value the step is about."),
+    ("VALUED_IN_TEXT", "A refutation that treats a name as free although the text gives it a value",
+     "The text sets this name ($x = …$) without a definition the tool could use. Quote it as a "
+     "definition in conventions.yaml if it holds for this step."),
+    ("SOURCE_PRODUCT_WITH_COMMA", "A name listed under multiply: is applied to several arguments",
+     "G(t, t') cannot be a product: move the name to functions: or define it."),
     ("SOURCE_APPLICATION_AMBIGUOUS", "A name before “(” could be a product or a function",
      "List the name under multiply: in conventions.yaml if it multiplies, or define it as a function."),
     ("SOURCE_BRACKETS_UNBALANCED", "Brackets do not pair up as printed",
@@ -258,7 +300,8 @@ _REASONS = (
     ("NOT_IN_DOCUMENT", "A quote is not in the manuscript",
      "Re-draft the card; quotes must be copied from the source."),
     ("SOURCE_CHARACTER_UNSUPPORTED", "Notation outside the supported forms",
-     "Integrals with limits, ⟨…⟩, derivatives, matrices and similar stay with the reviewer."),
+     "Indefinite integrals, sums over indices, ⟨…⟩, traces, derivatives, matrices and similar "
+     "stay with the reviewer."),
     ("SOURCE_FUNCTION_WITHOUT_ARGUMENTS", "A function name without its arguments",
      "Map the token in notation, or rename the definition."),
     ("RE_IM_WITHOUT_ARGUMENT", "Re or Im without an argument", "Check the quote boundaries."),
@@ -309,7 +352,7 @@ def html_undecided_groups(records: Sequence[AuditRecord], macros: dict | None = 
     parts = [f'<h3 class="undecided">Not decided by the tool ({len(records)} steps)</h3>',
              '<p class="meta">These steps are not claimed right or wrong. Each group says why and '
              'what would let the tool decide them.</p>']
-    for (title, hint), rows in sorted(groups.items(), key=lambda kv: -len(kv[1])):
+    for (title, hint), rows in sorted(groups.items(), key=lambda kv: (kv[0][0] != _REASONS[0][1], -len(kv[1]))):
         names: dict[str, int] = {}
         for r in rows:
             for w in r.warnings:
@@ -325,7 +368,8 @@ def html_undecided_groups(records: Sequence[AuditRecord], macros: dict | None = 
             claim = render_tex(quote, macros or {}, display=False, source=False) if quote else "—"
             body.append(f"<tr><td><code>{_esc(r.edge_id)}</code></td>"
                         f"<td>{_short_source(meta, r)}</td><td>{claim}</td></tr>")
-        parts.append(f'<details class="group"><summary><b>{_esc(title)}</b> — {len(rows)}</summary>'
+        flagged = " open" if title == _REASONS[0][1] else ""      # disagreements are shown open
+        parts.append(f'<details class="group"{flagged}><summary><b>{_esc(title)}</b> — {len(rows)}</summary>'
                      f'<p class="meta">{_esc(hint)}</p><div class="scroll"><table><thead><tr>'
                      '<th>Step</th><th>Source</th><th>Claim as quoted</th></tr></thead><tbody>'
                      + "".join(body) + "</tbody></table></div></details>")

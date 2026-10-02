@@ -1,0 +1,157 @@
+{
+ "c1_matrix.tex": {},
+ "c2_T.tex": {
+  "eq:t1.vs.eq:t2": "VALID"
+ },
+ "c3_test.tex": {
+  "t1.vs.t2": "VALID"
+ },
+ "c4_GR.tex": {
+  "eq:gr.vs.eq:gr2": "VALID"
+ },
+ "c5_Gz.tex": {},
+ "cx_ambiguous_mixed_comma.tex": {},
+ "cx_conditional_at.tex": {},
+ "cx_conditional_first_relation.tex": {},
+ "cx_consistency_scoped_x.tex": {},
+ "cx_crash_binary_ambiguous.tex": {},
+ "cx_definite_complex_frequency.tex": {},
+ "cx_definite_zero_rate.tex": {
+  "zero-rate": "VALID"
+ },
+ "cx_langreth_componentwise.tex": {},
+ "d1_fourier.tex": {},
+ "d2_matsubara.tex": {},
+ "d2b_matsubara.tex": {},
+ "d2c_matsubara.tex": {},
+ "d3_bosonic.tex": {},
+ "e1_theta.tex": {},
+ "e2_fermi.tex": {},
+ "e3_delta.tex": {},
+ "l1_pointwise.tex": {},
+ "l2_freq.tex": {},
+ "l3_comm.tex": {},
+ "r10_cl_c01_x_equiv.tex": {
+  "eq:fermi": "VALID"
+ },
+ "r10_cl_c02_x_consistency.tex": {},
+ "r10_cl_c02b_x_display_eq.tex": {},
+ "r10_cl_c03_pointwise_tau.tex": {},
+ "r10_cl_c04_rho_positive.tex": {},
+ "r10_cl_c04b_rho_positive.tex": {},
+ "r10_cl_c05_bosonic_Omega.tex": {},
+ "r10_cl_c06_pbc.tex": {},
+ "r10_cl_c06b_pbc.tex": {},
+ "r10_cl_c07_sinpq_N.tex": {},
+ "r10_cl_c08_period.tex": {},
+ "r10_cl_c08b_period.tex": {},
+ "r10_cl_c09_scope.tex": {},
+ "r10_cl_c10_hbar_equiv.tex": {},
+ "r10_cl_c11_psi_wave.tex": {},
+ "r10_cl_c12_lattice.tex": {},
+ "r10_cl_c12b_lattice.tex": {},
+ "r10_cl_c13_redefine_display.tex": {},
+ "r10_cl_c14_resonance.tex": {},
+ "r10_cl_c15_eps_even.tex": {},
+ "r10_cl_c16_omega_nu.tex": {},
+ "r10_cl_c17_tuple.tex": {},
+ "r10_cl_c19_x_sep.tex": {
+  "eq:occ": "VALID"
+ },
+ "r10_cl_c20_bubble_rev.tex": {},
+ "r10_cl_c23_gamma_const_func.tex": {},
+ "r10_cl_c24_tau_lifetime.tex": {},
+ "r10_cl_c24b_tau_lifetime.tex": {},
+ "r10_cl_c25_xi.tex": {},
+ "r10_cl_c26_mod.tex": {},
+ "r10_cl_c26b_mod.tex": {},
+ "r10_cl_c27_selfref.tex": {},
+ "r10_cl_c27b_selfref.tex": {},
+ "r10_cl_c28_renew.tex": {},
+ "r10_cl_c29_x_chain.tex": {},
+ "r10_cl_c30_nambu.tex": {},
+ "r10_cl_c30b_nambu.tex": {},
+ "r10_cl_c31_langreth_far.tex": {},
+ "r10_cl_c32_T_transmission.tex": {
+  "eq:ph": "VALID"
+ },
+ "r10_cl_c32b_T_transmission.tex": {
+  "eq:ph": "VALID"
+ },
+ "r10_cl_c34_coloneq_prose.tex": {},
+ "r10_cl_c35_coloneq.tex": {
+  "eq:nb": "VALID"
+ },
+ "r10_cl_c36_G0sup.tex": {
+  "eq:res": "VALID"
+ },
+ "r10_cl_c37_theta_global.tex": {},
+ "r10_cl_c38_phi_josephson.tex": {},
+ "r10_cl_c38b_phi_josephson.tex": {},
+ "r10_cl_c39_realpart.tex": {},
+ "r10_cl_c40_realaxis.tex": {},
+ "r10_cl_c41_text_and.tex": {},
+ "r10_cl_c41_text_at.tex": {},
+ "r10_cl_c41_text_for.tex": {},
+ "r10_cl_c41_text_if.tex": {},
+ "r10_cl_c41_text_when.tex": {},
+ "r10_cl_c41_text_where.tex": {},
+ "r10_cl_c41_text_with.tex": {},
+ "r10_cl_c42_nocomma.tex": {},
+ "r10_cl_c43_two_defs.tex": {},
+ "r10_cl_c44_two_rel.tex": {},
+ "r10_cl_c45_two_rates.tex": {},
+ "r10_cl_c46_row_condition.tex": {},
+ "r10_cl_c47_pm_equiv.tex": {},
+ "r10_cl_c48_pm_eq.tex": {},
+ "r10_cl_c49_zpm_split.tex": {
+  "eq:zz": "VALID"
+ },
+ "r10_cl_c50_decimal.tex": {},
+ "r10_cl_c51_inv_tau.tex": {},
+ "r10_cl_k_crash.tex": {
+  "k10": "VALID",
+  "k11": "VALID",
+  "k13": "VALID"
+ },
+ "r10_cl_r9_at.tex": {},
+ "r10_cl_t0.tex": {
+  "eq1": "VALID"
+ },
+ "r10_cx_condition_after_qquad.tex": {},
+ "r10_cx_definite_at_singular_parameter.tex": {},
+ "r10_cx_lambda_keyword_internal_error.tex": {
+  "lambda-one.vs.lambda-two": "VALID"
+ },
+ "r10_cx_local_not_convolution_langreth.tex": {},
+ "r10_cx_numeric_scoped_redefinition.tex": {},
+ "r10_cx_off_real_axis_integral.tex": {},
+ "r10_cx_real_valued_function_product.tex": {},
+ "r10_cx_scoped_equiv_prose.tex": {},
+ "r10_cx_single_letter_function_internal_error.tex": {
+  "single-one.vs.single-two": "VALID"
+ },
+ "s1_pipulse.tex": {},
+ "s2_mu0.tex": {},
+ "s3_at.tex": {},
+ "s4_muplain.tex": {},
+ "s5_mats_equiv.tex": {},
+ "s6_ka.tex": {},
+ "s7_continue.tex": {},
+ "s8_redefine.tex": {},
+ "ti.tex": {
+  "eq:adiabatic": "VALID",
+  "eq:damped": "VALID",
+  "eq:drive": "VALID",
+  "eq:moment": "INVALID",
+  "eq:phase": "VALID",
+  "eq:switch": "VALID"
+ },
+ "x1_unbal.tex": {},
+ "x2_misc.tex": {
+  "eq:pp": "VALID"
+ },
+ "x3_substack.tex": {},
+ "x4_substack2.tex": {},
+ "x5_substack_cons.tex": {}
+}

@@ -207,8 +207,11 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         "positive": [{"name": s["name"], "stated": s.get("stated", "not stated in the text")}
                      for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],
         "multiply": list(conv.get("multiply") or []),
+        # names checked both as functions and as products (a verdict needs both to agree)
+        "function_or_product": list(conv.get("either") or []),
         "notation": dict(conv.get("notation") or {}),
     }
+    disagree = [s["step"] for s in steps if "DISPLAYS_DISAGREE" in (s.get("why_not_decided") or [])]
     verify_meaning = {0: "audit ran; no step is INVALID", 2: "audit ran; some steps are INVALID (NONZERO)"}
     return {
         "document": str(document), "workspace": str(out), "html": str(html) if html.exists() else None,
@@ -217,6 +220,9 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         # relations taken as definitions (not checked; they define names other steps use)
         "definitions": (drafted or {}).get("definitions_drafted", []),
         "counts": {k: sum(1 for s in steps if s["decision"] == k) for k in ("VALID", "INVALID", "NOT_DECIDED")},
+        # pairs of displays that give one quantity two different values (not a verdict:
+        # the displays may hold under different conditions); check these first
+        "displays_disagree": disagree,
         "how_to_read": ("Report each step's `decision` (VALID / INVALID / NOT_DECIDED); `status` is "
                         "the audit record behind it. Send `html` to a colleague: it is the "
                         "self-contained reviewer page of the replayable package."),

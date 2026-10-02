@@ -56,7 +56,7 @@ _UNICODE = {
 _TOKEN = re.compile(r"\s*(?:(\d+(?:\.\d+)?)|([A-Za-z_][A-Za-z0-9_]*)|(\*\*|.))")
 _LEADING_NUMBER = re.compile(r"(?<![A-Za-z0-9_.])(\d+(?:\.\d+)?)(?=[A-Za-z_(])")
 _EXPRESSION_FIELDS = ("lhs", "rhs", "claim", "expr", "integrand", "function",
-                      "approximant", "summand")
+                      "approximant", "summand", "lower_limit", "upper_limit")
 
 
 def _squash(text: str) -> str:
@@ -101,9 +101,13 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
         text = pattern.sub(lambda m: f" ({notation[m.group(0)]}) "
                            if not re.fullmatch(r"[A-Za-z_]\w*", notation[m.group(0)])
                            else f" {notation[m.group(0)]} ", text)
+    calls = set(callables)
+    bracketed = re.search(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\s*\[", text)
+    if bracketed and bracketed.group(1) in calls:
+        # f[x, y] is a divided difference or a functional, not the value f(x, y)
+        raise AdapterError("SOURCE_BRACKET_AFTER_FUNCTION")
     text = text.replace("[", "(").replace("]", ")").replace("{", "(").replace("}", ")")
     text = text.replace("^", "**")
-    calls = set(callables)
     out: list[str] = []
     prev = None                       # kind of previous token: num, name, call, close, op
     pos = 0
@@ -116,6 +120,8 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
         if num is not None:
             kind, tok = "num", num
         elif name is not None:
+            if name == "lambda":                  # a Python keyword: SymPy's own spelling
+                name = "lamda"
             if name == "i" and not keep_i:
                 name = "I"
             elif (not keep_i and name.startswith("i") and name not in known
@@ -126,20 +132,39 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
             if op.isspace():
                 continue
             if op not in "+-*/(),**" and op != "**":
-                raise AdapterError("SOURCE_CHARACTER_UNSUPPORTED")
+                raise AdapterError(f"SOURCE_CHARACTER_UNSUPPORTED:{op}")
             kind, tok = ("open" if op == "(" else "close" if op == ")" else "op"), op
         if prev == "name" and kind == "open" and multiply is not None \
                 and out[-1] not in _ALWAYS_MULTIPLY and not out[-1].startswith("(I*") \
                 and out[-1] not in multiply:
             # beta(x) is a product, G(x) a function value: the source cannot tell
             raise AdapterError(f"SOURCE_APPLICATION_AMBIGUOUS:{out[-1]}")
+        if prev == "name" and kind == "open" and multiply and out[-1] in multiply \
+                and _top_level_comma(text, pos):
+            # G(t, t') cannot be a product: this reading of G is impossible
+            raise AdapterError(f"SOURCE_PRODUCT_WITH_COMMA:{out[-1]}")
         if prev in ("num", "name", "close") and kind in ("num", "name", "call", "open"):
             out.append("*")
         elif prev == "call" and kind != "open":
-            raise AdapterError("SOURCE_FUNCTION_WITHOUT_ARGUMENTS")
+            raise AdapterError(f"SOURCE_FUNCTION_WITHOUT_ARGUMENTS:{out[-1]}")
         out.append(tok)
         prev = kind
     return "".join(out)
+
+
+def _top_level_comma(text: str, pos: int) -> bool:
+    """Whether the bracket group opened just before ``pos`` holds a comma."""
+    depth = 1
+    for ch in text[pos:]:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                return False
+        elif ch == "," and depth == 1:
+            return True
+    return False
 
 
 _BRANCH = {"+": {"pm": "+", "mp": "-", "±": "+", "∓": "-", "PM": "p", "MP": "m"},
@@ -341,6 +366,28 @@ def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
     return quote, wrap.replace("{}", expression)
 
 
+_INTEGRAL_FIELDS = ("integrand", "lower_limit", "upper_limit")
+
+
+def integral_fields(entry: Any, ctx: SourceContext, variable: str | None) -> dict[str, str]:
+    """A quoted '\\int_a^b dx f' -> integrand, lower, upper in card syntax.
+    The integration variable, after the card's notation, must be the card's
+    ``variable``."""
+    from .latex import split_integral
+    quote, wrap, branch = _quote(entry)
+    if wrap != "{}" or branch is not None:
+        raise AdapterError("INTEGRAL_QUOTE_TAKES_NO_WRAP_OR_BRANCH")
+    parts = split_integral(erratum_of(entry) or quote)
+    if parts is None:
+        raise AdapterError("INTEGRAL_NOT_UNDERSTOOD")
+    pieces = {k: quote_expression(parts[v], ctx)[1]
+              for k, v in (("integrand", "body"), ("lower_limit", "lower"), ("upper_limit", "upper"))}
+    var = quote_expression(parts["variable"], ctx)[1].strip("() ")
+    if not variable or var != str(variable):
+        raise AdapterError("INTEGRATION_VARIABLE_MISMATCH")
+    return pieces
+
+
 def in_document(quote: str, ctx: SourceContext, display: str | None = None) -> bool:
     """Verbatim up to whitespace and layout (&, row breaks, \\nonumber, \\label).
     With a display anchor (a \\label, or #n for the n-th display) the quote must
@@ -388,7 +435,7 @@ def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
 
 
 def display_text(raw: str, display: str) -> str | None:
-    from .draft import latex_equations
+    from .relations import latex_equations
     if display.startswith("#"):
         try:
             k = int(display[1:])
@@ -423,6 +470,10 @@ def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,
                 if any(k.split("(")[0].strip() == name for k in definitions):
                     continue
                 new_defs[target] = quote_expression(entry, ctx)[1]
+            elif key == "integral":
+                if any(k in card for k in _INTEGRAL_FIELDS):
+                    continue           # hand-written pieces are not checked against the quote
+                card.update(integral_fields(entry, ctx, card.get("variable")))
             elif key in _EXPRESSION_FIELDS and key not in card:
                 card[key] = quote_expression(entry, ctx)[1]
             else:
@@ -454,7 +505,7 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
     filled = set(filled)
     used_defs = _used_definition_names(card, definitions)
     funcs = [*functions, "nF", "nB"]
-    space = CalculusSpace(symbols, funcs, definitions=definitions)
+    space = None                       # built when a hand-written field needs comparing
     fields: dict[str, dict] = {}
     for key, entry in source.items():
         key = str(key)
@@ -510,6 +561,7 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
         try:
             translated = quote_expression(entry, ctx)[1]
             record["translated"] = translated
+            space = space or CalculusSpace(symbols, funcs, definitions=definitions)
             src = space.parse_expanded(translated)
             mine = space.parse_expanded(card_text)
         except AdapterError as exc:

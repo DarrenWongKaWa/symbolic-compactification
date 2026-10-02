@@ -66,7 +66,10 @@ LaTeX quotes are converted by a fixed, reviewable set of rules:
   both signs;
 - `|X|`, `\left| X \right|` and `\lvert X \rvert` are read as `Abs(X)`.
   A claim that takes `|…|` of a symbol whose realness the paper does not
-  state is not decided;
+  state is not decided. This includes symbols inside a definition the
+  claim uses: `|G(\omega)|^2` depends on every symbol in `G`'s definition.
+  Realness is read from phrases such as `real $\omega$` and
+  `$\varepsilon$, $\Omega$ and $t$ real`;
 - sizing and spacing commands are dropped.
 
 Anything else is left alone and refused by the parser, which makes the
@@ -86,8 +89,45 @@ confident wrong verdict:
   tail at infinity. A positive order with no stated point is checked at
   both points and decided only if the two verdicts agree. `x → 0⁺` is
   used only when the variable is stated positive.
-- **Integration limits.** Only `\int` over the whole real line becomes a
-  `fermi_integral`. Other limits are left alone.
+- **Integration limits.** `\int` over the whole real line with an `n_F`
+  becomes a `fermi_integral`. Any other `\int_a^b dx\, f` (or
+  `\int_a^b f\, dx`) becomes a `definite_integral`. It is decided only
+  when `f` is entire in `x` (polynomials, `exp`, `sin`, `cos`, `sinh`,
+  `cosh` of entire arguments): the engine's antiderivative is verified by
+  differentiation, and the fundamental theorem gives `F(b) − F(a)`. An
+  infinite limit needs every term to decay there, `x^k e^{s x}` with the
+  sign of `Re s` decided by the stated positive and real symbols (state
+  the damping, e.g. `$\eta > 0$`). Integrands with a denominator in `x`,
+  unknown functions, `θ(t)` and similar stay undecided. Primes in the
+  variable become `_prime` (`dt'` integrates over `t_prime`).
+- **Definitions and conditions in a display.** `\Sigma(\omega) = -i\Gamma,
+  \qquad \Gamma \equiv \Gamma_L + \Gamma_R`: a segment after `\quad`,
+  `\qquad` or `\text{and}` that reads `X \equiv expr` or `X := expr`, with a
+  name on the left and a quantity on the right, defines the constant `X`
+  for every card (`notation: {Gamma: Gamma()}`; `z_\pm \equiv …` gives
+  both branches). It is not used when the text or another display gives `X`
+  a different value, or when `X` is an integration variable. Anything else
+  next to the relation (`\qquad \Omega t = \pi`, `\qquad \varphi \equiv \pi`,
+  `(\mu = 0)`, `\text{at } \mu = 0`, a second relation) makes every step of
+  that display `CONDITION_IN_DISPLAY`: the extra piece may restrict the
+  claim. `1/\tau \equiv …` (no bare name on the left) is a definition in
+  disguise and is not checked (`EQUIV_RELATION`).
+- **Langreth shorthand.** `C^r = A^r B^r` and `C^< = A^r B^< + A^< B^a`
+  are checked as Langreth rules when the text mentions Langreth and
+  states a convolution with its order: `$C = A*B$`, `$C = A \ast B$`, or
+  "the convolution $C = AB$". Not when the paper calls the product
+  pointwise, local or equal-time anywhere, or writes it with arguments
+  (`C(t,t') = A(t,t')B(t,t')`): those components multiply directly. A claim
+  wrong only in the order of factors is `LANGRETH_ORDER_ONLY`, not INVALID.
+- **One quantity in two displays.** When two displays give the same named
+  left side (`T(\omega) = A`, later `T(\omega) = C`), the step
+  `eq:a.vs.eq:b` checks `A = C`. It is VALID when they agree. When they
+  differ it is NOT_DECIDED with `DISPLAYS_DISAGREE`, listed under
+  `displays_disagree` in the review output and shown first on the
+  reviewer page: the paper never wrote `A = C` itself, and the two
+  displays may hold under different conditions (a limit, `T = 0`).
+  Displays in different sections, or with a name given a new value in
+  between, are not paired.
 - **Named quantities.** An identity whose left side is a lone name
   (`A = …`) states the value of a quantity. With `A` as a free symbol it
   could be refuted wrongly, so it is not decided unless `A` has a
@@ -112,12 +152,46 @@ confident wrong verdict:
   `x^{-1}`), and `e^{...}` is the exponential.
 - **A name directly before `(` could be a product or a function value.**
   `\beta(\Gamma + i x)` is a product and `G(\epsilon)` is a function.
-  The tool reads it as a product only if the name is listed under
-  `multiply:` in the conventions; otherwise the quote is refused with
-  `SOURCE_APPLICATION_AMBIGUOUS`. Define the name if it is a function.
-  `draft` pre-fills `multiply:` only with conventional constants (`beta`,
-  `hbar`), and only if the paper does not define them as functions. It
-  lists every other name for you to decide. `psi(z)` and `psi0(z)`…`psi6(z)` are
+  `multiply:` lists the names read as products, `functions:` the names
+  read as functions. `draft` pre-fills `multiply:` only with conventional
+  constants (`beta`, `hbar`), unless the paper defines them as functions.
+  A name the text calls real or positive (`$T > 0$`) may still be a
+  function elsewhere (`T(\omega)`, `\epsilon(k)`, `\rho(\epsilon)`), so it is
+  read as a product only in a card that also writes it bare
+  (`\frac{i}{\varepsilon}(e^{-i\varepsilon(t-t_0)} - 1)`).
+  Every other such name goes under `either:`: each card that uses it is
+  checked under every assignment of function or product to those names
+  (up to three names), and it is VALID only if every possible reading is
+  VALID (`FUNCTION_OR_PRODUCT` otherwise). It is never INVALID: as a
+  function the name stands for an arbitrary function, and the paper may
+  mean a specific one (`\theta(t)`, the Fermi function, `\delta(\omega)`).
+  A reading that cannot exist drops out: `K(a, b)` with a comma is never a
+  product. Note that `h(a)^2` is `h·a²` as a product, so even simple
+  claims can depend on the reading.
+- **Refutations that a hidden fact could overturn are withheld.** A
+  display is not always an identity: `\Gamma/(2\pi\rho) = V^2` defines Γ,
+  `e^{iqL} = 1` is a boundary condition, `\cos(\Omega t) = -1` holds at one
+  time. So an INVALID is reported only when every symbol of the relation
+  occurs on both sides, as written and after the definitions are used
+  (`ONE_SIDED_SYMBOL` otherwise); a rounded decimal (`= 0.7468`) is never
+  refuted (`APPROXIMATE_NUMBER`). An INVALID also becomes NOT_DECIDED when
+  the refuted relation puts an
+  integer-like index inside `exp`, `sin` or `cos` (`n`, `m`, `l`, `j`,
+  `k`, `\omega_n`, `\omega_\nu`, a name the text calls an integer, or a
+  name in a sentence about Matsubara frequencies: `PERIODIC_IN_AN_INDEX`),
+  or uses a name the running text gives a value that no definition
+  supplies (`$x = \omega/\Delta$`, `$p = 0$`, `$u := \beta\omega/2$`:
+  `VALUED_IN_TEXT`). A VALID is withheld when the text sets a name to a
+  number where the claim is undefined (`$a = 0$` with `(e^a - 1)/a`:
+  `SINGULAR_AT_STATED_VALUE`). When the text says its quantities are
+  matrices or do not commute (`are matrices`, `Nambu`, `2\times2 Green's
+  function`, a bold `$\mathbf{G}$`), every commutative check is withheld
+  (`NONCOMMUTING_STATED`).
+- **Macros redefined in the document** (`\renewcommand` after the first
+  definition) are not expanded: which meaning a display has depends on
+  where it sits, so quotes using them are refused. A Langreth
+  claim that differs from the exact rule only in the order of factors is
+  not refuted either (`LANGRETH_ORDER_ONLY`). `psi(z)` and `psi0(z)`…`psi6(z)` are
 predefined as polygammas.
 
 ## Decision rule for agents
