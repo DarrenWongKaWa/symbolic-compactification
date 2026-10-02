@@ -281,6 +281,13 @@ _REASONS = (
      "State the symbols positive if the paper means them so (rates, widths)."),
     ("REORDERING_ONLY", "A claim that only reorders factors",
      "A B = ±B A is about operators, Grassmann numbers or generators; it is not checked as numbers."),
+    ("SUBSCRIPT_COLLISION", "Two subscripts that read as the same name",
+     "ε_+ and ε_p are both read as epsilon_p; rename one in notation."),
+    ("DERIVATIVE_HOLDS_FIXED", "A derivative of an expression with other symbols in it",
+     "d(ωt)/dt holds ω fixed; if the paper lets it depend on t, the result differs."),
+    ("LOG_BASE_STATED", "The text uses logarithms to another base", "log here is not the natural logarithm."),
+    ("BUILTIN_REDEFINED", "The paper defines its own function with a built-in name",
+     "Its erf, sin or exp is not the standard one; quote the paper's definition instead."),
     ("ARBITRARY_FUNCTION", "A refutation that treats a declared function as arbitrary",
      "The paper's function may be a specific one (ζ(4) = π⁴/90 fails for an arbitrary ζ). Map a "
      "special function by notation (zeta: zeta_fn, Gamma: gamma_fn) or quote its definition."),

@@ -388,6 +388,119 @@
  "r12_cx_r12_tensor_product.tex": {},
  "r12_cx_r12_vector_cross_product.tex": {},
  "r12_cx_r12_verbatim_display.tex": {},
+ "r13_cl_c01_power.tex": {},
+ "r13_cl_c02_ddx.tex": {},
+ "r13_cl_c03_arc.tex": {},
+ "r13_cl_c04_dot.tex": {},
+ "r13_cl_c05_hat.tex": {},
+ "r13_cl_c06_bare.tex": {},
+ "r13_cl_c07_chirp.tex": {},
+ "r13_cl_c08_chirp2.tex": {},
+ "r13_cl_c09_partial.tex": {},
+ "r13_cl_c10_arcsin.tex": {
+  "eq:a1": "VALID",
+  "eq:a3": "VALID",
+  "eq:a4": "VALID"
+ },
+ "r13_cl_c11_arcsin_valid.tex": {
+  "eq:v1": "INVALID",
+  "eq:v3": "INVALID"
+ },
+ "r13_cl_c12_arctan.tex": {
+  "eq:a1": "VALID",
+  "eq:a3": "VALID",
+  "eq:a4": "VALID",
+  "eq:a5": "VALID"
+ },
+ "r13_cl_c13_zeta_not.tex": {},
+ "r13_cl_c14_gamma_not.tex": {},
+ "r13_cl_c15_omega_display.tex": {},
+ "r13_cl_c16_pm_sum.tex": {
+  "eq:s3": "VALID"
+ },
+ "r13_cl_c17_spectral_zeta.tex": {},
+ "r13_cl_c18_epstein.tex": {},
+ "r13_cl_c19_aligned_opt.tex": {
+  "eq:al": "VALID",
+  "eq:al2": "VALID"
+ },
+ "r13_cl_c20_pm_macro.tex": {
+  "eq:m2.m": "VALID",
+  "eq:m2.p": "VALID"
+ },
+ "r13_cl_c21_provide.tex": {},
+ "r13_cl_c22_log2.tex": {},
+ "r13_cl_c23_collide.tex": {},
+ "r13_cl_c24_gathered.tex": {
+  "eq:g": "VALID"
+ },
+ "r13_cl_c25_halfangle.tex": {},
+ "r13_cl_c26_aligned_phys.tex": {
+  "eq:phase": "VALID"
+ },
+ "r13_cl_c27_misc.tex": {
+  "eq:m1": "VALID",
+  "eq:m2": "VALID",
+  "eq:m3": "VALID"
+ },
+ "r13_cl_c28_incgamma.tex": {},
+ "r13_cl_c29_gamma_rate.tex": {},
+ "r13_cl_c30_slash.tex": {},
+ "r13_cl_t01_px.tex": {
+  "eq:a": "VALID",
+  "eq:b": "VALID",
+  "eq:c": "INVALID"
+ },
+ "r13_cx_accent_name_true.tex": {},
+ "r13_cx_aligned_inside_equation_true.tex": {
+  "eq1": "VALID"
+ },
+ "r13_cx_bare_derivative_refusal.tex": {},
+ "r13_cx_coth_argument_power_near_miss.tex": {},
+ "r13_cx_coth_direct_true.tex": {
+  "eq1": "VALID"
+ },
+ "r13_cx_declare_operator_builtin_shadow_false_valid.tex": {},
+ "r13_cx_declare_operator_sech.tex": {},
+ "r13_cx_declare_operator_trace_false_valid.tex": {},
+ "r13_cx_function_argument_power_near_miss.tex": {},
+ "r13_cx_gamma_global_collision_false_invalid.tex": {},
+ "r13_cx_gamma_global_collision_false_valid.tex": {},
+ "r13_cx_gamma_special_true.tex": {
+  "eq1": "VALID"
+ },
+ "r13_cx_inverse_cos_branch_false_valid.tex": {
+  "eq1": "INVALID"
+ },
+ "r13_cx_inverse_cot_branch_false_valid.tex": {
+  "eq1": "INVALID"
+ },
+ "r13_cx_inverse_trig_branch_false_valid.tex": {
+  "eq1": "INVALID"
+ },
+ "r13_cx_letter_exponent_false_invalid.tex": {},
+ "r13_cx_macro_letter_run_false_invalid.tex": {
+  "eq1": "VALID"
+ },
+ "r13_cx_newcommand_display_true.tex": {
+  "eq1": "VALID"
+ },
+ "r13_cx_partial_product_true.tex": {},
+ "r13_cx_pm_pair_false.tex": {
+  "eq1.m": "INVALID",
+  "eq1.p": "INVALID"
+ },
+ "r13_cx_pm_pair_true.tex": {
+  "eq1.m": "VALID",
+  "eq1.p": "VALID"
+ },
+ "r13_cx_providecommand_display_miss.tex": {},
+ "r13_cx_sum_pm_not_split.tex": {
+  "eq1": "VALID"
+ },
+ "r13_cx_zeta_global_collision.tex": {},
+ "r13_cx_zeta_global_collision_false_invalid.tex": {},
+ "r13_cx_zeta_global_collision_false_valid.tex": {},
  "s1_pipulse.tex": {},
  "s2_mu0.tex": {},
  "s3_at.tex": {},

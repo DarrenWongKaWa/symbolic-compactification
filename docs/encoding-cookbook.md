@@ -232,7 +232,12 @@ confident wrong verdict:
   refused). `\frac{\partial X}{\partial y}` is a derivative when X shows y;
   `dE/dk` with a bare E is refused. A relation with `\pm`/`\mp` gives two
   steps, `id.p` and `id.m`, which must both hold. Traces and determinants
-  are not checked (`TRACE_OF_MATRICES`). `\mathsf{T}`, `\dot N`,
+  are not checked (`TRACE_OF_MATRICES`). A derivative of an expression
+  that holds other symbols is not decided (`DERIVATIVE_HOLDS_FIXED`: the
+  paper may let ω depend on t). `\tan^{-1} x` is arctan x. A slash right
+  after an unbraced argument (`\ln T_2/T_1`) is refused. `ε_+` next to
+  `ε_p` in one paper is refused (`SUBSCRIPT_COLLISION`), and so is `log`
+  when the text uses another base. `\mathsf{T}`, `\dot N`,
   `\tilde G` and `\mathcal S` are names of their own.
 - **Declared functions are arbitrary.** A name under `functions:` stands
   for any function, so a card using it is VALID only if it holds for every
@@ -240,8 +245,9 @@ confident wrong verdict:
   is true for Riemann's ζ, false for an arbitrary one. For a special
   function, map the name instead: `notation: {zeta: zeta_fn}` (Riemann or
   Hurwitz ζ) or `{Gamma: gamma_fn}`; `erf` and `erfc` are built in. The
-  drafter does this when the text says "ζ is the Riemann zeta function"
-  or "Γ is the gamma function". `real: true` on a symbol overrides a
+  drafter does this only when a sentence names the symbol as the Riemann
+  (or Hurwitz) zeta function or the gamma function, no sentence denies it,
+  and every other sentence that writes the letter is one of those. `real: true` on a symbol overrides a
   drafted `realness: unstated`.
 - **Macros redefined in the document** (`\renewcommand` after the first
   definition) are not expanded: which meaning a display has depends on

@@ -123,14 +123,14 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
         shared["multiply"] += list(_names(data.get("multiply")))
         if data.get("noncommuting"):
             shared["noncommuting"] = str(data["noncommuting"])
-        for key in ("distribution_not_thermal", "distribution_in_text"):
+        for key in ("distribution_not_thermal", "distribution_in_text", "log_base"):
             if data.get(key):
                 shared[key] = str(data[key])
         if isinstance(data.get("stated_values"), dict):
             shared.setdefault("stated_values", {}).update(data["stated_values"])
         shared.setdefault("either", []).extend(_names(data.get("either")))
         for key in ("named_quantities", "named_functions", "integers", "valued_in_text", "stated_numbers",
-                    "operators", "constrained"):
+                    "operators", "constrained", "builtins_redefined", "subscript_collisions"):
             shared.setdefault(key, []).extend(_names(data.get(key)))
         for k, v in (data.get("source") or {}).items():       # quoted shared definitions
             if not str(k).startswith("define:"):
@@ -154,7 +154,8 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
     merged["functions"] = sorted(set(shared["functions"]) | set(_names(card.get("functions"))))
     merged["multiply"] = sorted(set(shared["multiply"]) | set(_names(card.get("multiply"))))
     for key in ("named_quantities", "named_functions", "either", "integers", "valued_in_text",
-                "stated_numbers", "operators", "constrained"):
+                "stated_numbers", "operators", "constrained", "builtins_redefined",
+                "subscript_collisions"):
         merged[key] = sorted(set(shared.get(key, [])) | set(_names(card.get(key))))
     own_source = dict(card.get("source") or {})
     for k, v in shared["source"].items():
@@ -162,7 +163,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
             conflicts.append(f"card redefines shared quote {k}")
     if shared["source"]:
         merged["source"] = {**shared["source"], **own_source}
-    for key in ("noncommuting", "distribution_not_thermal", "distribution_in_text"):
+    for key in ("noncommuting", "distribution_not_thermal", "distribution_in_text", "log_base"):
         if shared.get(key) and key not in card:
             merged[key] = shared[key]
     if shared.get("stated_values"):
@@ -335,6 +336,29 @@ def _reordering_only(card: dict, check: str) -> bool:
     left, right = factors(lhs), factors(rhs)
     return plain(lhs) and plain(rhs) and len(left) >= 2 and sorted(left) == sorted(right) \
         and left != right                 # the same factors in a different order
+
+
+def _derivative_parameters(card: dict, symbols: list, functions, defs: dict) -> list[str]:
+    """Symbols other than the variable inside a Diff(...): the derivative holds
+    them fixed, which the paper need not mean (omega(t), mu(n))."""
+    texts = [str(card[k]) for k in _EXPRESSION_KEYS if k in card]
+    quotes = " ".join(str(v.get("quote") if isinstance(v, dict) else v) for v in (card.get("source") or {}).values())
+    if not any("Diff(" in t for t in texts) or not re.search(r"\\partial|\\frac\s*\{\s*(?:d|\\mathrm\{d\})", quotes):
+        return []                       # only a derivative read from the paper's LaTeX
+    import sympy
+    from .calculus import CalculusSpace
+    try:
+        space = CalculusSpace(symbols, functions, definitions=defs)
+        exprs = [space.parse(t) for t in texts]
+    except Exception:
+        return []
+    held: set[str] = set()
+    for e in exprs:
+        for call in e.atoms(sympy.Function):
+            if type(call).__name__ == "Diff" and len(call.args) == 3:
+                operand, variable = call.args[0], call.args[1]
+                held |= {str(x) for x in space.expand(operand).free_symbols} - {str(variable)}
+    return sorted(held)
 
 
 def _arbitrary_functions(card: dict, functions, defs: dict) -> list[str]:
@@ -749,6 +773,20 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
         # A B = B A or c_k c_q = -c_q c_k is a statement about operators, Grassmann
         # numbers or generators: as numbers it is trivially true or false
         why.append("REORDERING_ONLY")
+    collided = set(_names(card.get("subscript_collisions"))) & set(re.findall(
+        r"[A-Za-z_][A-Za-z0-9_]*", " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)))
+    if collided:
+        why.append("SUBSCRIPT_COLLISION:" + ",".join(sorted(collided)))
+    if card.get("log_base") and re.search(r"\blog\s*\(", " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)):
+        why.append("LOG_BASE_STATED")             # the text's log is to another base
+    held = _derivative_parameters(card, symbols, functions, defs)
+    if held:
+        # d(omega t)/dt holds omega fixed; the paper may let it depend on t
+        why.append("DERIVATIVE_HOLDS_FIXED:" + ",".join(held))
+    redefined = set(_names(card.get("builtins_redefined"))) & set(re.findall(
+        r"([A-Za-z_][A-Za-z0-9_]*)\s*\(", " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)))
+    if redefined:
+        why.append("BUILTIN_REDEFINED:" + ",".join(sorted(redefined)))
     if card.get("trace") and check not in ("langreth", "operator"):
         why.append("TRACE_OF_MATRICES")        # Tr(ABC) = Tr(BAC) holds for numbers, not matrices
     if card.get("bold_symbols") and check not in ("langreth", "operator"):

@@ -30,9 +30,10 @@ verdict on those files, each checked by hand.
 | 10 | 24 | relations that define a symbol (Γ/(2πρ) = V²), scoped redefinitions, pointwise products |
 | 11 | 32 | operators and spin components, the paper's own n_F, sign conditions, approximations |
 | 12 | 25 | E and I read as e and i, limits at −∞, Grassmann numbers, layout of align rows, text outside the printed paper |
+| 13 | 12 | the new readers for real papers: derivatives with time-dependent parameters, `\tan^{-1}`, special-function names, `aligned[t]`, slashes after bare arguments |
 
 The rate is not falling. Each round finds new classes; most come from
-adversarial but plausible paper text. The 300 files collected so far give
+adversarial but plausible paper text. The 357 files collected so far give
 no wrong verdict today. That does not show that no wrong verdict remains.
 
 ## Coverage

@@ -138,7 +138,7 @@ def latex_equations(document: str) -> list[dict[str, Any]]:
     for m in display_spans(body, document):
         label = _LABEL_RE.search(m.group(2))
         # aligned/split/gathered inside an equation only lay out its rows
-        inner = re.sub(r"\\(?:begin|end)\{(?:aligned|split|gathered|alignedat)\}(?:\{\d+\})?",
+        inner = re.sub(r"\\(?:begin|end)\{(?:aligned|split|gathered|alignedat)\}(?:\[[tbc]\])?(?:\{\d+\})?",
                        lambda t: " " * len(t.group(0)), m.group(2))
         rows = [r for r in _top_level_rows(inner) if r.strip()]
         found.append({"label": label.group(1) if label else None, "rows": rows,

@@ -165,16 +165,75 @@ def _distribution_not_thermal(raw: str) -> str | None:
 def special_functions_named(raw: str) -> dict[str, str]:
     """Notation for special functions the text names: '$\\zeta$ is the Riemann
     zeta function' -> zeta: zeta_fn, '$\\Gamma$ is the gamma function' ->
-    Gamma: gamma_fn. Only an explicit statement maps a letter."""
-    out: dict[str, str] = {}
+    Gamma: gamma_fn. The symbol must be named in the same sentence, and the
+    letter must never be used otherwise: not bare in the text ('$\\Gamma$ is
+    the broadening', '$\\Gamma > 0$') and not bare in a display."""
+    from .relations import display_spans
     text = _dollar_math(raw)
-    if re.search(r"(?:\$\\zeta\$|\\zeta\s*\(s\))[^.]{0,40}(?:Riemann|Hurwitz)?\s*zeta[- ]function"
-                 r"|(?:Riemann|Hurwitz)\s+zeta[- ]function", text, re.I):
-        out["zeta"] = "zeta_fn"
-    if re.search(r"\$\\Gamma(?:\s*\(\s*[a-z]\s*\))?\$[^.]{0,40}\b(?:Euler\s+)?gamma[- ]function"
-                 r"|gamma[- ]function\s+\$\\Gamma", text, re.I):
-        out["Gamma"] = "gamma_fn"
+    body = text.split("\\begin{document}", 1)[-1]
+    out: dict[str, str] = {}
+    negation = re.compile(r"\bnot\b|instead|rather\s+than|unlike|confused|differs?\s+from|spectral|generali[sz]ed", re.I)
+    sentences = re.split(r"(?<=[.;])\s+", body)
+    for letter, name, words in (("zeta", "zeta_fn", r"(?:Riemann|Hurwitz)\s+zeta[- ]function"),
+                                ("Gamma", "gamma_fn", r"(?:Euler(?:'s)?\s+)?gamma[- ]function")):
+        symbol = rf"\$[^$]*\\{letter}(?![A-Za-z])[^$]*\$"
+        naming = [sent for sent in sentences if re.search(symbol, sent) and re.search(words, sent, re.I)]
+        if not naming or any(negation.search(sent) for sent in naming):
+            continue
+        # every sentence that writes the letter must be one that names the function
+        if any(re.search(symbol, sent) and sent not in naming for sent in sentences):
+            continue
+        bare_prose = [m for m in re.finditer(rf"\$([^$]*\\{letter}(?![A-Za-z])[^$]*)\$", body)
+                      if re.search(rf"\\{letter}(?![A-Za-z])\s*(?![\s(]|\\left\s*\()", m.group(1) + " ")
+                      and not re.fullmatch(rf"\s*\\{letter}\s*", m.group(1))]
+        lone = [m for m in re.finditer(rf"\$\s*\\{letter}\s*\$", body)
+                if not re.search(words, body[max(0, m.start() - 80):m.end() + 80], re.I)]
+        in_displays = any(re.search(rf"\\{letter}(?![A-Za-z])\s*(?!\(|\\left|_|\^)", d.group(0))
+                          for d in display_spans(body, raw))
+        if bare_prose or lone or in_displays:
+            continue                       # the letter also means something else here
+        out[letter] = name
     return out
+
+
+def subscript_collisions(raw: str) -> set[str]:
+    """Names where '_+' and '_p' (or '_-' and '_m') both occur on one base:
+    both are read as X_p, so the two would become one symbol."""
+    seen: dict[str, set[str]] = {}
+    for m in re.finditer(r"(\\?[A-Za-z]+)\s*_\s*\{?\s*([+\-pm])\s*\}?(?![A-Za-z0-9])", raw):
+        seen.setdefault(m.group(1), set()).add(m.group(2))
+    out: set[str] = set()
+    for base, subs in seen.items():
+        for sign, letter in (("+", "p"), ("-", "m")):
+            if {sign, letter} <= subs:
+                out |= {n + "_" + letter for n in _names_in(base)}
+    return out
+
+
+def log_base_stated(raw: str) -> str | None:
+    """'All logarithms are to base 2': log is then not the natural logarithm."""
+    m = re.search(r"logarithms?\s+(?:are\s+)?(?:taken\s+)?(?:to|in|with)\s+(?:the\s+)?base\s*\$?\s*(\d+|e)\b", raw, re.I)
+    return None if m is None or m.group(1) == "e" else m.group(1)
+
+
+def builtins_redefined(raw: str) -> set[str]:
+    """Built-in function names the paper defines itself ('$\\ERF(u) = 1 + u$'
+    with \\ERF set to erf): the built-in must not stand in for them."""
+    from .latex import read_macros
+    macros = read_macros(raw)
+    found: set[str] = set()
+    for m in re.finditer(r"\$([^$]{1,120})\$", _dollar_math(raw)):
+        sides = split_top_level(m.group(1))
+        if len(sides) != 2:
+            continue
+        try:
+            lhs = latex_to_plain(sides[0], macros).strip()
+        except (ValueError, RecursionError):
+            continue
+        call = _DEFINITION_LHS.match(lhs)
+        if call and call.group(1) in _KNOWN:
+            found.add(call.group(1))
+    return found
 
 
 def _stated_numbers(raw: str) -> set[str]:

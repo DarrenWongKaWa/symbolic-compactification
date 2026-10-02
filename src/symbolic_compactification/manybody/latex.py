@@ -31,6 +31,8 @@ _ALIASES = {"varepsilon": "epsilon", "vartheta": "theta", "varphi": "phi", "varr
 _BARE_FUNCTIONS = frozenset({"sin", "cos", "tan", "cot", "sec", "csc", "sinh", "cosh", "tanh", "coth",
                              "sech", "csch", "ln", "log", "exp", "arctan", "arcsin", "arccos", "arctanh",
                              "artanh", "arcsinh", "arccosh"})
+_INVERSES = {"sin": "asin", "cos": "acos", "tan": "atan", "cot": "acot", "sinh": "asinh",
+             "cosh": "acosh", "tanh": "atanh"}
 # accents that make a new name: \dot N -> N__dot, \tilde G -> G__tilde (never a conjugate:
 # \bar and \overline stay unread, since they often mean complex conjugation)
 _ACCENTS = {"mathsf": "sf", "dot": "dot", "ddot": "ddot", "tilde": "tilde", "widetilde": "tilde", "hat": "hat",
@@ -177,6 +179,11 @@ def _convert(text: str) -> str:
                 power = re.match(r"\s*\^\s*(\{[^{}]*\}|\d)", text[i:])
                 if power:
                     i += power.end()
+                inverse = power and re.fullmatch(r"\{?\s*-\s*1\s*\}?", power.group(1)) and name in _INVERSES
+                if power and re.match(r"\s*(?:\(|\\left\s*\()", text[i:]):
+                    # \tan^{-1}(x) is arctan(x); \sin^2(x) is left unread (where does the call end?)
+                    out.append(f" {_INVERSES[name]}" if inverse else "\\" + name)
+                    continue
                 arg, i = _argument(text, i)
                 if arg.startswith("\\frac") or arg.startswith("\\tfrac") or arg.startswith("\\dfrac"):
                     first, i = _argument(text, i)
@@ -186,13 +193,16 @@ def _convert(text: str) -> str:
                 if sub:
                     arg += "_" + sub.group(1)
                     i += sub.end()
-                if re.match(r"\s*(?:\\(?!right|,|;|!|quad|qquad|cdot|times|pm|mp|label|nonumber|\\)[A-Za-z]|[A-Za-z0-9({^])",
+                if re.match(r"\s*(?:\\(?!right|,|;|!|quad|qquad|cdot|times|pm|mp|label|nonumber|\\)[A-Za-z]|[A-Za-z0-9({^/])",
                             text[i:]):
                     out.append("\\" + name)            # the argument does not end here: refuse
                 else:
                     exponent = power.group(1).strip("{}") if power else None
-                    call = f" {_ALIASES.get(name, name)}({_convert(arg)})"
-                    out.append(f"({call})^({_convert(exponent)})" if exponent else call)
+                    if inverse:                    # \tan^{-1} x is arctan x, not 1/tan x
+                        out.append(f" {_INVERSES[name]}({_convert(arg)})")
+                    else:
+                        call = f" {_ALIASES.get(name, name)}({_convert(arg)})"
+                        out.append(f"({call})^({_convert(exponent)})" if exponent else call)
             elif name in _ACCENTS:
                 arg, i = _argument(text, i)
                 inner = _convert(arg).strip()
@@ -286,7 +296,7 @@ def split_letter_runs(text: str) -> str:
     letters outside commands, \\mathrm{...}/\\text{...}, subscripts and
     letter-only superscripts (labels: G^{ra}) is split into single letters;
     an exponent such as e^{-iEt} is math and is split."""
-    out, i, depth_verbatim = [], 0, 0
+    out, i = [], 0
     stack: list[bool] = []                 # for each open brace: is its content kept as written?
     while i < len(text):
         c = text[i]

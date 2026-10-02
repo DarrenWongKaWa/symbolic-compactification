@@ -29,7 +29,9 @@ import yaml
 from .latex import latex_to_plain, read_macros, split_integral
 # names used here, and the ones callers import from draft (kept for them)
 from .prose import (_distribution_not_thermal, _dollar_math, _inline_definitions, _matsubara_names,
-                    distribution_defined_in_text, prose_constraints, special_functions_named,
+                    builtins_redefined, distribution_defined_in_text, log_base_stated, prose_constraints,
+                    subscript_collisions,
+                    special_functions_named,
                     _operator_names, _positive_symbols,
                     _realness_sensitive,
                     _stated_integers, _stated_numbers, _stated_realness, _symbol_entry,
@@ -761,6 +763,14 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             # names the text calls real or positive as bare symbols: where a card also
             # uses one bare, it cannot be a function there
             "stated_numbers": sorted(n for n in ambiguous if _stated_number(n))}
+        collided = sorted(subscript_collisions(raw)) if latex else []
+        if collided:
+            data["subscript_collisions"] = collided      # X_+ and X_p are both read as X_p
+        if log_base_stated(prose):
+            data["log_base"] = log_base_stated(prose)    # log is not the natural logarithm here
+        redefined = sorted(builtins_redefined(raw)) if latex else []
+        if redefined:
+            data["builtins_redefined"] = redefined     # the paper's own erf(u) = ..., not the built-in
         operators = sorted(_operator_names(prose))
         if operators:
             data["operators"] = operators     # names the text calls operators: products do not commute
