@@ -6,7 +6,7 @@ There is deliberately NO agent runtime, NO LLM API integration, and NO
 orchestration system in this repository. The "proposer" is a harness-native
 subagent (Qoder / Codex / Claude Code each provide their own native subagent
 facility); the main agent feeds it the role contract
-(``roles/STRUCTURAL_PROPOSER.md``) plus a conjecture packet built by
+(``docs/roles/STRUCTURAL_PROPOSER.md``) plus a conjecture packet built by
 ``build_conjecture_packet`` and receives back candidate JSON validated by
 ``validate_candidate``.
 
@@ -229,7 +229,8 @@ def build_conjecture_packet(source: Union[SessionState, ExpressionRecord],
         "declared_assumptions": declared_assumptions,
         "goal": goal,
         "verifier_feedback": _normalize_feedback(feedback),
-        # self-describing attention isolation (see roles/STRUCTURAL_PROPOSER.md)
+        # self-describing attention isolation
+        # (see docs/roles/STRUCTURAL_PROPOSER.md)
         "included": [
             "current_expression", "current_sha256", "certified_state_sha256",
             "structural_representation_sha256", "structural_form",
@@ -288,7 +289,7 @@ def _persist_packet_provenance(session, packet, goal, declared_assumptions,
 def validate_candidate(candidate: Any) -> dict:
     """Strictly validate one STRUCTURAL_PROPOSER candidate.
 
-    Enforces the output contract of ``roles/STRUCTURAL_PROPOSER.md``:
+    Enforces the output contract of ``docs/roles/STRUCTURAL_PROPOSER.md``:
     all required fields present and non-empty, unknown keys rejected,
     ``assumptions_status`` in ``ASSUMPTION_STATUSES``, ``confidence`` in
     ``CONFIDENCE_LEVELS``. The ``status`` is FORCED to ``HYPOTHESIS``: an
@@ -403,7 +404,8 @@ def record_proposal(session: SessionState, candidate: Any, *,
 
     HARNESS_SUBAGENT is NEVER faked: it requires a RECORDED harness
     task/subagent id. An internal in-process callback is not a subagent, and
-    reading ``roles/STRUCTURAL_PROPOSER.md`` is never evidence of any mode.
+    reading ``docs/roles/STRUCTURAL_PROPOSER.md`` is never evidence of any
+    mode.
 
     Raises:
         AdapterError("PROPOSAL_INVALID")     - candidate fails validation,

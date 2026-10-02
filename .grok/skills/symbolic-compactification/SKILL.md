@@ -14,4 +14,5 @@ description: >
 Canonical method: [`skills/symbolic-compactification/SKILL.md`](../../../skills/symbolic-compactification/SKILL.md)
 
 Run scripts from `skills/symbolic-compactification/scripts/`.
+Optional proposer role contract: [`docs/roles/STRUCTURAL_PROPOSER.md`](../../../docs/roles/STRUCTURAL_PROPOSER.md).
 Do not treat this stub as a second method.
