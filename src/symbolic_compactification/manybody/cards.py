@@ -130,7 +130,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
             shared.setdefault("stated_values", {}).update(data["stated_values"])
         shared.setdefault("either", []).extend(_names(data.get("either")))
         for key in ("named_quantities", "named_functions", "integers", "valued_in_text", "stated_numbers",
-                    "operators", "constrained", "builtins_redefined", "subscript_collisions"):
+                    "operators", "constrained", "builtins_redefined", "subscript_collisions", "depends"):
             shared.setdefault(key, []).extend(_names(data.get(key)))
         for k, v in (data.get("source") or {}).items():       # quoted shared definitions
             if not str(k).startswith("define:"):
@@ -155,7 +155,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
     merged["multiply"] = sorted(set(shared["multiply"]) | set(_names(card.get("multiply"))))
     for key in ("named_quantities", "named_functions", "either", "integers", "valued_in_text",
                 "stated_numbers", "operators", "constrained", "builtins_redefined",
-                "subscript_collisions"):
+                "subscript_collisions", "depends"):
         merged[key] = sorted(set(shared.get(key, [])) | set(_names(card.get(key))))
     own_source = dict(card.get("source") or {})
     for k, v in shared["source"].items():
@@ -358,6 +358,11 @@ def _derivative_parameters(card: dict, symbols: list, functions, defs: dict) -> 
             if type(call).__name__ == "Diff" and len(call.args) == 3:
                 operand, variable = call.args[0], call.args[1]
                 held |= {str(x) for x in space.expand(operand).free_symbols} - {str(variable)}
+    if not re.search(r"\\frac\s*\{\s*(?:d|\\mathrm\{d\})", quotes):
+        # only partial derivatives: the others are held fixed by definition, unless
+        # the text says they depend on the variable or constrains them
+        held &= set(_names(card.get("depends"))) | set(_names(card.get("constrained"))) \
+            | set(_names(card.get("valued_in_text")))
     return sorted(held)
 
 
@@ -578,6 +583,10 @@ def _both_readings(card, result, either, base_dir, shared_defs, conflicts, requi
         result = _reading(card, applied, set(), base_dir, shared_defs, conflicts, require_source)
     if not applied:
         return result
+    hopeless = [b for b in result.get("decision_blocked_by") or []
+                if "SOURCE_CHARACTER_UNSUPPORTED" in str(b) or "LATEX_UNBALANCED" in str(b)]
+    if hopeless:
+        return result                    # unreadable in every reading: do not try the others
     names = sorted(applied)
     numbers = set(_names(card.get("stated_numbers")))
     out = dict(result)

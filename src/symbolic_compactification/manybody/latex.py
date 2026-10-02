@@ -39,11 +39,39 @@ _ACCENTS = {"mathsf": "sf", "dot": "dot", "ddot": "ddot", "tilde": "tilde", "wid
             "widehat": "hat", "check": "check", "breve": "breve", "mathcal": "cal", "mathscr": "scr",
             "mathfrak": "frak"}
 _DIFF_NUM = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*(\S.*)$", re.S)
+_DIFF_OPERATOR = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*$")
+
+
+def _bracket_group(text: str, i: int) -> tuple[str, int] | None:
+    """The content of '(...)', '\\left( ... \\right)', '[...]' or '{...}' starting
+    at text[i] (after spaces), and the index after it."""
+    m = re.match(r"\s*(\\left\s*[(\[]|\\big[lr]?\s*[(\[]|\(|\[|\{)", text[i:])
+    if not m:
+        return None
+    start = i + m.end()
+    depth, j = 1, start
+    while j < len(text):
+        if re.match(r"\\left\b|\(|\[|\{", text[j:]):
+            depth += 1
+        elif re.match(r"\\right\s*[)\]]|\\big[lr]?\s*[)\]]|\)|\]|\}", text[j:]):
+            depth -= 1
+            if depth == 0:
+                close = re.match(r"\\right\s*[)\]]|\\big[lr]?\s*[)\]]|\)|\]|\}", text[j:])
+                return text[start:j], j + close.end()
+        if text[j] == "\\":
+            k = re.match(r"\\(?:right\s*[)\]]|left\s*[(\[]|[A-Za-z]+|.)", text[j:])
+            j += k.end() if k and not k.group(0).startswith(("\\right", "\\left")) else 1
+            continue
+        j += 1
+    return None
+
+
 _DIFF_DEN = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(\\?[A-Za-z]+(?:_\{?\s*[A-Za-z0-9]+\s*\}?)?)"
                        r"\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*$")
 _DROP = ("left", "right", "big", "Big", "bigg", "Bigg", "bigl", "bigr", "Bigl", "Bigr",
          "biggl", "biggr", "nonumber", "notag", "displaystyle", "quad", "qquad")
-_WRAPPERS = ("mathrm", "text", "operatorname", "mathit", "mathbf", "boldsymbol", "rm")
+_WRAPPERS = ("mathrm", "text", "operatorname", "mathit", "mathbf", "boldsymbol", "rm", "textrm",
+             "mbox", "hbox", "textit", "mathop", "bm", "bf", "it", "mit", "emph", "textnormal")
 _MACRO_DEF = re.compile(
     r"\\(?:re|provide)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*\{"
     r"|\\def\s*\\([A-Za-z]+)\s*((?:#\d)*)\s*\{"
@@ -81,6 +109,9 @@ def _argument(text: str, i: int) -> tuple[str, int]:
 def read_macros(document: str) -> dict[str, tuple[int, str]]:
     """{name: (number of arguments, body)} from the document preamble."""
     macros: dict[str, tuple[int, str]] = {}
+    found = re.search(r"\\begin\s*\{\s*document\s*\}", document)
+    begin = found.start() if found else None
+    body_defined: set[str] = set()
     for m in _MACRO_DEF.finditer(document):
         try:
             body, _ = _group(document, m.end() - 1)
@@ -94,11 +125,16 @@ def read_macros(document: str) -> dict[str, tuple[int, str]]:
             name, entry = m.group(5), (int(m.group(6) or 0), body)
         else:                              # \DeclareMathOperator{\Tr}{Tr}: an upright name
             name, entry = m.group(7), (0, "\\operatorname{" + body + "}")
-        if name in macros and macros[name] != entry:
-            # redefined in the document: which meaning a display has depends on where
-            # it sits, so the macro is left unexpanded and quotes using it are refused
+        if m.group(5) and name in macros:
+            continue                         # \\providecommand leaves an existing macro alone
+        in_body = begin is not None and m.start() > begin
+        if name in macros and macros[name] != entry and (in_body or name in body_defined):
+            # redefined in the body: which meaning a display has depends on where it
+            # sits, so the macro is left unexpanded and quotes using it are refused
             entry = (entry[0], "\\MACROREDEFINED")
-        macros[name] = entry
+        if in_body:
+            body_defined.add(name)
+        macros[name] = entry                 # in the preamble the last definition holds
     return macros
 
 
@@ -162,6 +198,18 @@ def _convert(text: str) -> str:
                 den, i = _argument(text, i)
                 top, bottom = _DIFF_NUM.match(num), _DIFF_DEN.match(den)
                 variable = _flatten(_convert(bottom.group(1))).strip() if bottom else ""
+                operator = _DIFF_OPERATOR.match(num)
+                if operator and bottom and (operator.group(1) or "1") == (bottom.group(2) or "1"):
+                    # \frac{\partial}{\partial y}\left( X \right): the operator acts on the next group
+                    group = _bracket_group(text, i)
+                    if group is not None:
+                        inner, i = group
+                        operand = _convert(inner)
+                        if re.search(rf"(?<![A-Za-z0-9_]){re.escape(variable)}(?![A-Za-z0-9_])", operand):
+                            out.append(f" Diff(({operand}), {variable}, {operator.group(1) or 1}) ")
+                        else:
+                            out.append("\\partial")
+                        continue
                 operand = _convert(top.group(2)) if top else ""
                 if top and bottom and (top.group(1) or "1") == (bottom.group(2) or "1") \
                         and not re.match(r"[_^]", top.group(2)) \
@@ -360,6 +408,9 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     """Convert a LaTeX math fragment; raises ValueError on unbalanced braces."""
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
+    text = re.sub(r"\{\s*\\(cal|bf|rm|it|sf|bm)\s+([^{}]*)\}",
+                  lambda m: "{\\" + {"cal": "mathcal", "bf": "mathbf", "rm": "mathrm", "it": "mathit",
+                                     "sf": "mathsf", "bm": "mathbf"}[m.group(1)] + "{" + m.group(2).strip() + "}}", text)
     text = split_letter_runs(text)
     # a capital E or I written in LaTeX is a quantity (an energy, a current),
     # never Euler's number or the imaginary unit, which are written e and i

@@ -222,7 +222,9 @@
  "r12_cl_b04b_E_valid_wrong.tex": {},
  "r12_cl_b04c_E_valid_wrong.tex": {},
  "r12_cl_b05_I_current.tex": {},
- "r12_cl_b06_leibniz.tex": {},
+ "r12_cl_b06_leibniz.tex": {
+  "eq:d": "VALID"
+ },
  "r12_cl_b07_leibniz2.tex": {},
  "r12_cl_b08_E_k_ikappa.tex": {},
  "r12_cl_b09_E_sqrt_wrong.tex": {},
@@ -347,7 +349,9 @@
   "eq2": "VALID"
  },
  "r12_cl_r09_def_I_arg.tex": {},
- "r12_cl_r10_pi_arg.tex": {},
+ "r12_cl_r10_pi_arg.tex": {
+  "eq2": "VALID"
+ },
  "r12_cl_s01_with_condition.tex": {},
  "r12_cl_s01b_with_condition.tex": {},
  "r12_cl_t01_langreth_args.tex": {},
@@ -389,7 +393,9 @@
  "r12_cx_r12_vector_cross_product.tex": {},
  "r12_cx_r12_verbatim_display.tex": {},
  "r13_cl_c01_power.tex": {},
- "r13_cl_c02_ddx.tex": {},
+ "r13_cl_c02_ddx.tex": {
+  "eq:d2": "VALID"
+ },
  "r13_cl_c03_arc.tex": {},
  "r13_cl_c04_dot.tex": {},
  "r13_cl_c05_hat.tex": {},
@@ -428,7 +434,9 @@
   "eq:m2.m": "VALID",
   "eq:m2.p": "VALID"
  },
- "r13_cl_c21_provide.tex": {},
+ "r13_cl_c21_provide.tex": {
+  "eq:p1": "VALID"
+ },
  "r13_cl_c22_log2.tex": {},
  "r13_cl_c23_collide.tex": {},
  "r13_cl_c24_gathered.tex": {

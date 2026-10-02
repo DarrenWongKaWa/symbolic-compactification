@@ -7,7 +7,7 @@ import re
 from typing import Any
 
 from .latex import latex_to_plain
-from .relations import _DEFINITION_LHS, _KNOWN, _tokens, display_spans, split_top_level
+from .relations import document_body, _DEFINITION_LHS, _KNOWN, _tokens, display_spans, split_top_level
 
 _GREEK_NAMES = "alpha beta gamma delta epsilon varepsilon zeta eta theta kappa lambda mu nu xi rho sigma tau phi chi psi omega Gamma Delta Theta Lambda Xi Sigma Phi Psi Omega".split()
 
@@ -170,7 +170,7 @@ def special_functions_named(raw: str) -> dict[str, str]:
     the broadening', '$\\Gamma > 0$') and not bare in a display."""
     from .relations import display_spans
     text = _dollar_math(raw)
-    body = text.split("\\begin{document}", 1)[-1]
+    body = document_body(text)
     out: dict[str, str] = {}
     negation = re.compile(r"\bnot\b|instead|rather\s+than|unlike|confused|differs?\s+from|spectral|generali[sz]ed", re.I)
     sentences = re.split(r"(?<=[.;])\s+", body)
@@ -207,6 +207,17 @@ def subscript_collisions(raw: str) -> set[str]:
         for sign, letter in (("+", "p"), ("-", "m")):
             if {sign, letter} <= subs:
                 out |= {n + "_" + letter for n in _names_in(base)}
+    return out
+
+
+def dependence_stated(raw: str) -> set[str]:
+    """Names the text says depend on something ('$\\mu$ depends on the density',
+    'a time-dependent frequency $\\omega(t)$', '$\\Gamma(\\epsilon)$ is energy dependent')."""
+    out: set[str] = set()
+    for sentence in re.split(r"(?<=[.;])\s+", _dollar_math(raw)):
+        if re.search(r"depend|varies|varying|changes?\s+with|function\s+of", sentence, re.I):
+            for piece in re.findall(r"\$([^$]{1,60})\$", sentence):
+                out |= _names_in(re.sub(r"\([^()]*\)", " ", piece))
     return out
 
 
@@ -324,7 +335,7 @@ def _inline_definitions(raw: str, macros: dict) -> list[tuple[str, Any, str]]:
     stated in the running text, as quoted define: entries. Returns
     (key, entry, name) triples; bare names get zero-argument definitions."""
     out = []
-    body = raw.split("\\begin{document}", 1)[-1]
+    body = document_body(raw)
     text = body
     for m in reversed(display_spans(body, raw)):        # prose only, displays removed
         text = text[:m.start()] + " " + text[m.end():]
@@ -375,7 +386,7 @@ def prose_assignments(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]
     """Names the running text gives a value: '$x = \\omega/\\Delta$', '$\\Gamma =
     \\Gamma_L + \\Gamma_R$', '$X \\equiv ...$'. name -> [(offset in the body, right
     side)], conditions ('$x = 0$', '$n = 1, 2, \\dots$') left out."""
-    body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
+    body = document_body(_dollar_math(raw))
     displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
     out: dict[str, list[tuple[int, str]]] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):
@@ -401,7 +412,7 @@ def prose_assignments(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]
 def prose_values(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]]:
     """Every value the running text gives a bare name, conditions included:
     '$p = 0$', '$a = 0$', '$x = \\omega/\\Delta$'. name -> [(offset, right side)]."""
-    body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
+    body = document_body(_dollar_math(raw))
     displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
     out: dict[str, list[tuple[int, str]]] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):
@@ -421,8 +432,9 @@ def prose_values(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]]:
 
 
 _NONCOMMUTING = re.compile(
-    r"\b(?:are|is|as|be)\s+(?:[^\s.,;]+\s+){0,3}matri(?:x|ces)\b|\bmatri(?:x|ces)\s+in\s+\w+(?:\s+\w+)?\s+space"
-    r"|\bdo(?:es)?\s+not\s+commute|\bnon-?commut\w*|\boperator-valued|\bNambu\b"
+    r"\$[^$]{1,60}\$\s*(?:(?:,|and)\s*\$[^$]{1,60}\$\s*)*(?:is|are|be)\s+(?:[^\s.,;$]+\s+){0,3}matri(?:x|ces)\b"
+    r"|\bmatri(?:x|ces)\s+in\s+\w+(?:\s+\w+)?\s+space"
+    r"|\bdo(?:es)?\s+not\s+commute|\bnon-?commuting\s+(?:matri|operator|quantit)|\boperator-valued|\bNambu\b"
     r"|\d\s*(?:\\times|\u00d7|x)\s*\d\s+(?:matri|Green|self-energy|Nambu|Keldysh)", re.I)
 
 
@@ -430,7 +442,7 @@ def stated_noncommuting(raw: str) -> str | None:
     """Where the text says its quantities are matrices or do not commute
     ('the density matrix', 'the transfer matrix element', 'the S-matrix'
     are single objects, not a statement that the quantities are matrices)."""
-    for m in _NONCOMMUTING.finditer(raw.split("\\begin{document}", 1)[-1]):
+    for m in _NONCOMMUTING.finditer(document_body(raw)):
         if re.search(r"density|transfer|scattering|transmission|hopping|tunnel|[TSK]-|matrix\s+elements?",
                      m.group(0) + raw[m.end():m.end() + 10], re.I):
             continue
@@ -486,7 +498,7 @@ def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
     name: '$e^{iqL} = 1$', '$\\Omega T = 2\\pi$', '$x = \\beta\\epsilon = \\epsilon/T$',
     '$t > s$', '$\\eta < 0$', '$k \\neq q$'. A refutation that treats them as
     free may be wrong. name -> where."""
-    body = _dollar_math(raw).split("\\begin{document}", 1)[-1]
+    body = document_body(_dollar_math(raw))
     displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
     out: dict[str, str] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):

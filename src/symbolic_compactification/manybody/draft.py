@@ -30,13 +30,13 @@ from .latex import latex_to_plain, read_macros, split_integral
 # names used here, and the ones callers import from draft (kept for them)
 from .prose import (_distribution_not_thermal, _dollar_math, _inline_definitions, _matsubara_names,
                     builtins_redefined, distribution_defined_in_text, log_base_stated, prose_constraints,
-                    subscript_collisions,
+                    dependence_stated, subscript_collisions,
                     special_functions_named,
                     _operator_names, _positive_symbols,
                     _realness_sensitive,
                     _stated_integers, _stated_numbers, _stated_realness, _symbol_entry,
                     prose_assignments, prose_values, stated_noncommuting)
-from .relations import (_DEFINITION_LHS, _INTEGRAL, _KNOWN, _MATSUBARA, _O_TERM, _ONLY_O,
+from .relations import (document_body, _DEFINITION_LHS, _INTEGRAL, _KNOWN, _MATSUBARA, _O_TERM, _ONLY_O,
                         _SERIES, split_top_level, steps_from_latex, steps_from_sheet,
                         _tokens)
 
@@ -362,7 +362,7 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
         expanded = ""
     if re.search(r"(?<![A-Za-z0-9_])(?:Tr|tr|Sp|det)\s*\(|\\(?:Tr|tr)\b", expanded + " " + lhs + " " + rhs):
         card["trace"] = True                   # a trace or determinant of matrices
-    if re.search(r"\\(?:mathbf|boldsymbol|bm|vec)\b", lhs + " " + rhs):
+    if re.search(r"\\(?:mathbf|boldsymbol|bm|vec|bf)\b", lhs + " " + rhs):
         card["bold_symbols"] = True           # vectors or matrices: products are not numbers
     if re.search(r"first\s+order|leading\s+order|lowest\s+order|to\s+order|linear\s+(?:in|response|order)"
                  r"|approximat|\\approx|\\simeq|neglect|small\s+(?:\$|\\\()",
@@ -460,6 +460,45 @@ def _lead_in(context: str) -> str:
     return before[cut + 1:] if cut >= 0 else before
 
 
+_DEFINING_CUE = re.compile(r"\b(?:defin(?:e|es|ed|ing|ition)|introduc\w*|denot\w*|we\s+(?:write|set|use)"
+                           r"|let\b|where\b|with\b|in\s+terms\s+of|given\s+by)", re.I)
+_NOT_DEFINING = re.compile(r"\b(?:at|for|when|whenever|if|limit|approximat\w*|leading|neglect\w*|small|large"
+                           r"|expand\w*|yields?|gives?|becomes?|reduces?|obtain\w*|find|finds|result\w*|follows?"
+                           r"|then|thus|hence|therefore|so\s+that)\b|\\approx|\\simeq|\\sim\b|order", re.I)
+
+
+def _mark_named_definitions(steps: list[dict], macros: dict, latex: bool, values: dict) -> None:
+    """'We define $X = ...$' as a display: X is a named constant for the other
+    cards, if the text leads in with a defining word ('define', 'where',
+    'denote', 'given by'), states no condition or limit there, gives X no
+    other value in a display or in the running text, and X is not on the
+    right."""
+    names = []
+    for step in steps:
+        try:
+            plain = latex_to_plain(step["lhs"], macros).strip() if latex else step["lhs"].strip()
+        except (ValueError, RecursionError):
+            plain = ""
+        bare = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain)
+        names.append(bare.group(1) if bare else None)
+    counts = {n: names.count(n) for n in names if n}
+    for step, name in zip(steps, names):
+        if not name or step.get("equiv") or step.get("conditional") or counts[name] != 1:
+            continue
+        if name in values or name in _KNOWN or re.fullmatch(r"[a-z]", name):
+            continue                         # one letter (x, t) is too often a variable
+        lead = _lead_in(step.get("before", ""))[-250:]
+        if not _DEFINING_CUE.search(lead) or _NOT_DEFINING.search(lead):
+            continue
+        try:
+            rhs = latex_to_plain(step["rhs"], macros) if latex else step["rhs"]
+        except (ValueError, RecursionError):
+            continue
+        if re.search(rf"(?<![A-Za-z0-9_]){re.escape(name)}(?![A-Za-z0-9_])", rhs):
+            continue
+        step["named_definition"] = True
+
+
 def _redefined(values: dict[str, list[tuple[int, str]]]) -> dict[str, list[tuple[int, str]]]:
     """Names given a value more than once: a pair of displays across them may
     compare two different things."""
@@ -497,7 +536,7 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
     claim: it goes to conventions.yaml as quoted define: entries (both
     branches when the name carries a +- subscript)."""
     plain = latex_to_plain(step["lhs"], macros) if latex else step["lhs"]
-    if step.get("equiv"):                 # "X \\equiv ..." in a display names X
+    if step.get("equiv") or step.get("named_definition"):   # "X \\equiv ..." or "we define X = ..."
         if step.get("equiv_relation") or step.get("conditional"):
             return None
         bare = re.fullmatch(r"\(*\s*([A-Za-z][A-Za-z0-9_]*)\s*\)*", plain)
@@ -527,6 +566,13 @@ def _definition(step: dict, latex: bool, macros: dict) -> list[tuple[str, Any]] 
                                    step.get("document", ""))):
         return None                     # a Langreth rule the paper states: a claim to check
     name, args = m.group(1), ",".join(a.strip() for a in m.group(2).split(","))
+    params = [a for a in args.split(",") if a]
+    if not any(re.search(rf"(?<![A-Za-z0-9_]){re.escape(a)}(?![A-Za-z0-9_])", body) for a in params) \
+            and not re.search(r"[A-Za-z]", body):
+        return None                     # u(a, y) = 0 is a value at a point (a boundary condition)
+    if re.search(r"condition|constraint|boundary|at\s+the\s+(?:edge|surface|wall)",
+                 _lead_in(step.get("before", ""))[-250:], re.I):
+        return None                     # "with the boundary conditions ..."
     anchor = {"display": step["display"]} if step.get("display") else {}
     if "PM" in name or name.endswith("_pm"):
         base = name.replace("PM", "").removesuffix("_pm").rstrip("_") + "_"
@@ -561,6 +607,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         except (ValueError, RecursionError):
             return None
 
+    _mark_named_definitions(steps, macros, latex, values)
     # a name "defined" twice with different right-hand sides is not a
     # definition: those relations are claims and are drafted as steps
     bodies: dict[str, set[str]] = {}
@@ -607,7 +654,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         definition = definition_of(step)
         if definition and definition[0][0].split(":", 1)[1].split("(")[0] in contested:
             definition = None
-        if definition and step.get("equiv"):
+        if definition and (step.get("equiv") or step.get("named_definition")):
             name = definition[0][0].split(":", 1)[1][:-2]
             others = [v for _, v in display_values.get(name, [])]
             if given_otherwise(name, step["rhs"]) or name in bound_names \
@@ -639,7 +686,7 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             all_todo |= todo
             path = out / f"{re.sub(r'[^A-Za-z0-9_.-]', '_', variant['id'])}.yaml"
             pending.append((path, card, todo - set(card.get("notation") or {})))
-    body = raw.split("\\begin{document}", 1)[-1]
+    body = document_body(raw)
     sections = [m.start() for m in re.finditer(r"\\(?:sub)*section\*?\s*\{|\\appendix\b", body)]
     scoped = {n: values.get(n, []) + display_values.get(n, []) for n in set(values) | set(display_values)}
     for cstep in _consistency_steps(drafted_steps, latex, macros, _redefined(scoped), sections):
@@ -763,6 +810,9 @@ def draft(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
             # names the text calls real or positive as bare symbols: where a card also
             # uses one bare, it cannot be a function there
             "stated_numbers": sorted(n for n in ambiguous if _stated_number(n))}
+        depends = sorted(dependence_stated(prose)) if latex else []
+        if depends:
+            data["depends"] = depends            # names the text says depend on something
         collided = sorted(subscript_collisions(raw)) if latex else []
         if collided:
             data["subscript_collisions"] = collided      # X_+ and X_p are both read as X_p

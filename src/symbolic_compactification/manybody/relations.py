@@ -69,6 +69,16 @@ def _top_level_rows(body: str) -> list[str]:
     return rows + [body[start:]]
 
 
+_BEGIN_DOCUMENT = re.compile(r"\\begin\s*\{\s*document\s*\}")
+
+
+def document_body(text: str) -> str:
+    """The text after \\begin{document} (also written \\begin {document}), or
+    all of it when there is none."""
+    parts = _BEGIN_DOCUMENT.split(text, maxsplit=1)
+    return parts[-1]
+
+
 _INACTIVE = re.compile(
     r"(?<!\\)%[^\n]*"                                          # a comment
     r"|\\iffalse\b.*?\\fi\b"                                    # \iffalse ... \fi
@@ -133,7 +143,7 @@ def display_spans(body: str, document: str | None = None) -> list[_Display]:
 
 def latex_equations(document: str) -> list[dict[str, Any]]:
     """[{label, rows: [text, ...]}] for every display in a LaTeX document."""
-    body = blank_inactive(document.split("\\begin{document}", 1)[-1].split("\\end{document}", 1)[0])
+    body = document_body(blank_inactive(document).split("\\end{document}", 1)[0])
     found = []
     for m in display_spans(body, document):
         label = _LABEL_RE.search(m.group(2))
