@@ -94,6 +94,17 @@ _OPERATOR_NOUN = (r"(?:operator|Hamiltonian|matri(?:x|ce)|Pauli\s+matri(?:x|ce)|
                   r"|creation|annihilation|component|spinor|projector)")
 
 
+
+def _name_roots(fragment: str) -> set[str]:
+    """Roots of the names in a fragment (d_k -> d): unlike _names_in, d is
+    kept, since an operator may be called d_k."""
+    try:
+        plain = latex_to_plain(fragment)
+    except (ValueError, RecursionError):
+        return set()
+    plain = re.sub(r"\\[A-Za-z]+", " ", plain)
+    return {re.split(r"__|_", n)[0] for n in re.findall(r"(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9_]*)", plain)}
+
 def _operator_names(raw: str) -> set[str]:
     """Names in a sentence that calls them operators, spin components,
     creation or annihilation operators or matrices ('the fermionic operators
@@ -110,14 +121,23 @@ def _operator_names(raw: str) -> set[str]:
             before, after = sentence[max(0, m.start() - 80):m.start()], sentence[m.end():m.end() + 120]
             named_before = re.search(_OPERATOR_NOUN + r"s?\s+(?:[A-Za-z-]+\s+){0,4}(?:\$[^$]*\$\s*(?:,|and)\s*)*$",
                                      before, re.I)
-            named_after = re.match(r"\s*(?:(?:,|and)\s*\$[^$]*\$\s*)*(?:is|are|denotes?|be|being|as)\s+"
-                                   r"(?:[A-Za-z-]+\s+){0,5}" + _OPERATOR_NOUN, after, re.I)
+            # '$a$ is the annihilation operator', '$p$ and $q$ are operators': a list
+            # takes a plural verb, and a relation ('$K \\equiv (k_0, k)$, $a$ is ...')
+            # is never what the word describes
+            named_after = re.match(r"\s*(?:is|are|denotes?|be|being|as)\s+(?:[A-Za-z-]+\s+){0,5}"
+                                   + _OPERATOR_NOUN, after, re.I) or \
+                re.match(r"\s*(?:(?:,|and)\s*\$[^$=]*\$\s*)+(?:are|denote|be|being|as)\s+"
+                         r"(?:[A-Za-z-]+\s+){0,5}" + _OPERATOR_NOUN, after, re.I)
+            if re.search(r"=|\\equiv", m.group(1)):
+                continue
             if named_before or named_after:
                 # the operator itself, not the labels on it (\hat I^{e(h)}_p: not e, h)
-                base = _names_in(re.sub(r"[_^]\s*(?:\{[^{}]*\}|\\?[A-Za-z0-9]+)", " ", m.group(1)))
+                # nor its arguments ($a(k)$ is the annihilation operator: not k)
+                bare = re.sub(r"[_^]\s*(?:\{[^{}]*\}|\\?[A-Za-z0-9]+)", " ", m.group(1))
+                bare = re.sub(r"(?<=[A-Za-z}])\s*\((?:[^()]|\([^()]*\))*\)", " ", bare)
+                roots = _name_roots(bare)
                 found |= {n for n in _names_in(m.group(1))
-                          if (len(n) <= 3 or "_" in n) and re.split(r"__|_", n)[0] in
-                          {re.split(r"__|_", b)[0] for b in base}}
+                          if (len(n) <= 3 or "_" in n) and re.split(r"__|_", n)[0] in roots}
     for m in re.finditer(r"\\(?:hat|widehat)\s*\{?\s*\\?[A-Za-z]+\s*\}?|\\?[A-Za-z]+\s*\^\s*\{?\s*\\dagger", raw):
         found |= _names_in(m.group(0))
     return found
@@ -434,7 +454,12 @@ def prose_values(raw: str, macros: dict) -> dict[str, list[tuple[int, str]]]:
 _NONCOMMUTING = re.compile(
     r"\$[^$]{1,60}\$\s*(?:(?:,|and)\s*\$[^$]{1,60}\$\s*)*(?:is|are|be)\s+(?:[^\s.,;$]+\s+){0,3}matri(?:x|ces)\b"
     r"|\bmatri(?:x|ces)\s+in\s+\w+(?:\s+\w+)?\s+space"
-    r"|\bdo(?:es)?\s+not\s+commute|\bnon-?commuting\s+(?:matri|operator|quantit)|\boperator-valued|\bNambu\b"
+    # 'do not commute' needs a math subject in the same clause: '$A$ and $B$ do not
+    # commute', 'the spin operators do not commute', '$H_0$ does not commute with $V$';
+    # not 'fixing the divergence does not commute with the gauge fixing' (procedures)
+    r"|(?:\$[^$]{1,60}\$|\b(?:operators?|matri(?:x|ces)|generators?|components|fields|charges)\b)"
+    r"[^.;:$]{0,60}\bdo(?:es)?\s+not\s+commute|\bdo(?:es)?\s+not\s+commute\s+with\s+\$"
+    r"|\bnon-?commuting\s+(?:matri|operator|quantit)|\boperator-valued|\bNambu\b"
     r"|\d\s*(?:\\times|\u00d7|x)\s*\d\s+(?:matri|Green|self-energy|Nambu|Keldysh)", re.I)
 
 

@@ -118,14 +118,18 @@ every verdict independently with sympy and mpmath.
 
 | Mode | Relations | VALID | INVALID | Wrong verdicts |
 |---|---:|---:|---:|---:|
-| One command, no conventions (29 papers; 2207.00534 timed out) | 2 612 | 3 | 0 | 0 |
+| One command, no conventions (all 30 papers, after the fixes) | 3 821 | 3 | 0 | 0 |
 | With the assistant's conventions (30 papers) | 2 734 | 24 | 0 | 0 |
 
 Notes on the counts:
-- 2207.00534 (a 7 900-line lecture course) did not finish within 8 minutes.
-  Its agent reviewed two sections of it (123 relations, 7 of the 24 VALIDs).
-  Each card re-read the whole paper, which cost about 3 s per card. The
-  paper's displays and macros are now read once and cached.
+- 2207.00534 (a 7 900-line lecture course) did not finish within 8 minutes,
+  so its agent reviewed two sections of it (123 relations, 7 of the 24
+  VALIDs). Each card re-read the whole paper. The displays, macros and
+  conventions are now read once per paper. The whole course (1 229
+  relations) then takes 281 s, and the other 29 papers 149 s instead of
+  796 s. In the whole course its 6 one-command VALIDs are withheld: its QED
+  sections say the γ's are matrices, and that flag holds for every card
+  (`noncommuting: false` on a card lifts it).
 - The first one-command run of this set gave one wrong VALID. In 1005.2389
   a boundary condition, u(0) = u(a) = 0, was read as a definition of u. This
   was fixed before the agents started: a value at a point no longer counts

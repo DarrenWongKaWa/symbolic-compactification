@@ -235,3 +235,27 @@ def test_angle_bracket_macros_are_read():
     macros = read_macros("\\newcommand\\<{\\langle}\\renewcommand\\>{\\rangle}\\begin{document}")
     assert macros["<"] == (0, "\\langle")
     assert latex_to_plain("\\<T\\>", macros) == "\\langle T\\rangle"
+
+
+@pytest.mark.parametrize("text,flagged", [
+    ("fixing the divergence of the potential does not commute with the gauge fixing.", False),
+    ("the two limits do not commute.", False),
+    ("the spin operators do not commute.", True),
+    ("Here $H_0$ does not commute with $V$.", True),
+])
+def test_do_not_commute_needs_a_mathematical_subject(text, flagged):
+    """A remark about procedures in a long lecture once blocked every card of it."""
+    from symbolic_compactification.manybody.prose import stated_noncommuting
+    assert (stated_noncommuting(text) is not None) == flagged
+
+
+@pytest.mark.parametrize("text,names", [
+    # the relation and the momentum before 'is the annihilation operator' are not operators
+    (r"with $K\equiv(k_0,\vec k)$, $\omega_k=\sqrt{k^2+m^2}$, $a(k)$ is the annihilation operator.", ["a"]),
+    (r"$U(t,t_0)$ is the evolution operator.", ["U"]),
+    (r"the operators $c_k$ and $d_k$ obey", ["c_k", "d_k"]),   # d_k is a name, not a differential
+    (r"$p$ and $q$ are fermionic operators.", ["p", "q"]),
+])
+def test_operator_names_are_what_the_sentence_describes(text, names):
+    from symbolic_compactification.manybody.prose import _operator_names
+    assert sorted(_operator_names(text)) == names
