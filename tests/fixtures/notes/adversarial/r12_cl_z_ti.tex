@@ -1,0 +1,34 @@
+\documentclass{article}
+\begin{document}
+We take $\varepsilon$, $\Omega$, $t$ and $t_0$ real, and $\eta>0$.
+The free propagator accumulates the phase
+\begin{equation}
+\int_0^{t} dt'\, e^{-i\varepsilon t'} = \frac{1-e^{-i\varepsilon t}}{i\varepsilon},
+\label{eq:phase}
+\end{equation}
+and switching on at $t_0$ gives
+\begin{equation}
+\int_{t_0}^{t}dt_1\, e^{-i\varepsilon(t-t_1)} = \frac{i}{\varepsilon}\left(e^{-i\varepsilon(t-t_0)}-1\right).
+\label{eq:switch}
+\end{equation}
+The first moment is
+\begin{equation}
+\int_0^{t} ds\, s\, e^{a s} = \left(\frac{t}{a}-\frac{1}{a^2}\right)e^{a t},
+\label{eq:moment}
+\end{equation}
+and a cosine drive integrates to
+\begin{equation}
+\int_0^{t} ds\, \cos(\Omega s) = \frac{\sin(\Omega t)}{\Omega}.
+\label{eq:drive}
+\end{equation}
+With adiabatic switching from the far past,
+\begin{equation}
+\int_{-\infty}^{t} d\tau\, e^{\eta\tau} = \frac{e^{\eta t}}{\eta},
+\label{eq:adiabatic}
+\end{equation}
+and the damped response is
+\begin{equation}
+\int_0^\infty e^{-\eta s}\cos(\Omega s)\,ds = \frac{\eta}{\eta^2+\Omega^2}.
+\label{eq:damped}
+\end{equation}
+\end{document}

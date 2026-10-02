@@ -18,7 +18,7 @@ import re
 
 _GREEK = ("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi "
           "pi rho sigma tau upsilon phi chi psi omega Gamma Delta Theta Lambda Xi Pi "
-          "Sigma Upsilon Phi Psi Omega").split()
+          "Sigma Upsilon Phi Psi Omega hbar").split()
 _ALIASES = {"varepsilon": "epsilon", "vartheta": "theta", "varphi": "phi", "varrho": "rho",
             "ell": "l", "infty": "oo", "ln": "log", "cdot": "*", "times": "*",
             "lbrace": "(", "rbrace": ")", "lbrack": "(", "rbrack": ")",
@@ -67,10 +67,13 @@ def read_macros(document: str) -> dict[str, tuple[int, str]]:
             body, _ = _group(document, m.end() - 1)
         except ValueError:
             continue
-        if m.group(1):
-            macros[m.group(1)] = (int(m.group(2) or 0), body)
-        else:
-            macros[m.group(3)] = (len(m.group(4) or "") // 2, body)
+        name, entry = ((m.group(1), (int(m.group(2) or 0), body)) if m.group(1)
+                       else (m.group(3), (len(m.group(4) or "") // 2, body)))
+        if name in macros and macros[name] != entry:
+            # redefined in the document: which meaning a display has depends on where
+            # it sits, so the macro is left unexpanded and quotes using it are refused
+            entry = (entry[0], "\\MACROREDEFINED")
+        macros[name] = entry
     return macros
 
 
@@ -149,6 +152,8 @@ def _convert(text: str) -> str:
                 i += k.end()
             elif name in _DROP or name in (",", ";", "!", ":", " ", "\\"):
                 out.append(" ")
+            elif name == "lambda":                # a Python keyword: SymPy's own spelling
+                out.append(" lamda " if not text[i:i + 1] == "_" else " lamda")
             elif name in _GREEK:
                 # always a space before (\Gamma_L\Gamma_R is two names, not one);
                 # none after when a subscript follows (\Gamma_L stays one name)
@@ -172,6 +177,13 @@ def _convert(text: str) -> str:
             glued = out and re.search(r"[A-Za-z0-9_)]\s*$", "".join(out))
             if re.search(r"(?<![A-Za-z0-9_])[eE]\s*$", "".join(out)):
                 letters = None                        # e^{i x} is the exponential
+            name_before = re.search(r"(?:[A-Za-z]|\\[A-Za-z]+)\s*$", text[:text.rfind("^", 0, i)])
+            if re.fullmatch(r"\s*0\s*", arg) and glued and name_before and (
+                    re.match(r"\s*[(_]", text[i:]) or re.match(r"[A-Z\\]", name_before.group(0).strip())):
+                label = re.fullmatch(r"\s*(0)\s*", arg)   # G^0, f^0(e): the bare/equilibrium one, not **0
+            rm = re.fullmatch(r"\s*\\(?:rm|mathrm|text)\s*\{?\s*([A-Za-z]+)\s*\}?\s*", arg)
+            if rm and glued:
+                label = re.fullmatch(r"\s*(\w+)\s*", rm.group(1))   # G^{\rm R}: a label
             if label and glued:
                 _strip_trailing_space(out)
                 out.append("__" + _flatten(_convert(label.group(1))))   # rho^{(0)} is a label
@@ -202,6 +214,9 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     """Convert a LaTeX math fragment; raises ValueError on unbalanced braces."""
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
+    # a capital E or I written in LaTeX is a quantity (an energy, a current),
+    # never Euler's number or the imaginary unit, which are written e and i
+    text = re.sub(r"(?<![\\A-Za-z])([EI])(?![A-Za-z])", r"\1sym", text)
     text = rewrite_over(normalize_exponential(text))
     # Re / Im of the next factor: \mathrm{Im}\,\psi(z) -> im_of psi(z)
     text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",
@@ -211,6 +226,8 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     plain = _absolute_values(_convert(text))
     # e^{-x}, e^{i w t} are exponentials; e^2 (as in e^2/h) is the charge squared
     plain = re.sub(r"(?<![A-Za-z0-9_])e\^\((?!\s*\d+\s*\))", "E^(", plain)
+    # primes are part of the name: t' -> t_prime, \omega'' -> omega_pprime
+    plain = re.sub(r"([A-Za-z0-9_])\s*('+)", lambda m: f"{m.group(1)}_{'p' * (len(m.group(2)) - 1)}prime", plain)
     return re.sub(r"_\s+", "_", plain)
 
 
@@ -418,3 +435,59 @@ def _appendix_aware_number(raw: str, env: re.Match, pos: int):
         return _equation_number(raw, env, pos)
     count = _equation_number(sub, local, pos - start)
     return None if count is None else f"{chr(ord('A') + len(sections) - 1)}{count}"
+
+
+_INTEGRAL_HEAD = re.compile(r"^\s*\\int(?:\\limits|\\nolimits)?\s*")
+_VARIABLE = r"(\\[A-Za-z]+|[A-Za-z])((?:\s*')+|\s*_\s*\{?\s*[A-Za-z0-9]+\s*\}?)?"
+_MEASURE_FIRST = re.compile(r"^(?:\\[,;!]\s*)*d\s*" + _VARIABLE + r"\s*(?:\\[,;!]\s*)*")
+_MEASURE_LAST = re.compile(r"(?:\\[,;!]\s*)*(?<![A-Za-z0-9_\\])d\s*" + _VARIABLE + r"\s*$")
+
+
+def _top_level_sum(body: str) -> bool:
+    """A + or - outside brackets, after the first character."""
+    depth = 0
+    for k, ch in enumerate(body):
+        if ch in "([{":
+            depth += 1
+        elif ch in ")]}":
+            depth -= 1
+        elif ch in "+-" and depth == 0 and body[:k].strip():
+            return True
+    return False
+
+
+def split_integral(text: str) -> dict[str, str] | None:
+    """'\\int_a^b dx f' or '\\int_a^b f dx' -> {lower, upper, variable, body}
+    as LaTeX pieces; None for anything else (no limits, two integrals, a
+    measure that cannot be found)."""
+    m = _INTEGRAL_HEAD.match(text)
+    if not m:
+        return None
+    i, limits = m.end(), {}
+    try:
+        for _ in range(2):
+            while i < len(text) and text[i].isspace():
+                i += 1
+            if i < len(text) and text[i] in "_^" and text[i] not in limits:
+                key = text[i]
+                arg, i = _argument(text, i + 1)
+                limits[key] = arg
+    except ValueError:
+        return None
+    if set(limits) != {"_", "^"} or not all(v.strip() for v in limits.values()):
+        return None
+    rest = text[i:].strip()
+    first = _MEASURE_FIRST.match(rest)
+    last = _MEASURE_LAST.search(rest)
+    if first and rest[first.end():].strip():
+        var, body = first.group(1) + (first.group(2) or ""), rest[first.end():]
+    elif last and rest[:last.start()].strip():
+        var, body = last.group(1) + (last.group(2) or ""), rest[:last.start()]
+    else:
+        return None
+    if "\\int" in body:
+        return None
+    if first and _top_level_sum(body):
+        return None                       # \int dx f + g: where does the integrand end?
+    return {"lower": limits["_"].strip(), "upper": limits["^"].strip(),
+            "variable": " ".join(var.split()), "body": body.strip()}
