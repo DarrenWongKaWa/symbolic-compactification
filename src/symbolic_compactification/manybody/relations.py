@@ -421,7 +421,8 @@ _MATSUBARA = re.compile(
     r"^(?:\\frac\{1\}\{\\beta\}|\{\s*1\s*\\over\s*\\beta\s*\}|T|k_B\s*T)\s*"
     r"\\sum_\{?\s*(?P<index>[a-z])\s*\}?\s*(?P<body>.+)$", re.S)
 _SERIES = re.compile(
-    r"^\\sum_\{\s*(?P<index>[a-z])\s*=\s*(?P<lower>-?\d+)\s*\}\^\{?\s*\\infty\s*\}?\s*(?P<body>.+)$", re.S)
+    r"^\\sum(?:\\limits)?_\{\s*(?P<index>[a-z])\s*=\s*(?P<lower>-?\d+|-\s*\\infty)\s*\}\^\{?\s*\+?\s*\\infty\s*\}?\s*(?P<body>.+)$",
+    re.S)
 _DEFINITION_LHS = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*([A-Za-z_][\w\s,]*)\)\s*$")
 
 def _last_sentence(text: str) -> str:

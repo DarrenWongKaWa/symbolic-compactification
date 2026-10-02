@@ -69,7 +69,8 @@ def _bracket_group(text: str, i: int) -> tuple[str, int] | None:
 _DIFF_DEN = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(\\?[A-Za-z]+(?:_\{?\s*[A-Za-z0-9]+\s*\}?)?)"
                        r"\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*$")
 _DROP = ("left", "right", "big", "Big", "bigg", "Bigg", "bigl", "bigr", "Bigl", "Bigr",
-         "biggl", "biggr", "nonumber", "notag", "displaystyle", "quad", "qquad")
+         "biggl", "biggr", "Biggl", "Biggr", "bigm", "Bigm", "nonumber", "notag", "displaystyle",
+         "textstyle", "scriptstyle", "quad", "qquad", "nn")
 _WRAPPERS = ("mathrm", "text", "operatorname", "mathit", "mathbf", "boldsymbol", "rm", "textrm",
              "mbox", "hbox", "textit", "mathop", "bm", "bf", "it", "mit", "emph", "textnormal")
 _MACRO_DEF = re.compile(
@@ -229,8 +230,16 @@ def _convert(text: str) -> str:
                     i += power.end()
                 inverse = power and re.fullmatch(r"\{?\s*-\s*1\s*\}?", power.group(1)) and name in _INVERSES
                 if power and re.match(r"\s*(?:\(|\\left\s*\()", text[i:]):
-                    # \tan^{-1}(x) is arctan(x); \sin^2(x) is left unread (where does the call end?)
-                    out.append(f" {_INVERSES[name]}" if inverse else "\\" + name)
+                    # \tan^{-1}(x) is arctan(x); \sin^2(x) is (sin(x))^2
+                    if inverse:
+                        out.append(f" {_INVERSES[name]}")
+                        continue
+                    group = _bracket_group(text, i)
+                    if group is None:
+                        out.append("\\" + name)
+                        continue
+                    inner, i = group
+                    out.append(f"( {_ALIASES.get(name, name)}({_convert(inner)}))^({_convert(power.group(1).strip('{}'))})")
                     continue
                 arg, i = _argument(text, i)
                 if arg.startswith("\\frac") or arg.startswith("\\tfrac") or arg.startswith("\\dfrac"):
@@ -409,8 +418,8 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = expand_macros(text, macros or {})
     text = re.sub(r"\{\s*\\(cal|bf|rm|it|sf|bm)\s+([^{}]*)\}",
-                  lambda m: "{\\" + {"cal": "mathcal", "bf": "mathbf", "rm": "mathrm", "it": "mathit",
-                                     "sf": "mathsf", "bm": "mathbf"}[m.group(1)] + "{" + m.group(2).strip() + "}}", text)
+                  lambda m: "\\" + {"cal": "mathcal", "bf": "mathbf", "rm": "mathrm", "it": "mathit",
+                                    "sf": "mathsf", "bm": "mathbf"}[m.group(1)] + "{" + m.group(2).strip() + "}", text)
     text = split_letter_runs(text)
     # a capital E or I written in LaTeX is a quantity (an energy, a current),
     # never Euler's number or the imaginary unit, which are written e and i

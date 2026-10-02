@@ -97,3 +97,59 @@ def test_operator_names_come_from_next_to_the_word():
 def test_aligned_inside_an_equation_is_layout():
     raw = "\\begin{document}\\begin{equation}\\begin{aligned} a &= b \\\\ &= c \\end{aligned}\\end{equation}\\end{document}"
     assert [(s["lhs"], s["rhs"]) for s in steps_from_latex(raw)] == [("a", "b"), ("b", "c")]
+
+
+# ---- second swarm (thirty more papers) ----
+
+def test_sums_over_all_integers(tmp_path):
+    got = _decisions(_review(tmp_path, "Let $y>0$.\n"
+                             "\\begin{equation}\\sum_{n=-\\infty}^{\\infty} \\frac{y}{n^2+y^2} = \\pi\\coth(\\pi y)\\label{s1}\\end{equation}\n"
+                             "\\begin{equation}\\sum_{n=-\\infty}^{\\infty} \\frac{y}{n^2+y^2} = 2\\pi\\coth(\\pi y)\\label{s2}\\end{equation}\n"
+                             "\\begin{equation}\\sum_{n=-\\infty}^{\\infty} \\frac{1}{(n+a)^2} = \\frac{\\pi^2}{\\sin^2(\\pi a)}\\label{s3}\\end{equation}"))
+    assert got == {"s1": "VALID", "s2": "INVALID", "s3": "VALID"}
+
+
+def test_a_value_at_a_point_is_not_a_definition(tmp_path):
+    """u(0) = u(a) = 0 are boundary conditions; reading u(a) = 0 as u = 0
+    once gave the wrong VALID u(0) = u(a)."""
+    got = _decisions(_review(tmp_path, "We impose Dirichlet boundary conditions,\n"
+                             "\\begin{equation}u_k(0,y) = u_k(a,y) = 0 .\\label{bc}\\end{equation}"))
+    assert set(got.values()) == {"NOT_DECIDED"}
+
+
+def test_defining_displays_define_and_conditional_ones_do_not(tmp_path):
+    got = _decisions(_review(tmp_path, "Let $\\beta>0$. We define the occupation\n"
+                             "\\begin{equation}N_0 = \\frac{1}{e^{\\beta\\epsilon}+1}\\label{d}\\end{equation}\n"
+                             "so that\n\\begin{equation}N_0 + \\frac{1}{e^{-\\beta\\epsilon}+1} = 1\\label{u}\\end{equation}\n"
+                             "At zero temperature the occupation is\n\\begin{equation}M = 1\\label{c}\\end{equation}\n"
+                             "\\begin{equation}M + 1 = 2\\label{v}\\end{equation}"))
+    assert got["u"] == "VALID" and got["v"] == "NOT_DECIDED"
+
+
+def test_partial_derivatives_hold_the_other_variables(tmp_path):
+    got = _decisions(_review(tmp_path, "Let $\\beta>0$ and real $\\epsilon$, $\\mu$.\n"
+                             "\\begin{equation}-\\frac{\\partial}{\\partial\\epsilon}\\left(\\frac{1}{e^{\\beta(\\epsilon-\\mu)}+1}\\right)"
+                             " = \\frac{\\partial}{\\partial\\mu}\\left(\\frac{1}{e^{\\beta(\\epsilon-\\mu)}+1}\\right)\\label{s}\\end{equation}"))
+    assert got == {"s": "VALID"}
+
+
+def test_macros_follow_tex_rules():
+    m = read_macros("\\newcommand{\\a}{x}\\renewcommand{\\a}{y}\\newcommand{\\b}{u}\\providecommand{\\b}{v}"
+                    "\\begin{document}")
+    assert m["a"] == (0, "y") and m["b"] == (0, "u")         # last preamble one; provide never overrides
+    assert read_macros("\\newcommand{\\a}{x}\\begin{document}\\renewcommand{\\a}{y}")["a"][1] == "\\MACROREDEFINED"
+
+
+@pytest.mark.parametrize("latex,plain", [
+    (r"{\cal E}_0", " Esym__cal_0"),
+    (r"\Biggl( x \Biggr)", " ( x  )"),
+    (r"\frac{\pi^2}{\sin^2(\pi a)}", "(( pi ^(2))/(( sin( pi  a))^(2)))"),
+])
+def test_old_tex_and_function_powers(latex, plain):
+    assert latex_to_plain(latex) == plain
+
+
+def test_matrix_words_need_a_symbol():
+    from symbolic_compactification.manybody.prose import stated_noncommuting
+    assert stated_noncommuting("the aim is to calculate the matrix element") is None
+    assert stated_noncommuting("where $\\sigma_i$ are Pauli matrices") is not None

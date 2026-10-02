@@ -160,7 +160,8 @@ def _concretize(expr: sympy.Expr, names: list[str], seed: int) -> sympy.Expr:
     for name, lam in _test_functions(names, seed).items():
         # G(t, t') gets a test function of all its arguments, not a unary one
         expr = expr.replace(sympy.Function(name),
-                            lambda *args, lam=lam: lam(sum((k + 1) * a for k, a in enumerate(args))))
+                            lambda *args, lam=lam: lam(sum(((k + 1) * a for k, a in enumerate(args)
+                                                            if isinstance(a, sympy.Expr)), sympy.Integer(0))))
     return expr.doit()
 
 
@@ -188,7 +189,10 @@ def _screen(residual, names, free, positive) -> tuple[dict | None, bool]:
     than 1e-20 in magnitude proves the residual is not identically zero."""
     all_small = True
     for seed in (11, 23, 37):
-        concrete = _concretize(residual, names, seed)
+        try:
+            concrete = _concretize(residual, names, seed)
+        except (TypeError, ValueError):       # e.g. a function applied to a tuple
+            return None, False
         for point in sample_points(free, positive=positive, count=2, seed=seed):
             value = concrete.subs(point)
             number = _certified_value(value)

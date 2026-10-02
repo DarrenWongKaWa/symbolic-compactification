@@ -322,7 +322,7 @@ def _card_for(step: dict, doc_name: str, latex: bool, macros: dict) -> tuple[dic
                     or _langreth_shorthand(lhs, rhs, macros, step["context"], step.get("document", "")))
     elif series:
         card.update({"check": "series", "variable": series.group("index"),
-                     "lower": int(series.group("lower"))})
+                     "lower": "-oo" if "infty" in series.group("lower") else int(series.group("lower"))})
         card["source"] = {"summand": series.group("body").strip(), "claim": rhs}
     elif integral and re.search(r"n_\{?F", integral.group("body")):
         body = integral.group("body").strip()

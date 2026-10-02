@@ -699,8 +699,9 @@ def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
     elif check == "series":
         from .series import verify_series_sum
         summand, claim, variable = _need(card, "summand", "claim", "variable")
+        lower = card.get("lower", 0)
         out = verify_series_sum(summand, claim, variable=variable, symbols=symbols,
-                                lower=int(card.get("lower", 0)), functions=functions,
+                                lower=lower if str(lower) == "-oo" else int(lower), functions=functions,
                                 definitions=defs, positive=positive)
     elif check == "matsubara":
         summand, claim, statistics = _need(card, "summand", "claim", "statistics")
