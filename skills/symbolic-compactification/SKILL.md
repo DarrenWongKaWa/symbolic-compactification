@@ -115,6 +115,20 @@ Naming the whole expression `K` and writing `σ = K` can be ZERO and still
 Promote a candidate only on engine `ZERO`. `NONZERO` / `UNKNOWN` never
 promote. A cited rule is not engine `ZERO`.
 
+Optional cross-check, only when the user asks for a second engine and
+Wolfram Engine (`wolframscript`) is installed and activated:
+
+```bash
+symbolic-compactification verify --current current.txt \
+  --candidate candidate.txt --symbols symbols.json --second-engine wolfram
+```
+
+It records `agree`, `disagree`, `inconclusive` or `unavailable` under
+`second_engine`. It can only downgrade: a disagreement becomes `UNKNOWN`,
+and Wolfram never turns anything into `ZERO`. `--require-second-engine`
+keeps `ZERO` only on `agree`. `unavailable` is not a pass and not a failure
+of the primary verdict; report it as is.
+
 ## B. Paper derivation audit (secondary)
 
 Use only when asked to audit a paper, check numbered equations, reconstruct

@@ -154,7 +154,9 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
                       functions: Any = None,
                       allow_reserved: bool = False,
                       max_probes: int = MAX_PROBES,
-                      policy: Optional[dict] = None) -> VerificationResult:
+                      policy: Optional[dict] = None,
+                      second_engine: Optional[str] = None,
+                      require_second_engine: bool = False) -> VerificationResult:
     """Adjudicate whether ``current`` and ``candidate`` are symbolically equal.
 
     Both sides are raw strings parsed through the strict whitelist parser.
@@ -167,7 +169,41 @@ def verify_equivalent(current_expression: Any, candidate_expression: Any,
     ``policy`` optionally overrides verify-policy limits for this single
     call. Never raises: any failure path returns an UNKNOWN
     VerificationResult (fail-closed).
+
+    ``second_engine`` (opt-in, default ``None``) additionally asks an
+    independent engine -- currently only ``"wolfram"`` via ``wolframscript``
+    -- and records ``agree`` / ``disagree`` / ``inconclusive`` /
+    ``unavailable`` in ``result.second_engine`` and the evidence. It can only
+    downgrade: a disagreement yields UNKNOWN, and nothing is ever promoted to
+    ZERO. ``require_second_engine=True`` (implies ``"wolfram"``) keeps a ZERO
+    only when the second engine agrees. See ``second_engine.py``.
     """
+    result = _verify_primary(
+        current_expression, candidate_expression, symbols, assumptions,
+        functions=functions, allow_reserved=allow_reserved,
+        max_probes=max_probes, policy=policy)
+    if second_engine is None and not require_second_engine:
+        return result
+    try:
+        from .second_engine import WOLFRAM_ENGINE, verify_with_second_engine
+        return verify_with_second_engine(
+            result, current_expression, candidate_expression, symbols,
+            engine=second_engine or WOLFRAM_ENGINE,
+            require=bool(require_second_engine), functions=functions,
+            allow_reserved=allow_reserved)
+    except Exception:  # fail closed: the requested check could not complete
+        return _unknown_result("second_engine_failed",
+                               {"code": "SECOND_ENGINE_INTERNAL_ERROR"},
+                               result.seconds, result.residual)
+
+
+def _verify_primary(current_expression: Any, candidate_expression: Any,
+                    symbols: Any, assumptions: Optional[dict] = None, *,
+                    functions: Any = None,
+                    allow_reserved: bool = False,
+                    max_probes: int = MAX_PROBES,
+                    policy: Optional[dict] = None) -> VerificationResult:
+    """The primary ``python_sympy_exact_v1`` route (see ``verify_equivalent``)."""
     t0 = time.time()
     try:
         pol = _effective_verify_policy(policy)

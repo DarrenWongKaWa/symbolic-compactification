@@ -35,6 +35,9 @@ RESULT_SCHEMA_VERSION = "ResearchHypothesisVerificationV1"
 RESULT_FILE_NAME = "result.json"
 REPORT_FILE_NAME = "REPORT.md"
 VERIFIER_ROUTE = "python_sympy_exact_v1"
+# Recorded only when the opt-in independent Wolfram check was requested.
+VERIFIER_ROUTE_WITH_SECOND_ENGINE = (
+    "python_sympy_exact_v1/wolfram_second_engine_v1")
 
 PARSE_FAILURE = "PARSE_FAILURE"
 COMPILE_FAILURE = "COMPILE_FAILURE"
@@ -144,6 +147,7 @@ class HypothesisVerificationResult:
     error_source: Optional[str] = None
     action_hint: Optional[str] = None
     error_detail: Optional[str] = None
+    verifier_route: str = VERIFIER_ROUTE
 
     @property
     def verdict(self) -> str:
@@ -166,7 +170,7 @@ class HypothesisVerificationResult:
             "schema_version": RESULT_SCHEMA_VERSION,
             "run_id": self.run_id,
             "result": self.result,
-            "verifier_route": VERIFIER_ROUTE,
+            "verifier_route": self.verifier_route,
             "runtime_seconds": self.runtime_seconds,
             "warnings": list(self.warnings),
             "error_code": self.error_code,
@@ -211,6 +215,8 @@ def verify_hypothesis(
     *,
     run_id: Optional[str] = None,
     timestamp: Optional[str] = None,
+    second_engine: Optional[str] = None,
+    require_second_engine: bool = False,
 ) -> HypothesisVerificationResult:
     """Load, compile, and exactly adjudicate a workspace hypothesis.
 
@@ -221,8 +227,22 @@ def verify_hypothesis(
 
     ``run_id`` and ``timestamp`` are optional reproducibility hooks.  Invalid
     or duplicate values are rejected by the provenance layer.
+
+    ``second_engine`` / ``require_second_engine`` opt in to the independent
+    Wolfram check for every obligation (see ``verify_equivalent``). The
+    provenance route then reads ``VERIFIER_ROUTE_WITH_SECOND_ENGINE`` and
+    every non-``agree`` outcome is listed in the provenance warnings. Without
+    the opt-in, records are unchanged.
     """
     started = time.monotonic()
+    second_engine_kwargs: dict[str, Any] = {}
+    verifier_route = VERIFIER_ROUTE
+    if second_engine is not None or require_second_engine:
+        second_engine_kwargs = {
+            "second_engine": second_engine or "wolfram",
+            "require_second_engine": bool(require_second_engine),
+        }
+        verifier_route = VERIFIER_ROUTE_WITH_SECOND_ENGINE
     root = _workspace_root(workspace)
     runs_directory = _safe_runs_directory(root)
     loaded: Optional[ResearchWorkspace] = None
@@ -270,6 +290,7 @@ def verify_hypothesis(
                     right.text,
                     list(loaded.symbols),
                     functions=list(loaded.functions),
+                    **second_engine_kwargs,
                 )
                 checked.append(ObligationVerification(
                     obligation_id=obligation.obligation_id,
@@ -280,6 +301,7 @@ def verify_hypothesis(
                 ))
             obligations = tuple(checked)
             result = _aggregate_verdicts(item.verdict for item in obligations)
+            warnings = (*warnings, *_second_engine_warnings(obligations))
 
     workspace_summary, summary_truncated = _workspace_summary(loaded)
     if summary_truncated:
@@ -294,7 +316,7 @@ def verify_hypothesis(
         expression_hashes=expression_hashes,
         hypothesis_hash=hypothesis_hash,
         assumptions_hash=assumptions_hash,
-        verifier_route=VERIFIER_ROUTE,
+        verifier_route=verifier_route,
         result=result,
         runtime_seconds=runtime_seconds,
         warnings=warnings,
@@ -318,6 +340,7 @@ def verify_hypothesis(
         error_source=error_source,
         action_hint=action_hint,
         error_detail=error_detail,
+        verifier_route=verifier_route,
     )
     _write_json_atomic(provisional.result_path, provisional._artifact_payload())
     _write_text_atomic(provisional.report_path, _render_report(
@@ -477,6 +500,23 @@ def _compile_equivalence_obligations(workspace: ResearchWorkspace):
                         f"{index}/relation"),
             )
     return hypothesis.proof_obligations
+
+
+def _second_engine_warnings(obligations) -> tuple[str, ...]:
+    """Provenance warnings for every opt-in second-engine non-agreement."""
+    warnings = []
+    for item in obligations:
+        record = item.result.second_engine
+        if record is None or record.get("status") == "agree":
+            continue
+        parts = ["second_engine", str(record.get("engine")),
+                 str(record.get("status")), item.obligation_id]
+        if record.get("reason"):
+            parts.append(str(record["reason"]))
+        if record.get("fail_closed_reason"):
+            parts.append(str(record["fail_closed_reason"]))
+        warnings.append(":".join(parts))
+    return tuple(warnings)
 
 
 def _aggregate_verdicts(verdicts) -> str:
@@ -788,6 +828,17 @@ def _render_report(result: Mapping[str, Any], provenance: Mapping[str, Any]) -> 
                 lines.append(
                     "- Exact counterexample: `" + json.dumps(
                         verification["counterexample"], sort_keys=True) + "`")
+            second = verification.get("second_engine")
+            if isinstance(second, Mapping):
+                line = (f"- Independent second engine "
+                        f"(`{second.get('engine')}`): **{second.get('status')}**"
+                        f" (engine verdict `{second.get('engine_verdict')}`")
+                if second.get("reason"):
+                    line += f", reason `{second.get('reason')}`"
+                if second.get("fail_closed_reason"):
+                    line += (f"; fail-closed `{second.get('primary_verdict')}`"
+                             f" -> `{second.get('final_verdict')}`")
+                lines.append(line + ")")
             lines.append("")
     lines.extend([
         "## Provenance",

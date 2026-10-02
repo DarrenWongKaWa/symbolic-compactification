@@ -8,6 +8,7 @@ Kernel modules:
   session   - JSON-based run/session persistence (workspace/runs/<run-id>/)
   cli       - command-line interface (inspect / verify / init-session / step)
   adapters  - neutral ingestion adapters (Wolfram text -> SymPy)
+  second_engine - OPT-IN independent wolframscript check (never promotes)
   structure - structure-first preservation + finite-N diagnostic replay
   transforms- bounded structural transformation primitives
   budgets   - wall-clock budgets for expensive symbolic operations
