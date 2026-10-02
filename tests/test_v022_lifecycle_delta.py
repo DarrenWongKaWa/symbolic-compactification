@@ -43,6 +43,16 @@ from symbolic_compactification import (
 )
 from symbolic_compactification.budgets import PROCESS_TELEMETRY_FIELDS
 
+
+# Budget for the deliberately slow worker on paths that later read the PID
+# the worker writes once it runs. The deadline also covers worker start-up
+# (spawn + interpreter + SymPy import: ~0.3 s warm, >2 s on a cold macOS
+# run), so a sub-second budget can kill the worker before it ever reports.
+# The worker sleeps far past any such budget, so the timeout itself stays
+# deterministic. Override with SSC_TEST_SLOW_WORKER_BUDGET (seconds).
+SLOW_WORKER_BUDGET = float(os.environ.get("SSC_TEST_SLOW_WORKER_BUDGET", "10"))
+SLOW_WORKER_SLEEP = max(60.0, 6 * SLOW_WORKER_BUDGET)
+
 _ISO_UTC = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
 # termination_reason vocabulary (mirrors budgets.py; never free-form)
@@ -152,23 +162,37 @@ def test_case_d_cancel_cleanup_occurs_and_telemetry_says_cancelled(tmp_path):
     pid_path = tmp_path / "worker_cancel.pid"
     set_budget_policy(mode="process", kill_grace_seconds=0.2)
 
-    # Deliver SIGINT to the MAIN thread shortly after the worker is up: the
-    # budget call is blocked in its polling loop on this thread, so the
-    # signal surfaces there as KeyboardInterrupt — exactly the documented
-    # interceptable cancel path. The 30s budget guarantees the deadline
-    # itself can never fire first.
-    def _cancel():
-        signal.pthread_kill(threading.main_thread().ident, signal.SIGINT)
+    # Deliver SIGINT to the MAIN thread once the worker is up (it has
+    # written its PID), rather than after a fixed delay that a slow spawn
+    # can outlast: the budget call is blocked in its polling loop on this
+    # thread, so the signal surfaces there as KeyboardInterrupt — exactly
+    # the documented interceptable cancel path. The budget is three times
+    # the start-up wait, so the deadline itself can never fire first.
+    stop = threading.Event()
 
-    timer = threading.Timer(0.8, _cancel)
-    timer.daemon = True
-    timer.start()
+    def _worker_up():
+        try:
+            return bool(pid_path.read_text(encoding="utf-8").strip())
+        except OSError:
+            return False
+
+    def _cancel():
+        _wait_until(lambda: stop.is_set() or _worker_up(),
+                    timeout=SLOW_WORKER_BUDGET)
+        if not stop.is_set():
+            signal.pthread_kill(threading.main_thread().ident, signal.SIGINT)
+
+    canceller = threading.Thread(target=_cancel, daemon=True)
+    canceller.start()
     try:
         with pytest.raises(KeyboardInterrupt):
-            run_with_budget(_slow_pid_report_worker, (60.0, str(pid_path)),
-                            seconds=30.0, operation="case-d-cancel")
+            run_with_budget(_slow_pid_report_worker,
+                            (SLOW_WORKER_SLEEP, str(pid_path)),
+                            seconds=3 * SLOW_WORKER_BUDGET,
+                            operation="case-d-cancel")
     finally:
-        timer.cancel()
+        stop.set()
+        canceller.join(timeout=5.0)
 
     # cleanup still occurred on the cancellation path
     assert owned_children_snapshot() == []
@@ -286,8 +310,10 @@ def test_timeout_path_telemetry_complete_clean_and_typed(tmp_path):
     set_budget_policy(mode="process", kill_grace_seconds=0.2)
 
     with pytest.raises(BudgetExceeded):
-        run_with_budget(_slow_pid_report_worker, (60.0, str(pid_path)),
-                        seconds=0.8, operation="telemetry-timeout")
+        run_with_budget(_slow_pid_report_worker,
+                        (SLOW_WORKER_SLEEP, str(pid_path)),
+                        seconds=SLOW_WORKER_BUDGET,
+                        operation="telemetry-timeout")
 
     record = last_process_telemetry()
     _assert_telemetry_shape(record)
