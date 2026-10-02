@@ -35,6 +35,7 @@ reused across steps. The structure of the claim comes from the source.
 """
 from __future__ import annotations
 
+import functools
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -420,6 +421,14 @@ _RIGHT_OK = re.compile(
 _PROSE_LEFT = re.compile(r"(?:^|\s)[A-Za-z]{2,}\s*$")
 
 
+def _near(text: str, width: int = 400, end: bool = True) -> str:
+    """The part of the text next to a match: its end before the match, its
+    start after it. That is enough for the boundary patterns; the whole text
+    is kept when that part is blank, so '^' and '$' keep their meaning."""
+    part = text[-width:] if end else text[:width]
+    return part if len(text) <= width or part.strip() else text
+
+
 def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
     """The quote occurs as a whole piece: bounded by the display edge, a row
     end, a relation sign, punctuation, spacing, an integration measure or a
@@ -430,7 +439,8 @@ def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
     gap = r"(?:\s*" + ROW + r"\s*|\s+)"         # a space in the quote may be a row end in the display
     pattern = re.compile(gap.join(re.escape(tok) for tok in quote.split(" ")))
     for m in pattern.finditer(region):
-        left, right = region[:m.start()], region[m.end():]
+        # only the text next to the match matters; a whole paper before it is slow to scan
+        left, right = _near(region[:m.start()]), _near(region[m.end():], end=False)
         left_ok = _LEFT_OK.search(left) or left.rstrip().endswith(ROW) or (
             not latex and _PROSE_LEFT.search(left))
         right_ok = _RIGHT_OK.match(right) or right.lstrip().startswith(ROW)
@@ -439,19 +449,44 @@ def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
     return False
 
 
-def display_text(raw: str, display: str) -> str | None:
+_SECTION = re.compile(r"\\(?:section|chapter)\*?\s*[\[{]|\\appendix\b")
+
+
+@functools.lru_cache(maxsize=4)
+def _displays(raw: str) -> dict[str, tuple[str, int]]:
+    """{'#n' and label: (display text, section number)}, the first display
+    for a repeated label. Cached: every quote of every card looks here, and
+    a long paper is slow to split into displays."""
     from .relations import latex_equations
+    eqs = latex_equations(raw)
+    starts = [m.start() for m in _SECTION.finditer(eqs[0]["document"])] if eqs else []
+    index: dict[str, tuple[str, int]] = {}
+    for k, eq in enumerate(eqs, start=1):
+        entry = ("\\\\".join(eq["rows"]), sum(1 for s in starts if s < eq["offset"]))
+        index[f"#{k}"] = entry
+        if eq["label"] is not None:
+            index.setdefault(eq["label"], entry)
+    return index
+
+
+def _display_entry(raw: str, display: str) -> tuple[str, int] | None:
     if display.startswith("#"):
         try:
-            k = int(display[1:])
+            display = f"#{int(display[1:])}"
         except ValueError:
             return None
-        eqs = latex_equations(raw)
-        return "\\\\".join(eqs[k - 1]["rows"]) if 0 < k <= len(eqs) else None
-    for eq in latex_equations(raw):
-        if eq["label"] == display:
-            return "\\\\".join(eq["rows"])
-    return None
+    return _displays(raw).get(display)
+
+
+def display_text(raw: str, display: str) -> str | None:
+    entry = _display_entry(raw, display)
+    return entry[0] if entry else None
+
+
+def display_section(raw: str, display: str) -> int | None:
+    """The number of \\section (or \\appendix) commands before a display."""
+    entry = _display_entry(raw, display)
+    return entry[1] if entry else None
 
 
 def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,

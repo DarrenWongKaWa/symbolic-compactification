@@ -28,6 +28,8 @@ NOT_DECIDED whenever the card does not match its quoted source.
 """
 from __future__ import annotations
 
+import copy
+import functools
 import os
 import re
 from pathlib import Path
@@ -88,6 +90,18 @@ def _squash(text: Any) -> str:
     return " ".join(str(text).split())
 
 
+@functools.lru_cache(maxsize=16)
+def _parse_include(path: str, mtime_ns: int, size: int) -> Any:
+    return yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+
+
+def _load_include(path: Path) -> Any:
+    """A shared conventions file, parsed once per version of the file: every
+    card of a paper includes the same one."""
+    stat = path.stat()
+    return copy.deepcopy(_parse_include(str(path), stat.st_mtime_ns, stat.st_size))
+
+
 def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]]:
     """Merge shared convention files named under ``include:``.
 
@@ -107,7 +121,7 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
         path = Path(str(item))
         if not path.is_absolute() and base_dir is not None:
             path = base_dir / path
-        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        data = _load_include(path)
         if not isinstance(data, dict):
             raise CardError(f"include {item} must be a mapping")
         for name, entry in _symbol_entries(data.get("symbols")).items():
@@ -376,12 +390,78 @@ def _arbitrary_functions(card: dict, functions, defs: dict) -> list[str]:
     return sorted(called & declared)
 
 
+def _names_through_definitions(card: dict, defs: dict) -> set[str]:
+    """Names in the card's expressions and in the definitions they use:
+    omega_k() = sqrt(k^2 + m^2) brings k and m into the claim."""
+    from .fidelity import _used_definition_names
+    used = _used_definition_names(card, defs)
+    texts = [str(card[k]) for k in _EXPRESSION_KEYS if k in card]
+    texts += [str(v) for k, v in defs.items() if k.split("(")[0].strip() in used]
+    return set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(texts)))
+
+
 def _valued_free_names(card: dict, defs: dict) -> list[str]:
     names = set(_names(card.get("valued_in_text"))) - {k.split("(")[0].strip() for k in defs}
     if not names:
         return []
-    texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
-    return sorted(names & set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", texts)))
+    return sorted(names & _names_through_definitions(card, defs))
+
+
+def _bound_variable(card: dict, check: str) -> set[str]:
+    """The summed or integrated variable: 'k0 = i omega_n' or 'n is an integer'
+    in the text describes it, and the check already treats it so."""
+    if "summand" not in card and "integrand" not in card:
+        return set()
+    return {str(card.get("variable") or ("z" if check == "matsubara" else ""))} - {""}
+
+
+def _anchored_definitions(card: dict, defs: dict) -> dict[str, str]:
+    """{name: display} for the definitions the card uses that are quoted from a display."""
+    from .fidelity import _used_definition_names
+    used = _used_definition_names(card, defs)
+    out = {}
+    for key, entry in (card.get("source") or {}).items():
+        if str(key).startswith("define:") and isinstance(entry, dict) and entry.get("display"):
+            name = str(key).split(":", 1)[1].split("(")[0].strip()
+            if name in used:
+                out[name] = str(entry["display"])
+    return out
+
+
+def _defined_by_this_display(card: dict, defs: dict) -> list[str]:
+    """A side of the claim is a name whose definition is quoted from this
+    same display: 'X = body' checked with X := body is true by construction,
+    not a verified step. (x \\equiv \\beta\\epsilon next to the claim is fine.)"""
+    display = card.get("display")
+    if not display:
+        return []
+    sides = [str(card[k]) for k in ("lhs", "rhs") if k in card]
+    return sorted(n for n, d in _anchored_definitions(card, defs).items() if d == str(display)
+                  and any(re.fullmatch(rf"[\s(]*{re.escape(n)}\s*(?:\([^()]*\))?[\s)]*", side) for side in sides))
+
+
+def _definitions_from_other_sections(card: dict, defs: dict, base_dir: Path | None) -> list[str]:
+    """Definitions quoted from a display in another section than the claim.
+    A paper may give a letter a new meaning in a new section (R(x) for one
+    potential, then for another), so a refutation that rests on one is
+    withheld. A display that cannot be placed counts as another section."""
+    anchored = _anchored_definitions(card, defs)
+    if not anchored:
+        return []
+    from .fidelity import display_section
+    raw = None
+    if card.get("source_document"):
+        path = Path(str(card["source_document"]))
+        if not path.is_absolute() and base_dir is not None:
+            path = base_dir / path
+        try:
+            raw = path.read_text(encoding="utf-8")
+        except OSError:
+            raw = None
+    if raw is None or not card.get("display"):
+        return sorted(anchored)
+    here = display_section(raw, str(card["display"]))
+    return sorted(n for n, d in anchored.items() if here is None or display_section(raw, d) != here)
 
 
 def _singular_at_stated_values(card: dict, symbols: list, functions, defs: dict) -> list[str]:
@@ -518,8 +598,10 @@ def _shared_definition_names(card: dict, base_dir: Path | None) -> set[str]:
         if not path.is_absolute() and base_dir is not None:
             path = base_dir / path
         try:
-            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            data = _load_include(path)
         except (OSError, yaml.YAMLError):
+            continue
+        if not isinstance(data, dict):
             continue
         names |= {str(k).split("(")[0].strip() for k in (data.get("define") or {})}
         names |= {str(k).split(":", 1)[1].split("(")[0].strip()
@@ -710,7 +792,7 @@ def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
                                    convergence=str(card.get("convergence", "none")),
                                    symbols=symbols, functions=functions,
                                    declared_rules=_names(card.get("rules")),
-                                   positive=positive).to_dict()
+                                   positive=positive, definitions=defs).to_dict()
     elif check == "operator":
         lhs, rhs = _need(card, "lhs", "rhs")
         out = dict(verify_operator_identity(lhs, rhs, operators=_names(card.get("operators")),
@@ -850,16 +932,22 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
             why.append("HOLDS_AT_SPECIAL_PHASES")
         if card.get("approximation_stated") and check not in ("remainder", "coefficient"):
             why.append("APPROXIMATION_STATED")     # 'to first order in V': exact equality not claimed
-        constrained = set(_names(card.get("constrained"))) & set(re.findall(
-            r"[A-Za-z_][A-Za-z0-9_]*", " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)))
+        bound = _bound_variable(card, check)
+        constrained = set(_names(card.get("constrained"))) & _names_through_definitions(card, defs) - bound
         if constrained:
             why.append("CONSTRAINED_IN_TEXT:" + ",".join(sorted(constrained)))
-        valued = _valued_free_names(card, defs)
+        valued = [n for n in _valued_free_names(card, defs) if n not in bound]
         if valued:
             # the text gives these a value; with them free, a refutation may be wrong
             why.append("VALUED_IN_TEXT:" + ",".join(valued))
+        foreign = _definitions_from_other_sections(card, defs, base_dir)
+        if foreign:
+            why.append("DEFINITION_FROM_ANOTHER_SECTION:" + ",".join(foreign))
     if decision == "VALID" and not why:
-        singular = _singular_at_stated_values(card, symbols, functions, defs)
+        circular = _defined_by_this_display(card, defs)
+        if circular:
+            why.append("DEFINED_BY_THIS_DISPLAY:" + ",".join(circular))
+        singular = _singular_at_stated_values(card, symbols, functions, defs) if not why else []
         if singular:
             # the text sets these names to a value where the claim is not defined
             why.append("SINGULAR_AT_STATED_VALUE:" + ",".join(singular))

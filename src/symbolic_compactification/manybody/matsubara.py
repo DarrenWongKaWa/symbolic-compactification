@@ -80,8 +80,14 @@ def _off_axis(pole: sympy.Expr, statistics: str) -> bool:
 
 
 def _residue_sum(F, z, poles, weight) -> sympy.Expr:
+    num, den = sympy.fraction(sympy.together(F))
     total = sympy.Integer(0)
     for pole, order in poles.items():
+        if order == 1:
+            # N(p) w(p) / D'(p): exact, also for a pole sqrt(k^2 + m^2), where
+            # cancel cannot remove (z - sqrt(k^2 + m^2)) from z^2 - k^2 - m^2
+            total += num.subs(z, pole) * weight(pole) / sympy.diff(den, z).subs(z, pole)
+            continue
         regular = sympy.cancel((z - pole) ** order * F)
         term = sympy.diff(regular * weight(z), z, order - 1).subs(z, pole)
         total += term / sympy.factorial(order - 1)
@@ -152,8 +158,10 @@ def verify_matsubara_sum(summand: str, claim: str, *, variable: str, beta: str,
                          convergence: str = "none",
                          declared_rules: tuple[str, ...] = (),
                          positive: tuple[str, ...] = (),
-                         numeric: bool = True) -> ManyBodyResult:
-    """Check  T sum_n summand(i w_n) == claim  under the residue theorem."""
+                         numeric: bool = True,
+                         definitions: dict | None = None) -> ManyBodyResult:
+    """Check  T sum_n summand(i w_n) == claim  under the residue theorem.
+    Named definitions (omega_k() = sqrt(k^2 + m^2)) are expanded first."""
     inputs = {"rule": MATSUBARA_RESIDUE_THEOREM, "summand_sha256": text_hash(summand),
               "claim_sha256": text_hash(claim), "variable": variable, "beta": beta,
               "statistics": statistics, "convergence": convergence}
@@ -170,11 +178,18 @@ def verify_matsubara_sum(summand: str, claim: str, *, variable: str, beta: str,
     if statistics not in STATISTICS or convergence not in CONVERGENCE:
         return result(UNKNOWN, ["MATSUBARA_SPEC_INVALID"])
     try:
-        space = Namespace(symbols, functions, complex_names=(variable,))
+        if definitions:
+            from .calculus import CalculusSpace
+            space = CalculusSpace(symbols, functions or (), complex_names=(variable,),
+                                  definitions=definitions)
+            parse = space.parse_expanded
+        else:
+            space = Namespace(symbols, functions, complex_names=(variable,))
+            parse = space.parse
         z, b = space.symbol(variable), space.symbol(beta)
         pos = space.positives(tuple(positive))
-        F = space.parse(summand)
-        target = expand_distributions(space.parse(claim), b)
+        F = parse(summand)
+        target = expand_distributions(parse(claim), b)
     except AdapterError as exc:
         return result(UNKNOWN, [f"PARSE_FAILED:{exc.code}"])
     if not F.is_rational_function(z):

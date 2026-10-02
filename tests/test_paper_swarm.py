@@ -153,3 +153,85 @@ def test_matrix_words_need_a_symbol():
     from symbolic_compactification.manybody.prose import stated_noncommuting
     assert stated_noncommuting("the aim is to calculate the matrix element") is None
     assert stated_noncommuting("where $\\sigma_i$ are Pauli matrices") is not None
+
+
+def test_a_definition_quoted_from_the_checked_display_proves_nothing(tmp_path):
+    """A reviewer who defines Q from display q and then checks q gets
+    'Q = a/2 + 1' with Q := a/2 + 1: true by construction, not VALID."""
+    import yaml
+    body = ("Let $a$ be real.\n\nThe charge comes out as\n"
+            "\\begin{equation}Q = \\frac{a}{2} + 1\\label{q}\\end{equation}\n"
+            "\\begin{equation}2Q = a + 2\\label{c}\\end{equation}")
+    _review(tmp_path, body)
+    conventions = tmp_path / "r_p" / "cards" / "conventions.yaml"
+    data = yaml.safe_load(conventions.read_text())
+    data.setdefault("source", {})["define:Q()"] = {"quote": "\\frac{a}{2} + 1", "display": "q"}
+    data["named_quantities"] = [n for n in data.get("named_quantities") or [] if n != "Q"]
+    data["symbols"] = [x for x in data["symbols"] if x["name"] != "Q"]
+    data["notation"] = {**(data.get("notation") or {}), "Q": "Q()"}
+    data["source_document"] = "../manuscript/source.tex"
+    conventions.write_text(yaml.safe_dump(data, sort_keys=False))
+    result = _review(tmp_path, body)
+    got = {s["step"]: s for s in result["steps"]}
+    assert got["c"]["decision"] == "VALID"
+    assert got["q"]["decision"] == "NOT_DECIDED"
+    assert any("DEFINED_BY_THIS_DISPLAY:Q" in w for w in got["q"]["why_not_decided"])
+
+
+def test_a_definition_from_another_section_does_not_refute(tmp_path):
+    """R(x) defined for one model is not R(x) of the next section."""
+    got = {s["step"]: s for s in _review(tmp_path, (
+        "\\section{First model}\nThe function is\n"
+        "\\begin{equation}R(x) = \\frac{1}{2} + x^2\\label{R}\\end{equation}\n"
+        "\\begin{equation}R(1) = 2\\label{same}\\end{equation}\n"
+        "\\section{Second model}\nHere\n"
+        "\\begin{equation}R(1) = 7\\label{other}\\end{equation}\n"
+        "\\begin{equation}R(1) = \\frac{3}{2}\\label{agrees}\\end{equation}"))["steps"]}
+    assert got["same"]["decision"] == "INVALID"
+    assert got["other"]["decision"] == "NOT_DECIDED"
+    assert any("DEFINITION_FROM_ANOTHER_SECTION:R" in w for w in got["other"]["why_not_decided"])
+    assert got["agrees"]["decision"] == "VALID"
+
+
+def _matsubara(claim, **extra):
+    from symbolic_compactification.audit.schema import MATSUBARA_POLES_OFF_AXIS
+    return run_card({"label": "m", "check": "matsubara", "statistics": "boson", "variable": "z",
+                     "beta": "beta", "summand": "1/(z**2 - w()**2)", "claim": claim,
+                     "define": {"w()": "sqrt(k**2 + m**2)"},
+                     "symbols": [{"name": "beta", "positive": True}, {"name": "k", "positive": True},
+                                 {"name": "m", "positive": True}],
+                     "rules": [MATSUBARA_POLES_OFF_AXIS], **extra}, require_source=False)
+
+
+def test_matsubara_sums_expand_definitions():
+    assert _matsubara("-(1 + 2*nB(w()))/(2*w())")["decision"] == "VALID"
+
+
+def test_the_summed_variable_is_not_a_constrained_name():
+    """'k_0 = i omega_n' in the text describes the summed variable; it must
+    not hold back the refutation of a wrong sign."""
+    out = _matsubara("(1 + 2*nB(w()))/(2*w())", constrained=["z"], valued_in_text=["z"])
+    assert out["decision"] == "INVALID", out["decision_blocked_by"]
+    out = _matsubara("(1 + 2*nB(w()))/(2*w())", constrained=["k"])
+    assert out["decision"] == "NOT_DECIDED"
+
+
+@pytest.mark.parametrize("latex,plain", [
+    (r"(-1)^n", "(-1)^(n)"),
+    (r"2^k", "2^(k)"),
+    (r"f(x)^n", "f(x)^(n)"),
+    (r"(AB)^R", "(A B)__R"),                     # a label of a product, never a power
+    (r"x^n", "x__n"),
+    (r"G_>(x) + G_{<}(x)", "G_gt(x) + G_lt(x)"),
+    (r"\ln\left|\frac{1+q}{1-q}\right|", " log(Abs(((1+q)/(1-q))))"),
+    (r"\ln|x| y", "\\lnx| y"),                   # ln|x| y or ln(|x| y): refused
+    (r"a \> b", "a   b"),
+])
+def test_powers_bars_and_spacing(latex, plain):
+    assert latex_to_plain(latex) == plain
+
+
+def test_angle_bracket_macros_are_read():
+    macros = read_macros("\\newcommand\\<{\\langle}\\renewcommand\\>{\\rangle}\\begin{document}")
+    assert macros["<"] == (0, "\\langle")
+    assert latex_to_plain("\\<T\\>", macros) == "\\langle T\\rangle"

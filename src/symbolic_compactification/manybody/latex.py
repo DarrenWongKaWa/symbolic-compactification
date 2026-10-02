@@ -14,6 +14,7 @@ never silently misread):
 """
 from __future__ import annotations
 
+import functools
 import re
 
 _GREEK = ("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi "
@@ -73,11 +74,13 @@ _DROP = ("left", "right", "big", "Big", "bigg", "Bigg", "bigl", "bigr", "Bigl", 
          "textstyle", "scriptstyle", "quad", "qquad", "nn")
 _WRAPPERS = ("mathrm", "text", "operatorname", "mathit", "mathbf", "boldsymbol", "rm", "textrm",
              "mbox", "hbox", "textit", "mathop", "bm", "bf", "it", "mit", "emph", "textnormal")
+# a macro name: letters, or one other character (\\< and \\> for angle brackets)
+_NAME = r"([A-Za-z]+|[^A-Za-z\s\\{}])"
 _MACRO_DEF = re.compile(
-    r"\\(?:re|provide)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*\{"
-    r"|\\def\s*\\([A-Za-z]+)\s*((?:#\d)*)\s*\{"
-    r"|\\providecommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*\{"
-    r"|\\DeclareMathOperator\*?\s*\{?\\([A-Za-z]+)\}?\s*\{")
+    r"\\(?:re|provide)?newcommand\*?\s*\{?\\" + _NAME + r"\}?\s*(?:\[(\d)\])?\s*\{"
+    r"|\\def\s*\\" + _NAME + r"\s*((?:#\d)*)\s*\{"
+    r"|\\providecommand\*?\s*\{?\\" + _NAME + r"\}?\s*(?:\[(\d)\])?\s*\{"
+    r"|\\DeclareMathOperator\*?\s*\{?\\" + _NAME + r"\}?\s*\{")
 
 
 def _group(text: str, start: int) -> tuple[str, int]:
@@ -109,6 +112,11 @@ def _argument(text: str, i: int) -> tuple[str, int]:
 
 def read_macros(document: str) -> dict[str, tuple[int, str]]:
     """{name: (number of arguments, body)} from the document preamble."""
+    return dict(_read_macros(document))
+
+
+@functools.lru_cache(maxsize=4)
+def _read_macros(document: str) -> dict[str, tuple[int, str]]:
     macros: dict[str, tuple[int, str]] = {}
     found = re.search(r"\\begin\s*\{\s*document\s*\}", document)
     begin = found.start() if found else None
@@ -144,7 +152,7 @@ def expand_macros(text: str, macros: dict[str, tuple[int, str]], depth: int = 0)
         return text
     out, i, changed = [], 0, False
     while i < len(text):
-        m = re.match(r"\\([A-Za-z]+)", text[i:])
+        m = re.match(r"\\" + _NAME, text[i:])
         if m and m.group(1) in macros:
             nargs, body = macros[m.group(1)]
             j = i + m.end()
@@ -152,6 +160,8 @@ def expand_macros(text: str, macros: dict[str, tuple[int, str]], depth: int = 0)
                 arg, j = _argument(text, j)
                 body = body.replace(f"#{k}", arg)
             out.append(body)
+            if re.search(r"\\[A-Za-z]+$", body) and re.match(r"[A-Za-z]", text[j:j + 1]):
+                out.append(" ")          # \\<T: the body's \\langle must not run into T
             i, changed = j, True
         else:
             out.append(text[i])
@@ -160,7 +170,12 @@ def expand_macros(text: str, macros: dict[str, tuple[int, str]], depth: int = 0)
     return expand_macros(result, macros, depth + 1) if changed else result
 
 
-_SUB_SIGNS = {"+": "p", "-": "m", "±": "PM", "∓": "MP"}
+_SUB_SIGNS = {"+": "p", "-": "m", "±": "PM", "∓": "MP", "<": "lt", ">": "gt"}   # G_> is G_gt
+
+
+# after a bare function's argument: more of the argument follows (\\ln x y), so it is refused
+_ARGUMENT_GOES_ON = re.compile(
+    r"\s*(?:\\(?!right|,|;|!|quad|qquad|cdot|times|pm|mp|label|nonumber|\\)[A-Za-z]|[A-Za-z0-9({^/])")
 
 
 def _flatten(text: str) -> str:
@@ -241,6 +256,11 @@ def _convert(text: str) -> str:
                     inner, i = group
                     out.append(f"( {_ALIASES.get(name, name)}({_convert(inner)}))^({_convert(power.group(1).strip('{}'))})")
                     continue
+                bars = re.match(r"\s*\|([^|]+)\|", text[i:])
+                if bars and not power and not _ARGUMENT_GOES_ON.match(text[i + bars.end():]):
+                    out.append(f" {_ALIASES.get(name, name)}(Abs({_convert(bars.group(1))}))")   # \\ln|x|
+                    i += bars.end()
+                    continue
                 arg, i = _argument(text, i)
                 if arg.startswith("\\frac") or arg.startswith("\\tfrac") or arg.startswith("\\dfrac"):
                     first, i = _argument(text, i)
@@ -250,8 +270,7 @@ def _convert(text: str) -> str:
                 if sub:
                     arg += "_" + sub.group(1)
                     i += sub.end()
-                if re.match(r"\s*(?:\\(?!right|,|;|!|quad|qquad|cdot|times|pm|mp|label|nonumber|\\)[A-Za-z]|[A-Za-z0-9({^/])",
-                            text[i:]):
+                if _ARGUMENT_GOES_ON.match(text[i:]):
                     out.append("\\" + name)            # the argument does not end here: refuse
                 else:
                     exponent = power.group(1).strip("{}") if power else None
@@ -281,7 +300,7 @@ def _convert(text: str) -> str:
                 k = re.match(r"\s*\^\s*\{?\s*\((\d)\)\s*\}?", text[i:])
                 out.append(f"psi{k.group(1)}")
                 i += k.end()
-            elif name in _DROP or name in (",", ";", "!", ":", " ", "\\"):
+            elif name in _DROP or name in (",", ";", "!", ":", ">", " ", "\\"):   # \\> is a medium space
                 out.append(" ")
             elif name == "lambda":                # a Python keyword: SymPy's own spelling
                 out.append(" lamda " if not text[i:i + 1] == "_" else " lamda")
@@ -310,6 +329,10 @@ def _convert(text: str) -> str:
             glued = out and re.search(r"[A-Za-z0-9_)]\s*$", "".join(out))
             if re.search(r"(?<![A-Za-z0-9_])[eE]\s*$", "".join(out)):
                 letters = None                        # e^{i x} is the exponential
+            if letters and re.fullmatch(r"\s*[b-qs-z]\s*", arg) and re.search(
+                    r"(?:(?<![A-Za-z0-9_])\d+|\))\s*$", "".join(out)) \
+                    and not re.search(r"(?<![A-Za-z0-9_])\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\)\s*$", "".join(out)):
+                letters = None             # (-1)^n, 2^k: a power; (AB)^R, G^r stay labels
             name_before = re.search(r"(?:[A-Za-z]|\\[A-Za-z]+)\s*$", text[:text.rfind("^", 0, i)])
             if re.fullmatch(r"\s*0\s*", arg) and glued and name_before and (
                     re.match(r"\s*[(_]", text[i:]) or re.match(r"[A-Z\\]", name_before.group(0).strip())):
@@ -325,7 +348,8 @@ def _convert(text: str) -> str:
                 tag = (arg.strip().replace("\\", "").replace("<", "lt").replace(">", "gt")
                        .replace("*", "star").replace("/", "_").replace("|", "_").replace(",", ""))
                 joined = "".join(out)
-                boxed = re.search(r"\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)$", joined)   # {\mathbf G}^r
+                # {\mathbf G}^r; not f(x)^r, where (x) is an argument
+                boxed = re.search(r"(?<![A-Za-z0-9_])\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)$", joined)
                 if boxed:
                     out[:] = [joined[:boxed.start()] + boxed.group(1)]
                 out.append("__" + tag)
@@ -476,8 +500,10 @@ def layout_free(text: str) -> str:
     return " ".join(_LAYOUT.sub(" ", text).replace(ROW, ROW).split())
 
 
-def _squash_with_map(text: str) -> tuple[str, list[int]]:
-    """layout_free text and, for each kept character, its raw offset."""
+@functools.lru_cache(maxsize=4)
+def _squash_with_map(text: str) -> tuple[str, tuple[int, ...]]:
+    """layout_free text and, for each kept character, its raw offset.
+    Cached: every quote of every card is located in the same paper."""
     blank = set()
     for m in _LAYOUT.finditer(text):
         blank.update(range(m.start(), m.end()))
@@ -492,7 +518,7 @@ def _squash_with_map(text: str) -> tuple[str, list[int]]:
         out.append(ch)
         where.append(i)
         space = False
-    return "".join(out), where
+    return "".join(out), tuple(where)
 
 
 def document_title(raw: str) -> str | None:

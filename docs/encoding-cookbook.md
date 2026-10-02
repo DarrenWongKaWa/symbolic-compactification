@@ -249,6 +249,26 @@ confident wrong verdict:
   (or Hurwitz) zeta function or the gamma function, no sentence denies it,
   and every other sentence that writes the letter is one of those. `real: true` on a symbol overrides a
   drafted `realness: unstated`.
+- **Definitions and where they hold.** A definition quoted from a
+  display does not verify that same display: `X = body` checked with
+  `X := body` is true by construction (`DEFINED_BY_THIS_DISPLAY`). A
+  refutation that uses a definition quoted from another `\section` is
+  withheld (`DEFINITION_FROM_ANOTHER_SECTION`): papers reuse a letter for a
+  new model, and the counterexample stays on the card for a person to
+  judge. A value at a point (`u(0) = u(a) = 0`) is a condition, never a
+  definition. Matsubara sums expand definitions (`omega_k() =
+  sqrt(k**2 + m**2)`), and the summed or integrated variable is exempt from
+  `CONSTRAINED_IN_TEXT` and `VALUED_IN_TEXT`: `k_0 = i\omega_n` describes
+  it. Sums over all integers take `lower: "-oo"`.
+- **A paper-wide flag on one card.** `noncommuting:` in conventions.yaml
+  holds for every card. When the paper calls its σ's matrices but a step
+  is plain scalar algebra (a Ginzburg–Landau coefficient, say), set
+  `noncommuting: false` on that card only, and say why in a comment.
+- **More readings.** `(-1)^n`, `2^k` and `f(x)^n` are powers (one lowercase
+  exponent letter other than r and a); `(AB)^R` and `G^r` stay labels.
+  `G_>` and `G_<` are names (`G_gt`, `G_lt`). `\ln|x|` is log|x|; `\ln|x| y`
+  is refused. `\>` is a space unless the paper defines it, and
+  `\newcommand\<{\langle}` is read.
 - **Macros redefined in the document** (`\renewcommand` after the first
   definition) are not expanded: which meaning a display has depends on
   where it sits, so quotes using them are refused. A Langreth

@@ -324,6 +324,12 @@ _REASONS = (
     ("VALUED_IN_TEXT", "A refutation that treats a name as free although the text gives it a value",
      "The text sets this name ($x = …$) without a definition the tool could use. Quote it as a "
      "definition in conventions.yaml if it holds for this step."),
+    ("DEFINED_BY_THIS_DISPLAY", "The step uses a definition quoted from its own display",
+     "X = body checked with X := body is true by construction. Quote the definition from "
+     "another display, or read the step as a definition."),
+    ("DEFINITION_FROM_ANOTHER_SECTION", "A refutation that uses a definition from another section",
+     "Papers reuse letters across sections (R(x) for one potential, then another). If the "
+     "definition still holds here, the counterexample on the card shows a real error."),
     ("SOURCE_PRODUCT_WITH_COMMA", "A name listed under multiply: is applied to several arguments",
      "G(t, t') cannot be a product: move the name to functions: or define it."),
     ("SOURCE_APPLICATION_AMBIGUOUS", "A name before “(” could be a product or a function",
