@@ -248,6 +248,26 @@ reviewer page as well.
     VALID. A name right after `\Delta` or `\delta` is now refused, which
     costs one paper 9 VALID steps.
 
+**Agents with and without the tool (2026-10-04).** Each arm was run once. All
+planted errors were confirmed numerically first.
+
+| Task | Model | Without the tool | With the tool | Decided by the tool |
+|---|---|---|---|---|
+| Derivation sheet v1 (32 steps, 6 planted) | Sonnet | 32/32, 6/6 caught | 32/32, 6/6 caught | 25 steps, all correct; 5 of the 6 catches are NONZERO |
+| | Haiku | 26/32, 0/6 | 26/32, 0/6 | 0 |
+| Review, 1002.4692 (4 planted + 3 original errors) | Opus | 7/7 | 7/7 | 1 INVALID, 8 VALID |
+| | Sonnet | 6/7 | 7/7 | 1 VALID (errors found by hand-typed `identity` checks) |
+| | Haiku | 3/7 | 2/7, 1 false alarm | 0 |
+| Review, 1708.01124 (4 planted + 2 original errors) | Opus | 6/6 | 6/6 | 6 VALID; refutations of (16b), (B4) withheld (`VALUED_IN_TEXT`) |
+| | Sonnet | 4/6 | 6/6 | 2 planted errors INVALID from the quotes |
+| | Haiku | 0/6, 1 false alarm | 1/6 | 0 |
+
+- The tool did not raise detection. Opus and Sonnet find the planted errors
+  with their own numerics, and Haiku finds them with neither setup.
+- What the tool adds is machine evidence: every tool verdict in these runs
+  was correct.
+- Haiku never wrote a ledger the tool could decide.
+
 ## What this supports
 
 - **Claim:** a VALID means the quoted relation is an exact identity under
