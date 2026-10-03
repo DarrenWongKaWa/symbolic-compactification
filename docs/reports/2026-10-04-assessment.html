@@ -1,4 +1,144 @@
-<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>软件包去留评估</title>
-</head><body>
-</body></html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; the decision first, then outside evidence, our data, the trade-off, and the exit options. */
+:root {
+  --bg: #f5f6f8; --surface: #ffffff; --fg: #1d2430; --muted: #5b6575; --line: #d9dee6;
+  --accent: #2c5a85; --accent-soft: #e3ecf5;
+  --good: #2e7a4e; --good-soft: #e2f1e8; --warn: #a86a12; --warn-soft: #f7ecd9; --bad: #b0353a; --bad-soft: #f6e1e2;
+  --font-display: "Noto Serif SC", "Songti SC", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Helvetica Neue", sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121820; --surface: #19212b; --fg: #e4e8ee; --muted: #9aa5b5; --line: #2c3746;
+  --accent: #82abd6; --accent-soft: #1f3247;
+  --good: #6cc495; --good-soft: #17332a; --warn: #e0a64a; --warn-soft: #3a2c14; --bad: #ec7b80; --bad-soft: #3d1c20; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121820; --surface: #19212b; --fg: #e4e8ee; --muted: #9aa5b5; --line: #2c3746;
+  --accent: #82abd6; --accent-soft: #1f3247;
+  --good: #6cc495; --good-soft: #17332a; --warn: #e0a64a; --warn-soft: #3a2c14; --bad: #ec7b80; --bad-soft: #3d1c20; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 64px; display: grid; gap: 36px; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: 30px; }
+h2 { font-size: 21px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+h3 { font-size: 16px; margin: 0; }
+p { margin: 0; }
+section { display: grid; gap: 14px; min-width: 0; }
+.meta { color: var(--muted); font-size: 13px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+code { font-family: var(--font-data); font-size: .9em; }
+.decision { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 18px 20px; display: grid; gap: 10px; }
+.decision .lead { font-size: 17px; font-weight: 500; }
+.verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.verdicts > div { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.pill { display: inline-block; justify-self: start; font-size: 12px; padding: 1px 10px; border-radius: 999px; font-weight: 600; }
+.pill.no { background: var(--bad-soft); color: var(--bad); } .pill.yes { background: var(--good-soft); color: var(--good); } .pill.maybe { background: var(--warn-soft); color: var(--warn); }
+.tablebox { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.k { white-space: nowrap; font-weight: 500; }
+ol, ul { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.note { font-size: 13px; color: var(--muted); }
+.sources { font-size: 13px; }
+.sources li { overflow-wrap: anywhere; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header style="display:grid; gap:8px;">
+  <p class="eyebrow">symbolic-compactification · 2026-10-04</p>
+  <h1>软件包去留评估</h1>
+  <p class="meta">依据：本次 A/B 评测、13 篇论文的账本数据、公开的 AI 审稿研究与产品。评测详情见 <a href="https://claude.ai/artifact/FtFJFQ1HwYzTZpwfxtegWw">审稿工具水平评估</a>。</p>
+</header>
+
+<section>
+  <div class="decision">
+    <p class="eyebrow">结论</p>
+    <p class="lead">作为“自动审查整篇论文”的产品，不值得继续做。作为“给 AI 审稿结论出具可复核证据”的小组件，有价值，但用途很窄。决定：停在 PR #25，暂时关闭这条支线。</p>
+  </div>
+  <div class="verdicts">
+    <div><span class="pill no">不值得</span><h3>目标是多查出错误</h3><p>强模型只用 Python 就能查出几乎全部埋入错误，加上工具也没有多查出。</p></div>
+    <div><span class="pill no">不值得</span><h3>目标是覆盖整篇论文</h3><p>66% 的推导步骤是积分、极限、近似，按设计不判。即使读取完美，上限也只有约 34%。</p></div>
+    <div><span class="pill no">不值得</span><h3>目标是让小模型变强</h3><p>Haiku 两次都没写出工具能判定的账本，带不带工具结果一样。</p></div>
+    <div><span class="pill yes">值得</span><h3>需要能复核的证据</h3><p>审稿人、编辑或作者需要可重复的核对；或者用来给 LLM 审稿的结论做确认，用原文和精确反例确认或否决。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>外部现状</h2>
+  <ul>
+    <li><b>需求是真的。</b>用 GPT-5 检查 NeurIPS 和 ICLR 论文，每篇平均查出 3.8 到 5.9 个客观错误，一半以上是公式和推导错误；人工复核后准确率是 83%。</li>
+    <li><b>纯 LLM 审稿工具已经很多：</b>Refine.ink（擅长数学和证明）、Reviewer3、Black Spatula、YesNoError 等。一项评测里最好的配置能抓到 71.6% 的埋入错误，用户抱怨最多的是误报。FLAWS 基准上，最强模型在前 10 个候选里只找到 39% 的关键错误。</li>
+    <li><b>形式化路线（Lean / PhysLean）</b>严格，但每篇论文的成本很高。</li>
+    <li><b>“LLM 加 SymPy 逐步验证”</b>还是研究方向。目前没有人提供“绑定原文、出具精确证书”的论文推导核对产品。这是这个包的空位，但空位很窄。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>我们自己的数据</h2>
+  <div class="tablebox">
+  <table>
+    <thead><tr><th>维度</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td class="k">查错率提升</td><td>没有。推导评测中 Sonnet 用不用工具都是 32/32；两篇论文的审稿评测中，Opus 和 Sonnet 用不用工具都几乎全部查出。</td></tr>
+      <tr><td class="k">覆盖</td><td>651 步中判定 36 步（5.5%）；代数步骤 32/177（18%）；427 步（66%）按设计交给人。</td></tr>
+      <tr><td class="k">判定可靠性</td><td>评测中工具给出的约 90 个结论全部正确。但仅这一周，写账本的 agent 就发现了 2 个会导致误判的缺陷（宏内改名、ΔT 被读成乘积），都已修复。</td></tr>
+      <tr><td class="k">证据价值</td><td>推导评测里 Sonnet 带工具时，32 步中有 25 步有机器证据，5 个错误附精确反例。审稿评测里，工具只确认了强模型查出的 16 个埋入错误中的 3 个。</td></tr>
+      <tr><td class="k">投入</td><td>约 2.6 万行 Python（多体部分 8,800 行），1,370 个测试，6 周内 542 次提交、25 个 PR。</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>核心矛盾</h2>
+  <ol>
+    <li>工具的价值来自可信的证据，可信要求逐字读原文。</li>
+    <li>逐字读真实论文的 LaTeX 正是瓶颈：可判步骤中，卡住的 75% 是读不了；误判缺陷也都来自读取。保持零误判需要不断投入防护。</li>
+    <li>放宽成让 AI 转写，覆盖率能从 18% 提到 60–80%，但证据就退化成“AI 转写的式子是恒等式”。这基本就是强模型自己随手写 SymPy 免费就能得到的东西。</li>
+    <li>强模型本来就会自己提出假设再用 Python 核对。这个包多出来的只有防护、证书和审稿包。这些对需要信任结论的第三方有意义，对“找出错误”本身没有帮助。</li>
+  </ol>
+</section>
+
+<section>
+  <h2>如果以后重开</h2>
+  <ul>
+    <li><b>只做一个决定性实验（约 1–2 天）：</b>用现成的 LLM 审稿工具审 20 篇物理论文，把它报出的数学错误逐条交给本工具确认。看两个数：真错误被确认的比例，误报被否决的比例。如果确认率仍在 20% 左右，就归档。</li>
+    <li><b>重新定位成一件事：</b>输入一个被指为错误的步骤（两段原文引用加引用的关系），输出精确反例，或者“无法确认”。不再追求整篇覆盖。</li>
+    <li><b>另一个出口：</b>把评测写成一篇方法和负面结果笔记。“零误判但覆盖很低、对强模型没有增益”本身就是有用的结论。</li>
+  </ul>
+  <p class="note">状态：代码在分支 <code>feat/ledger-dual-read</code>（PR #25，CI 全部通过，暂时关闭，未合并）。账本循环日志在 <code>~/sc-dev/notes/ledger-loop/LOG.md</code>，评测材料在 <code>~/sc-dev/eval/ab-2026-10-04</code>。</p>
+</section>
+
+<section>
+  <h2>来源</h2>
+  <ul class="sources">
+    <li><a href="https://arxiv.org/abs/2512.05925">To Err Is Human: Systematic Quantification of Errors in Published AI Papers via LLM Analysis</a></li>
+    <li><a href="https://arxiv.org/abs/2511.21843">FLAWS: A Benchmark for Error Identification and Localization in Scientific Papers</a></li>
+    <li><a href="https://arxiv.org/abs/2606.19749">Benchmarking Agentic Review Systems</a></li>
+    <li><a href="https://manusights.com/blog/ai-manuscript-review-tools-compared">AI Manuscript Review Tools Compared (2026)</a></li>
+    <li><a href="https://www.heise.de/en/news/No-more-calculation-errors-AI-checks-papers-for-errors-Why-that-s-not-enough-10321469.html">Black Spatula Project (heise)</a></li>
+    <li><a href="https://github.com/HEPLean/PhysLean">PhysLean</a> · <a href="https://arxiv.org/abs/2411.07667">Formalization of physics index notation in Lean 4</a></li>
+    <li><a href="https://arxiv.org/pdf/2505.20869">Step-Wise Formal Verification for LLM-Based Mathematical Problem Solving</a></li>
+    <li><a href="https://arxiv.org/pdf/2506.20729">Test-time Scaling Techniques in Theoretical Physics (SymPy-augmented verifier)</a></li>
+    <li><a href="https://arxiv.org/abs/2608.13067">Computer-assisted Proof Under Audit</a></li>
+  </ul>
+</section>
+
+</main>
+</body>
+</html>
