@@ -199,15 +199,66 @@ Across both rounds (46 papers, about 4 000 relations), three wrong verdicts
 appeared, all in first runs: the two ζ refutations and the boundary-condition
 VALID. Each was fixed before the final counts, and none remains in them.
 
+## Two readers and the step ledger (2026-10-03)
+
+Every LaTeX quote is now read twice, by the tool's reader and by SymPy's
+LaTeX parser, and counts only when the two agree
+(`docs/encoding-cookbook.md`, "Two readers for every LaTeX quote").
+- Golden adversarial notes: the 110 decided steps are unchanged; no new
+  verdict appeared.
+- 46 papers, card by card in strict mode: 9 VALID before and after, nothing
+  else decided either way. Of 4 909 fields the tool's reader had read, 462
+  are now refused: 354 read differently by SymPy, 108 not readable by it.
+  In a sample of 30 disagreements, about 20 were the tool's own misreadings
+  (subscript after a superscript, `{\rm X}` in a subscript, `\mp` glued into
+  a subscript, `\frac{d}{dx}` before `\Bigl(` read as 1/x); about 4 were
+  SymPy's (`ds^2`, `\vec p`), the rest unreadable to both. Before, these
+  quotes were held back only because other guards happened to block their
+  cards.
+
+Steps that go from one display to another can now be checked from a step
+ledger ("Eq. X -> Eq. Y using R", every formula quoted;
+`docs/encoding-cookbook.md`, "Steps across displays"). On Appendix D of
+Guo et al. (PRL 136, 206303) a 12-step ledger gives 12 VALID: 7 by exact
+algebra and 5 under quoted relations (metric-velocity relation,
+ε₂₁ = −ε₁₂, Feynman–Hellmann identity, Berry curvature of band 1), each with
+explicit cofactors. The whole paper in one command gives 1 VALID of 264
+relations. Mutated ledgers (wrong pairing, a missing index instance of a
+relation, an unneeded relation, a quote not in the paper) gave no wrong
+verdict: the unneeded relation leaves the step VALID (exact without it),
+every other mutation is NOT_DECIDED. An independent review of this code
+found four ways to a wrong verdict (relations that make a denominator
+vanish, guards lifted by name only, counterexamples outside the declared
+domain, `under:` scope checks); each is fixed and has a test.
+
+**Ledgers on thirteen papers (2026-10-04).** Agents wrote step ledgers for 12
+arXiv papers plus Guo et al.: 651 steps. Each step is typed. The tool checks
+only `algebra` and `sum-termwise` steps; integral, limit, approximation and
+definition steps are listed for the reviewer (`NEEDS_REVIEWER`), on the
+reviewer page as well.
+- Algebra steps decided: 32 of 177 (18 %), all VALID. Sum-termwise steps
+  decided: 4 of 47. INVALID: 0.
+- 32 refutations were found by the engine but withheld by a guard, mostly
+  names whose value the text gives elsewhere (`NAMED_QUANTITY_UNDEFINED`).
+- Ledger agents found two ways to a wrong verdict, and both are fixed, each
+  with a test:
+  - An index rename did not reach inside a macro (`\rpq` is `r_{pq}`), so a
+    correct step came out INVALID.
+  - `\Delta T` was read as Δ·T by both readers, so `ΔT/ΔV = T/V` came out
+    VALID. A name right after `\Delta` or `\delta` is now refused, which
+    costs one paper 9 VALID steps.
+
 ## What this supports
 
 - **Claim:** a VALID means the quoted relation is an exact identity under
   the listed assumptions, and the replay certificate lets anyone check it.
 - **Claim:** an INVALID comes with a counterexample and means "look here".
 - **Not claimed:** that the tool finds every error, or reviews a whole paper.
-- **Not claimed:** that a VALID cannot rest on a misreading. The reviewer
-  page lists every assumption and reading it used, so a person can check
-  them.
+- **Not claimed:** that a VALID cannot rest on a misreading. Since
+  2026-10-03 each LaTeX quote must be read alike by two independent readers,
+  which removes structural misreadings; the conventions both share (listed
+  in the cookbook) and every assumption still need a person's check, and the
+  reviewer page shows them.
 
 In short, the checking engine is ready for use. The paper reader is a
 research preview, to be used as a second pair of eyes whose readings are

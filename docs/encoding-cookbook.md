@@ -404,6 +404,136 @@ The erratum may only add, remove or move bracket characters, and this is
 checked. The result stays `NOT_DECIDED` for the printed formula, and
 `decision_with_errata` gives the verdict after correction. Report both.
 
+## Two readers for every LaTeX quote
+
+A LaTeX quote is read twice: by the tool's own reader and by SymPy's LaTeX
+parser (`sympy.parsing.latex`, ANTLR backend), which was written
+independently. The quote counts as read only when the two expressions are
+equal; otherwise the field is `UNCHECKED` with `READERS_DISAGREE` (or
+`SECOND_READER_FAILED` when SymPy cannot parse it), and a card built from it
+is not decided. A field that agreed records SymPy's reading as `reader_b`.
+
+SymPy is told only conventions in advance, never structure:
+- layout is dropped (`\left`/`\right` sizes, spacing, `\label`, `&`);
+- a decorated name (`\Gamma_L`, `v_{12}^a`, `\tilde G^r`, `\mathcal T`,
+  `\mathrm{Tr}`, `f_1'`, `\Psi_\text{GL}`) is one symbol, named by the tool's
+  reading of that name alone;
+- a subscript written after a superscript is given to SymPy first (TeX reads
+  `X^{s}_{t}` as `X_{t}^{s}`; SymPy would drop the subscript);
+- `e^{x}` is the exponential and `e^2` the charge squared; `i` is the
+  imaginary unit unless declared; capital `E` and `I` are quantities; a name
+  under `multiply:` multiplies the bracket after it; `{a \over b}` is a
+  fraction; `\sum_{\pm}` adds both signs; `\coth\frac{x}{2}` with nothing
+  after it is coth of the fraction; `\mathrm{Re}` of a bracket is its real
+  part.
+
+Fraction bars, the reach of a power or a function, brackets, implicit
+products and derivatives are read by each reader on its own; that is what
+the comparison tests. What the two readers share is therefore not
+cross-checked: whether a letter superscript is a label or a power (`x^n`
+is the label `x__n`, `G^r` the label `G__r`), how a subscript becomes part of
+a name (`x_{1,2}` and `x_{12}` both give `x_12`), and the conventions above.
+Those readings are listed on the card (`READ_AS`) for a person to check.
+A misreading the two readers share is not caught either: both read the
+functional derivative `\frac{\delta W}{\delta A_\mu}` as a fraction, so the
+tool's reader refuses `\frac{\delta X}{\delta Y}` itself.
+A number no reader can compute quickly (a power of a number with more than
+five million digits, a power whose exponent is a power, a 257-digit integer)
+refuses the quote (`QUOTE_NUMBER_TOO_LARGE`); a large expansion is compared
+under the engine's time budget. Without `--require-source`, a hand-written
+field whose quote the readers read differently is only marked `UNCHECKED`,
+as for any quote that cannot be read; reviews and ledgers always run strict. On the 46-paper corpus the tool's reader produced a
+reading for 4 909 quoted fields; SymPy read 462 of them differently
+(354, `READERS_DISAGREE`) or not at all (108, `SECOND_READER_FAILED`). In a
+sample of 30 disagreements, about 20 were misreadings by the tool's own
+reader, for example `\Gamma^\mu_a` (a stray symbol `_a`), `E_{\rm tot}`,
+`k_0\mp k` (read as a name with subscript `0∓`), `G^{R}\Sigma^{<}G^{A}`
+(Σ and G glued into one name) and `\frac{d}{d\varepsilon}` before `\Bigl(`
+(read as 1/ε). No decision on the corpus (9 VALID by card) or on the golden
+adversarial notes (110 decided) changed.
+
+## Steps across displays: the step ledger
+
+Most steps of a paper do not sit inside one display: the paper shows one
+equation, says which relation it uses, and shows the next. Record such steps
+in a **step ledger** and let the tool decide them:
+
+```yaml
+source_document: paper.tex
+include: conventions.yaml        # optional, added after the paper's drafted conventions
+steps:
+  - id: K1A-metric
+    type: algebra                # algebra | sum-termwise | integral | limit | approximation | definition
+    from: {quote: 'v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c)'}
+    to:   {quote: '2\epsilon_{12}^2 (v_1^c g_{ab} + v_1^b g_{ac})'}
+    given:                       # relations the step uses, quoted from the text
+      - quote: 'v_{12}^a v_{21}^b + v_{12}^b v_{21}^a = 2\epsilon_{12}^2 g_{ab}'
+        instances: [{}, {b: c}]  # also with the index b renamed to c
+    note: "we apply the Metric-Velocity Relation"
+```
+
+```bash
+symbolic-compactification manybody ledger steps.yaml --out ledger/
+symbolic-compactification manybody review paper.tex --out review/ --ledger steps.yaml
+```
+
+- Every step has a `type`. The tool checks only `algebra` and
+  `sum-termwise` steps (the two sides are equal as expressions, or term by
+  term under the same sum). `integral`, `limit` (differentiation included),
+  `approximation` and `definition` steps come out `NEEDS_REVIEWER` with their
+  type and quotes; the tool never decides them and they are not counted as
+  undecided. Type a step by the move it makes, not by what the display
+  prints: `≈` with an exact cited relation is still `algebra`.
+- `from` and `to` are verbatim quotes; `display` (a `\label` or `#n`) is
+  optional and is filled in when exactly one display holds the quote.
+- `given` relations are verbatim quotes `A = B` from a display or the prose,
+  read by both readers. `instances` renames index letters inside sub- and
+  superscripts only (`{n: '2', m: '1'}` turns `v_{nm}^a` into `v_{21}^a`);
+  a letter that also occurs outside an index (`x^{b} = b`, `e^{-\beta b}`,
+  `_{\rm max}`) cannot be renamed.
+  A relation quoted from a display that holds either side of the step is
+  refused (`GIVEN_FROM_THE_STEP_DISPLAY`), whether named by label or number; relations that contradict each other or
+  together force a quantity to vanish are refused (`GIVEN_INCONSISTENT`,
+  `GIVEN_FORCES_ZERO`).
+- The step is VALID when `from − to` is zero, or zero whenever the given
+  relations hold. The second case comes with a certificate:
+  `numerator(from − to) = Σ qᵢ (lhsᵢ − rhsᵢ)` with explicit cofactors `qᵢ`
+  (aligned with `relations_used`), re-checked by expansion; the denominators
+  that must not vanish are listed. Relations that force one of those
+  denominators to vanish make the step vacuous and are refused
+  (`GIVEN_MAKES_A_DENOMINATOR_VANISH`). The relations used are reported with
+  the verdict (`holds_given`) and are never proved by it. Substituting a
+  stated definition (a bare name on one side, `\Omega^1_{ab} = i(\dots)`) is a
+  step; a relation that merely restates the step is refused
+  (`GIVEN_RESTATES_THE_STEP`).
+- INVALID needs an exact rational counterexample at which every given
+  relation holds, no denominator vanishes, and every symbol declared
+  positive or nonzero is so. The usual guards still apply.
+  `CONSTRAINED_IN_TEXT` is lifted for a name only when every relation the
+  text states about it is one of the step's cited quotes. `VALUED_IN_TEXT`
+  is never lifted. `ONE_SIDED_SYMBOL` is lifted only for a plain symbol:
+  a ledger step claims that two quoted expressions are equal, so a plain
+  symbol on one side only is a dropped or added factor, and it is reported
+  (`one_sided_symbols`). For a name the text gives a value, a definition
+  or a constraint, the refutation stays withheld, since an uncited
+  relation may fix it.
+- `under: '\sum_n'` checks a step whose two sides sit under the same sum or
+  integral, term by term: the wrapper must open both sides of the relation
+  (nothing in front of it) and stand right before both quotes,
+  each quote must be one bracket group or a product, and a difference of
+  the summands is never reported as INVALID (`UNDER_WRAPPER_NOT_REFUTED`).
+- A misspelled key or a malformed `instances` list is an error, and so is
+  an `include` outside the ledger's directory (it is copied into the
+  reviewer package). `noncommuting: false` on a step needs a `note` saying
+  why. A step that fails while running is reported as NOT_DECIDED
+  (`STEP_ERROR`) and the other steps still run.
+
+On Appendix D of Guo et al., PRL 136, 206303, a 12-step ledger
+(`research-cases/guo-evidence-ledger/ledger/`) comes out 12 VALID: seven by
+plain algebra, the others using the metric-velocity relation,
+ε₂₁ = −ε₁₂, the Feynman–Hellmann identity and the Berry-curvature definition,
+each quoted from the paper.
+
 ## Worked cards
 
 These examples are deliberately **not** taken from the benchmarks in
