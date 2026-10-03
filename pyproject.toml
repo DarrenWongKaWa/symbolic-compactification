@@ -10,7 +10,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "PyYAML>=6,<7",
-    "sympy>=1.12,<2",
+    "sympy>=1.13,<2",
+    # SymPy's own LaTeX reader (ANTLR grammar generated with 4.11): the second
+    # reader every LaTeX quote must agree with (manybody/dualread.py)
+    "antlr4-python3-runtime==4.11.*",
 ]
 
 [project.optional-dependencies]

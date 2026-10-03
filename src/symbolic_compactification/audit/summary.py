@@ -37,7 +37,10 @@ from .step_card_view import (
     is_undecided_card,
     manuscript_macros,
     manuscript_title,
+    md_reviewer_steps,
     md_step_cards,
+    html_reviewer_steps,
+    reviewer_steps,
     step_card_records,
 )
 from .tables import bucket_records, write_reports_text
@@ -245,6 +248,7 @@ def _render_markdown(
             )
     else:
         lines.append("No NONZERO or uncertified rows are listed; this does not establish complete coverage.")
+    lines.extend(md_reviewer_steps(reviewer_steps(workspace), _md_cell))
     lines.extend(md_step_cards(step_card_records(run.records), conventions(workspace), _md_cell))
     lines.extend([
         "",
@@ -312,6 +316,7 @@ def _render_html(
         for edge_type, count in sorted(types.items())
     )
     queue_html = _html_queue(queue, bucket_of, manuscript_macros(workspace), manuscript_title(workspace))
+    reviewer_html = html_reviewer_steps(reviewer_steps(workspace), manuscript_macros(workspace))
     cards = step_card_records(run.records)
     tone_of = {key: _BUCKET_TONE[bucket] for key, bucket in bucket_of.items()}
     macros = manuscript_macros(workspace) if cards else {}
@@ -345,6 +350,7 @@ def _render_html(
         'Structural, rule, asymptotic, global, numerical, and unsupported steps remain separately labelled. '
         'This page is a reading aid, not a paper-level certificate.</section>',
         '<nav class="jump"><a href="#queue">Reviewer queue</a> · '
+        + ('<a href="#reviewer-steps">Steps for the reviewer</a> · ' if reviewer_html else '')
         + ('<a href="#cards">Step cards</a> · <a href="#conventions">Conventions</a> · ' if cards else '')
         + '<a href="#provenance">Provenance</a> · '
         '<a href="TABLE_VERIFIED.md">Exact table</a> · '
@@ -362,6 +368,7 @@ def _render_html(
         + type_rows + '</tbody></table></section>'
         '</div>',
         '<section id="queue"><h2>Reviewer queue</h2>' + queue_html + '</section>',
+        reviewer_html,
         cards_html,
         '<section id="provenance"><h2>Provenance</h2><table>' + provenance_rows + '</table></section>',
         '<section class="scope"><h2>Scope and limitations</h2>'

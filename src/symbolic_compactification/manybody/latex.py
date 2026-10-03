@@ -41,29 +41,45 @@ _ACCENTS = {"mathsf": "sf", "dot": "dot", "ddot": "ddot", "tilde": "tilde", "wid
             "mathfrak": "frak"}
 _DIFF_NUM = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*(\S.*)$", re.S)
 _DIFF_OPERATOR = re.compile(r"^\s*(?:\\partial|\\mathrm\{d\}|d)\s*(?:\^\s*\{?\s*(\d)\s*\}?)?\s*$")
+# the denominator of a derivative: \partial y, \mathrm{d}y, dy, d\ln T (not d_0 or 2)
+_DIFFERENTIAL = re.compile(r"^\s*(?:\\partial|\\mathrm\s*\{\s*d\s*\}|d(?=\s*[A-Za-z\\(]))")
+# \delta X over \delta Y: a functional derivative, not (delta X)/(delta Y) = X/Y
+_VARIATION = re.compile(r"^\s*\\delta(?![A-Za-z])\s*[^\s_^]")
+
+
+# \Delta T, \delta n, \Delta\mu: the increment of a quantity or Delta times it.
+# Both readers would read a product, and \Delta T / \Delta V would cancel to T / V.
+_INCREMENT = re.compile(r"(?:\s|\\[,;:! ])*(?:[A-Za-z]|\\(?:" + "|".join(_GREEK) + r"|hat|bar|tilde|vec|dot|"
+                        r"mathbf|mathcal|mathrm|boldsymbol|varepsilon|vartheta|varphi|ell)(?![A-Za-z]))")
+_SIZED = r"\\(?:big|Big|bigg|Bigg)[lr]?\s*"           # \bigl( \Bigr) \biggl[ ...
+_DELIMITER = r"\s*(?:\\[A-Za-z]+|\\.|[^\sA-Za-z\\])"   # ( [ | . \{ \langle after \left / \right
+_OPEN = re.compile(r"\\left" + _DELIMITER + "|" + _SIZED + r"[(\[]|\(|\[|\{")
+_CLOSE = re.compile(r"\\right" + _DELIMITER + "|" + _SIZED + r"[)\]]|\)|\]|\}")
 
 
 def _bracket_group(text: str, i: int) -> tuple[str, int] | None:
-    """The content of '(...)', '\\left( ... \\right)', '[...]' or '{...}' starting
-    at text[i] (after spaces), and the index after it."""
-    m = re.match(r"\s*(\\left\s*[(\[]|\\big[lr]?\s*[(\[]|\(|\[|\{)", text[i:])
+    """The content of '(...)', '\\left( ... \\right)', '\\Bigl( ... \\Bigr)',
+    '[...]' or '{...}' starting at text[i] (after spaces and thin spaces), and
+    the index after it. Each delimiter inside (\\left|, \\Bigr), ']') counts once."""
+    m = re.match(r"(?:\s|\\[,;:!])*(\\left\s*[(\[]|" + _SIZED + r"[(\[]|\(|\[|\{)", text[i:])
     if not m:
         return None
     start = i + m.end()
     depth, j = 1, start
     while j < len(text):
-        if re.match(r"\\left\b|\(|\[|\{", text[j:]):
+        opening, close = _OPEN.match(text, j), _CLOSE.match(text, j)
+        if opening:
             depth += 1
-        elif re.match(r"\\right\s*[)\]]|\\big[lr]?\s*[)\]]|\)|\]|\}", text[j:]):
+            j = opening.end()
+        elif close:
             depth -= 1
             if depth == 0:
-                close = re.match(r"\\right\s*[)\]]|\\big[lr]?\s*[)\]]|\)|\]|\}", text[j:])
-                return text[start:j], j + close.end()
-        if text[j] == "\\":
-            k = re.match(r"\\(?:right\s*[)\]]|left\s*[(\[]|[A-Za-z]+|.)", text[j:])
-            j += k.end() if k and not k.group(0).startswith(("\\right", "\\left")) else 1
-            continue
-        j += 1
+                return text[start:j], close.end()
+            j = close.end()
+        elif text[j] == "\\":                  # any other command, \{ and \} included
+            j = re.match(r"\\(?:[A-Za-z]+|.)", text[j:], re.S).end() + j
+        else:
+            j += 1
     return None
 
 
@@ -183,7 +199,69 @@ def _flatten(text: str) -> str:
     f_{\pm} -> f_PM (a branch marker, see fidelity._pick_branch)."""
     text = re.sub(r"[\s{},()]", "", text)
     text = text.replace("/", "_").replace("|", "_")          # A_{L/R} -> A_L_R, never a division
+    # a prime inside the label belongs to it: r_{l'l} -> r_l_primel, not r_l_prime times l
+    text = re.sub(r"'+", lambda m: f"_{'p' * (len(m.group(0)) - 1)}prime", text)
     return "".join(_SUB_SIGNS.get(ch, ch) for ch in text)
+
+
+_SUM_GROUP = r"\{(?:[^{}]|\{[^{}]*\})*\}"
+_SUM_RELATIONS = frozenset(("approx", "simeq", "equiv", "le", "ge", "leq", "geq", "neq", "ne", "sim", "quad",
+                            "qquad", "to", "rightarrow", "longrightarrow", "propto", "label", "nonumber", "notag"))
+_OPEN_COMMANDS = frozenset(("{", "langle", "lbrace", "lbrack"))
+_CLOSE_COMMANDS = frozenset(("}", "rangle", "rbrace", "rbrack"))
+
+
+def _sum_limits(text: str, i: int) -> tuple[str, str | None, str | None, int] | None:
+    """(index, lower, upper, end) of '\\sum_{n=a}^{b}' or '\\sum_n' starting at text[i];
+    None when the sum is over anything but one letter (\\sum_{n,m}, \\sum_{k \\in S})."""
+    m = re.match(r"\s*(?:\\limits\s*)?_\s*(" + _SUM_GROUP + r"|[A-Za-z])", text[i:])
+    if m is None:
+        return None
+    sub = m.group(1)[1:-1] if m.group(1).startswith("{") else m.group(1)
+    spec = re.fullmatch(r"\s*([A-Za-z]|\\[A-Za-z]+)\s*(?:=\s*(\S.*?))?\s*", sub, re.S)
+    if spec is None or (spec.group(1).startswith("\\") and spec.group(1)[1:] not in _GREEK):
+        return None
+    j = i + m.end()
+    sup = re.match(r"\s*\^\s*(" + _SUM_GROUP + r"|\\[A-Za-z]+|[A-Za-z0-9])", text[j:])
+    upper = None
+    if sup:
+        upper = sup.group(1)[1:-1] if sup.group(1).startswith("{") else sup.group(1)
+        j += sup.end()
+    return spec.group(1), spec.group(2), upper, j
+
+
+def _summand_end(text: str, j: int) -> int:
+    """End of the summand starting at text[j]: TeX's sum acts on the product that
+    follows it, up to a + or - (or a relation, a comma, a row end) outside brackets."""
+    depth, k, started = 0, j, False
+    while k < len(text):
+        c = text[k]
+        if c == "\\":
+            cmd = re.match(r"\\([A-Za-z]+|.)", text[k:], re.S)
+            name = cmd.group(1) if cmd else ""
+            if depth == 0 and (name in _SUM_RELATIONS or name == "\\"):
+                break
+            if name in _OPEN_COMMANDS:
+                depth += 1
+            elif name in _CLOSE_COMMANDS:
+                if depth == 0:
+                    break
+                depth -= 1
+            k += cmd.end() if cmd else 1
+            started = True
+            continue
+        if c in "([{":
+            depth += 1
+        elif c in ")]}":
+            if depth == 0:
+                break
+            depth -= 1
+        elif depth == 0 and (c in "=&,;" or (c in "+-" and started)):
+            break
+        if not c.isspace():
+            started = True
+        k += 1
+    return k
 
 
 def _strip_trailing_space(out: list[str]) -> None:
@@ -191,6 +269,42 @@ def _strip_trailing_space(out: list[str]) -> None:
         out[-1] = out[-1].rstrip()
         if not out[-1]:
             out.pop()
+
+
+def _script_argument(text: str, i: int) -> tuple[str, int]:
+    """A sub- or superscript: one character, a group, or a word command with its
+    group (r_\\mathrm{H}, \\Psi_\\text{GL}: TeX gives the script \\mathrm{H} whole)."""
+    arg, j = _argument(text, i)
+    if arg[1:] in _WRAPPERS:
+        inner, j = _argument(text, j)
+        arg = arg + "{" + inner + "}"
+    return arg, j
+
+
+def _one_group(arg: str) -> str | None:
+    """The content of a superscript that is one bracket group, (2) or
+    \\left(2\\right); None for anything else, (a)/(b) included."""
+    m = re.fullmatch(r"\s*(\\left\s*)?\((.*?)(\\right\s*)?\)\s*", arg, re.S)
+    if m is None or bool(m.group(1)) != bool(m.group(3)):
+        return None
+    depth = 0
+    for ch in m.group(2):
+        depth += ch == "("
+        depth -= ch == ")"
+        if depth < 0:
+            return None
+    return m.group(2) if depth == 0 else None
+
+
+def _ends_in_name(out: list[str]) -> bool:
+    """Whether the text so far ends in a name a subscript can attach to
+    (x, \\Gamma, \\dot{x}, x', x^{a}), and not in a bracket or an operator."""
+    return bool(re.search(r"[A-Za-z0-9_']$", "".join(out)))
+
+
+def _new_factor_follows(text: str, i: int) -> bool:
+    """A letter right after a finished name starts a new factor: x_{d}f, G^{R}G, \\hat{p}x."""
+    return bool(re.match(r"[A-Za-z]", text[i:i + 1]))
 
 
 def _convert(text: str) -> str:
@@ -206,26 +320,46 @@ def _convert(text: str) -> str:
                 continue
             name, i = m.group(1), i + m.end()
             sum_pm = re.match(r"_\s*\{?\s*\\(pm|mp)\s*\}?", text[i:]) if name == "sum" else None
+            limits = _sum_limits(text, i) if name == "sum" and not sum_pm else None
             if sum_pm:
                 out.append(" sum_pm ")
                 i += sum_pm.end()
+            elif limits is not None:
+                # \sum_{n=a}^{b} X: the summand runs to the next + or - outside brackets
+                index, lower, upper, j = limits
+                end = _summand_end(text, j)
+                if end == j:
+                    out.append("\\sum")
+                    continue
+                name_of = _convert(index).strip()
+                lo = f"({_convert(lower)})" if lower is not None else f"sumlo_{name_of}"
+                hi = f"({_convert(upper)})" if upper is not None else f"sumhi_{name_of}"
+                out.append(f" Sum((({_convert(text[j:end])})), ({name_of}, {lo}, {hi})) ")
+                i = end
             elif name in ("frac", "dfrac", "tfrac"):
                 num, i = _argument(text, i)
                 den, i = _argument(text, i)
+                if _VARIATION.match(num) and _VARIATION.match(den):
+                    out.append("\\delta")           # both readers would cancel the deltas: unread
+                    continue
                 top, bottom = _DIFF_NUM.match(num), _DIFF_DEN.match(den)
                 variable = _flatten(_convert(bottom.group(1))).strip() if bottom else ""
                 operator = _DIFF_OPERATOR.match(num)
-                if operator and bottom and (operator.group(1) or "1") == (bottom.group(2) or "1"):
-                    # \frac{\partial}{\partial y}\left( X \right): the operator acts on the next group
-                    group = _bracket_group(text, i)
+                if operator and _DIFFERENTIAL.match(den):
+                    # \frac{\partial}{\partial y}\left( X \right): the operator acts on the next
+                    # group. Before anything else (\frac{d}{dx} x^2) it is refused, never d/(d x)
+                    group = _bracket_group(text, i) if bottom and \
+                        (operator.group(1) or "1") == (bottom.group(2) or "1") else None
+                    operand = None
                     if group is not None:
                         inner, i = group
                         operand = _convert(inner)
-                        if re.search(rf"(?<![A-Za-z0-9_]){re.escape(variable)}(?![A-Za-z0-9_])", operand):
-                            out.append(f" Diff(({operand}), {variable}, {operator.group(1) or 1}) ")
-                        else:
-                            out.append("\\partial")
-                        continue
+                    if operand is not None and \
+                            re.search(rf"(?<![A-Za-z0-9_]){re.escape(variable)}(?![A-Za-z0-9_])", operand):
+                        out.append(f" Diff(({operand}), {variable}, {operator.group(1) or 1}) ")
+                    else:
+                        out.append("\\partial")
+                    continue
                 operand = _convert(top.group(2)) if top else ""
                 if top and bottom and (top.group(1) or "1") == (bottom.group(2) or "1") \
                         and not re.match(r"[_^]", top.group(2)) \
@@ -284,6 +418,8 @@ def _convert(text: str) -> str:
                 inner = _convert(arg).strip()
                 if re.fullmatch(r"[A-Za-z][A-Za-z0-9]*", inner):
                     out.append(f" {inner}__{_ACCENTS[name]}")
+                    if _new_factor_follows(text, i):
+                        out.append(" ")            # \mathcal{C}e is C__cal times e
                 else:
                     out.append("\\" + name)       # an accent on an expression: unread
             elif name == "sqrt":
@@ -304,6 +440,8 @@ def _convert(text: str) -> str:
                 out.append(" ")
             elif name == "lambda":                # a Python keyword: SymPy's own spelling
                 out.append(" lamda " if not text[i:i + 1] == "_" else " lamda")
+            elif name in ("Delta", "delta") and _INCREMENT.match(text, i):
+                out.append("\\" + name)          # an increment or a product: unread
             elif name in _GREEK:
                 # always a space before (\Gamma_L\Gamma_R is two names, not one);
                 # none after when a subscript follows (\Gamma_L stays one name)
@@ -315,14 +453,18 @@ def _convert(text: str) -> str:
             else:
                 out.append("\\" + name)          # unsupported: the parser will refuse it
         elif c == "_":
-            arg, i = _argument(text, i + 1)
+            arg, i = _script_argument(text, i + 1)
             _strip_trailing_space(out)
+            if not _ends_in_name(out):
+                # (a+b)_{x}, R^\alpha\,_{\beta}: a subscript on no name is unread,
+                # never a stray symbol '_x'
+                out.append("\\_")
             out.append("_" + _flatten(_convert(arg)))
-            if re.match(r"[A-Za-z]", text[i:i + 1]):
+            if _new_factor_follows(text, i):
                 out.append(" ")                # x_{d}f is x_d times f, not one name
         elif c == "^":
-            arg, i = _argument(text, i + 1)
-            label = re.fullmatch(r"\s*\((.*)\)\s*", arg)
+            arg, i = _script_argument(text, i + 1)
+            label = _one_group(arg)
             # G^r, G^{<}, c^\dagger, T^{nm}: letters (and <, >, dagger, prime) are
             # labels in physics, never powers; they become part of the name
             letters = re.fullmatch(r"\s*(?:[A-Za-z<>*/|,]+|\\dagger|\\prime|\\ast)\s*", arg)
@@ -336,13 +478,15 @@ def _convert(text: str) -> str:
             name_before = re.search(r"(?:[A-Za-z]|\\[A-Za-z]+)\s*$", text[:text.rfind("^", 0, i)])
             if re.fullmatch(r"\s*0\s*", arg) and glued and name_before and (
                     re.match(r"\s*[(_]", text[i:]) or re.match(r"[A-Z\\]", name_before.group(0).strip())):
-                label = re.fullmatch(r"\s*(0)\s*", arg)   # G^0, f^0(e): the bare/equilibrium one, not **0
+                label = "0"                  # G^0, f^0(e): the bare/equilibrium one, not **0
             rm = re.fullmatch(r"\s*\\(?:rm|mathrm|text)\s*\{?\s*([A-Za-z]+)\s*\}?\s*", arg)
             if rm and glued:
-                label = re.fullmatch(r"\s*(\w+)\s*", rm.group(1))   # G^{\rm R}: a label
+                label = rm.group(1)          # G^{\rm R}: a label
             if label and glued:
                 _strip_trailing_space(out)
-                out.append("__" + _flatten(_convert(label.group(1))))   # rho^{(0)} is a label
+                out.append("__" + _flatten(_convert(label)))   # rho^{(0)} is a label
+                if _new_factor_follows(text, i):
+                    out.append(" ")            # G^{(0)}G is two names
             elif letters and glued:
                 _strip_trailing_space(out)
                 tag = (arg.strip().replace("\\", "").replace("<", "lt").replace(">", "gt")
@@ -353,7 +497,18 @@ def _convert(text: str) -> str:
                 if boxed:
                     out[:] = [joined[:boxed.start()] + boxed.group(1)]
                 out.append("__" + tag)
+                if _new_factor_follows(text, i):
+                    out.append(" ")            # \Sigma^{<}G is two names, not Sigma__ltG
             else:
+                sub = re.match(r"\s*_", text[i:])
+                if sub:
+                    # X^{2}_{a} is X_{a}^{2} in TeX: the subscript belongs to X. After a
+                    # bracket, or with D^{-1}_{ij} (an element of the inverse matrix), unread
+                    script, i = _script_argument(text, i + sub.end())
+                    _strip_trailing_space(out)
+                    if not _ends_in_name(out) or re.match(r"\s*-", arg):
+                        out.append("\\_")
+                    out.append("_" + _flatten(_convert(script)))
                 out.append(f"^({_convert(arg)})")
         elif c in "&~":
             out.append(" ")
@@ -444,10 +599,14 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     text = re.sub(r"\{\s*\\(cal|bf|rm|it|sf|bm)\s+([^{}]*)\}",
                   lambda m: "\\" + {"cal": "mathcal", "bf": "mathbf", "rm": "mathrm", "it": "mathit",
                                     "sf": "mathsf", "bm": "mathbf"}[m.group(1)] + "{" + m.group(2).strip() + "}", text)
+    # \mathcal{R}e, \mathcal{I}m: a calligraphic Re / Im, never R times e; unread
+    text = re.sub(r"\\mathcal\s*\{\s*(?:R\s*\}\s*e|I\s*\}\s*m)(?![A-Za-z])", r"\\calReIm ", text)
     text = split_letter_runs(text)
     # a capital E or I written in LaTeX is a quantity (an energy, a current),
     # never Euler's number or the imaginary unit, which are written e and i
-    text = re.sub(r"(?<![\\A-Za-z])([EI])(?![A-Za-z])", r"\1sym", text)
+    # (as a whole script, f_I and G^E become f_{Isym} and G^{Esym}, never f_I times sym)
+    text = re.sub(r"([_^]\s*)?(?<![\\A-Za-z])([EI])(?![A-Za-z])",
+                  lambda m: f"{m.group(1)}{{{m.group(2)}sym}}" if m.group(1) else f"{m.group(2)}sym", text)
     text = rewrite_over(normalize_exponential(text))
     # Re / Im of the next factor: \mathrm{Im}\,\psi(z) -> im_of psi(z)
     text = re.sub(r"\{?\s*\\(?:mathrm|operatorname|rm)\s*\{?\s*(Re|Im)\s*\}?\s*\}?|\\(Re|Im)(?![A-Za-z])",
@@ -457,8 +616,11 @@ def latex_to_plain(text: str, macros: dict[str, tuple[int, str]] | None = None) 
     plain = _absolute_values(_convert(text))
     # e^{-x}, e^{i w t} are exponentials; e^2 (as in e^2/h) is the charge squared
     plain = re.sub(r"(?<![A-Za-z0-9_])e\^\((?!\s*\d+\s*\))", "E^(", plain)
-    # primes are part of the name: t' -> t_prime, \omega'' -> omega_pprime
-    plain = re.sub(r"([A-Za-z0-9_])\s*('+)", lambda m: f"{m.group(1)}_{'p' * (len(m.group(2)) - 1)}prime", plain)
+    # primes are part of the name: t' -> t_prime, \omega'' -> omega_pprime; a letter
+    # after the primes starts a new factor (x'y is x_prime times y)
+    plain = re.sub(r"([A-Za-z0-9_])\s*('+)(?=([A-Za-z]?))",
+                   lambda m: f"{m.group(1)}_{'p' * (len(m.group(2)) - 1)}prime" + (" " if m.group(3) else ""),
+                   plain)
     return re.sub(r"_\s+", "_", plain)
 
 
@@ -466,7 +628,10 @@ def _absolute_values(plain: str) -> str:
     """|X| -> Abs(X), innermost first. An odd or nested use of '|' is left
     alone and the parser then refuses the quote."""
     for _ in range(8):
-        new = re.sub(r"\|([^|]+)\|", r"Abs(\1)", plain, count=1)
+        # e|V| is e times |V|: a name right before the bar must not absorb Abs
+        new = re.sub(r"(?<=[A-Za-z0-9_])\|([^|]+)\||\|([^|]+)\|",
+                     lambda m: f" Abs({m.group(1)})" if m.group(1) is not None else f"Abs({m.group(2)})",
+                     plain, count=1)
         if new == plain:
             break
         plain = new

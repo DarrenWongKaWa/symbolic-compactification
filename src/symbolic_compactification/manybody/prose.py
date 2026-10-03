@@ -523,9 +523,18 @@ def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
     name: '$e^{iqL} = 1$', '$\\Omega T = 2\\pi$', '$x = \\beta\\epsilon = \\epsilon/T$',
     '$t > s$', '$\\eta < 0$', '$k \\neq q$'. A refutation that treats them as
     free may be wrong. name -> where."""
+    out: dict[str, str] = {}
+    for name, sources in constraint_sources(raw, macros).items():
+        out[name] = sources[0][0]
+    return out
+
+
+def constraint_sources(raw: str, macros: dict) -> dict[str, list[tuple[str, str | None]]]:
+    """name -> [(where, the relation as written, or None for a sentence about
+    discrete values)], for every constraint ``prose_constraints`` reports."""
     body = document_body(_dollar_math(raw))
     displays = [(m.start(), m.end()) for m in display_spans(body, raw)]
-    out: dict[str, str] = {}
+    out: dict[str, list[tuple[str, str | None]]] = {}
     for m in re.finditer(r"\$([^$]{1,160})\$", body):
         if any(a <= m.start() < b for a, b in displays):
             continue
@@ -545,7 +554,7 @@ def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
             continue                     # 'X = expr', 'f(x) = expr': a value or definition, handled elsewhere
         where = f"line {raw.count(chr(10), 0, raw.find(m.group(0)))+1}: ${' '.join(math.split())[:50]}$"
         for name in _names_in(math):
-            out.setdefault(name, where)
+            out.setdefault(name, []).append((where, math))
     # names that take only discrete values ('take only the values $+1$ and $-1$')
     for sentence in re.split(r"(?<=[.;])\s+", body):
         if re.search(r"projector|idempoten|nilpoten|involution|Ising|occupation\s+number|number\s+operator"
@@ -553,5 +562,5 @@ def prose_constraints(raw: str, macros: dict) -> dict[str, str]:
                      r"|\\pm\s*1\b|\$\s*[+-]?[01]\s*\$\s+(?:and|or)\s+\$\s*[+-]?[01]\s*\$", sentence, re.I):
             for piece in re.findall(r"\$([^$]{1,60})\$", sentence):
                 for name in _names_in(piece):
-                    out.setdefault(name, " ".join(sentence.split())[:60])
+                    out.setdefault(name, []).append((" ".join(sentence.split())[:60], None))
     return out

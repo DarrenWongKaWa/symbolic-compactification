@@ -262,15 +262,72 @@ def _explicit_re_im(expr: sympy.Expr) -> sympy.Expr:
         lambda e: sympy.polygamma(e.args[0].args[0], sympy.conjugate(e.args[0].args[1])))
 
 
+def _depends_on(name: str, index: str) -> bool:
+    """Whether a flattened name such as a_n, x_nm, v_n__a or omega_n carries the
+    summation index in its subscript (a name may say more than it means: E_kin
+    counts for n, which only keeps a factor inside the sum)."""
+    if name.startswith(("sumlo_", "sumhi_")) or "_" not in name:
+        return False
+    tail = name.split("_", 1)[1]
+    return index in tail if len(index) == 1 else re.search(rf"(?<![A-Za-z]){index}(?![a-z])", tail) is not None
+
+
+def _bind_indices(expr: sympy.Expr) -> sympy.Expr:
+    """Inside a sum over n, a name whose subscript mentions n is a function of n."""
+    def bind(node):
+        function = node.function
+        for limit in node.limits:
+            index = limit[0]
+            deps = {x for x in function.free_symbols
+                    if isinstance(x, sympy.Symbol) and x != index and _depends_on(x.name, index.name)}
+            function = function.xreplace({x: sympy.Function(x.name)(index) for x in deps})
+        return sympy.Sum(function, *node.limits)
+    return expr.replace(lambda e: isinstance(e, sympy.Sum), bind)
+
+
+def _zero_with_sums(expr: sympy.Expr, depth: int = 0) -> bool:
+    """Sufficient test that an expression with sums is identically zero: every
+    sum term c * Sum(f, limits) is collected per limits (c does not hold the
+    index, so it may move inside), and each collected summand, and the rest,
+    must vanish. Sums are never evaluated."""
+    if depth > 6:
+        return False
+    buckets: dict = {}
+    rest = sympy.Integer(0)
+    for term in sympy.Add.make_args(sympy.expand(expr)):
+        sums = [f for f in sympy.Mul.make_args(term) if isinstance(f, sympy.Sum)]
+        if len(sums) == 1:
+            node = sums[0]
+            coeff = term / node
+            if not any(coeff.has(limit[0]) for limit in node.limits):
+                buckets[node.limits] = buckets.get(node.limits, 0) + coeff * node.function
+                continue
+        rest += term
+    if rest != 0 and (rest.has(sympy.Sum) or not _simplify_zero(rest)):
+        return False
+    return all(_zero_with_sums(summand, depth + 1) if summand.has(sympy.Sum) else _simplify_zero(summand)
+               for summand in buckets.values())
+
+
 def compare(lhs: sympy.Expr, rhs: sympy.Expr, space: CalculusSpace,
             positive: tuple[str, ...] = (), labels: tuple[str, ...] = ()) -> dict:
+    if lhs.has(sympy.Sum) or rhs.has(sympy.Sum):
+        # a sum is compared term by term and never evaluated: its range and its
+        # convergence are not known, so a difference is never a refutation
+        if _zero_with_sums(_bind_indices(lhs) - _bind_indices(rhs)):
+            return {"verdict": "ZERO", "reasons": ["SUMS_EQUAL_TERM_BY_TERM"]}
+        return {"verdict": "UNKNOWN", "reasons": ["SUMS_COMPARED_TERM_BY_TERM_ONLY"]}
     lhs, rhs = _explicit_re_im(lhs), _explicit_re_im(rhs)
     residual = lhs - rhs
     pos = space.positives(tuple(positive))
     hit, all_small = _screen(residual, space.user_functions, residual.free_symbols, pos)
     if hit is not None:
+        try:
+            diagnosis = diagnose(lhs, rhs, space, positive, labels)
+        except (OverflowError, ValueError):     # 10**400 * x: a hint only, never the verdict
+            diagnosis = []
         return {"verdict": "NONZERO", "reasons": ["COUNTEREXAMPLE"], "counterexample": hit,
-                "diagnosis": diagnose(lhs, rhs, space, positive, labels)}
+                "diagnosis": diagnosis}
     if _simplify_zero(residual):
         return {"verdict": "ZERO", "reasons": []}
     reasons = ["NUMERICAL_SUPPORT_ONLY"] if all_small else ["UNDECIDED"]

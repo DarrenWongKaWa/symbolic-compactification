@@ -118,6 +118,51 @@ def render_expression(text: str) -> str:
             f'<details class="tex"><summary>as text</summary><pre>{_esc(text)}</pre></details>')
 
 
+REVIEWER_STEPS = "reviewer_steps.json"     # written by `manybody review --ledger`
+
+
+def reviewer_steps(workspace: AuditWorkspace) -> list[dict]:
+    """Ledger steps the tool does not check (integral, limit, approximation,
+    definition), listed for the reviewer with their type and quotes."""
+    import json
+    try:
+        rows = json.loads((workspace.root / REVIEWER_STEPS).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    return [r for r in rows if isinstance(r, dict) and r.get("step")] if isinstance(rows, list) else []
+
+
+def html_reviewer_steps(rows: Sequence[dict], macros: dict | None = None) -> str:
+    if not rows:
+        return ""
+    body = "".join(
+        f"<tr><td><code>{_esc(r['step'])}</code></td><td>{_esc(r.get('type'))}</td>"
+        f"<td>{_esc(r.get('from') or '—')}<br>{render_tex(str((r.get('quotes') or {}).get('from', '')), macros or {})}</td>"
+        f"<td>{_esc(r.get('to') or '—')}<br>{render_tex(str((r.get('quotes') or {}).get('to', '')), macros or {})}</td></tr>"
+        for r in rows)
+    return ('<section id="reviewer-steps">'
+            f'<h2>Steps for the reviewer ({len(rows)})</h2>'
+            '<p>The step ledger types these steps as an integral, a limit, an approximation or a '
+            'definition. The tool does not check them (no VALID or INVALID); each needs a '
+            "person's judgement or an independent numerical check.</p>"
+            '<table><thead><tr><th>Step</th><th>Type</th><th>From</th><th>To</th></tr></thead><tbody>'
+            + body + '</tbody></table></section>')
+
+
+def md_reviewer_steps(rows: Sequence[dict], cell: Any) -> list[str]:
+    if not rows:
+        return []
+    lines = ["", f"## Steps for the reviewer ({len(rows)})", "",
+             "Integral, limit, approximation and definition steps of the ledger: not checked by the tool.", "",
+             "| Step | Type | From | To |", "| --- | --- | --- | --- |"]
+    for r in rows:
+        quotes = r.get("quotes") or {}
+        lines.append("| " + " | ".join([cell(r["step"]), cell(r.get("type")),
+                                        cell(f"{r.get('from') or ''} {quotes.get('from', '')}".strip()),
+                                        cell(f"{r.get('to') or ''} {quotes.get('to', '')}".strip())]) + " |")
+    return lines
+
+
 def manuscript_title(workspace: AuditWorkspace) -> str | None:
     from ..manybody.latex import document_title
     try:

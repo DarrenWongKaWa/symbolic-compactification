@@ -86,6 +86,27 @@ def _symbol_entries(value) -> dict[str, dict]:
     return out
 
 
+_SIGN_KEYS = ("positive", "real", "nonzero")
+
+
+def _refine_symbol(old: dict, new: dict) -> dict | None:
+    """A later include may add what the text states about a symbol (positive,
+    real, nonzero) to an entry that says nothing about it; it may not change a
+    stated attribute or contradict one (positive but not real). The drafted
+    'realness: unstated' note gives way to a declared sign or realness. None
+    when the two entries contradict."""
+    if any(old[k] != new[k] for k in set(old) & set(new)):
+        return None
+    if not set(new) - set(old) <= {"name", *_SIGN_KEYS}:
+        return None
+    merged = {**old, **new}
+    if merged.get("positive") and (merged.get("real") is False or merged.get("nonzero") is False):
+        return None
+    if any(k in new for k in _SIGN_KEYS):
+        merged.pop("realness", None)
+    return merged
+
+
 def _squash(text: Any) -> str:
     return " ".join(str(text).split())
 
@@ -126,7 +147,11 @@ def resolve_includes(card: dict, base_dir: Path | None) -> tuple[dict, list[str]
             raise CardError(f"include {item} must be a mapping")
         for name, entry in _symbol_entries(data.get("symbols")).items():
             if name in shared["symbols"] and shared["symbols"][name] != entry:
-                conflicts.append(f"symbol {name} differs between includes")
+                refined = _refine_symbol(shared["symbols"][name], entry)
+                if refined is None:
+                    conflicts.append(f"symbol {name} differs between includes")
+                else:
+                    entry = refined
             shared["symbols"][name] = entry
         for key in _MERGED_MAPS:
             for k, v in (data.get(key) or {}).items():
@@ -249,7 +274,7 @@ def _named_quantity_blockers(card: dict, defs: dict, check: str) -> list[str]:
     funcs = set(_names(card.get("named_functions")))
     if not plain and not funcs:
         return []
-    defined = {k.split("(")[0].strip() for k in defs}
+    defined = {k.split("(")[0].strip() for k in defs} | _defined_by_given(card)
     texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
     used_plain = set(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)(?!\s*\(|[A-Za-z0-9_])", texts))
     used_calls = set(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\s*\(", texts))
@@ -458,10 +483,12 @@ def _definitions_from_other_sections(card: dict, defs: dict, base_dir: Path | No
             raw = path.read_text(encoding="utf-8")
         except OSError:
             raw = None
-    if raw is None or not card.get("display"):
+    step = card.get("step") or {}
+    displays = [card["display"]] if card.get("display") else [d for d in (step.get("from"), step.get("to")) if d]
+    if raw is None or not displays:          # a ledger step: both of its displays count
         return sorted(anchored)
-    here = display_section(raw, str(card["display"]))
-    return sorted(n for n, d in anchored.items() if here is None or display_section(raw, d) != here)
+    here = {display_section(raw, str(d)) for d in displays}
+    return sorted(n for n, d in anchored.items() if None in here or here != {display_section(raw, d)})
 
 
 def _singular_at_stated_values(card: dict, symbols: list, functions, defs: dict) -> list[str]:
@@ -508,6 +535,74 @@ _SIDES = {
 }
 
 
+def _across_displays(card: dict, base_dir: Path | None) -> bool:
+    """A ledger step whose two sides are located in two different displays."""
+    step = card.get("step") or {}
+    if not (step.get("from") and step.get("to")) or not card.get("source_document"):
+        return False
+    path = Path(str(card["source_document"]))
+    if not path.is_absolute() and base_dir is not None:
+        path = base_dir / path
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError:
+        return False
+    from .fidelity import display_text
+    a, b = display_text(raw, str(step["from"])), display_text(raw, str(step["to"]))
+    return a is not None and b is not None and a != b
+
+
+_SUM_INDEX = re.compile(r"Sum\(.*?,\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,")
+_SUM_RANGE = re.compile(r"(?<![A-Za-z0-9_])sum(?:lo|hi)_[A-Za-z0-9_]+")
+
+
+def _sum_symbols(card: dict, symbols: list) -> list[dict]:
+    """The index of each sum and the placeholder bounds of a sum written without
+    limits (\\sum_n: sumlo_n, sumhi_n) are symbols of the step, never declared by hand."""
+    texts = " ".join(str(card[k]) for k in _EXPRESSION_KEYS if k in card)
+    texts += " " + " ".join(str(r.get(side, "")) for r in card.get("_given") or [] for side in ("lhs", "rhs"))
+    have = {s if isinstance(s, str) else s.get("name") for s in symbols}
+    names = set(_SUM_INDEX.findall(texts)) | set(_SUM_RANGE.findall(texts))
+    return [{"name": n} for n in sorted(names - have)]
+
+
+def _given_symbols(card: dict, symbols: list, functions, defs: dict) -> set[str]:
+    """Symbols of the stated relations the step used: the counterexample satisfies them."""
+    records = [r for r in (card.get("_given_used") or []) if r.get("status") == "MATCH"]
+    if not records:
+        return set()
+    from .calculus import CalculusSpace
+    try:
+        space = CalculusSpace(symbols, functions, definitions=defs)
+        return set().union(*[{str(x) for x in space.parse(str(r[side])).free_symbols}
+                             for r in records for side in ("lhs", "rhs")])
+    except Exception:
+        return set()
+
+
+def _constraints_cited(card: dict, base_dir: Path | None) -> set[str]:
+    """Constrained names whose every relation in the text is a relation the step
+    cites under ``given:`` -- the counterexample then satisfies all of them."""
+    quotes = {" ".join(str(r.get("quote", "")).split()) for r in card.get("_given_used") or []
+              if r.get("status") == "MATCH"}
+    if not quotes or not card.get("source_document"):
+        return set()
+    path = Path(str(card["source_document"]))
+    if not path.is_absolute() and base_dir is not None:
+        path = base_dir / path
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError:
+        return set()
+    from .latex import read_macros
+    from .prose import constraint_sources
+    covered = set()
+    for name, sources in constraint_sources(raw, read_macros(raw)).items():
+        if all(math is not None and " ".join(math.split()) in quotes for _, math in sources):
+            covered.add(name)
+    return covered
+
+
 def _one_sided(card: dict, symbols: list, functions, defs: dict, check: str) -> list[str]:
     """Symbols that occur on one side of the claimed equality only. Such a
     relation can be read as fixing that symbol (Gamma/(2 pi rho) = V^2,
@@ -536,16 +631,30 @@ def _one_sided(card: dict, symbols: list, functions, defs: dict, check: str) -> 
         return []
     # one-sided as written and after the definitions are used: a symbol hidden in
     # a definition on the other side (Gamma_R inside Sigma) is not a free choice
-    return sorted(((written[0] ^ written[1]) & (expanded[0] ^ expanded[1])) - bound)
+    # a stated relation the step used ties its symbols: the counterexample satisfies it
+    tied = _given_symbols(card, symbols, functions, defs)
+    return sorted(((written[0] ^ written[1]) & (expanded[0] ^ expanded[1])) - bound - tied)
 
 
 _APPROXIMATE = re.compile(r"(?<![A-Za-z_])\d+\.\d+")
 
 
+def _defined_by_given(card: dict) -> set[str]:
+    """Names a cited relation gives a value: one side of it is just the name
+    (alpha_1 = ..., quoted from the paper and used by the step)."""
+    out = set()
+    for r in card.get("_given_used") or []:
+        for side in ("lhs", "rhs"):
+            m = re.fullmatch(r"\(*\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)*", str(r.get(side, "")))
+            if m:
+                out.add(m.group(1))
+    return out
+
+
 def _lhs_is_a_name(card: dict, defs: dict) -> bool:
     lhs = str(card.get("lhs", ""))
     m = re.fullmatch(r"\(*\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)*", lhs)
-    return bool(m) and m.group(1) not in {k.split("(")[0].strip() for k in defs}
+    return bool(m) and m.group(1) not in {k.split("(")[0].strip() for k in defs} | _defined_by_given(card)
 
 
 def _realness_blockers(card: dict, raw_symbols: list, defs: dict | None = None) -> list[str]:
@@ -581,6 +690,7 @@ def _used_symbols(symbols: list, card: dict, defs: dict) -> list:
     """Only the declared symbols a card actually uses: a shared conventions
     file may declare many more than one check can take."""
     texts = [str(card[k]) for k in _EXPRESSION_KEYS if k in card]
+    texts += [str(r.get(side, "")) for r in card.get("_given") or [] for side in ("lhs", "rhs")]
     texts += [*defs.values(), *defs.keys(), str(card.get("variable", "z")), str(card.get("beta", "beta")),
               str(card.get("infinitesimal", "")), *map(str, _names(card.get("labels")))]
     used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(texts)))
@@ -720,6 +830,14 @@ def _run_resolved(card: dict, base_dir, shared_defs, conflicts, require_source) 
     from .fidelity import fill_from_source, with_default_functions
     card, filled = fill_from_source(card, base_dir, symbols=symbols, functions=functions)
     defs = {str(k): str(v) for k, v in (card.get("define") or {}).items()}
+    if card.get("given") is not None:          # relations the step uses, quoted from the source
+        from .fidelity import given_relations
+        try:
+            card["_given"] = given_relations(card, base_dir, symbols=symbols, functions=functions,
+                                             definitions=defs)
+        except AdapterError as exc:
+            card["_given"] = [{"index": 0, "status": "UNCHECKED", "reason": exc.code}]
+    symbols = symbols + _sum_symbols(card, symbols)
     symbols = _used_symbols(symbols, card, defs) or [{"name": "unused_symbol"}]   # zeta(4) = pi^4/90 has none
     kept = {s if isinstance(s, str) else s["name"] for s in symbols}
     positive = tuple(n for n in positive if n in kept)
@@ -754,7 +872,16 @@ def _dispatch(card, check, symbols, positive, functions, defs, labels) -> dict:
                    verify_langreth, verify_matsubara_sum, verify_operator_identity,
                    verify_series_coefficient)
     from .fermi_integral import verify_fermi_integral
-    if check == "identity":
+    if check == "identity" and card.get("_given") is not None:
+        from .given import verify_identity_given
+        lhs, rhs = _need(card, "lhs", "rhs")
+        usable = [r for r in card["_given"] if r.get("status") == "MATCH"]
+        out = verify_identity_given(lhs, rhs, [(r["lhs"], r["rhs"]) for r in usable], symbols=symbols,
+                                    functions=functions, positive=positive, definitions=defs)
+        used = {id(usable[i]) for i in out.get("given_used") or []}
+        out["given"] = [{**r, "used": id(r) in used} for r in card["_given"]]
+        card["_given_used"] = [r for r in card["_given"] if id(r) in used]
+    elif check == "identity":
         lhs, rhs = _need(card, "lhs", "rhs")
         out = verify_identity(lhs, rhs, symbols=symbols, functions=functions, positive=positive,
                               definitions=defs, labels=labels)
@@ -891,16 +1018,36 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
     if card.get("noncommuting") and check not in ("langreth", "operator"):
         # the text says its quantities are matrices: every check here is commutative
         why.append("NONCOMMUTING_STATED")
-    named = _named_quantity_blockers(card, defs, check)
+    # a ledger step that holds with a named quantity left free holds for its defined
+    # value too: the guard is needed only to withhold a refutation
+    refutation_only = bool(card.get("step")) and decision != "INVALID"
+    named = [] if refutation_only else _named_quantity_blockers(card, defs, check)
     if named:
         why.append("NAMED_QUANTITY_UNDEFINED:" + ",".join(named))
-    if check == "identity" and _lhs_is_a_name(card, defs):
+    if check == "identity" and not refutation_only and _lhs_is_a_name(card, defs):
         # "A = ..." states the value of a named quantity: without A's own
         # definition the relation cannot be checked (A would be a free symbol)
         why.append("LHS_IS_A_NAMED_QUANTITY")
     unstated = _realness_blockers(card, card.get("symbols") or [], defs)
     if unstated:            # the claim takes Re/Im/conj/|.| of a symbol the paper never calls real
         why.append("REALNESS_UNSTATED:" + ",".join(unstated))
+    given = card.get("_given")
+    if given is not None:
+        unread = [r for r in given if r.get("status") != "MATCH"]
+        if check != "identity":
+            why.append("GIVEN_ONLY_FOR_IDENTITY")
+        elif unread and verdict != "ZERO":
+            # a relation the step cites could not be read: it may be the one that makes it hold
+            why.append("GIVEN_UNREADABLE:" + ",".join(f"{r['index']}:{r.get('reason') or r['status']}"
+                                                      for r in unread))
+    if card.get("under"):
+        from .fidelity import check_under
+        blocker = check_under(card, base_dir, symbols=symbols, functions=functions, definitions=defs)
+        if blocker:
+            why.append(blocker)
+        elif decision == "INVALID":
+            # the summands differ; the sums or integrals may still agree (relabelling, symmetry)
+            why.append("UNDER_WRAPPER_NOT_REFUTED")
     errata = sorted(k for k, f in (transcription.get("fields") or {}).items() if f.get("erratum"))
     decision_with_errata = None
     if errata:                    # the printed formula is not what was checked
@@ -913,8 +1060,20 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
             # (zeta(4) = pi^4/90 is false for an arbitrary zeta): never refuted
             why.append("ARBITRARY_FUNCTION:" + ",".join(arbitrary))
         one_sided = _one_sided(card, symbols, functions, defs, check)
-        if one_sided:
-            why.append("ONE_SIDED_SYMBOL:" + ",".join(one_sided))
+        # a ledger step claims that its two quoted expressions are equal (given the cited
+        # relations): a plain symbol on one side only is a dropped or added factor. A name
+        # the text gives a value, a definition or a constraint may be fixed by a relation
+        # the ledger did not cite, so that refutation is still withheld
+        valued = set(_names(card.get("named_quantities"))) | set(_names(card.get("named_functions"))) \
+            | set(_names(card.get("constrained"))) | set(_names(card.get("valued_in_text"))) \
+            | set((card.get("stated_values") or {}).keys()) | {k.split("(")[0].strip() for k in defs}
+        # ... and only across two displays: both sides of one display may be a definition
+        across = _across_displays(card, base_dir)
+        fixed = [n for n in one_sided if n in valued or not across]
+        if fixed:
+            why.append("ONE_SIDED_SYMBOL:" + ",".join(fixed))
+        elif one_sided:
+            out = {**out, "one_sided_symbols": one_sided}
         if any(_APPROXIMATE.search(str(card[k])) for k in _EXPRESSION_KEYS if k in card):
             # 0.7468 is a rounded value: 'approximately', not 'equal'
             why.append("APPROXIMATE_NUMBER")
@@ -933,7 +1092,8 @@ def _finish(card, check, out, symbols, positive, functions, defs, conflicts, fil
         if card.get("approximation_stated") and check not in ("remainder", "coefficient"):
             why.append("APPROXIMATION_STATED")     # 'to first order in V': exact equality not claimed
         bound = _bound_variable(card, check)
-        constrained = set(_names(card.get("constrained"))) & _names_through_definitions(card, defs) - bound
+        constrained = set(_names(card.get("constrained"))) & _names_through_definitions(card, defs) - bound \
+            - _constraints_cited(card, base_dir)
         if constrained:
             why.append("CONSTRAINED_IN_TEXT:" + ",".join(sorted(constrained)))
         valued = [n for n in _valued_free_names(card, defs) if n not in bound]

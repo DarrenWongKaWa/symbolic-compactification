@@ -1,0 +1,72 @@
+# Appendix D of Guo et al., PRL 136, 206303 (arXiv:2511.16422v2): steps across displays.
+# Every formula is a verbatim quote of main.tex. The tool decides; this file only says
+# which expression follows from which, and which stated relation the step uses.
+source_document: ../input/source_anchors/main.tex
+include: conventions.yaml
+steps:
+  - id: K1A-regroup
+    type: algebra
+    note: "We reorganize K_1A"
+    from: {quote: 'v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) + v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c)'}
+    to:   {quote: 'v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c)'}
+  - id: K1A-metric
+    type: algebra
+    note: "and apply the Metric-Velocity Relation"
+    from: {quote: 'v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c)'}
+    to:   {quote: '2\epsilon_{12}^2 (v_1^c g_{ab} + v_1^b g_{ac})'}
+    given:
+      - quote: 'v_{12}^a v_{21}^b + v_{12}^b v_{21}^a = 2\epsilon_{12}^2 g_{ab}'
+        instances: [{}, {b: c}]
+  - id: TA-prefactor
+    type: algebra
+    from: {quote: "\\frac{2\\epsilon_{12}^2}{8\\epsilon_{12}} [ -(v_1^c g_{ab} + v_1^b g_{ac}) f_1' + (v_2^c g_{ab} + v_2^b g_{ac}) f_2' ]"}
+    to:   {quote: "\\frac{\\epsilon_{12}}{4} [ (g_{ab} v_2^c + g_{ac} v_2^b) f_2' - (g_{ab} v_1^c + g_{ac} v_1^b) f_1' ]"}
+  - id: TBgeo-eps21
+    type: algebra
+    note: "Using epsilon_21 = -epsilon_12"
+    from: {quote: "\\frac{1}{4} \\left[ \\epsilon_{12} (g_{ac} v_1^b + g_{ab} v_1^c) f_1' + \\epsilon_{21} (g_{ac} v_2^b + g_{ab} v_2^c) f_2' \\right]"}
+    to:   {quote: "\\frac{\\epsilon_{12}}{4} \\left[ (g_{ac} v_1^b + g_{ab} v_1^c) f_1' - (g_{ac} v_2^b + g_{ab} v_2^c) f_2' \\right]"}
+    given:
+      - quote: '\epsilon_{21} = -\epsilon_{12}'
+  - id: C1-regroup
+    type: algebra
+    note: "We reorganize these expressions by factoring out the intraband velocities"
+    from: {quote: 'v_{21}^a(v_{12}^b v_1^c + v_1^b v_{12}^c) - v_{12}^a(v_{21}^b v_1^c + v_1^b v_{21}^c)'}
+    to:   {quote: 'v_1^c (v_{21}^a v_{12}^b - v_{12}^a v_{21}^b) + v_1^b (v_{21}^a v_{12}^c - v_{12}^a v_{21}^c)'}
+  - id: C2-regroup
+    type: algebra
+    from: {quote: '-v_{21}^a(v_2^b v_{12}^c + v_{12}^b v_2^c) + v_{12}^a(v_2^b v_{21}^c + v_{21}^b v_2^c)'}
+    to:   {quote: 'v_2^c (v_{12}^a v_{21}^b - v_{21}^a v_{12}^b) + v_2^b (v_{12}^a v_{21}^c - v_{21}^a v_{12}^c)'}
+  - id: Vab-FH
+    type: algebra
+    note: "We utilize the Feynman-Hellmann identity"
+    from: {quote: 'v_{21}^a v_{12}^b - v_{12}^a v_{21}^b'}
+    to:   {quote: '(-i\epsilon_{12} A_{21}^a)(-i\epsilon_{21} A_{12}^b) - (-i\epsilon_{21} A_{12}^a)(-i\epsilon_{12} A_{21}^b)'}
+    given:
+      - quote: 'v_{nm}^a = -i \epsilon_{mn} A_{nm}^a'
+        instances: [{n: '2', m: '1'}, {n: '1', m: '2'}, {n: '2', m: '1', a: b}, {n: '1', m: '2', a: b}]
+  - id: Vab-factor
+    type: algebra
+    from: {quote: '(-i\epsilon_{12} A_{21}^a)(-i\epsilon_{21} A_{12}^b) - (-i\epsilon_{21} A_{12}^a)(-i\epsilon_{12} A_{21}^b)'}
+    to:   {quote: '(-1)(\epsilon_{12}\epsilon_{21}) [ A_{21}^a A_{12}^b - A_{12}^a A_{21}^b ]'}
+  - id: Vab-eps21
+    type: algebra
+    from: {quote: '(-1)(\epsilon_{12}\epsilon_{21}) [ A_{21}^a A_{12}^b - A_{12}^a A_{21}^b ]'}
+    to:   {quote: '\epsilon_{12}^2 (A_{21}^a A_{12}^b - A_{12}^a A_{21}^b)'}
+    given:
+      - quote: '\epsilon_{21} = -\epsilon_{12}'
+  - id: A-antisym
+    type: algebra
+    from: {quote: 'A_{21}^a A_{12}^b - A_{12}^a A_{21}^b'}
+    to:   {quote: '-(A_{12}^a A_{21}^b - A_{12}^b A_{21}^a)'}
+  - id: A-to-Omega
+    type: algebra
+    note: "For band 1: Omega^1_ab = i (A_12^a A_21^b - A_12^b A_21^a)"
+    from: {quote: '-(A_{12}^a A_{21}^b - A_{12}^b A_{21}^a)'}
+    to:   {quote: '-(-i \Omega_{ab}^1)'}
+    given:
+      - quote: '\Omega_{ab}^1 = i (A_{12}^a A_{21}^b - A_{12}^b A_{21}^a)'
+  - id: Omega-sign
+    type: algebra
+    from: {quote: '-(-i \Omega_{ab}^1)'}
+    to:   {quote: 'i \Omega_{ab}^1'}

@@ -133,10 +133,14 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     rv = msub.add_parser("review", help="one command: LaTeX paper -> checked steps -> reviewer HTML")
     rv.add_argument("document")
     rv.add_argument("--out", required=True, help="review workspace (rerun it to re-verify)")
+    rv.add_argument("--ledger", help="step ledger (Eq. X -> Eq. Y using R) to check with the paper")
+    lg = msub.add_parser("ledger", help="check a step ledger: Eq. X -> Eq. Y using stated relations")
+    lg.add_argument("ledger", help="YAML ledger: source_document, steps (from/to/given quotes)")
+    lg.add_argument("--out", required=True, help="directory for the compiled cards")
     dr = msub.add_parser("draft", help="draft step cards from a .tex file or a plain-text sheet")
     dr.add_argument("document")
     dr.add_argument("--out", required=True, help="directory for the cards and conventions.yaml")
-    for parser in (m, r, i, o, k, d, c, st, sts, dr, rv):
+    for parser in (m, r, i, o, k, d, c, st, sts, dr, rv, lg):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -167,7 +171,10 @@ def _run(args) -> dict[str, Any]:
         return run_card(args.card, require_source=args.require_source or None)
     if cmd == "review":
         from .review import review
-        return review(args.document, args.out)
+        return review(args.document, args.out, ledger=args.ledger)
+    if cmd == "ledger":
+        from .ledger import run_ledger
+        return run_ledger(args.ledger, args.out)
     if cmd == "draft":
         from .draft import draft
         return draft(args.document, args.out)
