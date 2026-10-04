@@ -145,6 +145,30 @@ edited cards and conventions and only re-verifies. Report each step's
   the tool could not decide.
 - If you check a step yourself, say so separately.
 
+**Steps that go from one display to another** ("using R, Eq. X becomes
+Eq. Y") are most of a paper and are not drafted by `review`. Write them in a
+step ledger and pass it to the same command:
+
+```bash
+symbolic-compactification manybody review paper.tex --out review/ --ledger steps.yaml
+```
+
+Each step has a `type` (`algebra`, `sum-termwise`, `integral`, `limit`,
+`approximation`, `definition`); only the first two are checked, the others
+come back `NEEDS_REVIEWER` and are yours to judge (say how you checked them).
+Each step gives `from` and `to` as verbatim quotes and lists under `given`
+the relations it uses, each a verbatim quote `A = B` from the paper (with
+`instances` for renamed indices). Quote only what the paper writes; do not
+add a relation the paper does not state, and do not cite a relation from the
+step's own display. The tool decides each step (VALID only on an engine
+ZERO, with the relations used listed and never proved); report its
+`decision` as for any card. The format is in the engine repository's
+`docs/encoding-cookbook.md` ("Steps across displays").
+
+Every LaTeX quote is read by two independent readers and counts only when
+they agree. `READERS_DISAGREE` means the quote was not read; never retype the
+formula to get around it.
+
 The five-layer workflow below is for papers whose steps the cards cannot
 express.
 

@@ -2,6 +2,12 @@
 
 **Verified symbolic reasoning for theoretical physics.**
 
+> **Status (2026-10-04): development paused.** Tool verdicts were always
+> correct in the A/B evaluation, but the tool did not raise error detection and
+> decides few steps of a real paper. See
+> [`docs/reports/2026-10-04-status.md`](docs/reports/2026-10-04-status.md)
+> (Chinese) for the evaluation and the go/no-go assessment.
+
 An installable skill with three tasks over one engine:
 - **Compactify** a given expression. The agent proposes a candidate, the
   program checks the residual, and improvement is scored separately.
@@ -195,6 +201,12 @@ that are broken as printed.
 Wingreen and Meir, PRB 50, 5528 (1994). The review certifies its digamma
 relation, finds an unbalanced bracket in its step-response formula, and
 catches planted sign errors.
+
+How far the reviewer mode can be trusted today, with the adversarial
+rounds behind that judgement, is in
+[`docs/product-evaluation.md`](docs/product-evaluation.md): the checking
+engine is reliable on correctly encoded claims, and reading a paper's
+LaTeX is a fail-closed research preview.
 
 What each check assumes, and what it refuses, is in
 [`docs/many-body-equivalence.md`](docs/many-body-equivalence.md). To encode

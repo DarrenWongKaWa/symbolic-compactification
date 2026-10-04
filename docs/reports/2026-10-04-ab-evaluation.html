@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>审稿工具水平评估</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column (~70ch) with full-width tables; verdict first, evidence after. */
+:root {
+  --bg: #f5f6f8; --surface: #ffffff; --fg: #1d2430; --muted: #5b6575; --line: #d9dee6;
+  --accent: #2c5a85; --accent-soft: #e3ecf5;
+  --good: #2e7a4e; --good-soft: #e2f1e8; --warn: #a86a12; --warn-soft: #f7ecd9; --bad: #b0353a; --bad-soft: #f6e1e2;
+  --font-display: "Noto Serif SC", "Songti SC", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Helvetica Neue", sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121820; --surface: #19212b; --fg: #e4e8ee; --muted: #9aa5b5; --line: #2c3746;
+  --accent: #82abd6; --accent-soft: #1f3247;
+  --good: #6cc495; --good-soft: #17332a; --warn: #e0a64a; --warn-soft: #3a2c14; --bad: #ec7b80; --bad-soft: #3d1c20; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121820; --surface: #19212b; --fg: #e4e8ee; --muted: #9aa5b5; --line: #2c3746;
+  --accent: #82abd6; --accent-soft: #1f3247;
+  --good: #6cc495; --good-soft: #17332a; --warn: #e0a64a; --warn-soft: #3a2c14; --bad: #ec7b80; --bad-soft: #3d1c20; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.7; }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 64px; display: grid; gap: 40px; }
+.prose { max-width: 70ch; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: 30px; }
+h2 { font-size: 21px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+h3 { font-size: 16px; margin: 0; }
+p { margin: 0; }
+section { display: grid; gap: 14px; min-width: 0; }
+.meta { color: var(--muted); font-size: 13px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+code, .num { font-family: var(--font-data); font-size: .92em; }
+.num { font-variant-numeric: tabular-nums; }
+.verdict { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 18px 20px; display: grid; gap: 10px; }
+.verdict p.lead { font-size: 17px; font-weight: 500; }
+.findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.finding { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.finding .big { font-family: var(--font-data); font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.finding.good .big { color: var(--good); } .finding.warn .big { color: var(--warn); } .finding.bad .big { color: var(--bad); }
+.tablebox { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+tr.group td { background: var(--accent-soft); font-weight: 600; font-size: 13px; }
+.pill { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; font-weight: 500; white-space: nowrap; }
+.pill.good { background: var(--good-soft); color: var(--good); } .pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); } .pill.info { background: var(--accent-soft); color: var(--accent); }
+/* error-by-arm grid */
+.grid td.cell { text-align: center; padding: 6px 4px; }
+.dot { display: inline-block; width: 16px; height: 16px; border-radius: 50%; vertical-align: middle; }
+.dot.hit { background: var(--good); }
+.dot.tool { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.dot.miss { border: 2px solid var(--line); }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--muted); align-items: center; }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.note { font-size: 13px; color: var(--muted); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.two > * { min-width: 0; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 8px; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header style="display:grid; gap:8px;">
+  <p class="eyebrow">symbolic-compactification · 2026-10-04</p>
+  <h1>审稿工具水平评估</h1>
+  <p class="meta">分支 <code>feat/ledger-dual-read</code> · <a href="https://github.com/DarrenWongKaWa/symbolic-compactification/pull/25">PR #25</a> · 单次运行，每组一次 · 评测材料在 <code>~/sc-dev/eval/ab-2026-10-04</code></p>
+</header>
+
+<section>
+  <div class="verdict">
+    <p class="eyebrow">结论</p>
+    <p class="lead">这个工具目前是一个“判了就可靠、但能判的很少”的核对器。它没有让模型多查出错误：Opus 和 Sonnet 不用它也能查出几乎全部埋入的错误，Haiku 用了它也查不出来。它的增加值是给出可复核的机器证据：在推导评测里，Sonnet 带工具时 32 步中有 25 步由工具判定，6 个错误中 5 个由工具给出反例，而且没有一个判错。</p>
+    <ul>
+      <li><b>可靠：</b>这次评测中工具给出的每一个 VALID / INVALID 都是对的（推导评测 25 个，审稿评测在原文上 32 个，13 篇账本 36 个）。账本运行过程中由 agent 发现了 2 个会导致误判的缺陷，都已修复并加了测试。</li>
+      <li><b>覆盖窄：</b>13 篇论文、651 个推导步骤里，工具只判定了 36 步（约 6%）；只看它负责的代数步骤，是 32 / 177（18%）。积分、极限、近似这类步骤（427 步）一律交给人。</li>
+      <li><b>查错靠模型自己：</b>Opus 和 Sonnet 带工具的 4 组共面对 16 个埋入错误，全部查出；其中工具从原文引用直接判出的只有 3 个（短论文 1 个，长论文 2 个），其余是模型自己用 Python 数值核对找到的。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="findings">
+    <div class="finding good"><span class="big">0</span><span>工具给出的错误结论（评测和 13 篇账本中）</span></div>
+    <div class="finding warn"><span class="big">18%</span><span>代数步骤被工具判定的比例（32 / 177）</span></div>
+    <div class="finding"><span class="big">3 / 16</span><span>Opus、Sonnet 带工具的四组里，由工具从原文直接判出的埋入错误</span></div>
+    <div class="finding good"><span class="big">25 / 32</span><span>推导评测中 Sonnet 带工具时由工具判定的步骤（全部正确）</span></div>
+    <div class="finding bad"><span class="big">2 / 8</span><span>Haiku 带工具在两篇论文上查出的埋入错误（不带工具 1 / 8）</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>审稿评测：两篇论文，埋入错误</h2>
+  <p class="prose">把错误埋进真实 arXiv 论文的 LaTeX 源里，让 agent 当审稿人，报告哪些编号公式是错的。每个模型跑两组：只用自己的推理和 Python，或者再加上本工具（读 SKILL.md 和 cookbook，写账本，跑 <code>manybody review --ledger</code>）。所有埋入错误和论文原有错误都先用 mpmath 独立确认过。</p>
+  <div class="two">
+    <div class="box">
+      <h3>短论文：1002.4692（Matsubara 频率求和，20 个编号式）</h3>
+      <p class="note">埋入 4 个：(8) 部分分式中 iz₀ 的符号；(16) 第 2 行 coth 顺序；(5) 第 2 行分母 e<sup>u</sup>+e<sup>−u</sup>；(17) 第 2 行的符号。原有 3 个：(13) 指数符号，(19) 应为 sinh y，(20) 应为 cosh x。</p>
+    </div>
+    <div class="box">
+      <h3>长论文：1708.01124（纳米器件热电效率，68 个编号式）</h3>
+      <p class="note">埋入 4 个：(16b) 分母 K₀K₂+K₁²；(25) 中间项符号；(27c) γ² 的符号；(B4) 第二种形式的分母 1+px。原有 2 个（不编号的式子）：(14) 与 (15) 之间的 k<sub>B</sub>²T²/e 应为 /e²；(A6) 之前的 x<sup>n−1</sup> 应为 z<sup>n−1</sup>。</p>
+    </div>
+  </div>
+
+  <div class="tablebox">
+  <table class="grid">
+    <thead>
+      <tr><th>组别</th>
+        <th class="n">P1</th><th class="n">P2</th><th class="n">P3</th><th class="n">P4</th><th class="n">R1</th><th class="n">R2</th><th class="n">R3</th>
+        <th class="n">误报</th><th>工具在这组里的作用</th></tr>
+    </thead>
+    <tbody>
+      <tr class="group"><td colspan="10">短论文 1002.4692（P = 埋入，R = 原有）</td></tr>
+      <tr><td>Opus · 不用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="n">0</td><td>—</td></tr>
+      <tr><td>Opus · 用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot tool"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="n">0</td><td>(16) 第 2 行由工具判 INVALID；另有 8 个正确式子判 VALID</td></tr>
+      <tr><td>Sonnet · 不用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="n">0</td><td>—</td></tr>
+      <tr><td>Sonnet · 用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="n">0</td><td>账本只判出 1 个 VALID；错误是把式子手抄进工具算出来的，不是从原文引用</td></tr>
+      <tr><td>Haiku · 不用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot hit"></span></td><td class="n">0</td><td>—</td></tr>
+      <tr><td>Haiku · 用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="n">1</td><td>没写账本；一条命令模式 29 张卡全部未判定</td></tr>
+      <tr class="group"><td colspan="10">长论文 1708.01124（没有 R3）</td></tr>
+      <tr><td>Opus · 不用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell">·</td><td class="n">0</td><td>—</td></tr>
+      <tr><td>Opus · 用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell">·</td><td class="n">0</td><td>36 步账本：6 VALID，0 INVALID。(16b)、(B4) 找到反例但被防护压下（正文写了 K₁ = 0、p = 1）</td></tr>
+      <tr><td>Sonnet · 不用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell">·</td><td class="n">0</td><td>—</td></tr>
+      <tr><td>Sonnet · 用工具</td><td class="cell"><span class="dot tool"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot tool"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot hit"></span></td><td class="cell">·</td><td class="n">0</td><td>(16b)、(B4) 由工具从原文判 INVALID（它自己补了 p 的约定）。为绕开 <code>\Delta</code> 拒读，它另存了一份改写过的论文副本来核对 R1，这部分不算从原文引用</td></tr>
+      <tr><td>Haiku · 不用工具</td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell">·</td><td class="n">1</td><td>—</td></tr>
+      <tr><td>Haiku · 用工具</td><td class="cell"><span class="dot hit"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell"><span class="dot miss"></span></td><td class="cell">·</td><td class="n">0</td><td>144 张卡全部未判定；(16b) 是它自己用 SymPy 查出的</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="legend">
+    <span><span class="dot tool"></span>工具从原文引用直接判出</span>
+    <span><span class="dot hit"></span>模型自己查出（Python 或推理）</span>
+    <span><span class="dot miss"></span>漏掉</span>
+  </div>
+  <p class="note">误报：Haiku 把 (9) 当成 (8) 的“传递错误”（(9) 本身是对的）；把 Fano 线型 (21) 可以大于 1 当成数学错误（那是模型选择，不是错式）。</p>
+</section>
+
+<section>
+  <h2>推导评测：32 步推导，6 个埋入错误</h2>
+  <p class="prose">沿用 benchmark v1 的推导单（有限耗散输运的热核、可约差商、Γ 极点，以及 Guo 等人的浴积分），每步给出断言和作者的理由，判断 VALID / INVALID。真值全部由独立的数值计算确定。</p>
+  <div class="tablebox">
+  <table>
+    <thead><tr><th>组别</th><th class="n">判对</th><th class="n">抓到埋错</th><th class="n">误报</th><th class="n">自己算过的步数</th><th class="n">工具判定的步数</th></tr></thead>
+    <tbody>
+      <tr><td>Sonnet · 不用工具</td><td class="n">32 / 32</td><td class="n">6 / 6</td><td class="n">0 / 26</td><td class="n">32</td><td class="n">—</td></tr>
+      <tr><td>Sonnet · 用工具</td><td class="n">32 / 32</td><td class="n">6 / 6</td><td class="n">0 / 26</td><td class="n">32</td><td class="n">25</td></tr>
+      <tr><td>Haiku · 不用工具</td><td class="n">26 / 32</td><td class="n">0 / 6</td><td class="n">0 / 26</td><td class="n">0</td><td class="n">—</td></tr>
+      <tr><td>Haiku · 用工具</td><td class="n">26 / 32</td><td class="n">0 / 6</td><td class="n">0 / 26</td><td class="n">13</td><td class="n">0</td></tr>
+      <tr class="group"><td colspan="6">参考：2026-09 的旧版本工具、旧模型（README 中的历史数据）</td></tr>
+      <tr><td>Opus · 推理 / Python / 工具</td><td class="n">32 / 32</td><td class="n">6 / 6</td><td class="n">0 / 26</td><td class="n">0 / 31 / 28</td><td class="n">— / — / 12</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="two">
+    <div class="box">
+      <h3>Sonnet 带工具：25 步由工具判定，全部正确</h3>
+      <p>14 步 ZERO、6 步按规则认证、5 步 NONZERO。6 个埋入错误里 5 个是工具的 NONZERO 给出的，并附反例（K1.5、K2.4、K4.4、G1.3、G2.2）；K3.5 工具没判定，是 Sonnet 用数值查出的。不用工具的 Sonnet 结果完全一样，所以准确率没有提高；工具的增加值是每个结论都有可复核的机器证据。</p>
+      <p class="note">注意：推导单是纯文本，卡片里的式子是 agent 自己转写的，不是从原文逐字引用。K4.4 用了一个具体的 f 来代替任意函数，K3.4 用了化简后的形式，这两步的证据比其他步弱。</p>
+    </div>
+    <div class="box">
+      <h3>Haiku：带不带工具都一样</h3>
+      <p>两组都把 32 步全判 VALID，6 个埋入错误一个没抓到。带工具那组自己算了 13 步，但没有一步交给工具判定。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>账本覆盖：13 篇论文</h2>
+  <p class="prose">账本由 agent 写：每一步是“式 X → 式 Y，用到关系 R”，所有公式逐字引用原文。步骤分六类，工具只核对“代数”和“求和逐项”，其余标为需要人工判断。</p>
+  <div class="tablebox">
+  <table>
+    <thead><tr><th>论文</th><th class="n">编号式</th><th class="n">代数判定</th><th class="n">求和逐项</th><th class="n">积分</th><th class="n">极限</th><th class="n">近似</th><th class="n">定义</th><th class="n">VALID</th></tr></thead>
+    <tbody>
+      <tr><td>Guo et al. 附录 D</td><td class="n">211</td><td class="n">12 / 12</td><td class="n">0 / 0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">12</td></tr>
+      <tr><td>1708.01124</td><td class="n">68</td><td class="n">9 / 40</td><td class="n">1 / 2</td><td class="n">26</td><td class="n">9</td><td class="n">3</td><td class="n">3</td><td class="n">10</td></tr>
+      <tr><td>1403.8035</td><td class="n">65</td><td class="n">6 / 57</td><td class="n">0 / 2</td><td class="n">27</td><td class="n">14</td><td class="n">26</td><td class="n">1</td><td class="n">6</td></tr>
+      <tr><td>math-ph/0303052</td><td class="n">91</td><td class="n">3 / 8</td><td class="n">0 / 19</td><td class="n">16</td><td class="n">15</td><td class="n">5</td><td class="n">4</td><td class="n">3</td></tr>
+      <tr><td>1002.4692</td><td class="n">20</td><td class="n">0 / 2</td><td class="n">3 / 11</td><td class="n">4</td><td class="n">6</td><td class="n">0</td><td class="n">0</td><td class="n">3</td></tr>
+      <tr><td>0808.3382</td><td class="n">61</td><td class="n">2 / 9</td><td class="n">0 / 0</td><td class="n">16</td><td class="n">9</td><td class="n">13</td><td class="n">5</td><td class="n">2</td></tr>
+      <tr><td>1511.03276</td><td class="n">100</td><td class="n">0 / 23</td><td class="n">0 / 2</td><td class="n">24</td><td class="n">26</td><td class="n">16</td><td class="n">4</td><td class="n">0</td></tr>
+      <tr><td>quant-ph/0702032</td><td class="n">42</td><td class="n">0 / 10</td><td class="n">0 / 1</td><td class="n">3</td><td class="n">1</td><td class="n">14</td><td class="n">2</td><td class="n">0</td></tr>
+      <tr><td>hep-ph/0108026</td><td class="n">46</td><td class="n">0 / 9</td><td class="n">0 / 7</td><td class="n">14</td><td class="n">10</td><td class="n">2</td><td class="n">1</td><td class="n">0</td></tr>
+      <tr><td>hep-ph/0603048</td><td class="n">59</td><td class="n">0 / 5</td><td class="n">0 / 0</td><td class="n">16</td><td class="n">8</td><td class="n">3</td><td class="n">1</td><td class="n">0</td></tr>
+      <tr><td>2208.00180</td><td class="n">54</td><td class="n">0 / 2</td><td class="n">0 / 3</td><td class="n">24</td><td class="n">8</td><td class="n">6</td><td class="n">0</td><td class="n">0</td></tr>
+      <tr><td>1611.01459</td><td class="n">39</td><td class="n">0 / 0</td><td class="n">0 / 0</td><td class="n">20</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td class="n">0</td></tr>
+      <tr><td>0902.1749</td><td class="n">16</td><td class="n">0 / 0</td><td class="n">0 / 0</td><td class="n">4</td><td class="n">1</td><td class="n">8</td><td class="n">1</td><td class="n">0</td></tr>
+      <tr class="group"><td>合计</td><td class="n">—</td><td class="n">32 / 177</td><td class="n">4 / 47</td><td class="n">194</td><td class="n">112</td><td class="n">99</td><td class="n">22</td><td class="n">36</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="two">
+    <div class="box">
+      <h3>代数步骤没判定的原因</h3>
+      <ul>
+        <li><code>SOURCE_CHARACTER_UNSUPPORTED</code> 70：读不了的 LaTeX（<code>\int</code>、<code>\partial</code>、<code>\langle</code>、<code>\braket</code>、现在还有 <code>\Delta T</code>）</li>
+        <li><code>GIVEN_UNREADABLE</code> 31：引用的关系本身读不了</li>
+        <li><code>NAMED_QUANTITY_UNDEFINED</code> 25：名字的值在别处给出</li>
+        <li><code>PARSE_FAILED</code> 14，<code>FUNCTION_OR_PRODUCT</code> 9</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>找到反例但没有判 INVALID：32 条</h3>
+      <p>防护的作用是宁可不判也不误判，代价是会漏掉真错。比如 math-ph/0303052 的式 28：论文印 64，按推导应为 69，引擎给出了精确反例，但正文在别处规定了 ω = μ = 1，工具分不清作用范围，于是压下。长论文 (16b)、(B4) 的埋入错误在 Opus 组里也是这样被压下的。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>积分、极限、近似步骤的数值双转写</h2>
+  <p class="prose">非代数步骤不判 VALID / INVALID。两个独立 agent 各自把一步写成 mpmath 代码，在同一组随机点上比较；只有两份转写彼此一致，结果才算数。</p>
+  <div class="tablebox">
+  <table>
+    <thead><tr><th>论文</th><th class="n">步数</th><th class="n">数值支持</th><th class="n">数值不一致</th><th class="n">两份转写不一致</th><th class="n">不能数值化</th></tr></thead>
+    <tbody>
+      <tr><td>1002.4692</td><td class="n">10</td><td class="n">2</td><td class="n">2</td><td class="n">6</td><td class="n">0</td></tr>
+      <tr><td>0902.1749</td><td class="n">13</td><td class="n">0</td><td class="n">0</td><td class="n">13</td><td class="n">0</td></tr>
+      <tr><td>0808.3382</td><td class="n">38</td><td class="n">3</td><td class="n">0</td><td class="n">23</td><td class="n">12</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="prose">两处“数值不一致”就是 1002.4692 的式 19、20 本身的错误。大部分步骤卡在“两份转写不一致”：两个 agent 对同一个问题通常得出相同结论（0902.1749 上两人独立找到同样的 5 处问题），但选的自由参数和归一化不同，比较器对不上。改进办法：先为每一步固定参数表，再让两个 agent 分别转写。</p>
+</section>
+
+<section>
+  <h2>审稿 HTML 检查</h2>
+  <ul class="prose">
+    <li>发现的问题：用账本时，积分、极限、近似、定义这几类步骤只出现在命令输出的 JSON 里，审稿人看的 HTML 和 Markdown 摘要里完全没有。</li>
+    <li>已修复：页面新增“Steps for the reviewer”一节，逐步列出类型和前后两个式子（MathML 渲染，附原始 LaTeX）。在 0808.3382 上列出 43 步，导航栏有入口。</li>
+    <li>没做到：这台机器上的浏览器面板不能打开本地文件，所以只检查了 HTML 结构和内容，没有截图看实际排版。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>这次修掉的两个误判</h2>
+  <div class="two">
+    <div class="box">
+      <h3>宏里的下标改名没生效</h3>
+      <p>账本可以把引用关系里的下标改名（p→L、q→R）。宏 <code>\rpq</code> 展开是 <code>r_{pq}</code>，改名碰不到宏内部，报告说改了、实际没改。一个正确的步骤因此被判成 INVALID。现在先展开宏再改名；改名没有起作用就拒绝这一步。</p>
+    </div>
+    <div class="box">
+      <h3><code>\Delta T</code> 被读成 Δ·T</h3>
+      <p>两个读取器都把 ΔT 读成 Δ 乘以 T，于是 <code>\frac{\Delta T}{\Delta V}</code> = <code>\frac{T}{V}</code> 被判 VALID。现在 <code>\Delta</code> / <code>\delta</code> 后面直接跟名字就拒读。代价：1708.01124 从 19 个 VALID 降到 10 个。后续可以把 ΔT 当成一个独立符号来读，并对这类步骤只给 VALID、不给 INVALID。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>这次评测说明不了什么</h2>
+  <ul class="prose">
+    <li>每组只跑了一次，Opus / Sonnet 的差别在一两个错误以内，不能当成稳定的排名。</li>
+    <li>埋入的错误都是单个符号或系数，用 mpmath 逐式代数值就能查出。这类题对 Opus / Sonnet 太容易，测不出工具的上限价值。</li>
+    <li>出题、做题、判分用的是同一家族的模型。</li>
+    <li>评测 agent 被要求不读评测目录以外的文件，但这一点没有技术手段强制。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>下一步建议</h2>
+  <ul class="prose">
+    <li><b>换更难的题：</b>选人工逐式数值核对代价很高的长推导（几十步、带约定和下标），这样才能看出工具对强模型的价值。</li>
+    <li><b>让小模型真正用上工具：</b>Haiku 两次都没写出能跑的账本。可以从一条命令的草稿自动生成账本骨架，小模型只需要填“用到哪个关系”。</li>
+    <li><b>防护的作用范围：</b>“正文别处写了 p = 1”会压下所有涉及 p 的反例。可以只在那一节或那个条件下生效，用测试证明不会因此误判。</li>
+    <li><b>ΔT 当成一个符号读</b>，找回 1708.01124 的 9 个 VALID。</li>
+    <li><b>数值双转写先固定参数表</b>，否则大部分步骤得不出结论。</li>
+  </ul>
+</section>
+
+</main>
+</body>
+</html>

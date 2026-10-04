@@ -66,7 +66,10 @@ LaTeX quotes are converted by a fixed, reviewable set of rules:
   both signs;
 - `|X|`, `\left| X \right|` and `\lvert X \rvert` are read as `Abs(X)`.
   A claim that takes `|…|` of a symbol whose realness the paper does not
-  state is not decided;
+  state is not decided. This includes symbols inside a definition the
+  claim uses: `|G(\omega)|^2` depends on every symbol in `G`'s definition.
+  Realness is read from phrases such as `real $\omega$` and
+  `$\varepsilon$, $\Omega$ and $t$ real`;
 - sizing and spacing commands are dropped.
 
 Anything else is left alone and refused by the parser, which makes the
@@ -86,8 +89,45 @@ confident wrong verdict:
   tail at infinity. A positive order with no stated point is checked at
   both points and decided only if the two verdicts agree. `x → 0⁺` is
   used only when the variable is stated positive.
-- **Integration limits.** Only `\int` over the whole real line becomes a
-  `fermi_integral`. Other limits are left alone.
+- **Integration limits.** `\int` over the whole real line with an `n_F`
+  becomes a `fermi_integral`. Any other `\int_a^b dx\, f` (or
+  `\int_a^b f\, dx`) becomes a `definite_integral`. It is decided only
+  when `f` is entire in `x` (polynomials, `exp`, `sin`, `cos`, `sinh`,
+  `cosh` of entire arguments): the engine's antiderivative is verified by
+  differentiation, and the fundamental theorem gives `F(b) − F(a)`. An
+  infinite limit needs every term to decay there, `x^k e^{s x}` with the
+  sign of `Re s` decided by the stated positive and real symbols (state
+  the damping, e.g. `$\eta > 0$`). Integrands with a denominator in `x`,
+  unknown functions, `θ(t)` and similar stay undecided. Primes in the
+  variable become `_prime` (`dt'` integrates over `t_prime`).
+- **Definitions and conditions in a display.** `\Sigma(\omega) = -i\Gamma,
+  \qquad \Gamma \equiv \Gamma_L + \Gamma_R`: a segment after `\quad`,
+  `\qquad` or `\text{and}` that reads `X \equiv expr` or `X := expr`, with a
+  name on the left and a quantity on the right, defines the constant `X`
+  for every card (`notation: {Gamma: Gamma()}`; `z_\pm \equiv …` gives
+  both branches). It is not used when the text or another display gives `X`
+  a different value, or when `X` is an integration variable. Anything else
+  next to the relation (`\qquad \Omega t = \pi`, `\qquad \varphi \equiv \pi`,
+  `(\mu = 0)`, `\text{at } \mu = 0`, a second relation) makes every step of
+  that display `CONDITION_IN_DISPLAY`: the extra piece may restrict the
+  claim. `1/\tau \equiv …` (no bare name on the left) is a definition in
+  disguise and is not checked (`EQUIV_RELATION`).
+- **Langreth shorthand.** `C^r = A^r B^r` and `C^< = A^r B^< + A^< B^a`
+  are checked as Langreth rules when the text mentions Langreth and
+  states a convolution with its order: `$C = A*B$`, `$C = A \ast B$`, or
+  "the convolution $C = AB$". Not when the paper calls the product
+  pointwise, local or equal-time anywhere, or writes it with arguments
+  (`C(t,t') = A(t,t')B(t,t')`): those components multiply directly. A claim
+  wrong only in the order of factors is `LANGRETH_ORDER_ONLY`, not INVALID.
+- **One quantity in two displays.** When two displays give the same named
+  left side (`T(\omega) = A`, later `T(\omega) = C`), the step
+  `eq:a.vs.eq:b` checks `A = C`. It is VALID when they agree. When they
+  differ it is NOT_DECIDED with `DISPLAYS_DISAGREE`, listed under
+  `displays_disagree` in the review output and shown first on the
+  reviewer page: the paper never wrote `A = C` itself, and the two
+  displays may hold under different conditions (a limit, `T = 0`).
+  Displays in different sections, or with a name given a new value in
+  between, are not paired.
 - **Named quantities.** An identity whose left side is a lone name
   (`A = …`) states the value of a quantity. With `A` as a free symbol it
   could be refuted wrongly, so it is not decided unless `A` has a
@@ -112,12 +152,128 @@ confident wrong verdict:
   `x^{-1}`), and `e^{...}` is the exponential.
 - **A name directly before `(` could be a product or a function value.**
   `\beta(\Gamma + i x)` is a product and `G(\epsilon)` is a function.
-  The tool reads it as a product only if the name is listed under
-  `multiply:` in the conventions; otherwise the quote is refused with
-  `SOURCE_APPLICATION_AMBIGUOUS`. Define the name if it is a function.
-  `draft` pre-fills `multiply:` only with conventional constants (`beta`,
-  `hbar`), and only if the paper does not define them as functions. It
-  lists every other name for you to decide. `psi(z)` and `psi0(z)`…`psi6(z)` are
+  `multiply:` lists the names read as products, `functions:` the names
+  read as functions. `draft` pre-fills `multiply:` only with conventional
+  constants (`beta`, `hbar`), unless the paper defines them as functions.
+  A name the text calls real or positive (`$T > 0$`) may still be a
+  function elsewhere (`T(\omega)`, `\epsilon(k)`, `\rho(\epsilon)`), so it is
+  read as a product only in a card that also writes it bare
+  (`\frac{i}{\varepsilon}(e^{-i\varepsilon(t-t_0)} - 1)`).
+  Every other such name goes under `either:`: each card that uses it is
+  checked under every assignment of function or product to those names
+  (up to three names), and it is VALID only if every possible reading is
+  VALID (`FUNCTION_OR_PRODUCT` otherwise). It is never INVALID: as a
+  function the name stands for an arbitrary function, and the paper may
+  mean a specific one (`\theta(t)`, the Fermi function, `\delta(\omega)`).
+  A reading that cannot exist drops out: `K(a, b)` with a comma is never a
+  product. Note that `h(a)^2` is `h·a²` as a product, so even simple
+  claims can depend on the reading.
+- **Refutations that a hidden fact could overturn are withheld.** A
+  display is not always an identity: `\Gamma/(2\pi\rho) = V^2` defines Γ,
+  `e^{iqL} = 1` is a boundary condition, `\cos(\Omega t) = -1` holds at one
+  time. So an INVALID is reported only when every symbol of the relation
+  occurs on both sides, as written and after the definitions are used
+  (`ONE_SIDED_SYMBOL` otherwise); a rounded decimal (`= 0.7468`) is never
+  refuted (`APPROXIMATE_NUMBER`). An INVALID also becomes NOT_DECIDED when
+  the refuted relation puts an
+  integer-like index inside `exp`, `sin` or `cos` (`n`, `m`, `l`, `j`,
+  `k`, `\omega_n`, `\omega_\nu`, a name the text calls an integer, or a
+  name in a sentence about Matsubara frequencies: `PERIODIC_IN_AN_INDEX`),
+  or uses a name the running text gives a value that no definition
+  supplies (`$x = \omega/\Delta$`, `$p = 0$`, `$u := \beta\omega/2$`:
+  `VALUED_IN_TEXT`). A VALID is withheld when the text sets a name to a
+  number where the claim is undefined (`$a = 0$` with `(e^a - 1)/a`:
+  `SINGULAR_AT_STATED_VALUE`). When the text says its quantities are
+  matrices or do not commute (`are matrices`, `Nambu`, `2\times2 Green's
+  function`, a bold `$\mathbf{G}$`), every commutative check is withheld
+  (`NONCOMMUTING_STATED`).
+- **What the running text says about symbols.** Names the text calls
+  operators, spin components, Pauli or coupling matrices, or that occur in
+  a sentence about the Hamiltonian, (anti)commutation or a trace, are not
+  multiplied as numbers (`OPERATORS`); a claim that only reorders factors
+  (`c_k c_q = -c_q c_k`) is never refuted. A relation the text imposes
+  without defining a new name (`$e^{iqL}=1$`, `$t > s$`, `$\eta < 0$`)
+  makes its names `CONSTRAINED_IN_TEXT`; a name called negative or of
+  either sign anywhere is not taken as positive, and `$\Gamma_L>0$` makes
+  `Gamma_L` positive (not `L`). "To first order", "linear response" or
+  "approximately" before a display withholds an INVALID
+  (`APPROXIMATION_STATED`), and so does a negative value under a square
+  root or a log when the text does not state the symbols positive
+  (`BRANCH_DEPENDS_ON_SIGN`). When the paper writes its own `n_F` (with a
+  chemical potential, say) or calls it non-thermal, the built-in
+  `1/(e^{βx}+1)` is not used for it (`DISTRIBUTION_IN_TEXT`,
+  `DISTRIBUTION_NOT_THERMAL`). A Matsubara sum is drafted only over all
+  frequencies, and a prefactor `T` only when the text calls `T` the
+  temperature. A Fermi integral needs a real shift in `n_F(ω + c)`.
+- **What the reader takes literally.** A capital `E` or `I` is a quantity
+  (an energy, a current); Euler's number and the imaginary unit are `e`
+  and `i`. Comments, `\iffalse … \fi`, `verbatim` and `comment`
+  environments, and anything after `\end{document}` are not read. A slash
+  whose reach is unclear (`\omega/2T`) is refused; write `\frac`. Bold
+  symbols (`\mathbf{k}`) are vectors or matrices and are not checked as
+  numbers. A row that ends in an operator continues on the next row; two
+  relations side by side in an `align` row block the display. `x \to
+  -\infty` and `x \to \pm\infty` are read, and a negative-order `O(...)`
+  with no stated side is checked at both `+∞` and `−∞`. A refutation that
+  becomes exact when a phase factor is `±1` (`e^{i\pi N}` for even `N`,
+  `e^{iqL}` on a periodic lattice) is withheld (`HOLDS_AT_SPECIAL_PHASES`),
+  and so is one using names the text says take only discrete values
+  (Ising spins, projectors, occupations `0` or `1`). A claim that only
+  reorders factors (`A B = B A`) is not decided either way. A Langreth
+  rule is drafted only if its time arguments chain from `t` through the
+  integration variable to `t'`.
+- **Reading real papers.** Display environments opened by the paper's own
+  macros (`\newcommand{\be}{\begin{equation}}`), `\providecommand` and
+  `\DeclareMathOperator` macros, and `aligned`/`split` inside an equation
+  are read. In math mode a run of letters is a product (`px` is p·x, `eV`
+  is e·V); subscripts and letter-only superscripts stay labels (`Γ_{eff}`,
+  `G^{ra}`). `\coth\frac{βω}{2}`, `\ln x` and `\sin^2θ` take the next
+  factor as their argument, unless more follows (`\cos\omega t` is
+  refused). `\frac{\partial X}{\partial y}` is a derivative when X shows y;
+  `dE/dk` with a bare E is refused. A relation with `\pm`/`\mp` gives two
+  steps, `id.p` and `id.m`, which must both hold. Traces and determinants
+  are not checked (`TRACE_OF_MATRICES`). A derivative of an expression
+  that holds other symbols is not decided (`DERIVATIVE_HOLDS_FIXED`: the
+  paper may let ω depend on t). `\tan^{-1} x` is arctan x. A slash right
+  after an unbraced argument (`\ln T_2/T_1`) is refused. `ε_+` next to
+  `ε_p` in one paper is refused (`SUBSCRIPT_COLLISION`), and so is `log`
+  when the text uses another base. `\mathsf{T}`, `\dot N`,
+  `\tilde G` and `\mathcal S` are names of their own.
+- **Declared functions are arbitrary.** A name under `functions:` stands
+  for any function, so a card using it is VALID only if it holds for every
+  function, and it is never INVALID (`ARBITRARY_FUNCTION`): `ζ(4) = π⁴/90`
+  is true for Riemann's ζ, false for an arbitrary one. For a special
+  function, map the name instead: `notation: {zeta: zeta_fn}` (Riemann or
+  Hurwitz ζ) or `{Gamma: gamma_fn}`; `erf` and `erfc` are built in. The
+  drafter does this only when a sentence names the symbol as the Riemann
+  (or Hurwitz) zeta function or the gamma function, no sentence denies it,
+  and every other sentence that writes the letter is one of those. `real: true` on a symbol overrides a
+  drafted `realness: unstated`.
+- **Definitions and where they hold.** A definition quoted from a
+  display does not verify that same display: `X = body` checked with
+  `X := body` is true by construction (`DEFINED_BY_THIS_DISPLAY`). A
+  refutation that uses a definition quoted from another `\section` is
+  withheld (`DEFINITION_FROM_ANOTHER_SECTION`): papers reuse a letter for a
+  new model, and the counterexample stays on the card for a person to
+  judge. A value at a point (`u(0) = u(a) = 0`) is a condition, never a
+  definition. Matsubara sums expand definitions (`omega_k() =
+  sqrt(k**2 + m**2)`), and the summed or integrated variable is exempt from
+  `CONSTRAINED_IN_TEXT` and `VALUED_IN_TEXT`: `k_0 = i\omega_n` describes
+  it. Sums over all integers take `lower: "-oo"`.
+- **A paper-wide flag on one card.** `noncommuting:` in conventions.yaml
+  holds for every card. When the paper calls its σ's matrices but a step
+  is plain scalar algebra (a Ginzburg–Landau coefficient, say), set
+  `noncommuting: false` on that card only, and say why in a comment.
+- **More readings.** `(-1)^n`, `2^k` and `f(x)^n` are powers (one lowercase
+  exponent letter other than r and a); `(AB)^R` and `G^r` stay labels.
+  `G_>` and `G_<` are names (`G_gt`, `G_lt`). `\ln|x|` is log|x|; `\ln|x| y`
+  is refused. `\>` is a space unless the paper defines it, and
+  `\newcommand\<{\langle}` is read.
+- **Macros redefined in the document** (`\renewcommand` after the first
+  definition) are not expanded: which meaning a display has depends on
+  where it sits, so quotes using them are refused. A Langreth
+  claim that differs from the exact rule only in the order of factors is
+  not refuted either (`LANGRETH_ORDER_ONLY`). `psi(z)` and `psi0(z)`…`psi6(z)` are
 predefined as polygammas.
 
 ## Decision rule for agents
@@ -247,6 +403,136 @@ source:
 The erratum may only add, remove or move bracket characters, and this is
 checked. The result stays `NOT_DECIDED` for the printed formula, and
 `decision_with_errata` gives the verdict after correction. Report both.
+
+## Two readers for every LaTeX quote
+
+A LaTeX quote is read twice: by the tool's own reader and by SymPy's LaTeX
+parser (`sympy.parsing.latex`, ANTLR backend), which was written
+independently. The quote counts as read only when the two expressions are
+equal; otherwise the field is `UNCHECKED` with `READERS_DISAGREE` (or
+`SECOND_READER_FAILED` when SymPy cannot parse it), and a card built from it
+is not decided. A field that agreed records SymPy's reading as `reader_b`.
+
+SymPy is told only conventions in advance, never structure:
+- layout is dropped (`\left`/`\right` sizes, spacing, `\label`, `&`);
+- a decorated name (`\Gamma_L`, `v_{12}^a`, `\tilde G^r`, `\mathcal T`,
+  `\mathrm{Tr}`, `f_1'`, `\Psi_\text{GL}`) is one symbol, named by the tool's
+  reading of that name alone;
+- a subscript written after a superscript is given to SymPy first (TeX reads
+  `X^{s}_{t}` as `X_{t}^{s}`; SymPy would drop the subscript);
+- `e^{x}` is the exponential and `e^2` the charge squared; `i` is the
+  imaginary unit unless declared; capital `E` and `I` are quantities; a name
+  under `multiply:` multiplies the bracket after it; `{a \over b}` is a
+  fraction; `\sum_{\pm}` adds both signs; `\coth\frac{x}{2}` with nothing
+  after it is coth of the fraction; `\mathrm{Re}` of a bracket is its real
+  part.
+
+Fraction bars, the reach of a power or a function, brackets, implicit
+products and derivatives are read by each reader on its own; that is what
+the comparison tests. What the two readers share is therefore not
+cross-checked: whether a letter superscript is a label or a power (`x^n`
+is the label `x__n`, `G^r` the label `G__r`), how a subscript becomes part of
+a name (`x_{1,2}` and `x_{12}` both give `x_12`), and the conventions above.
+Those readings are listed on the card (`READ_AS`) for a person to check.
+A misreading the two readers share is not caught either: both read the
+functional derivative `\frac{\delta W}{\delta A_\mu}` as a fraction, so the
+tool's reader refuses `\frac{\delta X}{\delta Y}` itself.
+A number no reader can compute quickly (a power of a number with more than
+five million digits, a power whose exponent is a power, a 257-digit integer)
+refuses the quote (`QUOTE_NUMBER_TOO_LARGE`); a large expansion is compared
+under the engine's time budget. Without `--require-source`, a hand-written
+field whose quote the readers read differently is only marked `UNCHECKED`,
+as for any quote that cannot be read; reviews and ledgers always run strict. On the 46-paper corpus the tool's reader produced a
+reading for 4 909 quoted fields; SymPy read 462 of them differently
+(354, `READERS_DISAGREE`) or not at all (108, `SECOND_READER_FAILED`). In a
+sample of 30 disagreements, about 20 were misreadings by the tool's own
+reader, for example `\Gamma^\mu_a` (a stray symbol `_a`), `E_{\rm tot}`,
+`k_0\mp k` (read as a name with subscript `0∓`), `G^{R}\Sigma^{<}G^{A}`
+(Σ and G glued into one name) and `\frac{d}{d\varepsilon}` before `\Bigl(`
+(read as 1/ε). No decision on the corpus (9 VALID by card) or on the golden
+adversarial notes (110 decided) changed.
+
+## Steps across displays: the step ledger
+
+Most steps of a paper do not sit inside one display: the paper shows one
+equation, says which relation it uses, and shows the next. Record such steps
+in a **step ledger** and let the tool decide them:
+
+```yaml
+source_document: paper.tex
+include: conventions.yaml        # optional, added after the paper's drafted conventions
+steps:
+  - id: K1A-metric
+    type: algebra                # algebra | sum-termwise | integral | limit | approximation | definition
+    from: {quote: 'v_1^c(v_{21}^a v_{12}^b + v_{12}^a v_{21}^b) + v_1^b(v_{21}^a v_{12}^c + v_{12}^a v_{21}^c)'}
+    to:   {quote: '2\epsilon_{12}^2 (v_1^c g_{ab} + v_1^b g_{ac})'}
+    given:                       # relations the step uses, quoted from the text
+      - quote: 'v_{12}^a v_{21}^b + v_{12}^b v_{21}^a = 2\epsilon_{12}^2 g_{ab}'
+        instances: [{}, {b: c}]  # also with the index b renamed to c
+    note: "we apply the Metric-Velocity Relation"
+```
+
+```bash
+symbolic-compactification manybody ledger steps.yaml --out ledger/
+symbolic-compactification manybody review paper.tex --out review/ --ledger steps.yaml
+```
+
+- Every step has a `type`. The tool checks only `algebra` and
+  `sum-termwise` steps (the two sides are equal as expressions, or term by
+  term under the same sum). `integral`, `limit` (differentiation included),
+  `approximation` and `definition` steps come out `NEEDS_REVIEWER` with their
+  type and quotes; the tool never decides them and they are not counted as
+  undecided. Type a step by the move it makes, not by what the display
+  prints: `≈` with an exact cited relation is still `algebra`.
+- `from` and `to` are verbatim quotes; `display` (a `\label` or `#n`) is
+  optional and is filled in when exactly one display holds the quote.
+- `given` relations are verbatim quotes `A = B` from a display or the prose,
+  read by both readers. `instances` renames index letters inside sub- and
+  superscripts only (`{n: '2', m: '1'}` turns `v_{nm}^a` into `v_{21}^a`);
+  a letter that also occurs outside an index (`x^{b} = b`, `e^{-\beta b}`,
+  `_{\rm max}`) cannot be renamed.
+  A relation quoted from a display that holds either side of the step is
+  refused (`GIVEN_FROM_THE_STEP_DISPLAY`), whether named by label or number; relations that contradict each other or
+  together force a quantity to vanish are refused (`GIVEN_INCONSISTENT`,
+  `GIVEN_FORCES_ZERO`).
+- The step is VALID when `from − to` is zero, or zero whenever the given
+  relations hold. The second case comes with a certificate:
+  `numerator(from − to) = Σ qᵢ (lhsᵢ − rhsᵢ)` with explicit cofactors `qᵢ`
+  (aligned with `relations_used`), re-checked by expansion; the denominators
+  that must not vanish are listed. Relations that force one of those
+  denominators to vanish make the step vacuous and are refused
+  (`GIVEN_MAKES_A_DENOMINATOR_VANISH`). The relations used are reported with
+  the verdict (`holds_given`) and are never proved by it. Substituting a
+  stated definition (a bare name on one side, `\Omega^1_{ab} = i(\dots)`) is a
+  step; a relation that merely restates the step is refused
+  (`GIVEN_RESTATES_THE_STEP`).
+- INVALID needs an exact rational counterexample at which every given
+  relation holds, no denominator vanishes, and every symbol declared
+  positive or nonzero is so. The usual guards still apply.
+  `CONSTRAINED_IN_TEXT` is lifted for a name only when every relation the
+  text states about it is one of the step's cited quotes. `VALUED_IN_TEXT`
+  is never lifted. `ONE_SIDED_SYMBOL` is lifted only for a plain symbol:
+  a ledger step claims that two quoted expressions are equal, so a plain
+  symbol on one side only is a dropped or added factor, and it is reported
+  (`one_sided_symbols`). For a name the text gives a value, a definition
+  or a constraint, the refutation stays withheld, since an uncited
+  relation may fix it.
+- `under: '\sum_n'` checks a step whose two sides sit under the same sum or
+  integral, term by term: the wrapper must open both sides of the relation
+  (nothing in front of it) and stand right before both quotes,
+  each quote must be one bracket group or a product, and a difference of
+  the summands is never reported as INVALID (`UNDER_WRAPPER_NOT_REFUTED`).
+- A misspelled key or a malformed `instances` list is an error, and so is
+  an `include` outside the ledger's directory (it is copied into the
+  reviewer package). `noncommuting: false` on a step needs a `note` saying
+  why. A step that fails while running is reported as NOT_DECIDED
+  (`STEP_ERROR`) and the other steps still run.
+
+On Appendix D of Guo et al., PRL 136, 206303, a 12-step ledger
+(`research-cases/guo-evidence-ledger/ledger/`) comes out 12 VALID: seven by
+plain algebra, the others using the metric-velocity relation,
+ε₂₁ = −ε₁₂, the Feynman–Hellmann identity and the Berry-curvature definition,
+each quoted from the paper.
 
 ## Worked cards
 

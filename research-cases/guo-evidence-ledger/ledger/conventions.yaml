@@ -1,0 +1,5 @@
+# Filled once by the assistant: the matrix-element names (v_{12}^a -> v_12__a, ...),
+# and the names the paper writes right before a bracket that multiplies it.
+symbols: [v_12__a, v_12__b, v_12__c, v_21__a, v_21__b, v_21__c, v_1__b, v_1__c, v_2__b, v_2__c,
+          A_12__a, A_12__b, A_21__a, A_21__b, Omega_ab__1, f_1_prime, f_2_prime]
+multiply: [v_1__b, v_1__c, v_2__b, v_2__c, v_12__a, v_21__a, epsilon_12, epsilon_21]
