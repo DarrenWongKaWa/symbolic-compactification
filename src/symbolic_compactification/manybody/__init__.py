@@ -12,6 +12,7 @@ from .fermi_integral import FERMI_RESIDUE_SPLITTING, verify_fermi_integral
 from .asymptotic import (ASYMPTOTIC_REMAINDER_LIMIT, certify_remainder,
                          estimate_remainder_order)
 from .integrals import NUMERICAL_SUPPORT, check_frequency_integral
+from .numeric import check_numeric_equivalence
 from .keldysh import LANGRETH_KELDYSH_ALGEBRA, verify_langreth
 from .matsubara import (MATSUBARA_POLES_OFF_AXIS, MATSUBARA_RESIDUE_THEOREM,
                         matsubara_closed_form, verify_matsubara_sum)
@@ -29,6 +30,7 @@ __all__ = [
     "NUMERICAL_SUPPORT",
     "certify_remainder",
     "check_frequency_integral",
+    "check_numeric_equivalence",
     "divided_difference",
     "estimate_remainder_order",
     "matsubara_closed_form",
