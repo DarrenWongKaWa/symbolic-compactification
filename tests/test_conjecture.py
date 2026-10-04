@@ -6,7 +6,7 @@ Synthetic only: generic symbols (x, n, N) and undefined-function names
 deterministic plain-Python input/output against ``build_conjecture_packet``
 and ``validate_candidate``.
 
-Contract under test (see roles/STRUCTURAL_PROPOSER.md sections 3 and 6):
+Contract under test (see docs/roles/STRUCTURAL_PROPOSER.md sections 3 and 6):
 * the conjecture packet carries exactly the INCLUDED fields (current
   expression + hash, structural form, structure_summary, declared
   symbols/functions/assumptions, goal, verifier feedback) and declares the
@@ -265,3 +265,21 @@ def test_validate_rejects_bad_shapes():
         "x", required_assumptions=["x is real"],
         assumptions_status="DECLARED"))
     assert out["required_assumptions"] == ["x is real"]
+
+
+def test_role_contract_cited_by_the_code_exists():
+    """Every repo path the proposer layer cites for its role contract is real."""
+    import re
+    from pathlib import Path
+
+    import symbolic_compactification.conjecture as conjecture_module
+    import symbolic_compactification.models as models_module
+
+    root = Path(__file__).resolve().parents[1]
+    cited = set()
+    for module in (conjecture_module, models_module):
+        text = Path(module.__file__).read_text(encoding="utf-8")
+        cited.update(re.findall(r"[\w./-]*STRUCTURAL_PROPOSER\.md", text))
+    assert cited == {"docs/roles/STRUCTURAL_PROPOSER.md"}
+    for path in cited:
+        assert (root / path).is_file(), path

@@ -232,7 +232,7 @@ Iterate:  PARTIAL  CLI `step` exists in the package, not in the skill
 ### Test B — Reviewer skill
 
 Already run outside the repo (`/tmp/sc-test-codex2`, `/tmp/sc-test-claude2`)
-on `98f6a5b`. See `validation/PORTABILITY_REPORT.md`.
+on `98f6a5b`. See `docs/history/validation/PORTABILITY_REPORT.md`.
 
 ```text
 Acquire:              PASS

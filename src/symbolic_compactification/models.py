@@ -131,7 +131,7 @@ PROPOSAL_EVIDENCE_KIND = "proposer_candidate"
 # ``subagent_unavailable`` record (the harness cannot expose native subagent
 # invocation for this run) is SUBAGENT_UNAVAILABLE — DISTINCT from UNKNOWN,
 # which means the evidence is ambiguous or absent. Reading
-# ``roles/STRUCTURAL_PROPOSER.md`` is never evidence of any mode.
+# ``docs/roles/STRUCTURAL_PROPOSER.md`` is never evidence of any mode.
 PROPOSER_MAIN_AGENT = "MAIN_AGENT_ONLY"
 PROPOSER_HARNESS_SUBAGENT = "HARNESS_SUBAGENT"
 PROPOSER_SUBAGENT_UNAVAILABLE = "SUBAGENT_UNAVAILABLE"
