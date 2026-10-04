@@ -96,6 +96,16 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     i.add_argument("--symbols")
     i.add_argument("--positive")
 
+    n = msub.add_parser("numeric", help="numerical support for a scalar claim lhs == rhs")
+    n.add_argument("--lhs", required=True)
+    n.add_argument("--rhs", required=True)
+    n.add_argument("--symbols")
+    n.add_argument("--functions", help="comma-separated arbitrary smooth functions")
+    n.add_argument("--beta", help="declared inverse temperature; expands nF/nB")
+    n.add_argument("--positive", help="comma-separated symbols sampled as positive")
+    n.add_argument("--count", type=int, default=12, help="generic witness count")
+    n.add_argument("--tolerance", default="1e-9", help="relative-difference tolerance")
+
     o = msub.add_parser("operator", help="identity in the free operator algebra")
     o.add_argument("--lhs", required=True)
     o.add_argument("--rhs", required=True)
@@ -140,7 +150,7 @@ def add_manybody_parser(sub) -> argparse.ArgumentParser:
     dr = msub.add_parser("draft", help="draft step cards from a .tex file or a plain-text sheet")
     dr.add_argument("document")
     dr.add_argument("--out", required=True, help="directory for the cards and conventions.yaml")
-    for parser in (m, r, i, o, k, d, c, st, sts, dr, rv, lg):
+    for parser in (m, r, i, n, o, k, d, c, st, sts, dr, rv, lg):
         parser.set_defaults(func=dispatch_manybody)
     p.set_defaults(func=dispatch_manybody)
     return p
@@ -166,6 +176,12 @@ def _run(args) -> dict[str, Any]:
             _expr(args.integrand), _expr(args.claim), variable=args.variable,
             symbols=_symbols(args.symbols), beta=args.beta, prefactor=args.prefactor,
             positive=_names(args.positive))
+    if cmd == "numeric":
+        from .numeric import check_numeric_equivalence
+        return check_numeric_equivalence(
+            _expr(args.lhs), _expr(args.rhs), symbols=_symbols(args.symbols),
+            functions=_names(args.functions), beta=args.beta,
+            positive=_names(args.positive), count=args.count, tolerance=args.tolerance)
     if cmd == "step":
         from .cards import run_card
         return run_card(args.card, require_source=args.require_source or None)

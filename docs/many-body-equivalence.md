@@ -28,6 +28,7 @@ sum or integral itself.
 
 Remainders at `x → ±∞` whose every term is `R(x) exp(λx + μ)`, with `Re λ` provably of the right sign under the declared assumptions, are certified by the exponential-decay route (transients such as `e^{i(ε − ε₀ + iΓ/2)t}`). An oscillating or growing exponential is never certified.
 | Other real-frequency integrals | general integrands | high-precision quadrature at rational sample points, split at pole real parts | `NUMERICAL_SUPPORT` |
+| General scalar claim `lhs == rhs` that no exact route closes | integral / limit / approximation steps the exact engine hands off | `manybody numeric`: high-precision evaluation at many deterministic witnesses plus coincidence probes of declared real symbols, with a non-vacuous guard; a disagreement returns a counterexample point | `NUMERICAL_SUPPORT` |
 | Langreth rules for contour products | Dyson/Keldysh equations, `(AB)^< = A^R B^< + A^< B^A` | Larkin–Ovchinnikov triangular matrices, exact comparison in the free algebra | `CERTIFIED_BY_RULE` |
 | Operator identities | commutators, Lindblad generator versus `H_eff` plus jumps | normal form in the free associative algebra with a declared adjoint | `ZERO` / `NONZERO` |
 | Partial fractions and divided differences of propagator products | `G_n G_m → (G_n − G_m)/(ε_n − ε_m)` | existing `DIVIDED_DIFFERENCE` / `ALGEBRAIC_EQUIVALENCE` edges | `ZERO` |
@@ -124,6 +125,23 @@ symbolic-compactification manybody integral --variable w --beta beta --positive 
   --integrand "nF(w)*g/pi/((w-e)**2+g**2)" \
   --claim "1/2 - im(polygamma(0, 1/2 + beta*(g + I*e)/(2*pi)))/pi" \
   --symbols '[{"name":"beta","nonzero":true},{"name":"g","nonzero":true},{"name":"e"},{"name":"w"}]'
+```
+
+When no exact route closes a scalar step, `numeric` gives honest support or a
+refutation (never a certificate). It evaluates both sides at many deterministic
+witnesses and at coincidence probes of the declared real symbols, guards against
+a vacuous `0 == 0`, and reports a counterexample point on disagreement:
+
+```bash
+symbolic-compactification manybody numeric \
+  --lhs "sin(x)**2 + cos(x)**2" --rhs "1" \
+  --symbols '[{"name":"x","real":true}]'
+# -> "status": "NUMERICAL_SUPPORT", "numeric": "AGREES"
+
+symbolic-compactification manybody numeric \
+  --lhs "(a**2 - c**2)/(a - c)" --rhs "a + c" \
+  --symbols '[{"name":"a","real":true},{"name":"c","real":true}]'
+# a wrong right-hand side returns "numeric": "DISAGREES" with a counterexample
 ```
 
 For divided differences and frequency coefficients:
