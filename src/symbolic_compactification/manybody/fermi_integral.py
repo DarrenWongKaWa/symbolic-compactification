@@ -47,11 +47,13 @@ def _unit_argument(arg, w):
     so that nF(arg) = const + sign * nF(c + w)."""
     arg = sympy.expand(arg)
     slope = arg.diff(w)
-    if slope == 1:
-        return 1, sympy.expand(arg - w), 0
-    if slope == -1:
-        return -1, sympy.expand(-arg - w), 1
-    raise _Refusal("FERMI_ARGUMENT_NOT_C_PLUS_MINUS_W")
+    if slope not in (1, -1):
+        raise _Refusal("FERMI_ARGUMENT_NOT_C_PLUS_MINUS_W")
+    shift = sympy.expand(arg - w) if slope == 1 else sympy.expand(-arg - w)
+    if sympy.im(shift) != 0:
+        # a complex shift moves the poles of n_F; the half-plane split assumes a real one
+        raise _Refusal("FERMI_SHIFT_NOT_REAL")
+    return (1, shift, 0) if slope == 1 else (-1, shift, 1)
 
 
 def reduce_fermi_products(expr, w):
@@ -106,6 +108,9 @@ def _split_terms(expr, w):
         elif slope != 1:
             raise _Refusal("FERMI_ARGUMENT_NOT_C_PLUS_MINUS_W")
         c = sympy.expand(arg - w)
+        if sympy.im(c) != 0:
+            # a complex shift moves the poles of n_F; the half-plane split assumes a real one
+            raise _Refusal("FERMI_SHIFT_NOT_REAL")
         coeff = sympy.cancel(term / call)
         if coeff.has(nF):
             raise _Refusal("MORE_THAN_ONE_FERMI_FACTOR")

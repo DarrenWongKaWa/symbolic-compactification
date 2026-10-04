@@ -73,10 +73,14 @@ def _manifests(out: Path, source_name: str = "source.tex") -> list[dict[str, Any
                           "source_file": f"manuscript/{source_name}", "curated": True,
                           "body": str((card.get("source") or {}).get("rhs")
                                       or (card.get("source") or {}).get("claim") or path.stem)[:400]})
+        step = card.get("step") or {}
+        claim = (f"step {step.get('from') or '?'} -> {step.get('to') or '?'} as quoted"
+                 + (" (using stated relations)" if card.get("given") else "")) if step \
+            else f"displayed relation {path.stem} as printed"
         edges.append({"edge_id": ident, "source_from": eq_id, "source_to": eq_id,
                       "edge_type": "STEP_CARD", "step_card": {"card": f"cards/{path.name}"},
-                      "claim": f"displayed relation {path.stem} as printed"})
-        rows.append({"card": ident, "path": path})
+                      "claim": claim})
+        rows.append({"card": ident, "path": path, "ledger": bool(step)})
     (out / "equations" / "equations.yaml").write_text(yaml.safe_dump(
         {"schema_version": "DerivationAuditV1", "equations": equations}, sort_keys=False), encoding="utf-8")
     (out / "edges" / "edges.yaml").write_text(yaml.safe_dump(
@@ -150,7 +154,14 @@ def _cli(*argv: str) -> tuple[int, str]:
     return code, buffer.getvalue()
 
 
-def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
+def _reviewer_rows(ledger: str | Path | None) -> list[dict[str, Any]]:
+    if ledger is None:
+        return []
+    from .ledger import CHECKED_TYPES, load_ledger, reviewer_row
+    return [reviewer_row(st) for st in load_ledger(ledger)["steps"] if st["type"] not in CHECKED_TYPES]
+
+
+def review(document: str | Path, out_dir: str | Path, ledger: str | Path | None = None) -> dict[str, Any]:
     document, out = Path(document).resolve(), Path(out_dir).resolve()
     fresh = not (out / "cards" / "conventions.yaml").exists()
     _workspace(out, document)
@@ -159,6 +170,12 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         added = []
     else:
         drafted, added = _draft_new_steps(out, _source_name(document))
+    if ledger is not None:          # steps across displays: Eq. X -> Eq. Y using R
+        from .ledger import write_cards
+        write_cards(ledger, out / "cards", document=out / "manuscript" / _source_name(document))
+    reviewer_rows = _reviewer_rows(ledger)
+    (out / "reviewer_steps.json").write_text(json.dumps(reviewer_rows, indent=1, ensure_ascii=False),
+                                             encoding="utf-8")     # listed on the reviewer page
     rows = _manifests(out, _source_name(document))
     verify, printed = _cli("audit", "verify", str(out))
     # report and package exactly this run: run ids from the same second have
@@ -188,7 +205,9 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
                                                       "DERIVED", "SOURCE_AT", "COUNTEREXAMPLE",
                                                       "DIAGNOSIS", "PRINTED", "ERRATUM", "WITH_"))][:3]
                 if rec.get("status") not in decision_of else []),
-            "label": label or None, "equation": number or None, "line": int(line) if line else None})
+            "label": label or None, "equation": number or None, "line": int(line) if line else None,
+            **({"ledger": True, "holds_given": [w.split(":", 1)[1] for w in warn if w.startswith("GIVEN:")]}
+               if row.get("ledger") else {})})
     steps.sort(key=lambda s: (s["line"] is None, s["line"] or 0, s["step"]))
     html = out / "reviewer-verification-package" / "REVIEWER_SUMMARY.html"
     todo = (drafted or {}).get("unresolved_tokens", [])
@@ -207,8 +226,12 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         "positive": [{"name": s["name"], "stated": s.get("stated", "not stated in the text")}
                      for s in conv.get("symbols") or [] if isinstance(s, dict) and s.get("positive")],
         "multiply": list(conv.get("multiply") or []),
+        # names checked both as functions and as products (a verdict needs both to agree)
+        "function_or_product": list(conv.get("either") or []),
         "notation": dict(conv.get("notation") or {}),
     }
+    steps += reviewer_rows            # steps of other types are the reviewer's: listed, not checked
+    disagree = [s["step"] for s in steps if "DISPLAYS_DISAGREE" in (s.get("why_not_decided") or [])]
     verify_meaning = {0: "audit ran; no step is INVALID", 2: "audit ran; some steps are INVALID (NONZERO)"}
     return {
         "document": str(document), "workspace": str(out), "html": str(html) if html.exists() else None,
@@ -216,7 +239,11 @@ def review(document: str | Path, out_dir: str | Path) -> dict[str, Any]:
         "assumptions_to_confirm": assumed, "steps": steps, "added_on_rerun": added,
         # relations taken as definitions (not checked; they define names other steps use)
         "definitions": (drafted or {}).get("definitions_drafted", []),
-        "counts": {k: sum(1 for s in steps if s["decision"] == k) for k in ("VALID", "INVALID", "NOT_DECIDED")},
+        "counts": {k: sum(1 for s in steps if s["decision"] == k)
+                   for k in ("VALID", "INVALID", "NOT_DECIDED", *(("NEEDS_REVIEWER",) if ledger else ()))},
+        # pairs of displays that give one quantity two different values (not a verdict:
+        # the displays may hold under different conditions); check these first
+        "displays_disagree": disagree,
         "how_to_read": ("Report each step's `decision` (VALID / INVALID / NOT_DECIDED); `status` is "
                         "the audit record behind it. Send `html` to a colleague: it is the "
                         "self-contained reviewer page of the replayable package."),

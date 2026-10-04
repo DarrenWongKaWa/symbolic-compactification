@@ -157,6 +157,15 @@ def _step_card(record: AuditRecord, edge: AuditEdge, workspace) -> AuditRecord:
                if result.get("decision_with_errata") else ()),
              *((f"DERIVED:{str(result['derived'])[:_MAX_CONCLUSION]}",) if result.get("derived") else ()),
              *((f"COUNTEREXAMPLE:{point}",) if point else ()),
+             *((f"COUNTEREXAMPLE:{result['counterexample']}",)
+               if not point and isinstance(result.get("counterexample"), dict)
+               and "point" not in result["counterexample"] else ()),
+             *((f"STEP:{(card.get('step') or {}).get('from')} -> {(card.get('step') or {}).get('to')}",)
+               if card.get("step") else ()),
+             *(f"GIVEN:{g['quote'][:_MAX_CONCLUSION]}" + (f" with {g['rename']}" if g.get("rename") else "")
+               for g in result.get("given") or [] if g.get("used")),
+             *((f"UNDER:{card['under']}",) if card.get("under") else ()),
+             *((f"ONE_SIDED:{','.join(result['one_sided_symbols'])}",) if result.get("one_sided_symbols") else ()),
              *(("CARD_LHS_BARE",) if bare_lhs and decision == "NOT_DECIDED" else ()),
              *(f"REASON:{r}" for r in (result.get("reasons") or [])[:3]
                if decision == "NOT_DECIDED" and not result.get("decision_blocked_by")))

@@ -68,10 +68,14 @@ def series_closed_form(expr, n, n0=0):
 
 
 def verify_series_sum(summand: str, claim: str, *, variable: str, symbols: Any,
-                      lower: int = 0, functions: Iterable[str] = (),
+                      lower: int | str = 0, functions: Iterable[str] = (),
                       definitions: dict | None = None, positive: tuple[str, ...] = ()) -> dict:
+    """sum_{n=lower}^oo summand == claim. lower = "-oo" is a sum over all
+    integers, taken as sum_{n>=0} [R(n) + R(-n-1)]."""
+    bilateral = str(lower).strip() in ("-oo", "-inf")
     inputs = {"rule": RATIONAL_SERIES_DIGAMMA, "summand_sha256": text_hash(summand),
-              "claim_sha256": text_hash(claim), "variable": variable, "lower": int(lower)}
+              "claim_sha256": text_hash(claim), "variable": variable,
+              "lower": "-oo" if bilateral else int(lower)}
     try:
         space = CalculusSpace(symbols, functions, definitions=definitions)
         n = space.symbol(variable)
@@ -80,6 +84,8 @@ def verify_series_sum(summand: str, claim: str, *, variable: str, symbols: Any,
         return {**inputs, "status": UNKNOWN, "reasons": [f"PARSE_FAILED:{exc.code}"]}
     sure = {s: sympy.Symbol(s.name, positive=True) for s in space.positives(tuple(positive))}
     back = {v: k for k, v in sure.items()}
+    if bilateral:
+        body, lower = body + body.subs(n, -n - 1), 0        # n < 0 folded onto n >= 0
     try:
         closed, assumptions = series_closed_form(body.xreplace(sure), n, int(lower))
     except _Refusal as refusal:

@@ -118,6 +118,51 @@ def render_expression(text: str) -> str:
             f'<details class="tex"><summary>as text</summary><pre>{_esc(text)}</pre></details>')
 
 
+REVIEWER_STEPS = "reviewer_steps.json"     # written by `manybody review --ledger`
+
+
+def reviewer_steps(workspace: AuditWorkspace) -> list[dict]:
+    """Ledger steps the tool does not check (integral, limit, approximation,
+    definition), listed for the reviewer with their type and quotes."""
+    import json
+    try:
+        rows = json.loads((workspace.root / REVIEWER_STEPS).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    return [r for r in rows if isinstance(r, dict) and r.get("step")] if isinstance(rows, list) else []
+
+
+def html_reviewer_steps(rows: Sequence[dict], macros: dict | None = None) -> str:
+    if not rows:
+        return ""
+    body = "".join(
+        f"<tr><td><code>{_esc(r['step'])}</code></td><td>{_esc(r.get('type'))}</td>"
+        f"<td>{_esc(r.get('from') or '—')}<br>{render_tex(str((r.get('quotes') or {}).get('from', '')), macros or {})}</td>"
+        f"<td>{_esc(r.get('to') or '—')}<br>{render_tex(str((r.get('quotes') or {}).get('to', '')), macros or {})}</td></tr>"
+        for r in rows)
+    return ('<section id="reviewer-steps">'
+            f'<h2>Steps for the reviewer ({len(rows)})</h2>'
+            '<p>The step ledger types these steps as an integral, a limit, an approximation or a '
+            'definition. The tool does not check them (no VALID or INVALID); each needs a '
+            "person's judgement or an independent numerical check.</p>"
+            '<table><thead><tr><th>Step</th><th>Type</th><th>From</th><th>To</th></tr></thead><tbody>'
+            + body + '</tbody></table></section>')
+
+
+def md_reviewer_steps(rows: Sequence[dict], cell: Any) -> list[str]:
+    if not rows:
+        return []
+    lines = ["", f"## Steps for the reviewer ({len(rows)})", "",
+             "Integral, limit, approximation and definition steps of the ledger: not checked by the tool.", "",
+             "| Step | Type | From | To |", "| --- | --- | --- | --- |"]
+    for r in rows:
+        quotes = r.get("quotes") or {}
+        lines.append("| " + " | ".join([cell(r["step"]), cell(r.get("type")),
+                                        cell(f"{r.get('from') or ''} {quotes.get('from', '')}".strip()),
+                                        cell(f"{r.get('to') or ''} {quotes.get('to', '')}".strip())]) + " |")
+    return lines
+
+
 def manuscript_title(workspace: AuditWorkspace) -> str | None:
     from ..manybody.latex import document_title
     try:
@@ -251,6 +296,87 @@ def md_step_cards(records: Sequence[AuditRecord], rows: Sequence[tuple[str, str,
 
 # Why a step was not decided, in words a reviewer can act on. First match wins.
 _REASONS = (
+    ("DISPLAYS_DISAGREE", "Two displays give the same quantity different values",
+     "The paper writes the quantity twice and the two right-hand sides differ. Unless the "
+     "displays hold under different conditions (a limit, a special case), one of them is wrong."),
+    ("FUNCTION_OR_PRODUCT", "The verdict depends on whether a name before “(” is a function or a product",
+     "The card was checked both ways and the readings disagree. List the name under multiply: or "
+     "functions: in conventions.yaml once you know which the paper means."),
+    ("INTEGRAND_NOT_ENTIRE", "An integral with limits whose integrand may have a singularity",
+     "Only integrands built from polynomials, exp, sin and cos are checked; this one stays with the reviewer."),
+    ("ANTIDERIVATIVE_", "No verified antiderivative for an integral with limits",
+     "The integral may still be right; it is outside what this check proves."),
+    ("INFINITE_LIMIT_DECAY_UNDECIDED", "An infinite limit whose convergence depends on unstated signs",
+     "State the damping symbol positive (e.g. $\\eta > 0$) and the frequencies real."),
+    ("INFINITE_LIMIT_TERM_NOT_DECAYING", "An infinite limit where the integrand does not decay",
+     "Check the convergence factor of the integral."),
+    ("INTEGRATION_VARIABLE_MISMATCH", "The integration variable does not match the card",
+     "Re-draft the card from the source."),
+    ("INTEGRAL_NOT_UNDERSTOOD", "An integral whose limits or measure could not be read",
+     "Integrals with both limits and one measure (dx before or after the integrand) are read."),
+    ("LANGRETH_ORDER_ONLY", "A Langreth rule that differs from the exact one only in the order of factors",
+     "Right if the functions commute (scalars of one frequency), wrong for matrices and time convolutions."),
+    ("PERIODIC_IN_AN_INDEX", "A refutation that may fail for an integer index",
+     "e^{2πin} = 1 for integer n: the counterexample used a generic value. Declare the index under "
+     "integers: if the paper does not say so."),
+    ("NONCOMMUTING_STATED", "The paper says its quantities are matrices or do not commute",
+     "The checks treat products as commuting. Remove noncommuting: from conventions.yaml only if "
+     "this step involves scalars alone."),
+    ("BRANCH_DEPENDS_ON_SIGN", "A refutation that needs a negative value under a square root or a log",
+     "State the symbols positive if the paper means them so (rates, widths)."),
+    ("REORDERING_ONLY", "A claim that only reorders factors",
+     "A B = ±B A is about operators, Grassmann numbers or generators; it is not checked as numbers."),
+    ("SUBSCRIPT_COLLISION", "Two subscripts that read as the same name",
+     "ε_+ and ε_p are both read as epsilon_p; rename one in notation."),
+    ("DERIVATIVE_HOLDS_FIXED", "A derivative of an expression with other symbols in it",
+     "d(ωt)/dt holds ω fixed; if the paper lets it depend on t, the result differs."),
+    ("LOG_BASE_STATED", "The text uses logarithms to another base", "log here is not the natural logarithm."),
+    ("BUILTIN_REDEFINED", "The paper defines its own function with a built-in name",
+     "Its erf, sin or exp is not the standard one; quote the paper's definition instead."),
+    ("ARBITRARY_FUNCTION", "A refutation that treats a declared function as arbitrary",
+     "The paper's function may be a specific one (ζ(4) = π⁴/90 fails for an arbitrary ζ). Map a "
+     "special function by notation (zeta: zeta_fn, Gamma: gamma_fn) or quote its definition."),
+    ("TRACE_OF_MATRICES", "A trace or determinant", "Its arguments are matrices; the checks here are commutative."),
+    ("VECTOR_OR_MATRIX", "Bold symbols in the claim", "Vectors or matrices: dot and matrix products are not products of numbers."),
+    ("SOURCE_SLASH_PRECEDENCE", "A slash whose reach is ambiguous",
+     "ω/2T means ω/(2T) to a physicist and (ω/2)T to a parser; write \\frac or brackets."),
+    ("HOLDS_AT_SPECIAL_PHASES", "A refutation of a claim that holds when a phase factor is ±1",
+     "e^{iπN} = 1 for even N, e^{iqL} = 1 on a periodic lattice: the claim may be about such values."),
+    ("FERMI_SHIFT_NOT_REAL", "A Fermi function shifted by a complex amount",
+     "n_F(ω + iΩ) moves the poles of n_F; the closed-form route needs a real shift."),
+    ("CONSTRAINED_IN_TEXT", "A refutation using names the text constrains",
+     "The text imposes a relation on them ($e^{iqL}=1$, $t>s$, $\\eta<0$); with them free, the "
+     "counterexample may violate it."),
+    ("APPROXIMATION_STATED", "The text says this holds to some order only",
+     "'To first order', 'linear response': an exact equality is not what the paper claims."),
+    ("DISTRIBUTION_IN_TEXT", "The paper writes its own occupation function",
+     "The built-in n_F(x) = 1/(e^{βx}+1) may differ from the paper's (a chemical potential, say)."),
+    ("OPERATORS", "Uses names the text calls operators, spin components or matrices",
+     "Their products need not commute; the checks here are commutative."),
+    ("DISTRIBUTION_NOT_THERMAL", "The text says n_F is not the thermal Fermi function",
+     "n_F is expanded as 1/(e^{βx}+1) by the checks, which the paper does not mean here."),
+    ("CONDITION_IN_DISPLAY", "The display holds a condition, a second relation or words next to this one",
+     "\\qquad Ωt = π, (μ = 0), \\text{at} …: the extra piece may restrict the claim, so it is not decided."),
+    ("EQUIV_RELATION", "A definition written with ≡ or :=", "It defines a quantity; it is not a claim to check."),
+    ("ONE_SIDED_SYMBOL", "A refutation of a relation in which some symbol appears on one side only",
+     "Such a relation may fix that symbol (a definition such as Γ = 2πρV², or a condition such as "
+     "e^{iqL} = 1) rather than claim an identity, so it is not reported as wrong."),
+    ("APPROXIMATE_NUMBER", "A refutation of a claim with a rounded decimal",
+     "0.7468 means ≈; compare the value numerically by hand."),
+    ("SINGULAR_AT_STATED_VALUE", "The claim is undefined at a value the text sets",
+     "The identity holds for generic values, but the text fixes a name ($a = 0$) where a "
+     "denominator vanishes. Check which value the step is about."),
+    ("VALUED_IN_TEXT", "A refutation that treats a name as free although the text gives it a value",
+     "The text sets this name ($x = …$) without a definition the tool could use. Quote it as a "
+     "definition in conventions.yaml if it holds for this step."),
+    ("DEFINED_BY_THIS_DISPLAY", "The step uses a definition quoted from its own display",
+     "X = body checked with X := body is true by construction. Quote the definition from "
+     "another display, or read the step as a definition."),
+    ("DEFINITION_FROM_ANOTHER_SECTION", "A refutation that uses a definition from another section",
+     "Papers reuse letters across sections (R(x) for one potential, then another). If the "
+     "definition still holds here, the counterexample on the card shows a real error."),
+    ("SOURCE_PRODUCT_WITH_COMMA", "A name listed under multiply: is applied to several arguments",
+     "G(t, t') cannot be a product: move the name to functions: or define it."),
     ("SOURCE_APPLICATION_AMBIGUOUS", "A name before “(” could be a product or a function",
      "List the name under multiply: in conventions.yaml if it multiplies, or define it as a function."),
     ("SOURCE_BRACKETS_UNBALANCED", "Brackets do not pair up as printed",
@@ -258,7 +384,8 @@ _REASONS = (
     ("NOT_IN_DOCUMENT", "A quote is not in the manuscript",
      "Re-draft the card; quotes must be copied from the source."),
     ("SOURCE_CHARACTER_UNSUPPORTED", "Notation outside the supported forms",
-     "Integrals with limits, ⟨…⟩, derivatives, matrices and similar stay with the reviewer."),
+     "Indefinite integrals, sums over indices, ⟨…⟩, traces, derivatives, matrices and similar "
+     "stay with the reviewer."),
     ("SOURCE_FUNCTION_WITHOUT_ARGUMENTS", "A function name without its arguments",
      "Map the token in notation, or rename the definition."),
     ("RE_IM_WITHOUT_ARGUMENT", "Re or Im without an argument", "Check the quote boundaries."),
@@ -309,7 +436,7 @@ def html_undecided_groups(records: Sequence[AuditRecord], macros: dict | None = 
     parts = [f'<h3 class="undecided">Not decided by the tool ({len(records)} steps)</h3>',
              '<p class="meta">These steps are not claimed right or wrong. Each group says why and '
              'what would let the tool decide them.</p>']
-    for (title, hint), rows in sorted(groups.items(), key=lambda kv: -len(kv[1])):
+    for (title, hint), rows in sorted(groups.items(), key=lambda kv: (kv[0][0] != _REASONS[0][1], -len(kv[1]))):
         names: dict[str, int] = {}
         for r in rows:
             for w in r.warnings:
@@ -325,7 +452,8 @@ def html_undecided_groups(records: Sequence[AuditRecord], macros: dict | None = 
             claim = render_tex(quote, macros or {}, display=False, source=False) if quote else "—"
             body.append(f"<tr><td><code>{_esc(r.edge_id)}</code></td>"
                         f"<td>{_short_source(meta, r)}</td><td>{claim}</td></tr>")
-        parts.append(f'<details class="group"><summary><b>{_esc(title)}</b> — {len(rows)}</summary>'
+        flagged = " open" if title == _REASONS[0][1] else ""      # disagreements are shown open
+        parts.append(f'<details class="group"{flagged}><summary><b>{_esc(title)}</b> — {len(rows)}</summary>'
                      f'<p class="meta">{_esc(hint)}</p><div class="scroll"><table><thead><tr>'
                      '<th>Step</th><th>Source</th><th>Claim as quoted</th></tr></thead><tbody>'
                      + "".join(body) + "</tbody></table></div></details>")

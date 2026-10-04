@@ -58,6 +58,10 @@ from .models import (AdapterError, ExpressionRecord, HARD_RESERVED_NAMES,
 _ALLOWED_FUNCTIONS = sorted([
     "sin", "cos", "tan", "exp", "log", "sqrt", "Abs", "conjugate", "re", "im",
     "sinh", "cosh", "tanh", "asin", "acos", "atan", "atan2", "Rational",
+    "coth", "cot", "sec", "csc", "sech", "csch", "asinh", "acosh", "atanh", "acot",
+    # special functions, reached only through these explicit names (a paper's
+    # zeta or Gamma is mapped to them by a convention, never by its letter)
+    "zeta_fn", "gamma_fn", "erf", "erfc",
     # polygamma family: admitted deliberately as part of the explicit
     # allowed-functions policy; admission is a policy decision, never
     # an implicit side effect of ingestion.
@@ -149,7 +153,7 @@ def _effective_policy(policy: Optional[dict]) -> dict:
     allowed = merged["allowed_functions"]
     if not isinstance(allowed, (list, tuple)) or not all(
             isinstance(name, str) and _IDENTIFIER_RE.fullmatch(name)
-            and callable(getattr(sympy, name, None)) for name in allowed):
+            and callable(_SPECIAL_ALIASES.get(name) or getattr(sympy, name, None)) for name in allowed):
         raise AdapterError("PARSE_POLICY_VALUE_INVALID")
     merged["allowed_functions"] = sorted(set(allowed))
     return merged
@@ -213,6 +217,9 @@ _STRUCTURAL_BUILTINS: dict = {
 # symbol object helpers
 # --------------------------------------------------------------------------- #
 
+_SPECIAL_ALIASES = {"zeta_fn": sympy.zeta, "gamma_fn": sympy.gamma}
+
+
 def _symbol_locals(symbols: list[dict], policy: dict,
                    functions: Optional[list] = None) -> dict:
     """Restricted locals map: declared symbols + whitelisted functions + consts.
@@ -225,7 +232,7 @@ def _symbol_locals(symbols: list[dict], policy: dict,
     """
     local: dict = {}
     for f in policy["allowed_functions"]:
-        local[f] = getattr(sympy, f, None)
+        local[f] = _SPECIAL_ALIASES.get(f) or getattr(sympy, f, None)
     local.update({"pi": sympy.pi, "E": sympy.E, "I": sympy.I, "oo": sympy.oo})
     # structure-preserving builtins (callables + relational/logical helpers)
     local.update(_STRUCTURAL_BUILTINS)

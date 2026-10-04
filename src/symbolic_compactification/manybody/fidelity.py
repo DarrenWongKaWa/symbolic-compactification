@@ -35,6 +35,7 @@ reused across steps. The structure of the claim comes from the source.
 """
 from __future__ import annotations
 
+import functools
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -56,7 +57,7 @@ _UNICODE = {
 _TOKEN = re.compile(r"\s*(?:(\d+(?:\.\d+)?)|([A-Za-z_][A-Za-z0-9_]*)|(\*\*|.))")
 _LEADING_NUMBER = re.compile(r"(?<![A-Za-z0-9_.])(\d+(?:\.\d+)?)(?=[A-Za-z_(])")
 _EXPRESSION_FIELDS = ("lhs", "rhs", "claim", "expr", "integrand", "function",
-                      "approximant", "summand")
+                      "approximant", "summand", "lower_limit", "upper_limit")
 
 
 def _squash(text: str) -> str:
@@ -101,9 +102,18 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
         text = pattern.sub(lambda m: f" ({notation[m.group(0)]}) "
                            if not re.fullmatch(r"[A-Za-z_]\w*", notation[m.group(0)])
                            else f" {notation[m.group(0)]} ", text)
+    if re.search(r"/\s*(?:\d+(?:\.\d+)?|[A-Za-z_][A-Za-z0-9_]*)\s+(?=[A-Za-z_])|/\s*\d+(?:\.\d+)?(?=[A-Za-z_])",
+                 text):
+        # omega/2T: omega/(2T) to a physicist, (omega/2)*T to a parser
+        raise AdapterError("SOURCE_SLASH_PRECEDENCE")
+    calls = set(callables)
+    bracketed = re.search(r"(?<![A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\s*\[", text)
+    if bracketed and bracketed.group(1) in calls and bracketed.group(1) not in _ALLOWED_FUNCTIONS:
+        # log[...] is log(...); f[x, y] may be a divided difference
+        # f[x, y] is a divided difference or a functional, not the value f(x, y)
+        raise AdapterError("SOURCE_BRACKET_AFTER_FUNCTION")
     text = text.replace("[", "(").replace("]", ")").replace("{", "(").replace("}", ")")
     text = text.replace("^", "**")
-    calls = set(callables)
     out: list[str] = []
     prev = None                       # kind of previous token: num, name, call, close, op
     pos = 0
@@ -116,6 +126,8 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
         if num is not None:
             kind, tok = "num", num
         elif name is not None:
+            if name == "lambda":                  # a Python keyword: SymPy's own spelling
+                name = "lamda"
             if name == "i" and not keep_i:
                 name = "I"
             elif (not keep_i and name.startswith("i") and name not in known
@@ -126,20 +138,39 @@ def translate(text: str, notation: dict[str, str], callables: Iterable[str],
             if op.isspace():
                 continue
             if op not in "+-*/(),**" and op != "**":
-                raise AdapterError("SOURCE_CHARACTER_UNSUPPORTED")
+                raise AdapterError(f"SOURCE_CHARACTER_UNSUPPORTED:{op}")
             kind, tok = ("open" if op == "(" else "close" if op == ")" else "op"), op
         if prev == "name" and kind == "open" and multiply is not None \
                 and out[-1] not in _ALWAYS_MULTIPLY and not out[-1].startswith("(I*") \
                 and out[-1] not in multiply:
             # beta(x) is a product, G(x) a function value: the source cannot tell
             raise AdapterError(f"SOURCE_APPLICATION_AMBIGUOUS:{out[-1]}")
+        if prev == "name" and kind == "open" and multiply and out[-1] in multiply \
+                and _top_level_comma(text, pos):
+            # G(t, t') cannot be a product: this reading of G is impossible
+            raise AdapterError(f"SOURCE_PRODUCT_WITH_COMMA:{out[-1]}")
         if prev in ("num", "name", "close") and kind in ("num", "name", "call", "open"):
             out.append("*")
         elif prev == "call" and kind != "open":
-            raise AdapterError("SOURCE_FUNCTION_WITHOUT_ARGUMENTS")
+            raise AdapterError(f"SOURCE_FUNCTION_WITHOUT_ARGUMENTS:{out[-1]}")
         out.append(tok)
         prev = kind
     return "".join(out)
+
+
+def _top_level_comma(text: str, pos: int) -> bool:
+    """Whether the bracket group opened just before ``pos`` holds a comma."""
+    depth = 1
+    for ch in text[pos:]:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                return False
+        elif ch == "," and depth == 1:
+            return True
+    return False
 
 
 _BRANCH = {"+": {"pm": "+", "mp": "-", "±": "+", "∓": "-", "PM": "p", "MP": "m"},
@@ -232,8 +263,8 @@ def _pick_branch(text: str, branch: str | None) -> str:
     text = re.sub(r"(?<=_)(\w*?)(PM|MP)", lambda m: m.group(1) + signs[m.group(2)], text)
     text = re.sub(r"(?<=[A-Za-z0-9]_)pm(?![A-Za-z0-9])",      # _mp may be two labels m, p
                   lambda m: letter[signs["pm"]], text)
-    text = re.sub(r"(?<=_)([A-Za-z0-9]*)([±∓])", lambda m: m.group(1) + signs[m.group(2)]
-                  .replace("+", "p").replace("-", "m"), text)
+    # z_± is a subscript sign; in k_0∓k the sign after the subscript 0 is an operator
+    text = re.sub(r"(?<=_)[±∓]", lambda m: signs[m.group(0)].replace("+", "p").replace("-", "m"), text)
     return re.sub(r"(?<![A-Za-z0-9_])(pm|mp)(?![A-Za-z0-9_])|[±∓]",
                   lambda m: f" {signs[m.group(0)]} ", text)
 
@@ -288,7 +319,7 @@ def source_context(card: dict, base_dir: Path | None, *, symbols: Any,
     params = {p.strip() for k in [*definitions, *source_defs] if "(" in k
               for p in k.split("(", 1)[1].rstrip(")").split(",") if p.strip()}
     funcs = [*functions, "nF", "nB"]
-    callables = {*_ALLOWED_FUNCTIONS, *funcs, *def_names, "Diff",
+    callables = {*_ALLOWED_FUNCTIONS, *funcs, *def_names, "Diff", "Sum",
                  *(f"{p}_{f}" for f in [*funcs, *def_names] for p in ("DD", "D"))}
     names = _symbol_names(symbols) | params
     return SourceContext(
@@ -328,17 +359,133 @@ def _balanced(text: str) -> bool:
 
 def quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str]:
     """(verbatim quote, card-syntax expression). Raises AdapterError or
-    ValueError when the quote is outside the supported grammar."""
+    ValueError when the quote is outside the supported grammar, and, for a
+    LaTeX quote, when SymPy's own LaTeX reader reads it differently."""
+    return _quote_expression(entry, ctx)[:2]
+
+
+def expand_macros_safe(text: str, macros: dict) -> str:
+    from .latex import expand_macros
+    try:
+        return expand_macros(text, macros or {})
+    except (ValueError, RecursionError):
+        return text
+
+
+_DIGIT_SUPERSCRIPT = re.compile(r"(\\?[A-Za-z]+)\s*\^\s*\{\s*(\d{2,})\s*\}")
+
+
+@functools.lru_cache(maxsize=8)
+def _index_pair_bases(raw: str) -> frozenset:
+    """Names the document writes with two or more different two-digit
+    superscripts (L^{11}, L^{12}, L^{22}): those superscripts are index pairs."""
+    seen: dict[str, set[str]] = {}
+    for m in _DIGIT_SUPERSCRIPT.finditer(raw):
+        if len(m.group(2)) == 2:                 # an index pair has two digits; x^{100000} is a power
+            seen.setdefault(m.group(1), set()).add(m.group(2))
+    return frozenset(base for base, digits in seen.items() if len(digits) >= 2)
+
+
+_SUM_INDEX_TEX = re.compile(r"\\sum\s*(?:\\limits\s*)?_\s*\{?\s*([A-Za-z]|\\[A-Za-z]+)\s*[=}]?")
+
+
+def _sum_index_superscript(text: str) -> None:
+    """Inside a sum over n, x^n is a power but Omega^n_{ab} a band label; both
+    readers share one reading, so the quote is refused instead."""
+    for m in _SUM_INDEX_TEX.finditer(text):
+        index = re.escape(m.group(1))
+        if re.search(r"\^\s*(?:" + index + r"(?![A-Za-z])|\{\s*" + index + r"\s*\})", text[m.end():]):
+            raise AdapterError(f"SUM_INDEX_AS_SUPERSCRIPT:{m.group(1)}")
+
+
+def _index_or_power(text: str, raw: str | None) -> None:
+    """A multi-digit superscript is an index pair, not a power, when it starts
+    with 0 (T^{00}) or when the paper writes the same name with other such
+    superscripts (L^{12} next to L^{11}). Both readers would read a power, so
+    the quote is refused instead."""
+    pairs = _index_pair_bases(raw) if raw else frozenset()
+    for m in _DIGIT_SUPERSCRIPT.finditer(text):
+        if m.group(2).startswith("0") or (len(m.group(2)) == 2 and m.group(1) in pairs):
+            raise AdapterError(f"SUPERSCRIPT_INDEX_OR_POWER:{m.group(1)}^{{{m.group(2)}}}")
+
+
+def _quote_expression(entry: Any, ctx: SourceContext) -> tuple[str, str, str | None]:
     quote, wrap, branch = _quote(entry)
-    text = erratum_of(entry) or quote
-    if ctx.latex or looks_like_latex(text):
+    source = erratum_of(entry) or quote
+    text = source
+    latex = ctx.latex or looks_like_latex(text)
+    if latex:
+        _index_or_power(expand_macros_safe(source, ctx.macros), ctx.raw)
+        _sum_index_superscript(expand_macros_safe(source, ctx.macros))
+    if latex:
         text = latex_to_plain(text, ctx.macros)
     text = _pick_branch(expand_sum_pm(expand_re_im(text)), branch)
     expression = translate(text, ctx.notation, ctx.callables, ctx.keep_i, ctx.names,
                            multiply=ctx.multiply)
     if not _balanced(expression):
         raise AdapterError("SOURCE_BRACKETS_UNBALANCED")
-    return quote, wrap.replace("{}", expression)
+    reading_b = _second_reader(source, text, branch, ctx) if latex else None
+    return quote, wrap.replace("{}", expression), reading_b
+
+
+def _pre_notation_callables(ctx: SourceContext) -> frozenset:
+    """Names read as functions before the notation is applied: the callables,
+    and paper tokens the notation maps to a callable (Gamma -> gamma_fn)."""
+    keys = {k: str(v).strip() for k, v in ctx.notation.items() if re.fullmatch(r"[A-Za-z_]\w*", k)}
+    mapped = {k for k, v in keys.items() if v in ctx.callables}
+    constants = {k for k, v in keys.items() if v not in ctx.callables}   # x -> x(): a symbol before
+    # 'A__r(t,t_1)' -> A_R: the paper's A__r is applied to (t, t_1) before the notation
+    applied = {name for k in ctx.notation if not re.fullmatch(r"[A-Za-z_]\w*", k)
+               for name in re.findall(r"([A-Za-z_]\w*)\s*\(", k)}
+    return frozenset((ctx.callables - constants) | mapped | applied)
+
+
+def _second_reader(source: str, plain: str, branch: str | None, ctx: SourceContext) -> str:
+    """Our reading before the notation, compared with SymPy's reading of the
+    same quote. Raises AdapterError (READERS_DISAGREE, SECOND_READER_FAILED)."""
+    callables = _pre_notation_callables(ctx)
+    return _agreement(source, plain, branch, callables, frozenset(ctx.names), ctx.multiply,
+                      ctx.keep_i, tuple(sorted(ctx.macros.items())))
+
+
+@functools.lru_cache(maxsize=4096)
+def _agreement(source: str, plain: str, branch: str | None, callables: frozenset, names: frozenset,
+               multiply: frozenset, keep_i: bool, macros: tuple) -> str:
+    from . import dualread
+    from .latex import expand_macros
+    dualread.check_size(expand_macros(source, dict(macros)))    # before either reader computes
+    pre = translate(plain, {}, callables, keep_i, names, multiply=multiply)
+    builtin = set(_ALLOWED_FUNCTIONS) | {"Diff", "Sum"}
+    functions = sorted(c for c in callables if c not in builtin and not c.startswith(("DD_", "D_")))
+    used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", pre))
+    symbols = sorted(used - set(callables) - {"I", "pi", "E", "oo"})
+    space = CalculusSpace([{"name": s, "real": False} for s in symbols] or ["unused_symbol"],
+                          [f for f in functions if f in used])
+    reading_a = space.parse_expanded(pre)
+    return dualread.require_agreement(source, reading_a, macros=dict(macros), callables=callables,
+                                      keep_i=keep_i, branch=branch)["reader_b"]
+
+
+_INTEGRAL_FIELDS = ("integrand", "lower_limit", "upper_limit")
+
+
+def integral_fields(entry: Any, ctx: SourceContext, variable: str | None) -> dict[str, str]:
+    """A quoted '\\int_a^b dx f' -> integrand, lower, upper in card syntax.
+    The integration variable, after the card's notation, must be the card's
+    ``variable``."""
+    from .latex import split_integral
+    quote, wrap, branch = _quote(entry)
+    if wrap != "{}" or branch is not None:
+        raise AdapterError("INTEGRAL_QUOTE_TAKES_NO_WRAP_OR_BRANCH")
+    parts = split_integral(erratum_of(entry) or quote)
+    if parts is None:
+        raise AdapterError("INTEGRAL_NOT_UNDERSTOOD")
+    pieces = {k: quote_expression(parts[v], ctx)[1]
+              for k, v in (("integrand", "body"), ("lower_limit", "lower"), ("upper_limit", "upper"))}
+    var = quote_expression(parts["variable"], ctx)[1].strip("() ")
+    if not variable or var != str(variable):
+        raise AdapterError("INTEGRATION_VARIABLE_MISMATCH")
+    return pieces
 
 
 def in_document(quote: str, ctx: SourceContext, display: str | None = None) -> bool:
@@ -356,16 +503,24 @@ def in_document(quote: str, ctx: SourceContext, display: str | None = None) -> b
 
 
 _LEFT_OK = re.compile(
-    r"(?:^|=|\\approx|\\simeq|\\equiv|,|;|:|\\[,;!]|\\q?quad|\\left\s*\.|"
+    r"(?:^|=|\\approx|\\simeq|\\equiv|,|;|:|\\[,;! ]|\\q?quad|\\left\s*\.|"
     r"\\begin\{[A-Za-z*]+\}|\\end\{[A-Za-z*]+\}|\\\[|\$\$|\$|"
     r"\\sum_\{[^{}]*\}(?:\^\{?[^{}\s]*\}?)?|\\sum_[A-Za-z]|"
     r"\bd\s*\\?[A-Za-z]+(?:_\{?\w+\}?)?(?:\s*\\[,;!])?)\s*$")
 _RIGHT_OK = re.compile(
-    r"^\s*(?:$|=|\\approx|\\simeq|\\equiv|,|\.|;|:|\\[,;!]|\\q?quad|\\label|\\nonumber|"
+    r"^\s*(?:$|=|\\approx|\\simeq|\\equiv|,|\.|;|:|\\[,;! ]|~|\\q?quad|\\label|\\nonumber|"
     r"\\\\|\\end|\\\]|\$|\+\s*(?:\\mathcal\{O\}|O)\s*[(\[]|\\text)")
 
 
 _PROSE_LEFT = re.compile(r"(?:^|\s)[A-Za-z]{2,}\s*$")
+
+
+def _near(text: str, width: int = 400, end: bool = True) -> str:
+    """The part of the text next to a match: its end before the match, its
+    start after it. That is enough for the boundary patterns; the whole text
+    is kept when that part is blank, so '^' and '$' keep their meaning."""
+    part = text[-width:] if end else text[:width]
+    return part if len(text) <= width or part.strip() else text
 
 
 def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
@@ -378,28 +533,55 @@ def _whole_occurrence(quote: str, region: str, latex: bool = True) -> bool:
     gap = r"(?:\s*" + ROW + r"\s*|\s+)"         # a space in the quote may be a row end in the display
     pattern = re.compile(gap.join(re.escape(tok) for tok in quote.split(" ")))
     for m in pattern.finditer(region):
-        left, right = region[:m.start()], region[m.end():]
+        # only the text next to the match matters; a whole paper before it is slow to scan
+        left, right = _near(region[:m.start()]), _near(region[m.end():], end=False)
         left_ok = _LEFT_OK.search(left) or left.rstrip().endswith(ROW) or (
             not latex and _PROSE_LEFT.search(left))
         right_ok = _RIGHT_OK.match(right) or right.lstrip().startswith(ROW)
-        if left_ok and right_ok:
+        braced = re.search(r"\\(?:under|over)brace\s*\{\s*$", left) and re.match(r"\s*\}\s*[_^]", right)
+        if (left_ok and right_ok) or braced:        # \underbrace{quote}_{K_1A} is a whole piece
             return True
     return False
 
 
-def display_text(raw: str, display: str) -> str | None:
-    from .draft import latex_equations
+_SECTION = re.compile(r"\\(?:section|chapter)\*?\s*[\[{]|\\appendix\b")
+
+
+@functools.lru_cache(maxsize=4)
+def _displays(raw: str) -> dict[str, tuple[str, int]]:
+    """{'#n' and label: (display text, section number)}, the first display
+    for a repeated label. Cached: every quote of every card looks here, and
+    a long paper is slow to split into displays."""
+    from .relations import latex_equations
+    eqs = latex_equations(raw)
+    starts = [m.start() for m in _SECTION.finditer(eqs[0]["document"])] if eqs else []
+    index: dict[str, tuple[str, int]] = {}
+    for k, eq in enumerate(eqs, start=1):
+        entry = ("\\\\".join(eq["rows"]), sum(1 for s in starts if s < eq["offset"]))
+        index[f"#{k}"] = entry
+        if eq["label"] is not None:
+            index.setdefault(eq["label"], entry)
+    return index
+
+
+def _display_entry(raw: str, display: str) -> tuple[str, int] | None:
     if display.startswith("#"):
         try:
-            k = int(display[1:])
+            display = f"#{int(display[1:])}"
         except ValueError:
             return None
-        eqs = latex_equations(raw)
-        return "\\\\".join(eqs[k - 1]["rows"]) if 0 < k <= len(eqs) else None
-    for eq in latex_equations(raw):
-        if eq["label"] == display:
-            return "\\\\".join(eq["rows"])
-    return None
+    return _displays(raw).get(display)
+
+
+def display_text(raw: str, display: str) -> str | None:
+    entry = _display_entry(raw, display)
+    return entry[0] if entry else None
+
+
+def display_section(raw: str, display: str) -> int | None:
+    """The number of \\section (or \\appendix) commands before a display."""
+    entry = _display_entry(raw, display)
+    return entry[1] if entry else None
 
 
 def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,
@@ -423,6 +605,10 @@ def fill_from_source(card: dict, base_dir: Path | None, *, symbols: Any,
                 if any(k.split("(")[0].strip() == name for k in definitions):
                     continue
                 new_defs[target] = quote_expression(entry, ctx)[1]
+            elif key == "integral":
+                if any(k in card for k in _INTEGRAL_FIELDS):
+                    continue           # hand-written pieces are not checked against the quote
+                card.update(integral_fields(entry, ctx, card.get("variable")))
             elif key in _EXPRESSION_FIELDS and key not in card:
                 card[key] = quote_expression(entry, ctx)[1]
             else:
@@ -454,7 +640,7 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
     filled = set(filled)
     used_defs = _used_definition_names(card, definitions)
     funcs = [*functions, "nF", "nB"]
-    space = CalculusSpace(symbols, funcs, definitions=definitions)
+    space = None                       # built when a hand-written field needs comparing
     fields: dict[str, dict] = {}
     for key, entry in source.items():
         key = str(key)
@@ -490,7 +676,9 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
                 record["erratum_note"] = str(entry["note"])
         if key in filled:
             try:
-                record["translated"] = quote_expression(entry, ctx)[1]
+                _, record["translated"], reading_b = _quote_expression(entry, ctx)
+                if reading_b is not None:
+                    record["reader_b"] = reading_b
             except (AdapterError, ValueError):
                 pass
             fields[key] = {**record, "status": MATCH, "from_source": True}
@@ -508,8 +696,11 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
             fields[key] = {**record, "status": UNCHECKED, "reason": "NOT_AN_EXPRESSION_FIELD"}
             continue
         try:
-            translated = quote_expression(entry, ctx)[1]
+            _, translated, reading_b = _quote_expression(entry, ctx)
             record["translated"] = translated
+            if reading_b is not None:
+                record["reader_b"] = reading_b
+            space = space or CalculusSpace(symbols, funcs, definitions=definitions)
             src = space.parse_expanded(translated)
             mine = space.parse_expanded(card_text)
         except AdapterError as exc:
@@ -533,6 +724,210 @@ def check_transcription(card: dict, *, symbols: Any, functions: Iterable[str],
     return {"status": MATCH if fields else ABSENT, "fields": fields}
 
 
+_SLOT = re.compile(r"([_^])(\s*)(\{(?:[^{}]|\{[^{}]*\})*\}|\\[A-Za-z]+|[A-Za-z0-9])")
+_WORD = re.compile(r"\\(?:mathrm|text|textrm|textit|rm|it|operatorname|mathit|mbox)\s*(?:\{[^{}]*\}|[A-Za-z]+)")
+
+
+def _index_slots(tex: str) -> list[re.Match]:
+    """Sub- and superscripts of names; the exponent of a bare e is not one."""
+    return [m for m in _SLOT.finditer(tex)
+            if not (m.group(1) == "^" and re.search(r"(?<![A-Za-z\\])e\s*$", tex[:m.start()]))]
+
+
+def rename_indices(tex: str, rename: dict) -> str:
+    """The same relation with index letters renamed (b -> c turns g_{ab} into
+    g_{ac}). Refused unless every occurrence of a renamed letter is an index:
+    in 'x^{b} = b', 'e^{-\beta b}' or '_{\rm max}' the letter is something else."""
+    if not rename:
+        return tex
+    if not isinstance(rename, dict):
+        raise AdapterError("GIVEN_RENAME_MUST_BE_A_MAPPING")
+    mapping = {str(k): str(v) for k, v in rename.items()}
+    if not all(re.fullmatch(r"[A-Za-z]", k) and re.fullmatch(r"[A-Za-z0-9]", v) for k, v in mapping.items()):
+        raise AdapterError("GIVEN_RENAME_MUST_MAP_A_LETTER_TO_A_LETTER_OR_DIGIT")
+    slots = _index_slots(tex)
+    outside, pos = [], 0
+    for m in slots:
+        outside.append(tex[pos:m.start()])
+        pos = m.end()
+    outside.append(tex[pos:])
+    letters = re.compile(r"\\[A-Za-z]+|[A-Za-z]")
+    rest = " ".join(outside)
+    if any(t in mapping for t in letters.findall(rest)):
+        raise AdapterError("GIVEN_RENAME_LETTER_NOT_ONLY_AN_INDEX")
+    if any(t in mapping for m in slots for w in _WORD.findall(m.group(3))
+           for t in re.findall(r"[A-Za-z]", re.sub(r"^\\[A-Za-z]+", "", w))):
+        raise AdapterError("GIVEN_RENAME_LETTER_INSIDE_A_WORD")
+
+    def swap(group: str) -> str:
+        # every letter of a subscript is an index of its own (g_{ab}); commands stay
+        return letters.sub(lambda t: t.group(0) if t.group(0).startswith("\\") else mapping.get(t.group(0), t.group(0)),
+                           group)
+    out, pos = [], 0
+    for m in slots:
+        out.append(tex[pos:m.start()] + m.group(1) + m.group(2) + swap(m.group(3)))
+        pos = m.end()
+    out.append(tex[pos:])
+    return "".join(out)
+
+
+def _renamed(quote: str, instance: dict, macros: dict) -> str:
+    """The quote with the instance's index renames applied after the document's
+    macros are expanded (\\rpq is r_{pq}: its p and q are indices too). A rename
+    that cannot reach a macro, or changes nothing, is refused: the relation would
+    otherwise be used unrenamed while reported as renamed."""
+    if not instance:
+        return quote
+    text = expand_macros_safe(quote, macros)
+    if any(re.search(r"\\" + re.escape(name.lstrip("\\")) + r"(?![A-Za-z])", text) for name in macros or {}):
+        raise AdapterError("GIVEN_RENAME_INSIDE_AN_UNEXPANDED_MACRO")
+    renamed = rename_indices(text, instance)
+    if renamed == text:
+        raise AdapterError("GIVEN_RENAME_CHANGED_NOTHING")
+    return renamed
+
+
+def given_relations(card: dict, base_dir: Path | None, *, symbols: Any, functions: Iterable[str],
+                    definitions: dict) -> list[dict[str, Any]]:
+    """The relations a step uses (``given:``), each a verbatim quote 'A = B' from
+    the source, read by both readers. One record per relation and instance."""
+    entries = card.get("given") or []
+    if not isinstance(entries, list):
+        raise AdapterError("GIVEN_MUST_BE_A_LIST")
+    ctx = source_context(card, base_dir, symbols=symbols, functions=functions, definitions=definitions)
+    step_texts = _step_display_texts(card, ctx)
+    records: list[dict[str, Any]] = []
+    for k, entry in enumerate(entries):
+        entry = entry if isinstance(entry, dict) else {"quote": entry}
+        quote = str(entry.get("quote") or "")
+        anchor = entry.get("display")
+        instances = entry.get("instances") or [{}]
+        for instance in instances:
+            record: dict[str, Any] = {"index": k, "quote": quote, "display": anchor,
+                                      **({"rename": dict(instance)} if instance else {})}
+            records.append(record)
+            if not quote.strip() or not in_document(quote, ctx, anchor):
+                record["status"] = NOT_IN_DOCUMENT
+                continue
+            given_text = display_text(ctx.raw, str(anchor)) if (anchor and ctx.raw is not None) else None
+            if ctx.raw is not None and (given_text in step_texts if anchor else any(
+                    _whole_occurrence(layout_free(quote), layout_rows(t), ctx.latex) for t in step_texts)):
+                record["status"] = UNCHECKED
+                record["reason"] = "GIVEN_FROM_THE_STEP_DISPLAY"  # the step would justify itself
+                continue
+            try:
+                relation = re.sub(r"\\equiv(?![A-Za-z])|:=", "=", _renamed(quote, instance, ctx.macros))
+                sides = [s for s in _top_level_split(relation, "=") if s.strip()]
+                if len(sides) != 2:
+                    raise AdapterError("GIVEN_NOT_ONE_RELATION")
+                left = _quote_expression(sides[0].strip(), ctx)
+                right = _quote_expression(sides[1].strip(), ctx)
+            except AdapterError as exc:
+                record.update(status=UNCHECKED, reason=exc.code)
+                continue
+            except ValueError:
+                record.update(status=UNCHECKED, reason="LATEX_UNBALANCED")
+                continue
+            record.update(status=MATCH, lhs=left[1], rhs=right[1],
+                          **({"reader_b": [left[2], right[2]]} if left[2] is not None else {}))
+    return records
+
+
+def _step_display_texts(card: dict, ctx: SourceContext) -> list[str]:
+    """The text of every display that holds a side of the step: the displays the
+    ledger names, and every display in which a side's quote occurs."""
+    if ctx.raw is None:
+        return []
+    texts = []
+    for key in ("lhs", "rhs"):
+        entry = (card.get("source") or {}).get(key)
+        if entry is None:
+            continue
+        quote = layout_free(_quote(entry)[0])
+        anchor = entry.get("display") if isinstance(entry, dict) else None
+        for name, (text, _) in _displays(ctx.raw).items():
+            if (anchor and display_text(ctx.raw, str(anchor)) == text) or (
+                    name.startswith("#") and _whole_occurrence(quote, layout_rows(text), ctx.latex)):
+                texts.append(text)
+    return texts
+
+
+def _top_level_split(text: str, sep: str) -> list[str]:
+    from .relations import split_top_level
+    return split_top_level(text, sep)
+
+
+def check_under(card: dict, base_dir: Path | None, *, symbols: Any, functions: Iterable[str],
+                definitions: dict) -> str | None:
+    r"""``under: '\sum_n'``: both sides carry the same outer sum or integral, and
+    the quotes are what it acts on. The wrapper must open the side of the
+    relation (nothing else in front of it), and each quote must be one bracket
+    group or a product (in '\sum_n a_n + b' the reach of the sum is a
+    convention). Returns a blocker, or None when the wrapper is as declared."""
+    wrapper = str(card.get("under") or "").strip()
+    if not wrapper:
+        return None
+    ctx = source_context(card, base_dir, symbols=symbols, functions=functions, definitions=definitions)
+    for key in ("lhs", "rhs"):
+        entry = (card.get("source") or {}).get(key)
+        if entry is None:
+            return f"UNDER_WITHOUT_QUOTE:{key}"
+        quote = _quote(entry)[0]
+        anchor = entry.get("display") if isinstance(entry, dict) else card.get("display")
+        region = display_text(ctx.raw, str(anchor)) if (anchor and ctx.raw is not None) else ctx.raw
+        if region is None or not _opens_a_side(layout_free(wrapper), layout_free(quote), layout_rows(region)):
+            return f"UNDER_NOT_BEFORE_QUOTE:{key}"
+        if _top_level_sum(quote):
+            return f"UNDER_SCOPE_AMBIGUOUS:{key}"
+    return None
+
+
+_SIDE_START = re.compile(r"(?:^|=|&|\\approx|\\simeq|\\equiv|\\begin\{[A-Za-z*]+\}|\$|\\\[)\s*$")
+
+
+def _opens_a_side(wrapper: str, quote: str, region: str) -> bool:
+    """The wrapper followed by the quote occurs as a whole side of a relation: only
+    a relation sign, a row start or the display edge before it (an integration
+    measure is not enough). The source may or may not put a space between them
+    (\\sum_{n=1}^{\\infty}\\frac{...})."""
+    gap = r"(?:\s*" + ROW + r"\s*|\s+)"
+    def tokens(text: str) -> str:
+        return gap.join(re.escape(tok) for tok in text.split(" "))
+    spacing = r"(?:\s|\\[,;:! ]|~|" + ROW + r")*"            # \sum_{j=1}^\infty \ d_j
+    pattern = re.compile(tokens(wrapper) + spacing + tokens(quote))
+    for m in pattern.finditer(region):
+        left, right = _near(region[:m.start()]), _near(region[m.end():], end=False)
+        if (_SIDE_START.search(left) or left.rstrip().endswith(ROW)) and (
+                _RIGHT_OK.match(right) or right.lstrip().startswith(ROW)):
+            return True
+    return False
+
+
+def _closing(text: str, i: int) -> int | None:
+    """Index of the bracket closing the one at text[i]."""
+    depth = 0
+    for j in range(i, len(text)):
+        depth += text[j] in "([{"
+        depth -= text[j] in ")]}"
+        if depth == 0:
+            return j
+    return None
+
+
+def _top_level_sum(tex: str) -> bool:
+    """A '+' or '-' outside every bracket, after the first term."""
+    text = re.sub(r"\\(?:left|right|big|Big|bigg|Bigg)[lr]?(?![A-Za-z])", "", tex).strip()
+    if text[:1] in "([" and _closing(text, 0) == len(text) - 1:
+        return False                                 # one bracket group
+    depth = 0
+    for i, ch in enumerate(text):
+        depth += ch in "([{"
+        depth -= ch in ")]}"
+        if depth == 0 and ch in "+-" and text[:i].strip() and not text[:i].rstrip().endswith(("^", "_", "{")):
+            return True
+    return False
+
+
 def _used_definition_names(card: dict, definitions: dict) -> set[str]:
     """Definitions a card's expressions use, directly or through each other."""
     bodies = {k.split("(")[0].strip(): str(v) for k, v in definitions.items()}
@@ -541,7 +936,11 @@ def _used_definition_names(card: dict, definitions: dict) -> set[str]:
     texts = [str(card[k]) for k in _EXPRESSION_FIELDS if k in card]
     texts += [str(v.get("quote") if isinstance(v, dict) else v)
               for k, v in (card.get("source") or {}).items() if not str(k).startswith("define:")]
-    texts += [str(v) for v in (card.get("notation") or {}).values()]
+    written = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(texts)))
+    # a notation entry counts only when the card writes its token: the shared table maps
+    # every defined constant of the paper, and most of them are not in this step
+    texts += [str(v) for k, v in (card.get("notation") or {}).items()
+              if set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", str(k))) & written]
     names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(texts)))
     used, frontier = set(), (set(bodies) | source_defs) & names
     while frontier:

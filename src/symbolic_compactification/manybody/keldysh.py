@@ -82,5 +82,12 @@ def verify_langreth(product: Iterable[str], component: str, claim: str) -> Mappi
     if residual == 0:
         cert = {**inputs, "status": CERTIFIED_BY_RULE}
         return {**cert, "reasons": [], "certificate_hash": certificate_hash(cert)}
+    commuting = sympy.expand(residual.xreplace(
+        {x: sympy.Symbol(x.name) for x in residual.free_symbols if not x.is_commutative}))
+    if commuting == 0:
+        # wrong only in the order of factors: right for commuting scalars (a single
+        # level in the steady state), wrong for matrices and time convolutions
+        return {**inputs, "status": UNKNOWN, "reasons": ["LANGRETH_ORDER_ONLY"],
+                "residual": str(sympy.expand(residual))[:2000]}
     return {**inputs, "status": NONZERO, "reasons": ["LANGRETH_COMPONENT_MISMATCH"],
             "residual": str(sympy.expand(residual))[:2000]}
