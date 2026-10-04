@@ -2,6 +2,12 @@
 
 **Verified symbolic reasoning for theoretical physics.**
 
+> **Status (2026-10-04): development paused.** Tool verdicts were always
+> correct in the A/B evaluation, but the tool did not raise error detection and
+> decides few steps of a real paper. See
+> [`docs/reports/2026-10-04-status.md`](docs/reports/2026-10-04-status.md)
+> (Chinese) for the evaluation and the go/no-go assessment.
+
 An installable skill with three tasks over one engine:
 - **Compactify** a given expression. The agent proposes a candidate, the
   program checks the residual, and improvement is scored separately.
