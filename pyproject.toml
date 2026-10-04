@@ -39,4 +39,5 @@ testpaths = ["tests"]
 markers = [
     "release_critical: fast fail-closed research-preview release gate",
     "derivation_audit_release_critical: v0.2 derivation-audit release gate",
+    "wolfram_integration: needs a usable wolframscript; skipped otherwise",
 ]

@@ -251,6 +251,40 @@ python3.12 -m venv .venv
 Reconstruction scripts ship inside the skill folder (Python 3.10 stdlib).
 Machine Exact still requires this engine install; without it, algebra stays a gap.
 
+### Optional: independent second engine (Wolfram)
+
+`verify` can ask a second, independent engine to re-check the same pair.
+It is off by default; without the flag every output is unchanged.
+
+```bash
+symbolic-compactification verify --current A.txt --candidate B.txt \
+  --symbols symbols.json --second-engine wolfram [--require-second-engine]
+symbolic-compactification verify my-workspace --second-engine wolfram
+```
+
+- The raw expressions are re-serialized to Wolfram Language without SymPy
+  (declared symbols renamed, whitelisted functions only) and `wolframscript`
+  evaluates `FullSimplify[current == candidate, declared domains]`.
+- The result gains a `second_engine` record: `agree`, `disagree`,
+  `inconclusive` (Wolfram undecided, or the primary verdict is `UNKNOWN`) or
+  `unavailable` (not installed or not activated, timeout, or an expression
+  outside the supported grammar such as floats, `Sum` or `Piecewise`).
+- Fail closed: a disagreement turns the verdict into `UNKNOWN`, and Wolfram
+  never promotes `UNKNOWN` or `NONZERO` to `ZERO`. With
+  `--require-second-engine`, `ZERO` stands only on `agree`.
+- Workspace runs record the route
+  `python_sympy_exact_v1/wolfram_second_engine_v1` in `provenance.json` and
+  list every non-`agree` outcome under `warnings`.
+- `wolframscript` is looked up via `$SYMBOLIC_COMPACTIFICATION_WOLFRAMSCRIPT`,
+  then `PATH`, then standard install locations (`/Applications/Wolfram.app`,
+  `/Applications/Wolfram Engine.app`, `/Applications/Mathematica.app`,
+  `/usr/local/Wolfram/...`). Wolfram Engine is proprietary, needs its own
+  license and activation, and is never bundled.
+
+Python API: `verify_equivalent(a, b, symbols, second_engine="wolfram",
+require_second_engine=False)`. Ported from `repo-native-symbolic-science`;
+see [`docs/history/third-party.md`](docs/history/third-party.md).
+
 ## How the propose-and-verify loop works
 
 The model and the program have separate jobs. The model only writes

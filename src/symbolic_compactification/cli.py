@@ -12,6 +12,9 @@ inspect        EXPR.txt [--symbols symbols.json] [--format native|wolfram]
 verify         WORKSPACE
                compile and verify the workspace hypothesis, recording provenance
 verify         --current A.txt --candidate B.txt --symbols symbols.json
+               [--second-engine wolfram] [--require-second-engine]
+               opt-in independent Wolfram check (both verify forms); it can
+               only downgrade a verdict, never promote one to ZERO
 report         WORKSPACE [--run RUN_ID]
                render a recorded workspace run (latest safe run by default)
 init-session   [--workspace W] [--current A.txt --symbols symbols.json]
@@ -153,6 +156,23 @@ def _print_result(result) -> None:
             redact_public_data(result.counterexample), ensure_ascii=False))
     print(f"probes_tried:        {result.probes_tried}")
     print(f"verifier:            {result.verifier} ({result.seconds}s)")
+    if result.second_engine is not None:
+        print("second_engine:       " + _second_engine_line(result.second_engine))
+
+
+def _second_engine_line(record: dict) -> str:
+    """One-line human view of an opt-in second-engine record."""
+    parts = [f"{record.get('engine')} {record.get('status')}",
+             f"engine_verdict={record.get('engine_verdict')}"]
+    if record.get("reason"):
+        parts.append(f"reason={record.get('reason')}")
+    if record.get("wolfram_version"):
+        parts.append(f"version={record.get('wolfram_version')}")
+    if record.get("fail_closed_reason"):
+        parts.append(f"verdict {record.get('primary_verdict')} -> "
+                     f"{record.get('final_verdict')} "
+                     f"({record.get('fail_closed_reason')})")
+    return redact_text(", ".join(str(part) for part in parts))
 
 
 def _print_json(payload: dict) -> None:
@@ -571,6 +591,16 @@ def cmd_backends(args) -> int:
     return EXIT_ZERO
 
 
+def _second_engine_kwargs(args) -> dict:
+    """Opt-in second-engine keywords; empty (default behavior) when unused."""
+    engine = getattr(args, "second_engine", None)
+    require = bool(getattr(args, "require_second_engine", False))
+    if engine is None and not require:
+        return {}
+    return {"second_engine": engine or "wolfram",
+            "require_second_engine": require}
+
+
 def cmd_verify(args) -> int:
     workspace_path = getattr(args, "workspace", None)
     legacy_values = (args.current, args.candidate, args.symbols)
@@ -578,7 +608,7 @@ def cmd_verify(args) -> int:
         if any(value is not None for value in legacy_values):
             raise AdapterError("VERIFY_MODES_MIXED")
         _reject_audit_directory_for_mode_a(Path(workspace_path), "verify")
-        result = verify_hypothesis(workspace_path)
+        result = verify_hypothesis(workspace_path, **_second_engine_kwargs(args))
         if args.json:
             _print_json(result.to_dict())
         else:
@@ -592,7 +622,7 @@ def cmd_verify(args) -> int:
     current = load_expression(args.current, declared, functions=fns)
     candidate = load_expression(args.candidate, declared, functions=fns)
     result = verify_equivalent(current.text, candidate.text, declared,
-                               functions=fns)
+                               functions=fns, **_second_engine_kwargs(args))
     if args.json:
         _print_json({
             "current": {"path": args.current, "sha256": current.sha256},
@@ -633,6 +663,9 @@ def _print_workspace_verification(workspace_path: str, result) -> None:
                 sort_keys=True,
                 ensure_ascii=False,
             ))
+        if obligation.result.second_engine is not None:
+            print("  second engine: "
+                  + _second_engine_line(obligation.result.second_engine))
     print(f"provenance:  {redact_text(str(result.provenance_path))}")
     print(f"report:      {redact_text(str(result.report_path))}")
 
@@ -843,6 +876,15 @@ def build_parser() -> argparse.ArgumentParser:
     p_verify.add_argument("--symbols")
     p_verify.add_argument("--json", action="store_true",
                           help="emit one machine-readable JSON object")
+    p_verify.add_argument(
+        "--second-engine", choices=["wolfram"], default=None,
+        help="opt-in independent check with wolframscript; records "
+             "agree/disagree/inconclusive/unavailable and can only "
+             "downgrade the verdict (a disagreement becomes UNKNOWN)")
+    p_verify.add_argument(
+        "--require-second-engine", action="store_true",
+        help="keep ZERO only when the second engine agrees "
+             "(implies --second-engine wolfram)")
     p_verify.set_defaults(func=cmd_verify)
 
     p_report = sub.add_parser(

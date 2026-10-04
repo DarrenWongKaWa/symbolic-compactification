@@ -387,9 +387,13 @@ class VerificationResult:
     probes_tried: int = 0
     seconds: float = 0.0
     verifier: str = VERIFIER_NAME
+    # Opt-in independent second-engine record (see ``second_engine.py``).
+    # ``None`` unless a caller explicitly requested it; then omitted from
+    # ``to_dict`` so default outputs are unchanged.
+    second_engine: Optional[dict] = None
 
     def to_dict(self) -> dict:
-        return {
+        payload = {
             "verdict": self.verdict,
             "residual": self.residual,
             "simplified_residual": self.simplified_residual,
@@ -399,6 +403,9 @@ class VerificationResult:
             "seconds": self.seconds,
             "verifier": self.verifier,
         }
+        if self.second_engine is not None:
+            payload["second_engine"] = dict(self.second_engine)
+        return payload
 
 
 @dataclass
